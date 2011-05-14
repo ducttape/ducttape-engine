@@ -1,0 +1,16 @@
+*.bin
+bin/
+build/
+build-qtc/
+qtcreator-build/
+qt
+doc/
+lib/
+*.cbp
+*.depend
+*.user
+*.user.2.1pre1
+game/gfx/cached/
+game/gui/cached/
+engine/gui/cached/
+NetworkTest/*.bin
