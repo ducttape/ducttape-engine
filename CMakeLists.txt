@@ -36,3 +36,5 @@ include_directories(
 add_subdirectory("${CMAKE_SOURCE_DIR}/engine/")
 add_subdirectory("${CMAKE_SOURCE_DIR}/editor/")
 add_subdirectory("${CMAKE_SOURCE_DIR}/samples/")
+add_subdirectory("${CMAKE_SOURCE_DIR}/tests/")
+
