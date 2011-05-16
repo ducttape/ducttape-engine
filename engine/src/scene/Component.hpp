@@ -1,17 +1,18 @@
-#ifndef COMPONENT_HPP
-#define COMPONENT_HPP
+#ifndef DUCTTAPE_ENGINE_SCENE_COMPONENT
+#define DUCTTAPE_ENGINE_SCENE_COMPONENT
 
-#include <iostream>
+#include <string>
 
 namespace dt {
 
 class Component {
 public:
+    Component();
     Component(const std::string& name);
 
-    std::string GetName();
+    const std::string& GetName() const;
 
-    virtual void Update(float time_delta) = 0;
+    virtual void Update(float time_delta);
 
 private:
     std::string mName;

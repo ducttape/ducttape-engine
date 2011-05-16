@@ -1,5 +1,5 @@
-#ifndef LOGGER_HPP
-#define LOGGER_HPP
+#ifndef DUCTTAPE_ENGINE_UTILS_LOGGER
+#define DUCTTAPE_ENGINE_UTILS_LOGGER
 
 #include <string>
 #include <iostream>
