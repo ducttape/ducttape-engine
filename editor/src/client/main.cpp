@@ -1,6 +1,9 @@
 #include <iostream>
 
+#include "Root.hpp"
+
 int main() {
-    std::cout << "Hello World." << std::endl;
+    dt::Root::get_mutable_instance().GetLogManager()->GetLogger().Info("Hello world!");
+
     return 0;
 }
