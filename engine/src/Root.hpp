@@ -17,12 +17,16 @@
 
 #include "utils/StringManager.hpp"
 #include "utils/LogManager.hpp"
+#include "states/StateManager.hpp"
 
 namespace dt {
 
 /**
   * Engine Root class holding various Manager instances. This class is designed to be the only singleton in the whole engine,
   * so the creation order can be controlled.
+  * @see StringManager
+  * @see LogManager
+  * @see StateManager
   */
 class Root : public boost::serialization::singleton<Root> {
 public:
@@ -47,9 +51,16 @@ public:
       * @returns the LogManager
       */
     LogManager* GetLogManager();
+
+    /**
+      * Returns the StateManager.
+      * @returns the StateManager
+      */
+    StateManager* GetStateManager();
 private:
     StringManager* mStringManager;  //!< the StringManager
     LogManager* mLogManager;        //!< the LogManager
+    StateManager* mStateManager;    //!< the StateManager
 };
 
 }

@@ -6,6 +6,10 @@ StringManager::StringManager() {
     mLastId = 0;
 }
 
+void StringManager::RegisterDefaultStrings() {
+    Add("event:type:messageevent");
+}
+
 uint32_t StringManager::Add(const std::string& string) {
     if(!Has(string)) {
         mLastId++;
