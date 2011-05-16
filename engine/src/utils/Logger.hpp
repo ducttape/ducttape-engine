@@ -18,15 +18,10 @@ namespace dt {
 class Logger {
 public:
     /**
-      * Default constructor. Creates a logger with the name "default".
-      */
-    Logger();
-
-    /**
       * Advanced constructor. Creates a logger with the given name.
       * @param name The name of the logger.
       */
-    Logger(const std::string& name);
+    Logger(const std::string& name = "default");
 
     // levels are usually (debug|info|warning|error) or self-defined levels
 
