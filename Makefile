@@ -1,8 +1,8 @@
 default: bake
 
 clean:
-	[ -e build ] && rm -r build
-	[ -e docs/doxygen ] && rm -r docs/doxygen
+	[[ -d build ]] && rm -r build
+	[[ -d docs/doxygen ]] && rm -r docs/doxygen
 
 init:
 	mkdir -p build
@@ -20,7 +20,6 @@ run_editor_client:
 
 run_editor_server:
 	cd bin; ./editor_server	
-
 
 doc:
 	doxygen
