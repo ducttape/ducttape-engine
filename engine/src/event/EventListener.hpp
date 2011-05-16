@@ -7,6 +7,7 @@ namespace dt {
 
 class EventListener {
 public:
+    virtual ~EventListener() = 0;
     virtual void HandleEvent(Event* e);
 };
 
