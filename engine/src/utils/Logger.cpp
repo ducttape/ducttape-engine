@@ -1,5 +1,8 @@
 #include "Logger.hpp"
-#include <boost/algorithm/string.hpp>
+
+#include "Root.hpp"
+
+namespace dt {
 
 Logger::Logger() {
     SetName("default");
@@ -50,4 +53,14 @@ void Logger::SetName(const std::string& name) {
 
 const std::string& Logger::GetName() const {
     return mName;
+}
+
+Logger& Logger::Get() {
+    return GetByName("default");
+}
+
+Logger& Logger::GetByName(const std::string& name) {
+    return Root::get_mutable_instance().GetLogManager()->GetLogger(name);
+}
+
 }

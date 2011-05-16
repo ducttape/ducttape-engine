@@ -14,14 +14,16 @@ add_executable(editor_server
 )
 
 target_link_libraries(editor_server
-    ${Boost_LIBRARIES}
-    ${SFML_LIBRARIES}
-    ${BULLET_LIBRARIES}
-    ${OGRE_LIBRARIES}
-    ${MYGUI_LIBRARIES}
-    ${MYGUI_PLATFORM_LIBRARIES}
-    ${BULLET_LIBRARIES}
-    ${OIS_IBRARIES}
+    engine
+    # the engine should link against the libraries below
+    #${Boost_LIBRARIES}
+    #${SFML_LIBRARIES}
+    #${BULLET_LIBRARIES}
+    #${OGRE_LIBRARIES}
+    #${MYGUI_LIBRARIES}
+    #${MYGUI_PLATFORM_LIBRARIES}
+    #${BULLET_LIBRARIES}
+    #${OIS_IBRARIES}
 )
 
 add_executable(editor_client
@@ -30,12 +32,14 @@ add_executable(editor_client
 )
 
 target_link_libraries(editor_client
-    ${Boost_LIBRARIES}
-    ${SFML_LIBRARIES}
-    ${BULLET_LIBRARIES}
-    ${OGRE_LIBRARIES}
-    ${MYGUI_LIBRARIES}
-    ${MYGUI_PLATFORM_LIBRARIES}
-    ${BULLET_LIBRARIES}
-    ${OIS_IBRARIES}
+    engine
+    # the engine should link against the libraries below
+    #${Boost_LIBRARIES}
+    #${SFML_LIBRARIES}
+    #${BULLET_LIBRARIES}
+    #${OGRE_LIBRARIES}
+    #${MYGUI_LIBRARIES}
+    #${MYGUI_PLATFORM_LIBRARIES}
+    #${BULLET_LIBRARIES}
+    #${OIS_IBRARIES}
 )

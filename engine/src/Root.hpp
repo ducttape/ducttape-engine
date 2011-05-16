@@ -1,3 +1,15 @@
+/**
+  * \mainpage
+  * \section About
+  * This is the duct tape engine. It is verry cool!
+  * \section Credits
+  * \subsection Programming
+  * \li Paul \a 'opatut' Bienkowski
+  * \li Sven-Hendrik \a 'Svenstaro' Haase
+  * \li Matz-Jona \a 'Timesqueezer' Radloff
+  * \li Fabian \a 'zetaron' Stegemann
+  */
+
 #ifndef DUCTTAPE_ENGINE_ROOT
 #define DUCTTAPE_ENGINE_ROOT
 
@@ -8,16 +20,36 @@
 
 namespace dt {
 
+/**
+  * Engine Root class holding various Manager instances. This class is designed to be the only singleton in the whole engine,
+  * so the creation order can be controlled.
+  */
 class Root : public boost::serialization::singleton<Root> {
 public:
+    /**
+      * Default constructor. All instances are created here.
+      */
     Root();
+
+    /**
+      * Destructor. All instances are deleted here.
+      */
     ~Root();
 
+    /**
+      * Returns the StringManager.
+      * @returns the StringManager
+      */
     StringManager* GetStringManager();
+
+    /**
+      * Returns the LogManager.
+      * @returns the LogManager
+      */
     LogManager* GetLogManager();
 private:
-    StringManager* mStringManager;
-    LogManager* mLogManager;
+    StringManager* mStringManager;  //!< the StringManager
+    LogManager* mLogManager;        //!< the LogManager
 };
 
 }

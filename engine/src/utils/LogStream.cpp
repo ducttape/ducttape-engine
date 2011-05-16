@@ -2,6 +2,8 @@
 
 #include "Logger.hpp"
 
+namespace dt {
+
 std::string LogStream::COLOR_RED = "\033[22;31m";
 std::string LogStream::COLOR_GREEN = "\033[22;32m";
 std::string LogStream::COLOR_YELLOW = "\033[01;33m";
@@ -40,4 +42,6 @@ void LogStream::SetFormat(const std::string& format) {
 
 const std::string& LogStream::GetName() const {
     return mName;
+}
+
 }

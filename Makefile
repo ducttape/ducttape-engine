@@ -20,3 +20,7 @@ run_editor_client:
 
 run_editor_server:
 	cd bin; ./editor_server	
+
+
+doc:
+	doxygen
