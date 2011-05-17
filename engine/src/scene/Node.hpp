@@ -12,7 +12,10 @@
 namespace dt {
 
 /**
-  * The Node class can hold other Nodes as children and is also able to use Components to control the Node.
+  * Basic scene object class. 
+  * Any object in a scene is described by a node with a position, scale and rotation
+  * and other child nodes. The Node class is also able to have components to control 
+  * its behaviour, e.g. the look or events.
   * @see Component
   */
 class Node {
@@ -24,106 +27,107 @@ public:
 
 public:
     /**
-      * Default constructor. Defaults are implementedt here.
+      * Default constructor.
       */
     Node();
 
     /**
-      * Constructor
+      * Advanced Constructor.
       * @param name The name of the Node.
       */
     Node(const std::string& name);
 
     /**
       * Adds a Node as child.
-      * @param child The Node to be added to the boost::ptr_map
+      * @param child The Node to be added as child
       */
     void AddChildNode(Node *child);
 
     /**
       * Adds a Component.
-      * @param component The Component to be added to the boost::ptr_map
+      * @param component The Component to be added
       */
     void AddComponent(Component *component);
 
     /**
-      * FindChildNode searches for a Node with the name given and returns a pointer to the first match.
+      * Searches for a Node with the given name and returns a pointer to the first match.
       * @param name The name of the Node searched.
-      * @param recursive Search recursively default true.
-      * @return A pointer to the Node searched for.
+      * @param recursive Whether to search within child nodes or not.
+      * @returns A pointer to the Node with the name or nullptr if none is found.
       */
     Node* FindChildNode(const std::string& name, bool recursive = true);
 
     /**
       * Returns a pointer to the Component with a name of name
       * @param name The name of the searched Component.
+      * @returns A pointer to the Component with the name or nullptr if none is found.
       */
     Component* FindComponent(const std::string& name);
 
     /**
-      * Removes a child Node with a name of name.
-      * @param name The name of the searched Node.
+      * Removes a child Node with a specific name.
+      * @param name The name of the Node to be removed.
       */
     void RemoveChildNode(const std::string& name);
 
     /**
-      * Removes a Component with a name of name.
-      * @param name The name of the searched Component.
+      * Removes a Component with a specific name.
+      * @param name The name of the Component to be removed.
       */
     void RemoveComponent(const std::string& name);
 
     /**
       * Returns the name of the Node.
-      * @return The name of the Node.
+      * @returns The name of the Node.
       */
     const std::string& GetName() const;
 
     /**
       * Returns the position of the Node.
-      * @param rel Default is PARENT.
-      * @return The Node position.
+      * @param rel Reference point.
+      * @returns The Node position.
       */
     Ogre::Vector3 GetPosition(RelativeTo rel = PARENT) const;
 
     /**
       * Sets the position of the Node.
-      * @param position The position of the Node.
-      * @param rel The Relation of the Node e.g. PARENT.
+      * @param position The new position of the Node.
+      * @param rel Reference point.
       */
     void SetPosition(Ogre::Vector3 position, RelativeTo rel = PARENT);
 
     /**
       * Returns the scale of the Node.
-      * @param rel Default is PARENT.
-      * @return The scale of the Node
+      * @param rel Reference scale.
+      * @returns The scale of the Node
       */
     Ogre::Vector3 GetScale(RelativeTo rel = PARENT) const;
 
     /**
-      * Sets the Scale of the Node.
-      * @param scale The Scale Ogre::Vector to use.
-      * @param rel The Relation of the Scale e.g. PARENT.
+      * Sets the scale of the Node.
+      * @param scale The new scale.
+      * @param rel Reference scale.
       */
     void SetScale(Ogre::Vector3 scale, RelativeTo rel = PARENT);
 
     /**
-      * Sets the Scale of the Node.
-      * @param scale The Scale Ogre::Real to use.
-      * @param rel The Relation of the Scale e.g. PARENT.
+      * Sets the scale of the Node.
+      * @param scale The new scale to use for all axis.
+      * @param rel Reference scale.
       */
     void SetScale(Ogre::Real scale, RelativeTo rel = PARENT);
 
     /**
-      * Returns the Rotation of the Node.
-      * @return The Rotation of the Node.
-      * @param rel The Relation of the Node e.g. PARENT.
+      * Returns the rotation of the Node.
+      * @param rel Reference rotation.
+      * @returns The Rotation of the Node.
       */
     Ogre::Quaternion GetRotation(RelativeTo rel = PARENT) const;
 
     /**
-      * Sets the Rotation of the Node
-      * @param rotation The Rotation to set.
-      * @param rel The Relation of the Node e.g. PARENT.
+      * Sets the rotation of the Node.
+      * @param rotation The rotation to set.
+      * @param rel Reference rotation.
       */
     void SetRotation(Ogre::Quaternion rotation, RelativeTo rel = PARENT);
 
@@ -135,45 +139,21 @@ public:
 
     /**
       * Returns a pointer to the parent Node.
-      * @return The pointer to the parent Node.
+      * @returns A pointer to the parent Node.
       */
     Node* GetParent();
 
 private:
-    /**
-      * @variable The Node name.
-      */
-    std::string mName;
+    std::string mName;          //!< The Node name.
 
-    /**
-      * @variable The child Nodes of this Node.
-      */
-    boost::ptr_map<std::string, Node> mChildren;
+    boost::ptr_map<std::string, Node> mChildren;        //!< List of child nodes.
+    boost::ptr_map<std::string, Component> mComponents; //!< List of components used by this node.
 
-    /**
-      * @variable The used Components of this Node.
-      */
-    boost::ptr_map<std::string, Component> mComponents;
+    Ogre::Vector3 mPosition;    //!< The Node position.
+    Ogre::Vector3 mScale;       //!< The Node scale.
+    Ogre::Quaternion mRotation; //!< The Node rotation.
 
-    /**
-      * @variable The Node position.
-      */
-    Ogre::Vector3 mPosition;
-
-    /**
-      * @variable The Node scale.
-      */
-    Ogre::Vector3 mScale;
-
-    /**
-      * @variable The Node rotation.
-      */
-    Ogre::Quaternion mRotation;
-
-    /**
-      * @variable The pointer to the parent Node.
-      */
-    Node* mParent;
+    Node* mParent;              //!< A pointer to the parent Node.
 };
 
 }

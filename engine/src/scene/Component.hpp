@@ -21,7 +21,7 @@ public:
 
     /**
       * Returns the name of the Component.
-      * @return The name of the Component.
+      * @returns The name of the Component.
       */
     const std::string& GetName() const;
 
@@ -32,10 +32,7 @@ public:
     virtual void Update(float time_delta);
 
 private:
-    /**
-      * @variable The Component name.
-      */
-    std::string mName;
+    std::string mName;  //!< The Component name.
 };
 
 }

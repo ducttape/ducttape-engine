@@ -16,10 +16,7 @@ public:
       */
     Scene();
 private:
-    /**
-      * @variable The Root Node of the Scene.
-      */
-    Node mRootNode;
+    Node mRootNode; //!< The root Node of the Scene.
 };
 
 }
