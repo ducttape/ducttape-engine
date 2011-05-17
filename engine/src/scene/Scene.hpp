@@ -11,8 +11,14 @@ namespace dt {
 
 class Scene {
 public:
+    /**
+      * Default constructor.
+      */
     Scene();
 private:
+    /**
+      * @variable The Root Node of the Scene.
+      */
     Node mRootNode;
 };
 
