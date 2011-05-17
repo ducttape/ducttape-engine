@@ -5,6 +5,9 @@
 
 namespace dt {
 
+/**
+  * @author zetaron
+  */
 class Component {
 public:
 

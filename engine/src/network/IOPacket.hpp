@@ -6,6 +6,9 @@
 
 namespace dt {
 
+/**
+  * @author opatut
+  */
 class IOPacket {
 public:
     enum Mode {
