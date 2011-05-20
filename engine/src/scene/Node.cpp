@@ -107,8 +107,8 @@ Ogre::Quaternion Node::GetRotation(Node::RelativeTo rel) const {
     if(rel == PARENT || mParent == nullptr) {
         return mRotation;
     } else {
-        Logger::Get().Error("Not implemented: Node::GetRotation relative to ROOT");
-        return mRotation;
+        // Logger::Get().Error("Not implemented: Node::GetRotation relative to ROOT");
+        return mParent->GetRotation(ROOT) * mRotation;
     }
 }
 
@@ -117,6 +117,8 @@ void Node::SetRotation(Ogre::Quaternion rotation, Node::RelativeTo rel) {
         mRotation = rotation;
     } else {
         Logger::Get().Error("Not implemented: Node::SetRotation relative to ROOT");
+        Ogre::Quaternion p = mParent->GetRotation(ROOT);
+
         mRotation = rotation;
     }
 }
