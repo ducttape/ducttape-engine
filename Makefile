@@ -1,4 +1,4 @@
-default: debug
+default: debug test
 
 clean:
 	[[ -d build ]] && rm -r build
