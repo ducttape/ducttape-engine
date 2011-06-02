@@ -2,6 +2,7 @@
 #define DUCTTAPE_ENGINE_SCENE_NODE
 
 #include <string>
+#include <vector>
 
 #include <boost/ptr_container/ptr_map.hpp>
 #include <OGRE/OgreVector3.h>
@@ -10,7 +11,6 @@
 #include "Component.hpp"
 
 namespace dt {
-
 /**
   * Basic scene object class. 
   * Any object in a scene is described by a node with a position, scale and rotation
@@ -47,10 +47,10 @@ public:
     void AddChildNode(Node *child);
 
     /**
-      * Adds a Component.
-      * @param component The Component to be added
+      * Assigns a component to this node.
+      * @param component The Component to be assigned
       */
-    void AddComponent(Component *component);
+    void AddComponent(const std::string& name);
 
     /**
       * Searches for a Node with the given name and returns a pointer to the first match.
@@ -61,11 +61,11 @@ public:
     Node* FindChildNode(const std::string& name, bool recursive = true);
 
     /**
-      * Returns a pointer to the Component with a name of name
-      * @param name The name of the searched Component.
-      * @returns A pointer to the Component with the name or nullptr if none is found.
+      * Returns whether this node has the component assigned.
+      * @param name The name of the Component.
+      * @returns true if the component is assigned, otherwise false
       */
-    Component* FindComponent(const std::string& name);
+    bool HasComponent(const std::string& name);
 
     /**
       * Removes a child Node with a specific name.
@@ -150,7 +150,7 @@ private:
     std::string mName;          //!< The Node name.
 
     boost::ptr_map<std::string, Node> mChildren;        //!< List of child nodes.
-    boost::ptr_map<std::string, Component> mComponents; //!< List of components used by this node.
+    std::vector<std::string> mComponents;           //!< List of components used by this node.
 
     Ogre::Vector3 mPosition;    //!< The Node position.
     Ogre::Vector3 mScale;       //!< The Node scale.

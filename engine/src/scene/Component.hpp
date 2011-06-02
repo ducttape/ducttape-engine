@@ -6,6 +6,8 @@
 namespace dt {
 
 /**
+  * Modifier for a node. This will add all the functionality to an otherwise empty node,
+  * such as a mesh or sound.
   * @author zetaron
   */
 class Component {
@@ -21,6 +23,11 @@ public:
       * @param name The Component name.
       */
     Component(const std::string& name);
+
+    /**
+      * Pure virtual destructor makes this class abstract.
+      */
+    virtual ~Component() = 0;
 
     /**
       * Returns the name of the Component.

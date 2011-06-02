@@ -2,6 +2,8 @@
 
 #include "utils/Logger.hpp"
 
+#include <memory>
+
 namespace dt {
 
 Node::Node() {
@@ -20,9 +22,10 @@ void Node::AddChildNode(Node* child) {
     mChildren[key].SetParent(this);
 }
 
-void Node::AddComponent(Component* component) {
-    std::string key = component->GetName();
-    mComponents[key] = *component;
+void Node::AddComponent(const std::string& name) {
+    if(!HasComponent(name)) {
+        mComponents.push_back(name);
+    }
 }
 
 Node* Node::FindChildNode(const std::string& name, bool recursive) {
@@ -43,10 +46,12 @@ Node* Node::FindChildNode(const std::string& name, bool recursive) {
     return nullptr;
 }
 
-Component* Node::FindComponent(const std::string &name) {
-    if(mComponents.find(name) != mComponents.end())
-        return mComponents.find(name)->second;
-    return nullptr;
+bool Node::HasComponent(const std::string &name) {
+    for(std::string& n: mComponents) {
+        if(n == name)
+            return true;
+    }
+    return false;
 }
 
 void Node::RemoveChildNode(const std::string& name) {
@@ -56,8 +61,11 @@ void Node::RemoveChildNode(const std::string& name) {
 }
 
 void Node::RemoveComponent(const std::string& name) {
-    if(FindComponent(name) != nullptr) {
-        mComponents.erase(name);
+    if(HasComponent(name)) {
+        for(auto iter = mComponents.begin(); iter != mComponents.end(); ++iter) {
+            if(*iter == name)
+                iter = mComponents.erase(iter);
+        }
     }
 }
 
