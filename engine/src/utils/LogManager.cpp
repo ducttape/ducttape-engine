@@ -3,7 +3,7 @@
 namespace dt {
 
 LogManager::LogManager() {
-    GetLogger("default"); // create default logger
+    //GetLogger("default"); // create default logger
 }
 
 Logger& LogManager::GetLogger() {
