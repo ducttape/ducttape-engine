@@ -8,6 +8,8 @@ StringManager::StringManager() {
 
 void StringManager::RegisterDefaultStrings() {
     Add("event:type:messageevent");
+    Add("event:type:network:handshakeevent");
+    Add("event:type:network:goodbyeevent");
 }
 
 uint32_t StringManager::Add(const std::string& string) {
