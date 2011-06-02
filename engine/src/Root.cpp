@@ -6,12 +6,17 @@ Root::Root() {
     // -- create instances of managers etc here
     mLogManager = new LogManager();
     mStringManager = new StringManager();
+    mEventManager = new EventManager();
     mStateManager = new StateManager();
+    mNetworkManager = new NetworkManager();
 }
 
 Root::~Root() {
     // -- delete in reverse order
-    delete mStateManager; delete mStringManager;
+    delete mNetworkManager;
+    delete mStateManager;
+    delete mEventManager;
+    delete mStringManager;
     delete mLogManager;
 }
 
@@ -25,6 +30,14 @@ LogManager* Root::GetLogManager() {
 
 StateManager* Root::GetStateManager() {
     return mStateManager;
+}
+
+EventManager* Root::GetEventManager() {
+    return mEventManager;
+}
+
+NetworkManager* Root::GetNetworkManager() {
+    return mNetworkManager;
 }
 
 }

@@ -3,6 +3,8 @@
 
 #include <boost/ptr_container/ptr_map.hpp>
 
+#include <vector>
+
 #include "Connection.hpp"
 
 namespace dt {
@@ -25,9 +27,13 @@ public:
 
     void RemoveConnection(ID_t id);
 
+    void RemoveConnection(Connection c);
+
     ID_t GetConnectionID(Connection c);
 
     Connection* GetConnection(ID_t id);
+
+    std::vector<Connection*> GetAllConnections();
 
 private:
     ID_t _GetNewID();
