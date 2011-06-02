@@ -50,7 +50,7 @@ ConnectionsManager::ID_t ConnectionsManager::GetConnectionID(Connection c) {
 }
 
 Connection* ConnectionsManager::GetConnection(ConnectionsManager::ID_t id) {
-    if(mConnections.find(id) != mConnections.end())
+    if(mConnections.count(id) > 0)
         return mConnections.find(id)->second;
     else
         return nullptr;
@@ -74,7 +74,7 @@ ConnectionsManager::ID_t ConnectionsManager::_GetNewID() {
     }
 
     // run until we find an empty one
-    for(ConnectionsManager::ID_t i = 1; i < mMaxConnections; ++i) {
+    for(ConnectionsManager::ID_t i = 1; i <= mMaxConnections; ++i) {
         if(GetConnection(i) == nullptr)
             return i;
     }
