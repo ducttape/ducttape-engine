@@ -18,8 +18,6 @@
 #include "utils/StringManager.hpp"
 #include "utils/LogManager.hpp"
 #include "states/StateManager.hpp"
-#include "event/EventManager.hpp"
-#include "network/NetworkManager.hpp"
 
 namespace dt {
 
@@ -59,24 +57,10 @@ public:
       * @returns the StateManager
       */
     StateManager* GetStateManager();
-
-    /**
-      * Returns the EventManager.
-      * @returns the EventManager
-      */
-    EventManager* GetEventManager();
-
-    /**
-      * Returns the NetworkManager.
-      * @returns the NetworkManager
-      */
-    NetworkManager* GetNetworkManager();
 private:
     StringManager* mStringManager;  //!< the StringManager
     LogManager* mLogManager;        //!< the LogManager
     StateManager* mStateManager;    //!< the StateManager
-    EventManager* mEventManager;    //!< the EventManager
-    NetworkManager* mNetworkManager;    //!< the NetworkManager
 };
 
 }

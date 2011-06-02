@@ -33,10 +33,6 @@ void ConnectionsManager::RemoveConnection(ConnectionsManager::ID_t id) {
     }
 }
 
-void ConnectionsManager::RemoveConnection(Connection c) {
-    RemoveConnection(GetConnectionID(c));
-}
-
 ConnectionsManager::ID_t ConnectionsManager::GetConnectionID(Connection c) {
     // run through connections in a loop
     for(boost::ptr_map<ConnectionsManager::ID_t, Connection>::iterator i = mConnections.begin(); i != mConnections.end(); ++i) {
@@ -54,16 +50,6 @@ Connection* ConnectionsManager::GetConnection(ConnectionsManager::ID_t id) {
         return mConnections.find(id)->second;
     else
         return nullptr;
-}
-
-std::vector<Connection*> ConnectionsManager::GetAllConnections() {
-    std::vector<Connection*> result;
-
-    for(boost::ptr_map<ConnectionsManager::ID_t, Connection>::iterator i = mConnections.begin(); i != mConnections.end(); ++i) {
-        result.push_back(i->second);
-    }
-
-    return result;
 }
 
 ConnectionsManager::ID_t ConnectionsManager::_GetNewID() {
