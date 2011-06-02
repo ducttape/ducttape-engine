@@ -1,4 +1,4 @@
-default: bake
+default: debug
 
 clean:
 	[[ -d build ]] && rm -r build
@@ -6,7 +6,14 @@ clean:
 
 bake:
 	mkdir -p build
-	cd build; cmake ..; make -j3
+	cd build; cmake -DCMAKE_BUILD_TYPE=Release ..; make -j3
+
+debug:
+	mkdir -p build
+	cd build; cmake -DCMAKE_BUILD_TYPE=Debug ..; make -j3
+
+test:
+	for test in $(wildcard bin/test_*); do ./$$test; done
 
 install:
 	echo "Installation not implemented yet."
