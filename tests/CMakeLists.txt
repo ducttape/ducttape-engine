@@ -5,7 +5,7 @@ FOREACH(test ${TESTS})
 
     include_directories(
         ${test}/src
-        )
+    )
 
     add_executable(test_${test}
         ${${test}_src}
@@ -16,4 +16,3 @@ FOREACH(test ${TESTS})
     )
 
 ENDFOREACH(test)
-

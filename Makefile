@@ -4,10 +4,8 @@ clean:
 	[[ -d build ]] && rm -r build
 	[[ -d docs/doxygen ]] && rm -r docs/doxygen
 
-init:
+bake:
 	mkdir -p build
-
-bake: init
 	cd build; cmake ..; make -j3
 
 install:
@@ -22,4 +20,4 @@ run_editor_server:
 	cd bin; ./editor_server	
 
 doc:
-	doxygen
+	doxygen docs/Doxyfile
