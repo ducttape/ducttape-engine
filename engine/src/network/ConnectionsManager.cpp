@@ -67,14 +67,14 @@ std::vector<Connection*> ConnectionsManager::GetAllConnections() {
 }
 
 ConnectionsManager::ID_t ConnectionsManager::_GetNewID() {
-    // run until we find an empty one
     if(mMaxConnections == 0) {
         // yeah maximum fun! sorry, we only support 16 bit IDs, so maximum connections limit
         // is at 65535
         mMaxConnections = 65535;
     }
 
-    for(ConnectionsManager::ID_t i = 0; i < mMaxConnections; ++i) {
+    // run until we find an empty one
+    for(ConnectionsManager::ID_t i = 1; i < mMaxConnections; ++i) {
         if(GetConnection(i) == nullptr)
             return i;
     }
