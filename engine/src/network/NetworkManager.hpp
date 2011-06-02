@@ -20,6 +20,9 @@ public:
     NetworkManager();
     ~NetworkManager();
 
+    void Initialize();
+    void Deinitialize();
+
     bool BindSocket(uint16_t port = 20501);
 
     void Connect(Connection target);

@@ -43,6 +43,16 @@ public:
     ~Root();
 
     /**
+      * Initializes all managers.
+      */
+    void Initialize();
+
+    /**
+      * Deinitializes all managers.
+      */
+    void Deinitialize();
+
+    /**
       * Returns the StringManager.
       * @returns the StringManager
       */

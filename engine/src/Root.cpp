@@ -20,6 +20,14 @@ Root::~Root() {
     delete mLogManager;
 }
 
+void Root::Initialize() {
+    mNetworkManager->Initialize();
+}
+
+void Root::Deinitialize() {
+    mNetworkManager->Deinitialize();
+}
+
 StringManager* Root::GetStringManager() {
     return mStringManager;
 }

@@ -4,14 +4,18 @@
 
 namespace dt {
 
-NetworkManager::NetworkManager() {
-    // register us as event listener
-    //Root::get_mutable_instance().GetEventManager()->AddListener(this);
+NetworkManager::NetworkManager() {}
+
+NetworkManager::~NetworkManager() {}
+
+void NetworkManager::Initialize() {
+    Root::get_mutable_instance().GetEventManager()->AddListener(this);
 }
 
-NetworkManager::~NetworkManager() {
-    //Root::get_mutable_instance().GetEventManager()->RemoveListener(this);
+void NetworkManager::Deinitialize() {
+    Root::get_mutable_instance().GetEventManager()->RemoveListener(this);
 }
+
 
 bool NetworkManager::BindSocket(uint16_t port) {
     if(mSocket.Bind(port) != sf::Socket::Done) {
