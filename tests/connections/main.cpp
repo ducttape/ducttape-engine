@@ -5,29 +5,37 @@
 #include <iostream>
 
 int main() {
-
-    dt::ConnectionsManager *ConnectionsManager = new dt::ConnectionsManager();
+    bool broken = false;
+    dt::ConnectionsManager connections_manager;
 
     std::cout << "ConnectionsManager: add connection" << std::endl;
-    id_t c = ConnectionsManager->AddConnection(new dt::Connection(sf::IpAddress::LocalHost, (uint16_t)205001));
+    uint16_t connection = connections_manager.AddConnection(new dt::Connection(sf::IpAddress::LocalHost, 51311));
 
-    std::cout << "ConnectionsManager: get ptr to previously added connection" << std::endl;
-    dt::Connection *cp = ConnectionsManager->GetConnection(c);
+    std::cout << "ConnectionsManager: get pointer to previously added connection" << std::endl;
+    dt::Connection* connection_ptr = connections_manager.GetConnection(connection);
 
-    std::cout << "ConnectionsManager: try to get IP from ptr" << std::endl;
-    sf::IpAddress cpp = cp->GetIPAddress();
-    if(cpp==sf::IpAddress::LocalHost)
+    std::cout << "ConnectionsManager: try to get IP from pointer" << std::endl;
+    sf::IpAddress connection_ip = connection_ptr->GetIPAddress();
+    if(connection_ip == sf::IpAddress::LocalHost) {
         std::cout << "ConnectionsManager: IP OK" << std::endl;
-    else
+    } else {
         std::cerr << "ConnectionsManager: IP FAIL" << std::endl;
+        broken = true;
+    }
 
-    std::cout << "ConnectionsManager: try to get Port from prt" << std::endl;
-    if(cp->GetPort()==(uint16_t)205001)
+    std::cout << "ConnectionsManager: try to get Port from pointer" << std::endl;
+    if(connection_ptr->GetPort() == 51311) {
         std::cout << "ConnectionsManager: Port OK" << std::endl;
-    else
+    } else {
         std::cerr << "ConnectionsManager: Port FAIL" << std::endl;
+        broken = true;
+    }
+
+    if(broken) {
+        std::cout << "ConnectionsManager: FAIL" << std::endl;
+        return 1;
+    }
 
     std::cout << "ConnectionsManager: OK" << std::endl;
-
     return 0;
 }
