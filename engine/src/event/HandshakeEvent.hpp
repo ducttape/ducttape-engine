@@ -5,8 +5,14 @@
 
 namespace dt {
 
+/**
+  * Event being sent over Network when establishing a new connection.
+  */
 class HandshakeEvent : public NetworkEvent {
 public:
+    /**
+      * Default constructor.
+      */
     HandshakeEvent();
     const std::string GetType() const;
     NetworkEvent* NewInstance() const;
