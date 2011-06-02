@@ -1,10 +1,10 @@
 set(TESTS events)
 
 FOREACH(test ${TESTS})
-    aux_source_directory(${test}/src ${test}_src)
+    aux_source_directory(${test} ${test}_src)
 
     include_directories(
-        ${test}/src
+        ${test}
     )
 
     add_executable(test_${test}
