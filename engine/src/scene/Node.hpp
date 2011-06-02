@@ -17,9 +17,6 @@ namespace dt {
   * and other child nodes. The Node class is also able to have components to control 
   * its behaviour, e.g. the look or events.
   * @see Component
-  *
-  * @author zetaron
-  * @author opatut
   */
 class Node {
 public:

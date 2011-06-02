@@ -20,7 +20,6 @@ namespace dt {
   * iop & EnumHelper(my_enum); // see EnumHelper
   * // send the packet
   * @endcode
-  * @author opatut
   * @note Credit for the idea of using the operator& for context based streaming goes to the authors of
   * boost serialization (boost::archive).
   */

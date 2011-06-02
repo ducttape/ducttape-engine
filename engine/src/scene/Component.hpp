@@ -8,7 +8,6 @@ namespace dt {
 /**
   * Modifier for a node. This will add all the functionality to an otherwise empty node,
   * such as a mesh or sound.
-  * @author zetaron
   */
 class Component {
 public:
