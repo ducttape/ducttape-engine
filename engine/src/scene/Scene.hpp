@@ -9,6 +9,9 @@
 
 namespace dt {
 
+/**
+  * A class to represent a whole scene of the game world.
+  */
 class Scene {
 public:
     /**
