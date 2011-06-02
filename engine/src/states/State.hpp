@@ -6,10 +6,14 @@
 
 namespace dt {
 
+/**
+  * A class for managing different stages of menu and gameplay.
+  * @warning Class mockup only. Documentation suspended.
+  * @see StateManager
+  */
 class State : public EventListener {
 public:
     State();
-
     virtual const std::string GetType() = 0;
     uint32_t GetTypeID();
 
