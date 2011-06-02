@@ -1,0 +1,65 @@
+Thoughts about Components
+=========================
+
+template <typename Listener_T extends ComponentListener>
+class Component : public EventListener {
+public:
+    Component() {
+        mListener = new Listener_T();
+    }
+    Component(Listener_T* custom) {
+        mListener = custom;
+    }
+    shared_ptr<Listener_T> GetListener();
+protected:
+    shared_ptr<Listener_T> mListener;
+}
+
+class TriggerComponent : public Component<TriggerComponentListener> {
+    void HandleEvent(Event* e) {
+        if(e.triggered()) { // pseudo-shit
+            GetListener().Triggered();
+        }
+    }
+}
+
+class ComponentListener {
+public:
+    void BindSlot(String signal_identifier, boost::signal2::slot);
+    void UnbindSlot(boost::signal2::slot&);
+protected:
+    void _CallSignal(String signal_identifier);
+    boost::ptr_map<String, boost::signal2::signal> mSignals;
+}
+
+class TriggerComponentListener : public ComponentListener {
+    void Triggered() {
+        _CallSignal("Triggered");
+        OnTriggered();
+    }
+    virtual void OnTriggered() {}
+}
+
+
+
+Method 1
+--------
+Bind your custom method (somewhere in your code) using the BindSlot method and boost::bind.
+
+TriggerComponent* comp = new TriggerComponent();
+comp.GetListener().BindSlot("Triggered", boost::bind(&MyClass::MyCallback));
+mNode.AddComponent(comp);
+
+
+Method 2
+--------
+Inherit from the ***ComponentListener and override the virtual callback.
+
+class CustomTriggerComponentListener : public TriggerComponentListener() {
+    void OnTriggered() {
+        // do some custom shit
+    }   
+}
+// --
+TriggerComponent* comp = new TriggerComponent(new CustomTriggerComponentListener());
+mNode.AddComponent(comp);

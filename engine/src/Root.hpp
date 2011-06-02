@@ -8,6 +8,13 @@
   * \li Sven-Hendrik \a 'Svenstaro' Haase
   * \li Matz-Jona \a 'Timesqueezer' Radloff
   * \li Fabian \a 'zetaron' Stegemann
+  * \section Goals
+  * \li Compatibility
+  * \li Maintainability
+  * \li Usability
+  * \li Performance
+  * \li Features
+  * \li Extensibility
   */
 
 #ifndef DUCTTAPE_ENGINE_ROOT
