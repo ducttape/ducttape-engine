@@ -22,7 +22,7 @@ public:
       * @returns The message of the Event.
       */
     const std::string& GetMessage() const;
-private:
+protected:
     std::string mMessage;   //!< The message of this Event.
 };
 
