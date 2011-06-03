@@ -1,18 +1,15 @@
-set(TESTS events connections logger network random)
+aux_source_directory(src/ TESTS)
 
-FOREACH(test ${TESTS})
-    aux_source_directory(${test} ${test}_src)
-
-    include_directories(
-        ${test}
-    )
+foreach(test_cpp ${TESTS})
+    # string format: "src//testname.cpp" > "testname"
+    string(REGEX REPLACE "\\.cpp$" "" test ${test_cpp})
+    string(REGEX REPLACE "src//" "" test ${test})
 
     add_executable(test_${test}
-        ${${test}_src}
+        "src/"${test_cpp}
     )
 
     target_link_libraries(test_${test}
         engine
     )
-
-ENDFOREACH(test)
+endforeach(test_cpp)

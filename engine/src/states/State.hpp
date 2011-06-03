@@ -18,7 +18,7 @@ public:
     uint32_t GetTypeID();
 
     virtual void OnUpdate(float time_delta) = 0;
-    virtual void OnEvent(Event& event);
+    virtual void OnEvent(Event& event) = 0;
 
     void Update(float time_delta);
     void HandleEvent(Event& event);

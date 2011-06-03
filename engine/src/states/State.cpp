@@ -10,8 +10,6 @@ uint32_t State::GetTypeID() {
     return Root::get_mutable_instance().GetStringManager()->Get(GetType());
 }
 
-void State::OnEvent(Event& event) {}
-
 void State::Update(float time_delta) {
     // TODO: update scenes
 

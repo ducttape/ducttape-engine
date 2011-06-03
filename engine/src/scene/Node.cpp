@@ -125,8 +125,8 @@ void Node::SetRotation(Ogre::Quaternion rotation, Node::RelativeTo rel) {
         mRotation = rotation;
     } else {
         Logger::Get().Error("Not implemented: Node::SetRotation relative to ROOT");
-        Ogre::Quaternion p = mParent->GetRotation(ROOT);
-
+        // TODO: implement backward rotation
+        // Ogre::Quaternion p = mParent->GetRotation(ROOT);
         mRotation = rotation;
     }
 }
