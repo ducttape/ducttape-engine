@@ -10,7 +10,7 @@ License
 -------
 Tbe Ducttape Engine and its components such as the editor as well as examples and tests are available under the LGPL3 license unless noted otherwise.
 
-See the docs/ directory for individual licenses of resources stated below.
+See the docs/licenses/ directory for individual licenses of resources stated below.
 
 Resources
 ---------
@@ -19,5 +19,6 @@ Resources
 - Bullet Physics: http://bulletphysics.org/
 - SFML: http://www.sfml-dev.org/
 - sad-trombone.wav: http://soundbible.com/1830-Sad-Trombone.html
+- sinbad.zip: http://www.ogre3d.org
 - THA-rocketship clips: http://www.hamsteralliance.com/
 - ttf-dejavu: http://dejavu-fonts.org/wiki/Main_Page
