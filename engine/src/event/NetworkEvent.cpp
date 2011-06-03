@@ -5,6 +5,9 @@
 namespace dt {
 
 NetworkEvent::NetworkEvent() {
+    mIsLocalEvent = false;
+    mSenderID = 0;
+
     ConnectionsManager* cm = Root::get_mutable_instance().GetNetworkManager()->GetConnectionsManager();
     for(Connection* c: cm->GetAllConnections()) {
         AddRecipient(cm->GetConnectionID(*c));
@@ -40,6 +43,22 @@ bool NetworkEvent::HasRecipient(uint16_t id) {
         if(i == id)
             return true;
     return false;
+}
+
+bool NetworkEvent::IsLocalEvent() const {
+    return mIsLocalEvent;
+}
+
+void NetworkEvent::IsLocalEvent(bool is_local_event) {
+    mIsLocalEvent = is_local_event;
+}
+
+uint16_t NetworkEvent::GetSenderID() const {
+    return mSenderID;
+}
+
+void NetworkEvent::SetSenderID(uint16_t id) {
+    mSenderID = id;
 }
 
 }

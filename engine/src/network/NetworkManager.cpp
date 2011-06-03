@@ -10,6 +10,10 @@ NetworkManager::~NetworkManager() {}
 
 void NetworkManager::Initialize() {
     Root::get_mutable_instance().GetEventManager()->AddListener(this);
+
+    // add all default events as prototypes
+    RegisterNetworkEventPrototype(new HandshakeEvent());
+    RegisterNetworkEventPrototype(new GoodbyeEvent());
 }
 
 void NetworkManager::Deinitialize() {
@@ -65,6 +69,7 @@ void NetworkManager::SendQueuedEvents() {
 }
 
 void NetworkManager::QueueEvent(NetworkEvent* event) {
+    Logger::Get().Debug("NetworkManager: Queued NetworkEvent [" + tostr(event->GetTypeID()) + ": " + event->GetType() + "]");
     mQueue.push_back(event);
 }
 
@@ -73,18 +78,55 @@ void NetworkManager::HandleIncomingEvents() {
     sf::IpAddress remote;
     uint16_t port;
     if(mSocket.Receive(packet, remote, port) == sf::Socket::Done) {
-        // handle packet
+        // check if sender is known, otherwise add it
+        Connection sender(remote, port);
+        uint16_t sender_id = 0;
+        if(mConnectionsManager.IsKnownConnection(sender)) {
+            sender_id = mConnectionsManager.GetConnectionID(sender);
+        } else {
+            sender_id = mConnectionsManager.AddConnection(&sender);
+        }
+
+        while(!packet.EndOfPacket()) {
+            uint32_t type;
+            packet >> type;
+            NetworkEvent* event = CreatePrototypeInstance(type);
+            if(event != nullptr) {
+                Logger::Get().Info("NetworkManager: Received event [" + tostr(event->GetTypeID()) + ": " +
+                                   event->GetType() + "] from <" + tostr(sender_id) + ">. Handling.");
+                IOPacket iop(&packet, IOPacket::MODE_RECEIVE);
+                event->Serialize(iop);
+                event->IsLocalEvent(true);
+                event->SetSenderID(sender_id);
+                Root::get_mutable_instance().GetEventManager()->HandleEvent(event);
+            } else {
+                Logger::Get().Error("NetworkManager: Cannot create instance of packet type [" + tostr(type) + "]. Skipping packet.");
+                break;
+            }
+        }
     }
 }
 
 void NetworkManager::HandleEvent(Event* e) {
     if(e->IsNetworkEvent()) {
-        QueueEvent((NetworkEvent*)e);
+        NetworkEvent* n = (NetworkEvent*)e;
+        if(!n->IsLocalEvent())
+            QueueEvent(n);
+    }
+
+    if(e->GetType() == "DT_HANDSHAKEEVENT") {
+        // new client connected / server replied
+        HandshakeEvent* h = (HandshakeEvent*)e;
+        if(h->GetSenderID() != 0) {
+
+        }
     }
 }
 
 void NetworkManager::RegisterNetworkEventPrototype(NetworkEvent* event) {
     mNetworkEventPrototypes.push_back(event);
+    // register the ID (if not already happened)
+    Root::get_mutable_instance().GetStringManager()->Add(event->GetType());
 }
 
 NetworkEvent* NetworkManager::CreatePrototypeInstance(uint32_t type_id) {
@@ -107,11 +149,13 @@ ConnectionsManager* NetworkManager::GetConnectionsManager() {
 void NetworkManager::_SendEvent(NetworkEvent* event) {
     // create packet
     sf::Packet p;
+    p << event->GetTypeID();
     IOPacket packet(&p, IOPacket::MODE_SEND);
     event->Serialize(packet);
 
     // send packet to all recipients
     for(int i: event->GetRecipients()) {
+        Logger::Get().Debug("NetworkManager: Sending Event to " + tostr(i));
         Connection* r = mConnectionsManager.GetConnection(i);
         mSocket.Send(p, r->GetIPAddress(), r->GetPort());
     }
