@@ -1,4 +1,4 @@
-set(SAMPLES skeleton)
+set(SAMPLES chat)
 
 FOREACH(sample ${SAMPLES})
     aux_source_directory(${sample}/src/client ${sample}_client_src)

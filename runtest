@@ -20,6 +20,9 @@ if [[ -z $1 ]]; then
     ./test_events
     check Events
 
+    ./test_timer
+    check Timer
+
     ./test_random
     check Random
 
