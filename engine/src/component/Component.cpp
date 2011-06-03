@@ -1,6 +1,4 @@
-#include "Component.hpp"
+#include "component/Component.hpp"
 
 namespace dt {
-
-
 }

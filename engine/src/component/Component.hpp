@@ -69,8 +69,11 @@ public:
 private:
     std::string mName;                          //!< The Component name.
     std::shared_ptr<ListenerType> mListener;    //!< The ComponentListener to use for callbacks.
-
 };
+
+// Implement pure virtual destructor.
+template<typename ListenerType>
+Component<ListenerType>::~Component() {}
 
 }
 
