@@ -47,7 +47,7 @@ void Client::InputThread(void* user_data) {
 
     while(true) {
         std::string in;
-        std::cin >> in;
+        std::getline(std::cin, in);
 
         if(in.substr(0, 6) == "/nick ") {
             std::string nick = in.substr(6);
