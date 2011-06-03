@@ -1,7 +1,6 @@
-set(PROJECT_NAME ducttape-engine)
-cmake_minimum_required(VERSION 2.8.0)
+project(ducttape-engine)
 
-project(${PROJECT_NAME})
+cmake_minimum_required(VERSION 2.8.0)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake-extras/")
 
@@ -17,13 +16,18 @@ find_package(OGRE REQUIRED)
 find_package(MyGUI REQUIRED)
 find_package(MyGUI_PLATFORM REQUIRED)
 
-add_definitions(-Wall -Wextra -g -pedantic -fPIC -std=c++0x -DBOOST_FILESYSTEM_VERSION=3)
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-unused-parameter -Wno-unused-but-set-parameter -fPIC -std=c++0x")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+set(CMAKE_CXX_FLAGS_DEBUG "-g")
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Debug")
+endif()
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 include_directories(
-    "${CMAKE_SOURCE_DIR}/engine/src/"
+    ${CMAKE_SOURCE_DIR}/engine/src/
     ${Boost_INCLUDE_DIRS}
     ${SFML_INCLUDE_DIRS}
     ${OGRE_INCLUDE_DIRS}
@@ -31,10 +35,9 @@ include_directories(
     ${MYGUI_PLATFORM_INCLUDE_DIR}
     ${BULLET_INCLUDE_DIRS}
     ${OIS_INCLUDE_DIRS}
-    )
+)
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/engine/")
 add_subdirectory("${CMAKE_SOURCE_DIR}/editor/")
 add_subdirectory("${CMAKE_SOURCE_DIR}/samples/")
 add_subdirectory("${CMAKE_SOURCE_DIR}/tests/")
-

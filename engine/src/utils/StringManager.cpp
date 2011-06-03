@@ -25,7 +25,7 @@ bool StringManager::Has(const std::string& string) {
 }
 
 bool StringManager::Has(uint32_t id) {
-    return mIds.count(id) > 0;
+    return mIds.count(id) > 0 && mIds[id] != "";
 }
 
 uint32_t StringManager::Get(const std::string& string) {
@@ -37,11 +37,7 @@ uint32_t StringManager::Get(const std::string& string) {
 }
 
 const std::string& StringManager::Get(uint32_t id) {
-    if(Has(id))
-        return mIds[id];
-    else
-        return "";
+    return mIds[id];
 }
-
 
 }
