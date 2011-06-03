@@ -43,10 +43,10 @@ public:
 
     /**
       * Binds the Socket used for the complete networking to the port given.
-      * @param port The port to bind the socket to.
+      * @param port The port to bind the socket to, or 0 to automatically select a free port.
       * @returns True if the binding was successful. Otherwise false.
       */
-    bool BindSocket(uint16_t port = 20501);
+    bool BindSocket(uint16_t port = 0);
 
     /**
       * Connects to a remote device. This method sends a HandshakeEvent to that target.
