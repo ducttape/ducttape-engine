@@ -20,6 +20,9 @@ if [[ -z $1 ]]; then
     ./test_events
     check Events
 
+    ./test_random
+    check Random
+
     if [[ $(pgrep test_network) ]]; then
         pkill test_network
     fi

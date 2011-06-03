@@ -13,10 +13,15 @@ void Game::Run() {
     root.Initialize();
     OnInitialize();
 
+    mClock.Reset();
     mIsRunning = true;
     while(!mIsShutdownRequested) {
         // TIMING
-        // TODO: Implement timing
+        // TODO: Implement real timing instead of just getting the time difference
+        uint32_t frame_time = mClock.GetElapsedTime();
+        mClock.Reset();
+
+        Root::get_mutable_instance().GetEventManager()->HandleEvent(new BeginFrameEvent(frame_time));
 
         // INPUT
         // InputManager::Capture();

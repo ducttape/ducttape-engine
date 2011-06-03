@@ -5,26 +5,20 @@
 
 #include "Root.hpp"
 #include "network/ConnectionsManager.hpp"
+#include "utils/Random.hpp"
 
 int main() {
     bool broken = false;
     std::map<uint16_t, std::shared_ptr<dt::Connection>> connections;
     dt::ConnectionsManager connections_manager;
 
-    uint16_t max_connections = 20;
+    uint16_t max_connections = 50;
     connections_manager.SetMaxConnections(max_connections); // counts from 1
-
-    std::uniform_int_distribution<uint8_t> ip_dist(1, 255);
-    std::uniform_int_distribution<uint16_t> port_dist(1001, 51311);
-    std::mt19937 engine;
-    auto ip_gen = std::bind(ip_dist, engine);
-    auto port_gen = std::bind(port_dist, engine);
 
     // Test AddConnection()
     for(uint8_t i = 0; i <= max_connections; ++i) { // this will get us up to 21 connections
-        uint8_t ip = ip_gen();
-
-        uint16_t port = port_gen();
+        uint8_t ip = dt::Random::Get(1, 255);
+        uint16_t port = dt::Random::Get(1001, 51311);
 
         dt::Connection* connection = new dt::Connection(sf::IpAddress("127.168.178."+dt::tostr(ip)), port+i);
         uint16_t connection_id = connections_manager.AddConnection(connection);
