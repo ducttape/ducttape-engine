@@ -20,7 +20,9 @@ if [[ -z $1 ]]; then
     ./test_events
     check Events
 
-    killall test_network
+    if [[ $(pgrep test_network) ]]; then
+        pkill test_network
+    fi
     ./test_network server &
     server_id=$!
     sleep 1
