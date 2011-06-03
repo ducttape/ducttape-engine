@@ -28,6 +28,13 @@ public:
     void HandleEvent(Event* event);
 
     /**
+      * Checks if the EventListener is in the list.
+      * @param listener The EventListener to find.
+      * @returns True if the EventListener is registered, otherwise false.
+      */
+    bool HasListener(EventListener* listener);
+
+    /**
       * Adds an EventListener to the list of listeners.
       * @param listener The EventListener to add.
       */
