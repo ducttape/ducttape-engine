@@ -110,12 +110,13 @@ public:
       * @returns A new instance of the prototype with the type ID given.
       */
     NetworkEvent* CreatePrototypeInstance(uint32_t type_id);
+
     /**
       * Creates a new instance of the prototype with the type name given.
       * @see Factory Pattern
       * @see NetworkEvent::NewInstance();
       * @see Event::GetType();
-      * @param type_id The name of the type of NetworkEvent to create an instance of.
+      * @param type The name of the type of NetworkEvent to create an instance of.
       * @returns A new instance of the prototype with the type name given.
       */
     NetworkEvent* CreatePrototypeInstance(const std::string& type);
@@ -125,6 +126,7 @@ public:
       * @returns A pointer to the ConnectionsManager.
       */
     ConnectionsManager* GetConnectionsManager();
+
 private:
     /**
       * Sends an Event to it's recipients.
