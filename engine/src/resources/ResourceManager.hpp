@@ -15,6 +15,7 @@ namespace dt {
 
 /**
   * Manager for loading resources to memory and communicating resources to Ogre.
+  * @todo This manager should eventually only allow adding of locations which are managed automatically.
   */
 class ResourceManager {
 public:
@@ -66,8 +67,8 @@ public:
     const sf::SoundBuffer& GetSoundBuffer(const std::string& sound_key);
  
 private:
-	boost::ptr_map<std::string, sf::Music> mMusic;
-	boost::ptr_map<std::string, sf::SoundBuffer> mSoundBuffers;
+	boost::ptr_map<std::string, sf::Music> mMusic; //!< Pool of registered music objects. This does not actually contain the music data since music is actually streamed.
+	boost::ptr_map<std::string, sf::SoundBuffer> mSoundBuffers; //!< Pool of registered sound buffers. These are in fact loaded into memory.
 };
 
 }
