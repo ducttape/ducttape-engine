@@ -61,7 +61,7 @@ public:
       */
     void DestroyComponent(const std::string& name);
 private:
-    boost::ptr_vector<Component<ComponentListener> > mComponents;   //<! The pool of Components.
+    boost::ptr_vector<Component<ComponentListener> > mComponents;   //!< The pool of Components.
 };
 
 }
