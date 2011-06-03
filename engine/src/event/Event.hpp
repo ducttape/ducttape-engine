@@ -43,7 +43,7 @@ public:
       * Serializes this Event into / from the IOPacket.
       * @param p The IOPacket to serialize into / from.
       */
-    virtual void Serialize(IOPacket& p);
+ //   virtual void Serialize(IOPacket& p);
 };
 
 }
