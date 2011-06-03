@@ -63,7 +63,7 @@ public:
     /**
       * Operator& used to stream an enum using the EnumHelper class.
       * @see EnumHelper
-      * @see template <typename T> IOPacket& operator & (T& t);
+      * @see template \<typename T> IOPacket& operator & (T& t);
       * @param h The EnumHelper instance to use for streaming.
       * @returns This IOPacket itself to combine multiple stream instruction in one statement.
       */
