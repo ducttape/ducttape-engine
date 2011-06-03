@@ -114,7 +114,7 @@ void client() {
         sf::Sleep(100);
     }
 
-    bool correct_data = (ccem.mDataReceived == data + DATA_INCREMENT);
+    bool correct_data = ((int)ccem.mDataReceived == data + DATA_INCREMENT);
     if(!correct_data) {
         std::cerr << "Client: Received wrong data (" + dt::tostr(ccem.mDataReceived) + " instead of " + dt::tostr(data + DATA_INCREMENT) + ")" << std::endl;
         exit(1);
