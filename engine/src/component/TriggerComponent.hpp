@@ -7,9 +7,22 @@
 
 namespace dt {
 
+/**
+  * A simple trigger component that triggers a callback on certain conditions.
+  * @warning Class not complete.
+  */
 class TriggerComponent : public Component<TriggerComponentListener> {
 public:
+    /**
+      * Advanced constructor.
+      * @see Component
+      */
     TriggerComponent(TriggerComponentListener* custom_listener = new TriggerComponentListener());
+
+    /**
+      * Advanced constructor.
+      * @see Component
+      */
     TriggerComponent(const std::string& name, TriggerComponentListener* custom_listener = new TriggerComponentListener());
 
     virtual void Update(float time_delta);

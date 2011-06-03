@@ -58,6 +58,10 @@ public:
 
     virtual void HandleEvent(Event* e) {}
 
+    /**
+      * Returns the ComponentListener of this Component.
+      * @returns The ComponentListener of this Component.
+      */
     std::shared_ptr<ListenerType> GetListener() {
         return mListener;
     }
