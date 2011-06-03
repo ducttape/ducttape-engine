@@ -2,6 +2,9 @@ project(ducttape-engine)
 
 cmake_minimum_required(VERSION 2.8.3)
 
+set(VERSION_MAJOR 0)
+set(VERSION_MINOR 1)
+
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build (Debug or Release)" FORCE)
 endif()
@@ -14,8 +17,7 @@ set(BUILD_SAMPLES TRUE CACHE BOOL "TRUE to build the samples, FALSE to ignore th
 
 set(BUILD_TESTS TRUE CACHE BOOL "TRUE to build the tests, FALSE to ignore them")
 
-# TODO
-#set(BUILD_DOC TRUE CACHE BOOL "TRUE to generate the API documentation, FALSE to ignore it")
+set(BUILD_DOC TRUE CACHE BOOL "TRUE to generate the API documentation, FALSE to ignore it")
 
 if(BUILD_STATIC)
     set(Boost_USE_STATIC_LIBS ON)
@@ -66,4 +68,8 @@ endif()
 
 if(BUILD_TESTS)
     add_subdirectory("${CMAKE_SOURCE_DIR}/tests/")
+endif()
+
+if(BUILD_DOC)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/docs/")
 endif()
