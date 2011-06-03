@@ -6,19 +6,13 @@ StringManager::StringManager() {
     mLastId = 0;
 }
 
-void StringManager::RegisterDefaultStrings() {
-    Add("event:type:messageevent");
-    Add("event:type:network:handshakeevent");
-    Add("event:type:network:goodbyeevent");
-}
-
 uint32_t StringManager::Add(const std::string& string) {
     if(!Has(string)) {
         mLastId++;
         mIds[mLastId] = string;
         return mLastId;
     } else {
-        return 0;
+        return Get(string);
     }
 }
 
