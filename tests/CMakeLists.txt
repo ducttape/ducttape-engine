@@ -5,11 +5,11 @@ foreach(test_cpp ${TESTS})
     string(REGEX REPLACE "\\.cpp$" "" test ${test_cpp})
     string(REGEX REPLACE "src//" "" test ${test})
 
-    add_executable(test_${test}
+    add_executable(${test}
         "src/"${test_cpp}
     )
 
-    target_link_libraries(test_${test}
+    target_link_libraries(${test}
         engine
     )
 endforeach(test_cpp)
