@@ -9,19 +9,19 @@ ComponentsManager::~ComponentsManager() {}
 void ComponentsManager::Initialize() {}
 
 void ComponentsManager::Deinitialize() {
-    for(Component& c: mComponents) {
+    for(Component<ComponentListener>& c: mComponents) {
         DestroyComponent(c.GetName());
     }
 }
 
-void ComponentsManager::AddComponent(Component* component) {
+void ComponentsManager::AddComponent(Component<ComponentListener>* component) {
     if(component != nullptr && FindComponent(component->GetName()) == nullptr) {
         mComponents.push_back(component);
     }
 }
 
-Component* ComponentsManager::FindComponent(const std::string& name) {
-    for(Component& c: mComponents) {
+Component<ComponentListener>* ComponentsManager::FindComponent(const std::string& name) {
+    for(Component<ComponentListener>& c: mComponents) {
         if(c.GetName() == name)
             return &c;
     }
@@ -29,7 +29,7 @@ Component* ComponentsManager::FindComponent(const std::string& name) {
 }
 
 void ComponentsManager::DestroyComponent(const std::string& name) {
-    mComponents.erase_if(boost::bind(&Component::GetName, _1) == name);
+    mComponents.erase_if(boost::bind(&Component<ComponentListener>::GetName, _1) == name);
 }
 
 }

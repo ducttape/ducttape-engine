@@ -8,7 +8,7 @@
 #include <OGRE/OgreVector3.h>
 #include <OGRE/OgreQuaternion.h>
 
-#include "Component.hpp"
+#include "component/Component.hpp"
 
 namespace dt {
 /**
