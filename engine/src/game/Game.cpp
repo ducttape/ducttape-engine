@@ -33,6 +33,9 @@ void Game::Run() {
 
         // DISPLAYING
         // TODO: Implement DisplayManager.
+
+        // TODO: Simulate something more expensive -> ~ 200 FPS
+        sf::Sleep(5);
     }
     mIsRunning = false;
 
