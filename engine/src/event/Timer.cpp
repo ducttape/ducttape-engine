@@ -40,9 +40,14 @@ void Timer::TriggerTickEvent() {
         _RunThread();
     }
 
-    if(!mRepeat && !mThreaded) {
-        // disable
-        Root::get_mutable_instance().GetEventManager()->RemoveListener(this);
+    if(!mThreaded) {
+        if(!mRepeat) {
+            // disable
+            Root::get_mutable_instance().GetEventManager()->RemoveListener(this);
+        } else {
+            // reset
+            mTimeLeft = mInterval;
+        }
     }
 
 }
