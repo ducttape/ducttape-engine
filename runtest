@@ -20,6 +20,9 @@ if [[ -z $1 ]]; then
     ./test_events
     check Events
 
+    ./test_random
+    check Random
+
     killall test_network
     ./test_network server &
     server_id=$!
