@@ -1,3 +1,35 @@
 #!/bin/bash
+
+check() {
+    if [[ $? != 0 ]]; then
+        echo "Test "$1" failed."
+        exit 1
+    fi
+    echo
+}
+
 cd bin/
-./test_$1
+
+if [[ -z $1 ]]; then
+    ./test_connections
+    check Connections
+
+    ./test_logger
+    check Logger
+
+    ./test_events
+    check Events
+
+    killall test_network
+    ./test_network server &
+    server_id=$!
+    sleep 1
+    ./test_network client
+    check Network
+    kill $server_id
+
+    echo
+    echo "All tests successful."
+else
+    ./test_$1
+fi

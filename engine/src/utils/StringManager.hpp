@@ -19,11 +19,6 @@ public:
     StringManager();
 
     /**
-      * Registers default engine strings.
-      */
-    void RegisterDefaultStrings();
-
-    /**
       * Registers a new string with a generated ID.
       * @param string the string to register
       * @returns the new ID

@@ -7,7 +7,7 @@ GoodbyeEvent::GoodbyeEvent(const std::string& reason) {
 }
 
 const std::string GoodbyeEvent::GetType() const {
-    return "event:type:network:goodbyeevent";
+    return "DT_GOODBYEEVENT";
 }
 
 NetworkEvent* GoodbyeEvent::NewInstance() const {
