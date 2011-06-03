@@ -1,11 +1,31 @@
 project(ducttape-engine)
 
-cmake_minimum_required(VERSION 2.8.0)
+cmake_minimum_required(VERSION 2.8.3)
+
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build (Debug or Release)" FORCE)
+endif()
+
+set(BUILD_STATIC FALSE CACHE BOOL "TRUE to build static libraries, FALSE to build shared libraries (preferred)")
+
+set(BUILD_EDITOR TRUE CACHE BOOL "TRUE to build the editor, FALSE to ignore it")
+
+set(BUILD_SAMPLES TRUE CACHE BOOL "TRUE to build the samples, FALSE to ignore them")
+
+set(BUILD_TESTS TRUE CACHE BOOL "TRUE to build the tests, FALSE to ignore them")
+
+# TODO
+#set(BUILD_DOC TRUE CACHE BOOL "TRUE to generate the API documentation, FALSE to ignore it")
+
+if(BUILD_STATIC)
+    set(Boost_USE_STATIC_LIBS ON)
+else()
+    set(Boost_USE_STATIC_LIBS OFF)
+endif()
+set(Boost_USE_MULTITHREADED ON)
+set(Boost_USE_STATIC_RUNTIME OFF)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake-extras/")
-
-set(Boost_USE_STATIC_LIBS ON)
-set(Boost_USE_MULTITHREADED ON)
 
 find_package(SFML 2 COMPONENTS audio graphics network system window REQUIRED)
 find_package(Bullet REQUIRED)
@@ -16,12 +36,9 @@ find_package(OGRE REQUIRED)
 find_package(MyGUI REQUIRED)
 find_package(MyGUI_PLATFORM REQUIRED)
 
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-unused-parameter -Wno-unused-but-set-parameter -fPIC -std=c++0x")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-unused-parameter -Wno-unused-but-set-parameter -std=c++0x")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Debug")
-endif()
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
@@ -38,6 +55,15 @@ include_directories(
 )
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/engine/")
-add_subdirectory("${CMAKE_SOURCE_DIR}/editor/")
-add_subdirectory("${CMAKE_SOURCE_DIR}/samples/")
-add_subdirectory("${CMAKE_SOURCE_DIR}/tests/")
+
+if(BUILD_EDITOR)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/editor/")
+endif()
+
+if(BUILD_SAMPLES)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/samples/")
+endif()
+
+if(BUILD_TESTS)
+    add_subdirectory("${CMAKE_SOURCE_DIR}/tests/")
+endif()

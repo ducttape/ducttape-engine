@@ -10,7 +10,13 @@ aux_source_directory(src/utils/ engine_src)
 
 include_directories(src/)
 
-add_library(engine STATIC
+if(BUILD_STATIC)
+    set(BUILD_MODE STATIC)
+else()
+    set(BUILD_MODE SHARED)
+endif()
+
+add_library(engine ${BUILD_MODE}
     ${engine_src}
 )
 
