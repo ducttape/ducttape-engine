@@ -2,12 +2,16 @@
 
 #include "ChatMessageEvent.hpp"
 
+Client::Client() {
+    mServerIP = sf::IpAddress::LocalHost;
+}
+
 void Client::OnInitialize() {
     dt::Root::get_mutable_instance().GetEventManager()->AddListener(this);
 
     dt::Root::get_mutable_instance().GetNetworkManager()->RegisterNetworkEventPrototype(new ChatMessageEvent("",""));
     dt::Root::get_mutable_instance().GetNetworkManager()->BindSocket();
-    dt::Root::get_mutable_instance().GetNetworkManager()->Connect(dt::Connection(sf::IpAddress::LocalHost, 29876));
+    dt::Root::get_mutable_instance().GetNetworkManager()->Connect(dt::Connection(mServerIP, 29876));
 
     mInputThread = std::shared_ptr<sf::Thread>(new sf::Thread(&Client::InputThread, this));
     mInputThread->Launch();
@@ -20,6 +24,14 @@ void Client::HandleEvent(dt::Event* e) {
             std::cout << std::endl << "<" << c->GetSenderNick() << "> " << c->GetMessage() << std::endl;
         }
     }
+}
+
+void Client::SetServerIP(sf::IpAddress server_ip) {
+    mServerIP = server_ip;
+}
+
+sf::IpAddress Client::GetServerIP() const {
+    return mServerIP;
 }
 
 void Client::SetNick(const std::string& nick) {
