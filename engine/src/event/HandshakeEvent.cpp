@@ -5,7 +5,7 @@ namespace dt {
 HandshakeEvent::HandshakeEvent() {}
 
 const std::string HandshakeEvent::GetType() const {
-    return "event:type:network:handshakeevent";
+    return "DT_HANDSHAKEEVENT";
 }
 
 NetworkEvent* HandshakeEvent::NewInstance() const {

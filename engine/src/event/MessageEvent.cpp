@@ -7,7 +7,7 @@ MessageEvent::MessageEvent(const std::string& message) {
 }
 
 const std::string MessageEvent::GetType() const {
-    return "event:type:messageevent";
+    return "DT_MESSAGEEVENT";
 }
 
 const std::string& MessageEvent::GetMessage() const {
