@@ -3,6 +3,8 @@
 
 #include "Root.hpp"
 
+#include "event/BeginFrameEvent.hpp"
+
 namespace dt {
 
 class Game {
@@ -15,6 +17,7 @@ public:
     bool IsRunning();
 
 protected:
+    sf::Clock mClock;
     bool mIsShutdownRequested;
     bool mIsRunning;
 };
