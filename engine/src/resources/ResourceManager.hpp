@@ -57,8 +57,10 @@ public:
 	bool AddSoundBuffer(const boost::filesystem::path& path, const std::string& sound_key="");
 
     /**
-      * Retrieves a single sound buffer from memory.
+      * Retrieves a single sound buffer from memory. If the requested soundbuffer is not found,
+      * an error is printed and the program will exit with status 1.
       * @param sound Identifier of the sound buffer to get.
+      * @returns A reference to the requested sound buffer.
       * @todo This shouldn't really be required if resources or loaded automatically in a lazy manner.
       */
     const sf::SoundBuffer& GetSoundBuffer(const std::string& sound_key);
