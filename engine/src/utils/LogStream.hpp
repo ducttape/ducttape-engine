@@ -1,5 +1,6 @@
-#ifndef LOG_LOGSTREAM_HPP
-#define LOG_LOGSTREAM_HPP
+#ifndef DUCTTAPE_ENGINE_UTILS_LOGSTREAM
+#define DUCTTAPE_ENGINE_UTILS_LOGSTREAM
+
 
 #include <string>
 #include <iostream>
