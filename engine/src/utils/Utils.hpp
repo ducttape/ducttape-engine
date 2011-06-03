@@ -8,8 +8,6 @@
 
 namespace dt {
 
-namespace dt {
-
 template <typename Source> std::string tostr(const Source& source) {
     return boost::lexical_cast<std::string>(source);
 }
