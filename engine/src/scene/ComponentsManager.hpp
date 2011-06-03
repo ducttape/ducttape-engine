@@ -4,7 +4,7 @@
 #include <boost/ptr_container/ptr_vector.hpp>
 #include <boost/bind.hpp>
 
-#include "Component.hpp"
+#include "component/Component.hpp"
 
 namespace dt {
 
@@ -44,7 +44,7 @@ public:
       * Adds a component to the pool.
       * @param component The Component to add.
       */
-    void AddComponent(Component* component);
+    void AddComponent(Component<ComponentListener>* component);
 
 
     /**
@@ -52,7 +52,7 @@ public:
       * @param name The name of the Component to search for.
       * @returns A pointer to the component or nullptr if it is not found.
       */
-    Component* FindComponent(const std::string& name);
+    Component<ComponentListener>* FindComponent(const std::string& name);
 
 
     /**
@@ -61,7 +61,7 @@ public:
       */
     void DestroyComponent(const std::string& name);
 private:
-    boost::ptr_vector<Component> mComponents;   //<! The pool of Components.
+    boost::ptr_vector<Component<ComponentListener> > mComponents;   //<! The pool of Components.
 };
 
 }

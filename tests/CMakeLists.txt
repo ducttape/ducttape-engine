@@ -1,4 +1,4 @@
-set(TESTS events connections)
+set(TESTS events connections logger)
 
 FOREACH(test ${TESTS})
     aux_source_directory(${test} ${test}_src)
