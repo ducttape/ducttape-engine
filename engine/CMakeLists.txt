@@ -17,11 +17,11 @@ else()
     set(BUILD_MODE SHARED)
 endif()
 
-add_library(engine ${BUILD_MODE}
+add_library(ducttape ${BUILD_MODE}
     ${engine_src}
 )
 
-target_link_libraries(engine
+target_link_libraries(ducttape
     ${Boost_LIBRARIES}
     ${SFML_LIBRARIES}
     ${BULLET_LIBRARIES}
@@ -31,3 +31,7 @@ target_link_libraries(engine
     ${MYGUI_PLATFORM_LIBRARIES}
 )
 
+install(TARGETS ducttape
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib)

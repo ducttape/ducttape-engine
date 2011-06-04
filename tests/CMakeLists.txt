@@ -6,10 +6,8 @@ foreach(test_cpp ${TESTS})
     string(REGEX REPLACE "src//" "" test ${test})
 
     add_executable(${test}
-        "src/"${test_cpp}
-    )
+        "src/"${test_cpp})
 
     target_link_libraries(${test}
-        engine
-    )
+        ducttape)
 endforeach(test_cpp)
