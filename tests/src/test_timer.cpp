@@ -5,6 +5,9 @@
 class CustomGame : public dt::Game, public dt::EventListener {
 public:
     void OnInitialize() {
+        mTimer1Count = 0;
+        mTimer2Count = 0;
+
         std::cout << "TIMER: Starting 2 timers:" << std::endl;
         std::cout << "  1 - Event mode  - 1000ms" << std::endl;
         std::cout << "  2 - Thread mode - 2010ms" << std::endl;

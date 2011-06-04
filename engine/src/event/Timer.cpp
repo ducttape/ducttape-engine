@@ -24,10 +24,12 @@ void Timer::HandleEvent(Event* e) {
     if(e->GetType() == "DT_BEGINFRAMEEVENT") {
         // every frame
         BeginFrameEvent* b = (BeginFrameEvent*)e;
-        mTimeLeft -= b->GetFrameTime();
 
-        if(mTimeLeft <= 0) {
+        if(mTimeLeft > b->GetFrameTime()) {
+            mTimeLeft -= b->GetFrameTime();
+        } else {
             // ignore if we have some delay (actually, this is the downside of event mode)
+            mTimeLeft = 0;
             TriggerTickEvent();
         }
     }
