@@ -3,7 +3,7 @@
   * \section About
   * Welcome to the documentation for the Ducttape Game Engine - a universal open-source game engine.
   * \section License
-  * Ducttape itself is licensed under the Lesser Gnu Public License version 3.0 (LGPL3). However, it directly and indirectly uses many libraries and media files with different licenses. For a complete list including related license files, please see docs/licenses/.
+  * Ducttape itself is licensed under the Lesser GNU Public License version 3.0 (LGPL3). However, it directly and indirectly uses many libraries and media files with different licenses. For a complete list including related license files, please see docs/licenses/.
   * \section Goals
   * \li Compatibility
   * \li Maintainability
