@@ -12,12 +12,16 @@ namespace dt {
 /**
   * A class to represent a whole scene of the game world.
   */
-class Scene {
+class Scene : public Node {
 public:
     /**
       * Default constructor.
       */
     Scene();
+
+protected:
+    bool _IsScene();
+
 private:
     Node mRootNode; //!< The root Node of the Scene.
 };

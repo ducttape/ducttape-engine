@@ -11,6 +11,10 @@
 #include "component/Component.hpp"
 
 namespace dt {
+
+// forward declaration
+class Scene;
+
 /**
   * Basic scene object class. 
   * Any object in a scene is described by a node with a position, scale and rotation
@@ -22,20 +26,15 @@ class Node {
 public:
     enum RelativeTo {
         PARENT,
-        ROOT
+        SCENE
     };
 
 public:
     /**
-      * Default constructor.
-      */
-    Node();
-
-    /**
-      * Advanced Constructor.
+      * Constructor.
       * @param name The name of the Node.
       */
-    Node(const std::string& name);
+    Node(const std::string& name = "");
 
     /**
       * Adds a Node as child.
@@ -142,6 +141,14 @@ public:
       * @returns A pointer to the parent Node.
       */
     Node* GetParent();
+
+    /**
+      *
+      */
+    Scene* GetScene();
+
+protected:
+    virtual bool _IsScene();
 
 private:
     std::string mName;          //!< The Node name.
