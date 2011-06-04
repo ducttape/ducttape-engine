@@ -25,9 +25,9 @@ void Node::AddChildNode(Node* child) {
     mChildren[key].SetParent(this);
 }
 
-void Node::AddComponent(const std::string& name) {
-    if(!HasComponent(name)) {
-        mComponents.push_back(name);
+void Node::AddComponent(Component<ComponentListener>* component) {
+    if(!HasComponent(component->GetName())) {
+        Root::get_mutable_instance().GetComponentsManager()->AddComponent(mName, component);
     }
 }
 
@@ -50,11 +50,7 @@ Node* Node::FindChildNode(const std::string& name, bool recursive) {
 }
 
 bool Node::HasComponent(const std::string &name) {
-    for(std::string& n: mComponents) {
-        if(n == name)
-            return true;
-    }
-    return false;
+    return Root::get_mutable_instance().GetComponentsManager()->GetNodeOfComponent(name) == mName;
 }
 
 void Node::RemoveChildNode(const std::string& name) {
@@ -65,10 +61,7 @@ void Node::RemoveChildNode(const std::string& name) {
 
 void Node::RemoveComponent(const std::string& name) {
     if(HasComponent(name)) {
-        for(auto iter = mComponents.begin(); iter != mComponents.end(); ++iter) {
-            if(*iter == name)
-                iter = mComponents.erase(iter);
-        }
+        Root::get_mutable_instance().GetComponentsManager()->DestroyComponent(name);
     }
 }
 

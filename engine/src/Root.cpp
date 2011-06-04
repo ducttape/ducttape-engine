@@ -7,6 +7,7 @@ Root::Root() {
     mLogManager = new LogManager();
     mStringManager = new StringManager();
     mEventManager = new EventManager();
+    mComponentsManager = new ComponentsManager();
     mStateManager = new StateManager();
     mNetworkManager = new NetworkManager();
     mDisplayManager = new DisplayManager();
@@ -17,6 +18,7 @@ Root::~Root() {
     delete mDisplayManager;
     delete mNetworkManager;
     delete mStateManager;
+    delete mComponentsManager;
     delete mEventManager;
     delete mStringManager;
     delete mLogManager;
@@ -24,11 +26,13 @@ Root::~Root() {
 
 void Root::Initialize() {
     mNetworkManager->Initialize();
+    mComponentsManager->Initialize();
     mDisplayManager->Initialize();
 }
 
 void Root::Deinitialize() {
     mDisplayManager->Deinitialize();
+    mComponentsManager->Deinitialize();
     mNetworkManager->Deinitialize();
 }
 
@@ -54,6 +58,10 @@ NetworkManager* Root::GetNetworkManager() {
 
 DisplayManager* Root::GetDisplayManager() {
     return mDisplayManager;
+}
+
+ComponentsManager* Root::GetComponentsManager() {
+    return mComponentsManager;
 }
 
 }

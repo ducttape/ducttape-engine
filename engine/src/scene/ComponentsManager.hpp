@@ -1,8 +1,7 @@
 #ifndef DUCTTAPE_ENGINE_SCENE_COMPONENTSMANAGER
 #define DUCTTAPE_ENGINE_SCENE_COMPONENTSMANAGER
 
-#include <boost/ptr_container/ptr_vector.hpp>
-#include <boost/bind.hpp>
+#include <map>
 
 #include "component/Component.hpp"
 
@@ -44,7 +43,7 @@ public:
       * Adds a component to the pool.
       * @param component The Component to add.
       */
-    void AddComponent(Component<ComponentListener>* component);
+    void AddComponent(const std::string& node_name, Component<ComponentListener>* component);
 
 
     /**
@@ -54,14 +53,18 @@ public:
       */
     Component<ComponentListener>* FindComponent(const std::string& name);
 
+    const std::string& GetNodeOfComponent(const std::string& name);
+
+    std::vector<std::shared_ptr<Component<ComponentListener>>> GetComponentsOfNode(const std::string& node_name);
 
     /**
       * Destroys a component.
       * @param name The component to destroy.
       */
     void DestroyComponent(const std::string& name);
+
 private:
-    boost::ptr_vector<Component<ComponentListener> > mComponents;   //!< The pool of Components.
+    std::multimap<std::string, std::shared_ptr<Component<ComponentListener> > > mComponents;   //!< The pool of Components.
 };
 
 }
