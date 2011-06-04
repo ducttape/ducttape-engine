@@ -43,10 +43,11 @@ public:
     void AddChildNode(Node *child);
 
     /**
-      * Assigns a component to this node.
-      * @param name The Component to be assigned
+      * Assigns a component to this node. The component is being added into ComponentsManager.
+      * @see ComponentsManager
+      * @param name The Component to be assigned.
       */
-    void AddComponent(const std::string& name);
+    void AddComponent(Component<ComponentListener>* component);
 
     /**
       * Searches for a Node with the given name and returns a pointer to the first match.
@@ -59,6 +60,7 @@ public:
     /**
       * Returns whether this node has the component assigned.
       * @param name The name of the Component.
+      * @see ComponentsManager
       * @returns true if the component is assigned, otherwise false
       */
     bool HasComponent(const std::string& name);
@@ -71,6 +73,7 @@ public:
 
     /**
       * Removes a Component with a specific name.
+      * @see ComponentsManager
       * @param name The name of the Component to be removed.
       */
     void RemoveComponent(const std::string& name);
@@ -154,7 +157,6 @@ private:
     std::string mName;          //!< The Node name.
 
     boost::ptr_map<std::string, Node> mChildren;        //!< List of child nodes.
-    std::vector<std::string> mComponents;           //!< List of components used by this node.
 
     Ogre::Vector3 mPosition;    //!< The Node position.
     Ogre::Vector3 mScale;       //!< The Node scale.
