@@ -38,6 +38,14 @@ public:
     virtual Event* Clone() const = 0;
 
     /**
+      * Used when translating a raw event via Binding to a more specific event. The specific event can copy data from
+      * the raw event for further use.
+      * @see BindingsManager
+      * @param raw_event The raw event that triggered the binding.
+      */
+    virtual bool TranslateFrom(Event* raw_event);
+
+    /**
       * Returns the type ID of the Event. The ID is got from the StringManager using the type string returned by GetType().
       * @see Event::GetType()
       * @see StringManager
