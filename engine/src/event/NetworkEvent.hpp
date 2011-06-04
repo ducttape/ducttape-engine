@@ -24,7 +24,13 @@ public:
       * @see Factory Pattern
       * @returns A new instance of the same Event type.
       */
-    virtual NetworkEvent* NewInstance() const = 0; // only network events need to be created from prototypes
+    virtual Event* Clone() const = 0;
+
+    /**
+      * Serializes the event into/from an sf::Packet using the wrapper IOPacket.
+      * @see IOPacket
+      * @param p The IOPacket to stream from/into.
+      */
     virtual void Serialize(IOPacket& p) = 0; // pure virtual, because ALL network events need to be serializable
 
     /**

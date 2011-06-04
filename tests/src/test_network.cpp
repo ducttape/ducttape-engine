@@ -31,8 +31,8 @@ public:
         return "CUSTOMNETWORKEVENT";
     }
 
-    NetworkEvent* NewInstance() const {
-        return new CustomNetworkEvent(0, CustomNetworkEvent::CLIENT);
+    Event* Clone() const {
+        return new CustomNetworkEvent(mData, mEnum);
     }
 
     void Serialize(dt::IOPacket& p) {

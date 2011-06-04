@@ -96,7 +96,7 @@ public:
     /**
       * Registers a NetworkEvent as prototype for incoming packets.
       * @see Factory Pattern
-      * @see NetworkEvent::NewInstance();
+      * @see NetworkEvent::Clone();
       * @param event A new instance of a NetworkEvent to be used for factory.
       */
     void RegisterNetworkEventPrototype(NetworkEvent* event);
@@ -104,7 +104,7 @@ public:
     /**
       * Creates a new instance of the prototype with the type ID given.
       * @see Factory Pattern
-      * @see NetworkEvent::NewInstance();
+      * @see NetworkEvent::Clone();
       * @see Event::GetTypeID();
       * @param type_id The ID of the type of NetworkEvent to create an instance of.
       * @returns A new instance of the prototype with the type ID given.
@@ -114,7 +114,7 @@ public:
     /**
       * Creates a new instance of the prototype with the type name given.
       * @see Factory Pattern
-      * @see NetworkEvent::NewInstance();
+      * @see NetworkEvent::Clone();
       * @see Event::GetType();
       * @param type The name of the type of NetworkEvent to create an instance of.
       * @returns A new instance of the prototype with the type name given.

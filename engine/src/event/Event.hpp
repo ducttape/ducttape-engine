@@ -32,6 +32,12 @@ public:
     virtual bool IsNetworkEvent() const;
 
     /**
+      * Returns an exact copy of this Event. Used for the factory pattern in NetworkManager and for EventBindings.
+      * @returns An exact copy of this Event.
+      */
+    virtual Event* Clone() const = 0;
+
+    /**
       * Returns the type ID of the Event. The ID is got from the StringManager using the type string returned by GetType().
       * @see Event::GetType()
       * @see StringManager

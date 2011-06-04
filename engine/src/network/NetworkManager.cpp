@@ -132,7 +132,7 @@ void NetworkManager::RegisterNetworkEventPrototype(NetworkEvent* event) {
 NetworkEvent* NetworkManager::CreatePrototypeInstance(uint32_t type_id) {
     for(boost::ptr_vector<NetworkEvent>::iterator iter = mNetworkEventPrototypes.begin(); iter != mNetworkEventPrototypes.end(); ++iter) {
         if(iter->GetTypeID() == type_id) {
-            return iter->NewInstance();
+            return (NetworkEvent*)iter->Clone();
         }
     }
     return nullptr;

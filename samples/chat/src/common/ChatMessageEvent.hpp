@@ -8,7 +8,7 @@ public:
     ChatMessageEvent(const std::string& message, const std::string& sender);
     const std::string GetType() const;
 
-    dt::NetworkEvent* NewInstance() const;
+    dt::Event* Clone() const;
     void Serialize(dt::IOPacket& p);
 
     const std::string& GetMessage() const;
