@@ -15,7 +15,7 @@ public:
       */
     HandshakeEvent();
     const std::string GetType() const;
-    NetworkEvent* NewInstance() const;
+    Event* Clone() const;
     void Serialize(IOPacket& p);
 };
 

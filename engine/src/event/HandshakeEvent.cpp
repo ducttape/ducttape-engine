@@ -8,7 +8,7 @@ const std::string HandshakeEvent::GetType() const {
     return "DT_HANDSHAKEEVENT";
 }
 
-NetworkEvent* HandshakeEvent::NewInstance() const {
+Event* HandshakeEvent::Clone() const {
     return new HandshakeEvent();
 }
 

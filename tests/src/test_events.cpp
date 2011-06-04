@@ -11,6 +11,10 @@ public:
         return "testevent";
     }
 
+    Event* Clone() const {
+        return new TestEvent(*this);
+    }
+
     void TestEventReceived() {
         mHasBeenReceivedCorrectly = true;
     }

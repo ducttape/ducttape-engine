@@ -9,6 +9,7 @@ class TimerTickEvent : public MessageEvent {
 public:
     TimerTickEvent(const std::string& message, uint32_t interval);
     const std::string GetType() const;
+    Event* Clone() const;
 
     uint32_t GetInterval() const;
 

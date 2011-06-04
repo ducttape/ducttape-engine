@@ -9,8 +9,8 @@ const std::string ChatMessageEvent::GetType() const {
     return "CHATMESSAGEEVENT";
 }
 
-dt::NetworkEvent* ChatMessageEvent::NewInstance() const {
-    return new ChatMessageEvent("","");
+dt::Event* ChatMessageEvent::Clone() const {
+    return new ChatMessageEvent(mMessage, mSenderNick);
 }
 
 void ChatMessageEvent::Serialize(dt::IOPacket& p) {

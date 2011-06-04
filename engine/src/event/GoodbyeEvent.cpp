@@ -10,8 +10,8 @@ const std::string GoodbyeEvent::GetType() const {
     return "DT_GOODBYEEVENT";
 }
 
-NetworkEvent* GoodbyeEvent::NewInstance() const {
-    return new GoodbyeEvent();
+Event* GoodbyeEvent::Clone() const {
+    return new GoodbyeEvent(mReason);
 }
 
 void GoodbyeEvent::Serialize(IOPacket& p) {
