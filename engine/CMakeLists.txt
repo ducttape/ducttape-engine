@@ -7,6 +7,7 @@ aux_source_directory(src/resources/ engine_src)
 aux_source_directory(src/scene/ engine_src)
 aux_source_directory(src/states/ engine_src)
 aux_source_directory(src/utils/ engine_src)
+aux_source_directory(src/graphics/ engine_src)
 
 include_directories(src/)
 
@@ -25,9 +26,8 @@ target_link_libraries(engine
     ${SFML_LIBRARIES}
     ${BULLET_LIBRARIES}
     ${OGRE_LIBRARIES}
+    ${OIS_IBRARIES}
     ${MYGUI_LIBRARIES}
     ${MYGUI_PLATFORM_LIBRARIES}
-    ${BULLET_LIBRARIES}
-    ${OIS_IBRARIES}
 )
 

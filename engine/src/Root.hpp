@@ -29,6 +29,7 @@
 #include "states/StateManager.hpp"
 #include "event/EventManager.hpp"
 #include "network/NetworkManager.hpp"
+#include "graphics/DisplayManager.hpp"
 
 namespace dt {
 
@@ -90,12 +91,20 @@ public:
       * @returns the NetworkManager
       */
     NetworkManager* GetNetworkManager();
+
+    /**
+      * Returns the DisplayManager.
+      * @returns the DisplayManager
+      */
+    DisplayManager* GetDisplayManager();
+
 private:
-    StringManager* mStringManager;  //!< the StringManager
-    LogManager* mLogManager;        //!< the LogManager
-    StateManager* mStateManager;    //!< the StateManager
-    EventManager* mEventManager;    //!< the EventManager
-    NetworkManager* mNetworkManager;    //!< the NetworkManager
+    StringManager* mStringManager;  //!< pointer to the StringManager
+    LogManager* mLogManager;        //!< pointer to the LogManager
+    StateManager* mStateManager;    //!< pointer to the StateManager
+    EventManager* mEventManager;    //!< pointer to the EventManager
+    NetworkManager* mNetworkManager;    //!< pointer to the NetworkManager
+    DisplayManager* mDisplayManager;    //!< pointer to the DisplayManager
 };
 
 }
