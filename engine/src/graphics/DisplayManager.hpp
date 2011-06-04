@@ -1,10 +1,14 @@
 #ifndef DUCTTAPE_ENGINE_GRAPHICS_DISPLAYMANAGER
 #define DUCTTAPE_ENGINE_GRAPHICS_DISPLAYMANAGER
 
+#include <memory>
+#include <string>
+
 #include <OgreRoot.h>
 #include <OgreRenderSystem.h>
 #include <OgreRenderWindow.h>
 #include <OgreViewport.h>
+#include <OgreWindowEventUtilities.h>
 
 #include "component/CameraComponent.hpp"
 
@@ -34,12 +38,21 @@ public:
 
     /**
       * Tries to register a camera.
-      * This will fail if the same CameraComponent is already registered.
+      * This will fail if the same CameraComponent is already registered. The first CameraComponent that gets registered will also trigger the creation of the render window.
       * @param camera_component Pointer to to the camera component. It should come out of the
       * ComponentsManager to ensure the pointer will always be safe and sound.
       * @returns \ctrue for success and \cfalse in case the CameraComponent is already registered.
       */
     bool RegisterCamera(CameraComponent* camera_component);
+
+    /**
+      * Tries to unregister a camera.
+      * This will fail if the CameraComponent is not registered. Unregistering the last CameraComponent will trigger the destruction of the render window.
+      * @param camera_component Pointer to to the camera component. It should come out of the
+      * ComponentsManager to ensure the pointer will always be safe and sound.
+      * @returns \ctrue for success and \cfalse in case the CameraComponent is not found.
+      */
+    bool UnregisterCamera(CameraComponent* camera_component);
 
     /**
       * Activates a camera for the active viewport. 
@@ -49,11 +62,21 @@ public:
       */
     bool ActivateCamera(const std::string& name);
 
+    /**
+      * Renders the current frame.
+      */
+    void Render();
+
 private:
     /**
-      * TODO 
+      * Creates the render window and sets up Ogre. It is called when the first CameraComponent is registered. 
       */
     void _CreateWindow();
+
+    /**
+      * Destroy the render window and kills Ogre. It is called after the last CameraComponent has been unregistered. 
+      */
+    void _DestroyWindow();
 
     /**
       * TODO 
@@ -62,7 +85,7 @@ private:
 
     std::map<std::string, CameraComponent*> mCameras;
 
-    Ogre::Root* mOgreRoot;
+    std::shared_ptr<Ogre::Root> mOgreRoot;
     Ogre::RenderSystem* mOgreRenderSystem;
     Ogre::RenderWindow* mOgreRenderWindow;
     Ogre::Viewport* mOgreViewport;
