@@ -45,7 +45,7 @@ public:
 
     /**
       * Assigns a component to this node.
-      * @param component The Component to be assigned
+      * @param name The Component to be assigned
       */
     void AddComponent(const std::string& name);
 

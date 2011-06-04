@@ -1,13 +1,9 @@
 /**
   * \mainpage
   * \section About
-  * This is the duct tape engine. It is verry cool!
-  * \section Credits
-  * \subsection Programming
-  * \li Paul \a 'opatut' Bienkowski
-  * \li Sven-Hendrik \a 'Svenstaro' Haase
-  * \li Matz-Jona \a 'Timesqueezer' Radloff
-  * \li Fabian \a 'zetaron' Stegemann
+  * Welcome to the documentation for the Ducttape Game Engine - a universal open-source game engine.
+  * \section License
+  * Ducttape itself is licensed under the Lesser GNU Public License version 3.0 (LGPL3). However, it directly and indirectly uses many libraries and media files with different licenses. For a complete list including related license files, please see docs/licenses/.
   * \section Goals
   * \li Compatibility
   * \li Maintainability
@@ -15,6 +11,12 @@
   * \li Performance
   * \li Features
   * \li Extensibility
+  * \section Credits
+  * \subsection Programming
+  * \li Paul \a 'opatut' Bienkowski
+  * \li Sven-Hendrik \a 'Svenstaro' Haase
+  * \li Matz-Jona \a 'Timesqueezer' Radloff
+  * \li Fabian \a 'zetaron' Stegemann
   */
 
 #ifndef DUCTTAPE_ENGINE_ROOT
