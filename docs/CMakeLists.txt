@@ -9,4 +9,8 @@ add_custom_target(doc
     COMMENT "Building documentation" VERBATIM)
 
 install(DIRECTORY ${CMAKE_BINARY_DIR}/docs/
-        DESTINATION share/ducttape)
+        DESTINATION share/doc/ducttape
+        PATTERN CMakeFiles EXCLUDE
+        PATTERN cmake_install.cmake EXCLUDE
+        PATTERN Doxyfile EXCLUDE
+        PATTERN Makefile EXCLUDE)
