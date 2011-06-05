@@ -14,6 +14,9 @@
 
 namespace dt {
 
+/**
+  * A manager class for managing the display and rendering.
+  */
 class DisplayManager {
 public:
     /**
@@ -41,7 +44,7 @@ public:
       * This will fail if the same CameraComponent is already registered. The first CameraComponent that gets registered will also trigger the creation of the render window.
       * @param camera_component Pointer to to the camera component. It should come out of the
       * ComponentsManager to ensure the pointer will always be safe and sound.
-      * @returns \ctrue for success and \cfalse in case the CameraComponent is already registered.
+      * @returns \c true for success and \c false in case the CameraComponent is already registered.
       */
     bool RegisterCamera(CameraComponent* camera_component);
 
@@ -50,15 +53,15 @@ public:
       * This will fail if the CameraComponent is not registered. Unregistering the last CameraComponent will trigger the destruction of the render window.
       * @param camera_component Pointer to to the camera component. It should come out of the
       * ComponentsManager to ensure the pointer will always be safe and sound.
-      * @returns \ctrue for success and \cfalse in case the CameraComponent is not found.
+      * @returns \c true for success and \c false in case the CameraComponent is not found.
       */
     bool UnregisterCamera(CameraComponent* camera_component);
 
     /**
       * Activates a camera for the active viewport. 
       * This will fail if this CameraComponent has not yet been registered.
-      * @param The name of the CameraComponent.
-      * @returns \ctrue for success and \cfalse in case the CameraComponent is unknown.
+      * @param name The name of the CameraComponent.
+      * @returns \c true for success and \c false in case the CameraComponent is unknown.
       */
     bool ActivateCamera(const std::string& name);
 

@@ -1,4 +1,4 @@
-project(ducttape-engine)
+project(ducttape)
 
 cmake_minimum_required(VERSION 2.8.3)
 
@@ -11,7 +11,7 @@ endif()
 
 set(BUILD_STATIC FALSE CACHE BOOL "TRUE to build static libraries, FALSE to build shared libraries (preferred)")
 
-set(BUILD_EDITOR TRUE CACHE BOOL "TRUE to build the editor, FALSE to ignore it")
+set(BUILD_EDITOR FALSE CACHE BOOL "TRUE to build the editor, FALSE to ignore it")
 
 set(BUILD_SAMPLES TRUE CACHE BOOL "TRUE to build the samples, FALSE to ignore them")
 
@@ -73,3 +73,7 @@ endif()
 if(BUILD_DOC)
     add_subdirectory("${CMAKE_SOURCE_DIR}/docs/")
 endif()
+
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/engine/src/"
+        DESTINATION include/ducttape/
+        FILES_MATCHING PATTERN "*.hpp")
