@@ -64,6 +64,12 @@ public:
     void Deinitialize();
 
     /**
+      * Gets time since calling Initialize().
+      * @returns the time in milliseconds since calling Initialize()
+      */
+    uint32_t GetTimeSinceInitialize();
+
+    /**
       * Returns the StringManager.
       * @returns the StringManager
       */
@@ -106,6 +112,7 @@ public:
     ComponentsManager* GetComponentsManager();
 
 private:
+    sf::Clock mSfClock;             //!< sf::Clock for keeping time since Initialize()
     StringManager* mStringManager;  //!< pointer to the StringManager
     LogManager* mLogManager;        //!< pointer to the LogManager
     ComponentsManager* mComponentsManager;  //!< pointer to the ComponentsManager

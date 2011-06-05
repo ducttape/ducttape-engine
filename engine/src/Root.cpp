@@ -25,6 +25,7 @@ Root::~Root() {
 }
 
 void Root::Initialize() {
+    mSfClock.Reset();
     mNetworkManager->Initialize();
     mDisplayManager->Initialize();
     mComponentsManager->Initialize();
@@ -34,6 +35,10 @@ void Root::Deinitialize() {
     mComponentsManager->Deinitialize();
     mDisplayManager->Deinitialize();
     mNetworkManager->Deinitialize();
+}
+
+uint32_t Root::GetTimeSinceInitialize() {
+    return mSfClock.GetElapsedTime();
 }
 
 StringManager* Root::GetStringManager() {
