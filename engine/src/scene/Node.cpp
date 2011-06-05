@@ -17,6 +17,10 @@ Node::Node(const std::string& name) {
         // Root::get_mutable_instance().GetIDManager()->GetNextDynamicID();
     }
     mParent = nullptr;
+
+    mPosition = Ogre::Vector3::ZERO;
+    mScale = Ogre::Vector3(1,1,1);
+    mRotation = Ogre::Quaternion::ZERO;
 }
 
 void Node::AddChildNode(Node* child) {
@@ -28,6 +32,8 @@ void Node::AddChildNode(Node* child) {
 void Node::AddComponent(Component* component) {
     if(!HasComponent(component->GetName()))
         Root::get_mutable_instance().GetComponentsManager()->AddComponent(this, component);
+
+    _UpdateAllComponents();
 }
 
 Node* Node::FindChildNode(const std::string& name, bool recursive) {

@@ -18,7 +18,7 @@ void CameraComponent::OnActivate() {
     Root::get_mutable_instance().GetDisplayManager()->ActivateCamera(mName);
 
     mViewport = Root::get_mutable_instance().GetDisplayManager()->GetRenderWindow()->addViewport(mCamera);
-    mViewport->setBackgroundColour(Ogre::ColourValue(0,0,0));
+    mViewport->setBackgroundColour(Ogre::ColourValue(0.5,0.1,0.5));
     mCamera->setAspectRatio(Ogre::Real(mViewport->getActualWidth()) / Ogre::Real(mViewport->getActualHeight()));
 }
 
@@ -29,6 +29,7 @@ void CameraComponent::OnDeactivate() {
 void CameraComponent::OnUpdate() {
     mCamera->setPosition(mNode->GetPosition(Node::SCENE));
     mCamera->setOrientation(mNode->GetRotation(Node::SCENE));
+    mCamera->lookAt(0,0,0);
 }
 
 }
