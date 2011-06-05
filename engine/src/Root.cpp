@@ -7,6 +7,7 @@ Root::Root() {
     mLogManager = new LogManager();
     mStringManager = new StringManager();
     mEventManager = new EventManager();
+    mResourceManager = new ResourceManager();
     mDisplayManager = new DisplayManager();
     mComponentsManager = new ComponentsManager();
     mStateManager = new StateManager();
@@ -15,10 +16,11 @@ Root::Root() {
 
 Root::~Root() {
     // -- delete in reverse order
-    delete mDisplayManager;
     delete mNetworkManager;
     delete mStateManager;
     delete mComponentsManager;
+    delete mDisplayManager;
+    delete mResourceManager;
     delete mEventManager;
     delete mStringManager;
     delete mLogManager;
@@ -27,6 +29,7 @@ Root::~Root() {
 void Root::Initialize() {
     mSfClock.Reset();
     mNetworkManager->Initialize();
+    mResourceManager->Initialize();
     mDisplayManager->Initialize();
     mComponentsManager->Initialize();
 }
@@ -34,6 +37,7 @@ void Root::Initialize() {
 void Root::Deinitialize() {
     mComponentsManager->Deinitialize();
     mDisplayManager->Deinitialize();
+    mResourceManager->Deinitialize();
     mNetworkManager->Deinitialize();
 }
 
@@ -67,6 +71,10 @@ DisplayManager* Root::GetDisplayManager() {
 
 ComponentsManager* Root::GetComponentsManager() {
     return mComponentsManager;
+}
+
+ResourceManager* Root::GetResourceManager() {
+    return mResourceManager;
 }
 
 }

@@ -11,6 +11,7 @@
 #include <OgreWindowEventUtilities.h>
 
 #include "component/CameraComponent.hpp"
+#include "utils/Logger.hpp"
 
 namespace dt {
 
@@ -72,6 +73,10 @@ public:
 
     Ogre::SceneManager* GetSceneManager(const std::string& scene);
 
+    void CreateOgreRoot();
+
+    Ogre::RenderWindow* GetRenderWindow();
+
 private:
     /**
       * Creates the render window and sets up Ogre. It is called when the first CameraComponent is registered. 
@@ -83,18 +88,12 @@ private:
       */
     void _DestroyWindow();
 
-    /**
-      * TODO 
-      */
-    void _CreateViewport();
-
     std::map<std::string, CameraComponent*> mCameras;
     std::map<std::string, Ogre::SceneManager*> mSceneManagers;
 
     Ogre::Root* mOgreRoot;
     Ogre::RenderSystem* mOgreRenderSystem;
     Ogre::RenderWindow* mOgreRenderWindow;
-    Ogre::Viewport* mOgreViewport;
 };
 
 }

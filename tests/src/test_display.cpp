@@ -2,7 +2,7 @@
 #include "game/Game.hpp"
 #include "scene/Scene.hpp"
 #include "scene/Node.hpp"
-#include "component/TriggerComponent.hpp"
+#include "component/MeshComponent.hpp"
 #include "event/EventListener.hpp"
 
 class Game : public dt::Game, public dt::EventListener {
@@ -23,12 +23,18 @@ public:
     }
 
     void OnInitialize() {
+        dt::Root::get_mutable_instance().GetResourceManager()->AddResourceLocation("../data/sinbad.zip","Zip", true);
+        //dt::Root::get_mutable_instance().GetResourceManager()->AddResourceLocation("../data/sinbad/","FileSystem", true);
+        Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+        dt::Logger::Get().Info("Added resource location");
+
         dt::Root::get_mutable_instance().GetEventManager()->AddListener(this);
 
         dt::Node* node = new dt::Node("camnode");
         mScene.AddChildNode(node);
         mScene.FindChildNode("camnode", false)->AddComponent(new dt::CameraComponent("cam"));
-        mScene.FindChildNode("camnode", false)->AddComponent(new dt::TriggerComponent("trigger"));
+
+        mScene.FindChildNode("camnode", false)->AddComponent(new dt::MeshComponent("lolmesh", "Sinbad.mesh"));
     }
 
 private:

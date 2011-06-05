@@ -69,10 +69,17 @@ public:
         return mNode;
     }
 
+    void Activate();
+    void Deactivate();
+    bool IsActivated();
+
 protected:
     std::string mName;                          //!< The Component name.
     std::shared_ptr<ComponentListener> mListener;    //!< The ComponentListener to use for callbacks.
     Node* mNode;
+
+private:
+    bool mIsActivated;
 };
 
 }

@@ -12,7 +12,7 @@ void ComponentsManager::Initialize() {}
 
 void ComponentsManager::Deinitialize() {
     for(std::pair<std::string, std::shared_ptr<Component> > set: mComponents) {
-        set.second->OnDeactivate();
+        set.second->Deactivate();
     }
 
     // destroy all components
@@ -23,7 +23,7 @@ void ComponentsManager::AddComponent(Node* node, Component* component) {
     if(component != nullptr && FindComponent(component->GetName()) == nullptr) {
         auto ptr = std::shared_ptr<Component>(component);
         ptr->SetNode(node);
-        ptr->OnActivate();
+        ptr->Activate();
         mComponents.insert(std::pair<std::string, std::shared_ptr<Component> >(
                                node->GetName(), ptr));
     }
