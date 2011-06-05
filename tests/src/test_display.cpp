@@ -3,15 +3,28 @@
 #include "scene/Scene.hpp"
 #include "scene/Node.hpp"
 #include "component/TriggerComponent.hpp"
+#include "event/EventListener.hpp"
 
-class Game : public dt::Game {
+class Game : public dt::Game, public dt::EventListener {
 public:
     Game()
         : mScene("gamescene") {
+        mRuntime = 0;
+    }
 
+    void HandleEvent(dt::Event* e) {
+        if(e->GetType() == "DT_BEGINFRAMEEVENT") {
+            mRuntime += ((dt::BeginFrameEvent*)e)->GetFrameTime();
+            if(mRuntime > 2000) {
+                std::cout << "Request shutdown." << std::endl;
+                RequestShutdown();
+            }
+        }
     }
 
     void OnInitialize() {
+        dt::Root::get_mutable_instance().GetEventManager()->AddListener(this);
+
         dt::Node* node = new dt::Node("camnode");
         mScene.AddChildNode(node);
         mScene.FindChildNode("camnode", false)->AddComponent(new dt::CameraComponent("cam"));
@@ -19,6 +32,7 @@ public:
     }
 
 private:
+    uint32_t mRuntime;
     dt::Scene mScene;
 
 };

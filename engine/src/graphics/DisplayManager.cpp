@@ -3,14 +3,18 @@
 namespace dt {
 
 DisplayManager::DisplayManager() {
-    mOgreRoot = std::shared_ptr<Ogre::Root>(nullptr);
+    mOgreRoot = nullptr;
 }
 
 DisplayManager::~DisplayManager() {}
 
 void DisplayManager::Initialize() {}
 
-void DisplayManager::Deinitialize() {}
+void DisplayManager::Deinitialize() {
+    if(mOgreRoot != nullptr) {
+        _DestroyWindow();
+    }
+}
 
 bool DisplayManager::RegisterCamera(CameraComponent* camera_component) {
     std::string name = camera_component->GetName();
@@ -20,7 +24,7 @@ bool DisplayManager::RegisterCamera(CameraComponent* camera_component) {
         return false;
 
     // Create the render window if this is the first CameraComponent.
-    if(mCameras.size() == 0 && ! mOgreRoot->isInitialised())
+    if(mCameras.size() == 0 && (mOgreRoot == nullptr || !mOgreRoot->isInitialised()))
         _CreateWindow();
 
     mCameras[name] = camera_component;
@@ -38,7 +42,7 @@ bool DisplayManager::UnregisterCamera(CameraComponent* camera_component) {
     mCameras.erase(name);
 
     // Destroy the render window if this is the last CameraComponent.
-    if(mCameras.size() == 0 && mOgreRoot->isInitialised())
+    if(mCameras.size() == 0 && (mOgreRoot != nullptr && mOgreRoot->isInitialised()))
         _DestroyWindow();
 
     return true;
@@ -50,7 +54,7 @@ bool DisplayManager::ActivateCamera(const std::string& name) {
 }
 
 void DisplayManager::Render() {
-    if(mOgreRoot.get() != nullptr) {
+    if(mOgreRoot != nullptr && mOgreRoot->isInitialised()) {
         mOgreRoot->renderOneFrame();
         Ogre::WindowEventUtilities::messagePump();
     }
@@ -67,7 +71,7 @@ Ogre::SceneManager* DisplayManager::GetSceneManager(const std::string& scene) {
 }
 
 void DisplayManager::_CreateWindow() {
-    mOgreRoot = std::shared_ptr<Ogre::Root>(new Ogre::Root());
+    mOgreRoot = new Ogre::Root();
 
     mOgreRoot->loadPlugin("/usr/lib/OGRE/RenderSystem_GL.so");
     mOgreRenderSystem = mOgreRoot->getRenderSystemByName("OpenGL Rendering Subsystem");
@@ -79,8 +83,8 @@ void DisplayManager::_CreateWindow() {
 
 void DisplayManager::_DestroyWindow() {
     mOgreRenderWindow->destroy();
-    mOgreRenderSystem->shutdown();
     mOgreRoot->shutdown();
+    delete mOgreRoot;
 }
 
 void DisplayManager::_CreateViewport() {}

@@ -17,9 +17,13 @@ public:
       * Advanced constructor.
       * @see Component
       */
-    TriggerComponent(const std::string& name = "", TriggerComponentListener* custom_listener = new TriggerComponentListener());
+    TriggerComponent(const std::string& name, TriggerComponentListener* custom_listener = new TriggerComponentListener());
 
     virtual void HandleEvent(Event* e);
+
+    void OnActivate();
+    void OnDeactivate();
+    void OnUpdate();
 };
 
 }

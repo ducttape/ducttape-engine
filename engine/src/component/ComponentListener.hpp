@@ -14,6 +14,8 @@ namespace dt {
   */
 class ComponentListener {
 public:
+    virtual ~ComponentListener() = 0;
+
     /**
       * Binds a slot to a signal.
       * @param signal_identifier The name of the signal being called by the ComponentListener. Example: "Triggered" or "AnimationFinished".
