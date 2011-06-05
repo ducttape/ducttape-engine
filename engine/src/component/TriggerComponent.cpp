@@ -11,10 +11,6 @@ TriggerComponent::TriggerComponent(const std::string& name, TriggerComponentList
     : Component<TriggerComponentListener>(name, custom_listener) {
 }
 
-void TriggerComponent::Update(float time_delta) {
-
-}
-
 void TriggerComponent::HandleEvent(Event* e) {
     if(e->GetType() == "trigger") {
 

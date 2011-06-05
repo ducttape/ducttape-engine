@@ -1,5 +1,7 @@
 #include "ComponentsManager.hpp"
 
+#include "scene/Node.hpp"
+
 namespace dt {
 
 ComponentsManager::ComponentsManager() {}
@@ -9,14 +11,21 @@ ComponentsManager::~ComponentsManager() {}
 void ComponentsManager::Initialize() {}
 
 void ComponentsManager::Deinitialize() {
+    for(std::pair<std::string, std::shared_ptr<Component<ComponentListener> > > set: mComponents) {
+        set.second->OnDeactivate();
+    }
+
     // destroy all components
     mComponents.clear();
 }
 
-void ComponentsManager::AddComponent(const std::string& node_name, Component<ComponentListener>* component) {
+void ComponentsManager::AddComponent(Node* node, Component<ComponentListener>* component) {
     if(component != nullptr && FindComponent(component->GetName()) == nullptr) {
+        auto ptr = std::shared_ptr<Component<ComponentListener>>(component);
+        ptr->OnActivate();
+        ptr->SetNode(node);
         mComponents.insert(std::pair<std::string, std::shared_ptr<Component<ComponentListener>>>(
-                               node_name, std::shared_ptr<Component<ComponentListener>>(component)));
+                               node->GetName(), ptr));
     }
 }
 

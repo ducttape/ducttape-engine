@@ -3,17 +3,30 @@
 
 #include <string>
 
+#include <OGRE/OgreCamera.h>
+
 #include "component/Component.hpp"
+#include "component/CameraComponentListener.hpp"
 
 namespace dt {
 
-class CameraComponent {
+class CameraComponent : public Component<CameraComponentListener>
+{
 public:
-    CameraComponent();
+    /**
+      * Advanced constructor.
+      * @see Component
+      */
+    CameraComponent(const std::string& name, CameraComponentListener* custom_listener = new CameraComponentListener());
 
-    ~CameraComponent();
+    virtual void HandleEvent(Event* e);
 
-    std::string GetName();
+    void OnActivate();
+    void OnDeactivate();
+    void OnUpdate();
+
+private:
+    Ogre::Camera* mCamera;
 };
 
 }

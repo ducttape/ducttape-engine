@@ -4,6 +4,7 @@
 #include <string>
 
 #include <boost/ptr_container/ptr_map.hpp>
+#include <OGRE/OgreSceneManager.h>
 
 #include "Node.hpp"
 
@@ -19,11 +20,14 @@ public:
       */
     Scene();
 
+    Ogre::SceneManager* GetSceneManager();
+
 protected:
     bool _IsScene();
 
 private:
     Node mRootNode; //!< The root Node of the Scene.
+    Ogre::SceneManager* mSceneManager;
 };
 
 }

@@ -23,7 +23,6 @@ public:
     void PushNewState();
     State* GetCurrentState();
 
-    void Update(float time_delta);
     void HandleEvent(Event& event);
 private:
     std::shared_ptr<State> mNewState; //!< The newly created stack to be pushed onto the stack in the next step

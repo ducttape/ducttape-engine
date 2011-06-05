@@ -25,7 +25,6 @@ public:
       */
     TriggerComponent(const std::string& name, TriggerComponentListener* custom_listener = new TriggerComponentListener());
 
-    virtual void Update(float time_delta);
     virtual void HandleEvent(Event* e);
 };
 

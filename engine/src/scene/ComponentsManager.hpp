@@ -4,6 +4,7 @@
 #include <map>
 
 #include "component/Component.hpp"
+#include "Node.hpp"
 
 namespace dt {
 
@@ -43,7 +44,7 @@ public:
       * Adds a component to the pool.
       * @param component The Component to add.
       */
-    void AddComponent(const std::string& node_name, Component<ComponentListener>* component);
+    void AddComponent(Node* node, Component<ComponentListener>* component);
 
 
     /**

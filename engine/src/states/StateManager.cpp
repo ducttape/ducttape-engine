@@ -19,12 +19,6 @@ State* StateManager::GetCurrentState() {
     return nullptr;
 }
 
-void StateManager::Update(float time_delta) {
-    for(State& s: mStates) {
-        s.Update(time_delta);
-    }
-}
-
 void StateManager::HandleEvent(Event& event) {
     for(State& s: mStates) {
         s.HandleEvent(event);

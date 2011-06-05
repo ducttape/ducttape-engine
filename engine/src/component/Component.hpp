@@ -4,10 +4,14 @@
 #include "event/EventListener.hpp"
 #include "ComponentListener.hpp"
 
+
 #include <string>
 #include <type_traits>
 
 namespace dt {
+
+// forward declaration
+class Node;
 
 /**
   * Modifier for a node. This will add all the functionality to an otherwise empty node,
@@ -50,12 +54,6 @@ public:
         return mName;
     }
 
-    /**
-      * This is the place where the magic happens.
-      * @param time_delta The time passed since last call.
-      */
-    virtual void Update(float time_delta) {}
-
     virtual void HandleEvent(Event* e) {}
 
     /**
@@ -66,9 +64,22 @@ public:
         return mListener;
     }
 
-private:
+    virtual void OnActivate() {}
+    virtual void OnDeactivate() {}
+    virtual void OnUpdate() {}
+
+    void SetNode(Node* node) {
+        mNode = node;
+    }
+
+    Node* GetNode() {
+        return mNode;
+    }
+
+protected:
     std::string mName;                          //!< The Component name.
     std::shared_ptr<ListenerType> mListener;    //!< The ComponentListener to use for callbacks.
+    Node* mNode;
 };
 
 // Implement pure virtual destructor.

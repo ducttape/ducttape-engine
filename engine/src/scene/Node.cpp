@@ -26,9 +26,8 @@ void Node::AddChildNode(Node* child) {
 }
 
 void Node::AddComponent(Component<ComponentListener>* component) {
-    if(!HasComponent(component->GetName())) {
-        Root::get_mutable_instance().GetComponentsManager()->AddComponent(mName, component);
-    }
+    if(!HasComponent(component->GetName()))
+        Root::get_mutable_instance().GetComponentsManager()->AddComponent(this, component);
 }
 
 Node* Node::FindChildNode(const std::string& name, bool recursive) {
