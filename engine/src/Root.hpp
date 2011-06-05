@@ -17,6 +17,9 @@
   * \li Sven-Hendrik \a 'Svenstaro' Haase
   * \li Matz-Jona \a 'Timesqueezer' Radloff
   * \li Fabian \a 'zetaron' Stegemann
+  * \subsection Media
+  * \li Darren \a 'visionseeker' Cullen (http://www.deliciousmusic.co.nz/artists/visionseeker)
+  * \li Lasse \a 'lazzly' Bienkowski
   */
 
 #ifndef DUCTTAPE_ENGINE_ROOT
