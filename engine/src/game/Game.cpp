@@ -33,7 +33,7 @@ void Game::Run() {
 
         // DISPLAYING
         // Won't work without a CameraComponent which initializes the render system!
-        //root.GetDisplayManager()->Render();
+        root.GetDisplayManager()->Render();
 
         // TODO: Simulate something more expensive -> ~ 200 FPS
         sf::Sleep(5);

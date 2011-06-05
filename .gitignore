@@ -15,3 +15,4 @@ game/gui/cached/
 engine/gui/cached/
 NetworkTest/*.bin
 docs/doxygen
+Ogre.log

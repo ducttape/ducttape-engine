@@ -67,6 +67,8 @@ public:
       */
     void Render();
 
+    Ogre::SceneManager* GetSceneManager(const std::string& scene);
+
 private:
     /**
       * Creates the render window and sets up Ogre. It is called when the first CameraComponent is registered. 
@@ -84,6 +86,7 @@ private:
     void _CreateViewport();
 
     std::map<std::string, CameraComponent*> mCameras;
+    std::map<std::string, Ogre::SceneManager*> mSceneManagers;
 
     std::shared_ptr<Ogre::Root> mOgreRoot;
     Ogre::RenderSystem* mOgreRenderSystem;

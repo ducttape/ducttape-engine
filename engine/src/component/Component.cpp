@@ -2,4 +2,7 @@
 #include "scene/Node.hpp"
 
 namespace dt {
+
+Component::~Component() {}
+
 }

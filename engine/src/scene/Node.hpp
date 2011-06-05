@@ -47,7 +47,7 @@ public:
       * @see ComponentsManager
       * @param name The Component to be assigned.
       */
-    void AddComponent(Component<ComponentListener>* component);
+    void AddComponent(Component* component);
 
     /**
       * Searches for a Node with the given name and returns a pointer to the first match.

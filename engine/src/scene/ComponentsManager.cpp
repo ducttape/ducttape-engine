@@ -11,7 +11,7 @@ ComponentsManager::~ComponentsManager() {}
 void ComponentsManager::Initialize() {}
 
 void ComponentsManager::Deinitialize() {
-    for(std::pair<std::string, std::shared_ptr<Component<ComponentListener> > > set: mComponents) {
+    for(std::pair<std::string, std::shared_ptr<Component> > set: mComponents) {
         set.second->OnDeactivate();
     }
 
@@ -19,18 +19,18 @@ void ComponentsManager::Deinitialize() {
     mComponents.clear();
 }
 
-void ComponentsManager::AddComponent(Node* node, Component<ComponentListener>* component) {
+void ComponentsManager::AddComponent(Node* node, Component* component) {
     if(component != nullptr && FindComponent(component->GetName()) == nullptr) {
-        auto ptr = std::shared_ptr<Component<ComponentListener>>(component);
-        ptr->OnActivate();
+        auto ptr = std::shared_ptr<Component>(component);
         ptr->SetNode(node);
-        mComponents.insert(std::pair<std::string, std::shared_ptr<Component<ComponentListener>>>(
+        ptr->OnActivate();
+        mComponents.insert(std::pair<std::string, std::shared_ptr<Component> >(
                                node->GetName(), ptr));
     }
 }
 
-Component<ComponentListener>* ComponentsManager::FindComponent(const std::string& name) {
-    for(std::pair<std::string, std::shared_ptr<Component<ComponentListener> > > set: mComponents) {
+Component* ComponentsManager::FindComponent(const std::string& name) {
+    for(std::pair<std::string, std::shared_ptr<Component> > set: mComponents) {
         if(set.second->GetName() == name)
             return set.second.get();
     }
@@ -38,16 +38,16 @@ Component<ComponentListener>* ComponentsManager::FindComponent(const std::string
 }
 
 const std::string& ComponentsManager::GetNodeOfComponent(const std::string& name) {
-    Component<ComponentListener>* c = FindComponent(name);
+    Component* c = FindComponent(name);
     if(c == nullptr)
         return "";
     else
         return c->GetName();
 }
 
-std::vector<std::shared_ptr<Component<ComponentListener> > > ComponentsManager::GetComponentsOfNode(const std::string& node_name) {
-    std::vector<std::shared_ptr<Component<ComponentListener> > > result;
-    for(std::pair<std::string, std::shared_ptr<Component<ComponentListener> > > set: mComponents) {
+std::vector<std::shared_ptr<Component> > ComponentsManager::GetComponentsOfNode(const std::string& node_name) {
+    std::vector<std::shared_ptr<Component> > result;
+    for(std::pair<std::string, std::shared_ptr<Component> > set: mComponents) {
         if(set.first == node_name)
             result.push_back(set.second);
     }
@@ -64,4 +64,4 @@ void ComponentsManager::DestroyComponent(const std::string& name) {
 
 }
 
-// std::shared_ptr<Component<ComponentListener> >
+// std::shared_ptr<Component>

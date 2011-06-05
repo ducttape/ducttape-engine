@@ -44,7 +44,7 @@ public:
       * Adds a component to the pool.
       * @param component The Component to add.
       */
-    void AddComponent(Node* node, Component<ComponentListener>* component);
+    void AddComponent(Node* node, Component* component);
 
 
     /**
@@ -52,11 +52,11 @@ public:
       * @param name The name of the Component to search for.
       * @returns A pointer to the component or nullptr if it is not found.
       */
-    Component<ComponentListener>* FindComponent(const std::string& name);
+    Component* FindComponent(const std::string& name);
 
     const std::string& GetNodeOfComponent(const std::string& name);
 
-    std::vector<std::shared_ptr<Component<ComponentListener>>> GetComponentsOfNode(const std::string& node_name);
+    std::vector<std::shared_ptr<Component> > GetComponentsOfNode(const std::string& node_name);
 
     /**
       * Destroys a component.
@@ -65,7 +65,7 @@ public:
     void DestroyComponent(const std::string& name);
 
 private:
-    std::multimap<std::string, std::shared_ptr<Component<ComponentListener> > > mComponents;   //!< The pool of Components.
+    std::multimap<std::string, std::shared_ptr<Component> > mComponents;   //!< The pool of Components.
 };
 
 }

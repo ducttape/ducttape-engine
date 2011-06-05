@@ -6,7 +6,7 @@
 namespace dt {
 
 CameraComponent::CameraComponent(const std::string& name, CameraComponentListener* custom_listener)
-   : Component<CameraComponentListener>(name, custom_listener) {
+   : Component(name, custom_listener) {
 }
 
 void CameraComponent::HandleEvent(Event* e) {

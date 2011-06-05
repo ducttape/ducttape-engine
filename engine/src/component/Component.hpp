@@ -17,28 +17,21 @@ class Node;
   * Modifier for a node. This will add all the functionality to an otherwise empty node,
   * such as a mesh or sound.
   */
-template <typename ListenerType>
 class Component : public EventListener {
 public:
-    static_assert(std::is_base_of<ComponentListener, ListenerType>::value, "Cannot create Component with ListenerType not being inherited from ComponentListener.");
-
-    /**
-      * Default constructor.
-      * @param custom_listener The ComponentListener to use for callbacks.
-      */
-    Component(ListenerType* custom_listener = new ListenerType()) {
-        mName = "component-generated-name";
-        mListener = std::shared_ptr<ListenerType>(custom_listener);
-    }
+    // static_assert(std::is_base_of<ComponentListener, ComponentListener>::value, "Cannot create Component with ComponentListener not being inherited from ComponentListener.");
 
     /**
       * Constructor with set name.
       * @param name The Component name.
       * @param custom_listener The ComponentListener to use for callbacks.
       */
-    Component(const std::string& name, ListenerType* custom_listener = new ListenerType()) {
-        mName = name;
-        mListener = std::shared_ptr<ListenerType>(custom_listener);
+    Component(const std::string& name = "", ComponentListener* custom_listener = nullptr) {
+        if(name == "")
+            mName = "component-generated-name"; // TODO
+        else
+            mName = name;
+        mListener = std::shared_ptr<ComponentListener>(custom_listener);
     }
 
     /**
@@ -60,7 +53,7 @@ public:
       * Returns the ComponentListener of this Component.
       * @returns The ComponentListener of this Component.
       */
-    std::shared_ptr<ListenerType> GetListener() {
+    std::shared_ptr<ComponentListener> GetListener() {
         return mListener;
     }
 
@@ -78,13 +71,9 @@ public:
 
 protected:
     std::string mName;                          //!< The Component name.
-    std::shared_ptr<ListenerType> mListener;    //!< The ComponentListener to use for callbacks.
+    std::shared_ptr<ComponentListener> mListener;    //!< The ComponentListener to use for callbacks.
     Node* mNode;
 };
-
-// Implement pure virtual destructor.
-template<typename ListenerType>
-Component<ListenerType>::~Component() {}
 
 }
 

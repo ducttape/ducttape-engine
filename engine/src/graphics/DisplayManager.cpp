@@ -52,6 +52,16 @@ void DisplayManager::Render() {
     Ogre::WindowEventUtilities::messagePump();
 }
 
+Ogre::SceneManager* DisplayManager::GetSceneManager(const std::string& scene) {
+    if(mSceneManagers.count(scene) == 0) {
+        _CreateWindow(); // TODO check if window already present
+
+        Ogre::SceneManager* mgr = mOgreRoot->createSceneManager("DefaultSceneManager");
+        mSceneManagers[scene] = mgr;
+    }
+    return mSceneManagers[scene];
+}
+
 void DisplayManager::_CreateWindow() {
     mOgreRoot = std::shared_ptr<Ogre::Root>(new Ogre::Root());
 

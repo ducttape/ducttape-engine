@@ -25,7 +25,7 @@ void Node::AddChildNode(Node* child) {
     mChildren[key].SetParent(this);
 }
 
-void Node::AddComponent(Component<ComponentListener>* component) {
+void Node::AddComponent(Component* component) {
     if(!HasComponent(component->GetName()))
         Root::get_mutable_instance().GetComponentsManager()->AddComponent(this, component);
 }
@@ -133,10 +133,11 @@ void Node::SetParent(Node* parent) {
             return;
         }
     }
+    /*
     if(mParent != parent && mParent != nullptr) {
         // new parent
         mParent->RemoveChildNode(mName);
-    }
+    } */
 
     mParent = parent;
 }

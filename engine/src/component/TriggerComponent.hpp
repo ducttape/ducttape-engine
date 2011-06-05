@@ -11,19 +11,13 @@ namespace dt {
   * A simple trigger component that triggers a callback on certain conditions.
   * @warning Class not complete.
   */
-class TriggerComponent : public Component<TriggerComponentListener> {
+class TriggerComponent : public Component {
 public:
     /**
       * Advanced constructor.
       * @see Component
       */
-    TriggerComponent(TriggerComponentListener* custom_listener = new TriggerComponentListener());
-
-    /**
-      * Advanced constructor.
-      * @see Component
-      */
-    TriggerComponent(const std::string& name, TriggerComponentListener* custom_listener = new TriggerComponentListener());
+    TriggerComponent(const std::string& name = "", TriggerComponentListener* custom_listener = new TriggerComponentListener());
 
     virtual void HandleEvent(Event* e);
 };

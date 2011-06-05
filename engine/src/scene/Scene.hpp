@@ -18,16 +18,18 @@ public:
     /**
       * Default constructor.
       */
-    Scene();
+    Scene(const std::string& name);
 
     Ogre::SceneManager* GetSceneManager();
+
+    const std::string& GetName();
 
 protected:
     bool _IsScene();
 
 private:
+    std::string mName;
     Node mRootNode; //!< The root Node of the Scene.
-    Ogre::SceneManager* mSceneManager;
 };
 
 }

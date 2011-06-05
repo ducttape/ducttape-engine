@@ -10,8 +10,7 @@
 
 namespace dt {
 
-class CameraComponent : public Component<CameraComponentListener>
-{
+class CameraComponent : public Component {
 public:
     /**
       * Advanced constructor.
@@ -24,6 +23,7 @@ public:
     void OnActivate();
     void OnDeactivate();
     void OnUpdate();
+
 
 private:
     Ogre::Camera* mCamera;
