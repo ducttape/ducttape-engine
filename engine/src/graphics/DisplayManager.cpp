@@ -2,7 +2,9 @@
 
 namespace dt {
 
-DisplayManager::DisplayManager() {}
+DisplayManager::DisplayManager() {
+    mOgreRoot = std::shared_ptr<Ogre::Root>(nullptr);
+}
 
 DisplayManager::~DisplayManager() {}
 
@@ -48,8 +50,10 @@ bool DisplayManager::ActivateCamera(const std::string& name) {
 }
 
 void DisplayManager::Render() {
-    mOgreRoot->renderOneFrame();
-    Ogre::WindowEventUtilities::messagePump();
+    if(mOgreRoot.get() != nullptr) {
+        mOgreRoot->renderOneFrame();
+        Ogre::WindowEventUtilities::messagePump();
+    }
 }
 
 Ogre::SceneManager* DisplayManager::GetSceneManager(const std::string& scene) {
