@@ -5,11 +5,6 @@
 
 namespace dt {
 
-/**
-  * The ComponentListener for the TriggerComponent.
-  * @see TriggerComponent
-  * @todo Do we need something here?
-  */
 class CameraComponentListener : public ComponentListener {
 public:
     // empty !?

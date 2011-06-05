@@ -82,6 +82,7 @@ void Node::SetPosition(Ogre::Vector3 position, Node::RelativeTo rel) {
     } else {
         mPosition = position - mParent->GetPosition(SCENE);
     }
+    _UpdateAllComponents();
 }
 
 Ogre::Vector3 Node::GetScale(Node::RelativeTo rel) const {
@@ -100,6 +101,7 @@ void Node::SetScale(Ogre::Vector3 scale, Node::RelativeTo rel) {
         Ogre::Vector3 p = mParent->GetScale(SCENE);
         mScale = Ogre::Vector3(scale.x / p.x, scale.y / p.y, scale.z / p.z);
     }
+    _UpdateAllComponents();
 }
 
 void Node::SetScale(Ogre::Real scale, Node::RelativeTo rel) {
@@ -124,6 +126,7 @@ void Node::SetRotation(Ogre::Quaternion rotation, Node::RelativeTo rel) {
         // Ogre::Quaternion p = mParent->GetRotation(SCENE);
         mRotation = rotation;
     }
+    _UpdateAllComponents();
 }
 
 void Node::SetParent(Node* parent) {
@@ -140,6 +143,9 @@ void Node::SetParent(Node* parent) {
     } */
 
     mParent = parent;
+
+    // the absolute position might have changed!
+    _UpdateAllComponents();
 }
 
 Node* Node::GetParent() {
@@ -157,6 +163,12 @@ Scene* Node::GetScene() {
 
 bool Node::_IsScene() {
     return false;
+}
+
+void Node::_UpdateAllComponents() {
+    for(std::shared_ptr<Component> c: Root::get_mutable_instance().GetComponentsManager()->GetComponentsOfNode(mName)) {
+        c->OnUpdate();
+    }
 }
 
 }

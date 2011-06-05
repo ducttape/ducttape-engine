@@ -18,6 +18,7 @@ void ResourceManager::AddResourceLocation(const boost::filesystem::path& path, c
         dt::Logger::Get().Error("Path \""+path.string()+"\" not found.");
     }
 
+    Root::get_mutable_instance().GetDisplayManager()->CreateOgreRoot();
     Ogre::ResourceGroupManager::getSingleton().addResourceLocation(path.string(), type, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, recursive);
 }
 
@@ -57,6 +58,5 @@ const sf::SoundBuffer& ResourceManager::GetSoundBuffer(const std::string& sound_
 		exit(1);
 	}
 }
-
 
 }

@@ -31,6 +31,7 @@
 #include "event/EventManager.hpp"
 #include "network/NetworkManager.hpp"
 #include "graphics/DisplayManager.hpp"
+#include "resources/ResourceManager.hpp"
 
 namespace dt {
 
@@ -105,6 +106,12 @@ public:
       */
     ComponentsManager* GetComponentsManager();
 
+    /**
+      * Returns the ResourceManager.
+      * @returns the ResourceManager
+      */
+    ResourceManager* GetResourceManager();
+
 private:
     StringManager* mStringManager;  //!< pointer to the StringManager
     LogManager* mLogManager;        //!< pointer to the LogManager
@@ -113,6 +120,7 @@ private:
     EventManager* mEventManager;    //!< pointer to the EventManager
     NetworkManager* mNetworkManager;    //!< pointer to the NetworkManager
     DisplayManager* mDisplayManager;    //!< pointer to the DisplayManager
+    ResourceManager* mResourceManager;  //!< pointer to the ResourceManager
 };
 
 }

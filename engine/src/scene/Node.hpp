@@ -152,6 +152,7 @@ public:
 
 protected:
     virtual bool _IsScene();
+    void _UpdateAllComponents();
 
 private:
     std::string mName;          //!< The Node name.

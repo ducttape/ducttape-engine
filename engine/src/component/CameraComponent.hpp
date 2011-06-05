@@ -4,6 +4,7 @@
 #include <string>
 
 #include <OGRE/OgreCamera.h>
+#include <OGRE/OgreViewport.h>
 
 #include "component/Component.hpp"
 #include "component/CameraComponentListener.hpp"
@@ -26,6 +27,7 @@ public:
 
 private:
     Ogre::Camera* mCamera;
+    Ogre::Viewport* mViewport;
 };
 
 }

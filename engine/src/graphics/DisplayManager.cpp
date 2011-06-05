@@ -70,7 +70,14 @@ Ogre::SceneManager* DisplayManager::GetSceneManager(const std::string& scene) {
     return mSceneManagers[scene];
 }
 
+Ogre::RenderWindow* DisplayManager::GetRenderWindow() {
+    return mOgreRenderWindow;
+}
+
 void DisplayManager::_CreateWindow() {
+    if(mOgreRoot != nullptr) {
+        return;
+    }
     mOgreRoot = new Ogre::Root();
 
     mOgreRoot->loadPlugin("/usr/lib/OGRE/RenderSystem_GL.so");
@@ -87,6 +94,11 @@ void DisplayManager::_DestroyWindow() {
     delete mOgreRoot;
 }
 
-void DisplayManager::_CreateViewport() {}
+void DisplayManager::CreateOgreRoot() {
+    if(mOgreRoot == nullptr) {
+        _CreateWindow();
+    }
+}
 
 }
+
