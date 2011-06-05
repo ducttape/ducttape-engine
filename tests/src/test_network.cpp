@@ -47,6 +47,10 @@ public:
 
 class CustomServerEventManager : public dt::EventListener {
 public:
+    CustomServerEventManager() {
+        mDataReceived = 0;
+    }
+
     void HandleEvent(dt::Event* e) {
         if(e->GetType() == "CUSTOMNETWORKEVENT") {
             CustomNetworkEvent* c = (CustomNetworkEvent*)e;
@@ -54,9 +58,13 @@ public:
                 std::cout << "Server: received CustomNetworkEvent" << std::endl;
                 // send it back, adding 1 to the data
                 dt::Root::get_mutable_instance().GetEventManager()->HandleEvent(new CustomNetworkEvent(c->mData + DATA_INCREMENT, CustomNetworkEvent::SERVER));
+                mDataReceived = c->mData;
             }
         }
     }
+
+public:
+    uint32_t mDataReceived;
 };
 
 class CustomClientEventManager : public dt::EventListener {
@@ -83,14 +91,19 @@ void server() {
     dt::Root& root = dt::Root::get_mutable_instance();
     std::cout << "-- Running server" << std::endl;
 
-    root.GetEventManager()->AddListener(new CustomServerEventManager());
+    CustomServerEventManager csem;
+    root.GetEventManager()->AddListener(&csem);
 
     dt::NetworkManager* nm = root.GetNetworkManager();
     nm->BindSocket(SERVER_PORT);
-    while(true) {
+    while(csem.mDataReceived == 0) {
         nm->HandleIncomingEvents();
         nm->SendQueuedEvents();
         sf::Sleep(100);
+        if(root.GetTimeSinceInitialize() > 5000) {
+            std::cerr << "Server: Time out of 5 seconds reached" << std::endl;
+            exit(5);
+        }
     }
 }
 
@@ -112,6 +125,10 @@ void client() {
         nm->HandleIncomingEvents();
         nm->SendQueuedEvents();
         sf::Sleep(100);
+        if(root.GetTimeSinceInitialize() > 5000) {
+            std::cerr << "Client: Time out of 5 seconds reached" << std::endl;
+            exit(5);
+        }
     }
 
     bool correct_data = ((int)ccem.mDataReceived == data + DATA_INCREMENT);
