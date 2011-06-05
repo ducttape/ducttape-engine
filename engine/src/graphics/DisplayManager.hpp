@@ -91,7 +91,7 @@ private:
     std::map<std::string, CameraComponent*> mCameras;
     std::map<std::string, Ogre::SceneManager*> mSceneManagers;
 
-    std::shared_ptr<Ogre::Root> mOgreRoot;
+    Ogre::Root* mOgreRoot;
     Ogre::RenderSystem* mOgreRenderSystem;
     Ogre::RenderWindow* mOgreRenderWindow;
     Ogre::Viewport* mOgreViewport;

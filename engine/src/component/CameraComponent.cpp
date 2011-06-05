@@ -19,7 +19,6 @@ void CameraComponent::OnActivate() {
 }
 
 void CameraComponent::OnDeactivate() {
-    Root::get_mutable_instance().GetDisplayManager()->UnregisterCamera(this);
     mCamera->getSceneManager()->destroyCamera(mCamera);
 }
 

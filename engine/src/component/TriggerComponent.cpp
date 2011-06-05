@@ -12,4 +12,10 @@ void TriggerComponent::HandleEvent(Event* e) {
     }
 }
 
+void TriggerComponent::OnActivate() {}
+
+void TriggerComponent::OnDeactivate() {}
+
+void TriggerComponent::OnUpdate() {}
+
 }
