@@ -20,8 +20,8 @@ int main() {
         uint8_t ip = dt::Random::Get(1, 255);
         uint16_t port = dt::Random::Get(1001, 51311);
 
-        dt::Connection* connection = new dt::Connection(sf::IpAddress("127.168.178."+dt::tostr(ip)), port+i);
-        uint16_t connection_id = connections_manager.AddConnection(connection);
+        auto connection = std::shared_ptr<dt::Connection>(new dt::Connection(sf::IpAddress("127.168.178."+dt::tostr(ip)), port+i));
+        uint16_t connection_id = connections_manager.AddConnection(connection.get());
         if(connection_id != 0) {
            connections[connection_id] = std::shared_ptr<dt::Connection>(connection);
 
