@@ -12,8 +12,8 @@ public:
         std::cout << "  1 - Event mode  - 1000ms" << std::endl;
         std::cout << "  2 - Thread mode - 2010ms" << std::endl;
 
-        mTimer1 = new dt::Timer("Timer 1 (event mode)", 1000, true, false);
-        mTimer2 = new dt::Timer("Timer 2 (thread mode)", 2010, true, true);
+        mTimer1 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 1 (event mode)", 1000, true, false));
+        mTimer2 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 2 (thread mode)", 2010, true, true));
 
         dt::Root::get_mutable_instance().GetEventManager()->AddListener(this);
 
@@ -42,8 +42,8 @@ public:
     }
 
 public:
-    dt::Timer* mTimer1;
-    dt::Timer* mTimer2;
+    std::shared_ptr<dt::Timer> mTimer1;
+    std::shared_ptr<dt::Timer> mTimer2;
     int mTimer1Count;
     int mTimer2Count;
 
