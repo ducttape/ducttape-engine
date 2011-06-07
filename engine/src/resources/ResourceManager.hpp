@@ -55,7 +55,7 @@ public:
       * @see http://www.sfml-dev.org/documentation/2.0/classsf_1_1SoundBuffer.php#aec8a8960c145915855d956600e9c7032
       * @todo Merge this into AddResourceLocation
       */
-	bool AddSoundBuffer(const boost::filesystem::path& path, const std::string& sound_key="");
+	bool AddSoundBuffer(const boost::filesystem::path& path, const std::string& sound_file="");
 
     /**
       * Retrieves a single sound buffer from memory. If the requested soundbuffer is not found,
@@ -64,10 +64,22 @@ public:
       * @returns A reference to the requested sound buffer.
       * @todo This shouldn't really be required if resources or loaded automatically in a lazy manner.
       */
-    const sf::SoundBuffer& GetSoundBuffer(const std::string& sound_key);
+    const sf::SoundBuffer& GetSoundBuffer(const std::string& sound_file);
+
+    /**
+     * Adds a single music file to memory.
+     * @todo Merge this into AddResourceLocation
+     */
+    bool AddMusicFile(const boost::filesystem::path& path, const std::string& music_file="");
+
+    /**
+     * Retrieves a single music file from memory.
+     */
+
+    sf::Music* GetMusicFile(const std::string& music_file);
  
 private:
-	boost::ptr_map<std::string, sf::Music> mMusic; //!< Pool of registered music objects. This does not actually contain the music data since music is actually streamed.
+	std::map<std::string, sf::Music*> mMusic; //!< Pool of registered music objects. This does not actually contain the music data since music is actually streamed.
 	boost::ptr_map<std::string, sf::SoundBuffer> mSoundBuffers; //!< Pool of registered sound buffers. These are in fact loaded into memory.
 };
 
