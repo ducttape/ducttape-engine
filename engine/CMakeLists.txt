@@ -31,6 +31,9 @@ target_link_libraries(ducttape
     ${MYGUI_PLATFORM_LIBRARIES}
 )
 
+set_target_properties(ducttape
+    PROPERTIES SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR})
+
 install(TARGETS ducttape
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
