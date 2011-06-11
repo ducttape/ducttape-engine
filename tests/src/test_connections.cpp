@@ -17,7 +17,7 @@ int main() {
 
     // Test AddConnection()
     for(uint8_t i = 0; i <= max_connections; ++i) { // this will get us up to 21 connections
-        uint8_t ip = dt::Random::Get(1, 255);
+        uint16_t ip = dt::Random::Get(1, 255);
         uint16_t port = dt::Random::Get(1001, 51311);
 
         auto connection = std::shared_ptr<dt::Connection>(new dt::Connection(sf::IpAddress("127.168.178."+dt::tostr(ip)), port+i));
