@@ -21,7 +21,7 @@ void ComponentsManager::Deinitialize() {
 
 void ComponentsManager::AddComponent(Node* node, Component* component) {
     if(component != nullptr && FindComponent(component->GetName()) == nullptr) {
-        auto ptr = std::shared_ptr<Component>(component);
+        std::shared_ptr<Component> ptr(component);
         ptr->SetNode(node);
         ptr->Activate();
         mComponents.insert(std::pair<std::string, std::shared_ptr<Component> >(
