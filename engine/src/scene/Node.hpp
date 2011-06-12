@@ -40,7 +40,7 @@ public:
       * Adds a Node as child.
       * @param child The Node to be added as child
       */
-    void AddChildNode(Node *child);
+    void AddChildNode(Node* child);
 
     /**
       * Assigns a component to this node. The component is being added into ComponentsManager.

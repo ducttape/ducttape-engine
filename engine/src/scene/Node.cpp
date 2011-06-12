@@ -25,7 +25,7 @@ Node::Node(const std::string& name) {
 
 void Node::AddChildNode(Node* child) {
     std::string key = child->GetName();
-    mChildren[key] = *child;
+    mChildren.insert(key, child);
     mChildren[key].SetParent(this);
 }
 
