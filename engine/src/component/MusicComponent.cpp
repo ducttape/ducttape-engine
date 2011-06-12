@@ -18,6 +18,11 @@ void MusicComponent::HandleEvent(Event* e) {
         } else {
             resmgr->GetMusicFile(mMusicFile)->Pause();
         }
+    } else if(e->GetType() == "DT_MUSICSTOPEVENT") {
+        resmgr->GetMusicFile(mMusicFile)->Stop();
+    } else if(e->GetType() == "DT_MUSICSTARTEVENT") {
+        resmgr->GetMusicFile(mMusicFile)->Stop();
+        resmgr->GetMusicFile(mMusicFile)->Play();
     }
 }
 
@@ -46,9 +51,6 @@ const std::string& MusicComponent::GetMusicFile() const {
 }
 
 void MusicComponent::_LoadMusic() {
-    // stop existing music
-    _StopMusic();
-
     if(mMusicFile == "") {
         Logger::Get().Error("MusicComponent [" + mName + "]: Needs a music file.");
     }

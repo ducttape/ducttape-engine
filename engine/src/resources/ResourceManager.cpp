@@ -63,10 +63,10 @@ bool ResourceManager::AddMusicFile(const boost::filesystem::path& path, const st
         Logger::Get().Error("Path \""+path.string()+"\" not found.");
     }
 
-    // if the optional param key is not given, use the basename as key
+    // if the optional param music_file is not given, use the basename as key
     std::string music_key = "";
     if(music_file == "") {
-        music_key = boost::filesystem::basename(path.string());
+        music_key = path.string();
     } else {
         music_key = music_file;
     }
@@ -76,16 +76,16 @@ bool ResourceManager::AddMusicFile(const boost::filesystem::path& path, const st
         return true;
     }
 
-    sf::Music music;
-    if(!music.OpenFromFile(path.string())) {
+    boost::shared_ptr<sf::Music> music(new sf::Music());
+    if(!music->OpenFromFile(path.string())) {
         Logger::Get().Error("Loading \""+path.string()+"\" failed.");
     }
-    mMusic[music_key] = &music;
+    mMusic[music_key] = music;
 
     return true;
 }
 
-sf::Music* ResourceManager::GetMusicFile(const std::string& music_file) {
+boost::shared_ptr<sf::Music> ResourceManager::GetMusicFile(const std::string& music_file) {
 	if(mMusic.count(music_file) >= 1) {
 		return mMusic[music_file];
 	} else {
