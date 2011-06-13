@@ -42,6 +42,7 @@ public:
 
     /**
       * Adds a component to the pool.
+      * @param node The Node the new component is assigned to.
       * @param component The Component to add.
       */
     void AddComponent(Node* node, Component* component);

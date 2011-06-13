@@ -45,7 +45,7 @@ public:
     /**
       * Assigns a component to this node. The component is being added into ComponentsManager.
       * @see ComponentsManager
-      * @param name The Component to be assigned.
+      * @param component The Component to be assigned.
       */
     void AddComponent(Component* component);
 
