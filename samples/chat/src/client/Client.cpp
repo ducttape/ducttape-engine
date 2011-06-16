@@ -8,6 +8,8 @@ Client::Client() {
 
 void Client::OnInitialize() {
     dt::Root::get_mutable_instance().GetEventManager()->AddListener(this);
+    dt::Logger::Get().GetStream("debug")->SetDisabled(true);
+    dt::Logger::Get().GetStream("info")->SetDisabled(true);
 
     dt::Root::get_mutable_instance().GetNetworkManager()->RegisterNetworkEventPrototype(new ChatMessageEvent("",""));
     dt::Root::get_mutable_instance().GetNetworkManager()->BindSocket();

@@ -29,5 +29,7 @@ void Server::HandleEvent(dt::Event* e) {
             dt::Root::get_mutable_instance().GetEventManager()->HandleEvent(new ChatMessageEvent(c->GetMessage(), c->GetSenderNick()));
         }
 
+    } else if(e->GetType() == "DT_GOODBYEEVENT") {
+        dt::Logger::Get().Info("Client disconnected: " + ((dt::GoodbyeEvent*)e)->GetReason());
     }
 }
