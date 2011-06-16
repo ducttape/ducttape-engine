@@ -16,6 +16,6 @@ void TriggerComponent::OnActivate() {}
 
 void TriggerComponent::OnDeactivate() {}
 
-void TriggerComponent::OnUpdate() {}
+void TriggerComponent::OnUpdate(float time_diff) {}
 
 }

@@ -21,7 +21,7 @@ public:
 
     void OnActivate();
     void OnDeactivate();
-    void OnUpdate();
+    void OnUpdate(float time_diff);
 
     void SetMusicFile(const std::string& music_file);
     const std::string& GetMusicFile() const;

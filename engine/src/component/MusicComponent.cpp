@@ -34,7 +34,7 @@ void MusicComponent::OnDeactivate() {
     _StopMusic();
 }
 
-void MusicComponent::OnUpdate() {
+void MusicComponent::OnUpdate(float time_diff) {
 
 }
 

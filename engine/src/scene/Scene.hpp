@@ -13,16 +13,20 @@ namespace dt {
 /**
   * A class to represent a whole scene of the game world.
   */
-class Scene : public Node {
+class Scene : public Node, public EventListener {
 public:
     /**
       * Default constructor.
       */
     Scene(const std::string& name);
 
+    ~Scene();
+
     Ogre::SceneManager* GetSceneManager();
 
     const std::string& GetName();
+
+    void HandleEvent(Event* e);
 
 protected:
     bool _IsScene();

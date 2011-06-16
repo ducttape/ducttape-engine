@@ -59,7 +59,7 @@ public:
 
     virtual void OnActivate() {}
     virtual void OnDeactivate() {}
-    virtual void OnUpdate() {}
+    virtual void OnUpdate(float time_diff) {}
 
     void SetNode(Node* node) {
         mNode = node;

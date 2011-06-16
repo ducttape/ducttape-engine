@@ -154,9 +154,12 @@ public:
       */
     Scene* GetScene();
 
+    virtual void OnUpdate(float time_diff);
+
 protected:
     virtual bool _IsScene();
-    void _UpdateAllComponents();
+    void _UpdateAllComponents(float time_diff);
+    void _UpdateAllChildren(float time_diff);
 
     std::map<std::string, std::shared_ptr<Component> > mComponents;   //!< The list of Components.
 

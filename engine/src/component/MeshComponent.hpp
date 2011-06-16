@@ -20,10 +20,19 @@ public:
 
     void OnActivate();
     void OnDeactivate();
-    void OnUpdate();
+    void OnUpdate(float time_diff);
 
     void SetMeshFile(const std::string& mesh_file);
     const std::string& GetMeshFile() const;
+
+    std::vector<std::string> GetAvailableAnimations();
+    void SetAnimation(const std::string& animation_state);
+
+    void PlayAnimation();
+    void StopAnimation();
+    void PauseAnimation();
+    void SetLoopAnimation(bool loop_animation);
+    bool GetLoopAnimation();
 
 private:
     void _LoadMesh();
@@ -31,6 +40,8 @@ private:
 
     Ogre::SceneNode* mSceneNode;
     Ogre::Entity* mEntity;
+    Ogre::AnimationState* mAnimationState;
+    bool mLoopAnimation;
 
     std::string mMeshFile;
 };

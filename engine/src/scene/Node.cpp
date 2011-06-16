@@ -37,7 +37,7 @@ void Node::AddComponent(Component* component) {
         ptr->Activate();
         mComponents.insert(std::pair<std::string, std::shared_ptr<Component> >(cname, ptr));
 
-        _UpdateAllComponents();
+        _UpdateAllComponents(0);
     }
 }
 
@@ -95,7 +95,7 @@ void Node::SetPosition(Ogre::Vector3 position, Node::RelativeTo rel) {
     } else {
         mPosition = position - mParent->GetPosition(SCENE);
     }
-    _UpdateAllComponents();
+    _UpdateAllComponents(0);
 }
 
 Ogre::Vector3 Node::GetScale(Node::RelativeTo rel) const {
@@ -114,7 +114,7 @@ void Node::SetScale(Ogre::Vector3 scale, Node::RelativeTo rel) {
         Ogre::Vector3 p = mParent->GetScale(SCENE);
         mScale = Ogre::Vector3(scale.x / p.x, scale.y / p.y, scale.z / p.z);
     }
-    _UpdateAllComponents();
+    _UpdateAllComponents(0);
 }
 
 void Node::SetScale(Ogre::Real scale, Node::RelativeTo rel) {
@@ -139,7 +139,7 @@ void Node::SetRotation(Ogre::Quaternion rotation, Node::RelativeTo rel) {
         // Ogre::Quaternion p = mParent->GetRotation(SCENE);
         mRotation = rotation;
     }
-    _UpdateAllComponents();
+    _UpdateAllComponents(0);
 }
 
 void Node::SetParent(Node* parent) {
@@ -158,7 +158,7 @@ void Node::SetParent(Node* parent) {
     mParent = parent;
 
     // the absolute position might have changed!
-    _UpdateAllComponents();
+    _UpdateAllComponents(0);
 }
 
 Node* Node::GetParent() {
@@ -174,13 +174,24 @@ Scene* Node::GetScene() {
         return nullptr;
 }
 
+void Node::OnUpdate(float time_diff) {
+    _UpdateAllChildren(time_diff);
+    _UpdateAllComponents(time_diff);
+}
+
 bool Node::_IsScene() {
     return false;
 }
 
-void Node::_UpdateAllComponents() {
+void Node::_UpdateAllComponents(float time_diff) {
     for(std::pair<std::string, std::shared_ptr<Component> > pair: mComponents) {
-        pair.second->OnUpdate();
+        pair.second->OnUpdate(time_diff);
+    }
+}
+
+void Node::_UpdateAllChildren(float time_diff) {
+    for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
+        iter->second->OnUpdate(time_diff);
     }
 }
 

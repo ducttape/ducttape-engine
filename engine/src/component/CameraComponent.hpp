@@ -23,7 +23,7 @@ public:
 
     void OnActivate();
     void OnDeactivate();
-    void OnUpdate();
+    void OnUpdate(float time_diff);
 
 private:
     Ogre::Camera* mCamera;

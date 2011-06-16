@@ -11,6 +11,7 @@ MeshComponent::MeshComponent(const std::string& name, const std::string& mesh_fi
     mEntity = nullptr;
     mSceneNode = nullptr;
     mMeshFile = mesh_file;
+    mAnimationState = nullptr;
 }
 
 void MeshComponent::HandleEvent(Event* e) {
@@ -25,11 +26,16 @@ void MeshComponent::OnDeactivate() {
     _DestroyMesh();
 }
 
-void MeshComponent::OnUpdate() {
+void MeshComponent::OnUpdate(float time_diff) {
     // set position, rotation and scale of the node
     mSceneNode->setPosition(GetNode()->GetPosition(Node::SCENE));
     mSceneNode->setOrientation(GetNode()->GetRotation(Node::SCENE));
     mSceneNode->setScale(GetNode()->GetScale(Node::SCENE));
+
+
+    if(mAnimationState != nullptr && mAnimationState->getEnabled()) {
+        mAnimationState->addTime(time_diff);
+    }
 }
 
 void MeshComponent::SetMeshFile(const std::string& mesh_file) {
@@ -43,6 +49,66 @@ void MeshComponent::SetMeshFile(const std::string& mesh_file) {
 const std::string& MeshComponent::GetMeshFile() const {
     return mMeshFile;
 }
+
+std::vector<std::string> MeshComponent::GetAvailableAnimations() {
+    std::vector<std::string> result;
+
+    if(mEntity == nullptr)
+        return result;
+
+    Ogre::AnimationStateIterator iter = mEntity->getAllAnimationStates()->getAnimationStateIterator();
+    while(iter.hasMoreElements()) {
+        result.push_back(iter.current()->second->getAnimationName());
+        iter.moveNext();
+    }
+    return result;
+}
+
+void MeshComponent::SetAnimation(const std::string& animation_state) {
+    if(mEntity != nullptr) {
+        mAnimationState = mEntity->getAnimationState(animation_state);
+        mAnimationState->setLoop(mLoopAnimation);
+    } else {
+        Logger::Get().Error("Cannot set animation of component " + GetName() + ": No entity loaded.");
+    }
+}
+
+void MeshComponent::PlayAnimation() {
+    if(mAnimationState != nullptr) {
+        mAnimationState->setEnabled(true);
+    } else {
+        Logger::Get().Error("Cannot play animation of component " + GetName() + ": No animation set.");
+    }
+}
+
+void MeshComponent::StopAnimation() {
+    if(mAnimationState != nullptr) {
+        mAnimationState->setEnabled(false);
+        mAnimationState->setTimePosition(0);
+    } else {
+        Logger::Get().Error("Cannot stop animation of component " + GetName() + ": No animation set.");
+    }
+}
+
+void MeshComponent::PauseAnimation() {
+    if(mAnimationState != nullptr) {
+        mAnimationState->setEnabled(false);
+    } else {
+        Logger::Get().Error("Cannot pause animation of component " + GetName() + ": No animation set.");
+    }
+}
+
+void MeshComponent::SetLoopAnimation(bool loop_animation) {
+    mLoopAnimation = loop_animation;
+    if(mAnimationState != nullptr) {
+        mAnimationState->setLoop(mLoopAnimation);
+    }
+}
+
+bool MeshComponent::GetLoopAnimation() {
+    return mLoopAnimation;
+}
+
 
 void MeshComponent::_LoadMesh() {
     // destroy existing mesh and scene node

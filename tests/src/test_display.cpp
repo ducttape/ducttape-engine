@@ -15,14 +15,15 @@ public:
     void HandleEvent(dt::Event* e) {
         if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             mRuntime += ((dt::BeginFrameEvent*)e)->GetFrameTime();
-            if(mRuntime > 2000) {
-                std::cout << "Request shutdown." << std::endl;
+            if(mRuntime > 5000) {
                 RequestShutdown();
             }
         }
     }
 
     void OnInitialize() {
+        dt::Root::get_mutable_instance().GetEventManager()->AddListener(&mScene);
+
         dt::Root::get_mutable_instance().GetResourceManager()->AddResourceLocation("../data/sinbad.zip","Zip", true);
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
@@ -30,13 +31,19 @@ public:
 
         mScene.AddChildNode(new dt::Node("camnode"));
         mScene.FindChildNode("camnode", false)->AddComponent(new dt::CameraComponent("cam"));
-        mScene.FindChildNode("camnode", false)->SetPosition(Ogre::Vector3(0, 0, -300));
+        mScene.FindChildNode("camnode", false)->SetPosition(Ogre::Vector3(0, 0, 20));
 
         mScene.AddChildNode(new dt::Node("meshnode"));
-        mScene.FindChildNode("meshnode", false)->AddComponent(new dt::MeshComponent("lolmesh", "Sinbad.mesh"));
-
-        // make mSceneNode public for member testing
-        // std::cout << mScene.FindChildNode("meshnode", false)->FindComponent<dt::MeshComponent>("lolmesh")->mSceneNode->getName() << std::endl;
+        dt::MeshComponent* mesh = new dt::MeshComponent("lolmesh", "Sinbad.mesh");
+        mScene.FindChildNode("meshnode", false)->AddComponent(mesh);
+        /* std::cout << "Available Animations: ";
+        for(std::string s: mesh->GetAvailableAnimations()) {
+            std::cout << s << " ";
+        }
+        std::cout << std::endl; */
+        mesh->SetAnimation("Dance");
+        mesh->SetLoopAnimation(true);
+        mesh->PlayAnimation();
     }
 
 private:
