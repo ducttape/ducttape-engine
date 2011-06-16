@@ -20,7 +20,7 @@ Node::Node(const std::string& name) {
 
     mPosition = Ogre::Vector3::ZERO;
     mScale = Ogre::Vector3(1,1,1);
-    mRotation = Ogre::Quaternion::ZERO;
+    mRotation = Ogre::Quaternion::IDENTITY;
 }
 
 void Node::AddChildNode(Node* child) {

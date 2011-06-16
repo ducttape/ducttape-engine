@@ -55,7 +55,7 @@ void MeshComponent::_LoadMesh() {
     Ogre::SceneManager* scene_mgr = GetNode()->GetScene()->GetSceneManager();
     const std::string& nodename = GetNode()->GetName();
     mEntity = scene_mgr->createEntity(nodename + "-mesh-entity-" + mName, mMeshFile);
-    mSceneNode = scene_mgr->createSceneNode(nodename + "-mesh-scenenode-" + mName);
+    mSceneNode = scene_mgr->getRootSceneNode()->createChildSceneNode(nodename + "-mesh-scenenode-" + mName);
     mSceneNode->attachObject(mEntity);
 }
 
