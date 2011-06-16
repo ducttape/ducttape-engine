@@ -91,6 +91,12 @@ public:
       */
     std::vector<Connection*> GetAllConnections();
 
+    /**
+     * Returns the number of active connections.
+     * @returns An int of the number of active connections.
+     */
+    uint16_t GetConnectionCount();
+
 private:
     /**
       * Finds an unused ID to assign to the next Connection.
