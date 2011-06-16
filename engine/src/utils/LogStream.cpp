@@ -15,7 +15,8 @@ std::string LogStream::COLOR_NONE = "\033[0m";
 LogStream::LogStream(const std::string& name) {
     SetName(name);
     SetStream(std::cout);
-    SetFormat("[%1$s | %2$s] %3$s"); // [default | WARNING] This is a warning!
+    SetFormat("[%1$s | %2$s] %3$s"); // e.g.: "[default | WARNING] This is a warning!"
+    SetDisabled(false);
 }
 
 std::string LogStream::FormatMessage(Logger* logger, const std::string& msg) {
@@ -25,7 +26,9 @@ std::string LogStream::FormatMessage(Logger* logger, const std::string& msg) {
 }
 
 void LogStream::Output(Logger* logger, const std::string& msg) {
-    *mStream << FormatMessage(logger, msg) << std::endl;
+    if(!mDisabled) {
+        *mStream << FormatMessage(logger, msg) << std::endl;
+    }
 }
 
 void LogStream::SetStream(std::ostream& stream) {
@@ -42,6 +45,14 @@ void LogStream::SetFormat(const std::string& format) {
 
 const std::string& LogStream::GetName() const {
     return mName;
+}
+
+void LogStream::SetDisabled(bool disabled) {
+    mDisabled = disabled;
+}
+
+bool LogStream::IsDisabled() const {
+    return mDisabled;
 }
 
 }

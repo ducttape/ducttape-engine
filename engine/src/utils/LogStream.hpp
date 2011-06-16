@@ -74,10 +74,25 @@ public:
       * @returns the Logger's name
       */
     const std::string& GetName() const;
+
+    /**
+      * Sets whether messages should be written to this stream or not. Useful for disabling some streams, e.g. DEBUG, while keeping
+      * more important streams enabled, e.g. ERROR.
+      * @param disabled Whether the stream should be disabled or not.
+      */
+    void SetDisabled(bool disabled);
+
+    /**
+      * Returns whether the stream is disabled.
+      * @returns Whether the stream is disabled.
+      */
+    bool IsDisabled() const;
 private:
     std::ostream* mStream;  //!< the output stream
     std::string mFormat;    //!< the message format
     std::string mName;      //!< this LogStream's name, also called "log level"
+
+    bool mDisabled;
 };
 
 }
