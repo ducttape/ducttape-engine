@@ -34,6 +34,9 @@ public:
 
         mScene.AddChildNode(new dt::Node("meshnode"));
         mScene.FindChildNode("meshnode", false)->AddComponent(new dt::MeshComponent("lolmesh", "Sinbad.mesh"));
+
+        // make mSceneNode public for member testing
+        // std::cout << mScene.FindChildNode("meshnode", false)->FindComponent<dt::MeshComponent>("lolmesh")->mSceneNode->getName() << std::endl;
     }
 
 private:

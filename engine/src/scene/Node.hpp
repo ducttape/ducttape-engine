@@ -43,8 +43,7 @@ public:
     void AddChildNode(Node* child);
 
     /**
-      * Assigns a component to this node. The component is being added into ComponentsManager.
-      * @see ComponentsManager
+      * Assigns a component to this node.
       * @param component The Component to be assigned.
       */
     void AddComponent(Component* component);
@@ -57,10 +56,16 @@ public:
       */
     Node* FindChildNode(const std::string& name, bool recursive = true);
 
+    template <typename ComponentType>
+    ComponentType* FindComponent(const std::string& name) {
+        if(!HasComponent(name))
+            return nullptr;
+        return dynamic_cast<ComponentType*>(mComponents[name].get());
+    }
+
     /**
       * Returns whether this node has the component assigned.
       * @param name The name of the Component.
-      * @see ComponentsManager
       * @returns true if the component is assigned, otherwise false
       */
     bool HasComponent(const std::string& name);
@@ -73,7 +78,6 @@ public:
 
     /**
       * Removes a Component with a specific name.
-      * @see ComponentsManager
       * @param name The name of the Component to be removed.
       */
     void RemoveComponent(const std::string& name);
@@ -153,6 +157,8 @@ public:
 protected:
     virtual bool _IsScene();
     void _UpdateAllComponents();
+
+    std::map<std::string, std::shared_ptr<Component> > mComponents;   //!< The list of Components.
 
 private:
     std::string mName;          //!< The Node name.

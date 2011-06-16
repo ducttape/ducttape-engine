@@ -27,7 +27,6 @@
 
 #include <boost/serialization/singleton.hpp>
 
-#include "scene/ComponentsManager.hpp"
 #include "utils/StringManager.hpp"
 #include "utils/LogManager.hpp"
 #include "states/StateManager.hpp"
@@ -110,12 +109,6 @@ public:
     DisplayManager* GetDisplayManager();
 
     /**
-      * Returns the ComponentsManager.
-      * @returns the ComponentsManager
-      */
-    ComponentsManager* GetComponentsManager();
-
-    /**
       * Returns the ResourceManager.
       * @returns the ResourceManager
       */
@@ -125,7 +118,6 @@ private:
     sf::Clock mSfClock;             //!< sf::Clock for keeping time since Initialize()
     StringManager* mStringManager;  //!< pointer to the StringManager
     LogManager* mLogManager;        //!< pointer to the LogManager
-    ComponentsManager* mComponentsManager;  //!< pointer to the ComponentsManager
     StateManager* mStateManager;    //!< pointer to the StateManager
     EventManager* mEventManager;    //!< pointer to the EventManager
     NetworkManager* mNetworkManager;    //!< pointer to the NetworkManager

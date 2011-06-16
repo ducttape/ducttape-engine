@@ -30,10 +30,15 @@ void Node::AddChildNode(Node* child) {
 }
 
 void Node::AddComponent(Component* component) {
-    if(!HasComponent(component->GetName()))
-        Root::get_mutable_instance().GetComponentsManager()->AddComponent(this, component);
+    const std::string& cname = component->GetName();
+    if(!HasComponent(cname)) {
+        std::shared_ptr<Component> ptr(component);
+        ptr->SetNode(this);
+        ptr->Activate();
+        mComponents.insert(std::pair<std::string, std::shared_ptr<Component> >(cname, ptr));
 
-    _UpdateAllComponents();
+        _UpdateAllComponents();
+    }
 }
 
 Node* Node::FindChildNode(const std::string& name, bool recursive) {
@@ -55,7 +60,7 @@ Node* Node::FindChildNode(const std::string& name, bool recursive) {
 }
 
 bool Node::HasComponent(const std::string &name) {
-    return Root::get_mutable_instance().GetComponentsManager()->GetNodeOfComponent(name) == mName;
+    return (mComponents.count(name) > 0);
 }
 
 void Node::RemoveChildNode(const std::string& name) {
@@ -66,7 +71,9 @@ void Node::RemoveChildNode(const std::string& name) {
 
 void Node::RemoveComponent(const std::string& name) {
     if(HasComponent(name)) {
-        Root::get_mutable_instance().GetComponentsManager()->DestroyComponent(name);
+        mComponents[name]->Deactivate();
+        mComponents[name]->SetNode(nullptr);
+        mComponents.erase(name);
     }
 }
 
@@ -172,8 +179,8 @@ bool Node::_IsScene() {
 }
 
 void Node::_UpdateAllComponents() {
-    for(std::shared_ptr<Component> c: Root::get_mutable_instance().GetComponentsManager()->GetComponentsOfNode(mName)) {
-        c->OnUpdate();
+    for(std::pair<std::string, std::shared_ptr<Component> > pair: mComponents) {
+        pair.second->OnUpdate();
     }
 }
 

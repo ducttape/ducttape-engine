@@ -44,7 +44,7 @@ public:
       * Tries to register a camera.
       * This will fail if the same CameraComponent is already registered. The first CameraComponent that gets registered will also trigger the creation of the render window.
       * @param camera_component Pointer to to the camera component. It should come out of the
-      * ComponentsManager to ensure the pointer will always be safe and sound.
+      * Node itself to ensure the pointer will always be safe and sound.
       * @returns \c true for success and \c false in case the CameraComponent is already registered.
       */
     bool RegisterCamera(CameraComponent* camera_component);
@@ -53,7 +53,7 @@ public:
       * Tries to unregister a camera.
       * This will fail if the CameraComponent is not registered. Unregistering the last CameraComponent will trigger the destruction of the render window.
       * @param camera_component Pointer to to the camera component. It should come out of the
-      * ComponentsManager to ensure the pointer will always be safe and sound.
+      * Node itself to ensure the pointer will always be safe and sound.
       * @returns \c true for success and \c false in case the CameraComponent is not found.
       */
     bool UnregisterCamera(CameraComponent* camera_component);
