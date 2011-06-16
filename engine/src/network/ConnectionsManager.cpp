@@ -83,4 +83,8 @@ ConnectionsManager::ID_t ConnectionsManager::_GetNewID() {
     return 0;
 }
 
+uint16_t ConnectionsManager::GetConnectionCount() {
+    return mConnections.size();
+}
+
 }

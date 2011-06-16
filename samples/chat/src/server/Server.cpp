@@ -10,11 +10,20 @@ void Server::OnInitialize() {
 }
 
 void Server::HandleEvent(dt::Event* e) {
+    // This is quite useful for debugging purposes.
+    //dt::Logger::Get().Info("There are " + boost::lexical_cast<std::string>(dt::Root::get_mutable_instance().GetNetworkManager()->GetConnectionsManager()->GetConnectionCount()) + " connections active.");
+
     if(e->GetType() == "CHATMESSAGEEVENT") {
         ChatMessageEvent* c = (ChatMessageEvent*)e;
 
         if(c->IsLocalEvent()) { // we just received this
-            std::cout << std::endl << c->GetSenderNick() << ": " << c->GetMessage() << std::endl;
+
+            if(c->GetMessage() == "/help") {
+                std::string msg = "\nThe following commands are available:\n    /help - This message\n    /quit - disconnects from the server\n    /nick [nickname] - changes your nickname";
+                dt::Root::get_mutable_instance().GetEventManager()->HandleEvent(new ChatMessageEvent(msg, c->GetSenderNick()));
+            } else {
+                std::cout << std::endl << c->GetSenderNick() << ": " << c->GetMessage() << std::endl;
+            }
 
             // send back to everyone else
             dt::Root::get_mutable_instance().GetEventManager()->HandleEvent(new ChatMessageEvent(c->GetMessage(), c->GetSenderNick()));
