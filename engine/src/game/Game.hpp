@@ -4,6 +4,7 @@
 #include "Root.hpp"
 
 #include "event/BeginFrameEvent.hpp"
+#include "event/GoodbyeEvent.hpp"
 
 namespace dt {
 

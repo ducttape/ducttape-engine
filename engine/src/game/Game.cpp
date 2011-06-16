@@ -38,6 +38,12 @@ void Game::Run() {
         // TODO: Simulate something more expensive -> ~ 200 FPS
         sf::Sleep(5);
     }
+
+    // Send the GodbyeEvent to close the network connection.
+    root.GetEventManager()->HandleEvent(new GoodbyeEvent("The client closed the session."));
+    root.GetNetworkManager()->HandleIncomingEvents();
+    root.GetNetworkManager()->SendQueuedEvents();
+
     mIsRunning = false;
 
     root.Deinitialize();

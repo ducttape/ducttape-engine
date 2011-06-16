@@ -120,6 +120,12 @@ void NetworkManager::HandleEvent(Event* e) {
         if(h->GetSenderID() != 0) {
 
         }
+    } else if(e->GetType() == "DT_GOODBYEEVENT") {
+        // client sent a godbye event / server will disconnect the client
+        GoodbyeEvent* g = (GoodbyeEvent*)e;
+        if(g->GetSenderID() != 0) {
+            mConnectionsManager.RemoveConnection(g->GetSenderID());
+        }
     }
 }
 
