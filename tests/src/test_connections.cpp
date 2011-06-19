@@ -7,7 +7,7 @@
 #include "network/ConnectionsManager.hpp"
 #include "utils/Random.hpp"
 
-int main() {
+int main(int argc, char** argv) {
     bool broken = false;
     std::map<uint16_t, std::shared_ptr<dt::Connection>> connections;
     dt::ConnectionsManager connections_manager;

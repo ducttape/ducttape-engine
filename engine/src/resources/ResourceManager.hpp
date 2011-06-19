@@ -75,10 +75,20 @@ public:
     /**
      * Retrieves a single music file from memory.
      */
-
-   boost::shared_ptr<sf::Music> GetMusicFile(const std::string& music_file);
+    boost::shared_ptr<sf::Music> GetMusicFile(const std::string& music_file);
  
 private:
+    /**
+     * Private method for internal use only. Tries to find the data path using
+     * two different strategies in this order:
+     * -# Starting at the executable path, go up the hierarchy and test each
+     *  path for the existence of data/ (this is convenient for developers)
+     * -# Check compile-time path set by DATA_PATH (this is for system installation)
+     *  @todo Only the first method works for now.
+     */
+    void _FindDataPath();
+
+    boost::filesystem::path mDataPath; //!< Path to the actual data directory. It is set during Initialize().
     std::map<std::string, boost::shared_ptr<sf::Music>> mMusic; //!< Pool of registered music objects. This does not actually contain the music data since music is actually streamed.
 	boost::ptr_map<std::string, sf::SoundBuffer> mSoundBuffers; //!< Pool of registered sound buffers. These are in fact loaded into memory.
 };

@@ -146,7 +146,7 @@ int main(int argc, char** argv) {
     }
 
     dt::Root& root = dt::Root::get_mutable_instance();
-    root.Initialize();
+    root.Initialize(argc, argv);
 
     // register event prototype
     root.GetNetworkManager()->RegisterNetworkEventPrototype(new CustomNetworkEvent(0, CustomNetworkEvent::CLIENT));

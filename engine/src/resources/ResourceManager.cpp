@@ -9,28 +9,36 @@ ResourceManager::ResourceManager() {}
 
 ResourceManager::~ResourceManager() {}
 
-void ResourceManager::Initialize() {}
+void ResourceManager::Initialize() {
+    _FindDataPath();
+}
 
 void ResourceManager::Deinitialize() {}
 
 void ResourceManager::AddResourceLocation(const boost::filesystem::path& path, const std::string& type, bool recursive) {
-    if(!boost::filesystem::exists(path)) {
-        Logger::Get().Error("Path \""+path.string()+"\" not found.");
+    auto full_path = mDataPath / path;
+
+    // Does the path exist?
+    if(!boost::filesystem::exists(full_path)) {
+        Logger::Get().Error("Path \""+full_path.string()+"\" not found.");
     }
 
     Root::get_mutable_instance().GetDisplayManager()->CreateOgreRoot();
-    Ogre::ResourceGroupManager::getSingleton().addResourceLocation(path.string(), type, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, recursive);
+    Ogre::ResourceGroupManager::getSingleton().addResourceLocation(full_path.string(), type, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, recursive);
 }
 
 bool ResourceManager::AddSoundBuffer(const boost::filesystem::path& path, const std::string& sound_file) {
-	if(!boost::filesystem::is_regular_file(path)) {
-        Logger::Get().Error("Path \""+path.string()+"\" not found.");
+    auto full_path = mDataPath / path;
+
+    // Does the path exist?
+	if(!boost::filesystem::is_regular_file(full_path)) {
+        Logger::Get().Error("Path \""+full_path.string()+"\" not found.");
 	}
 
     // if the optional param key is not given, use the basename as key
     std::string sound_key = "";
     if(sound_file == "") {
-        sound_key = boost::filesystem::basename(path.string());
+        sound_key = (path.parent_path() / path.filename()).string();
     } else {
         sound_key = sound_file;
     }
@@ -41,8 +49,8 @@ bool ResourceManager::AddSoundBuffer(const boost::filesystem::path& path, const 
     }
 
 	sf::SoundBuffer sound_buffer;
-	if(!sound_buffer.LoadFromFile(path.string())) {
-        Logger::Get().Error("Loading \""+path.string()+"\" failed.");
+	if(!sound_buffer.LoadFromFile(full_path.string())) {
+        Logger::Get().Error("Loading \""+full_path.string()+"\" failed.");
 	}
 
 	mSoundBuffers[sound_key] = sound_buffer;
@@ -59,14 +67,17 @@ const sf::SoundBuffer& ResourceManager::GetSoundBuffer(const std::string& sound_
 	}
 }
 bool ResourceManager::AddMusicFile(const boost::filesystem::path& path, const std::string& music_file) {
-    if(!boost::filesystem::is_regular_file(path)) {
-        Logger::Get().Error("Path \""+path.string()+"\" not found.");
+    auto full_path = mDataPath / path;
+
+    // Does the path exist?
+    if(!boost::filesystem::is_regular_file(full_path)) {
+        Logger::Get().Error("Path \""+full_path.string()+"\" not found.");
     }
 
     // if the optional param music_file is not given, use the basename as key
     std::string music_key = "";
     if(music_file == "") {
-        music_key = path.string();
+        music_key = (path.parent_path() / path.filename()).string();
     } else {
         music_key = music_file;
     }
@@ -77,8 +88,8 @@ bool ResourceManager::AddMusicFile(const boost::filesystem::path& path, const st
     }
 
     boost::shared_ptr<sf::Music> music(new sf::Music());
-    if(!music->OpenFromFile(path.string())) {
-        Logger::Get().Error("Loading \""+path.string()+"\" failed.");
+    if(!music->OpenFromFile(full_path.string())) {
+        Logger::Get().Error("Loading \""+full_path.string()+"\" failed.");
     }
     mMusic[music_key] = music;
 
@@ -94,5 +105,25 @@ boost::shared_ptr<sf::Music> ResourceManager::GetMusicFile(const std::string& mu
 	}
 }
 
+void ResourceManager::_FindDataPath() {
+    bool found_data_path = false;
+
+    auto path = Root::get_const_instance().GetExecutablePath();
+    while(path.has_parent_path() && !found_data_path) {
+        path = path.parent_path();
+        Logger::Get().Debug("Trying to find data path in \""+path.string()+"\"");
+
+        if(boost::filesystem::is_directory(path / "data")) {
+            found_data_path = true;
+            mDataPath = path / "data";
+            Logger::Get().Info("Found data path: \""+mDataPath.string()+"\"");
+        }
+    }
+
+    if(!found_data_path) {
+        Logger::Get().Error("Unable to find data path");
+        exit(1);
+    }
+}
 
 }

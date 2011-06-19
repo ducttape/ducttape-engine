@@ -7,10 +7,10 @@ Game::Game() {
     mIsRunning = false;
 }
 
-void Game::Run() {
+void Game::Run(int argc, char** argv) {
     Root& root = Root::get_mutable_instance();
 
-    root.Initialize();
+    root.Initialize(argc, argv);
     OnInitialize();
 
     mClock.Reset();

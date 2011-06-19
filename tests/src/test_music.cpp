@@ -10,10 +10,10 @@
 #include "scene/Node.hpp"
 #include "scene/Scene.hpp"
 
-int main() {
+int main(int argc, char** argv) {
     dt::Root& root = dt::Root::get_mutable_instance();
-    root.Initialize();
-    std::string music_file = "../data/test_music_loop.ogg";
+    root.Initialize(argc, argv);
+    std::string music_file = "test_music_loop.ogg";
 
     dt::MusicStartEvent start_event;
     dt::MusicPauseEvent pause_event;

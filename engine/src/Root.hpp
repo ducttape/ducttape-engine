@@ -25,6 +25,7 @@
 #ifndef DUCTTAPE_ENGINE_ROOT
 #define DUCTTAPE_ENGINE_ROOT
 
+#include <boost/filesystem.hpp>
 #include <boost/serialization/singleton.hpp>
 
 #include "utils/StringManager.hpp"
@@ -59,7 +60,7 @@ public:
     /**
       * Initializes all managers.
       */
-    void Initialize();
+    void Initialize(int argc, char** argv);
 
     /**
       * Deinitializes all managers.
@@ -70,7 +71,13 @@ public:
       * Gets time since calling Initialize().
       * @returns the time in milliseconds since calling Initialize()
       */
-    uint32_t GetTimeSinceInitialize();
+    uint32_t GetTimeSinceInitialize() const;
+
+    /**
+      * Gets absolute path to current executable.
+      * @returns absolute path to current executable
+      */
+    const boost::filesystem::path& GetExecutablePath() const;
 
     /**
       * Returns the StringManager.
@@ -116,6 +123,7 @@ public:
 
 private:
     sf::Clock mSfClock;             //!< sf::Clock for keeping time since Initialize()
+    boost::filesystem::path mExecutablePath; //!< absolute path to current executable
     StringManager* mStringManager;  //!< pointer to the StringManager
     LogManager* mLogManager;        //!< pointer to the LogManager
     StateManager* mStateManager;    //!< pointer to the StateManager

@@ -34,9 +34,9 @@ public:
     bool mHasReceivedAnEvent;
 };
 
-int main() {
+int main(int argc, char** argv) {
     dt::Root& root = dt::Root::get_mutable_instance();
-    root.Initialize();
+    root.Initialize(argc, argv);
 
     root.GetStringManager()->Add("testevent");
 

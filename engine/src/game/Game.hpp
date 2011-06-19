@@ -12,7 +12,7 @@ class Game {
 public:
     Game();
     virtual void OnInitialize() = 0;
-    void Run();
+    void Run(int argc, char** argv);
 
     void RequestShutdown();
     bool IsRunning();

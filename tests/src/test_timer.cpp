@@ -50,9 +50,9 @@ public:
     int mTotalTime;
 };
 
-int main() {
+int main(int argc, char** argv) {
     CustomGame game;
-    game.Run();
+    game.Run(argc, argv);
 
     // we expect to have at least 9 ticks of timer 1 and 4 ticks of timer 2 within 10 seconds
     if(game.mTimer1Count < 9) {

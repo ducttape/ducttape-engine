@@ -26,7 +26,7 @@ public:
     void OnInitialize() {
         dt::Root::get_mutable_instance().GetEventManager()->AddListener(&mScene);
 
-        dt::Root::get_mutable_instance().GetResourceManager()->AddResourceLocation("../data/sinbad.zip","Zip", true);
+        dt::Root::get_mutable_instance().GetResourceManager()->AddResourceLocation("sinbad.zip","Zip", true);
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
         dt::Root::get_mutable_instance().GetEventManager()->AddListener(this);
@@ -69,8 +69,8 @@ private:
 
 };
 
-int main() {
+int main(int argc, char** argv) {
     Game g;
-    g.Run();
+    g.Run(argc, argv);
     return 0;
 }

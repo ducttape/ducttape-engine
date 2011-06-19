@@ -2,8 +2,8 @@
 
 #include "utils/Logger.hpp"
 
-int main() {
-    dt::Root::get_mutable_instance().Initialize();
+int main(int argc, char** argv) {
+    dt::Root::get_mutable_instance().Initialize(argc, argv);
 
     std::cout << std::endl << "= default logger test" << std::endl;
     dt::Logger::Get().Debug("DEBUG test");

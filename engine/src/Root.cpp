@@ -3,7 +3,8 @@
 namespace dt {
 
 Root::Root() {
-    // -- create instances of managers etc here
+    // This list of new keywords exists to allow us fine-grained control over
+    // the creation and deletion of these managers.
     mLogManager = new LogManager();
     mStringManager = new StringManager();
     mEventManager = new EventManager();
@@ -14,7 +15,8 @@ Root::Root() {
 }
 
 Root::~Root() {
-    // -- delete in reverse order
+    // Complementary to the constructor, we destroy the managers in reverse
+    // order.
     delete mNetworkManager;
     delete mStateManager;
     delete mDisplayManager;
@@ -24,8 +26,11 @@ Root::~Root() {
     delete mLogManager;
 }
 
-void Root::Initialize() {
+void Root::Initialize(int argc, char** argv) {
     mSfClock.Reset();
+
+    mExecutablePath = boost::filesystem::system_complete(boost::filesystem::path( argv[0]));
+
     mNetworkManager->Initialize();
     mResourceManager->Initialize();
     mDisplayManager->Initialize();
@@ -37,8 +42,12 @@ void Root::Deinitialize() {
     mNetworkManager->Deinitialize();
 }
 
-uint32_t Root::GetTimeSinceInitialize() {
+uint32_t Root::GetTimeSinceInitialize() const {
     return mSfClock.GetElapsedTime();
+}
+
+const boost::filesystem::path& Root::GetExecutablePath() const {
+    return mExecutablePath;
 }
 
 StringManager* Root::GetStringManager() {

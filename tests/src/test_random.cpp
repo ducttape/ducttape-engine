@@ -2,7 +2,7 @@
 
 #include "utils/Random.hpp"
 
-int main() {
+int main(int argc, char** argv) {
     dt::Random::Initialize();
     std::cout << "===== Random Int Test =====" << std::endl;
     for(int i = 0; i < 20; ++i)
