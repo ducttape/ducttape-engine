@@ -29,6 +29,7 @@ void CameraComponent::OnDeactivate() {
 
 void CameraComponent::LookAt(Ogre::Vector3 target_point) {
     mCamera->lookAt(target_point);
+    mNode->SetRotation(mCamera->getOrientation());
 }
 
 void CameraComponent::OnUpdate(float time_diff) {
