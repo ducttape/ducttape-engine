@@ -70,6 +70,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
+    resmgr->GetMusicFile(music_file)->Stop();
     root.Deinitialize();
     return 0;
 }
