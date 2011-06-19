@@ -25,6 +25,8 @@ public:
     void OnDeactivate();
     void OnUpdate(float time_diff);
 
+    void LookAt(Ogre::Vector3 target_point);
+
 private:
     Ogre::Camera* mCamera;
     Ogre::Viewport* mViewport;

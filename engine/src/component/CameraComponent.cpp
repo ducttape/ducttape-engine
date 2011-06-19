@@ -18,13 +18,17 @@ void CameraComponent::OnActivate() {
     Root::get_mutable_instance().GetDisplayManager()->ActivateCamera(mName);
 
     mViewport = Root::get_mutable_instance().GetDisplayManager()->GetRenderWindow()->addViewport(mCamera);
-    mViewport->setBackgroundColour(Ogre::ColourValue(0.1,0.3,0.4));
+    mViewport->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
     mCamera->setAspectRatio(Ogre::Real(mViewport->getActualWidth()) / Ogre::Real(mViewport->getActualHeight()));
     mCamera->setNearClipDistance(0.1);
 }
 
 void CameraComponent::OnDeactivate() {
     mCamera->getSceneManager()->destroyCamera(mCamera);
+}
+
+void CameraComponent::LookAt(Ogre::Vector3 target_point) {
+    mCamera->lookAt(target_point);
 }
 
 void CameraComponent::OnUpdate(float time_diff) {
