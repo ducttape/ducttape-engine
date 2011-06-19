@@ -33,7 +33,7 @@ public:
 
         mScene.AddChildNode(new dt::Node("camnode"));
         mScene.FindChildNode("camnode", false)->AddComponent(new dt::CameraComponent("cam"));
-        mScene.FindChildNode("camnode", false)->SetPosition(Ogre::Vector3(0, 10, 100));
+        mScene.FindChildNode("camnode", false)->SetPosition(Ogre::Vector3(0, 5, 10));
         mScene.FindChildNode("camnode", false)->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 0, 0));
 
         mScene.AddChildNode(new dt::Node("meshnode"));
