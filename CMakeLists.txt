@@ -28,6 +28,11 @@ endif()
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 
+set(BULLET_ROOT "" CACHE PATH "Path to Bullet dir")
+set(BOOST_ROOT "" CACHE PATH "Path to Boost dir")
+set(OGRE_HOME "" CACHE PATH "Path to OGRE dir")
+set(SFMLDIR "" CACHE PATH "Path to SFML dir")
+
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake-extras/")
 
 find_package(SFML 2 COMPONENTS audio graphics network system window REQUIRED)
