@@ -29,3 +29,5 @@ add_test(test_connections ${CMAKE_SOURCE_DIR}/bin/test_connections)
 add_test(test_network ${CMAKE_SOURCE_DIR}/bin/test_network.sh)
 add_test(test_display ${CMAKE_SOURCE_DIR}/bin/test_display)
 add_test(test_music ${CMAKE_SOURCE_DIR}/bin/test_music)
+
+set(memorycheck_command:FILEPATH=/usr/bin/valgrind)
