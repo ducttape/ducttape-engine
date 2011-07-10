@@ -1,6 +1,8 @@
 #ifndef DUCTTAPE_ENGINE_UTILS_ENUMHELPER
 #define DUCTTAPE_ENGINE_UTILS_ENUMHELPER
 
+#include <cstdint>
+
 #include <SFML/Network.hpp>
 
 namespace dt {

@@ -1,6 +1,7 @@
 #ifndef DUCTTAPE_ENGINE_UTILS_STRINGMANAGER
 #define DUCTTAPE_ENGINE_UTILS_STRINGMANAGER
 
+#include <cstdint>
 #include <string>
 #include <map>
 

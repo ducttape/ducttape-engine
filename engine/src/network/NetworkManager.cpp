@@ -1,3 +1,7 @@
+#ifdef COMPILER_MSVC
+#include <boost/foreach.hpp>
+#endif
+
 #include "NetworkManager.hpp"
 
 #include "Root.hpp"
@@ -55,7 +59,11 @@ void NetworkManager::Disconnect(Connection target) {
 }
 
 void NetworkManager::DisconnectAll() {
+#ifdef COMPILER_MSVC
+    BOOST_FOREACH(Connection* c, mConnectionsManager.GetAllConnections()) {
+#else
     for(Connection* c: mConnectionsManager.GetAllConnections()) {
+#endif
         Disconnect(*c);
     }
 }
@@ -160,7 +168,11 @@ void NetworkManager::_SendEvent(NetworkEvent* event) {
     event->Serialize(packet);
 
     // send packet to all recipients
+#ifdef COMPILER_MSVC
+    BOOST_FOREACH(int i, event->GetRecipients()) {
+#else
     for(int i: event->GetRecipients()) {
+#endif
         Logger::Get().Debug("NetworkManager: Sending Event to " + tostr(i));
         Connection* r = mConnectionsManager.GetConnection(i);
         mSocket.Send(p, r->GetIPAddress(), r->GetPort());

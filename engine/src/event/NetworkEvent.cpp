@@ -1,3 +1,7 @@
+#ifdef COMPILER_MSVC
+#include <boost/foreach.hpp>
+#endif
+
 #include "NetworkEvent.hpp"
 
 #include "Root.hpp"
@@ -9,7 +13,11 @@ NetworkEvent::NetworkEvent() {
     mSenderID = 0;
 
     ConnectionsManager* cm = Root::get_mutable_instance().GetNetworkManager()->GetConnectionsManager();
+#ifdef COMPILER_MSVC
+    BOOST_FOREACH(Connection* c, cm->GetAllConnections()) {
+#else
     for(Connection* c: cm->GetAllConnections()) {
+#endif
         AddRecipient(cm->GetConnectionID(*c));
     }
 }
@@ -39,7 +47,11 @@ const std::vector<uint16_t>& NetworkEvent::GetRecipients() const {
 }
 
 bool NetworkEvent::HasRecipient(uint16_t id) {
+#ifdef COMPILER_MSVC
+    BOOST_FOREACH(uint16_t i, mRecipients)
+#else
     for(uint16_t i: mRecipients)
+#endif
         if(i == id)
             return true;
     return false;

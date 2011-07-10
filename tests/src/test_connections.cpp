@@ -1,7 +1,12 @@
+#include <cstdint>
 #include <map>
 #include <memory>
 #include <iostream>
 #include <random>
+
+#ifdef COMPILER_MSVC
+#include <boost/foreach.hpp>
+#endif
 
 #include "Root.hpp"
 #include "network/ConnectionsManager.hpp"
@@ -63,7 +68,12 @@ int main(int argc, char** argv) {
     }
 
     // Test IsKnownConnection()
+#ifdef COMPILER_MSVC
+    typedef std::pair<uint16_t, std::shared_ptr<dt::Connection>> pair_type;
+    BOOST_FOREACH(pair_type c, connections) {
+#else
     for(std::pair<uint16_t, std::shared_ptr<dt::Connection>> c : connections) {
+#endif
         if(!connections_manager.IsKnownConnection(*(c.second.get()))) {
             broken = true;
             std::cerr << "ConnectionsManager: should know the requested connection" << std::endl;
@@ -72,7 +82,12 @@ int main(int argc, char** argv) {
 
     // Test RemoveConnection()
     int i = 0;
+#ifdef COMPILER_MSVC
+    typedef std::pair<uint16_t, std::shared_ptr<dt::Connection>> pair_type;
+    BOOST_FOREACH(pair_type c, connections) {
+#else
     for(std::pair<uint16_t, std::shared_ptr<dt::Connection>> c : connections) {
+#endif
         if(i<=10) {
             connections_manager.RemoveConnection(c.first);
             if(connections_manager.GetConnection(c.first) != nullptr) {

@@ -1,3 +1,5 @@
+#include <boost/foreach.hpp>
+
 #include "StateManager.hpp"
 
 namespace dt {
@@ -20,7 +22,11 @@ State* StateManager::GetCurrentState() {
 }
 
 void StateManager::HandleEvent(Event& event) {
+#ifdef COMPILER_MSVC
+    BOOST_FOREACH(State& s, mStates) {
+#else
     for(State& s: mStates) {
+#endif
         s.HandleEvent(event);
     }
 }

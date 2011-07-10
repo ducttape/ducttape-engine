@@ -1,11 +1,15 @@
+#include <memory>
+
+#ifdef COMPILER_MSVC
+#include <boost/foreach.hpp>
+#endif
+
 #include "Node.hpp"
 
 #include "utils/Logger.hpp"
 #include "Scene.hpp" // after forward declaration
 #include "utils/StringManager.hpp"
 #include "Root.hpp"
-
-#include <memory>
 
 namespace dt {
 
@@ -184,7 +188,12 @@ bool Node::_IsScene() {
 }
 
 void Node::_UpdateAllComponents(float time_diff) {
+#ifdef COMPILER_MSVC
+    typedef std::pair<std::string, std::shared_ptr<Component> > pair_type;
+    BOOST_FOREACH(pair_type pair, mComponents) {
+#else
     for(std::pair<std::string, std::shared_ptr<Component> > pair: mComponents) {
+#endif
         pair.second->OnUpdate(time_diff);
     }
 }

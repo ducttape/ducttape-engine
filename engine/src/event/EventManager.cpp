@@ -1,3 +1,7 @@
+#ifdef COMPILER_MSVC
+#include <boost/foreach.hpp>
+#endif
+
 #include "EventManager.hpp"
 
 namespace dt {
@@ -5,13 +9,21 @@ namespace dt {
 EventManager::EventManager() {}
 
 void EventManager::HandleEvent(Event* event) {
+#ifdef COMPILER_MSVC
+    BOOST_FOREACH(EventListener* l, mListeners) {
+#else
     for(EventListener* l: mListeners) {
+#endif
         l->HandleEvent(event);
     }
 }
 
 bool EventManager::HasListener(EventListener* listener) {
+#ifdef COMPILER_MSVC
+    BOOST_FOREACH(EventListener* l, mListeners) {
+#else
     for(EventListener* l: mListeners) {
+#endif
         if(l == listener)
             return true;
     }

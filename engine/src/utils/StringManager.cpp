@@ -1,3 +1,9 @@
+#include <utility>
+
+#ifdef COMPILER_MSVC
+#include <boost/foreach.hpp>
+#endif
+
 #include "StringManager.hpp"
 
 namespace dt {
@@ -17,7 +23,12 @@ uint32_t StringManager::Add(const std::string& string) {
 }
 
 bool StringManager::Has(const std::string& string) {
+#ifdef COMPILER_MSVC
+    typedef std::pair<uint32_t, std::string> pair_type;
+    BOOST_FOREACH(pair_type i, mIds) {
+#else
     for(std::pair<uint32_t, std::string> i: mIds) {
+#endif
         if(i.second == string)
             return true;
     }
@@ -29,7 +40,12 @@ bool StringManager::Has(uint32_t id) {
 }
 
 uint32_t StringManager::Get(const std::string& string) {
+#ifdef COMPILER_MSVC
+    typedef std::pair<uint32_t, std::string> pair_type;
+    BOOST_FOREACH(pair_type i, mIds) {
+#else
     for(std::pair<uint32_t, std::string> i: mIds) {
+#endif
         if(i.second == string)
             return i.first;
     }
