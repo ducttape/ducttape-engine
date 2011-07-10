@@ -16,3 +16,9 @@ doc:
 
 test:
 	cd build; make test
+#
+#package:
+#	cd build; make package
+#
+#package_source:
+#	cd build; make package_source
