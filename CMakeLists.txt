@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 2.8.3)
 
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 1)
+set(VERSION_PATCH 0)
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build (Debug or Release)" FORCE)
@@ -38,9 +39,15 @@ find_package(OGRE REQUIRED)
 find_package(MyGUI REQUIRED)
 find_package(MyGUI_PLATFORM REQUIRED)
 
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-but-set-parameter -std=c++0x")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-set(CMAKE_CXX_FLAGS_DEBUG "-g")
+if(MSVC) # Sort the odd stuff out
+    set(CMAKE_CXX_FLAGS "/Wall /WX /EHsc")
+    set(CMAKE_CXX_FLAGS_RELEASE "/O2")
+    set(CMAKE_CXX_FLAGS_DEBUG "/Zi")
+else() # GCC/Mingw
+    set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-but-set-parameter -std=c++0x")
+    set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+    set(CMAKE_CXX_FLAGS_DEBUG "-g")
+endif()
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
