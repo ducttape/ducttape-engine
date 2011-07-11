@@ -19,7 +19,7 @@ public:
     void TriggerTickEvent();
 
     uint32_t GetInterval() const;
-    const std::string& GetMessage() const;
+    const std::string& GetMessageEvent() const;
 private:
     void _RunThread();
     static void _ThreadFunction(void* user_data);

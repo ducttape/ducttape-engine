@@ -21,7 +21,7 @@ public:
       * Returns the message of this Event.
       * @returns The message of the Event.
       */
-    const std::string& GetMessage() const;
+    const std::string& GetMessageEvent() const;
 protected:
     std::string mMessage;   //!< The message of this Event.
 };

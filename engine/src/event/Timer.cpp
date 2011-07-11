@@ -58,7 +58,7 @@ uint32_t Timer::GetInterval() const {
     return mInterval;
 }
 
-const std::string& Timer::GetMessage() const {
+const std::string& Timer::GetMessageEvent() const {
     return mMessage;
 }
 
