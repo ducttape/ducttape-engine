@@ -11,13 +11,9 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 set(BUILD_STATIC FALSE CACHE BOOL "TRUE to build static libraries, FALSE to build shared libraries (preferred)")
-
 set(BUILD_EDITOR FALSE CACHE BOOL "TRUE to build the editor, FALSE to ignore it")
-
 set(BUILD_SAMPLES TRUE CACHE BOOL "TRUE to build the samples, FALSE to ignore them")
-
 set(BUILD_TESTS TRUE CACHE BOOL "TRUE to build the tests, FALSE to ignore them")
-
 set(BUILD_DOC TRUE CACHE BOOL "TRUE to generate the API documentation, FALSE to ignore it")
 
 if(BUILD_STATIC)
@@ -37,7 +33,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake-extras/")
 
 find_package(SFML 2 COMPONENTS audio graphics network system window REQUIRED)
 find_package(Bullet REQUIRED)
-find_package(Boost COMPONENTS filesystem program_options system date_time REQUIRED)
+find_package(Boost COMPONENTS filesystem program_options system date_time thread REQUIRED)
 #find_package(ImageMagick COMPONENTS Magick++ REQUIRED)
 find_package(OIS REQUIRED)
 find_package(OGRE REQUIRED)
