@@ -23,7 +23,7 @@ void Client::HandleEvent(dt::Event* e) {
     if(e->GetType() == "CHATMESSAGEEVENT") {
         ChatMessageEvent* c = (ChatMessageEvent*)e;
         if(c->IsLocalEvent()) { // we just received this
-            std::cout << std::endl << "<" << c->GetSenderNick() << "> " << c->GetMessage() << std::endl;
+            std::cout << std::endl << "<" << c->GetSenderNick() << "> " << c->GetMessageEvent() << std::endl;
         }
     }
 }

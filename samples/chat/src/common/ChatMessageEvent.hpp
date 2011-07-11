@@ -11,7 +11,7 @@ public:
     dt::Event* Clone() const;
     void Serialize(dt::IOPacket& p);
 
-    const std::string& GetMessage() const;
+    const std::string& GetMessageEvent() const;
     const std::string& GetSenderNick() const;
 protected:
     std::string mMessage;

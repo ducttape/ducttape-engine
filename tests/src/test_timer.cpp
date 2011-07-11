@@ -23,14 +23,14 @@ public:
     void HandleEvent(dt::Event* e) {
         if(e->GetType() == "DT_TIMERTICKEVENT") {
             dt::TimerTickEvent* t = (dt::TimerTickEvent*)e;
-            bool t1 = (t->GetMessage() == "Timer 1 (event mode)");
+            bool t1 = (t->GetMessageEvent() == "Timer 1 (event mode)");
 
             if(t1) {
                 mTimer1Count++;
-                std::cout << "Timer tick " << mTimer1Count << ": " << t->GetMessage() << std::endl;
+                std::cout << "Timer tick " << mTimer1Count << ": " << t->GetMessageEvent() << std::endl;
             } else {
                 mTimer2Count++;
-                std::cout << "Timer tick " << mTimer2Count << ": " << t->GetMessage() << std::endl;
+                std::cout << "Timer tick " << mTimer2Count << ": " << t->GetMessageEvent() << std::endl;
             }
         } else if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             mTotalTime += ((dt::BeginFrameEvent*)e)->GetFrameTime();

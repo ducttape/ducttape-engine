@@ -18,7 +18,7 @@ void ChatMessageEvent::Serialize(dt::IOPacket& p) {
     p & mSenderNick;
 }
 
-const std::string& ChatMessageEvent::GetMessage() const {
+const std::string& ChatMessageEvent::GetMessageEvent() const {
     return mMessage;
 }
 

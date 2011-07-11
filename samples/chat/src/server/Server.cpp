@@ -18,15 +18,15 @@ void Server::HandleEvent(dt::Event* e) {
 
         if(c->IsLocalEvent()) { // we just received this
 
-            if(c->GetMessage() == "/help") {
+            if(c->GetMessageEvent() == "/help") {
                 std::string msg = "\nThe following commands are available:\n    /help - This message\n    /quit - disconnects from the server\n    /nick [nickname] - changes your nickname";
                 dt::Root::get_mutable_instance().GetEventManager()->HandleEvent(new ChatMessageEvent(msg, c->GetSenderNick()));
             } else {
-                std::cout << std::endl << c->GetSenderNick() << ": " << c->GetMessage() << std::endl;
+                std::cout << std::endl << c->GetSenderNick() << ": " << c->GetMessageEvent() << std::endl;
             }
 
             // send back to everyone else
-            dt::Root::get_mutable_instance().GetEventManager()->HandleEvent(new ChatMessageEvent(c->GetMessage(), c->GetSenderNick()));
+            dt::Root::get_mutable_instance().GetEventManager()->HandleEvent(new ChatMessageEvent(c->GetMessageEvent(), c->GetSenderNick()));
         }
 
     } else if(e->GetType() == "DT_GOODBYEEVENT") {
