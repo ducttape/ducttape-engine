@@ -82,7 +82,11 @@ void DisplayManager::_CreateWindow() {
     }
     mOgreRoot = new Ogre::Root();
 
+#ifdef COMPILER_MSVC
+    mOgreRoot->loadPlugin("RenderSystem_GL.dll");
+#else
     mOgreRoot->loadPlugin("/usr/lib/OGRE/RenderSystem_GL.so");
+#endif
     mOgreRenderSystem = mOgreRoot->getRenderSystemByName("OpenGL Rendering Subsystem");
     mOgreRoot->setRenderSystem(mOgreRenderSystem);
 

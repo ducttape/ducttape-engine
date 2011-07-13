@@ -6,15 +6,24 @@ set(VERSION_MAJOR 0)
 set(VERSION_MINOR 1)
 set(VERSION_PATCH 0)
 
+set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build (Debug or Release)" FORCE)
 endif()
+
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
+set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/lib)
 
 set(BUILD_STATIC FALSE CACHE BOOL "TRUE to build static libraries, FALSE to build shared libraries (preferred)")
 set(BUILD_EDITOR FALSE CACHE BOOL "TRUE to build the editor, FALSE to ignore it")
 set(BUILD_SAMPLES TRUE CACHE BOOL "TRUE to build the samples, FALSE to ignore them")
 set(BUILD_TESTS TRUE CACHE BOOL "TRUE to build the tests, FALSE to ignore them")
 set(BUILD_DOC TRUE CACHE BOOL "TRUE to generate the API documentation, FALSE to ignore it")
+
+if(WIN32)
+	# We currentlty have no dll exports on Windows so this needs to be on.
+	set(BUILD_STATIC "TRUE" CACHE BOOL "Currently needs to be ON in Windows" FORCE)
+endif()
 
 if(BUILD_STATIC)
     set(Boost_USE_STATIC_LIBS ON)
@@ -30,6 +39,17 @@ set(OGRE_HOME "" CACHE PATH "Path to OGRE dir")
 set(SFMLDIR "" CACHE PATH "Path to SFML dir")
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake-extras/")
+
+if(EXISTS "${CMAKE_SOURCE_DIR}/dependencies")
+	set(BULLET_ROOT "${CMAKE_SOURCE_DIR}/dependencies/bullet")
+	set(BOOST_ROOT "${CMAKE_SOURCE_DIR}/dependencies/boost")
+	set(OGRE_HOME "${CMAKE_SOURCE_DIR}/dependencies/ogre")
+	set(SFMLDIR "${CMAKE_SOURCE_DIR}/dependencies/sfml")
+	file(GLOB_RECURSE DLLS_LIST ${CMAKE_SOURCE_DIR}/dependencies/*.dll)
+	file(MAKE_DIRECTORY "${EXECUTABLE_OUTPUT_DIRECTORY}/${CMAKE_BUILD_TYPE}")
+	file(COPY ${DLLS_LIST} DESTINATION "${EXECUTABLE_OUTPUT_PATH}/Debug")
+	file(COPY ${DLLS_LIST} DESTINATION "${EXECUTABLE_OUTPUT_PATH}/Release")
+endif()
 
 find_package(SFML 2 COMPONENTS audio graphics network system window REQUIRED)
 find_package(Bullet REQUIRED)
@@ -49,9 +69,6 @@ else() # GCC/Mingw
     set(CMAKE_CXX_FLAGS_RELEASE "-O3")
     set(CMAKE_CXX_FLAGS_DEBUG "-g")
 endif()
-
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/engine/src/
