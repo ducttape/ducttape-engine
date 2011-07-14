@@ -20,7 +20,7 @@ bool DisplayManager::RegisterCamera(CameraComponent* camera_component) {
     std::string name = camera_component->GetName();
 
     // Do not add if a CameraComponent of the same name already exists.
-    if(mCameras.count(name) == 0)
+    if(mCameras.count(name) != 0)
         return false;
 
     // Create the render window if this is the first CameraComponent.
@@ -36,7 +36,7 @@ bool DisplayManager::UnregisterCamera(CameraComponent* camera_component) {
     std::string name = camera_component->GetName();
 
     // Do not remove if the requested CameraComponent hasn't been registered.
-    if(mCameras.count(name) != 0)
+    if(mCameras.count(name) == 0)
         return false;
 
     mCameras.erase(name);
