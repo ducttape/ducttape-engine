@@ -49,8 +49,13 @@ bool DisplayManager::UnregisterCamera(CameraComponent* camera_component) {
 }
 
 bool DisplayManager::ActivateCamera(const std::string& name) {
-    // TODO: Set active camera
-    return false;
+	// Do not remove if the requested CameraComponent hasn't been registered.
+    if(mCameras.count(name) == 0)
+        return false;
+
+	mActiveCamera = name;
+
+    return true;
 }
 
 void DisplayManager::Render() {
