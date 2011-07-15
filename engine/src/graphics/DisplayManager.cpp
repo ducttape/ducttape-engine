@@ -55,6 +55,13 @@ bool DisplayManager::ActivateCamera(const std::string& name) {
 
 	mActiveCamera = name;
 
+	Ogre::Viewport* OgreViewport = mCameras[name]->GetViewport();
+
+	if(OgreViewport != nullptr)
+	{
+		mOgreRenderWindow->_updateViewport(OgreViewport);
+	}
+
     return true;
 }
 

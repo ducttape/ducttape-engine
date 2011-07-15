@@ -37,4 +37,8 @@ void CameraComponent::OnUpdate(float time_diff) {
     mCamera->setOrientation(mNode->GetRotation(Node::SCENE));
 }
 
+Ogre::Viewport* CameraComponent::GetViewport() {
+	return mViewport;
+}
+
 }
