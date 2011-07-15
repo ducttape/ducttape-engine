@@ -87,7 +87,7 @@ bool DisplayManager::ActivateCamera(const std::string& name, const std::string& 
 
     mViewports[change_viewport_name]->setCamera(mCameras[name]->GetCamera());
     mViewportsCameras[change_viewport_name] = name;
-    mOgreRenderWindow->_updateViewport(mViewports[change_viewport_name]);
+    //mOgreRenderWindow->_updateViewport(mViewports[change_viewport_name]);
 
     //mOgreViewport->setCamera(mCameras[name]->GetCamera());
 
@@ -105,7 +105,8 @@ bool DisplayManager::AddViewport(const std::string& name, const std::string& cam
     if(mCameras.count(camera_name) == 0)
         return false;
 
-    mViewports[name] = GetRenderWindow()->addViewport(mCameras[camera_name]->GetCamera(), mNextZOrder, left, top, width, height);
+    mViewports[name] = new dt::Viewport();
+    mViewports[name]->Initialize((GetRenderWindow()->addViewport(mCameras[camera_name]->GetCamera(), mNextZOrder, left, top, width, height)));
     mNextZOrder++;
 
     if(set_as_main) {
@@ -115,6 +116,26 @@ bool DisplayManager::AddViewport(const std::string& name, const std::string& cam
     mViewports[name]->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
 
     ActivateCamera(camera_name, name);
+
+    return true;
+}
+
+bool DisplayManager::HideViewport(const std::string& name) {
+    // Do not hide if a Viewport does not exists.
+    if(mViewports.count(name) == 0)
+        return false;
+
+    mViewports[name]->hide();
+
+    return true;
+}
+
+bool DisplayManager::ShowViewport(const std::string& name) {
+    // Do not show if a Viewport does not exists.
+    if(mViewports.count(name) == 0)
+        return false;
+
+    mViewports[name]->show();
 
     return true;
 }

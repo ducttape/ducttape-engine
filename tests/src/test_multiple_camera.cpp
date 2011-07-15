@@ -15,13 +15,23 @@ public:
         cameraChanged = false;
         cameraChanged2 = false;
         cameraChanged3 = false;
+        cameraChanged4 = false;
+        cameraChanged5 = false;
     }
 
     void HandleEvent(dt::Event* e) {
         if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             mRuntime += ((dt::BeginFrameEvent*)e)->GetFrameTime();
-            if(mRuntime > 10000) {
+            if(mRuntime > 11000) {
                 RequestShutdown();
+            }
+            if(mRuntime > 10000 && !cameraChanged5) {
+                dt::Root::get_mutable_instance().GetDisplayManager()->ShowViewport("newView");
+                cameraChanged5 = true;
+            }
+            if(mRuntime > 9000 && !cameraChanged4) {
+                dt::Root::get_mutable_instance().GetDisplayManager()->HideViewport("newView");
+                cameraChanged4 = true;
             }
             if(mRuntime > 7500 && !cameraChanged3) {
                 dt::Root::get_mutable_instance().GetDisplayManager()->ActivateCamera("new", "main");
@@ -91,6 +101,8 @@ private:
     bool cameraChanged;
     bool cameraChanged2;
     bool cameraChanged3;
+    bool cameraChanged4;
+    bool cameraChanged5;
 
 };
 

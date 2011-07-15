@@ -12,6 +12,7 @@
 
 #include "component/CameraComponent.hpp"
 #include "utils/Logger.hpp"
+#include "graphics/Viewport.hpp"
 
 namespace dt {
 
@@ -68,6 +69,10 @@ public:
 
     bool AddViewport(const std::string& name, const std::string& camera_name, bool set_as_main = false, float left = 0.0F, float top = 0.0F, float width = 1.0F, float height = 1.0F);
 
+    bool HideViewport(const std::string& name);
+
+    bool ShowViewport(const std::string& name);
+
     /**
       * Renders the current frame.
       */
@@ -92,7 +97,7 @@ private:
 
     std::map<std::string, CameraComponent*> mCameras;
     std::map<std::string, Ogre::SceneManager*> mSceneManagers;
-    std::map<std::string, Ogre::Viewport*> mViewports;
+    boost::ptr_map<std::string, dt::Viewport*> mViewports;
     std::map<std::string, std::string> mViewportsCameras;
     std::string mMainViewport;
 
