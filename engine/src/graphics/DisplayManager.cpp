@@ -23,6 +23,11 @@ bool DisplayManager::RegisterCamera(CameraComponent* camera_component) {
     if(mCameras.count(name) != 0)
         return false;
 
+    if(mCameras.size() == 0) {
+        mOgreViewport = GetRenderWindow()->addViewport(camera_component->GetCamera());
+        mOgreViewport->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
+    }
+
     // Create the render window if this is the first CameraComponent.
     if(mCameras.size() == 0 && (mOgreRoot == nullptr || !mOgreRoot->isInitialised()))
         _CreateWindow();
@@ -49,18 +54,15 @@ bool DisplayManager::UnregisterCamera(CameraComponent* camera_component) {
 }
 
 bool DisplayManager::ActivateCamera(const std::string& name) {
-	// Do not remove if the requested CameraComponent hasn't been registered.
+	// Do not change if the requested CameraComponent hasn't been registered.
     if(mCameras.count(name) == 0)
         return false;
 
 	mActiveCamera = name;
 
-	Ogre::Viewport* OgreViewport = mCameras[name]->GetViewport();
+    mOgreViewport->setCamera(mCameras[name]->GetCamera());
 
-	if(OgreViewport != nullptr)
-	{
-		mOgreRenderWindow->_updateViewport(OgreViewport);
-	}
+	mOgreRenderWindow->_updateViewport(mOgreViewport);
 
     return true;
 }

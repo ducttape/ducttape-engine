@@ -95,6 +95,7 @@ private:
     Ogre::Root* mOgreRoot;
     Ogre::RenderSystem* mOgreRenderSystem;
     Ogre::RenderWindow* mOgreRenderWindow;
+    Ogre::Viewport* mOgreViewport;
 };
 
 }

@@ -27,11 +27,10 @@ public:
 
     void LookAt(Ogre::Vector3 target_point);
 
-	Ogre::Viewport* GetViewport();
+	Ogre::Camera* GetCamera();
 
 private:
     Ogre::Camera* mCamera;
-    Ogre::Viewport* mViewport;
 };
 
 }
