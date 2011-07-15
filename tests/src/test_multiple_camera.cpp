@@ -12,16 +12,30 @@ public:
     Game()
         : mScene("gamescene") {
         mRuntime = 0;
+        cameraChanged = false;
+        cameraChanged2 = false;
+        cameraChanged3 = false;
     }
 
     void HandleEvent(dt::Event* e) {
         if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             mRuntime += ((dt::BeginFrameEvent*)e)->GetFrameTime();
-            if(mRuntime > 5000) {
+            if(mRuntime > 10000) {
                 RequestShutdown();
             }
-            if(mRuntime > 2500) {
+            if(mRuntime > 7500 && !cameraChanged3) {
+                dt::Root::get_mutable_instance().GetDisplayManager()->ActivateCamera("new", "main");
+                dt::Root::get_mutable_instance().GetDisplayManager()->ActivateCamera("cam");
+                cameraChanged3 = true;
+            }
+            if(mRuntime > 5000 && !cameraChanged2) {
+                dt::Root::get_mutable_instance().GetDisplayManager()->AddViewport("newView", "new", true, 0.5F, 0.5F, 0.5F, 0.5F);
+                dt::Root::get_mutable_instance().GetDisplayManager()->ActivateCamera("cam", "main");
+                cameraChanged2 = true;
+            }
+            if(mRuntime > 2500 && !cameraChanged) {
                 dt::Root::get_mutable_instance().GetDisplayManager()->ActivateCamera("new");
+                cameraChanged = true;
             }
         }
     }
@@ -74,6 +88,9 @@ public:
 private:
     uint32_t mRuntime;
     dt::Scene mScene;
+    bool cameraChanged;
+    bool cameraChanged2;
+    bool cameraChanged3;
 
 };
 

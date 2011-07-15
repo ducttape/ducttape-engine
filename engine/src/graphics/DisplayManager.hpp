@@ -64,7 +64,9 @@ public:
       * @param name The name of the CameraComponent.
       * @returns \c true for success and \c false in case the CameraComponent is unknown.
       */
-    bool ActivateCamera(const std::string& name);
+    bool ActivateCamera(const std::string& name, const std::string& viewport_name = "");
+
+    bool AddViewport(const std::string& name, const std::string& camera_name, bool set_as_main = false, float left = 0.0F, float top = 0.0F, float width = 1.0F, float height = 1.0F);
 
     /**
       * Renders the current frame.
@@ -90,12 +92,15 @@ private:
 
     std::map<std::string, CameraComponent*> mCameras;
     std::map<std::string, Ogre::SceneManager*> mSceneManagers;
-	std::string mActiveCamera;
+    std::map<std::string, Ogre::Viewport*> mViewports;
+    std::map<std::string, std::string> mViewportsCameras;
+    std::string mMainViewport;
 
     Ogre::Root* mOgreRoot;
     Ogre::RenderSystem* mOgreRenderSystem;
     Ogre::RenderWindow* mOgreRenderWindow;
-    Ogre::Viewport* mOgreViewport;
+    
+    int mNextZOrder;
 };
 
 }

@@ -4,6 +4,8 @@ namespace dt {
 
 DisplayManager::DisplayManager() {
     mOgreRoot = nullptr;
+    mNextZOrder = 1;
+    mMainViewport = "";
 }
 
 DisplayManager::~DisplayManager() {}
@@ -23,16 +25,17 @@ bool DisplayManager::RegisterCamera(CameraComponent* camera_component) {
     if(mCameras.count(name) != 0)
         return false;
 
-    if(mCameras.size() == 0) {
-        mOgreViewport = GetRenderWindow()->addViewport(camera_component->GetCamera());
-        mOgreViewport->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
-    }
+    int start_size = mCameras.size();
 
     // Create the render window if this is the first CameraComponent.
     if(mCameras.size() == 0 && (mOgreRoot == nullptr || !mOgreRoot->isInitialised()))
         _CreateWindow();
 
     mCameras[name] = camera_component;
+
+    if(start_size == 0) {
+        AddViewport("main", name, true);
+    }
 
     return true;
 }
@@ -53,16 +56,65 @@ bool DisplayManager::UnregisterCamera(CameraComponent* camera_component) {
     return true;
 }
 
-bool DisplayManager::ActivateCamera(const std::string& name) {
+bool DisplayManager::ActivateCamera(const std::string& name, const std::string& viewport_name) {
 	// Do not change if the requested CameraComponent hasn't been registered.
     if(mCameras.count(name) == 0)
         return false;
 
-	mActiveCamera = name;
+    std::string change_viewport_name;
 
-    mOgreViewport->setCamera(mCameras[name]->GetCamera());
+    if(viewport_name == "") {
+        if(mMainViewport == "") {
+            if(AddViewport("main", name, true))
+            {
+                change_viewport_name = mMainViewport;
+            } else {
+                return false;
+            }
+        } else {
+            change_viewport_name = mMainViewport;
+        }
+    } else {
+        if(mViewports.count(viewport_name) == 0)
+            return false;
 
-	mOgreRenderWindow->_updateViewport(mOgreViewport);
+        change_viewport_name = viewport_name;
+    }
+
+    // Do not change if the requested Viewport hasn't been created.
+    if(mViewports.count(change_viewport_name) == 0)
+        return false;
+
+    mViewports[change_viewport_name]->setCamera(mCameras[name]->GetCamera());
+    mViewportsCameras[change_viewport_name] = name;
+    mOgreRenderWindow->_updateViewport(mViewports[change_viewport_name]);
+
+    //mOgreViewport->setCamera(mCameras[name]->GetCamera());
+
+	//mOgreRenderWindow->_updateViewport(mOgreViewport);
+
+    return true;
+}
+
+bool DisplayManager::AddViewport(const std::string& name, const std::string& camera_name, bool set_as_main, float left, float top, float width, float height)
+{
+    // Do not add if a Viewport of the same name already exists.
+    if(mViewports.count(name) != 0)
+        return false;
+    // Cannot assign if there is no such camera.
+    if(mCameras.count(camera_name) == 0)
+        return false;
+
+    mViewports[name] = GetRenderWindow()->addViewport(mCameras[camera_name]->GetCamera(), mNextZOrder, left, top, width, height);
+    mNextZOrder++;
+
+    if(set_as_main) {
+        mMainViewport = name;
+    }
+
+    mViewports[name]->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
+
+    ActivateCamera(camera_name, name);
 
     return true;
 }
