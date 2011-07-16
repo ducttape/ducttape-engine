@@ -41,12 +41,22 @@ public:
     /**
       * Called when the component is activated. Create all scene objects here.
       */
-    virtual void OnActivate();
+    virtual void OnCreate();
 
     /**
       * Called when the component is deactivated. Destroy all scene objects here.
       */
-    virtual void OnDeactivate();
+    virtual void OnDestroy();
+
+    /**
+      * Called when the component is enabled. Show/enable all scene objects here.
+      */
+    virtual void OnEnable();
+
+    /**
+      * Called when the component is disabled. Hide/disable all scene objects here.
+      */
+    virtual void OnDisable();
 
     /**
       * Called every frame. Update the Node here.
@@ -67,20 +77,36 @@ public:
     Node* GetNode();
 
     /**
-      * Activates the component.
+      * Creates the component.
       */
-    void Activate();
+    void Create();
 
     /**
-      * Deactivates the component.
+      * Destroys the component.
       */
-    void Deactivate();
+    void Destroy();
 
     /**
-      * Returns whether the component is active.
-      * @returns Whether the component is active.
+      * Enables the component.
       */
-    bool IsActivated();
+    void Enable();
+
+    /**
+      * Disables the component.
+      */
+    void Disable();
+
+    /**
+      * Returns whether the component is created.
+      * @returns Whether the component is created.
+      */
+    bool IsCreated();
+
+    /**
+      * Returns whether the component is enabled.
+      * @returns Whether the component is enabled.
+      */
+    bool IsEnabled();
 
     /**
       * Binds a slot to a signal.
@@ -103,7 +129,8 @@ protected:
     Node* mNode;        //!< The parent Node.
 
 private:
-    bool mIsActivated;  //!< Whether the component has been activated or not.
+    bool mIsEnabled;    //!< Whether the component is enabled or not.
+    bool mIsCreated;    //!< Whether the component has been created or not.
 };
 
 }

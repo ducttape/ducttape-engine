@@ -18,9 +18,13 @@ const std::string& Component::GetName() const {
 
 void Component::HandleEvent(Event* e) {}
 
-void Component::OnActivate() {}
+void Component::OnCreate() {}
 
-void Component::OnDeactivate() {}
+void Component::OnDestroy() {}
+
+void Component::OnEnable() {}
+
+void Component::OnDisable() {}
 
 void Component::OnUpdate(float time_diff) {}
 
@@ -32,18 +36,40 @@ Node* Component::GetNode() {
     return mNode;
 }
 
-void Component::Activate() {
-    mIsActivated = true;
-    OnActivate();
+void Component::Create() {
+    if(!mIsCreated) {
+        mIsCreated = true;
+        OnCreate();
+    }
 }
 
-void Component::Deactivate() {
-    mIsActivated = false;
-    OnDeactivate();
+void Component::Destroy() {
+    if(mIsCreated) {
+        mIsCreated = false;
+        OnDestroy();
+    }
 }
 
-bool Component::IsActivated() {
-    return mIsActivated;
+void Component::Enable() {
+    if(!mIsEnabled) {
+        mIsEnabled = true;
+        OnEnable();
+    }
+}
+
+void Component::Disable() {
+    if(mIsEnabled) {
+        mIsEnabled = false;
+        OnDisable();
+    }
+}
+
+bool Component::IsCreated() {
+    return mIsCreated;
+}
+
+bool Component::IsEnabled() {
+    return mIsEnabled;
 }
 
 boost::signals2::connection Component::BindSlot(const std::string& signal_identifier, boost::function<void ()> slot) {

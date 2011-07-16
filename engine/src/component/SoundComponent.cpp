@@ -28,11 +28,11 @@ void SoundComponent::HandleEvent(Event* e) {
     }
 }
 
-void SoundComponent::OnActivate() {
+void SoundComponent::OnCreate() {
     Root::get_mutable_instance().GetEventManager()->AddListener(this);
 }
 
-void SoundComponent::OnDeactivate() {
+void SoundComponent::OnDestroy() {
     Root::get_mutable_instance().GetEventManager()->RemoveListener(this);
 }
 
@@ -43,7 +43,7 @@ void SoundComponent::OnUpdate(float time_diff) {
 }
 
 void SoundComponent::SetSoundFile(const std::string& sound_file) {
-    if(sound_file != mSoundFile && IsActivated()) {
+    if(sound_file != mSoundFile && IsCreated()) {
         // we got a new sound; load it
         _LoadSound();
     }

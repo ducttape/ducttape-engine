@@ -12,9 +12,9 @@ void TriggerComponent::HandleEvent(Event* e) {
     }
 }
 
-void TriggerComponent::OnActivate() {}
+void TriggerComponent::OnCreate() {}
 
-void TriggerComponent::OnDeactivate() {}
+void TriggerComponent::OnDestroy() {}
 
 void TriggerComponent::OnUpdate(float time_diff) {}
 

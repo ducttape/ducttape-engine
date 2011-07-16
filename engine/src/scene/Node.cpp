@@ -38,7 +38,7 @@ void Node::AddComponent(Component* component) {
     if(!HasComponent(cname)) {
         std::shared_ptr<Component> ptr(component);
         ptr->SetNode(this);
-        ptr->Activate();
+        ptr->Create();
         mComponents.insert(std::pair<std::string, std::shared_ptr<Component> >(cname, ptr));
 
         _UpdateAllComponents(0);
@@ -75,7 +75,7 @@ void Node::RemoveChildNode(const std::string& name) {
 
 void Node::RemoveComponent(const std::string& name) {
     if(HasComponent(name)) {
-        mComponents[name]->Deactivate();
+        mComponents[name]->Destroy();
         mComponents[name]->SetNode(nullptr);
         mComponents.erase(name);
     }

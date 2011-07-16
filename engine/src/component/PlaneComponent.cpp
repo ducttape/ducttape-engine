@@ -12,7 +12,7 @@ PlaneComponent::PlaneComponent(const std::string& name)
 void PlaneComponent::HandleEvent(Event* e) {
 }
 
-void PlaneComponent::OnActivate() {
+void PlaneComponent::OnCreate() {
     Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
     Ogre::MeshManager::getSingleton().createPlane(mName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, 1500, 1500, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
     mEntity = GetNode()->GetScene()->GetSceneManager()->createEntity(mName + "Entity", mName);
@@ -21,7 +21,7 @@ void PlaneComponent::OnActivate() {
     mEntity->setMaterialName("Examples/Rockwall");
 }
 
-void PlaneComponent::OnDeactivate() {
+void PlaneComponent::OnDestroy() {
     GetNode()->GetScene()->GetSceneManager()->destroyEntity(mEntity);
     GetNode()->GetScene()->GetSceneManager()->destroySceneNode(mSceneNode);
 }

@@ -23,8 +23,8 @@ public:
 
     virtual void HandleEvent(Event* e);
 
-    void OnActivate();
-    void OnDeactivate();
+    void OnCreate();
+    void OnDestroy();
     void OnUpdate(float time_diff);
 
 	/**

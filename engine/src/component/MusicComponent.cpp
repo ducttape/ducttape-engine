@@ -26,11 +26,11 @@ void MusicComponent::HandleEvent(Event* e) {
     }
 }
 
-void MusicComponent::OnActivate() {
+void MusicComponent::OnCreate() {
    _PlayMusic();
 }
 
-void MusicComponent::OnDeactivate() {
+void MusicComponent::OnDestroy() {
     _StopMusic();
 }
 
@@ -39,7 +39,7 @@ void MusicComponent::OnUpdate(float time_diff) {
 }
 
 void MusicComponent::SetMusicFile(const std::string& music_file) {
-    if(music_file != mMusicFile && IsActivated()) {
+    if(music_file != mMusicFile && IsCreated()) {
         // we got a new music; load it
         _LoadMusic();
     }
