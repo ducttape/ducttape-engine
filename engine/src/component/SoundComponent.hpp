@@ -19,7 +19,8 @@ public:
      * Advanced constructor.
      * @see Component
      */
-    SoundComponent(const std::string& name, const std::string& sound_file = "", SoundComponentListener* custom_listener = new SoundComponentListener());
+    SoundComponent(const std::string& name, const std::string& sound_file = "", 
+                   SoundComponentListener* custom_listener = new SoundComponentListener());
 
     virtual void HandleEvent(Event* e);
 
