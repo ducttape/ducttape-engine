@@ -36,7 +36,7 @@ bool DisplayManager::UnregisterCamera(CameraComponent* camera_component) {
     std::string name = camera_component->GetName();
 
     // Do not remove if the requested CameraComponent hasn't been registered.
-    if(mCameras.count(name) != 0)
+    if(mCameras.count(name) == 0)
         return false;
 
     mCameras.erase(name);
