@@ -6,7 +6,6 @@
 #include <OgreLight.h>
 
 #include "component/Component.hpp"
-#include "component/LightComponentListener.hpp"
 
 namespace dt {
 
@@ -16,7 +15,7 @@ public:
       * Advanced constructor.
       * @see Component
       */
-    LightComponent(const std::string& name, LightComponentListener* custom_listener = new LightComponentListener());
+    LightComponent(const std::string& name);
 
     virtual void HandleEvent(Event* e);
 

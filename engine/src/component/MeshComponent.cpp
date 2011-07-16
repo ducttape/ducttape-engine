@@ -6,8 +6,8 @@
 
 namespace dt {
 
-MeshComponent::MeshComponent(const std::string& name, const std::string& mesh_file, MeshComponentListener* custom_listener)
-    : Component(name, custom_listener) {
+MeshComponent::MeshComponent(const std::string& name, const std::string& mesh_file)
+    : Component(name) {
     mEntity = nullptr;
     mSceneNode = nullptr;
     mMeshFile = mesh_file;

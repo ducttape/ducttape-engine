@@ -4,8 +4,8 @@
 
 namespace dt {
 
-MusicComponent::MusicComponent(const std::string& name, const std::string& music_file, MusicComponentListener* custom_listener)
-    : Component(name, custom_listener) {
+MusicComponent::MusicComponent(const std::string& name, const std::string& music_file)
+    : Component(name) {
     mMusicFile = music_file;
     _LoadMusic();
 }

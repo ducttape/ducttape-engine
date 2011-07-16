@@ -8,34 +8,32 @@
 namespace dt {
 
 SoundComponent::SoundComponent(const std::string& name, 
-                               const std::string& sound_file, 
-                               SoundComponentListener* custom_listener)
-    : Component(name, custom_listener) {
+                               const std::string& sound_file)
+    : Component(name) {
     mSoundFile = sound_file;
     _LoadSound();
 }
 
 void SoundComponent::HandleEvent(Event* e) {
-    if(e->GetType() == "DT_SOUNDPAUSEEVENT") {
-		if(mSound.GetStatus() == sf::Sound::Paused) {
-            mSound.Play();
-        } else {
-            mSound.Pause();
+    if(e->GetType() == "DT_SOUNDSCONTROLEVENT") {
+        SoundsControlEvent* s = (SoundsControlEvent*)e;
+
+        if(s->GetAction() == SoundsControlEvent::PLAY) {
+            PlaySound();
+        } else if(s->GetAction() == SoundsControlEvent::PAUSE) {
+            PauseSound();
+        } else if(s->GetAction() == SoundsControlEvent::STOP) {
+            StopSound();
         }
-    } else if(e->GetType() == "DT_SOUNDSTOPEVENT") {
-        mSound.Stop();
-    } else if(e->GetType() == "DT_SOUNDSTARTEVENT") {
-        mSound.Stop();
-        mSound.Play();
     }
 }
 
 void SoundComponent::OnActivate() {
-   _PlaySound();
+    Root::get_mutable_instance().GetEventManager()->AddListener(this);
 }
 
 void SoundComponent::OnDeactivate() {
-    _StopSound();
+    Root::get_mutable_instance().GetEventManager()->RemoveListener(this);
 }
 
 void SoundComponent::OnUpdate(float time_diff) {
@@ -60,6 +58,22 @@ sf::Sound& SoundComponent::GetSound() {
 	return mSound;
 }
 
+void SoundComponent::PlaySound() {
+    // play sound if possible
+    mSound.Play();
+}
+
+void SoundComponent::PauseSound() {
+    // pause sound if possible
+    mSound.Pause();
+}
+
+void SoundComponent::StopSound() {
+    // stop sound if possible
+    mSound.Stop();
+    mSound.SetPlayingOffset(0); // rewind
+}
+
 void SoundComponent::_LoadSound() {
     if(mSoundFile == "") {
         Logger::Get().Error("SoundComponent [" + mName + "]: Needs a sound file.");
@@ -69,16 +83,6 @@ void SoundComponent::_LoadSound() {
     } else {
 		mSound.SetBuffer(Root::get_mutable_instance().GetResourceManager()->GetSoundBuffer(mSoundFile));
 	}
-}
-
-void SoundComponent::_PlaySound() {
-    // play sound if possible
-    mSound.Play();
-}
-
-void SoundComponent::_StopSound() {
-    // stop sound if possible
-    mSound.Stop();
 }
 
 }

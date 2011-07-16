@@ -5,8 +5,8 @@
 
 namespace dt {
 
-PlaneComponent::PlaneComponent(const std::string& name, PlaneComponentListener* custom_listener)
-   : Component(name, custom_listener) {
+PlaneComponent::PlaneComponent(const std::string& name)
+   : Component(name) {
 }
 
 void PlaneComponent::HandleEvent(Event* e) {

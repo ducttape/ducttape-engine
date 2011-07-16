@@ -7,7 +7,6 @@
 #include <OGRE/OgreViewport.h>
 
 #include "component/Component.hpp"
-#include "component/CameraComponentListener.hpp"
 
 namespace dt {
 
@@ -17,7 +16,7 @@ public:
       * Advanced constructor.
       * @see Component
       */
-    CameraComponent(const std::string& name, CameraComponentListener* custom_listener = new CameraComponentListener());
+    CameraComponent(const std::string& name);
 
     virtual void HandleEvent(Event* e);
 

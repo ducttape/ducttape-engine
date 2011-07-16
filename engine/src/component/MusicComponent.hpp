@@ -4,7 +4,6 @@
 #include <SFML/Audio.hpp>
 
 #include "component/Component.hpp"
-#include "component/MusicComponentListener.hpp"
 #include "Root.hpp"
 
 namespace dt {
@@ -15,7 +14,7 @@ public:
      * Advanced constructor.
      * @see Component
      */
-    MusicComponent(const std::string& name, const std::string& music_file = "", MusicComponentListener* custom_listener = new MusicComponentListener());
+    MusicComponent(const std::string& name, const std::string& music_file = "");
 
     virtual void HandleEvent(Event* e);
 

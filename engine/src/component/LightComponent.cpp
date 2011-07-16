@@ -5,8 +5,8 @@
 
 namespace dt {
 
-LightComponent::LightComponent(const std::string& name, LightComponentListener* custom_listener)
-   : Component(name, custom_listener) {
+LightComponent::LightComponent(const std::string& name)
+   : Component(name) {
 }
 
 void LightComponent::HandleEvent(Event* e) {

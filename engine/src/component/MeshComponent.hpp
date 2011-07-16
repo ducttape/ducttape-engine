@@ -4,7 +4,6 @@
 #include <OGRE/OgreEntity.h>
 
 #include "component/Component.hpp"
-#include "component/MeshComponentListener.hpp"
 
 namespace dt {
 
@@ -14,7 +13,7 @@ public:
       * Advanced constructor.
       * @see Component
       */
-    MeshComponent(const std::string& name, const std::string& mesh_file = "", MeshComponentListener* custom_listener = new MeshComponentListener());
+    MeshComponent(const std::string& name, const std::string& mesh_file);
 
     virtual void HandleEvent(Event* e);
 

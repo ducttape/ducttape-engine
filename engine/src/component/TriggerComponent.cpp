@@ -2,8 +2,8 @@
 
 namespace dt {
 
-TriggerComponent::TriggerComponent(const std::string& name, TriggerComponentListener* custom_listener)
-    : Component(name, custom_listener) {
+TriggerComponent::TriggerComponent(const std::string& name)
+    : Component(name) {
 }
 
 void TriggerComponent::HandleEvent(Event* e) {

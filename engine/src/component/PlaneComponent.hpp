@@ -9,7 +9,6 @@
 #include <OgreMeshManager.h>
 
 #include "component/Component.hpp"
-#include "component/PlaneComponentListener.hpp"
 
 namespace dt {
 
@@ -19,7 +18,7 @@ public:
       * Advanced constructor.
       * @see Component
       */
-    PlaneComponent(const std::string& name, PlaneComponentListener* custom_listener = new PlaneComponentListener());
+    PlaneComponent(const std::string& name);
 
     virtual void HandleEvent(Event* e);
 

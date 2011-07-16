@@ -2,11 +2,11 @@
 #define DUCTTAPE_ENGINE_COMPONENT_COMPONENT
 
 #include "event/EventListener.hpp"
-#include "ComponentListener.hpp"
-
 
 #include <string>
-#include <type_traits>
+
+#include <boost/ptr_container/ptr_map.hpp>
+#include <boost/signals2.hpp>
 
 namespace dt {
 
@@ -19,19 +19,15 @@ class Node;
   */
 class Component : public EventListener {
 public:
-    // static_assert(std::is_base_of<ComponentListener, ComponentListener>::value, "Cannot create Component with ComponentListener not being inherited from ComponentListener.");
-
     /**
       * Constructor with set name.
       * @param name The Component name.
-      * @param custom_listener The ComponentListener to use for callbacks.
       */
-    Component(const std::string& name = "", ComponentListener* custom_listener = nullptr) {
+    Component(const std::string& name = "") {
         if(name == "")
             mName = "component-generated-name"; // TODO
         else
             mName = name;
-        mListener = std::shared_ptr<ComponentListener>(custom_listener);
     }
 
     /**
@@ -49,14 +45,6 @@ public:
 
     virtual void HandleEvent(Event* e) {}
 
-    /**
-      * Returns the ComponentListener of this Component.
-      * @returns The ComponentListener of this Component.
-      */
-    std::shared_ptr<ComponentListener> GetListener() {
-        return mListener;
-    }
-
     virtual void OnActivate() {}
     virtual void OnDeactivate() {}
     virtual void OnUpdate(float time_diff) {}
@@ -73,9 +61,24 @@ public:
     void Deactivate();
     bool IsActivated();
 
+    /**
+      * Binds a slot to a signal.
+      * @param signal_identifier The name of the signal being called on events. Example: "Triggered" or "AnimationFinished". Case sensitive.
+      * @param slot The callback function.
+      * @returns A boost signals2 connection to disconnect the slot again.
+      */
+    boost::signals2::connection BindSlot(const std::string& signal_identifier, boost::function<void ()> slot);
+
 protected:
+
+    /**
+      * Calls the signal with the identifier given.
+      * @param signal_identifier The signal to call.
+      */
+    void _CallSignal(const std::string& signal_identifier);
+    boost::ptr_map<std::string, boost::signals2::signal<void ()> > mSignals;    //!< The list of signals.
+
     std::string mName;                          //!< The Component name.
-    std::shared_ptr<ComponentListener> mListener;    //!< The ComponentListener to use for callbacks.
     Node* mNode;
 
 private:
