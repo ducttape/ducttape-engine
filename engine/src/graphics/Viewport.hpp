@@ -16,7 +16,7 @@
 namespace dt {
 
 /**
-  * A manager class for managing the display and rendering.
+  * A Ogre::Viewport class wrapper.
   */
 class Viewport {
 public:
@@ -40,12 +40,19 @@ public:
       */
     void Deinitialize();
 
+
     void setCamera(Ogre::Camera* cam);
 
     void setBackgroundColour(const Ogre::ColourValue& color);
 
+    /**
+      * Hides mViewport from being visible on screen.
+      */
     void hide();
 
+    /**
+      * Restores its size to mViewport making it visible again.
+      */
     void show();
 
 private:

@@ -63,35 +63,36 @@ bool DisplayManager::ActivateCamera(const std::string& name, const std::string& 
 
     std::string change_viewport_name;
 
+    //if there is no name of Viewport given
     if(viewport_name == "") {
+        //if there is no main Viewport made
         if(mMainViewport == "") {
+            //if we can create one
             if(AddViewport("main", name, true))
             {
+                //set it as Viewport for camera
                 change_viewport_name = mMainViewport;
             } else {
+                //if we cannot set just return false
                 return false;
             }
+        //if there is main Viewport set
         } else {
+            //just use it to activate camera with it
             change_viewport_name = mMainViewport;
         }
+    //if someone gave name of Viewport to use
     } else {
-        if(mViewports.count(viewport_name) == 0)
-            return false;
-
+        //then use it
         change_viewport_name = viewport_name;
     }
 
-    // Do not change if the requested Viewport hasn't been created.
+    // Do not activate if the requested Viewport hasn't been created.
     if(mViewports.count(change_viewport_name) == 0)
         return false;
 
     mViewports[change_viewport_name]->setCamera(mCameras[name]->GetCamera());
     mViewportsCameras[change_viewport_name] = name;
-    //mOgreRenderWindow->_updateViewport(mViewports[change_viewport_name]);
-
-    //mOgreViewport->setCamera(mCameras[name]->GetCamera());
-
-	//mOgreRenderWindow->_updateViewport(mOgreViewport);
 
     return true;
 }
