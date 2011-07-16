@@ -6,8 +6,8 @@
 
 namespace dt {
 
-MeshComponent::MeshComponent(const std::string& name, const std::string& mesh_file, MeshComponentListener* custom_listener)
-    : Component(name, custom_listener) {
+MeshComponent::MeshComponent(const std::string& name, const std::string& mesh_file)
+    : Component(name) {
     mEntity = nullptr;
     mSceneNode = nullptr;
     mMeshFile = mesh_file;
@@ -18,11 +18,11 @@ void MeshComponent::HandleEvent(Event* e) {
 
 }
 
-void MeshComponent::OnActivate() {
+void MeshComponent::OnCreate() {
     _LoadMesh();
 }
 
-void MeshComponent::OnDeactivate() {
+void MeshComponent::OnDestroy() {
     _DestroyMesh();
 }
 
@@ -39,7 +39,7 @@ void MeshComponent::OnUpdate(float time_diff) {
 }
 
 void MeshComponent::SetMeshFile(const std::string& mesh_file) {
-    if(mesh_file != mMeshFile && IsActivated()) {
+    if(mesh_file != mMeshFile && IsCreated()) {
         // we got a new mesh; load it
         _LoadMesh();
     }

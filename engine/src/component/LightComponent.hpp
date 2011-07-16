@@ -6,26 +6,29 @@
 #include <OgreLight.h>
 
 #include "component/Component.hpp"
-#include "component/LightComponentListener.hpp"
 
 namespace dt {
 
+/**
+  * Adds a light to the scene.
+  */
 class LightComponent : public Component {
 public:
     /**
       * Advanced constructor.
       * @see Component
+      * @param name The name of the component.
       */
-    LightComponent(const std::string& name, LightComponentListener* custom_listener = new LightComponentListener());
+    LightComponent(const std::string& name);
 
     virtual void HandleEvent(Event* e);
 
-    void OnActivate();
-    void OnDeactivate();
+    void OnCreate();
+    void OnDestroy();
     void OnUpdate(float time_diff);
 
 private:
-    Ogre::Light* mLight;
+    Ogre::Light* mLight;    //!< The Ogre::Light instance.
 };
 
 }

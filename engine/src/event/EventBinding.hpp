@@ -7,16 +7,38 @@
 
 namespace dt {
 
+/**
+  * Binds an Event to call another, more specific event. Usually used
+  * to forward raw input.
+  */
 class EventBinding {
 public:
+    /**
+      * Default constructor.
+      */
     EventBinding();
+
+    /**
+      * Advanced constructor.
+      * @param trigger_type The type of the event that triggers the new event.
+      * @param target The new event to be triggered.
+      */
     EventBinding(const std::string& trigger_type, Event* target);
+
+    /**
+      * Destructor.
+      */
     ~EventBinding();
+
+    /**
+      * Called when an event occurs that might match the trigger type.
+      * @param e The event that occured.
+      */
     void TriggerEvent(Event* e);
 
 private:
-    std::string mTriggerType;
-    std::shared_ptr<Event> mTarget;
+    std::string mTriggerType;       //!< The type of the event that triggers the new event.
+    std::shared_ptr<Event> mTarget; //!< The new event to be triggered.
 };
 
 }

@@ -1,7 +1,7 @@
 /**
   * \mainpage
   * \section About
-  * Welcome to the documentation for the Ducttape Game Engine - a universal open-source game engine.
+  * Welcome to the documentation for the Ducttape Engine - a universal free and open-source game engine
   * \section License
   * Ducttape itself is licensed under the Lesser GNU Public License version 3.0 (LGPL3). However, it directly and indirectly uses many libraries and media files with different licenses. For a complete list including related license files, please see docs/licenses/.
   * \section Goals
@@ -17,6 +17,7 @@
   * \li Sven-Hendrik \a 'Svenstaro' Haase
   * \li Matz-Jona \a 'Timesqueezer' Radloff
   * \li Fabian \a 'zetaron' Stegemann
+  * \li Thomas \a 'tomt610' Fiedor
   * \subsection Media
   * \li Darren \a 'visionseeker' Cullen (http://www.deliciousmusic.co.nz/artists/visionseeker)
   * \li Lasse \a 'lazzly' Bienkowski

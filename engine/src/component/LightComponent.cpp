@@ -5,21 +5,21 @@
 
 namespace dt {
 
-LightComponent::LightComponent(const std::string& name, LightComponentListener* custom_listener)
-   : Component(name, custom_listener) {
+LightComponent::LightComponent(const std::string& name)
+   : Component(name) {
 }
 
 void LightComponent::HandleEvent(Event* e) {
 }
 
-void LightComponent::OnActivate() {
+void LightComponent::OnCreate() {
     mLight = GetNode()->GetScene()->GetSceneManager()->createLight(mName);
     mLight->setType(Ogre::Light::LT_POINT);
     mLight->setDiffuseColour(1.0, 0.0, 0.0);
     mLight->setSpecularColour(1.0, 0.0, 0.0);
 }
 
-void LightComponent::OnDeactivate() {
+void LightComponent::OnDestroy() {
     GetNode()->GetScene()->GetSceneManager()->destroyLight(mLight);
 }
 

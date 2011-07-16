@@ -4,7 +4,7 @@
 #include <SFML/Audio.hpp>
 
 #include "component/Component.hpp"
-#include "component/SoundComponentListener.hpp"
+#include "event/SoundsControlEvent.hpp"
 #include "Root.hpp"
 
 namespace dt {
@@ -19,13 +19,12 @@ public:
      * Advanced constructor.
      * @see Component
      */
-    SoundComponent(const std::string& name, const std::string& sound_file = "", 
-                   SoundComponentListener* custom_listener = new SoundComponentListener());
+    SoundComponent(const std::string& name, const std::string& sound_file = "");
 
     virtual void HandleEvent(Event* e);
 
-    void OnActivate();
-    void OnDeactivate();
+    void OnCreate();
+    void OnDestroy();
     void OnUpdate(float time_diff);
 
 	/**
@@ -44,21 +43,26 @@ public:
      */
 	sf::Sound& GetSound();
 
+    /**
+     * Tries to play / continue sound located in mSound.
+     */
+    void PlaySound();
+
+    /**
+     * Pauses the sound if playing.
+     */
+    void PauseSound();
+
+    /**
+     * Stops the sound if playing.
+     */
+    void StopSound();
+
 private:
 	/**
      * Private method. Tries to load sound to buffer and then from buffer to mSound.
      */
     void _LoadSound();
-
-	/**
-     * Private method. Tries to play sound located in mSound.
-     */
-    void _PlaySound();
-
-	/**
-     * Private method. Tries to stop playing of sound located in mSound.
-     */
-    void _StopSound();
 
     std::string mSoundFile; //!< Name of sound file loaded in component.
 	sf::Sound mSound; //!< SFML Sound. It is set during _LoadSound().

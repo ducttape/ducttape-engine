@@ -2,8 +2,8 @@
 
 namespace dt {
 
-TriggerComponent::TriggerComponent(const std::string& name, TriggerComponentListener* custom_listener)
-    : Component(name, custom_listener) {
+TriggerComponent::TriggerComponent(const std::string& name)
+    : Component(name) {
 }
 
 void TriggerComponent::HandleEvent(Event* e) {
@@ -12,9 +12,9 @@ void TriggerComponent::HandleEvent(Event* e) {
     }
 }
 
-void TriggerComponent::OnActivate() {}
+void TriggerComponent::OnCreate() {}
 
-void TriggerComponent::OnDeactivate() {}
+void TriggerComponent::OnDestroy() {}
 
 void TriggerComponent::OnUpdate(float time_diff) {}
 

@@ -2,11 +2,11 @@
 #define DUCTTAPE_ENGINE_COMPONENT_COMPONENT
 
 #include "event/EventListener.hpp"
-#include "ComponentListener.hpp"
-
 
 #include <string>
-#include <type_traits>
+
+#include <boost/ptr_container/ptr_map.hpp>
+#include <boost/signals2.hpp>
 
 namespace dt {
 
@@ -19,20 +19,11 @@ class Node;
   */
 class Component : public EventListener {
 public:
-    // static_assert(std::is_base_of<ComponentListener, ComponentListener>::value, "Cannot create Component with ComponentListener not being inherited from ComponentListener.");
-
     /**
       * Constructor with set name.
       * @param name The Component name.
-      * @param custom_listener The ComponentListener to use for callbacks.
       */
-    Component(const std::string& name = "", ComponentListener* custom_listener = nullptr) {
-        if(name == "")
-            mName = "component-generated-name"; // TODO
-        else
-            mName = name;
-        mListener = std::shared_ptr<ComponentListener>(custom_listener);
-    }
+    Component(const std::string& name = "");
 
     /**
       * Pure virtual destructor makes this class abstract.
@@ -43,43 +34,103 @@ public:
       * Returns the name of the Component.
       * @returns The name of the Component.
       */
-    const std::string& GetName() const {
-        return mName;
-    }
+    const std::string& GetName() const;
 
-    virtual void HandleEvent(Event* e) {}
+    virtual void HandleEvent(Event* e);
 
     /**
-      * Returns the ComponentListener of this Component.
-      * @returns The ComponentListener of this Component.
+      * Called when the component is activated. Create all scene objects here.
       */
-    std::shared_ptr<ComponentListener> GetListener() {
-        return mListener;
-    }
+    virtual void OnCreate();
 
-    virtual void OnActivate() {}
-    virtual void OnDeactivate() {}
-    virtual void OnUpdate(float time_diff) {}
+    /**
+      * Called when the component is deactivated. Destroy all scene objects here.
+      */
+    virtual void OnDestroy();
 
-    void SetNode(Node* node) {
-        mNode = node;
-    }
+    /**
+      * Called when the component is enabled. Show/enable all scene objects here.
+      */
+    virtual void OnEnable();
 
-    Node* GetNode() {
-        return mNode;
-    }
+    /**
+      * Called when the component is disabled. Hide/disable all scene objects here.
+      */
+    virtual void OnDisable();
 
-    void Activate();
-    void Deactivate();
-    bool IsActivated();
+    /**
+      * Called every frame. Update the Node here.
+      * @param time_diff The frame delta time.
+      */
+    virtual void OnUpdate(float time_diff);
+
+    /**
+      * Sets the node of this component.
+      * @param node The node to be set.
+      */
+    void SetNode(Node* node);
+
+    /**
+      * Returns the Node of this component.
+      * @returns The Node of this component.
+      */
+    Node* GetNode();
+
+    /**
+      * Creates the component.
+      */
+    void Create();
+
+    /**
+      * Destroys the component.
+      */
+    void Destroy();
+
+    /**
+      * Enables the component.
+      */
+    void Enable();
+
+    /**
+      * Disables the component.
+      */
+    void Disable();
+
+    /**
+      * Returns whether the component is created.
+      * @returns Whether the component is created.
+      */
+    bool IsCreated();
+
+    /**
+      * Returns whether the component is enabled.
+      * @returns Whether the component is enabled.
+      */
+    bool IsEnabled();
+
+    /**
+      * Binds a slot to a signal.
+      * @param signal_identifier The name of the signal being called on events. Example: "Triggered" or "AnimationFinished". Case sensitive.
+      * @param slot The callback function.
+      * @returns A boost signals2 connection to disconnect the slot again.
+      */
+    boost::signals2::connection BindSlot(const std::string& signal_identifier, boost::function<void ()> slot);
 
 protected:
-    std::string mName;                          //!< The Component name.
-    std::shared_ptr<ComponentListener> mListener;    //!< The ComponentListener to use for callbacks.
-    Node* mNode;
+
+    /**
+      * Calls the signal with the identifier given.
+      * @param signal_identifier The signal to call.
+      */
+    void _CallSignal(const std::string& signal_identifier);
+    boost::ptr_map<std::string, boost::signals2::signal<void ()> > mSignals;    //!< The list of signals.
+
+    std::string mName;  //!< The Component name.
+    Node* mNode;        //!< The parent Node.
 
 private:
-    bool mIsActivated;
+    bool mIsEnabled;    //!< Whether the component is enabled or not.
+    bool mIsCreated;    //!< Whether the component has been created or not.
 };
 
 }

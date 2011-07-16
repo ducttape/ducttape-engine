@@ -13,6 +13,7 @@ debug:
 
 doc:
 	cd build; make doc
+	echo "Generating docs done! Now open build/docs/doxygen/html/index.html"
 
 test:
 	cd build; make test
