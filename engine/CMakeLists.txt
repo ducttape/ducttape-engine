@@ -32,7 +32,7 @@ target_link_libraries(ducttape
 )
 
 set_target_properties(ducttape
-    PROPERTIES SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR})
+    PROPERTIES SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
 
 install(TARGETS ducttape
         RUNTIME DESTINATION bin
