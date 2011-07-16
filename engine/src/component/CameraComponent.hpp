@@ -10,6 +10,9 @@
 
 namespace dt {
 
+/**
+  * Adds a camera to the Node.
+  */
 class CameraComponent : public Component {
 public:
     /**
@@ -24,11 +27,15 @@ public:
     void OnDeactivate();
     void OnUpdate(float time_diff);
 
+    /**
+      * Rotates the camera to look at a target point.
+      * @param target_point The point to look at.
+      */
     void LookAt(Ogre::Vector3 target_point);
 
 private:
-    Ogre::Camera* mCamera;
-    Ogre::Viewport* mViewport;
+    Ogre::Camera* mCamera;      //!< The Ogre camera instance.
+    Ogre::Viewport* mViewport;  //!< The viewport of the camera.
 };
 
 }

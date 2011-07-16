@@ -23,12 +23,7 @@ public:
       * Constructor with set name.
       * @param name The Component name.
       */
-    Component(const std::string& name = "") {
-        if(name == "")
-            mName = "component-generated-name"; // TODO
-        else
-            mName = name;
-    }
+    Component(const std::string& name = "");
 
     /**
       * Pure virtual destructor makes this class abstract.
@@ -39,26 +34,52 @@ public:
       * Returns the name of the Component.
       * @returns The name of the Component.
       */
-    const std::string& GetName() const {
-        return mName;
-    }
+    const std::string& GetName() const;
 
-    virtual void HandleEvent(Event* e) {}
+    virtual void HandleEvent(Event* e);
 
-    virtual void OnActivate() {}
-    virtual void OnDeactivate() {}
-    virtual void OnUpdate(float time_diff) {}
+    /**
+      * Called when the component is activated. Create all scene objects here.
+      */
+    virtual void OnActivate();
 
-    void SetNode(Node* node) {
-        mNode = node;
-    }
+    /**
+      * Called when the component is deactivated. Destroy all scene objects here.
+      */
+    virtual void OnDeactivate();
 
-    Node* GetNode() {
-        return mNode;
-    }
+    /**
+      * Called every frame. Update the Node here.
+      * @param time_diff The frame delta time.
+      */
+    virtual void OnUpdate(float time_diff);
 
+    /**
+      * Sets the node of this component.
+      * @param node The node to be set.
+      */
+    void SetNode(Node* node);
+
+    /**
+      * Returns the Node of this component.
+      * @returns The Node of this component.
+      */
+    Node* GetNode();
+
+    /**
+      * Activates the component.
+      */
     void Activate();
+
+    /**
+      * Deactivates the component.
+      */
     void Deactivate();
+
+    /**
+      * Returns whether the component is active.
+      * @returns Whether the component is active.
+      */
     bool IsActivated();
 
     /**
@@ -78,11 +99,11 @@ protected:
     void _CallSignal(const std::string& signal_identifier);
     boost::ptr_map<std::string, boost::signals2::signal<void ()> > mSignals;    //!< The list of signals.
 
-    std::string mName;                          //!< The Component name.
-    Node* mNode;
+    std::string mName;  //!< The Component name.
+    Node* mNode;        //!< The parent Node.
 
 private:
-    bool mIsActivated;
+    bool mIsActivated;  //!< Whether the component has been activated or not.
 };
 
 }

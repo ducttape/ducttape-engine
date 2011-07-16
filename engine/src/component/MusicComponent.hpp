@@ -8,6 +8,9 @@
 
 namespace dt {
 
+/**
+  * Adds music to the scene.
+  */
 class MusicComponent : public Component {
 public:
     /**
@@ -22,15 +25,35 @@ public:
     void OnDeactivate();
     void OnUpdate(float time_diff);
 
+    /**
+      * Sets the file to load music from.
+      * @param music_file The file to load the music from.
+      */
     void SetMusicFile(const std::string& music_file);
+
+    /**
+      * Returns the file the music was loaded from.
+      * @returns The file the music was loaded from.
+      */
     const std::string& GetMusicFile() const;
 
 private:
+    /**
+      * Private method. Prepares the music stream.
+      */
     void _LoadMusic();
+
+    /**
+      * Private method. Plays the music stream.
+      */
     void _PlayMusic();
+
+    /**
+      * Private method. Stops the music stream.
+      */
     void _StopMusic();
 
-    std::string mMusicFile;
+    std::string mMusicFile;     //!< The file the music was loaded from.
 
 };
 

@@ -9,6 +9,9 @@ EventBinding::EventBinding() {
 }
 
 EventBinding::EventBinding(const std::string& trigger_type, Event* target) {
+    if(trigger_type == target->GetType()) {
+        Logger::Error("The EventBinding " + trigger_type + " -> " + target->GetType() + " will cause an infinte event loop.");
+    }
     mTriggerType = trigger_type;
     mTarget = std::shared_ptr<Event>(target);
 }

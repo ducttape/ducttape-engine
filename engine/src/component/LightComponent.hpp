@@ -9,11 +9,15 @@
 
 namespace dt {
 
+/**
+  * Adds a light to the scene.
+  */
 class LightComponent : public Component {
 public:
     /**
       * Advanced constructor.
       * @see Component
+      * @param name The name of the component.
       */
     LightComponent(const std::string& name);
 
@@ -24,7 +28,7 @@ public:
     void OnUpdate(float time_diff);
 
 private:
-    Ogre::Light* mLight;
+    Ogre::Light* mLight;    //!< The Ogre::Light instance.
 };
 
 }
