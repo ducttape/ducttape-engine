@@ -7,14 +7,15 @@
 
 namespace dt {
 
-SoundComponent::SoundComponent(const std::string& name, const std::string& sound_file, SoundComponentListener* custom_listener)
+SoundComponent::SoundComponent(const std::string& name, 
+                               const std::string& sound_file, 
+                               SoundComponentListener* custom_listener)
     : Component(name, custom_listener) {
     mSoundFile = sound_file;
     _LoadSound();
 }
 
 void SoundComponent::HandleEvent(Event* e) {
-    auto resmgr = Root::get_mutable_instance().GetResourceManager();
     if(e->GetType() == "DT_SOUNDPAUSEEVENT") {
 		if(mSound.GetStatus() == sf::Sound::Paused) {
             mSound.Play();
@@ -38,7 +39,9 @@ void SoundComponent::OnDeactivate() {
 }
 
 void SoundComponent::OnUpdate(float time_diff) {
-	mSound.SetPosition(mNode->GetPosition(Node::SCENE).x, mNode->GetPosition(Node::SCENE).y, mNode->GetPosition(Node::SCENE).z);
+	mSound.SetPosition(mNode->GetPosition(Node::SCENE).x, 
+                       mNode->GetPosition(Node::SCENE).y, 
+                       mNode->GetPosition(Node::SCENE).z);
 }
 
 void SoundComponent::SetSoundFile(const std::string& sound_file) {

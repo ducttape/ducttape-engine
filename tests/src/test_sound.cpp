@@ -13,7 +13,6 @@
 int main(int argc, char** argv) {
     dt::Root& root = dt::Root::get_mutable_instance();
     root.Initialize(argc, argv);
-    std::string sound_file = "test_music_loop_mono.ogg";
 
     dt::SoundStartEvent start_event;
     dt::SoundPauseEvent pause_event;
@@ -22,7 +21,8 @@ int main(int argc, char** argv) {
     dt::Scene scene("scene1");
 
     scene.AddChildNode(new dt::Node("sound"));
-
+    
+    std::string sound_file = "test_music_loop_mono.ogg";
     dt::SoundComponent* sound_component = new dt::SoundComponent("sound", sound_file);
 
     scene.FindChildNode("sound", false)->AddComponent(sound_component);
