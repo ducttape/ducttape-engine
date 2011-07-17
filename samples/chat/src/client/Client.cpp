@@ -1,4 +1,5 @@
 #include "Client.hpp"
+#include "Client.hpp"
 
 #include "ChatMessageEvent.hpp"
 
@@ -55,6 +56,8 @@ void Client::InputThread(void* user_data) {
             std::string nick = in.substr(6);
             client->SetNick(nick);
             std::cout << "** You changed your nick to: " << nick << std::endl;
+        } else if(in.substr(0,5) == "/ping") {
+            std::cout << "** Your ping is: " << dt::Root::get_mutable_instance().GetNetworkManager()->GetConnectionsManager()->GetPing(1) << std::endl;
         } else if(in == "/quit" || in == "/exit") {
             client->RequestShutdown();
         } else {

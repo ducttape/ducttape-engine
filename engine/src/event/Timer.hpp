@@ -43,6 +43,12 @@ public:
       * @returns The message to send with the TimerTickEvent.
       */
     const std::string& GetMessageEvent() const;
+
+    /**
+      * Stops the timer.
+      */
+    void Stop();
+
 private:
     /**
       * Private method. Runs the timer in a thread.
