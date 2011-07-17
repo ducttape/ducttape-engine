@@ -23,11 +23,6 @@ void CameraComponent::HandleEvent(Event* e) {
 void CameraComponent::OnCreate() {
     mCamera = GetNode()->GetScene()->GetSceneManager()->createCamera("camera-" + mName);
     Root::get_mutable_instance().GetDisplayManager()->RegisterCamera(this);
-    Root::get_mutable_instance().GetDisplayManager()->ActivateCamera(mName);
-
-    mViewport = Root::get_mutable_instance().GetDisplayManager()->GetRenderWindow()->addViewport(mCamera);
-    mViewport->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
-    mCamera->setAspectRatio(Ogre::Real(mViewport->getActualWidth()) / Ogre::Real(mViewport->getActualHeight()));
     mCamera->setNearClipDistance(0.1);
 }
 
@@ -43,6 +38,10 @@ void CameraComponent::LookAt(Ogre::Vector3 target_point) {
 void CameraComponent::OnUpdate(float time_diff) {
     mCamera->setPosition(mNode->GetPosition(Node::SCENE));
     mCamera->setOrientation(mNode->GetRotation(Node::SCENE));
+}
+
+Ogre::Camera* CameraComponent::GetCamera() {
+	return mCamera;
 }
 
 }
