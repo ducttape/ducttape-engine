@@ -41,9 +41,10 @@ public:
       */
     void LookAt(Ogre::Vector3 target_point);
 
+	Ogre::Camera* GetCamera();
+
 private:
     Ogre::Camera* mCamera;      //!< The Ogre camera instance.
-    Ogre::Viewport* mViewport;  //!< The viewport of the camera.
 };
 
 }
