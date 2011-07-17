@@ -16,6 +16,9 @@ Component::Component(const std::string& name) {
         mName = "component-generated-name"; // TODO
     else
         mName = name;
+
+	mIsCreated = false;
+	mIsEnabled = false;
 }
 
 Component::~Component() {}
