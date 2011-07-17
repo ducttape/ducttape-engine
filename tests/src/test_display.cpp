@@ -11,6 +11,7 @@
 #include "scene/Scene.hpp"
 #include "scene/Node.hpp"
 #include "component/MeshComponent.hpp"
+#include "component/FollowPathComponent.hpp"
 #include "component/PlaneComponent.hpp"
 #include "component/LightComponent.hpp"
 #include "event/EventListener.hpp"
@@ -47,6 +48,16 @@ public:
         mScene.AddChildNode(new dt::Node("meshnode"));
         dt::MeshComponent* mesh = new dt::MeshComponent("lolmesh", "Sinbad.mesh");
         mScene.FindChildNode("meshnode", false)->AddComponent(mesh);
+        dt::FollowPathComponent* path = new dt::FollowPathComponent("path");
+        mScene.FindChildNode("meshnode", false)->AddComponent(path);
+        path = mScene.FindChildNode("meshnode", false)->FindComponent<dt::FollowPathComponent>("path");
+
+        path->AddPoint(Ogre::Vector3(3, 0, 0));
+        path->AddPoint(Ogre::Vector3(-3, 0, 0));
+        path->AddPoint(Ogre::Vector3(0, 0, -5));
+        path->AddPoint(Ogre::Vector3(3, 0, 0));
+        path->SetDuration(5.f);
+
 
         /* std::cout << "Available Animations: ";
         for(std::string s: mesh->GetAvailableAnimations()) {

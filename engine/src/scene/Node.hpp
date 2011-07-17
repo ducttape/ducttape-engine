@@ -181,6 +181,9 @@ private:
     Ogre::Quaternion mRotation; //!< The Node rotation.
 
     Node* mParent;              //!< A pointer to the parent Node.
+
+    bool mIsUpdatingAfterChange; //!< Whether the node is just in the process of updating all components after a change occurred. This is to prevent infinite stack loops.
+
 };
 
 }

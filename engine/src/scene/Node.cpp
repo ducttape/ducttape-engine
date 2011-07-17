@@ -102,12 +102,15 @@ Ogre::Vector3 Node::GetPosition(Node::RelativeTo rel) const {
 }
 
 void Node::SetPosition(Ogre::Vector3 position, Node::RelativeTo rel) {
+    if(mIsUpdatingAfterChange)
+        return;
+
     if(rel == PARENT || mParent == nullptr) {
         mPosition = position;
     } else {
         mPosition = position - mParent->GetPosition(SCENE);
     }
-    _UpdateAllComponents(0);
+    OnUpdate(0);
 }
 
 Ogre::Vector3 Node::GetScale(Node::RelativeTo rel) const {
@@ -120,13 +123,16 @@ Ogre::Vector3 Node::GetScale(Node::RelativeTo rel) const {
 }
 
 void Node::SetScale(Ogre::Vector3 scale, Node::RelativeTo rel) {
+    if(mIsUpdatingAfterChange)
+        return;
+
     if(rel == PARENT || mParent == nullptr) {
         mScale = scale;
     } else {
         Ogre::Vector3 p = mParent->GetScale(SCENE);
         mScale = Ogre::Vector3(scale.x / p.x, scale.y / p.y, scale.z / p.z);
     }
-    _UpdateAllComponents(0);
+    OnUpdate(0);
 }
 
 void Node::SetScale(Ogre::Real scale, Node::RelativeTo rel) {
@@ -143,6 +149,9 @@ Ogre::Quaternion Node::GetRotation(Node::RelativeTo rel) const {
 }
 
 void Node::SetRotation(Ogre::Quaternion rotation, Node::RelativeTo rel) {
+    if(mIsUpdatingAfterChange)
+        return;
+
     if(rel == PARENT || mParent == nullptr) {
         mRotation = rotation;
     } else {
@@ -151,7 +160,7 @@ void Node::SetRotation(Ogre::Quaternion rotation, Node::RelativeTo rel) {
         // Ogre::Quaternion p = mParent->GetRotation(SCENE);
         mRotation = rotation;
     }
-    _UpdateAllComponents(0);
+    OnUpdate(0);
 }
 
 void Node::SetParent(Node* parent) {
@@ -196,6 +205,7 @@ bool Node::_IsScene() {
 }
 
 void Node::_UpdateAllComponents(float time_diff) {
+    mIsUpdatingAfterChange = (time_diff == 0);
 #ifdef COMPILER_MSVC
     typedef std::pair<std::string, std::shared_ptr<Component> > pair_type;
     BOOST_FOREACH(pair_type pair, mComponents) {
@@ -204,12 +214,15 @@ void Node::_UpdateAllComponents(float time_diff) {
 #endif
         pair.second->OnUpdate(time_diff);
     }
+    mIsUpdatingAfterChange = false;
 }
 
 void Node::_UpdateAllChildren(float time_diff) {
+    mIsUpdatingAfterChange = (time_diff == 0);
     for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
         iter->second->OnUpdate(time_diff);
     }
+    mIsUpdatingAfterChange = false;
 }
 
 }
