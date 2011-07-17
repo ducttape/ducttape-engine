@@ -19,6 +19,7 @@
 #include "event/HandshakeEvent.hpp"
 #include "event/GoodbyeEvent.hpp"
 #include "event/NetworkEvent.hpp"
+#include "event/PingEvent.hpp"
 #include "utils/Utils.hpp"
 
 namespace dt {

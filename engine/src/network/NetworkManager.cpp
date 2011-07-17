@@ -26,9 +26,14 @@ void NetworkManager::Initialize() {
     // add all default events as prototypes
     RegisterNetworkEventPrototype(new HandshakeEvent());
     RegisterNetworkEventPrototype(new GoodbyeEvent());
+    RegisterNetworkEventPrototype(new PingEvent(0));
+
+    // initialize the connections mananger
+    mConnectionsManager.Initialize();
 }
 
 void NetworkManager::Deinitialize() {
+    mConnectionsManager.Deinitialize();
     Root::get_mutable_instance().GetEventManager()->RemoveListener(this);
 }
 
@@ -85,7 +90,7 @@ void NetworkManager::SendQueuedEvents() {
 }
 
 void NetworkManager::QueueEvent(NetworkEvent* event) {
-    Logger::Get().Debug("NetworkManager: Queued NetworkEvent [" + tostr(event->GetTypeID()) + ": " + event->GetType() + "]");
+    //Logger::Get().Debug("NetworkManager: Queued NetworkEvent [" + tostr(event->GetTypeID()) + ": " + event->GetType() + "]");
     mQueue.push_back(event);
 }
 
@@ -108,8 +113,8 @@ void NetworkManager::HandleIncomingEvents() {
             packet >> type;
             NetworkEvent* event = CreatePrototypeInstance(type);
             if(event != nullptr) {
-                Logger::Get().Info("NetworkManager: Received event [" + tostr(event->GetTypeID()) + ": " +
-                                   event->GetType() + "] from <" + tostr(sender_id) + ">. Handling.");
+                // Logger::Get().Debug("NetworkManager: Received event [" + tostr(event->GetTypeID()) + ": " +
+                                   // event->GetType() + "] from <" + tostr(sender_id) + ">. Handling.");
                 IOPacket iop(&packet, IOPacket::MODE_RECEIVE);
                 event->Serialize(iop);
                 event->IsLocalEvent(true);
@@ -181,7 +186,7 @@ void NetworkManager::_SendEvent(NetworkEvent* event) {
 #else
     for(int i: event->GetRecipients()) {
 #endif
-        Logger::Get().Debug("NetworkManager: Sending Event to " + tostr(i));
+        // Logger::Get().Debug("NetworkManager: Sending Event to " + tostr(i));
         Connection* r = mConnectionsManager.GetConnection(i);
         mSocket.Send(p, r->GetIPAddress(), r->GetPort());
     }

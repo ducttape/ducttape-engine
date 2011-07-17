@@ -85,5 +85,13 @@ void Timer::_ThreadFunction(void* user_data) {
     timer->TriggerTickEvent();
 }
 
+void Timer::Stop() {
+    if(mThreaded) {
+        mThread->Terminate();
+    } else {
+        Root::get_mutable_instance().GetEventManager()->RemoveListener(this);
+    }
+    mTimeLeft = mInterval; // reset
+}
 
 }
