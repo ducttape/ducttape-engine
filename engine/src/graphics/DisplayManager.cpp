@@ -117,7 +117,7 @@ bool DisplayManager::AddViewport(const std::string& name, const std::string& cam
 
 	std::string viewport_name = name;
 
-    mViewports.insert(viewport_name, new dt::Viewport());
+    mViewports.insert(viewport_name, new dt::Viewport);
     mViewports[name].Initialize((GetRenderWindow()->addViewport(mCameras[camera_name]->GetCamera(), 
                                   mNextZOrder, left, top, width, height)));
     mNextZOrder++;
