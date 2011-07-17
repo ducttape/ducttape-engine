@@ -126,7 +126,7 @@ private:
 
     std::map<std::string, CameraComponent*> mCameras;
     std::map<std::string, Ogre::SceneManager*> mSceneManagers;
-    boost::ptr_map<std::string, dt::Viewport*> mViewports;
+    boost::ptr_map<std::string, dt::Viewport> mViewports;
     std::map<std::string, std::string> mViewportsCameras;
     std::string mMainViewport;
 

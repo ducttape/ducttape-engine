@@ -99,7 +99,7 @@ bool DisplayManager::ActivateCamera(const std::string& name, const std::string& 
     if(mViewports.count(change_viewport_name) == 0)
         return false;
 
-    mViewports[change_viewport_name]->setCamera(mCameras[name]->GetCamera());
+    mViewports[change_viewport_name].setCamera(mCameras[name]->GetCamera());
     mViewportsCameras[change_viewport_name] = name;
 
     return true;
@@ -115,8 +115,10 @@ bool DisplayManager::AddViewport(const std::string& name, const std::string& cam
     if(mCameras.count(camera_name) == 0)
         return false;
 
-    mViewports[name] = new dt::Viewport();
-    mViewports[name]->Initialize((GetRenderWindow()->addViewport(mCameras[camera_name]->GetCamera(), 
+	std::string viewport_name = name;
+
+    mViewports.insert(viewport_name, new dt::Viewport());
+    mViewports[name].Initialize((GetRenderWindow()->addViewport(mCameras[camera_name]->GetCamera(), 
                                   mNextZOrder, left, top, width, height)));
     mNextZOrder++;
 
@@ -124,7 +126,7 @@ bool DisplayManager::AddViewport(const std::string& name, const std::string& cam
         mMainViewport = name;
     }
 
-    mViewports[name]->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
+    mViewports[name].setBackgroundColour(Ogre::ColourValue(0, 0, 0));
 
     ActivateCamera(camera_name, name);
 
@@ -136,7 +138,7 @@ bool DisplayManager::HideViewport(const std::string& name) {
     if(mViewports.count(name) == 0)
         return false;
 
-    mViewports[name]->hide();
+    mViewports[name].hide();
 
     return true;
 }
@@ -146,7 +148,7 @@ bool DisplayManager::ShowViewport(const std::string& name) {
     if(mViewports.count(name) == 0)
         return false;
 
-    mViewports[name]->show();
+    mViewports[name].show();
 
     return true;
 }
