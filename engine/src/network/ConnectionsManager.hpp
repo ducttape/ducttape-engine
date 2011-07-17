@@ -1,3 +1,11 @@
+
+// ----------------------------------------------------------------------------
+// This file is part of the Ducttape Project (http://ducttape-dev.org) and is
+// licensed under the GNU LESSER PUBLIC LICENSE version 3. For the full license
+// text, please see the LICENSE file in the root of this project or at
+// http://www.gnu.org/licenses/lgpl.html
+// ----------------------------------------------------------------------------
+
 #ifndef DUCTTAPE_ENGINE_NETWORK_CONNECTIONSMANAGER
 #define DUCTTAPE_ENGINE_NETWORK_CONNECTIONSMANAGER
 
@@ -6,6 +14,8 @@
 #include <vector>
 
 #include "Connection.hpp"
+#include "event/Timer.hpp"
+#include "event/PingEvent.hpp"
 
 namespace dt {
 
@@ -13,7 +23,7 @@ namespace dt {
   * Class for managing all Connections.
   * @see Connection
   */
-class ConnectionsManager {
+class ConnectionsManager : public EventListener {
 public:
     /**
       * Type of Connection IDs. Limits the number of maximum connections.
@@ -31,6 +41,16 @@ public:
       * Destructor.
       */
     ~ConnectionsManager();
+
+    /**
+      * Initializes the manager.
+      */
+    void Initialize();
+
+    /**
+      * Deinitializes the manager.
+      */
+    void Deinitialize();
 
     /**
       * Setter for maximum number of connections allowed. Existing connections will \b not be removed
@@ -97,16 +117,76 @@ public:
      */
     uint16_t GetConnectionCount();
 
+    /**
+      * Sets the interval between two pings. Set this to 0 to disable pings. Default: 1000.
+      * @param ping_interval The interval between two pings, in milliseconds.
+      */
+    void SetPingInterval(uint32_t ping_interval);
+
+    /**
+      * Returns the interval between two pings.
+      * @return The interval between two pings, in milliseconds.
+      */
+    uint32_t GetPingInterval();
+
+    /**
+      * Sets the time until a connection times out. Set this to 0 to disable timeouts. Default: 10000.
+      * @param timeout The time until a connection times out, in milliseconds.
+      */
+    void SetTimeout(uint32_t timeout);
+
+    /**
+      * Returns the time until a connection times out.
+      * @returns The time until a connection times out, in milliseconds.
+      */
+    uint32_t GetTimeout();
+
+    void HandleEvent(Event* e);
+
+    /**
+      * Returns the ping of a connection.
+      * @param connection The ID of the connection.
+      * @returns The ping of the connection.
+      */
+    uint32_t GetPing(ID_t connection);
+
 private:
     /**
-      * Finds an unused ID to assign to the next Connection.
+      * Private method. Finds an unused ID to assign to the next Connection.
       * @returns An unused ID.
       */
     ID_t _GetNewID();
 
+    /**
+      * Private method. Sends out a PingEvent.
+      */
+    void _Ping();
+
+    /**
+      * Private method. Handles an incoming ping event.
+      * @param ping_event The ping event.
+      */
+    void _HandlePing(PingEvent* ping_event);
+
+    /**
+      * Private method. Checks all connections for timeouts.
+      */
+    void _CheckTimeouts();
+
+    /**
+      * Private method. Called when a connection times out.
+      * @param connection The ID of the connection that timed out.
+      */
+    void _TimeoutConnection(ID_t connection);
 
     ID_t mMaxConnections;                           //!< The maximum number of Connections allowed.
     boost::ptr_map<ID_t, Connection> mConnections;  //!< The Connections known to this manager.
+    std::map<ID_t, uint16_t> mPings;                //!< The pings for the different Connections.
+    std::map<ID_t, uint16_t> mLastActivity;         //!< The time the connection sent the last packet.
+
+    uint32_t mTimeout;      //!< The time to wait before a connection times out. In milliseconds.
+    uint32_t mPingInterval; //!< The interval in milliseconds between two pings.
+    Timer* mPingTimer;      //!< The timer for when to send out pings.
 };
 
 }
