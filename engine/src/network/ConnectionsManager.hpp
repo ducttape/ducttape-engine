@@ -129,6 +129,18 @@ public:
       */
     uint32_t GetPingInterval();
 
+    /**
+      * Sets the time until a connection times out. Set this to 0 to disable timeouts. Default: 10000.
+      * @param timeout The time until a connection times out, in milliseconds.
+      */
+    void SetTimeout(uint32_t timeout);
+
+    /**
+      * Returns the time until a connection times out.
+      * @returns The time until a connection times out, in milliseconds.
+      */
+    uint32_t GetTimeout();
+
     void HandleEvent(Event* e);
 
     /**
@@ -140,27 +152,39 @@ public:
 
 private:
     /**
-      * Finds an unused ID to assign to the next Connection.
+      * Private method. Finds an unused ID to assign to the next Connection.
       * @returns An unused ID.
       */
     ID_t _GetNewID();
 
     /**
-      * Sends out a PingEvent.
+      * Private method. Sends out a PingEvent.
       */
     void _Ping();
 
     /**
-      * Handles an incoming ping event.
+      * Private method. Handles an incoming ping event.
       * @param ping_event The ping event.
       */
     void _HandlePing(PingEvent* ping_event);
 
+    /**
+      * Private method. Checks all connections for timeouts.
+      */
+    void _CheckTimeouts();
+
+    /**
+      * Private method. Called when a connection times out.
+      * @param connection The ID of the connection that timed out.
+      */
+    void _TimeoutConnection(ID_t connection);
 
     ID_t mMaxConnections;                           //!< The maximum number of Connections allowed.
     boost::ptr_map<ID_t, Connection> mConnections;  //!< The Connections known to this manager.
     std::map<ID_t, uint16_t> mPings;                //!< The pings for the different Connections.
+    std::map<ID_t, uint16_t> mLastActivity;         //!< The time the connection sent the last packet.
 
+    uint32_t mTimeout;      //!< The time to wait before a connection times out. In milliseconds.
     uint32_t mPingInterval; //!< The interval in milliseconds between two pings.
     Timer* mPingTimer;      //!< The timer for when to send out pings.
 };

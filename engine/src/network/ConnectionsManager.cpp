@@ -15,6 +15,7 @@ namespace dt {
 ConnectionsManager::ConnectionsManager(ConnectionsManager::ID_t max_connections) {
     mMaxConnections = max_connections;
     mPingInterval = 1000;
+    SetTimeout(10000);
     mPingTimer = nullptr;
 }
 
@@ -127,12 +128,21 @@ uint32_t ConnectionsManager::GetPingInterval() {
     return mPingInterval;
 }
 
+void ConnectionsManager::SetTimeout(uint32_t timeout) {
+    mTimeout = timeout;
+}
+
+uint32_t ConnectionsManager::GetTimeout() {
+    return mTimeout;
+}
+
 void ConnectionsManager::HandleEvent(Event* e) {
     if(e->GetType() == "DT_TIMERTICKEVENT") {
         TimerTickEvent* t = (TimerTickEvent*)e;
         if(t->GetMessageEvent() == "DT_SEND_PING" && t->GetInterval() == mPingInterval) {
             // this is our timer
             _Ping();
+            _CheckTimeouts();
         }
     } else if(e->GetType() == "DT_PINGEVENT") {
         PingEvent* p = (PingEvent*)e;
@@ -148,6 +158,14 @@ void ConnectionsManager::HandleEvent(Event* e) {
             }
         }
     }
+
+    if(e->IsNetworkEvent()) {
+        NetworkEvent* n = (NetworkEvent*)e;
+        if(n->IsLocalEvent()) {
+            // we received a network event
+            mLastActivity[n->GetSenderID()] = Root::get_mutable_instance(). GetTimeSinceInitialize();
+        }
+    }
 }
 
 void ConnectionsManager::_Ping() {
@@ -160,6 +178,32 @@ void ConnectionsManager::_HandlePing(PingEvent* ping_event) {
     mPings[ping_event->GetSenderID()] = ping;
 
     Logger::Get().Debug("Ping for connection #" + tostr(ping_event->GetSenderID()) + ": " + tostr(ping));
+}
+
+void ConnectionsManager::_CheckTimeouts() {
+    uint32_t time = Root::get_mutable_instance().GetTimeSinceInitialize();
+    for(boost::ptr_map<ConnectionsManager::ID_t, Connection>::iterator i = mConnections.begin(); i != mConnections.end(); ++i) {
+        uint32_t diff = time - mLastActivity[i->first];
+        if(diff > mTimeout) {
+            _TimeoutConnection(i->first);
+        }
+    }
+}
+
+void ConnectionsManager::_TimeoutConnection(ConnectionsManager::ID_t connection) {
+    Logger::Get().Warning("Connection timed out: " + tostr(connection));
+
+    uint32_t diff = Root::get_mutable_instance().GetTimeSinceInitialize() - mLastActivity[connection];
+
+    // Send the event, hoping it will arrive at the destination
+    GoodbyeEvent* e = new GoodbyeEvent("Timeout after " + tostr(diff) + " ms.");
+    e->ClearRecipients();
+    e->AddRecipient(connection);
+    // send it directly
+    Root::get_mutable_instance().GetNetworkManager()->QueueEvent(e);
+    Root::get_mutable_instance().GetNetworkManager()->SendQueuedEvents();
+
+    RemoveConnection(connection);
 }
 
 }
