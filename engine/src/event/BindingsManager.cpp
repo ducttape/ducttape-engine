@@ -8,15 +8,21 @@
 
 #include "BindingsManager.hpp"
 
+#include "Root.hpp"
+
 namespace dt {
 
 BindingsManager::BindingsManager() {}
 
 BindingsManager::~BindingsManager() {}
 
-void BindingsManager::Initialize() {}
+void BindingsManager::Initialize() {
+    Root::get_mutable_instance().GetEventManager()->AddListener(this);
+}
 
-void BindingsManager::Deinitialize() {}
+void BindingsManager::Deinitialize() {
+    Root::get_mutable_instance().GetEventManager()->RemoveListener(this);
+}
 
 void BindingsManager::HandleEvent(Event* e) {
     for(auto iter = mBindings.begin(); iter != mBindings.end(); ++iter) {

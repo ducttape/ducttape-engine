@@ -39,6 +39,7 @@ void Root::Initialize(int argc, char** argv) {
 
     mExecutablePath = boost::filesystem::system_complete(boost::filesystem::path( argv[0]));
 
+    mEventManager->Initialize();
     mNetworkManager->Initialize();
     mResourceManager->Initialize();
     mDisplayManager->Initialize();
@@ -48,6 +49,7 @@ void Root::Deinitialize() {
     mDisplayManager->Deinitialize();
     mResourceManager->Deinitialize();
     mNetworkManager->Deinitialize();
+    mEventManager->Deinitialize();
 }
 
 uint32_t Root::GetTimeSinceInitialize() const {

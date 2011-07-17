@@ -16,6 +16,14 @@ namespace dt {
 
 EventManager::EventManager() {}
 
+void EventManager::Initialize() {
+    mBindingsManager.Initialize();
+}
+
+void EventManager::Deinitialize() {
+    mBindingsManager.Deinitialize();
+}
+
 void EventManager::HandleEvent(Event* event) {
 #ifdef COMPILER_MSVC
     BOOST_FOREACH(EventListener* l, mListeners) {
@@ -52,6 +60,10 @@ void EventManager::RemoveListener(EventListener* listener) {
     }
 
     mListeners = new_listeners;
+}
+
+BindingsManager* EventManager::GetBindingsManager() {
+    return &mBindingsManager;
 }
 
 }

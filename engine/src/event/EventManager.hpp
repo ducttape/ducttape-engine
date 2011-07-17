@@ -13,6 +13,7 @@
 
 #include "Event.hpp"
 #include "EventListener.hpp"
+#include "BindingsManager.hpp"
 
 namespace dt {
 
@@ -28,6 +29,16 @@ public:
       * Default constructor.
       */
     EventManager();
+
+    /**
+      * Initializer.
+      */
+    void Initialize();
+
+    /**
+      * Deinitializer.
+      */
+    void Deinitialize();
 
     /**
       * Method used to initiate an Event being sent to all EventListeners.
@@ -53,8 +64,15 @@ public:
       * @param listener The EventListener to remove.
       */
     void RemoveListener(EventListener* listener);
+
+    /**
+      * Returns the BindingsManager.
+      * @returns The BindingsManager.
+      */
+    BindingsManager* GetBindingsManager();
 private:
     std::vector<EventListener*> mListeners; //!< The list of EventListeners.
+    BindingsManager mBindingsManager;
 };
 
 }
