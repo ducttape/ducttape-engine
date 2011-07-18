@@ -12,11 +12,12 @@
 
 namespace dt {
 
-Timer::Timer(const std::string& message, uint32_t interval, bool repeat, bool threaded) {
+Timer::Timer(const std::string& message, uint32_t interval, bool repeat, bool threaded, bool use_events) {
     mMessage = message;
     mInterval = interval;
     mThreaded = threaded;
     mRepeat = repeat;
+    mUseEvents = use_events;
 
     if(threaded) {
         _RunThread();
@@ -44,7 +45,9 @@ void Timer::HandleEvent(Event* e) {
 }
 
 void Timer::TriggerTickEvent() {
-    Root::get_mutable_instance().GetEventManager()->HandleEvent(new TimerTickEvent(mMessage, mInterval));
+    if(mUseEvents)
+        Root::get_mutable_instance().GetEventManager()->HandleEvent(new TimerTickEvent(mMessage, mInterval));
+    mTickSignal(mMessage);
 
     if(mRepeat && mThreaded) {
         _RunThread();
@@ -92,6 +95,10 @@ void Timer::Stop() {
         Root::get_mutable_instance().GetEventManager()->RemoveListener(this);
     }
     mTimeLeft = mInterval; // reset
+}
+
+boost::signals2::connection Timer::BindSlot(boost::function<void (const std::string&)> slot) {
+    return mTickSignal.connect(slot);
 }
 
 }
