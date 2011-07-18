@@ -58,6 +58,7 @@ public:
         path->AddPoint(Ogre::Vector3(3, 0, 0));
         path->SetDuration(5.f);
         path->SetSmoothAcceleration(true);
+        path->SetSmoothCorners(true);
 
 
         /* std::cout << "Available Animations: ";
