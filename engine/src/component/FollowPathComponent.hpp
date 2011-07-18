@@ -14,6 +14,7 @@
 #include <OgreLight.h>
 
 #include "component/Component.hpp"
+#include "utils/Math.hpp"
 
 namespace dt {
 
@@ -60,6 +61,17 @@ public:
       */
     void Reset();
 
+    /**
+      * Sets whether the node should accelerate smoothly.
+      * @param smooth_acceleration Whether the node should accelerate smoothly.
+      */
+    void SetSmoothAcceleration(bool smooth_acceleration);
+
+    /**
+      * Returns whether the node should accelerate smoothly.
+      */
+    bool GetSmoothAcceleration() const;
+
 protected:
     /**
       * Calculates the position for the current progress.
@@ -71,6 +83,8 @@ private:
     std::vector<Ogre::Vector3> mPoints;
     float mDurationSinceStart;
     float mTotalDuration;
+
+    bool mSmoothAcceleration;
 
 };
 

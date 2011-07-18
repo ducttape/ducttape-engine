@@ -16,6 +16,7 @@ namespace dt {
 
 FollowPathComponent::FollowPathComponent(const std::string& name)
     : Component(name) {
+    mSmoothAcceleration = false;
 }
 
 void FollowPathComponent::HandleEvent(Event* e) {}
@@ -82,6 +83,9 @@ Ogre::Vector3 FollowPathComponent::_CalculatePosition() {
     }
 
     float length_travelled = mDurationSinceStart / mTotalDuration * GetTotalLength();
+    if(mSmoothAcceleration) {
+        length_travelled = Math::SmoothStep(0.f, GetTotalLength(), mDurationSinceStart / mTotalDuration);
+    }
     float total = 0;
     Ogre::Vector3* last = & mPoints[0];
     for(std::vector<Ogre::Vector3>::iterator iter = mPoints.begin() + 1; iter != mPoints.end(); ++iter) {
@@ -97,6 +101,14 @@ Ogre::Vector3 FollowPathComponent::_CalculatePosition() {
         last = &(*iter);
     }
     return mPoints.back();
+}
+
+void FollowPathComponent::SetSmoothAcceleration(bool smooth_acceleration) {
+    mSmoothAcceleration = smooth_acceleration;
+}
+
+bool FollowPathComponent::GetSmoothAcceleration() const {
+    return mSmoothAcceleration;
 }
 
 }
