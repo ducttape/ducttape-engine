@@ -18,7 +18,7 @@ Component::Component(const std::string& name) {
         mName = name;
 
 	mIsCreated = false;
-	mIsEnabled = false;
+    mIsEnabled = false;
 }
 
 Component::~Component() {}
@@ -51,6 +51,7 @@ void Component::Create() {
     if(!mIsCreated) {
         mIsCreated = true;
         OnCreate();
+        Enable();
     }
 }
 
