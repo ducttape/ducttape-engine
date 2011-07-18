@@ -11,7 +11,7 @@
 #include "scene/Scene.hpp"
 #include "scene/Node.hpp"
 #include "component/MeshComponent.hpp"
-#include "component/PlaneComponent.hpp"
+#include "component/FollowPathComponent.hpp"
 #include "component/ParticleSystemComponent.hpp"
 #include "event/EventListener.hpp"
 
@@ -25,7 +25,7 @@ public:
     void HandleEvent(dt::Event* e) {
         if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             mRuntime += ((dt::BeginFrameEvent*)e)->GetFrameTime();
-            if(mRuntime > 5.0) {
+            if(mRuntime > 6.0) {
                 RequestShutdown();
             }
         }
@@ -49,12 +49,19 @@ public:
         mScene.AddChildNode(new dt::Node("p"));
         dt::Node* p = mScene.FindChildNode("p", false);
 
-        p->AddComponent(new dt::MeshComponent("lolmesh", "Sinbad.mesh"));
         p->SetScale(0.2);
+        p->AddComponent(new dt::MeshComponent("lolmesh", "Sinbad.mesh"));
         dt::MeshComponent* mesh = p->FindComponent<dt::MeshComponent>("lolmesh");
-        mesh->SetAnimation("Dance");
+        mesh->SetAnimation("RunBase");
         mesh->SetLoopAnimation(true);
         mesh->PlayAnimation();
+
+        p->AddComponent(new dt::FollowPathComponent("path", dt::FollowPathComponent::LOOP));
+        dt::FollowPathComponent* path = p->FindComponent<dt::FollowPathComponent>("path");
+        path->AddPoint(Ogre::Vector3(-10, 0, 0));
+        path->AddPoint(Ogre::Vector3(10, 0, 0));
+        path->SetDuration(2.f);
+        path->SetFollowRotation(true);
 
         // create the particle system
         p->AddComponent(new dt::ParticleSystemComponent("p_sys"));
@@ -65,10 +72,10 @@ public:
         p_sys->GetOgreParticleSystem()->setDefaultDimensions(0.03, 0.03);
 
         Ogre::ParticleEmitter* e = p_sys->AddEmitter("emit1", "Point");
-        e->setAngle(Ogre::Degree(180));
+        e->setAngle(Ogre::Degree(10));
         e->setColour(Ogre::ColourValue(1.f, 0.6f, 0.f), Ogre::ColourValue(0.2f, 0.8f, 0.2f));
         e->setEmissionRate(100);
-        e->setParticleVelocity(0.2f, 0.4f);
+        e->setParticleVelocity(3.f, 4.f);
         e->setTimeToLive(1.f, 2.f);
 
         Ogre::ParticleAffector* a = p_sys->AddAffector("scaler", "Scaler");
@@ -76,14 +83,14 @@ public:
 
         a = p_sys->AddAffector("colour_interpolator", "ColourInterpolator");
         a->setParameter("time0", "0");
-        a->setParameter("colour0", "0.2 0.3 1 1");
+        a->setParameter("colour0", "1 1 0 1");
         a->setParameter("time1", "0.5");
-        a->setParameter("colour1", "0.2 1 0.6 1");
+        a->setParameter("colour1", "1 0.3 0 1");
         a->setParameter("time2", "1");
-        a->setParameter("colour2", "0 1 0 0");
+        a->setParameter("colour2", "1 0 0 0");
 
         a = p_sys->AddAffector("linear_force", "LinearForce");
-        a->setParameter("force_vector", "0 2 0");
+        a->setParameter("force_vector", "0 5 0");
     }
 
 private:
