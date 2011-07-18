@@ -53,7 +53,7 @@ public:
     void OnDestroy();
     void OnEnable();
     void OnDisable();
-    void OnUpdate(float time_diff);
+    void OnUpdate(double time_diff);
 
 private:
     Ogre::SceneNode* mSceneNode;                //!< The Ogre::SceneNode this particle system is attached to.

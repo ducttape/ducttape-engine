@@ -105,7 +105,7 @@ void ParticleSystemComponent::OnDisable() {
     mParticleSystem->setEmitting(false);
 }
 
-void ParticleSystemComponent::OnUpdate(float time_diff) {
+void ParticleSystemComponent::OnUpdate(double time_diff) {
     mSceneNode->setPosition(mNode->GetPosition(Node::SCENE));
     mSceneNode->setOrientation(mNode->GetRotation(Node::SCENE));
     mSceneNode->setScale(mNode->GetScale(Node::SCENE));

@@ -18,13 +18,13 @@ public:
         mTimer3Count = 0;
 
         std::cout << "TIMER: Starting 3 timers:" << std::endl;
-        std::cout << "  1 - Event mode  - 1000ms" << std::endl;
-        std::cout << "  2 - Thread mode - 2010ms" << std::endl;
-        std::cout << "  3 - Thread mode - 1000ms - Callback, no events" << std::endl;
+        std::cout << "  1 - Event mode  - every second" << std::endl;
+        std::cout << "  2 - Thread mode - every 2nd second" << std::endl;
+        std::cout << "  3 - Thread mode - every second - Callback, no events" << std::endl;
 
-        mTimer1 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 1 (event mode)", 1000, true, false));
-        mTimer2 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 2 (thread mode)", 2010, true, true));
-        mTimer3 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 3 (callback)", 1000, true, true, false));
+        mTimer1 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 1 (event mode)", 1.0, true, false));
+        mTimer2 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 2 (thread mode)", 2.01, true, true));
+        mTimer3 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 3 (callback)", 1.0, true, true, false));
         mTimer3->BindSlot(boost::bind(&CustomGame::TimerCallback, this, _1));
 
         dt::Root::get_mutable_instance().GetEventManager()->AddListener(this);
@@ -48,7 +48,7 @@ public:
         } else if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             mTotalTime += ((dt::BeginFrameEvent*)e)->GetFrameTime();
 
-            if(mTotalTime >= 10000) {
+            if(mTotalTime >= 10.0) {
                 RequestShutdown();
                 mTimer1->Stop();
                 mTimer2->Stop();
@@ -70,7 +70,7 @@ public:
     int mTimer2Count;
     int mTimer3Count;
 
-    int mTotalTime;
+    double mTotalTime;
 };
 
 int main(int argc, char** argv) {
@@ -85,6 +85,11 @@ int main(int argc, char** argv) {
 
     if(game.mTimer2Count < 4) {
         std::cerr << "Timer2 (thread) did not tick often enough (only " << game.mTimer1Count << " times)." << std::endl;
+        return 1;
+    }
+
+    if(game.mTimer3Count < 9) {
+        std::cerr << "Timer3 (thread, callback) did not tick often enough (only " << game.mTimer3Count << " times)." << std::endl;
         return 1;
     }
 

@@ -26,7 +26,7 @@ void Game::Run(int argc, char** argv) {
     while(!mIsShutdownRequested) {
         // TIMING
         // TODO: Implement real timing instead of just getting the time difference
-        uint32_t frame_time = mClock.GetElapsedTime();
+        double frame_time = mClock.GetElapsedTime() / 1000.0;
         mClock.Reset();
 
         Root::get_mutable_instance().GetEventManager()->HandleEvent(new BeginFrameEvent(frame_time));

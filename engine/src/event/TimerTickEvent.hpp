@@ -23,7 +23,7 @@ public:
       * @param message The message the timer was configured with.
       * @param interval The interval of the timer.
       */
-    TimerTickEvent(const std::string& message, uint32_t interval);
+    TimerTickEvent(const std::string& message, double interval);
     const std::string GetType() const;
     Event* Clone() const;
 
@@ -31,10 +31,10 @@ public:
       * Returns the interval of the timer.
       * @returns The interval of the timer.
       */
-    uint32_t GetInterval() const;
+    double GetInterval() const;
 
 private:
-    uint32_t mInterval; //!< The interval the timer was configured with.
+    double mInterval; //!< The interval the timer was configured with.
 };
 
 }

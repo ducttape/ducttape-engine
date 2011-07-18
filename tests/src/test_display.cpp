@@ -26,7 +26,7 @@ public:
     void HandleEvent(dt::Event* e) {
         if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             mRuntime += ((dt::BeginFrameEvent*)e)->GetFrameTime();
-            if(mRuntime > 5000) {
+            if(mRuntime > 5.0) {
                 RequestShutdown();
             }
         }
@@ -83,7 +83,7 @@ public:
     }
 
 private:
-    uint32_t mRuntime;
+    double mRuntime;
     dt::Scene mScene;
 
 };

@@ -37,7 +37,7 @@ void Component::OnEnable() {}
 
 void Component::OnDisable() {}
 
-void Component::OnUpdate(float time_diff) {}
+void Component::OnUpdate(double time_diff) {}
 
 void Component::SetNode(Node* node) {
     mNode = node;

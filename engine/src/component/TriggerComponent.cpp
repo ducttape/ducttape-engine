@@ -24,6 +24,6 @@ void TriggerComponent::OnCreate() {}
 
 void TriggerComponent::OnDestroy() {}
 
-void TriggerComponent::OnUpdate(float time_diff) {}
+void TriggerComponent::OnUpdate(double time_diff) {}
 
 }

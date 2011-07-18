@@ -33,7 +33,7 @@ public:
 
     void OnCreate();
     void OnDestroy();
-    void OnUpdate(float time_diff);
+    void OnUpdate(double time_diff);
 
 	/**
      * Plays the sound located in mSound.

@@ -37,7 +37,7 @@ const std::string& Scene::GetName() {
 
 void Scene::HandleEvent(Event* e) {
     if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-        OnUpdate(((BeginFrameEvent*)e)->GetFrameTime() / 1000.f);
+        OnUpdate(((BeginFrameEvent*)e)->GetFrameTime());
     }
 }
 

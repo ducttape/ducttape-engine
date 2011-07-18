@@ -23,7 +23,7 @@ void FollowPathComponent::HandleEvent(Event* e) {}
 void FollowPathComponent::OnCreate() {}
 void FollowPathComponent::OnDestroy() {}
 
-void FollowPathComponent::OnUpdate(float time_diff) {
+void FollowPathComponent::OnUpdate(double time_diff) {
     if(IsEnabled()) {
         // move progress further
         mDurationSinceStart += time_diff;

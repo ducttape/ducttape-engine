@@ -34,7 +34,7 @@ public:
 
     void OnCreate();
     void OnDestroy();
-    void OnUpdate(float time_diff);
+    void OnUpdate(double time_diff);
 
     void AddPoint(Ogre::Vector3 point);
     /**

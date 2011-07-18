@@ -12,7 +12,7 @@
 
 namespace dt {
 
-Timer::Timer(const std::string& message, uint32_t interval, bool repeat, bool threaded, bool use_events) {
+Timer::Timer(const std::string& message, double interval, bool repeat, bool threaded, bool use_events) {
     mMessage = message;
     mInterval = interval;
     mThreaded = threaded;
@@ -65,7 +65,7 @@ void Timer::TriggerTickEvent() {
 
 }
 
-uint32_t Timer::GetInterval() const {
+double Timer::GetInterval() const {
     return mInterval;
 }
 
@@ -81,8 +81,8 @@ void Timer::_RunThread() {
 void Timer::_ThreadFunction(void* user_data) {
     Timer* timer = (Timer*)user_data;
 
-    // wait for interval milliseconds
-    sf::Sleep(timer->GetInterval());
+    // wait for interval, convert to milliseconds for SFML
+    sf::Sleep(timer->GetInterval() * 1000);
 
     // done, trigger event
     timer->TriggerTickEvent();

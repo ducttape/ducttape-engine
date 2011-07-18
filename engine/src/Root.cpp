@@ -52,8 +52,8 @@ void Root::Deinitialize() {
     mEventManager->Deinitialize();
 }
 
-uint32_t Root::GetTimeSinceInitialize() const {
-    return mSfClock.GetElapsedTime();
+double Root::GetTimeSinceInitialize() const {
+    return mSfClock.GetElapsedTime() / 1000.0;
 }
 
 const boost::filesystem::path& Root::GetExecutablePath() const {

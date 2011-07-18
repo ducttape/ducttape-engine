@@ -31,7 +31,7 @@ void LightComponent::OnDestroy() {
     GetNode()->GetScene()->GetSceneManager()->destroyLight(mLight);
 }
 
-void LightComponent::OnUpdate(float time_diff) {
+void LightComponent::OnUpdate(double time_diff) {
     mLight->setPosition(mNode->GetPosition(Node::SCENE));
 }
 

@@ -70,7 +70,7 @@ public:
       * Called every frame. Update the Node here.
       * @param time_diff The frame delta time.
       */
-    virtual void OnUpdate(float time_diff);
+    virtual void OnUpdate(double time_diff);
 
     /**
       * Sets the node of this component.

@@ -10,7 +10,7 @@
 
 namespace dt {
 
-PingEvent::PingEvent(uint32_t timestamp, bool is_reply) {
+PingEvent::PingEvent(double timestamp, bool is_reply) {
     mTimestamp = timestamp;
     mIsReply = is_reply;
 }
@@ -32,7 +32,7 @@ bool PingEvent::IsReply() const {
     return mIsReply;
 }
 
-uint32_t PingEvent::GetTimestamp() const {
+double PingEvent::GetTimestamp() const {
     return mTimestamp;
 }
 
