@@ -14,6 +14,9 @@ LogManager::LogManager() {
     //GetLogger("default"); // create default logger
 }
 
+void LogManager::Initialize() {}
+void LogManager::Deinitialize() {}
+
 Logger& LogManager::GetLogger() {
     return GetLogger("default");
 }

@@ -6,16 +6,20 @@ namespace dt {
 
 InputManager::InputManager() {
     mInputSystem = nullptr;
+    mWindow = nullptr;
     mJailInput = false;
 }
 
-void InputManager::Initialize(Ogre::RenderWindow* window) {
+void InputManager::Initialize() {
     if(mInputSystem != nullptr) {
         Logger::Get().Warning("Input system already initialized. Aborting.");
         return;
     }
 
-    mWindow = window;
+    if(mWindow == nullptr) {
+        Logger::Get().Warning("Cannot initialize InputManager: no window set.");
+        return;
+    }
 
     OIS::ParamList params;
 
@@ -60,6 +64,10 @@ void InputManager::Deinitialize() {
         OIS::InputManager::destroyInputSystem(mInputSystem);
         mInputSystem = nullptr;
     }
+}
+
+void InputManager::SetWindow(Ogre::RenderWindow* window) {
+    mWindow = window;
 }
 
 void InputManager::Capture() {

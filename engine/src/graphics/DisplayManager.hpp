@@ -21,13 +21,14 @@
 #include "component/CameraComponent.hpp"
 #include "utils/Logger.hpp"
 #include "graphics/Viewport.hpp"
+#include "Manager.hpp"
 
 namespace dt {
 
 /**
   * A manager class for managing the display and rendering.
   */
-class DisplayManager {
+class DisplayManager : public Manager {
 public:
     /**
       * Default constructor.

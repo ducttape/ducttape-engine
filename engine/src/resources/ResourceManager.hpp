@@ -19,13 +19,15 @@
 
 #include <OgreResourceGroupManager.h>
 
+#include "Manager.hpp"
+
 namespace dt {
 
 /**
   * Manager for loading resources to memory and communicating resources to Ogre.
   * @todo This manager should eventually only allow adding of locations which are managed automatically.
   */
-class ResourceManager {
+class ResourceManager : public Manager {
 public:
     /**
       * Default constructor.

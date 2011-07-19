@@ -22,6 +22,7 @@
 #include "event/NetworkEvent.hpp"
 #include "event/PingEvent.hpp"
 #include "utils/Utils.hpp"
+#include "Manager.hpp"
 
 namespace dt {
 
@@ -29,7 +30,8 @@ namespace dt {
   * Manager for serializing events and sending them over network.
   * @see ConnectionsManager - Holds all connections of this manager.
   */
-class NetworkManager : public EventListener {
+class NetworkManager : public Manager,
+        public EventListener {
 public:
     /**
       * Default constructor.

@@ -16,6 +16,7 @@
 #include "Connection.hpp"
 #include "event/Timer.hpp"
 #include "event/PingEvent.hpp"
+#include "Manager.hpp"
 
 namespace dt {
 
@@ -23,7 +24,7 @@ namespace dt {
   * Class for managing all Connections.
   * @see Connection
   */
-class ConnectionsManager : public EventListener {
+class ConnectionsManager : public Manager, public EventListener {
 public:
     /**
       * Type of Connection IDs. Limits the number of maximum connections.

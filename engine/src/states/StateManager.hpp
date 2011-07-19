@@ -13,6 +13,7 @@
 #include <memory>
 
 #include "State.hpp"
+#include "Manager.hpp"
 
 namespace dt {
 
@@ -20,12 +21,15 @@ namespace dt {
   * A manager responsible for managing game states.
   * @see State
   */
-class StateManager {
+class StateManager : public Manager {
 public:
     /**
       * Default constructor.
       */
     StateManager();
+
+    void Initialize();
+    void Deinitialize();
 
     void SetNewState(State* new_state);
     void PushNewState();

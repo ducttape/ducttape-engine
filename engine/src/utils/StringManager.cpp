@@ -21,6 +21,9 @@ StringManager::StringManager() {
     mAutoId = 0;
 }
 
+void StringManager::Initialize() {}
+void StringManager::Deinitialize() {}
+
 uint32_t StringManager::Add(const std::string& string) {
     if(!Has(string)) {
         mLastId++;

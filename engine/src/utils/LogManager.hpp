@@ -12,13 +12,14 @@
 #include <boost/ptr_container/ptr_map.hpp>
 
 #include "Logger.hpp"
+#include "Manager.hpp"
 
 namespace dt {
 
 /**
   * A manager responsible for holding and providing all Loggers.
   */
-class LogManager {
+class LogManager : public Manager {
 public:
     /**
       * Default constructor.
@@ -30,6 +31,9 @@ public:
       * @returns the default logger (name: "default")
       */
     Logger& GetLogger();
+
+    void Initialize();
+    void Deinitialize();
 
     /**
       * Returns the logger with a given name.

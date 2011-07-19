@@ -13,6 +13,8 @@
 #include <string>
 #include <map>
 
+#include "Manager.hpp"
+
 namespace dt {
 
 /**
@@ -20,12 +22,15 @@ namespace dt {
   * the network traffic to a minimum (a uint32_t is smaller than most strings), but strings are used to keep the source code clean
   * and readable and to output (debug) messages in a readable format.
   */
-class StringManager {
+class StringManager : public Manager {
 public:
     /**
       * Default constructor.
       */
     StringManager();
+
+    void Initialize();
+    void Deinitialize();
 
     /**
       * Registers a new string with a generated ID.

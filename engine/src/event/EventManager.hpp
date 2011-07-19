@@ -15,6 +15,7 @@
 #include "Event.hpp"
 #include "EventListener.hpp"
 #include "BindingsManager.hpp"
+#include "Manager.hpp"
 
 namespace dt {
 
@@ -24,7 +25,7 @@ namespace dt {
   * @see EventListener
   * @see Event
   */
-class EventManager {
+class EventManager : public Manager {
 public:
     /**
       * Default constructor.

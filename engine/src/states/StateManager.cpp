@@ -14,6 +14,9 @@ namespace dt {
 
 StateManager::StateManager() {}
 
+void StateManager::Initialize() {}
+void StateManager::Deinitialize() {}
+
 void StateManager::SetNewState(State* new_state) {
     mNewState = std::shared_ptr<State>(new_state);
 }

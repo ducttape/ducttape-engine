@@ -13,6 +13,7 @@
 
 #include "EventListener.hpp"
 #include "EventBinding.hpp"
+#include "Manager.hpp"
 
 namespace dt {
 
@@ -22,7 +23,8 @@ namespace dt {
   * @see EventManager
   * @see EventListener
   */
-class BindingsManager : public EventListener {
+class BindingsManager : public Manager,
+        public EventListener {
 public:
     /**
       * Default constructor.

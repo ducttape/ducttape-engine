@@ -17,13 +17,15 @@
 #include "MouseEvent.hpp"
 #include "KeyboardEvent.hpp"
 #include "event/WindowClosedEvent.hpp"
+#include "Manager.hpp"
 
 namespace dt {
 
 /**
   * Used to capture all OIS input events and forward them to the Event system, and also for unbuffered input.
   */
-class InputManager : public OIS::KeyListener,
+class InputManager : public Manager,
+        public OIS::KeyListener,
         public OIS::MouseListener,
         public Ogre::WindowEventListener {
 public:
@@ -35,12 +37,18 @@ public:
     /**
       * Initializator.
       */
-    void Initialize(Ogre::RenderWindow* window);
+    void Initialize();
 
     /**
       * Deinitializator.
       */
     void Deinitialize();
+
+    /**
+      * Sets the render window.
+      * @param window The render window.
+      */
+    void SetWindow(Ogre::RenderWindow* window);
 
     /**
       * Captures the input devices and calls all events.
