@@ -4,7 +4,7 @@
 // licensed under the GNU LESSER PUBLIC LICENSE version 3. For the full license
 // text, please see the LICENSE file in the root of this project or at
 // http://www.gnu.org/licenses/lgpl.html
-// ---------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 
 #ifndef DUCTTAPE_ENGINE_COMPONENT_LIGHTCOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_LIGHTCOMPONENT
@@ -32,11 +32,12 @@ namespace dt {
           */
         LightComponent(const std::string& name = "");
 
-        virtual void HandleEvent(std::shared_ptr<Event> e){}
+        virtual void HandleEvent(std::shared_ptr<Event> e);
+
         /**
           * Called when the color of the light is changed.
           */
-        virtual void OnChangeColor(){}
+        virtual void OnChangeColor();
 
         /**
           * Override the OnCreate of the Component.
@@ -81,7 +82,7 @@ namespace dt {
         const Ogre::Light* GetOgreLight() const;
 
     protected:
-        Ogre::Light* mLight;                   //!< The pointer to the ogre light object.
+        Ogre::Light* mLight;    //!< The pointer to the ogre light object.
     };
 }
 

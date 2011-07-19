@@ -16,11 +16,19 @@ namespace dt {
         mLight = nullptr;
     }
 
+    void LightComponent::HandleEvent(std::shared_ptr<Event> e) {
+    }
+
+    void LightComponent::OnChangeColor() {
+    }
+
     void LightComponent::OnCreate() {
         mLight = GetNode()->GetScene()->GetSceneManager()->createLight(mName);
-        //Set the point light as the default light type
+
+        // Set the point light as the default light type
         mLight->setType(Ogre::Light::LT_POINT);
-        //White light
+
+        // White light
         mLight->setDiffuseColour(1.0, 1.0, 1.0);
         mLight->setSpecularColour(1.0, 1.0, 1.0);
     }
