@@ -44,6 +44,9 @@ void NetworkManager::Deinitialize() {
     Root::get_mutable_instance().GetEventManager()->RemoveListener(this);
 }
 
+NetworkManager* NetworkManager::Get() {
+    return Root::get_mutable_instance().GetNetworkManager();
+}
 
 bool NetworkManager::BindSocket(uint16_t port) {
     if(mSocket.Bind(port) != sf::Socket::Done) {

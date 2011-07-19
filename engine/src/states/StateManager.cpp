@@ -9,6 +9,7 @@
 #include <boost/foreach.hpp>
 
 #include "StateManager.hpp"
+#include "Root.hpp"
 
 namespace dt {
 
@@ -16,6 +17,10 @@ StateManager::StateManager() {}
 
 void StateManager::Initialize() {}
 void StateManager::Deinitialize() {}
+
+StateManager* StateManager::Get() {
+    return Root::get_mutable_instance().GetStateManager();
+}
 
 void StateManager::SetNewState(State* new_state) {
     mNewState = std::shared_ptr<State>(new_state);

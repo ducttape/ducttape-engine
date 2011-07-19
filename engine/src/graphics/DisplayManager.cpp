@@ -28,6 +28,10 @@ void DisplayManager::Deinitialize() {
     }
 }
 
+DisplayManager* DisplayManager::Get() {
+    return Root::get_mutable_instance().GetDisplayManager();
+}
+
 bool DisplayManager::RegisterCamera(CameraComponent* camera_component) {
     std::string name = camera_component->GetName();
 

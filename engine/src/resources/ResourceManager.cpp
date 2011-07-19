@@ -23,6 +23,10 @@ void ResourceManager::Initialize() {
 
 void ResourceManager::Deinitialize() {}
 
+ResourceManager* ResourceManager::Get() {
+    return Root::get_mutable_instance().GetResourceManager();
+}
+
 void ResourceManager::AddResourceLocation(const boost::filesystem::path& path, const std::string& type, bool recursive) {
     auto full_path = mDataPath / path;
 

@@ -32,6 +32,8 @@ public:
     void Initialize();
     void Deinitialize();
 
+    static StringManager* Get();
+
     /**
       * Registers a new string with a generated ID.
       * @param string the string to register

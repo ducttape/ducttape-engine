@@ -43,15 +43,10 @@ public:
       */
     ~NetworkManager();
 
-    /**
-      * Initialization method. Registers this manager as EventListener.
-      */
     void Initialize();
-
-    /**
-      * Deinitialization method. Unregisters this manager as EventListener.
-      */
     void Deinitialize();
+
+    static NetworkManager* Get();
 
     /**
       * Binds the Socket used for the complete networking to the port given.

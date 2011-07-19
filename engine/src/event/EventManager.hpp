@@ -32,15 +32,10 @@ public:
       */
     EventManager();
 
-    /**
-      * Initializer.
-      */
     void Initialize();
-
-    /**
-      * Deinitializer.
-      */
     void Deinitialize();
+
+    static EventManager* Get();
 
     /**
       * Method used to initiate an Event being sent to all EventListeners.

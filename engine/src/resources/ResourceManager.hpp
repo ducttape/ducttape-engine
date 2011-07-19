@@ -39,15 +39,9 @@ public:
       */
     ~ResourceManager();
 
-    /**
-      * Initializer. 
-      */
     void Initialize();
-
-    /**
-      *  Deinitializer.
-      */
     void Deinitialize();
+    static ResourceManager* Get();
 
     /**
       * Adds a resource location of to the search path.

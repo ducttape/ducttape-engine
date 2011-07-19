@@ -40,15 +40,9 @@ public:
       */
     ~DisplayManager();
 
-    /**
-      * Initializer. 
-      */
     void Initialize();
-
-    /**
-      * Deinitializer.
-      */
     void Deinitialize();
+    static DisplayManager* Get();
 
     /**
       * Tries to register a camera.

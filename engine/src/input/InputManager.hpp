@@ -34,15 +34,9 @@ public:
       */
     InputManager();
 
-    /**
-      * Initializator.
-      */
     void Initialize();
-
-    /**
-      * Deinitializator.
-      */
     void Deinitialize();
+    static InputManager* Get();
 
     /**
       * Sets the render window.

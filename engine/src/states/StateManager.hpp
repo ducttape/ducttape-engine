@@ -30,6 +30,7 @@ public:
 
     void Initialize();
     void Deinitialize();
+    static StateManager* Get();
 
     void SetNewState(State* new_state);
     void PushNewState();

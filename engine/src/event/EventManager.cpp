@@ -10,6 +10,7 @@
 #include <boost/foreach.hpp>
 #endif
 
+#include "Root.hpp"
 #include "EventManager.hpp"
 
 namespace dt {
@@ -22,6 +23,10 @@ void EventManager::Initialize() {
 
 void EventManager::Deinitialize() {
     mBindingsManager.Deinitialize();
+}
+
+EventManager* EventManager::Get() {
+    return Root::get_mutable_instance().GetEventManager();
 }
 
 void EventManager::InjectEvent(Event* event) {

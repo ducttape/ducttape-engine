@@ -7,6 +7,7 @@
 // ----------------------------------------------------------------------------
 
 #include "LogManager.hpp"
+#include "Root.hpp"
 
 namespace dt {
 
@@ -27,6 +28,10 @@ Logger& LogManager::GetLogger(const std::string& name) {
         mLoggers[name] = Logger(name);
     }
     return mLoggers[name];
+}
+
+LogManager* LogManager::Get() {
+    return Root::get_mutable_instance().GetLogManager();
 }
 
 }

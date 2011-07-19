@@ -66,6 +66,10 @@ void InputManager::Deinitialize() {
     }
 }
 
+InputManager* InputManager::Get() {
+    return Root::get_mutable_instance().GetInputManager();
+}
+
 void InputManager::SetWindow(Ogre::RenderWindow* window) {
     mWindow = window;
 }

@@ -12,6 +12,7 @@
 #include <boost/foreach.hpp>
 #endif
 
+#include "Root.hpp"
 #include "StringManager.hpp"
 
 namespace dt {
@@ -23,6 +24,10 @@ StringManager::StringManager() {
 
 void StringManager::Initialize() {}
 void StringManager::Deinitialize() {}
+
+StringManager* StringManager::Get() {
+    return Root::get_mutable_instance().GetStringManager();
+}
 
 uint32_t StringManager::Add(const std::string& string) {
     if(!Has(string)) {

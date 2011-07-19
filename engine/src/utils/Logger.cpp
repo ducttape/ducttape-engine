@@ -68,7 +68,7 @@ Logger& Logger::Get() {
 }
 
 Logger& Logger::GetByName(const std::string& name) {
-    return Root::get_mutable_instance().GetLogManager()->GetLogger(name);
+    return LogManager::Get()->GetLogger(name);
 }
 
 }

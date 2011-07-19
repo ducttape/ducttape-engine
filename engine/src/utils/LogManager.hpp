@@ -41,6 +41,9 @@ public:
       * @returns the Logger if one is found, otherwise creates a new one
       */
     Logger& GetLogger(const std::string& name);
+
+    static LogManager* Get();
+
 private:
     boost::ptr_map<std::string, Logger> mLoggers;   //!< The list of Loggers, defined by their name
 };
