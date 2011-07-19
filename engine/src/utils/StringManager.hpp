@@ -61,6 +61,13 @@ public:
       * @returns the string for the ID
       */
     const std::string& Get(uint32_t id);
+
+    /**
+      * Returns next ID that is available.
+      * @returns the uint32_t with next available ID
+      */
+    uint32_t GetNextId();
+
 private:
     uint32_t mLastId;                       //!< the ID used to register the last string with
     std::map<uint32_t, std::string> mIds;   //!< the list of IDs/strings

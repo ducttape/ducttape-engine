@@ -8,14 +8,20 @@
 
 #include "component/Component.hpp"
 #include "scene/Node.hpp"
+#include "Root.hpp"
 
 namespace dt {
 
 Component::Component(const std::string& name) {
-    if(name == "")
-        mName = "component-generated-name"; // TODO
-    else
+    uint32_t new_id;
+
+    if(name == "") {
+        new_id = Root::get_mutable_instance().GetStringManager()->GetNextId();
+        Root::get_mutable_instance().GetStringManager()->Add("Component-"+tostr(new_id));
+        mName = "component-generated-name";
+    } else {
         mName = name;
+    }
 
 	mIsCreated = false;
     mIsEnabled = false;

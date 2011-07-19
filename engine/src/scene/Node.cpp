@@ -13,6 +13,7 @@
 #endif
 
 #include "Node.hpp"
+#include "Root.hpp"
 
 #include "utils/Logger.hpp"
 #include "Scene.hpp" // after forward declaration
@@ -22,12 +23,16 @@
 namespace dt {
 
 Node::Node(const std::string& name) {
-    if(name != "") {
-        mName = name;
+    uint32_t new_id;
+
+    if(name == "") {
+        new_id = Root::get_mutable_instance().GetStringManager()->GetNextId();
+        Root::get_mutable_instance().GetStringManager()->Add("Component-"+tostr(new_id));
+        mName = "component-generated-name";
     } else {
-        // generate a name
-        // Root::get_mutable_instance().GetIDManager()->GetNextDynamicID();
+        mName = name;
     }
+
     mParent = nullptr;
 
     mPosition = Ogre::Vector3::ZERO;
