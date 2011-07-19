@@ -17,7 +17,7 @@ CameraComponent::CameraComponent(const std::string& name)
    : Component(name) {
 }
 
-void CameraComponent::HandleEvent(Event* e) {
+void CameraComponent::HandleEvent(std::shared_ptr<Event> e) {
 }
 
 void CameraComponent::OnCreate() {

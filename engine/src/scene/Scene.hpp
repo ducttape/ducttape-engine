@@ -34,7 +34,7 @@ public:
 
     const std::string& GetName();
 
-    void HandleEvent(Event* e);
+    void HandleEvent(std::shared_ptr<Event> e);
 
 protected:
     bool _IsScene();

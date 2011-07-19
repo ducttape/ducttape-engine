@@ -54,7 +54,8 @@ void NetworkManager::Connect(Connection target) {
     // Connection* c = mConnectionsManager.GetConnection(id);
 
     // send handshake
-    HandshakeEvent* h = new HandshakeEvent();
+    std::shared_ptr<HandshakeEvent> h = \
+        std::shared_ptr<HandshakeEvent>(new HandshakeEvent());
     h->ClearRecipients();
     h->AddRecipient(id);
     QueueEvent(h);
@@ -62,7 +63,8 @@ void NetworkManager::Connect(Connection target) {
 
 void NetworkManager::Disconnect(Connection target) {
     // send goodbye
-    GoodbyeEvent* goodbye = new GoodbyeEvent("Disconnected");
+    std::shared_ptr<GoodbyeEvent> goodbye = \
+        std::shared_ptr<GoodbyeEvent>(new GoodbyeEvent("Disconnected"));
     goodbye->ClearRecipients();
     goodbye->AddRecipient(mConnectionsManager.GetConnectionID(target));
     // do not queue the event but send it directly, as we will remove the connection now
@@ -82,14 +84,18 @@ void NetworkManager::DisconnectAll() {
 }
 
 void NetworkManager::SendQueuedEvents() {
-    for(auto iter = mQueue.begin(); iter != mQueue.end(); ++iter) {
-        _SendEvent(&(*iter));
+#ifdef COMPILER_MSVC
+    BOOST_FOREACH(std::shared_ptr<NetworkEvent> event, mQueue) {
+#else
+    for(std::shared_ptr<NetworkEvent> event : mQueue) {
+#endif
+        _SendEvent(event);
     }
     // clear queue after all packages have been sent
     mQueue.clear();
 }
 
-void NetworkManager::QueueEvent(NetworkEvent* event) {
+void NetworkManager::QueueEvent(std::shared_ptr<NetworkEvent> event) {
     //Logger::Get().Debug("NetworkManager: Queued NetworkEvent [" + tostr(event->GetTypeID()) + ": " + event->GetType() + "]");
     mQueue.push_back(event);
 }
@@ -128,22 +134,25 @@ void NetworkManager::HandleIncomingEvents() {
     }
 }
 
-void NetworkManager::HandleEvent(Event* e) {
+void NetworkManager::HandleEvent(std::shared_ptr<Event> e) {
     if(e->IsNetworkEvent()) {
-        NetworkEvent* n = (NetworkEvent*)e;
+        std::shared_ptr<NetworkEvent> n = \
+            std::dynamic_pointer_cast<NetworkEvent>(e);
         if(!n->IsLocalEvent())
             QueueEvent(n);
     }
 
     if(e->GetType() == "DT_HANDSHAKEEVENT") {
         // new client connected / server replied
-        HandshakeEvent* h = (HandshakeEvent*)e;
+        std::shared_ptr<HandshakeEvent> h = \
+            std::dynamic_pointer_cast<HandshakeEvent>(e);
         if(h->GetSenderID() != 0) {
 
         }
     } else if(e->GetType() == "DT_GOODBYEEVENT") {
         // client sent a godbye event / server will disconnect the client
-        GoodbyeEvent* g = (GoodbyeEvent*)e;
+        std::shared_ptr<GoodbyeEvent> g = \
+            std::dynamic_pointer_cast<GoodbyeEvent>(e);
         if(g->GetSenderID() != 0) {
             mConnectionsManager.RemoveConnection(g->GetSenderID());
         }
@@ -157,7 +166,7 @@ void NetworkManager::RegisterNetworkEventPrototype(NetworkEvent* event) {
 }
 
 NetworkEvent* NetworkManager::CreatePrototypeInstance(uint32_t type_id) {
-    for(boost::ptr_vector<NetworkEvent>::iterator iter = mNetworkEventPrototypes.begin(); iter != mNetworkEventPrototypes.end(); ++iter) {
+    for(auto iter = mNetworkEventPrototypes.begin(); iter != mNetworkEventPrototypes.end(); ++iter) {
         if(iter->GetTypeID() == type_id) {
             return (NetworkEvent*)iter->Clone();
         }
@@ -173,7 +182,7 @@ ConnectionsManager* NetworkManager::GetConnectionsManager() {
     return &mConnectionsManager;
 }
 
-void NetworkManager::_SendEvent(NetworkEvent* event) {
+void NetworkManager::_SendEvent(std::shared_ptr<NetworkEvent> event) {
     // create packet
     sf::Packet p;
     p << event->GetTypeID();

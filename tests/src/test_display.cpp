@@ -23,9 +23,9 @@ public:
         mRuntime = 0;
     }
 
-    void HandleEvent(dt::Event* e) {
+    void HandleEvent(std::shared_ptr<dt::Event> e) {
         if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-            mRuntime += ((dt::BeginFrameEvent*)e)->GetFrameTime();
+            mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
             if(mRuntime > 5.0) {
                 RequestShutdown();
             }
@@ -48,24 +48,26 @@ public:
         mScene.AddChildNode(new dt::Node("meshnode"));
         dt::MeshComponent* mesh = new dt::MeshComponent("lolmesh", "Sinbad.mesh");
         mScene.FindChildNode("meshnode", false)->AddComponent(mesh);
-        dt::FollowPathComponent* path = new dt::FollowPathComponent("path");
+        dt::FollowPathComponent* path = new dt::FollowPathComponent("path", dt::FollowPathComponent::ALTERNATING);
         mScene.FindChildNode("meshnode", false)->AddComponent(path);
         path = mScene.FindChildNode("meshnode", false)->FindComponent<dt::FollowPathComponent>("path");
 
         path->AddPoint(Ogre::Vector3(3, 0, 0));
-        path->AddPoint(Ogre::Vector3(-3, 0, 0));
-        path->AddPoint(Ogre::Vector3(0, 0, -5));
-        path->AddPoint(Ogre::Vector3(3, 0, 0));
-        path->SetDuration(5.f);
-        path->SetSmoothAcceleration(true);
+
+        for(float x = 2; x >= -3; x -= 1) {
+            path->AddPoint(Ogre::Vector3(x + 0.5, 1, 0));
+            path->AddPoint(Ogre::Vector3(x, 0, 0));
+        }
+        path->SetDuration(3.f);
         path->SetSmoothCorners(true);
+        path->SetSmoothAcceleration(true);
 
 
-        /* std::cout << "Available Animations: ";
+        /*std::cout << "Available Animations: ";
         for(std::string s: mesh->GetAvailableAnimations()) {
             std::cout << s << " ";
         }
-        std::cout << std::endl; */
+        std::cout << std::endl;*/
         mesh->SetAnimation("Dance");
         mesh->SetLoopAnimation(true);
         mesh->PlayAnimation();

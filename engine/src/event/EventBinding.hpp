@@ -42,7 +42,7 @@ public:
       * Called when an event occurs that might match the trigger type.
       * @param e The event that occured.
       */
-    void TriggerEvent(Event* e);
+    void TriggerEvent(std::shared_ptr<Event> e);
 
 private:
     std::string mTriggerType;       //!< The type of the event that triggers the new event.

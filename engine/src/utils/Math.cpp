@@ -83,7 +83,7 @@ namespace Math {
 	 float NextPow2(float value) {
         float logbase2 = log(value) / log(2.0);
         float p = pow(2, ceil(logbase2));
-        return p < 0 ? ceil(p - 0.5) : floor(p+ 0.5);
+        return p < 0 ? ceil(p - 0.5) : floor(p + 0.5);
 	}
 
 	 float SmoothStep(float value1, float value2, float amount) {

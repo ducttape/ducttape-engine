@@ -24,7 +24,7 @@ void BindingsManager::Deinitialize() {
     Root::get_mutable_instance().GetEventManager()->RemoveListener(this);
 }
 
-void BindingsManager::HandleEvent(Event* e) {
+void BindingsManager::HandleEvent(std::shared_ptr<Event> e) {
     for(auto iter = mBindings.begin(); iter != mBindings.end(); ++iter) {
         iter->second->TriggerEvent(e);
     }
@@ -32,7 +32,7 @@ void BindingsManager::HandleEvent(Event* e) {
 
 uint32_t BindingsManager::Bind(EventBinding* binding) {
     uint32_t new_id = _GetNewId();
-    mBindings[new_id] = *binding;
+    mBindings.insert(new_id, binding);
     return new_id;
 }
 

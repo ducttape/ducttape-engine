@@ -19,9 +19,9 @@ public:
         cameraChanged5 = false;
     }
 
-    void HandleEvent(dt::Event* e) {
+    void HandleEvent(std::shared_ptr<dt::Event> e) {
         if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-            mRuntime += ((dt::BeginFrameEvent*)e)->GetFrameTime();
+            mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
             if(mRuntime > 6.0) {
                 RequestShutdown();
             }

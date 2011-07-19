@@ -24,14 +24,20 @@ namespace dt {
   */
 class FollowPathComponent : public Component {
 public:
+    enum Mode {
+        SINGLE,
+        LOOP,
+        ALTERNATING
+    };
+
     /**
       * Advanced constructor.
       * @see Component
       * @param name The name of the component.
       */
-    FollowPathComponent(const std::string& name);
+    FollowPathComponent(const std::string& name, Mode mode = SINGLE);
 
-    virtual void HandleEvent(Event* e);
+    virtual void HandleEvent(std::shared_ptr<Event> e);
 
     void OnCreate();
     void OnDestroy();
@@ -85,21 +91,50 @@ public:
       */
     bool GetSmoothCorners() const;
 
+
+    /**
+      * Sets whether the node direction should follow the path.
+      * @param smooth_corners Whether the node direction should follow the path. From 0 (sharp corners) to 1 (no straight edges).
+      */
+    void SetFollowRotation(bool follow_rotation);
+
+    /**
+      * Gets whether the node direction follows the path.
+      * @returns Whether the node direction follows the path.
+      */
+    bool GetFollowRotation() const;
+
+    /**
+      * Sets the mode.
+      * @param mode The mode.
+      */
+    void SetMode(Mode mode);
+
+    /**
+      * Returns the mode.
+      * @returns The mode.
+      */
+    Mode GetMode() const;
+
 protected:
     /**
       * Calculates the position for the current progress.
       * @returns The position the node should have right now.
       */
-    Ogre::Vector3 _CalculatePosition();
+    Ogre::Vector3 _CalculatePosition(float delta = 0.f);
 
 private:
     std::vector<Ogre::Vector3> mPoints;
     float mDurationSinceStart;
     float mTotalDuration;
+    Ogre::Vector3 mLastPoint;
 
     bool mSmoothCorners;
     bool mSmoothAcceleration;
+    bool mFollowRotation;
+    bool mReversed;
 
+    Mode mMode;
 };
 
 }

@@ -44,7 +44,7 @@ public:
       */
     void Deinitialize();
 
-    void HandleEvent(Event* e);
+    void HandleEvent(std::shared_ptr<Event> e);
 
     /**
       * Adds a new EventBinding.

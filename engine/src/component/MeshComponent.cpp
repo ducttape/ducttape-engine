@@ -22,7 +22,7 @@ MeshComponent::MeshComponent(const std::string& name, const std::string& mesh_fi
     mAnimationState = nullptr;
 }
 
-void MeshComponent::HandleEvent(Event* e) {
+void MeshComponent::HandleEvent(std::shared_ptr<Event> e) {
 
 }
 

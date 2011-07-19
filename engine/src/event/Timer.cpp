@@ -27,12 +27,12 @@ Timer::Timer(const std::string& message, double interval, bool repeat, bool thre
     }
 }
 
-void Timer::HandleEvent(Event* e) {
+void Timer::HandleEvent(std::shared_ptr<Event> e) {
     // for event mode
 
     if(e->GetType() == "DT_BEGINFRAMEEVENT") {
         // every frame
-        BeginFrameEvent* b = (BeginFrameEvent*)e;
+        std::shared_ptr<BeginFrameEvent> b = std::dynamic_pointer_cast<BeginFrameEvent>(e);
 
         if(mTimeLeft > b->GetFrameTime()) {
             mTimeLeft -= b->GetFrameTime();

@@ -9,7 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_NETWORK_NETWORKMANAGER
 #define DUCTTAPE_ENGINE_NETWORK_NETWORKMANAGER
 
-#include <boost/ptr_container/ptr_deque.hpp>
+#include <deque>
+
 #include <boost/ptr_container/ptr_vector.hpp>
 
 #include <SFML/Network.hpp>
@@ -86,7 +87,7 @@ public:
       * @see NetworkManager::SendQueuedEvents();
       * @param event The NetworkEvent to be sent.
       */
-    void QueueEvent(NetworkEvent* event);
+    void QueueEvent(std::shared_ptr<NetworkEvent> event);
 
     /**
       * Receives and handles all events pending at the socket.
@@ -100,7 +101,7 @@ public:
       * @see NetworkManager::QueueEvent(NetworkEvent* event);
       * @param e The incoming Event.
       */
-    void HandleEvent(Event* e);
+    void HandleEvent(std::shared_ptr<Event> e);
 
     /**
       * Registers a NetworkEvent as prototype for incoming packets.
@@ -138,13 +139,13 @@ public:
 
 private:
     /**
-      * Sends an Event to it's recipients.
+      * Sends an Event to its recipients.
       * @param event The event to send.
       */
-    void _SendEvent(NetworkEvent* event);
+    void _SendEvent(std::shared_ptr<NetworkEvent> event);
 
     ConnectionsManager mConnectionsManager;                     //!< The ConnectionsManager that manages all remote devices.
-    boost::ptr_deque<NetworkEvent> mQueue;                      //!< The queue of Events to be send. @see NetworkManager::QueueEvent(NetworkEvent* event);
+    std::deque<std::shared_ptr<NetworkEvent>> mQueue;                      //!< The queue of Events to be send. @see NetworkManager::QueueEvent(NetworkEvent* event);
     boost::ptr_vector<NetworkEvent> mNetworkEventPrototypes;    //!< The list of prototypes known to mankind :P
     sf::UdpSocket mSocket;                                      //!< The socket used for data transmissions over network.
 };

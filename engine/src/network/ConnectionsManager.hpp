@@ -141,7 +141,7 @@ public:
       */
     double GetTimeout();
 
-    void HandleEvent(Event* e);
+    void HandleEvent(std::shared_ptr<Event> e);
 
     /**
       * Returns the ping of a connection.
@@ -166,7 +166,7 @@ private:
       * Private method. Handles an incoming ping event.
       * @param ping_event The ping event.
       */
-    void _HandlePing(PingEvent* ping_event);
+    void _HandlePing(std::shared_ptr<PingEvent> ping_event);
 
     /**
       * Private method. Checks all connections for timeouts.
@@ -186,7 +186,7 @@ private:
 
     double mTimeout;        //!< The time to wait before a connection times out. In milliseconds.
     double mPingInterval;   //!< The interval in milliseconds between two pings.
-    Timer* mPingTimer;      //!< The timer for when to send out pings.
+    std::shared_ptr<Timer> mPingTimer;      //!< The timer for when to send out pings.
 };
 
 }

@@ -18,7 +18,7 @@ MusicComponent::MusicComponent(const std::string& name, const std::string& music
     _LoadMusic();
 }
 
-void MusicComponent::HandleEvent(Event* e) {
+void MusicComponent::HandleEvent(std::shared_ptr<Event> e) {
     auto resmgr = Root::get_mutable_instance().GetResourceManager();
     if(e->GetType() == "DT_MUSICPAUSEEVENT") {
         if(resmgr->GetMusicFile(mMusicFile)->GetStatus() == sf::Music::Paused) {

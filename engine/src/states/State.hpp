@@ -24,10 +24,6 @@ public:
     State();
     virtual const std::string GetType() = 0;
     uint32_t GetTypeID();
-
-    virtual void OnEvent(Event& event) = 0;
-
-    void HandleEvent(Event& event);
 };
 
 }

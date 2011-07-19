@@ -14,7 +14,7 @@
 class Server : public dt::Game, public dt::EventListener {
 public:
     void OnInitialize();
-    void HandleEvent(dt::Event* e);
+    void HandleEvent(std::shared_ptr<dt::Event> e);
 
 };
 

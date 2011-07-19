@@ -9,6 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_EVENTMANAGER
 #define DUCTTAPE_ENGINE_EVENT_EVENTMANAGER
 
+#include <memory>
 #include <vector>
 
 #include "Event.hpp"
@@ -42,6 +43,11 @@ public:
 
     /**
       * Method used to initiate an Event being sent to all EventListeners.
+      * This method is basically the entry point for every event being sent.
+      * The events are then distributed to all listeners. It should be noted
+      * that events are converted into shared_ptrs in this method which is why
+      * this method should be used like this: 
+      * @code Root::get_mutable_instance.GetEventManager()->HandleEvent(new SomeEvent()); @endcode
       * @param event The Event to be sent.
       */
     void HandleEvent(Event* event);
