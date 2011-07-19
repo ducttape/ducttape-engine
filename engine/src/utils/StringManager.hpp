@@ -18,7 +18,7 @@
 namespace dt {
 
 /**
-  * A class used to translate strings to global IDs and back. Used in server and client applications. The IDs are required to keep
+  * A class used to translate strings to global Ids and back. Used in server and client applications. The Ids are required to keep
   * the network traffic to a minimum (a uint32_t is smaller than most strings), but strings are used to keep the source code clean
   * and readable and to output (debug) messages in a readable format.
   */
@@ -35,50 +35,50 @@ public:
     static StringManager* Get();
 
     /**
-      * Registers a new string with a generated ID.
-      * @param string the string to register
-      * @returns the new ID
+      * Registers a new string with a generated Id.
+      * @param string The string to register.
+      * @returns The new Id.
       */
     uint32_t Add(const std::string& string);
 
     /**
       * Checks whether a string is already registered.
-      * @param string the string to be checked
-      * @returns true if the string is already registered, otherwise false
+      * @param string The string to be checked.
+      * @returns true If the string is already registered, otherwise false.
       */
     bool Has(const std::string& string);
 
     /**
-      * Checks whether an ID is already used.
-      * @param id the ID to be checked
-      * @returns true if the ID is already used, otherwise false
+      * Checks whether an Id is already used.
+      * @param id The Id to be checked.
+      * @returns true If the Id is already used, otherwise false.
       */
     bool Has(uint32_t id);
 
     /**
-      * Returns the ID for a string.
-      * @param string the string to find
-      * @returns the ID for the string
+      * Returns the Id for a string.
+      * @param string The string to find.
+      * @returns The Id for the string.
       */
-    uint32_t Get(const std::string& string);
+    uint32_t GetId(const std::string& string);
 
     /**
-      * Returns the string for an ID.
-      * @param id the ID to find
-      * @returns the string for the ID
+      * Returns the string for an Id.
+      * @param id The Id to find.
+      * @returns The string for the Id.
       */
-    const std::string& Get(uint32_t id);
+    const std::string& GetString(uint32_t id);
 
     /**
-      * Returns next Auto ID that is available.
-      * @returns the uint32_t with next available mAutoId
+      * Returns next Id for automatic name generation that is available.
+      * @returns The uint32_t with next available Id for automatic name generation.
       */
     uint32_t GetNextAutoId();
 
 private:
-    uint32_t mLastId;                       //!< the ID used to register the last string with
-    uint32_t mAutoId;                       //!< the ID used to register the last string with
-    std::map<uint32_t, std::string> mIds;   //!< the list of IDs/strings
+    uint32_t mLastId;                       //!< The Id used to register the last string with.
+    uint32_t mAutoId;                       //!< The Id used for the last automatic name generation.
+    std::map<uint32_t, std::string> mIds;   //!< The relation map between Ids/strings.
 };
 
 }

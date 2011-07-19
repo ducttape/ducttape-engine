@@ -15,7 +15,7 @@ namespace dt {
 State::State() {}
 
 uint32_t State::GetTypeID() {
-    return StringManager::Get()->Get(GetType());
+    return StringManager::Get()->GetId(GetType());
 }
 
 }

@@ -35,7 +35,7 @@ uint32_t StringManager::Add(const std::string& string) {
         mIds[mLastId] = string;
         return mLastId;
     } else {
-        return Get(string);
+        return GetId(string);
     }
 }
 
@@ -56,7 +56,7 @@ bool StringManager::Has(uint32_t id) {
     return mIds.count(id) > 0 && mIds[id] != "";
 }
 
-uint32_t StringManager::Get(const std::string& string) {
+uint32_t StringManager::GetId(const std::string& string) {
 #ifdef COMPILER_MSVC
     typedef std::pair<uint32_t, std::string> pair_type;
     BOOST_FOREACH(pair_type i, mIds) {
@@ -69,7 +69,7 @@ uint32_t StringManager::Get(const std::string& string) {
     return 0;
 }
 
-const std::string& StringManager::Get(uint32_t id) {
+const std::string& StringManager::GetString(uint32_t id) {
     return mIds[id];
 }
 
