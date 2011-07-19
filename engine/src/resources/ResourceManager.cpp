@@ -95,7 +95,7 @@ bool ResourceManager::AddMusicFile(const boost::filesystem::path& path, const st
         return true;
     }
 
-    boost::shared_ptr<sf::Music> music(new sf::Music());
+    std::shared_ptr<sf::Music> music(new sf::Music());
     if(!music->OpenFromFile(full_path.string())) {
         Logger::Get().Error("Loading \""+full_path.string()+"\" failed.");
     }
@@ -104,7 +104,7 @@ bool ResourceManager::AddMusicFile(const boost::filesystem::path& path, const st
     return true;
 }
 
-boost::shared_ptr<sf::Music> ResourceManager::GetMusicFile(const std::string& music_file) {
+std::shared_ptr<sf::Music> ResourceManager::GetMusicFile(const std::string& music_file) {
 	if(mMusic.count(music_file) >= 1) {
 		return mMusic[music_file];
 	} else {

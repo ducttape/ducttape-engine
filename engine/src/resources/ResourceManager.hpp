@@ -83,7 +83,7 @@ public:
     /**
      * Retrieves a single music file from memory.
      */
-    boost::shared_ptr<sf::Music> GetMusicFile(const std::string& music_file);
+    std::shared_ptr<sf::Music> GetMusicFile(const std::string& music_file);
  
 private:
     /**
@@ -97,7 +97,7 @@ private:
     void _FindDataPath();
 
     boost::filesystem::path mDataPath; //!< Path to the actual data directory. It is set during Initialize().
-    std::map<std::string, boost::shared_ptr<sf::Music>> mMusic; //!< Pool of registered music objects. This does not actually contain the music data since music is actually streamed.
+    std::map<std::string, std::shared_ptr<sf::Music>> mMusic; //!< Pool of registered music objects. This does not actually contain the music data since music is actually streamed.
 	boost::ptr_map<std::string, sf::SoundBuffer> mSoundBuffers; //!< Pool of registered sound buffers. These are in fact loaded into memory.
 };
 
