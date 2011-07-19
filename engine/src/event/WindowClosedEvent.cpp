@@ -8,8 +8,9 @@ const std::string WindowClosedEvent::GetType() const {
     return "DT_WINDOWCLOSEDEVENT";
 }
 
-Event* WindowClosedEvent::Clone() const {
-    return new WindowClosedEvent();
+std::shared_ptr<Event> WindowClosedEvent::Clone() const {
+    std::shared_ptr<Event> ptr(new WindowClosedEvent());
+    return ptr;
 }
 
 }

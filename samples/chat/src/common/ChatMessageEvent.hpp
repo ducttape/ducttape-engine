@@ -16,7 +16,7 @@ public:
     ChatMessageEvent(const std::string& message, const std::string& sender);
     const std::string GetType() const;
 
-    dt::Event* Clone() const;
+    std::shared_ptr<dt::Event> Clone() const;
     void Serialize(dt::IOPacket& p);
 
     const std::string& GetMessageEvent() const;

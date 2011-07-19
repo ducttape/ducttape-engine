@@ -24,9 +24,16 @@ void NetworkManager::Initialize() {
     Root::get_mutable_instance().GetEventManager()->AddListener(this);
 
     // add all default events as prototypes
-    RegisterNetworkEventPrototype(new HandshakeEvent());
-    RegisterNetworkEventPrototype(new GoodbyeEvent());
-    RegisterNetworkEventPrototype(new PingEvent(0));
+    std::shared_ptr<NetworkEvent> ptr;
+
+    ptr = std::shared_ptr<NetworkEvent>(new HandshakeEvent());
+    RegisterNetworkEventPrototype(ptr);
+
+    ptr = std::shared_ptr<NetworkEvent>(new GoodbyeEvent());
+    RegisterNetworkEventPrototype(ptr);
+
+    ptr = std::shared_ptr<NetworkEvent>(new PingEvent(0));
+    RegisterNetworkEventPrototype(ptr);
 
     // initialize the connections mananger
     mConnectionsManager.Initialize();
@@ -115,7 +122,7 @@ void NetworkManager::HandleIncomingEvents() {
         while(!packet.EndOfPacket()) {
             uint32_t type;
             packet >> type;
-            NetworkEvent* event = CreatePrototypeInstance(type);
+            std::shared_ptr<NetworkEvent> event = CreatePrototypeInstance(type);
             if(event != nullptr) {
                 // Logger::Get().Debug("NetworkManager: Received event [" + tostr(event->GetTypeID()) + ": " +
                                    // event->GetType() + "] from <" + tostr(sender_id) + ">. Handling.");
@@ -157,23 +164,19 @@ void NetworkManager::HandleEvent(std::shared_ptr<Event> e) {
     }
 }
 
-void NetworkManager::RegisterNetworkEventPrototype(NetworkEvent* event) {
+void NetworkManager::RegisterNetworkEventPrototype(std::shared_ptr<NetworkEvent> event) {
     mNetworkEventPrototypes.push_back(event);
     // register the ID (if not already happened)
     Root::get_mutable_instance().GetStringManager()->Add(event->GetType());
 }
 
-NetworkEvent* NetworkManager::CreatePrototypeInstance(uint32_t type_id) {
+std::shared_ptr<NetworkEvent> NetworkManager::CreatePrototypeInstance(uint32_t type_id) {
     for(auto iter = mNetworkEventPrototypes.begin(); iter != mNetworkEventPrototypes.end(); ++iter) {
-        if(iter->GetTypeID() == type_id) {
-            return (NetworkEvent*)iter->Clone();
+        if((*iter)->GetTypeID() == type_id) {
+            return std::dynamic_pointer_cast<NetworkEvent>((*iter)->Clone());
         }
     }
     return nullptr;
-}
-
-NetworkEvent* NetworkManager::CreatePrototypeInstance(const std::string& type) {
-    return CreatePrototypeInstance(Root::get_mutable_instance().GetStringManager()->Get(type));
 }
 
 ConnectionsManager* NetworkManager::GetConnectionsManager() {

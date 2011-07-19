@@ -19,8 +19,9 @@ public:
         return "testevent";
     }
 
-    Event* Clone() const {
-        return new TestEvent(*this);
+    std::shared_ptr<Event> Clone() const {
+        std::shared_ptr<Event> ptr(new TestEvent());
+        return ptr;
     }
 };
 

@@ -10,6 +10,7 @@
 #define DUCTTAPE_ENGINE_EVENT_EVENT
 
 #include <string>
+#include <memory>
 
 #include "network/IOPacket.hpp"
 
@@ -43,7 +44,7 @@ public:
       * Returns an exact copy of this Event. Used for the factory pattern in NetworkManager and for EventBindings.
       * @returns An exact copy of this Event.
       */
-    virtual Event* Clone() const = 0;
+    virtual std::shared_ptr<Event> Clone() const = 0;
 
     /**
       * Returns the type ID of the Event. The ID is got from the StringManager using the type string returned by GetType().

@@ -16,8 +16,9 @@ const std::string HandshakeEvent::GetType() const {
     return "DT_HANDSHAKEEVENT";
 }
 
-Event* HandshakeEvent::Clone() const {
-    return new HandshakeEvent();
+std::shared_ptr<Event> HandshakeEvent::Clone() const {
+    std::shared_ptr<Event> ptr(new HandshakeEvent());
+    return ptr;
 }
 
 void HandshakeEvent::Serialize(IOPacket& p) {

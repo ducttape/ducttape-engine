@@ -18,8 +18,9 @@ const std::string BeginFrameEvent::GetType() const {
     return "DT_BEGINFRAMEEVENT";
 }
 
-Event* BeginFrameEvent::Clone() const {
-    return new BeginFrameEvent(mFrameTime);
+std::shared_ptr<Event> BeginFrameEvent::Clone() const {
+    std::shared_ptr<Event> ptr(new BeginFrameEvent(mFrameTime));
+    return ptr;
 }
 
 double BeginFrameEvent::GetFrameTime() const {

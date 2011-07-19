@@ -18,8 +18,9 @@ const std::string GoodbyeEvent::GetType() const {
     return "DT_GOODBYEEVENT";
 }
 
-Event* GoodbyeEvent::Clone() const {
-    return new GoodbyeEvent(mReason);
+std::shared_ptr<Event> GoodbyeEvent::Clone() const {
+    std::shared_ptr<Event> ptr(new GoodbyeEvent(mReason));
+    return ptr;
 }
 
 void GoodbyeEvent::Serialize(IOPacket& p) {

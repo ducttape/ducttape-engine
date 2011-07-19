@@ -25,7 +25,7 @@ public:
      */
     WindowClosedEvent();
     const std::string GetType() const;
-    Event* Clone() const;
+    std::shared_ptr<Event> Clone() const;
 };
 
 }

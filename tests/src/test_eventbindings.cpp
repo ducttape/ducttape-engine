@@ -20,10 +20,10 @@ public:
         return "testtriggerevent";
     }
 
-    Event* Clone() const {
-        return new TestTriggerEvent(*this);
+    std::shared_ptr<Event> Clone() const {
+        std::shared_ptr<Event> ptr(new TestTriggerEvent());
+        return ptr;
     }
-
 };
 
 class TestBoundEvent : public dt::Event {
@@ -36,8 +36,9 @@ public:
         return "testboundevent";
     }
 
-    Event* Clone() const {
-        return new TestBoundEvent(*this);
+    std::shared_ptr<Event> Clone() const {
+        std::shared_ptr<Event> ptr(new TestBoundEvent(mData));
+        return ptr;
     }
 
     int mData;

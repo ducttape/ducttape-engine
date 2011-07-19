@@ -25,7 +25,7 @@ public:
     GoodbyeEvent(const std::string& reason = "");
 
     const std::string GetType() const;
-    Event* Clone() const;
+    std::shared_ptr<Event> Clone() const;
     void Serialize(IOPacket& p);
 
     /**

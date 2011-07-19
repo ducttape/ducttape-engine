@@ -39,8 +39,9 @@ public:
         return "CUSTOMNETWORKEVENT";
     }
 
-    Event* Clone() const {
-        return new CustomNetworkEvent(mData, mEnum);
+    std::shared_ptr<dt::Event> Clone() const {
+        std::shared_ptr<dt::Event> ptr(new CustomNetworkEvent(mData, mEnum));
+        return ptr;
     }
 
     void Serialize(dt::IOPacket& p) {
@@ -159,7 +160,8 @@ int main(int argc, char** argv) {
     root.Initialize(argc, argv);
 
     // register event prototype
-    root.GetNetworkManager()->RegisterNetworkEventPrototype(new CustomNetworkEvent(0, CustomNetworkEvent::CLIENT));
+    std::shared_ptr<dt::NetworkEvent> ptr(new CustomNetworkEvent(0, CustomNetworkEvent::CLIENT));
+    root.GetNetworkManager()->RegisterNetworkEventPrototype(ptr);
 
     if(arg1 == "server") {
         server();

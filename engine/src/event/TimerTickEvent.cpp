@@ -19,8 +19,9 @@ const std::string TimerTickEvent::GetType() const {
     return "DT_TIMERTICKEVENT";
 }
 
-Event* TimerTickEvent::Clone() const {
-    return new TimerTickEvent(mMessage, mInterval);
+std::shared_ptr<Event> TimerTickEvent::Clone() const {
+    std::shared_ptr<Event> ptr(new TimerTickEvent(mMessage, mInterval));
+    return ptr;
 }
 
 double TimerTickEvent::GetInterval() const {

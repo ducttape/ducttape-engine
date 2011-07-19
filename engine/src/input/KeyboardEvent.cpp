@@ -12,8 +12,9 @@ const std::string KeyboardEvent::GetType() const {
     return "DT_KEYBOARDEVENT";
 }
 
-Event* KeyboardEvent::Clone() const {
-    return new KeyboardEvent(mAction, mCode, mText);
+std::shared_ptr<Event> KeyboardEvent::Clone() const {
+    std::shared_ptr<Event> ptr(new KeyboardEvent(mAction, mCode, mText));
+    return ptr;
 }
 
 OIS::KeyCode KeyboardEvent::GetCode() const {

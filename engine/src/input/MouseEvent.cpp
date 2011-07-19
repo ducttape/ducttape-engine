@@ -12,8 +12,9 @@ const std::string MouseEvent::GetType() const {
     return "DT_MOUSEEVENT";
 }
 
-Event* MouseEvent::Clone() const {
-    return new MouseEvent(mAction, mState, mButton);
+std::shared_ptr<Event> MouseEvent::Clone() const {
+    std::shared_ptr<Event> ptr(new MouseEvent(mAction, mState, mButton));
+    return ptr;
 }
 
 const OIS::MouseState& MouseEvent::GetMouseState() const {

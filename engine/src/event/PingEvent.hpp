@@ -26,7 +26,7 @@ public:
     PingEvent(double timestamp, bool is_reply = false);
     const std::string GetType() const;
 
-    Event* Clone() const;
+    std::shared_ptr<Event> Clone() const;
     void Serialize(IOPacket& p);
 
     /**

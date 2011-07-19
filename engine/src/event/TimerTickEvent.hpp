@@ -25,7 +25,7 @@ public:
       */
     TimerTickEvent(const std::string& message, double interval);
     const std::string GetType() const;
-    Event* Clone() const;
+    std::shared_ptr<Event> Clone() const;
 
     /**
       * Returns the interval of the timer.

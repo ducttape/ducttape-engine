@@ -13,7 +13,9 @@
 void Server::OnInitialize() {
     dt::Root::get_mutable_instance().GetEventManager()->AddListener(this);
 
-    dt::Root::get_mutable_instance().GetNetworkManager()->RegisterNetworkEventPrototype(new ChatMessageEvent("",""));
+    std::shared_ptr<dt::NetworkEvent> ptr(new ChatMessageEvent("",""));
+    dt::Root::get_mutable_instance().GetNetworkManager()->RegisterNetworkEventPrototype(ptr);
+
     dt::Root::get_mutable_instance().GetNetworkManager()->BindSocket(29876);
 }
 

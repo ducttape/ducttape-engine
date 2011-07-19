@@ -37,7 +37,7 @@ public:
       */
     MouseEvent(Action action, OIS::MouseState state, OIS::MouseButtonID button = OIS::MB_Left);
     const std::string GetType() const;
-    Event* Clone() const;
+    std::shared_ptr<Event> Clone() const;
 
     /**
       * Returns the current mouse state.

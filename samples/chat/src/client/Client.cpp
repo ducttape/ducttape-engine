@@ -20,7 +20,9 @@ void Client::OnInitialize() {
     dt::Logger::Get().GetStream("debug")->SetDisabled(true);
     dt::Logger::Get().GetStream("info")->SetDisabled(true);
 
-    dt::Root::get_mutable_instance().GetNetworkManager()->RegisterNetworkEventPrototype(new ChatMessageEvent("",""));
+    std::shared_ptr<dt::NetworkEvent> ptr(new ChatMessageEvent("",""));
+    dt::Root::get_mutable_instance().GetNetworkManager()->RegisterNetworkEventPrototype(ptr);
+
     dt::Root::get_mutable_instance().GetNetworkManager()->BindSocket();
     dt::Root::get_mutable_instance().GetNetworkManager()->Connect(dt::Connection(mServerIP, 29876));
 

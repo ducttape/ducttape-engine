@@ -109,7 +109,7 @@ public:
       * @see NetworkEvent::Clone();
       * @param event A new instance of a NetworkEvent to be used for factory.
       */
-    void RegisterNetworkEventPrototype(NetworkEvent* event);
+    void RegisterNetworkEventPrototype(std::shared_ptr<NetworkEvent> event);
 
     /**
       * Creates a new instance of the prototype with the type ID given.
@@ -119,17 +119,7 @@ public:
       * @param type_id The ID of the type of NetworkEvent to create an instance of.
       * @returns A new instance of the prototype with the type ID given.
       */
-    NetworkEvent* CreatePrototypeInstance(uint32_t type_id);
-
-    /**
-      * Creates a new instance of the prototype with the type name given.
-      * @see Factory Pattern
-      * @see NetworkEvent::Clone();
-      * @see Event::GetType();
-      * @param type The name of the type of NetworkEvent to create an instance of.
-      * @returns A new instance of the prototype with the type name given.
-      */
-    NetworkEvent* CreatePrototypeInstance(const std::string& type);
+    std::shared_ptr<NetworkEvent> CreatePrototypeInstance(uint32_t type_id);
 
     /**
       * Returns a pointer to the ConnectionsManager.
@@ -146,7 +136,7 @@ private:
 
     ConnectionsManager mConnectionsManager;                     //!< The ConnectionsManager that manages all remote devices.
     std::deque<std::shared_ptr<NetworkEvent>> mQueue;           //!< The queue of Events to be send. @see NetworkManager::QueueEvent(NetworkEvent* event);
-    boost::ptr_vector<NetworkEvent> mNetworkEventPrototypes;    //!< The list of prototypes known to mankind :P
+    std::vector<std::shared_ptr<NetworkEvent>> mNetworkEventPrototypes;    //!< The list of prototypes known to mankind :P
     sf::UdpSocket mSocket;                                      //!< The socket used for data transmissions over network.
 };
 

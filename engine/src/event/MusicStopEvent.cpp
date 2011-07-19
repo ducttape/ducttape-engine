@@ -16,9 +16,9 @@ const std::string MusicStopEvent::GetType() const {
    return "DT_MUSICSTOPEVENT";
 }
 
-Event* MusicStopEvent::Clone() const {
-    return new MusicStopEvent();
-
+std::shared_ptr<Event> MusicStopEvent::Clone() const {
+    std::shared_ptr<Event> ptr(new MusicStopEvent());
+    return ptr;
 }
 
 }

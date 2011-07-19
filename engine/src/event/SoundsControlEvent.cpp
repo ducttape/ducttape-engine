@@ -18,8 +18,9 @@ const std::string SoundsControlEvent::GetType() const {
    return "DT_SOUNDSCONTROLEVENT";
 }
 
-Event* SoundsControlEvent::Clone() const {
-    return new SoundsControlEvent(mAction);
+std::shared_ptr<Event> SoundsControlEvent::Clone() const {
+    std::shared_ptr<Event> ptr(new SoundsControlEvent(mAction));
+    return ptr;
 }
 
 SoundsControlEvent::Action SoundsControlEvent::GetAction() const {

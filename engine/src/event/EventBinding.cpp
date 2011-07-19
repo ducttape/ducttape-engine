@@ -28,7 +28,7 @@ EventBinding::~EventBinding() {}
 
 void EventBinding::TriggerEvent(std::shared_ptr<Event> e) {
     if(e->GetType() == mTriggerType) {
-        Event* target = mTarget->Clone();
+        std::shared_ptr<Event> target = mTarget->Clone();
         if(target->GetType() != e->GetType()) // prevent looping
             Root::get_mutable_instance().GetEventManager()->HandleEvent(target);
     }

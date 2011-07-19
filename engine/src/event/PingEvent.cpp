@@ -19,8 +19,9 @@ const std::string PingEvent::GetType() const {
     return "DT_PINGEVENT";
 }
 
-Event* PingEvent::Clone() const {
-    return new PingEvent(mTimestamp, mIsReply);
+std::shared_ptr<Event> PingEvent::Clone() const {
+    std::shared_ptr<Event> ptr(new PingEvent(mTimestamp, mIsReply));
+    return ptr;
 }
 
 void PingEvent::Serialize(IOPacket& p) {

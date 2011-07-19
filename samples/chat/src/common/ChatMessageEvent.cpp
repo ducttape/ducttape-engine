@@ -17,8 +17,9 @@ const std::string ChatMessageEvent::GetType() const {
     return "CHATMESSAGEEVENT";
 }
 
-dt::Event* ChatMessageEvent::Clone() const {
-    return new ChatMessageEvent(mMessage, mSenderNick);
+std::shared_ptr<dt::Event> ChatMessageEvent::Clone() const {
+    std::shared_ptr<dt::Event> ptr(new ChatMessageEvent(mMessage, mSenderNick));
+    return ptr;
 }
 
 void ChatMessageEvent::Serialize(dt::IOPacket& p) {

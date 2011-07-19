@@ -33,7 +33,7 @@ public:
       * @see Factory Pattern
       * @returns A new instance of the same Event type.
       */
-    virtual Event* Clone() const = 0;
+    virtual std::shared_ptr<Event> Clone() const = 0;
 
     /**
       * Serializes the event into/from an sf::Packet using the wrapper IOPacket.

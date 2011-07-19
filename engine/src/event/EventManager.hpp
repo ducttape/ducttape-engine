@@ -46,11 +46,19 @@ public:
       * This method is basically the entry point for every event being sent.
       * The events are then distributed to all listeners. It should be noted
       * that events are converted into shared_ptrs in this method which is why
-      * this method should be used like this: 
+      * this method should be used like this:
       * @code Root::get_mutable_instance.GetEventManager()->HandleEvent(new SomeEvent()); @endcode
       * @param event The Event to be sent.
       */
     void HandleEvent(Event* event);
+
+    /**
+      * See above. This method should only be used when the event is already
+      * present as a shared_ptr, for example when it has been Cloned.
+      * @see Event::Clone
+      * @param event The Event to be sent.
+      */
+    void HandleEvent(std::shared_ptr<Event> event);
 
     /**
       * Checks if the EventListener is in the list.
@@ -76,6 +84,7 @@ public:
       * @returns The BindingsManager.
       */
     BindingsManager* GetBindingsManager();
+
 private:
     std::vector<EventListener*> mListeners; //!< The list of EventListeners.
     BindingsManager mBindingsManager;

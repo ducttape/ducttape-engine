@@ -36,7 +36,7 @@ public:
       */
     KeyboardEvent(Action action, OIS::KeyCode code, char text);
     const std::string GetType() const;
-    Event* Clone() const;
+    std::shared_ptr<Event> Clone() const;
 
     /**
       * Returns the code of the key pressed.
