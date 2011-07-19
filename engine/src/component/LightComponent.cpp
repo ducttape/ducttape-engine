@@ -12,39 +12,39 @@
 #include "scene/Scene.hpp"
 
 namespace dt {
-	LightComponent::LightComponent(const std::string &name) : Component(name) {
-		mLight = nullptr;
-	}
+    LightComponent::LightComponent(const std::string& name) : Component(name) {
+        mLight = nullptr;
+    }
 
-	void LightComponent::OnCreate() {
-		mLight = GetNode()->GetScene()->GetSceneManager()->createLight(mName);
-		//Set the point light as the default light type
-		mLight->setType(Ogre::Light::LT_POINT);
-		//White light
-		mLight->setDiffuseColour(1.0, 1.0, 1.0);
-		mLight->setSpecularColour(1.0, 1.0, 1.0);
-	}
+    void LightComponent::OnCreate() {
+        mLight = GetNode()->GetScene()->GetSceneManager()->createLight(mName);
+        //Set the point light as the default light type
+        mLight->setType(Ogre::Light::LT_POINT);
+        //White light
+        mLight->setDiffuseColour(1.0, 1.0, 1.0);
+        mLight->setSpecularColour(1.0, 1.0, 1.0);
+    }
 
-	void LightComponent::OnDestroy() {
-		GetNode()->GetScene()->GetSceneManager()->destroyLight(mLight);
-	}
+    void LightComponent::OnDestroy() {
+        GetNode()->GetScene()->GetSceneManager()->destroyLight(mLight);
+    }
 
-	void LightComponent::OnUpdate(float time_diff) {
-		mLight->setPosition(mNode->GetPosition(Node::SCENE));
-	}
+    void LightComponent::OnUpdate(double time_diff) {
+        mLight->setPosition(mNode->GetPosition(Node::SCENE));
+    }
 
-	void LightComponent::SetColor(const Ogre::ColourValue color) {
-		mLight->setDiffuseColour(color);
-		mLight->setSpecularColour(color);
-		OnChangeColor();
-		_CallSignal("ChangeColor");
-	}
+    void LightComponent::SetColor(const Ogre::ColourValue color) {
+        mLight->setDiffuseColour(color);
+        mLight->setSpecularColour(color);
+        OnChangeColor();
+        _CallSignal("ChangeColor");
+    }
 
-	void LightComponent::OnEnable() {
-		mLight->setVisible(true);
-	}
+    void LightComponent::OnEnable() {
+        mLight->setVisible(true);
+    }
 
-	void LightComponent::OnDisable() {
-		mLight->setVisible(false);
-	}
+    void LightComponent::OnDisable() {
+        mLight->setVisible(false);
+    }
 }
