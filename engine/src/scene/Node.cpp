@@ -25,7 +25,7 @@ Node::Node(const std::string& name) {
     uint32_t new_id;
 
     if(name == "") {
-        new_id = Root::get_mutable_instance().GetStringManager()->GetNextId();
+        new_id = Root::get_mutable_instance().GetStringManager()->GetNextAutoId();
         mName = "Node-"+tostr(new_id);
     } else {
         mName = name;
