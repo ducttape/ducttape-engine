@@ -108,7 +108,7 @@ void server() {
         nm->HandleIncomingEvents();
         nm->SendQueuedEvents();
         sf::Sleep(100);
-        if(root.GetTimeSinceInitialize() > 5000) {
+        if(root.GetTimeSinceInitialize() > 5.0) {
             std::cerr << "Server: Time out of 5 seconds reached" << std::endl;
             exit(5);
         }
@@ -133,7 +133,7 @@ void client() {
         nm->HandleIncomingEvents();
         nm->SendQueuedEvents();
         sf::Sleep(100);
-        if(root.GetTimeSinceInitialize() > 5000) {
+        if(root.GetTimeSinceInitialize() > 5.0) {
             std::cerr << "Client: Time out of 5 seconds reached" << std::endl;
             exit(5);
         }

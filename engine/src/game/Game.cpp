@@ -23,27 +23,51 @@ void Game::Run(int argc, char** argv) {
 
     mClock.Reset();
     mIsRunning = true;
+
+    // read http://gafferongames.com/game-physics/fix-your-timestep for more
+    // info about this timestep stuff, especially the accumulator and the
+    // "spiral of death"
+    double simulation_frame_time = 0.001;
+    double accumulator = 0.0;
+    sf::Clock anti_spiral_clock;
+
     while(!mIsShutdownRequested) {
         // TIMING
         // TODO: Implement real timing instead of just getting the time difference
-        uint32_t frame_time = mClock.GetElapsedTime();
+        double frame_time = mClock.GetElapsedTime() / 1000.0;
         mClock.Reset();
-
-        Root::get_mutable_instance().GetEventManager()->HandleEvent(new BeginFrameEvent(frame_time));
 
         // INPUT
         // InputManager::Capture();
         // TODO: Implement InputManager.
 
-        // NETWORKING
-        root.GetNetworkManager()->HandleIncomingEvents();
-        root.GetNetworkManager()->SendQueuedEvents();
+        accumulator += frame_time;
+        while(accumulator >= simulation_frame_time) {
+            anti_spiral_clock.Reset();
+            // SIMULATION
+            Root::get_mutable_instance().GetEventManager()->HandleEvent(new BeginFrameEvent(simulation_frame_time));
+
+            // NETWORKING
+            root.GetNetworkManager()->HandleIncomingEvents();
+            root.GetNetworkManager()->SendQueuedEvents();
+
+            double real_simulation_time = anti_spiral_clock.GetElapsedTime() / 1000.0;
+            if(real_simulation_time > simulation_frame_time) {
+                // this is bad! the simulation did not render fast enough
+                // to have some time left for rendering etc.
+
+                // skip a frame to catch up
+                accumulator -= simulation_frame_time;
+
+                accumulator -= real_simulation_time;
+            }
+            accumulator -= simulation_frame_time;
+        }
 
         // DISPLAYING
         // Won't work without a CameraComponent which initializes the render system!
         root.GetDisplayManager()->Render();
 
-        // TODO: Simulate something more expensive -> ~ 200 FPS
         sf::Sleep(5);
     }
 

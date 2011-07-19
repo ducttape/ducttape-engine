@@ -26,7 +26,7 @@ public:
     void HandleEvent(std::shared_ptr<dt::Event> e) {
         if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
-            if(mRuntime > 5000) {
+            if(mRuntime > 5.0) {
                 RequestShutdown();
             }
         }
@@ -57,6 +57,8 @@ public:
         path->AddPoint(Ogre::Vector3(0, 0, -5));
         path->AddPoint(Ogre::Vector3(3, 0, 0));
         path->SetDuration(5.f);
+        path->SetSmoothAcceleration(true);
+        path->SetSmoothCorners(true);
 
 
         /* std::cout << "Available Animations: ";
@@ -83,7 +85,7 @@ public:
     }
 
 private:
-    uint32_t mRuntime;
+    double mRuntime;
     dt::Scene mScene;
 
 };

@@ -14,6 +14,7 @@
 #include <OgreLight.h>
 
 #include "component/Component.hpp"
+#include "utils/Math.hpp"
 
 namespace dt {
 
@@ -34,7 +35,7 @@ public:
 
     void OnCreate();
     void OnDestroy();
-    void OnUpdate(float time_diff);
+    void OnUpdate(double time_diff);
 
     void AddPoint(Ogre::Vector3 point);
     /**
@@ -60,6 +61,30 @@ public:
       */
     void Reset();
 
+    /**
+      * Sets whether the node should accelerate smoothly.
+      * @param smooth_acceleration Whether the node should accelerate smoothly.
+      */
+    void SetSmoothAcceleration(bool smooth_acceleration);
+
+    /**
+      * Gets whether the node should accelerate smoothly.
+      * @param Whether the node should accelerate smoothly.
+      */
+    bool GetSmoothAcceleration() const;
+
+    /**
+      * Sets whether the node should move smoothly around the corners.
+      * @param smooth_corners Whether the node should move smoothly around the corners. From 0 (sharp corners) to 1 (no straight edges).
+      */
+    void SetSmoothCorners(bool smooth_corners);
+
+    /**
+      * Gets whether the node should move smoothly around the corners.
+      * @returns Whether the node should move smoothly around the corners.
+      */
+    bool GetSmoothCorners() const;
+
 protected:
     /**
       * Calculates the position for the current progress.
@@ -71,6 +96,9 @@ private:
     std::vector<Ogre::Vector3> mPoints;
     float mDurationSinceStart;
     float mTotalDuration;
+
+    bool mSmoothCorners;
+    bool mSmoothAcceleration;
 
 };
 

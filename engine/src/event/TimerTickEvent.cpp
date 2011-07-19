@@ -10,7 +10,7 @@
 
 namespace dt {
 
-TimerTickEvent::TimerTickEvent(const std::string& message, uint32_t interval)
+TimerTickEvent::TimerTickEvent(const std::string& message, double interval)
     : MessageEvent(message) {
     mInterval = interval;
 }
@@ -23,7 +23,7 @@ Event* TimerTickEvent::Clone() const {
     return new TimerTickEvent(mMessage, mInterval);
 }
 
-uint32_t TimerTickEvent::GetInterval() const {
+double TimerTickEvent::GetInterval() const {
     return mInterval;
 }
 

@@ -12,11 +12,12 @@
 
 namespace dt {
 
-Timer::Timer(const std::string& message, uint32_t interval, bool repeat, bool threaded) {
+Timer::Timer(const std::string& message, double interval, bool repeat, bool threaded, bool use_events) {
     mMessage = message;
     mInterval = interval;
     mThreaded = threaded;
     mRepeat = repeat;
+    mUseEvents = use_events;
 
     if(threaded) {
         _RunThread();
@@ -44,7 +45,9 @@ void Timer::HandleEvent(std::shared_ptr<Event> e) {
 }
 
 void Timer::TriggerTickEvent() {
-    Root::get_mutable_instance().GetEventManager()->HandleEvent(new TimerTickEvent(mMessage, mInterval));
+    if(mUseEvents)
+        Root::get_mutable_instance().GetEventManager()->HandleEvent(new TimerTickEvent(mMessage, mInterval));
+    mTickSignal(mMessage);
 
     if(mRepeat && mThreaded) {
         _RunThread();
@@ -62,7 +65,7 @@ void Timer::TriggerTickEvent() {
 
 }
 
-uint32_t Timer::GetInterval() const {
+double Timer::GetInterval() const {
     return mInterval;
 }
 
@@ -78,8 +81,8 @@ void Timer::_RunThread() {
 void Timer::_ThreadFunction(void* user_data) {
     Timer* timer = (Timer*)user_data;
 
-    // wait for interval milliseconds
-    sf::Sleep(timer->GetInterval());
+    // wait for interval, convert to milliseconds for SFML
+    sf::Sleep(timer->GetInterval() * 1000);
 
     // done, trigger event
     timer->TriggerTickEvent();
@@ -92,6 +95,10 @@ void Timer::Stop() {
         Root::get_mutable_instance().GetEventManager()->RemoveListener(this);
     }
     mTimeLeft = mInterval; // reset
+}
+
+boost::signals2::connection Timer::BindSlot(boost::function<void (const std::string&)> slot) {
+    return mTickSignal.connect(slot);
 }
 
 }

@@ -14,8 +14,8 @@ namespace dt {
 
 ConnectionsManager::ConnectionsManager(ConnectionsManager::ID_t max_connections) {
     mMaxConnections = max_connections;
-    mPingInterval = 1000;
-    SetTimeout(10000);
+    mPingInterval = 1.0;
+    SetTimeout(10.0);
 }
 
 ConnectionsManager::~ConnectionsManager() {}
@@ -87,7 +87,7 @@ std::vector<Connection*> ConnectionsManager::GetAllConnections() {
     return result;
 }
 
-uint32_t ConnectionsManager::GetPing(ConnectionsManager::ID_t connection) {
+double ConnectionsManager::GetPing(ConnectionsManager::ID_t connection) {
     return mPings[connection];
 }
 
@@ -112,7 +112,7 @@ uint16_t ConnectionsManager::GetConnectionCount() {
     return mConnections.size();
 }
 
-void ConnectionsManager::SetPingInterval(uint32_t ping_interval) {
+void ConnectionsManager::SetPingInterval(double ping_interval) {
     mPingInterval = ping_interval;
     // reset the timer
     if(mPingTimer.get() != nullptr) {
@@ -123,15 +123,15 @@ void ConnectionsManager::SetPingInterval(uint32_t ping_interval) {
     }
 }
 
-uint32_t ConnectionsManager::GetPingInterval() {
+double ConnectionsManager::GetPingInterval() {
     return mPingInterval;
 }
 
-void ConnectionsManager::SetTimeout(uint32_t timeout) {
+void ConnectionsManager::SetTimeout(double timeout) {
     mTimeout = timeout;
 }
 
-uint32_t ConnectionsManager::GetTimeout() {
+double ConnectionsManager::GetTimeout() {
     return mTimeout;
 }
 
@@ -196,7 +196,7 @@ void ConnectionsManager::_TimeoutConnection(ConnectionsManager::ID_t connection)
     uint32_t diff = Root::get_mutable_instance().GetTimeSinceInitialize() - mLastActivity[connection];
 
     // Send the event, hoping it will arrive at the destination
-    std::shared_ptr<GoodbyeEvent> e = std::shared_ptr<GoodbyeEvent>(new GoodbyeEvent("Timeout after " + tostr(diff) + " ms."));
+    std::shared_ptr<GoodbyeEvent> e = std::shared_ptr<GoodbyeEvent>(new GoodbyeEvent("Timeout after " + tostr(diff) + " seconds."));
     e->ClearRecipients();
     e->AddRecipient(connection);
     // send it directly

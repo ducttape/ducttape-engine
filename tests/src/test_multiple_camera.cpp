@@ -22,28 +22,28 @@ public:
     void HandleEvent(std::shared_ptr<dt::Event> e) {
         if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
-            if(mRuntime > 11000) {
+            if(mRuntime > 6.0) {
                 RequestShutdown();
             }
-            if(mRuntime > 10000 && !cameraChanged5) {
+            if(mRuntime > 5.0 && !cameraChanged5) {
                 dt::Root::get_mutable_instance().GetDisplayManager()->ShowViewport("newView");
                 cameraChanged5 = true;
             }
-            if(mRuntime > 9000 && !cameraChanged4) {
+            if(mRuntime > 4.0 && !cameraChanged4) {
                 dt::Root::get_mutable_instance().GetDisplayManager()->HideViewport("newView");
                 cameraChanged4 = true;
             }
-            if(mRuntime > 7500 && !cameraChanged3) {
+            if(mRuntime > 3.0 && !cameraChanged3) {
                 dt::Root::get_mutable_instance().GetDisplayManager()->ActivateCamera("new", "main");
                 dt::Root::get_mutable_instance().GetDisplayManager()->ActivateCamera("cam");
                 cameraChanged3 = true;
             }
-            if(mRuntime > 5000 && !cameraChanged2) {
+            if(mRuntime > 2.0 && !cameraChanged2) {
                 dt::Root::get_mutable_instance().GetDisplayManager()->AddViewport("newView", "new", true, 0.5F, 0.5F, 0.5F, 0.5F);
                 dt::Root::get_mutable_instance().GetDisplayManager()->ActivateCamera("cam", "main");
                 cameraChanged2 = true;
             }
-            if(mRuntime > 2500 && !cameraChanged) {
+            if(mRuntime > 1.0 && !cameraChanged) {
                 dt::Root::get_mutable_instance().GetDisplayManager()->ActivateCamera("new");
                 cameraChanged = true;
             }
@@ -96,7 +96,7 @@ public:
     }
 
 private:
-    uint32_t mRuntime;
+    double mRuntime;
     dt::Scene mScene;
     bool cameraChanged;
     bool cameraChanged2;

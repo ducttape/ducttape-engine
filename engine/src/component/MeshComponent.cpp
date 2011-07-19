@@ -34,7 +34,7 @@ void MeshComponent::OnDestroy() {
     _DestroyMesh();
 }
 
-void MeshComponent::OnUpdate(float time_diff) {
+void MeshComponent::OnUpdate(double time_diff) {
     // set position, rotation and scale of the node
     mSceneNode->setPosition(GetNode()->GetPosition(Node::SCENE));
     mSceneNode->setOrientation(GetNode()->GetRotation(Node::SCENE));

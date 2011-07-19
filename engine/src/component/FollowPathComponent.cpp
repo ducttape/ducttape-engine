@@ -16,6 +16,8 @@ namespace dt {
 
 FollowPathComponent::FollowPathComponent(const std::string& name)
     : Component(name) {
+    mSmoothAcceleration = false;
+    mSmoothCorners = 0;
 }
 
 void FollowPathComponent::HandleEvent(std::shared_ptr<Event> e) {}
@@ -23,7 +25,7 @@ void FollowPathComponent::HandleEvent(std::shared_ptr<Event> e) {}
 void FollowPathComponent::OnCreate() {}
 void FollowPathComponent::OnDestroy() {}
 
-void FollowPathComponent::OnUpdate(float time_diff) {
+void FollowPathComponent::OnUpdate(double time_diff) {
     if(IsEnabled()) {
         // move progress further
         mDurationSinceStart += time_diff;
@@ -89,14 +91,58 @@ Ogre::Vector3 FollowPathComponent::_CalculatePosition() {
         if(total <= length_travelled && length_travelled <= total + segment_length) {
             // we're in the right segment
             float segment_progress = (length_travelled - total) / segment_length;
+
             //std::cout << *iter << std::endl;
-            return (*last) + ((*iter)- (*last)) * segment_progress;
+            if(!mSmoothCorners ||
+                    (iter == mPoints.begin() + 1 && segment_progress < 0.5) ||         // we're in the first part of the first segment
+                    (iter == mPoints.end() && segment_progress >= (1.0 - 0.5) ) ) {    // we're in the last part of the last segment
+                if(mSmoothAcceleration)
+                    segment_progress = Math::SmoothStep(0, 1, segment_progress); // 0.5 will still be 0.5 :D
+
+                return (*last) + ((*iter)- (*last)) * segment_progress;
+            } else {
+                // this is gonna be complicated ^^
+
+                // determine the corner we are at
+                std::vector<Ogre::Vector3>::iterator corner = iter - 1; // current corner is begind
+                if(segment_progress >= 0.5) {
+                    corner = iter;                                  // current corner is behind
+                }
+                Ogre::Vector3 c = *corner;
+                Ogre::Vector3 n = *(corner+1);
+                Ogre::Vector3 p = *(corner-1);
+
+                float corner_progress = segment_progress - 0.5;
+                if(segment_progress < 0.5)
+                    corner_progress += 1.0;
+
+                return c + (n - c) * 0.5 * Math::BounceIn(0, 1, corner_progress, 0)
+                         + (p - c) * 0.5 * Math::BounceOut(1, 0, corner_progress, 0);
+
+                // well done!
+            }
         }
 
         total += segment_length;
         last = &(*iter);
     }
     return mPoints.back();
+}
+
+void FollowPathComponent::SetSmoothAcceleration(bool smooth_acceleration) {
+    mSmoothAcceleration = smooth_acceleration;
+}
+
+bool FollowPathComponent::GetSmoothAcceleration() const {
+    return mSmoothAcceleration;
+}
+
+void FollowPathComponent::SetSmoothCorners(bool smooth_corners) {
+    mSmoothCorners = smooth_corners;
+}
+
+bool FollowPathComponent::GetSmoothCorners() const {
+    return mSmoothCorners;
 }
 
 }

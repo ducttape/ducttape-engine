@@ -23,7 +23,7 @@ public:
       * @param timestamp The time the ping was sent.
       * @param is_reply Whether this ping is a reply.
       */
-    PingEvent(uint32_t timestamp, bool is_reply = false);
+    PingEvent(double timestamp, bool is_reply = false);
     const std::string GetType() const;
 
     Event* Clone() const;
@@ -39,10 +39,10 @@ public:
       * Returns the time the ping was sent.
       * @returns The time the ping was sent.
       */
-    uint32_t GetTimestamp() const;
+    double GetTimestamp() const;
 protected:
     bool mIsReply;          //!< Whether this ping is a reply.
-    uint32_t mTimestamp;    //!< The time the ping was sent.
+    double mTimestamp;    //!< The time the ping was sent.
 };
 
 }

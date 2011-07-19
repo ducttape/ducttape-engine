@@ -16,6 +16,9 @@ Component::Component(const std::string& name) {
         mName = "component-generated-name"; // TODO
     else
         mName = name;
+
+	mIsCreated = false;
+    mIsEnabled = false;
 }
 
 Component::~Component() {}
@@ -34,7 +37,7 @@ void Component::OnEnable() {}
 
 void Component::OnDisable() {}
 
-void Component::OnUpdate(float time_diff) {}
+void Component::OnUpdate(double time_diff) {}
 
 void Component::SetNode(Node* node) {
     mNode = node;
@@ -48,6 +51,7 @@ void Component::Create() {
     if(!mIsCreated) {
         mIsCreated = true;
         OnCreate();
+        Enable();
     }
 }
 

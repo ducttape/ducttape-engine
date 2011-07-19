@@ -35,7 +35,7 @@ void CameraComponent::LookAt(Ogre::Vector3 target_point) {
     mNode->SetRotation(mCamera->getOrientation());
 }
 
-void CameraComponent::OnUpdate(float time_diff) {
+void CameraComponent::OnUpdate(double time_diff) {
     mCamera->setPosition(mNode->GetPosition(Node::SCENE));
     mCamera->setOrientation(mNode->GetRotation(Node::SCENE));
 }

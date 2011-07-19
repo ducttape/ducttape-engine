@@ -22,19 +22,19 @@ public:
       * Advanced constructor.
       * @param frame_time The time delta of the current frame.
       */
-    BeginFrameEvent(uint32_t frame_time);
+    BeginFrameEvent(double frame_time);
     const std::string GetType() const;
     Event* Clone() const;
 
 
     /**
       * Returns the time delta of the current frame.
-      * @returns The time delta of the current frame.
+      * @returns The time delta of the current frame, in seconds.
       */
-    uint32_t GetFrameTime() const;
+    double GetFrameTime() const;
 
 private:
-    uint32_t mFrameTime;       //!< The time delta of the current frame.
+    double mFrameTime;       //!< The time delta of the current frame, in seconds.
 
 };
 

@@ -118,28 +118,28 @@ public:
     uint16_t GetConnectionCount();
 
     /**
-      * Sets the interval between two pings. Set this to 0 to disable pings. Default: 1000.
-      * @param ping_interval The interval between two pings, in milliseconds.
+      * Sets the interval between two pings. Set this to 0 to disable pings. Default: 1.0.
+      * @param ping_interval The interval between two pings, in seconds.
       */
-    void SetPingInterval(uint32_t ping_interval);
+    void SetPingInterval(double ping_interval);
 
     /**
       * Returns the interval between two pings.
-      * @return The interval between two pings, in milliseconds.
+      * @return The interval between two pings, in seconds.
       */
-    uint32_t GetPingInterval();
+    double GetPingInterval();
 
     /**
-      * Sets the time until a connection times out. Set this to 0 to disable timeouts. Default: 10000.
-      * @param timeout The time until a connection times out, in milliseconds.
+      * Sets the time until a connection times out. Set this to 0 to disable timeouts. Default: 10.0.
+      * @param timeout The time until a connection times out, in seconds.
       */
-    void SetTimeout(uint32_t timeout);
+    void SetTimeout(double timeout);
 
     /**
       * Returns the time until a connection times out.
-      * @returns The time until a connection times out, in milliseconds.
+      * @returns The time until a connection times out, in seconds.
       */
-    uint32_t GetTimeout();
+    double GetTimeout();
 
     void HandleEvent(std::shared_ptr<Event> e);
 
@@ -148,7 +148,7 @@ public:
       * @param connection The ID of the connection.
       * @returns The ping of the connection.
       */
-    uint32_t GetPing(ID_t connection);
+    double GetPing(ID_t connection);
 
 private:
     /**
@@ -181,11 +181,11 @@ private:
 
     ID_t mMaxConnections;                           //!< The maximum number of Connections allowed.
     boost::ptr_map<ID_t, Connection> mConnections;  //!< The Connections known to this manager.
-    std::map<ID_t, uint16_t> mPings;                //!< The pings for the different Connections.
-    std::map<ID_t, uint16_t> mLastActivity;         //!< The time the connection sent the last packet.
+    std::map<ID_t, double> mPings;                  //!< The pings for the different Connections.
+    std::map<ID_t, double> mLastActivity;           //!< The time the connection sent the last packet.
 
-    uint32_t mTimeout;      //!< The time to wait before a connection times out. In milliseconds.
-    uint32_t mPingInterval; //!< The interval in milliseconds between two pings.
+    double mTimeout;        //!< The time to wait before a connection times out. In milliseconds.
+    double mPingInterval;   //!< The interval in milliseconds between two pings.
     std::shared_ptr<Timer> mPingTimer;      //!< The timer for when to send out pings.
 };
 

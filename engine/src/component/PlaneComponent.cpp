@@ -34,7 +34,7 @@ void PlaneComponent::OnDestroy() {
     GetNode()->GetScene()->GetSceneManager()->destroySceneNode(mSceneNode);
 }
 
-void PlaneComponent::OnUpdate(float time_diff) {
+void PlaneComponent::OnUpdate(double time_diff) {
 }
 
 }

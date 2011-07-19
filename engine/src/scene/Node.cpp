@@ -195,7 +195,7 @@ Scene* Node::GetScene() {
         return nullptr;
 }
 
-void Node::OnUpdate(float time_diff) {
+void Node::OnUpdate(double time_diff) {
     _UpdateAllChildren(time_diff);
     _UpdateAllComponents(time_diff);
 }
@@ -204,7 +204,7 @@ bool Node::_IsScene() {
     return false;
 }
 
-void Node::_UpdateAllComponents(float time_diff) {
+void Node::_UpdateAllComponents(double time_diff) {
     mIsUpdatingAfterChange = (time_diff == 0);
 #ifdef COMPILER_MSVC
     typedef std::pair<std::string, std::shared_ptr<Component> > pair_type;
@@ -217,7 +217,7 @@ void Node::_UpdateAllComponents(float time_diff) {
     mIsUpdatingAfterChange = false;
 }
 
-void Node::_UpdateAllChildren(float time_diff) {
+void Node::_UpdateAllChildren(double time_diff) {
     mIsUpdatingAfterChange = (time_diff == 0);
     for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
         iter->second->OnUpdate(time_diff);

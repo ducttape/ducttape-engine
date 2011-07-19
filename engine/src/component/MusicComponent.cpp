@@ -42,7 +42,7 @@ void MusicComponent::OnDestroy() {
     _StopMusic();
 }
 
-void MusicComponent::OnUpdate(float time_diff) {
+void MusicComponent::OnUpdate(double time_diff) {
 
 }
 

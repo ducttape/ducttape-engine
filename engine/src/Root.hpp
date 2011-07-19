@@ -78,9 +78,9 @@ public:
 
     /**
       * Gets time since calling Initialize().
-      * @returns the time in milliseconds since calling Initialize()
+      * @returns The time in seconds since calling Initialize()
       */
-    uint32_t GetTimeSinceInitialize() const;
+    double GetTimeSinceInitialize() const;
 
     /**
       * Gets absolute path to current executable.

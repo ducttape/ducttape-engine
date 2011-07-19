@@ -45,7 +45,7 @@ void SoundComponent::OnDestroy() {
     Root::get_mutable_instance().GetEventManager()->RemoveListener(this);
 }
 
-void SoundComponent::OnUpdate(float time_diff) {
+void SoundComponent::OnUpdate(double time_diff) {
 	mSound.SetPosition(mNode->GetPosition(Node::SCENE).x, 
                        mNode->GetPosition(Node::SCENE).y, 
                        mNode->GetPosition(Node::SCENE).z);
