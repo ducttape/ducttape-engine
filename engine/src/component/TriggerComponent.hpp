@@ -24,7 +24,7 @@ public:
       * Advanced constructor.
       * @see Component
       */
-    TriggerComponent(const std::string& name);
+    TriggerComponent(const std::string& name = "");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 

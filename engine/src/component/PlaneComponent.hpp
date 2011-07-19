@@ -26,7 +26,7 @@ public:
       * Advanced constructor.
       * @see Component
       */
-    PlaneComponent(const std::string& name);
+    PlaneComponent(const std::string& name = "");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 

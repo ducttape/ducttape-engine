@@ -25,7 +25,7 @@ public:
      * Advanced constructor.
      * @see Component
      */
-    MusicComponent(const std::string& name, const std::string& music_file = "");
+    MusicComponent(const std::string& name = "", const std::string& music_file = "");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 
