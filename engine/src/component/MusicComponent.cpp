@@ -19,7 +19,7 @@ MusicComponent::MusicComponent(const std::string& name, const std::string& music
 }
 
 void MusicComponent::HandleEvent(std::shared_ptr<Event> e) {
-    auto resmgr = Root::get_mutable_instance().GetResourceManager();
+    auto resmgr = ResourceManager::Get();
     if(e->GetType() == "DT_MUSICPAUSEEVENT") {
         if(resmgr->GetMusicFile(mMusicFile)->GetStatus() == sf::Music::Paused) {
             resmgr->GetMusicFile(mMusicFile)->Play();
@@ -62,19 +62,19 @@ void MusicComponent::_LoadMusic() {
     if(mMusicFile == "") {
         Logger::Get().Error("MusicComponent [" + mName + "]: Needs a music file.");
     }
-    if(!Root::get_mutable_instance().GetResourceManager()->AddMusicFile(mMusicFile)) {
+    if(!ResourceManager::Get()->AddMusicFile(mMusicFile)) {
         Logger::Get().Error("MusicComponent [" + mName + "]: Wasn't able to load music file [" + mMusicFile + "].");
     }
 }
 
 void MusicComponent::_PlayMusic() {
     // play music if possible
-    Root::get_mutable_instance().GetResourceManager()->GetMusicFile(mMusicFile)->Play();
+    ResourceManager::Get()->GetMusicFile(mMusicFile)->Play();
 }
 
 void MusicComponent::_StopMusic() {
     // stop music if possible
-    Root::get_mutable_instance().GetResourceManager()->GetMusicFile(mMusicFile)->Stop();
+    ResourceManager::Get()->GetMusicFile(mMusicFile)->Stop();
 }
 
 }

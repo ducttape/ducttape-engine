@@ -28,34 +28,34 @@ public:
                 RequestShutdown();
             }
             if(mRuntime > 5.0 && !cameraChanged5) {
-                dt::Root::get_mutable_instance().GetDisplayManager()->ShowViewport("newView");
+                dt::DisplayManager::Get()->ShowViewport("newView");
                 cameraChanged5 = true;
             }
             if(mRuntime > 4.0 && !cameraChanged4) {
-                dt::Root::get_mutable_instance().GetDisplayManager()->HideViewport("newView");
+                dt::DisplayManager::Get()->HideViewport("newView");
                 cameraChanged4 = true;
             }
             if(mRuntime > 3.0 && !cameraChanged3) {
-                dt::Root::get_mutable_instance().GetDisplayManager()->ActivateCamera("new", "main");
-                dt::Root::get_mutable_instance().GetDisplayManager()->ActivateCamera("cam");
+                dt::DisplayManager::Get()->ActivateCamera("new", "main");
+                dt::DisplayManager::Get()->ActivateCamera("cam");
                 cameraChanged3 = true;
             }
             if(mRuntime > 2.0 && !cameraChanged2) {
-                dt::Root::get_mutable_instance().GetDisplayManager()->AddViewport("newView", "new", true, 0.5F, 0.5F, 0.5F, 0.5F);
-                dt::Root::get_mutable_instance().GetDisplayManager()->ActivateCamera("cam", "main");
+                dt::DisplayManager::Get()->AddViewport("newView", "new", true, 0.5F, 0.5F, 0.5F, 0.5F);
+                dt::DisplayManager::Get()->ActivateCamera("cam", "main");
                 cameraChanged2 = true;
             }
             if(mRuntime > 1.0 && !cameraChanged) {
-                dt::Root::get_mutable_instance().GetDisplayManager()->ActivateCamera("new");
+                dt::DisplayManager::Get()->ActivateCamera("new");
                 cameraChanged = true;
             }
         }
     }
 
     void OnInitialize() {
-        dt::Root::get_mutable_instance().GetEventManager()->AddListener(&mScene);
+        dt::EventManager::Get()->AddListener(&mScene);
 
-        dt::Root::get_mutable_instance().GetResourceManager()->AddResourceLocation("sinbad.zip","Zip", true);
+        dt::ResourceManager::Get()->AddResourceLocation("sinbad.zip","Zip", true);
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
         mScene.AddChildNode(new dt::Node("camnode"));

@@ -19,7 +19,7 @@ bool Event::IsNetworkEvent() const {
 }
 
 uint32_t Event::GetTypeID() const {
-    return Root::get_mutable_instance().GetStringManager()->Get(GetType());
+    return StringManager::Get()->Get(GetType());
 }
 
 }

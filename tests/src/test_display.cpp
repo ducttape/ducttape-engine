@@ -35,9 +35,9 @@ public:
     }
 
     void OnInitialize() {
-        dt::Root::get_mutable_instance().GetEventManager()->AddListener(&mScene);
+        dt::EventManager::Get()->AddListener(&mScene);
 
-        dt::Root::get_mutable_instance().GetResourceManager()->AddResourceLocation("sinbad.zip","Zip", true);
+        dt::ResourceManager::Get()->AddResourceLocation("sinbad.zip","Zip", true);
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
         mScene.AddChildNode(new dt::Node("camnode"));

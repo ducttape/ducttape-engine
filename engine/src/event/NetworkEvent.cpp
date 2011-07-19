@@ -20,13 +20,12 @@ NetworkEvent::NetworkEvent() {
     mIsLocalEvent = false;
     mSenderID = 0;
 
-    ConnectionsManager* cm = Root::get_mutable_instance().GetNetworkManager()->GetConnectionsManager();
 #ifdef COMPILER_MSVC
-    BOOST_FOREACH(Connection* c, cm->GetAllConnections()) {
+    BOOST_FOREACH(Connection* c, ConnectionsManager::Get()->GetAllConnections()) {
 #else
-    for(Connection* c: cm->GetAllConnections()) {
+    for(Connection* c: ConnectionsManager::Get()->GetAllConnections()) {
 #endif
-        AddRecipient(cm->GetConnectionID(*c));
+        AddRecipient(ConnectionsManager::Get()->GetConnectionID(*c));
     }
 }
 

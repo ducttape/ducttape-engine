@@ -17,11 +17,15 @@ BindingsManager::BindingsManager() {}
 BindingsManager::~BindingsManager() {}
 
 void BindingsManager::Initialize() {
-    Root::get_mutable_instance().GetEventManager()->AddListener(this);
+    EventManager::Get()->AddListener(this);
 }
 
 void BindingsManager::Deinitialize() {
-    Root::get_mutable_instance().GetEventManager()->RemoveListener(this);
+    EventManager::Get()->RemoveListener(this);
+}
+
+BindingsManager* BindingsManager::Get() {
+    return EventManager::Get()->GetBindingsManager();
 }
 
 void BindingsManager::HandleEvent(std::shared_ptr<Event> e) {

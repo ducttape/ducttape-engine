@@ -35,6 +35,8 @@ public:
     void Initialize();
     void Deinitialize();
 
+    static LogManager* Get();
+
     /**
       * Returns the logger with a given name.
       * @param name the name of the Logger to find
@@ -42,7 +44,6 @@ public:
       */
     Logger& GetLogger(const std::string& name);
 
-    static LogManager* Get();
 
 private:
     boost::ptr_map<std::string, Logger> mLoggers;   //!< The list of Loggers, defined by their name

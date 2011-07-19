@@ -22,7 +22,8 @@ void CameraComponent::HandleEvent(std::shared_ptr<Event> e) {
 
 void CameraComponent::OnCreate() {
     mCamera = GetNode()->GetScene()->GetSceneManager()->createCamera("camera-" + mName);
-    Root::get_mutable_instance().GetDisplayManager()->RegisterCamera(this);
+    DisplayManager::Get()->RegisterCamera(this);
+
     mCamera->setNearClipDistance(0.1);
 }
 

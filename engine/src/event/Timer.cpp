@@ -22,7 +22,7 @@ Timer::Timer(const std::string& message, double interval, bool repeat, bool thre
     if(threaded) {
         _RunThread();
     } else {
-        Root::get_mutable_instance().GetEventManager()->AddListener(this);
+        EventManager::Get()->AddListener(this);
         mTimeLeft = mInterval;
     }
 }
@@ -46,7 +46,7 @@ void Timer::HandleEvent(std::shared_ptr<Event> e) {
 
 void Timer::TriggerTickEvent() {
     if(mUseEvents)
-        Root::get_mutable_instance().GetEventManager()->InjectEvent(new TimerTickEvent(mMessage, mInterval));
+        EventManager::Get()->InjectEvent(new TimerTickEvent(mMessage, mInterval));
     mTickSignal(mMessage);
 
     if(mRepeat && mThreaded) {
@@ -56,7 +56,7 @@ void Timer::TriggerTickEvent() {
     if(!mThreaded) {
         if(!mRepeat) {
             // disable
-            Root::get_mutable_instance().GetEventManager()->RemoveListener(this);
+            EventManager::Get()->RemoveListener(this);
         } else {
             // reset
             mTimeLeft = mInterval;
@@ -92,7 +92,7 @@ void Timer::Stop() {
     if(mThreaded) {
         mThread->Terminate();
     } else {
-        Root::get_mutable_instance().GetEventManager()->RemoveListener(this);
+        EventManager::Get()->RemoveListener(this);
     }
     mTimeLeft = mInterval; // reset
 }

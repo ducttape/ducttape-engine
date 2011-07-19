@@ -43,7 +43,7 @@ public:
       * The events are then distributed to all listeners. It should be noted
       * that events are converted into shared_ptrs in this method which is why
       * this method should be used like this:
-      * @code Root::get_mutable_instance.GetEventManager()->InjectEvent(new SomeEvent()); @endcode
+      * @code EventManager::Get()->InjectEvent(new SomeEvent()); @endcode
       * @param event The Event to be sent.
       */
     void InjectEvent(Event* event);

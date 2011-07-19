@@ -43,15 +43,10 @@ public:
       */
     ~ConnectionsManager();
 
-    /**
-      * Initializes the manager.
-      */
     void Initialize();
-
-    /**
-      * Deinitializes the manager.
-      */
     void Deinitialize();
+
+    static ConnectionsManager* Get();
 
     /**
       * Setter for maximum number of connections allowed. Existing connections will \b not be removed

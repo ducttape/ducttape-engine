@@ -36,15 +36,10 @@ public:
       */
     ~BindingsManager();
 
-    /**
-      * Initializes the manager and registers itself as event listener.
-      */
     void Initialize();
-
-    /**
-      * Deinitializes the manager.
-      */
     void Deinitialize();
+
+    static BindingsManager* Get();
 
     void HandleEvent(std::shared_ptr<Event> e);
 

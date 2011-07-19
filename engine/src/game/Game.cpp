@@ -46,13 +46,13 @@ void Game::Run(int argc, char** argv) {
         mClock.Reset();
 
         // INPUT
-        Root::get_mutable_instance().GetInputManager()->Capture();
+        InputManager::Get()->Capture();
 
         accumulator += frame_time;
         while(accumulator >= simulation_frame_time) {
             anti_spiral_clock.Reset();
             // SIMULATION
-            Root::get_mutable_instance().GetEventManager()->InjectEvent(new BeginFrameEvent(simulation_frame_time));
+            EventManager::Get()->InjectEvent(new BeginFrameEvent(simulation_frame_time));
 
             // NETWORKING
             root.GetNetworkManager()->HandleIncomingEvents();

@@ -18,6 +18,10 @@ LogManager::LogManager() {
 void LogManager::Initialize() {}
 void LogManager::Deinitialize() {}
 
+LogManager* LogManager::Get() {
+    return Root::get_mutable_instance().GetLogManager();
+}
+
 Logger& LogManager::GetLogger() {
     return GetLogger("default");
 }
@@ -28,10 +32,6 @@ Logger& LogManager::GetLogger(const std::string& name) {
         mLoggers[name] = Logger(name);
     }
     return mLoggers[name];
-}
-
-LogManager* LogManager::Get() {
-    return Root::get_mutable_instance().GetLogManager();
 }
 
 }

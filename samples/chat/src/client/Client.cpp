@@ -16,15 +16,15 @@ Client::Client() {
 }
 
 void Client::OnInitialize() {
-    dt::Root::get_mutable_instance().GetEventManager()->AddListener(this);
+    dt::EventManager::Get()->AddListener(this);
     dt::Logger::Get().GetStream("debug")->SetDisabled(true);
     dt::Logger::Get().GetStream("info")->SetDisabled(true);
 
     std::shared_ptr<dt::NetworkEvent> ptr(new ChatMessageEvent("",""));
-    dt::Root::get_mutable_instance().GetNetworkManager()->RegisterNetworkEventPrototype(ptr);
+    dt::NetworkManager::Get()->RegisterNetworkEventPrototype(ptr);
 
-    dt::Root::get_mutable_instance().GetNetworkManager()->BindSocket();
-    dt::Root::get_mutable_instance().GetNetworkManager()->Connect(dt::Connection(mServerIP, 29876));
+    dt::NetworkManager::Get()->BindSocket();
+    dt::NetworkManager::Get()->Connect(dt::Connection(mServerIP, 29876));
 
     mInputThread = std::shared_ptr<sf::Thread>(new sf::Thread(&Client::InputThread, this));
     mInputThread->Launch();
@@ -69,11 +69,11 @@ void Client::InputThread(void* user_data) {
             client->SetNick(nick);
             std::cout << "** You changed your nick to: " << nick << std::endl;
         } else if(in.substr(0,5) == "/ping") {
-            std::cout << "** Your ping is: " << dt::Root::get_mutable_instance().GetNetworkManager()->GetConnectionsManager()->GetPing(1) << std::endl;
+            std::cout << "** Your ping is: " << dt::ConnectionsManager::Get()->GetPing(1) << std::endl;
         } else if(in == "/quit" || in == "/exit") {
             client->RequestShutdown();
         } else {
-            dt::Root::get_mutable_instance().GetEventManager()->InjectEvent(new ChatMessageEvent(in, client->GetNick()));
+            dt::EventManager::Get()->InjectEvent(new ChatMessageEvent(in, client->GetNick()));
         }
     }
 }

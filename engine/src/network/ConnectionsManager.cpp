@@ -21,12 +21,16 @@ ConnectionsManager::ConnectionsManager(ConnectionsManager::ID_t max_connections)
 ConnectionsManager::~ConnectionsManager() {}
 
 void ConnectionsManager::Initialize() {
-    Root::get_mutable_instance().GetEventManager()->AddListener(this);
+    EventManager::Get()->AddListener(this);
     SetPingInterval(mPingInterval); // this starts the timer
 }
 
 void ConnectionsManager::Deinitialize() {
-    Root::get_mutable_instance().GetEventManager()->RemoveListener(this);
+    EventManager::Get()->RemoveListener(this);
+}
+
+ConnectionsManager* ConnectionsManager::Get() {
+    return NetworkManager::Get()->GetConnectionsManager();
 }
 
 void ConnectionsManager::SetMaxConnections(ConnectionsManager::ID_t max) {
@@ -153,8 +157,8 @@ void ConnectionsManager::HandleEvent(std::shared_ptr<Event> e) {
                 // just reply!
                 // time's crucial, send directly
                 std::shared_ptr<PingEvent> ping(new PingEvent(p->GetTimestamp(), true));
-                Root::get_mutable_instance().GetNetworkManager()->QueueEvent(ping);
-                Root::get_mutable_instance().GetNetworkManager()->SendQueuedEvents();
+                NetworkManager::Get()->QueueEvent(ping);
+                NetworkManager::Get()->SendQueuedEvents();
             }
         }
     }
@@ -163,14 +167,13 @@ void ConnectionsManager::HandleEvent(std::shared_ptr<Event> e) {
         std::shared_ptr<NetworkEvent> n = std::dynamic_pointer_cast<NetworkEvent>(e);
         if(n->IsLocalEvent()) {
             // we received a network event
-            mLastActivity[n->GetSenderID()] = Root::get_mutable_instance(). GetTimeSinceInitialize();
+            mLastActivity[n->GetSenderID()] = Root::get_mutable_instance().GetTimeSinceInitialize();
         }
     }
 }
 
 void ConnectionsManager::_Ping() {
-    Root::get_mutable_instance().GetEventManager()->InjectEvent(
-                new PingEvent(Root::get_mutable_instance().GetTimeSinceInitialize()));
+    EventManager::Get()->InjectEvent(new PingEvent(Root::get_mutable_instance().GetTimeSinceInitialize()));
 }
 
 void ConnectionsManager::_HandlePing(std::shared_ptr<PingEvent> ping_event) {
@@ -200,8 +203,8 @@ void ConnectionsManager::_TimeoutConnection(ConnectionsManager::ID_t connection)
     e->ClearRecipients();
     e->AddRecipient(connection);
     // send it directly
-    Root::get_mutable_instance().GetNetworkManager()->QueueEvent(e);
-    Root::get_mutable_instance().GetNetworkManager()->SendQueuedEvents();
+    NetworkManager::Get()->QueueEvent(e);
+    NetworkManager::Get()->SendQueuedEvents();
 
     RemoveConnection(connection);
 }

@@ -92,27 +92,27 @@ bool InputManager::GetJailInput() const {
 
 
 bool InputManager::keyPressed(const OIS::KeyEvent& event) {
-    Root::get_mutable_instance().GetEventManager()->InjectEvent(new KeyboardEvent(KeyboardEvent::PRESSED, event.key, event.text));
+    EventManager::Get()->InjectEvent(new KeyboardEvent(KeyboardEvent::PRESSED, event.key, event.text));
     return true;
 }
 
 bool InputManager::keyReleased(const OIS::KeyEvent& event) {
-    Root::get_mutable_instance().GetEventManager()->InjectEvent(new KeyboardEvent(KeyboardEvent::RELEASED, event.key, event.text));
+    EventManager::Get()->InjectEvent(new KeyboardEvent(KeyboardEvent::RELEASED, event.key, event.text));
     return true;
 }
 
 bool InputManager::mouseMoved(const OIS::MouseEvent& event) {
-    Root::get_mutable_instance().GetEventManager()->InjectEvent(new MouseEvent(MouseEvent::MOVED, event.state));
+    EventManager::Get()->InjectEvent(new MouseEvent(MouseEvent::MOVED, event.state));
     return true;
 }
 
 bool InputManager::mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
-    Root::get_mutable_instance().GetEventManager()->InjectEvent(new MouseEvent(MouseEvent::PRESSED, event.state, button));
+    EventManager::Get()->InjectEvent(new MouseEvent(MouseEvent::PRESSED, event.state, button));
     return true;
 }
 
 bool InputManager::mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
-    Root::get_mutable_instance().GetEventManager()->InjectEvent(new MouseEvent(MouseEvent::RELEASED, event.state, button));
+    EventManager::Get()->InjectEvent(new MouseEvent(MouseEvent::RELEASED, event.state, button));
     return true;
 }
 
@@ -132,7 +132,7 @@ void InputManager::windowClosed(Ogre::RenderWindow* window) {
     // Only close for window that created OIS
     if(window == mWindow) {
         Logger::Get().Info("The window was closed");
-        Root::get_mutable_instance().GetEventManager()->InjectEvent(new WindowClosedEvent());
+        EventManager::Get()->InjectEvent(new WindowClosedEvent());
     }
 }
 

@@ -215,8 +215,8 @@ void DisplayManager::_DestroyWindow() {
 void DisplayManager::CreateOgreRoot() {
     if(mOgreRoot == nullptr) {
         _CreateWindow();
-        Root::get_mutable_instance().GetInputManager()->SetWindow(mOgreRenderWindow);
-        Root::get_mutable_instance().GetInputManager()->Initialize();
+        InputManager::Get()->SetWindow(mOgreRenderWindow);
+        InputManager::Get()->Initialize();
     }
 }
 

@@ -34,10 +34,10 @@ public:
     }
 
     void OnInitialize() {
-        dt::Root::get_mutable_instance().GetEventManager()->AddListener(&mScene);
+        dt::EventManager::Get()->AddListener(&mScene);
 
-        dt::Root::get_mutable_instance().GetResourceManager()->AddResourceLocation("sinbad.zip","Zip", true);
-        dt::Root::get_mutable_instance().GetResourceManager()->AddResourceLocation("particle/","FileSystem", true);
+        dt::ResourceManager::Get()->AddResourceLocation("sinbad.zip","Zip", true);
+        dt::ResourceManager::Get()->AddResourceLocation("particle/","FileSystem", true);
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
         // make a scene

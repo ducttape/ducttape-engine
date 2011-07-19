@@ -21,7 +21,7 @@ NetworkManager::NetworkManager() {}
 NetworkManager::~NetworkManager() {}
 
 void NetworkManager::Initialize() {
-    Root::get_mutable_instance().GetEventManager()->AddListener(this);
+    EventManager::Get()->AddListener(this);
 
     // add all default events as prototypes
     std::shared_ptr<NetworkEvent> ptr;
@@ -41,7 +41,7 @@ void NetworkManager::Initialize() {
 
 void NetworkManager::Deinitialize() {
     mConnectionsManager.Deinitialize();
-    Root::get_mutable_instance().GetEventManager()->RemoveListener(this);
+    EventManager::Get()->RemoveListener(this);
 }
 
 NetworkManager* NetworkManager::Get() {
@@ -133,7 +133,7 @@ void NetworkManager::HandleIncomingEvents() {
                 event->Serialize(iop);
                 event->IsLocalEvent(true);
                 event->SetSenderID(sender_id);
-                Root::get_mutable_instance().GetEventManager()->InjectEvent(event);
+                EventManager::Get()->InjectEvent(event);
             } else {
                 Logger::Get().Error("NetworkManager: Cannot create instance of packet type [" + tostr(type) + "]. Skipping packet.");
                 break;
@@ -170,7 +170,7 @@ void NetworkManager::HandleEvent(std::shared_ptr<Event> e) {
 void NetworkManager::RegisterNetworkEventPrototype(std::shared_ptr<NetworkEvent> event) {
     mNetworkEventPrototypes.push_back(event);
     // register the ID (if not already happened)
-    Root::get_mutable_instance().GetStringManager()->Add(event->GetType());
+    StringManager::Get()->Add(event->GetType());
 }
 
 std::shared_ptr<NetworkEvent> NetworkManager::CreatePrototypeInstance(uint32_t type_id) {

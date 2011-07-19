@@ -16,15 +16,15 @@ namespace dt {
 
 Scene::Scene(const std::string& name) {
     mName = name;
-    // Root::get_mutable_instance().GetEventManager()->AddListener(this);
+    // EventManager::Get()->AddListener(this);
 }
 
 Scene::~Scene() {
-    // Root::get_mutable_instance().GetEventManager()->RemoveListener(this);
+    // EventManager::Get()->RemoveListener(this);
 }
 
 Ogre::SceneManager* Scene::GetSceneManager() {
-    return Root::get_mutable_instance().GetDisplayManager()->GetSceneManager(mName);
+    return DisplayManager::Get()->GetSceneManager(mName);
 }
 
 bool Scene::_IsScene() {

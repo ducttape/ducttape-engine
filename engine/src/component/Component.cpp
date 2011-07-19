@@ -16,7 +16,7 @@ Component::Component(const std::string& name) {
     uint32_t new_id;
 
     if(name == "") {
-        new_id = Root::get_mutable_instance().GetStringManager()->GetNextAutoId();
+        new_id = StringManager::Get()->GetNextAutoId();
         mName = "Component-"+tostr(new_id);
     } else {
         mName = name;

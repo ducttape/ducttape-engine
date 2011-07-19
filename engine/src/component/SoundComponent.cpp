@@ -38,11 +38,11 @@ void SoundComponent::HandleEvent(std::shared_ptr<Event> e) {
 }
 
 void SoundComponent::OnCreate() {
-    Root::get_mutable_instance().GetEventManager()->AddListener(this);
+    EventManager::Get()->AddListener(this);
 }
 
 void SoundComponent::OnDestroy() {
-    Root::get_mutable_instance().GetEventManager()->RemoveListener(this);
+    EventManager::Get()->RemoveListener(this);
 }
 
 void SoundComponent::OnUpdate(double time_diff) {
@@ -87,10 +87,10 @@ void SoundComponent::_LoadSound() {
     if(mSoundFile == "") {
         Logger::Get().Error("SoundComponent [" + mName + "]: Needs a sound file.");
     }
-    if(!Root::get_mutable_instance().GetResourceManager()->AddSoundBuffer(mSoundFile)) {
+    if(!ResourceManager::Get()->AddSoundBuffer(mSoundFile)) {
         Logger::Get().Error("SoundComponent [" + mName + "]: Wasn't able to load sound file [" + mSoundFile + "].");
     } else {
-		mSound.SetBuffer(Root::get_mutable_instance().GetResourceManager()->GetSoundBuffer(mSoundFile));
+        mSound.SetBuffer(ResourceManager::Get()->GetSoundBuffer(mSoundFile));
 	}
 }
 
