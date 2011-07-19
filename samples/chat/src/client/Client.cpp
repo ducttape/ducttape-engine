@@ -29,6 +29,8 @@ void Client::OnInitialize() {
 }
 
 void Client::HandleEvent(std::shared_ptr<dt::Event> e) {
+    Game::HandleEvent(e);
+
     if(e->GetType() == "CHATMESSAGEEVENT") {
         std::shared_ptr<ChatMessageEvent> c = std::dynamic_pointer_cast<ChatMessageEvent>(e);
         if(c->IsLocalEvent()) { // we just received this

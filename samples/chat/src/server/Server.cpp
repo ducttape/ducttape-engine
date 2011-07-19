@@ -18,6 +18,8 @@ void Server::OnInitialize() {
 }
 
 void Server::HandleEvent(std::shared_ptr<dt::Event> e) {
+    Game::HandleEvent(e);
+
     // This is quite useful for debugging purposes.
     //dt::Logger::Get().Info("There are " + boost::lexical_cast<std::string>(dt::Root::get_mutable_instance().GetNetworkManager()->GetConnectionsManager()->GetConnectionCount()) + " connections active.");
 

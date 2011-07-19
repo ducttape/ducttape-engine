@@ -20,23 +20,47 @@ namespace dt {
   */
 class KeyboardEvent : public Event {
 public:
+    /**
+      * Action performed that triggered the event.
+      */
     enum Action {
-        PRESSED,
-        RELEASED
+        PRESSED,    //!< The key has been pressed.
+        RELEASED    //!< The key has been released.
     };
 
+    /**
+      * Advanced constructor.
+      * @param action The action that triggered the event.
+      * @param code The code of the key pressed.
+      * @param text The character the pressed key is assigned to.
+      */
     KeyboardEvent(Action action, OIS::KeyCode code, char text);
     const std::string GetType() const;
     Event* Clone() const;
 
+    /**
+      * Returns the code of the key pressed.
+      * @returns The code of the key pressed.
+      */
     OIS::KeyCode GetCode() const;
+
+
+    /**
+      * Returns the action that triggered the event.
+      * @returns The action that triggered the event.
+      */
     Action GetAction() const;
+
+    /**
+      * Returns the character the pressed key is assigned to.
+      * @returns The character the pressed key is assigned to.
+      */
     char GetText() const;
 
 private:
-    OIS::KeyCode mCode;
-    Action mAction;
-    char mText;
+    OIS::KeyCode mCode; //!< The key code of the key pressed.
+    Action mAction;     //!< The action that triggered the event.
+    char mText;         //!< The character the pressed key is assigned to.
 
 };
 

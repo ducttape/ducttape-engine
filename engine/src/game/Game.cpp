@@ -17,6 +17,7 @@ Game::Game() {
 
 void Game::HandleEvent(std::shared_ptr<Event> e) {
     if(e->GetType() == "DT_WINDOWCLOSEDEVENT") {
+        Logger::Get().Debug("The closed window triggered a game shutdown.");
         RequestShutdown();
     }
 }
@@ -45,8 +46,7 @@ void Game::Run(int argc, char** argv) {
         mClock.Reset();
 
         // INPUT
-        // InputManager::Capture();
-        // TODO: Implement InputManager.
+        Root::get_mutable_instance().GetInputManager()->Capture();
 
         accumulator += frame_time;
         while(accumulator >= simulation_frame_time) {
@@ -89,7 +89,12 @@ void Game::Run(int argc, char** argv) {
 }
 
 void Game::RequestShutdown() {
-    mIsShutdownRequested = true;
+    if(OnShutdownRequested())
+        mIsShutdownRequested = true;
+}
+
+bool Game::OnShutdownRequested() {
+    return true;
 }
 
 bool Game::IsRunning() {

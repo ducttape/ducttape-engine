@@ -31,6 +31,8 @@ public:
     }
 
     void HandleEvent(std::shared_ptr<dt::Event> e) {
+        dt::Game::HandleEvent(e);
+
         if(e->GetType() == "DT_TIMERTICKEVENT") {
             std::shared_ptr<dt::TimerTickEvent> t = std::dynamic_pointer_cast<dt::TimerTickEvent>(e);
             bool t1 = (t->GetMessageEvent() == "Timer 1 (event mode)");

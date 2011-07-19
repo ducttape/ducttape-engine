@@ -16,28 +16,51 @@
 namespace dt {
 
 /**
-  * Event triggered on MousePressed, MouseReleased and MouseMoved
+  * Event triggered on MousePressed, MouseReleased and MouseMoved.
   */
 class MouseEvent : public Event {
 public:
+    /**
+      * The action that caused the MouseEvent.
+      */
     enum Action {
-        MOVED,
-        PRESSED,
-        RELEASED
+        MOVED,      //!< The mouse has moved.
+        PRESSED,    //!< The mouse has been pressed.
+        RELEASED    //!< The mouse has been released.
     };
 
+    /**
+      * Advanced constructor.
+      * @param action The action that caused the MouseEvent.
+      * @param state The current mouse state.
+      * @param button The mouse button that caused the event. For MOVED, this will always be OIS::MB_Left.
+      */
     MouseEvent(Action action, OIS::MouseState state, OIS::MouseButtonID button = OIS::MB_Left);
     const std::string GetType() const;
     Event* Clone() const;
 
+    /**
+      * Returns the current mouse state.
+      * @returns The current mouse state.
+      */
     const OIS::MouseState& GetMouseState() const;
+
+    /**
+      * Returns the action that caused the MouseEvent.
+      * @returns The action that caused the MouseEvent.
+      */
     Action GetAction() const;
+
+    /**
+      * Returns the mouse button that caused the event. For MOVED, this will always be OIS::MB_Left.
+      * @returns The mouse button that caused the event.
+      */
     OIS::MouseButtonID GetButton() const;
 
 private:
-    OIS::MouseState mState;
-    Action mAction;
-    OIS::MouseButtonID mButton;
+    OIS::MouseState mState;         //!< The current mouse state.
+    Action mAction;                 //!< The action that caused the MouseEvent.
+    OIS::MouseButtonID mButton;     //!< The mouse butotn that caused the event.
 
 };
 

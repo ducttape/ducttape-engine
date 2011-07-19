@@ -20,6 +20,8 @@ public:
     }
 
     void HandleEvent(std::shared_ptr<dt::Event> e) {
+        dt::Game::HandleEvent(e);
+
         if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
             if(mRuntime > 6.0) {

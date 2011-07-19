@@ -24,18 +24,33 @@ void InputManager::Initialize(Ogre::RenderWindow* window) {
     mWindow->getCustomAttribute("WINDOW", &window_handle);
     params.insert(std::make_pair(std::string("WINDOW"), tostr(window_handle)));
     if(!mJailInput) {
+#if defined OIS_WIN32_PLATFORM
+        params.insert(std::make_pair(std::string("w32_mouse"), std::string("DISCL_FOREGROUND" )));
+        params.insert(std::make_pair(std::string("w32_mouse"), std::string("DISCL_NONEXCLUSIVE")));
+        params.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_FOREGROUND")));
+        params.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_NONEXCLUSIVE")));
+#elif defined OIS_LINUX_PLATFORM
         params.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
+        params.insert(std::make_pair(std::string("x11_mouse_hide"), std::string("false")));
         params.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
+        params.insert(std::make_pair(std::string("XAutoRepeatOn"), std::string("true")));
+#endif
     }
 
     Logger::Get().Info("Initializing input system (Window: " + tostr(window_handle) + ")");
     mInputSystem = OIS::InputManager::createInputSystem(params);
 
-    mKeyboard = static_cast<OIS::Keyboard*>(mInputSystem->createInputObject(OIS::OISKeyboard, false));
-    mMouse = static_cast<OIS::Mouse*>(mInputSystem->createInputObject(OIS::OISMouse, false));
+    mKeyboard = static_cast<OIS::Keyboard*>(mInputSystem->createInputObject(OIS::OISKeyboard, true));
+    mMouse = static_cast<OIS::Mouse*>(mInputSystem->createInputObject(OIS::OISMouse, true));
 
     mKeyboard->setEventCallback(this);
     mMouse->setEventCallback(this);
+
+    // Set initial mouse clipping size
+    windowResized(mWindow);
+
+    // Register as a Window listener
+    Ogre::WindowEventUtilities::addWindowEventListener(mWindow, this);
 }
 
 void InputManager::Deinitialize() {
@@ -48,8 +63,11 @@ void InputManager::Deinitialize() {
 }
 
 void InputManager::Capture() {
-    mMouse->capture();
-    mKeyboard->capture();
+    if(mInputSystem != nullptr) {
+        // the system has been initialized
+        mMouse->capture();
+        mKeyboard->capture();
+    }
 }
 
 void InputManager::SetJailInput(bool jail_input) {
@@ -101,6 +119,7 @@ void InputManager::windowResized(Ogre::RenderWindow* window) {
 void InputManager::windowClosed(Ogre::RenderWindow* window) {
     // Only close for window that created OIS
     if(window == mWindow) {
+        Logger::Get().Info("The window was closed");
         Root::get_mutable_instance().GetEventManager()->HandleEvent(new WindowClosedEvent());
     }
 }

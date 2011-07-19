@@ -43,7 +43,13 @@ public:
     /**
       * Requests a shutdown. The current frame is being processed, but then the main loop will be cancelled.
       */
-    virtual void RequestShutdown();
+    void RequestShutdown();
+
+    /**
+      * Returns whether a requested shutdown should be handled. Override this to cancel a shutdown, e.g. when the window was closed.
+      * @returns Whether a requested shutdown should be handled.
+      */
+    virtual bool OnShutdownRequested();
 
     /**
       * Returns whether the main loop is running.
