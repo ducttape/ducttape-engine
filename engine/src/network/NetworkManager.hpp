@@ -145,7 +145,7 @@ private:
     void _SendEvent(std::shared_ptr<NetworkEvent> event);
 
     ConnectionsManager mConnectionsManager;                     //!< The ConnectionsManager that manages all remote devices.
-    std::deque<std::shared_ptr<NetworkEvent>> mQueue;                      //!< The queue of Events to be send. @see NetworkManager::QueueEvent(NetworkEvent* event);
+    std::deque<std::shared_ptr<NetworkEvent>> mQueue;           //!< The queue of Events to be send. @see NetworkManager::QueueEvent(NetworkEvent* event);
     boost::ptr_vector<NetworkEvent> mNetworkEventPrototypes;    //!< The list of prototypes known to mankind :P
     sf::UdpSocket mSocket;                                      //!< The socket used for data transmissions over network.
 };

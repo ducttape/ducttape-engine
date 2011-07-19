@@ -152,8 +152,8 @@ void ConnectionsManager::HandleEvent(std::shared_ptr<Event> e) {
             } else {
                 // just reply!
                 // time's crucial, send directly
-                Root::get_mutable_instance().GetNetworkManager()->
-                    QueueEvent(std::shared_ptr<PingEvent>(new PingEvent(p->GetTimestamp(), true)));
+                std::shared_ptr<PingEvent> ping(new PingEvent(p->GetTimestamp(), true));
+                Root::get_mutable_instance().GetNetworkManager()->QueueEvent(ping);
                 Root::get_mutable_instance().GetNetworkManager()->SendQueuedEvents();
             }
         }
@@ -196,7 +196,7 @@ void ConnectionsManager::_TimeoutConnection(ConnectionsManager::ID_t connection)
     uint32_t diff = Root::get_mutable_instance().GetTimeSinceInitialize() - mLastActivity[connection];
 
     // Send the event, hoping it will arrive at the destination
-    std::shared_ptr<GoodbyeEvent> e = std::shared_ptr<GoodbyeEvent>(new GoodbyeEvent("Timeout after " + tostr(diff) + " seconds."));
+    std::shared_ptr<GoodbyeEvent> e(new GoodbyeEvent("Timeout after " + tostr(diff) + " seconds."));
     e->ClearRecipients();
     e->AddRecipient(connection);
     // send it directly

@@ -50,7 +50,8 @@ void Node::AddComponent(Component* component) {
         std::shared_ptr<Component> ptr(component);
         ptr->SetNode(this);
         ptr->Create();
-        mComponents.insert(std::pair<std::string, std::shared_ptr<Component> >(cname, ptr));
+        std::pair<std::string, std::shared_ptr<Component> > pair(cname, ptr);
+        mComponents.insert(pair);
 
         _UpdateAllComponents(0);
     }

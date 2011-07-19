@@ -54,8 +54,7 @@ void NetworkManager::Connect(Connection target) {
     // Connection* c = mConnectionsManager.GetConnection(id);
 
     // send handshake
-    std::shared_ptr<HandshakeEvent> h = \
-        std::shared_ptr<HandshakeEvent>(new HandshakeEvent());
+    std::shared_ptr<HandshakeEvent> h(new HandshakeEvent());
     h->ClearRecipients();
     h->AddRecipient(id);
     QueueEvent(h);
@@ -63,8 +62,7 @@ void NetworkManager::Connect(Connection target) {
 
 void NetworkManager::Disconnect(Connection target) {
     // send goodbye
-    std::shared_ptr<GoodbyeEvent> goodbye = \
-        std::shared_ptr<GoodbyeEvent>(new GoodbyeEvent("Disconnected"));
+    std::shared_ptr<GoodbyeEvent> goodbye(new GoodbyeEvent("Disconnected"));
     goodbye->ClearRecipients();
     goodbye->AddRecipient(mConnectionsManager.GetConnectionID(target));
     // do not queue the event but send it directly, as we will remove the connection now
@@ -197,7 +195,11 @@ void NetworkManager::_SendEvent(std::shared_ptr<NetworkEvent> event) {
 #endif
         // Logger::Get().Debug("NetworkManager: Sending Event to " + tostr(i));
         Connection* r = mConnectionsManager.GetConnection(i);
-        mSocket.Send(p, r->GetIPAddress(), r->GetPort());
+        if(r == nullptr) {
+            Logger::Get().Error("Cannot send event to " + tostr(i) + ": No connection with this ID");
+        } else {
+            mSocket.Send(p, r->GetIPAddress(), r->GetPort());
+        }
     }
 }
 
