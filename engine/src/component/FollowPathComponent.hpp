@@ -35,7 +35,7 @@ public:
       * @see Component
       * @param name The name of the component.
       */
-    FollowPathComponent(const std::string& name, Mode mode = SINGLE);
+    FollowPathComponent(const std::string& name = "", Mode mode = SINGLE);
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 

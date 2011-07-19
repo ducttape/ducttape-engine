@@ -17,8 +17,7 @@ Component::Component(const std::string& name) {
 
     if(name == "") {
         new_id = Root::get_mutable_instance().GetStringManager()->GetNextId();
-        Root::get_mutable_instance().GetStringManager()->Add("Component-"+tostr(new_id));
-        mName = "component-generated-name";
+        mName = "Component-"+tostr(new_id);
     } else {
         mName = name;
     }

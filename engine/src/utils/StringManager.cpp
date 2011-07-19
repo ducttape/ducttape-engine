@@ -65,7 +65,8 @@ const std::string& StringManager::Get(uint32_t id) {
 }
 
 uint32_t StringManager::GetNextId() {
-    return mLastId+1;
+    mLastId++;
+    return mLastId;
 }
 
 }

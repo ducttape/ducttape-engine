@@ -26,7 +26,7 @@ public:
       * @param mesh_file The file the mesh is loaded from.
       * @see Component
       */
-    MeshComponent(const std::string& name, const std::string& mesh_file);
+    MeshComponent(const std::string& name = "", const std::string& mesh_file);
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 
