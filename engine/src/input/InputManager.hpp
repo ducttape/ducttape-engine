@@ -47,6 +47,20 @@ public:
       */
     void Capture();
 
+    /**
+      * Sets whether the input deviced are jailed. If true, the mouse cannot move outside the window
+      * and the keyboard events are not sent to other applications. Useful to disable for debugging.
+      * Default: false.
+      * @param jail_input Whether to jail the input devices.
+      */
+    void SetJailInput(bool jail_input = false);
+
+    /**
+      * Returns whether the input devices are jailed (for details on that see InputManager::SetJailInput).
+      * @returns Whether to jail the input devices.
+      */
+    bool GetJailInput() const;
+
     // OIS::KeyListener
     virtual bool keyPressed(const OIS::KeyEvent& event);
     virtual bool keyReleased(const OIS::KeyEvent& event);
@@ -65,6 +79,8 @@ private:
     OIS::InputManager* mInputSystem;
     OIS::Mouse* mMouse;
     OIS::Keyboard* mKeyboard;
+
+    bool mJailInput;
 
 };
 

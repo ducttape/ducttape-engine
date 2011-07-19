@@ -6,6 +6,7 @@ namespace dt {
 
 InputManager::InputManager() {
     mInputSystem = nullptr;
+    mJailInput = false;
 }
 
 void InputManager::Initialize(Ogre::RenderWindow* window) {
@@ -22,12 +23,19 @@ void InputManager::Initialize(Ogre::RenderWindow* window) {
     size_t window_handle = 0;
     mWindow->getCustomAttribute("WINDOW", &window_handle);
     params.insert(std::make_pair(std::string("WINDOW"), tostr(window_handle)));
+    if(!mJailInput) {
+        params.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
+        params.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
+    }
 
     Logger::Get().Info("Initializing input system (Window: " + tostr(window_handle) + ")");
     mInputSystem = OIS::InputManager::createInputSystem(params);
 
     mKeyboard = static_cast<OIS::Keyboard*>(mInputSystem->createInputObject(OIS::OISKeyboard, false));
     mMouse = static_cast<OIS::Mouse*>(mInputSystem->createInputObject(OIS::OISMouse, false));
+
+    mKeyboard->setEventCallback(this);
+    mMouse->setEventCallback(this);
 }
 
 void InputManager::Deinitialize() {
@@ -43,6 +51,15 @@ void InputManager::Capture() {
     mMouse->capture();
     mKeyboard->capture();
 }
+
+void InputManager::SetJailInput(bool jail_input) {
+    mJailInput =  jail_input;
+}
+
+bool InputManager::GetJailInput() const {
+    return mJailInput;
+}
+
 
 bool InputManager::keyPressed(const OIS::KeyEvent& event) {
     Root::get_mutable_instance().GetEventManager()->HandleEvent(new KeyboardEvent(KeyboardEvent::PRESSED, event.key, event.text));
