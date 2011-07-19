@@ -10,6 +10,7 @@
 #include "scene/Node.hpp"
 #include "scene/Scene.hpp"
 #include "utils/Logger.hpp"
+#include "utils/Utils.hpp"
 
 namespace dt {
 
@@ -63,6 +64,18 @@ Ogre::ParticleAffector* ParticleSystemComponent::GetAffector(const std::string& 
     if(mParticleAffectors.count(name) == 0)
         return nullptr;
     return mParticleAffectors[name];
+}
+
+Ogre::ParticleAffector* ParticleSystemComponent::AddScalerAffector(const std::string& name, float rate) {
+    Ogre::ParticleAffector* a = AddAffector(name, "Scaler");
+    a->setParameter("rate", tostr(rate));
+    return a;
+}
+
+Ogre::ParticleAffector* ParticleSystemComponent::AddLinearForceAffector(const std::string& name, Ogre::Vector3 force) {
+    Ogre::ParticleAffector* a = AddAffector(name, "LinearForce");
+    a->setParameter("force_vector", tostr(force.x) + " " + tostr(force.y) + " " + tostr(force.z));
+    return a;
 }
 
 Ogre::ParticleSystem* ParticleSystemComponent::GetOgreParticleSystem() {

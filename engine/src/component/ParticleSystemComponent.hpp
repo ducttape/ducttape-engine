@@ -47,6 +47,10 @@ public:
     Ogre::ParticleAffector* AddAffector(const std::string& name, const std::string& type);
     Ogre::ParticleAffector* GetAffector(const std::string& name);
 
+    // Special affectors
+    Ogre::ParticleAffector* AddScalerAffector(const std::string& name, float rate);
+    Ogre::ParticleAffector* AddLinearForceAffector(const std::string& name, Ogre::Vector3 force);
+
     Ogre::ParticleSystem* GetOgreParticleSystem();
 
     void OnCreate();

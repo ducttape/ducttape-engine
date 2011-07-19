@@ -78,19 +78,16 @@ public:
         e->setParticleVelocity(3.f, 4.f);
         e->setTimeToLive(1.f, 2.f);
 
-        Ogre::ParticleAffector* a = p_sys->AddAffector("scaler", "Scaler");
-        a->setParameter("rate", "1.05");
+        p_sys->AddScalerAffector("scaler", 1.05);
+        p_sys->AddLinearForceAffector("force", Ogre::Vector3(0, 5, 0));
 
-        a = p_sys->AddAffector("colour_interpolator", "ColourInterpolator");
+        Ogre::ParticleAffector* a = p_sys->AddAffector("colour_interpolator", "ColourInterpolator");
         a->setParameter("time0", "0");
         a->setParameter("colour0", "1 1 0 1");
         a->setParameter("time1", "0.5");
         a->setParameter("colour1", "1 0.3 0 1");
         a->setParameter("time2", "1");
         a->setParameter("colour2", "1 0 0 0");
-
-        a = p_sys->AddAffector("linear_force", "LinearForce");
-        a->setParameter("force_vector", "0 5 0");
     }
 
 private:
