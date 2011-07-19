@@ -41,20 +41,26 @@ void Root::Initialize(int argc, char** argv) {
 
     mExecutablePath = boost::filesystem::system_complete(boost::filesystem::path( argv[0]));
 
+    mLogManager->Initialize();
+    mStringManager->Initialize();
     mEventManager->Initialize();
-    mNetworkManager->Initialize();
     mResourceManager->Initialize();
     mDisplayManager->Initialize();
     // Do not initialize the InputManager.
     // The display manager does this when the window is created.
+    mNetworkManager->Initialize();
+    mStateManager->Initialize();
 }
 
 void Root::Deinitialize() {
+    mStateManager->Deinitialize();
+    mNetworkManager->Deinitialize();
     // Do not deinitialize the InputManager (see above).
     mDisplayManager->Deinitialize();
     mResourceManager->Deinitialize();
-    mNetworkManager->Deinitialize();
     mEventManager->Deinitialize();
+    mStringManager->Deinitialize();
+    mLogManager->Deinitialize();
 }
 
 double Root::GetTimeSinceInitialize() const {
