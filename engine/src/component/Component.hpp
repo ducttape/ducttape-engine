@@ -44,7 +44,7 @@ public:
       */
     const std::string& GetName() const;
 
-    virtual void HandleEvent(Event* e);
+    virtual void HandleEvent(std::shared_ptr<Event> e);
 
     /**
       * Called when the component is activated. Create all scene objects here.

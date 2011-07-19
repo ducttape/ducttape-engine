@@ -24,7 +24,7 @@ const std::string& Component::GetName() const {
     return mName;
 }
 
-void Component::HandleEvent(Event* e) {}
+void Component::HandleEvent(std::shared_ptr<Event> e) {}
 
 void Component::OnCreate() {}
 

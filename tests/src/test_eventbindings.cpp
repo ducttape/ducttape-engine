@@ -45,12 +45,12 @@ public:
 
 class TestEventListener : public dt::EventListener {
 public:
-    void HandleEvent(dt::Event* e) {
+    void HandleEvent(std::shared_ptr<dt::Event> e) {
         std::cout << "Received: " << e->GetType() << std::endl;
         if(e->GetType() == "testtriggerevent") {
             mHasReceivedTriggerEvent = true;
         } else if(e->GetType() == "testboundevent") {
-            if(((TestBoundEvent*)e)->mData == 42) {
+            if(std::dynamic_pointer_cast<TestBoundEvent>(e)->mData == 42) {
                 mHasReceivedBoundEvent = true;
             } else {
                 std::cerr << "The data has not been transfered correctly." << std::endl;
@@ -79,12 +79,12 @@ int main(int argc, char** argv) {
 
     if(!listener.mHasReceivedTriggerEvent) {
         std::cerr << "The EventListener has not received the trigger event." << std::endl;
-        exit(1);
+        return 1;
     }
 
     if(!listener.mHasReceivedBoundEvent) {
         std::cerr << "The EventListener has not received the bound event." << std::endl;
-        exit(1);
+        return 1;
     }
 
     std::cout << "EventBindings: OK" << std::endl;

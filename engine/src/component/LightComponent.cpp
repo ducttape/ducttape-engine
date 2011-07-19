@@ -17,7 +17,7 @@ LightComponent::LightComponent(const std::string& name)
    : Component(name) {
 }
 
-void LightComponent::HandleEvent(Event* e) {
+void LightComponent::HandleEvent(std::shared_ptr<Event> e) {
 }
 
 void LightComponent::OnCreate() {

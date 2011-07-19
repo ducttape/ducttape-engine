@@ -33,7 +33,7 @@ public:
       */
     Timer(const std::string& message, uint32_t interval, bool repeat = true, bool threaded = false);
 
-    void HandleEvent(Event* e);
+    void HandleEvent(std::shared_ptr<Event> e);
 
     /**
       * Triggers the tick event and resets the timer.

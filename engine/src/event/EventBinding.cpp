@@ -26,10 +26,10 @@ EventBinding::EventBinding(const std::string& trigger_type, Event* target) {
 
 EventBinding::~EventBinding() {}
 
-void EventBinding::TriggerEvent(Event* e) {
+void EventBinding::TriggerEvent(std::shared_ptr<Event> e) {
     if(e->GetType() == mTriggerType) {
         Event* target = mTarget->Clone();
-        if(target->TranslateFrom(e) && target->GetType() != e->GetType()) // prevent looping (see Event::TranslateFrom)
+        if(target->GetType() != e->GetType()) // prevent looping
             Root::get_mutable_instance().GetEventManager()->HandleEvent(target);
     }
 }

@@ -19,7 +19,7 @@ public:
     Client();
 
     void OnInitialize();
-    void HandleEvent(dt::Event* e);
+    void HandleEvent(std::shared_ptr<dt::Event> e);
 
     void SetServerIP(sf::IpAddress server_ip);
     sf::IpAddress GetServerIP() const;

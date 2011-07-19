@@ -17,12 +17,12 @@ void Server::OnInitialize() {
     dt::Root::get_mutable_instance().GetNetworkManager()->BindSocket(29876);
 }
 
-void Server::HandleEvent(dt::Event* e) {
+void Server::HandleEvent(std::shared_ptr<dt::Event> e) {
     // This is quite useful for debugging purposes.
     //dt::Logger::Get().Info("There are " + boost::lexical_cast<std::string>(dt::Root::get_mutable_instance().GetNetworkManager()->GetConnectionsManager()->GetConnectionCount()) + " connections active.");
 
     if(e->GetType() == "CHATMESSAGEEVENT") {
-        ChatMessageEvent* c = (ChatMessageEvent*)e;
+        std::shared_ptr<ChatMessageEvent> c = std::dynamic_pointer_cast<ChatMessageEvent>(e);
 
         if(c->IsLocalEvent()) { // we just received this
 
@@ -38,6 +38,6 @@ void Server::HandleEvent(dt::Event* e) {
         }
 
     } else if(e->GetType() == "DT_GOODBYEEVENT") {
-        dt::Logger::Get().Info("Client disconnected: " + ((dt::GoodbyeEvent*)e)->GetReason());
+        dt::Logger::Get().Info("Client disconnected: " + std::dynamic_pointer_cast<dt::GoodbyeEvent>(e)->GetReason());
     }
 }

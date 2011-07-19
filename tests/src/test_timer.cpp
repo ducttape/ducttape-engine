@@ -28,9 +28,9 @@ public:
         mTotalTime = 0;
     }
 
-    void HandleEvent(dt::Event* e) {
+    void HandleEvent(std::shared_ptr<dt::Event> e) {
         if(e->GetType() == "DT_TIMERTICKEVENT") {
-            dt::TimerTickEvent* t = (dt::TimerTickEvent*)e;
+            std::shared_ptr<dt::TimerTickEvent> t = std::dynamic_pointer_cast<dt::TimerTickEvent>(e);
             bool t1 = (t->GetMessageEvent() == "Timer 1 (event mode)");
 
             if(t1) {
@@ -41,7 +41,7 @@ public:
                 std::cout << "Timer tick " << mTimer2Count << ": " << t->GetMessageEvent() << std::endl;
             }
         } else if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-            mTotalTime += ((dt::BeginFrameEvent*)e)->GetFrameTime();
+            mTotalTime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
 
             if(mTotalTime >= 10000) {
                 RequestShutdown();

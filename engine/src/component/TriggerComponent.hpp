@@ -26,7 +26,7 @@ public:
       */
     TriggerComponent(const std::string& name);
 
-    virtual void HandleEvent(Event* e);
+    virtual void HandleEvent(std::shared_ptr<Event> e);
 
     void OnCreate();
     void OnDestroy();

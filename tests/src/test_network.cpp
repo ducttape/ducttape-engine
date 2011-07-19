@@ -53,15 +53,15 @@ public:
     Sender mEnum;
 };
 
-class CustomServerEventManager : public dt::EventListener {
+class CustomServerEventListener : public dt::EventListener {
 public:
-    CustomServerEventManager() {
+    CustomServerEventListener() {
         mDataReceived = 0;
     }
 
-    void HandleEvent(dt::Event* e) {
+    void HandleEvent(std::shared_ptr<dt::Event> e) {
         if(e->GetType() == "CUSTOMNETWORKEVENT") {
-            CustomNetworkEvent* c = (CustomNetworkEvent*)e;
+            std::shared_ptr<CustomNetworkEvent> c = std::dynamic_pointer_cast<CustomNetworkEvent>(e);
             if(c->mEnum == CustomNetworkEvent::CLIENT) {
                 std::cout << "Server: received CustomNetworkEvent" << std::endl;
                 // send it back, adding 1 to the data
@@ -75,15 +75,15 @@ public:
     uint32_t mDataReceived;
 };
 
-class CustomClientEventManager : public dt::EventListener {
+class CustomClientEventListener : public dt::EventListener {
 public:
-    CustomClientEventManager() {
+    CustomClientEventListener() {
         mDataReceived = 0;
     }
 
-    void HandleEvent(dt::Event* e) {
+    void HandleEvent(std::shared_ptr<dt::Event> e) {
         if(e->GetType() == "CUSTOMNETWORKEVENT") {
-            CustomNetworkEvent* c = (CustomNetworkEvent*)e;
+            std::shared_ptr<CustomNetworkEvent> c = std::dynamic_pointer_cast<CustomNetworkEvent>(e);
             if(c->mEnum == CustomNetworkEvent::SERVER) {
                 std::cout << "Client: received CustomNetworkEvent" << std::endl;
                 mDataReceived = c->mData;
@@ -99,12 +99,12 @@ void server() {
     dt::Root& root = dt::Root::get_mutable_instance();
     std::cout << "-- Running server" << std::endl;
 
-    CustomServerEventManager csem;
-    root.GetEventManager()->AddListener(&csem);
+    CustomServerEventListener csel;
+    root.GetEventManager()->AddListener(&csel);
 
     dt::NetworkManager* nm = root.GetNetworkManager();
     nm->BindSocket(SERVER_PORT);
-    while(csem.mDataReceived == 0) {
+    while(csel.mDataReceived == 0) {
         nm->HandleIncomingEvents();
         nm->SendQueuedEvents();
         sf::Sleep(100);
@@ -125,11 +125,11 @@ void client() {
 
     int data = 1337;
 
-    CustomClientEventManager ccem;
-    root.GetEventManager()->AddListener(&ccem);
+    CustomClientEventListener ccel;
+    root.GetEventManager()->AddListener(&ccel);
     root.GetEventManager()->HandleEvent(new CustomNetworkEvent(data, CustomNetworkEvent::CLIENT));
 
-    while(ccem.mDataReceived == 0) {
+    while(ccel.mDataReceived == 0) {
         nm->HandleIncomingEvents();
         nm->SendQueuedEvents();
         sf::Sleep(100);
@@ -139,15 +139,17 @@ void client() {
         }
     }
 
-    bool correct_data = ((int)ccem.mDataReceived == data + DATA_INCREMENT);
+    bool correct_data = ((int)ccel.mDataReceived == data + DATA_INCREMENT);
     if(!correct_data) {
-        std::cerr << "Client: Received wrong data (" + dt::tostr(ccem.mDataReceived) + " instead of " + dt::tostr(data + DATA_INCREMENT) + ")" << std::endl;
+        std::cerr << "Client: Received wrong data (" + dt::tostr(ccel.mDataReceived) + " instead of " + dt::tostr(data + DATA_INCREMENT) + ")" << std::endl;
         exit(1);
     }
 }
 
 int main(int argc, char** argv) {
-    std::string arg1 = (argc < 2 ? "" : argv[1]);
+    std::string arg1;
+    if(argc > 1)
+        arg1 = argv[1];
     if(arg1 != "server" && arg1 != "client") {
         std::cerr << "Usage: ./test_network < server | client >" << std::endl;
         return 1;

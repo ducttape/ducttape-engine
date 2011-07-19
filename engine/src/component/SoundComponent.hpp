@@ -29,7 +29,7 @@ public:
      */
     SoundComponent(const std::string& name, const std::string& sound_file = "");
 
-    virtual void HandleEvent(Event* e);
+    virtual void HandleEvent(std::shared_ptr<Event> e);
 
     void OnCreate();
     void OnDestroy();

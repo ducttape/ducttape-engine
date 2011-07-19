@@ -31,7 +31,6 @@ public:
     void PushNewState();
     State* GetCurrentState();
 
-    void HandleEvent(Event& event);
 private:
     std::shared_ptr<State> mNewState; //!< The newly created stack to be pushed onto the stack in the next step
     boost::ptr_vector<State> mStates;    //!< The stack of game states

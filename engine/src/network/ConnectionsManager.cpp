@@ -16,7 +16,6 @@ ConnectionsManager::ConnectionsManager(ConnectionsManager::ID_t max_connections)
     mMaxConnections = max_connections;
     mPingInterval = 1000;
     SetTimeout(10000);
-    mPingTimer = nullptr;
 }
 
 ConnectionsManager::~ConnectionsManager() {}
@@ -116,11 +115,11 @@ uint16_t ConnectionsManager::GetConnectionCount() {
 void ConnectionsManager::SetPingInterval(uint32_t ping_interval) {
     mPingInterval = ping_interval;
     // reset the timer
-    if(mPingTimer != nullptr) {
+    if(mPingTimer.get() != nullptr) {
         mPingTimer->Stop();
     }
     if(mPingInterval != 0) {
-        mPingTimer = new Timer("DT_SEND_PING", mPingInterval, true, false);
+        mPingTimer = std::shared_ptr<Timer>(new Timer("DT_SEND_PING", mPingInterval, true, false));
     }
 }
 
@@ -136,16 +135,16 @@ uint32_t ConnectionsManager::GetTimeout() {
     return mTimeout;
 }
 
-void ConnectionsManager::HandleEvent(Event* e) {
+void ConnectionsManager::HandleEvent(std::shared_ptr<Event> e) {
     if(e->GetType() == "DT_TIMERTICKEVENT") {
-        TimerTickEvent* t = (TimerTickEvent*)e;
+        std::shared_ptr<TimerTickEvent> t = std::dynamic_pointer_cast<TimerTickEvent>(e);
         if(t->GetMessageEvent() == "DT_SEND_PING" && t->GetInterval() == mPingInterval) {
             // this is our timer
             _Ping();
             _CheckTimeouts();
         }
     } else if(e->GetType() == "DT_PINGEVENT") {
-        PingEvent* p = (PingEvent*)e;
+        std::shared_ptr<PingEvent> p = std::dynamic_pointer_cast<PingEvent>(e);
         if(p->IsLocalEvent()) {
             // yes, we received this from the network
             if(p->IsReply()) {
@@ -153,14 +152,15 @@ void ConnectionsManager::HandleEvent(Event* e) {
             } else {
                 // just reply!
                 // time's crucial, send directly
-                Root::get_mutable_instance().GetNetworkManager()->QueueEvent(new PingEvent(p->GetTimestamp(), true));
+                Root::get_mutable_instance().GetNetworkManager()->
+                    QueueEvent(std::shared_ptr<PingEvent>(new PingEvent(p->GetTimestamp(), true)));
                 Root::get_mutable_instance().GetNetworkManager()->SendQueuedEvents();
             }
         }
     }
 
     if(e->IsNetworkEvent()) {
-        NetworkEvent* n = (NetworkEvent*)e;
+        std::shared_ptr<NetworkEvent> n = std::dynamic_pointer_cast<NetworkEvent>(e);
         if(n->IsLocalEvent()) {
             // we received a network event
             mLastActivity[n->GetSenderID()] = Root::get_mutable_instance(). GetTimeSinceInitialize();
@@ -173,7 +173,7 @@ void ConnectionsManager::_Ping() {
                 new PingEvent(Root::get_mutable_instance().GetTimeSinceInitialize()));
 }
 
-void ConnectionsManager::_HandlePing(PingEvent* ping_event) {
+void ConnectionsManager::_HandlePing(std::shared_ptr<PingEvent> ping_event) {
     uint32_t ping = Root::get_mutable_instance().GetTimeSinceInitialize() - ping_event->GetTimestamp();
     mPings[ping_event->GetSenderID()] = ping;
 
@@ -182,7 +182,7 @@ void ConnectionsManager::_HandlePing(PingEvent* ping_event) {
 
 void ConnectionsManager::_CheckTimeouts() {
     uint32_t time = Root::get_mutable_instance().GetTimeSinceInitialize();
-    for(boost::ptr_map<ConnectionsManager::ID_t, Connection>::iterator i = mConnections.begin(); i != mConnections.end(); ++i) {
+    for(auto i = mConnections.begin(); i != mConnections.end(); ++i) {
         uint32_t diff = time - mLastActivity[i->first];
         if(diff > mTimeout) {
             _TimeoutConnection(i->first);
@@ -196,7 +196,7 @@ void ConnectionsManager::_TimeoutConnection(ConnectionsManager::ID_t connection)
     uint32_t diff = Root::get_mutable_instance().GetTimeSinceInitialize() - mLastActivity[connection];
 
     // Send the event, hoping it will arrive at the destination
-    GoodbyeEvent* e = new GoodbyeEvent("Timeout after " + tostr(diff) + " ms.");
+    std::shared_ptr<GoodbyeEvent> e = std::shared_ptr<GoodbyeEvent>(new GoodbyeEvent("Timeout after " + tostr(diff) + " ms."));
     e->ClearRecipients();
     e->AddRecipient(connection);
     // send it directly

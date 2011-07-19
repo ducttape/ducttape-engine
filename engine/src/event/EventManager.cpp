@@ -25,12 +25,13 @@ void EventManager::Deinitialize() {
 }
 
 void EventManager::HandleEvent(Event* event) {
+    std::shared_ptr<Event> safe_event(event);
 #ifdef COMPILER_MSVC
     BOOST_FOREACH(EventListener* l, mListeners) {
 #else
     for(EventListener* l: mListeners) {
 #endif
-        l->HandleEvent(event);
+        l->HandleEvent(safe_event);
     }
 }
 

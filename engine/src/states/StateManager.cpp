@@ -29,14 +29,4 @@ State* StateManager::GetCurrentState() {
     return nullptr;
 }
 
-void StateManager::HandleEvent(Event& event) {
-#ifdef COMPILER_MSVC
-    BOOST_FOREACH(State& s, mStates) {
-#else
-    for(State& s: mStates) {
-#endif
-        s.HandleEvent(event);
-    }
-}
-
 }

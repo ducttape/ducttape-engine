@@ -18,7 +18,7 @@ FollowPathComponent::FollowPathComponent(const std::string& name)
     : Component(name) {
 }
 
-void FollowPathComponent::HandleEvent(Event* e) {}
+void FollowPathComponent::HandleEvent(std::shared_ptr<Event> e) {}
 
 void FollowPathComponent::OnCreate() {}
 void FollowPathComponent::OnDestroy() {}

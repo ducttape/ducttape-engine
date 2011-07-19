@@ -17,7 +17,7 @@ PlaneComponent::PlaneComponent(const std::string& name)
    : Component(name) {
 }
 
-void PlaneComponent::HandleEvent(Event* e) {
+void PlaneComponent::HandleEvent(std::shared_ptr<Event> e) {
 }
 
 void PlaneComponent::OnCreate() {

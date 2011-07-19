@@ -9,6 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_EVENTLISTENER
 #define DUCTTAPE_ENGINE_EVENT_EVENTLISTENER
 
+#include <memory>
+
 #include "Event.hpp"
 
 namespace dt {
@@ -29,7 +31,7 @@ public:
       * Event callback.
       * @param e The Event to handle.
       */
-    virtual void HandleEvent(Event* e);
+    virtual void HandleEvent(std::shared_ptr<Event> e) = 0;
 };
 
 }

@@ -22,24 +22,19 @@ public:
     Event* Clone() const {
         return new TestEvent(*this);
     }
-
-    void TestEventReceived() {
-        mHasBeenReceivedCorrectly = true;
-    }
-
-    bool mHasBeenReceivedCorrectly;
 };
 
 class TestEventListener : public dt::EventListener {
 public:
-    void HandleEvent(dt::Event* e) {
+    void HandleEvent(std::shared_ptr<dt::Event> e) {
         if(e->GetType() == "testevent") {
-            ((TestEvent*)e)->TestEventReceived();
+            mHasReceivedTestEvent = true;
         }
         mHasReceivedAnEvent = true;
     }
 
     bool mHasReceivedAnEvent;
+    bool mHasReceivedTestEvent;
 };
 
 int main(int argc, char** argv) {
@@ -49,21 +44,18 @@ int main(int argc, char** argv) {
     root.GetStringManager()->Add("testevent");
 
     TestEventListener listener;
-    TestEvent event;
 
     root.GetEventManager()->AddListener(&listener);
-    root.GetEventManager()->HandleEvent(&event);
+    root.GetEventManager()->HandleEvent(new TestEvent);
 
     if(!listener.mHasReceivedAnEvent) {
         std::cerr << "The EventListener has not received any event." << std::endl;
-        root.Deinitialize();
-        return 0;
+        return 1;
     }
 
-    if(!event.mHasBeenReceivedCorrectly) {
+    if(!listener.mHasReceivedTestEvent) {
         std::cerr << "The Event has not been recognized as a TestEvent." << std::endl;
-        root.Deinitialize();
-        return 0;
+        return 1;
     }
 
     std::cout << "Events: OK" << std::endl;
