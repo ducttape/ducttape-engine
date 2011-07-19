@@ -27,7 +27,7 @@ public:
       * Advanced constructor.
       * @see Component
       */
-    CameraComponent(const std::string& name);
+    CameraComponent(const std::string& name = "");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 

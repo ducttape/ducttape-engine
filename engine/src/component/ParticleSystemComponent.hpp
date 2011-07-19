@@ -33,7 +33,7 @@ public:
       * @see Component
       * @param name The name of the component.
       */
-    ParticleSystemComponent(const std::string& name);
+    ParticleSystemComponent(const std::string& name = "");
 
     void SetParticleCountLimit(uint32_t limit);
     uint32_t GetParticleCountLimit() const;

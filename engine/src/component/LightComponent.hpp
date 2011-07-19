@@ -27,7 +27,7 @@ public:
       * @see Component
       * @param name The name of the component.
       */
-    LightComponent(const std::string& name);
+    LightComponent(const std::string& name = "");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 

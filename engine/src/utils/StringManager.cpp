@@ -64,4 +64,9 @@ const std::string& StringManager::Get(uint32_t id) {
     return mIds[id];
 }
 
+uint32_t StringManager::GetNextAutoId() {
+    mAutoId++;
+    return mAutoId;
+}
+
 }
