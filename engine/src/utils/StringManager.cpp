@@ -18,6 +18,7 @@ namespace dt {
 
 StringManager::StringManager() {
     mLastId = 0;
+    mAutoId = 0;
 }
 
 uint32_t StringManager::Add(const std::string& string) {

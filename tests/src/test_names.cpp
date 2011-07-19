@@ -17,11 +17,11 @@ int main(int argc, char** argv) {
     dt::Root::get_mutable_instance().Initialize(argc, argv);
 
     dt::Node* node = new dt::Node();
-    std::cout << std::endl << node->GetName();
+    std::cout << "Node name: " << node->GetName() << std::endl;
     assert(node->GetName() == "Node-1");
 
     dt::CameraComponent* comp = new dt::CameraComponent();
-    std::cout << std::endl << comp->GetName();
+    std::cout << "Component name: " << comp->GetName() << std::endl;
     assert(comp->GetName() == "Component-2");
 
     dt::Root::get_mutable_instance().Deinitialize();
