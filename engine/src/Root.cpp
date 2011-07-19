@@ -17,6 +17,7 @@ Root::Root() {
     mStringManager = new StringManager();
     mEventManager = new EventManager();
     mResourceManager = new ResourceManager();
+    mInputManager = new InputManager();
     mDisplayManager = new DisplayManager();
     mStateManager = new StateManager();
     mNetworkManager = new NetworkManager();
@@ -28,6 +29,7 @@ Root::~Root() {
     delete mNetworkManager;
     delete mStateManager;
     delete mDisplayManager;
+    delete mInputManager;
     delete mResourceManager;
     delete mEventManager;
     delete mStringManager;
@@ -43,9 +45,12 @@ void Root::Initialize(int argc, char** argv) {
     mNetworkManager->Initialize();
     mResourceManager->Initialize();
     mDisplayManager->Initialize();
+    // Do not initialize the InputManager.
+    // The display manager does this when the window is created.
 }
 
 void Root::Deinitialize() {
+    // Do not deinitialize the InputManager (see above).
     mDisplayManager->Deinitialize();
     mResourceManager->Deinitialize();
     mNetworkManager->Deinitialize();
@@ -82,6 +87,10 @@ NetworkManager* Root::GetNetworkManager() {
 
 DisplayManager* Root::GetDisplayManager() {
     return mDisplayManager;
+}
+
+InputManager* Root::GetInputManager() {
+    return mInputManager;
 }
 
 ResourceManager* Root::GetResourceManager() {

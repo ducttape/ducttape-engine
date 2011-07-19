@@ -15,7 +15,7 @@
 #include "component/ParticleSystemComponent.hpp"
 #include "event/EventListener.hpp"
 
-class Game : public dt::Game, public dt::EventListener {
+class Game : public dt::Game {
 public:
     Game()
         : mScene("gamescene") {
@@ -37,8 +37,6 @@ public:
         dt::Root::get_mutable_instance().GetResourceManager()->AddResourceLocation("sinbad.zip","Zip", true);
         dt::Root::get_mutable_instance().GetResourceManager()->AddResourceLocation("particle/","FileSystem", true);
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
-
-        dt::Root::get_mutable_instance().GetEventManager()->AddListener(this);
 
         // make a scene
         mScene.AddChildNode(new dt::Node("camnode"));

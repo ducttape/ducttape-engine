@@ -6,16 +6,28 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#ifndef DUCTTAPE_SAMPLE_CHAT_SERVER_SERVER
-#define DUCTTAPE_SAMPLE_CHAT_SERVER_SERVER
+#ifndef DUCTTAPE_ENGINE_EVENT_WINDOWCLOSEDEVENT
+#define DUCTTAPE_ENGINE_EVENT_WINDOWCLOSEDEVENT
 
-#include "game/Game.hpp"
+#include <string>
 
-class Server : public dt::Game {
+#include "Event.hpp"
+
+namespace dt {
+
+/**
+ * Event being sent when sending a pause toggle to the music.
+ */
+class WindowClosedEvent : public Event {
 public:
-    void OnInitialize();
-    void HandleEvent(std::shared_ptr<dt::Event> e);
-
+    /**
+     * Default constructor.
+     */
+    WindowClosedEvent();
+    const std::string GetType() const;
+    Event* Clone() const;
 };
+
+}
 
 #endif

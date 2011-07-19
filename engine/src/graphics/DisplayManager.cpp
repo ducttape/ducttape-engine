@@ -8,6 +8,8 @@
 
 #include "graphics/DisplayManager.hpp"
 
+#include "Root.hpp"
+
 namespace dt {
 
 DisplayManager::DisplayManager() {
@@ -198,6 +200,9 @@ void DisplayManager::_CreateWindow() {
 }
 
 void DisplayManager::_DestroyWindow() {
+    // Unattach OIS before window shutdown (very important under Linux)
+    Root::get_mutable_instance().GetInputManager()->Deinitialize();
+
     mOgreRenderWindow->destroy();
     mOgreRoot->shutdown();
     delete mOgreRoot;
@@ -206,6 +211,7 @@ void DisplayManager::_DestroyWindow() {
 void DisplayManager::CreateOgreRoot() {
     if(mOgreRoot == nullptr) {
         _CreateWindow();
+        Root::get_mutable_instance().GetInputManager()->Initialize(mOgreRenderWindow);
     }
 }
 

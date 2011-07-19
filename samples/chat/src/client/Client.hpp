@@ -14,7 +14,7 @@
 #include <SFML/System/Thread.hpp>
 #include <memory>
 
-class Client : public dt::Game, public dt::EventListener {
+class Client : public dt::Game {
 public:
     Client();
 

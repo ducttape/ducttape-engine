@@ -19,12 +19,14 @@ namespace dt {
 /**
   * The main instance of a game, running the main loop.
   */
-class Game {
+class Game : public EventListener {
 public:
     /**
       * Default constructor.
       */
     Game();
+
+    virtual void HandleEvent(std::shared_ptr<Event> e);
 
     /**
       * Called when initializing the game. Create custom stuff here.
@@ -41,7 +43,7 @@ public:
     /**
       * Requests a shutdown. The current frame is being processed, but then the main loop will be cancelled.
       */
-    void RequestShutdown();
+    virtual void RequestShutdown();
 
     /**
       * Returns whether the main loop is running.

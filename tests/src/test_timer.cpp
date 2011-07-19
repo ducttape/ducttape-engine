@@ -10,7 +10,7 @@
 #include "event/Timer.hpp"
 #include "game/Game.hpp"
 
-class CustomGame : public dt::Game, public dt::EventListener {
+class CustomGame : public dt::Game {
 public:
     void OnInitialize() {
         mTimer1Count = 0;
@@ -26,8 +26,6 @@ public:
         mTimer2 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 2 (thread mode)", 2.01, true, true));
         mTimer3 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 3 (callback)", 1.0, true, true, false));
         mTimer3->BindSlot(boost::bind(&CustomGame::TimerCallback, this, _1));
-
-        dt::Root::get_mutable_instance().GetEventManager()->AddListener(this);
 
         mTotalTime = 0;
     }

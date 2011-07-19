@@ -15,10 +15,17 @@ Game::Game() {
     mIsRunning = false;
 }
 
+void Game::HandleEvent(std::shared_ptr<Event> e) {
+    if(e->GetType() == "DT_WINDOWCLOSEDEVENT") {
+        RequestShutdown();
+    }
+}
+
 void Game::Run(int argc, char** argv) {
     Root& root = Root::get_mutable_instance();
 
     root.Initialize(argc, argv);
+    root.GetEventManager()->AddListener(this);
     OnInitialize();
 
     mClock.Reset();
@@ -77,6 +84,7 @@ void Game::Run(int argc, char** argv) {
 
     mIsRunning = false;
 
+    root.GetEventManager()->RemoveListener(this);
     root.Deinitialize();
 }
 

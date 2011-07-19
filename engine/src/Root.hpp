@@ -44,6 +44,7 @@
 #include "network/NetworkManager.hpp"
 #include "graphics/DisplayManager.hpp"
 #include "resources/ResourceManager.hpp"
+#include "input/InputManager.hpp"
 
 namespace dt {
 
@@ -125,20 +126,27 @@ public:
     DisplayManager* GetDisplayManager();
 
     /**
+      * Returns the InputManager.
+      * @returns the InputManager
+      */
+    InputManager* GetInputManager();
+
+    /**
       * Returns the ResourceManager.
       * @returns the ResourceManager
       */
     ResourceManager* GetResourceManager();
 
 private:
-    sf::Clock mSfClock;             //!< sf::Clock for keeping time since Initialize()
+    sf::Clock mSfClock;                 //!< sf::Clock for keeping time since Initialize()
     boost::filesystem::path mExecutablePath; //!< absolute path to current executable
-    StringManager* mStringManager;  //!< pointer to the StringManager
-    LogManager* mLogManager;        //!< pointer to the LogManager
-    StateManager* mStateManager;    //!< pointer to the StateManager
-    EventManager* mEventManager;    //!< pointer to the EventManager
+    StringManager* mStringManager;      //!< pointer to the StringManager
+    LogManager* mLogManager;            //!< pointer to the LogManager
+    StateManager* mStateManager;        //!< pointer to the StateManager
+    EventManager* mEventManager;        //!< pointer to the EventManager
     NetworkManager* mNetworkManager;    //!< pointer to the NetworkManager
     DisplayManager* mDisplayManager;    //!< pointer to the DisplayManager
+    InputManager* mInputManager;        //!< pointer to the InputManager
     ResourceManager* mResourceManager;  //!< pointer to the ResourceManager
 };
 
