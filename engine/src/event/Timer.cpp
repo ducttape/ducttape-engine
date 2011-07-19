@@ -46,7 +46,7 @@ void Timer::HandleEvent(std::shared_ptr<Event> e) {
 
 void Timer::TriggerTickEvent() {
     if(mUseEvents)
-        Root::get_mutable_instance().GetEventManager()->HandleEvent(new TimerTickEvent(mMessage, mInterval));
+        Root::get_mutable_instance().GetEventManager()->InjectEvent(new TimerTickEvent(mMessage, mInterval));
     mTickSignal(mMessage);
 
     if(mRepeat && mThreaded) {

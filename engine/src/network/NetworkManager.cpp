@@ -130,7 +130,7 @@ void NetworkManager::HandleIncomingEvents() {
                 event->Serialize(iop);
                 event->IsLocalEvent(true);
                 event->SetSenderID(sender_id);
-                Root::get_mutable_instance().GetEventManager()->HandleEvent(event);
+                Root::get_mutable_instance().GetEventManager()->InjectEvent(event);
             } else {
                 Logger::Get().Error("NetworkManager: Cannot create instance of packet type [" + tostr(type) + "]. Skipping packet.");
                 break;

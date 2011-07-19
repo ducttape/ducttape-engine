@@ -47,7 +47,7 @@ int main(int argc, char** argv) {
     TestEventListener listener;
 
     root.GetEventManager()->AddListener(&listener);
-    root.GetEventManager()->HandleEvent(new TestEvent);
+    root.GetEventManager()->InjectEvent(new TestEvent);
 
     if(!listener.mHasReceivedAnEvent) {
         std::cerr << "The EventListener has not received any event." << std::endl;

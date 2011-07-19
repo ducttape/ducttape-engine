@@ -47,10 +47,10 @@ public:
       * The events are then distributed to all listeners. It should be noted
       * that events are converted into shared_ptrs in this method which is why
       * this method should be used like this:
-      * @code Root::get_mutable_instance.GetEventManager()->HandleEvent(new SomeEvent()); @endcode
+      * @code Root::get_mutable_instance.GetEventManager()->InjectEvent(new SomeEvent()); @endcode
       * @param event The Event to be sent.
       */
-    void HandleEvent(Event* event);
+    void InjectEvent(Event* event);
 
     /**
       * See above. This method should only be used when the event is already
@@ -58,7 +58,7 @@ public:
       * @see Event::Clone
       * @param event The Event to be sent.
       */
-    void HandleEvent(std::shared_ptr<Event> event);
+    void InjectEvent(std::shared_ptr<Event> event);
 
     /**
       * Checks if the EventListener is in the list.

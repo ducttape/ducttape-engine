@@ -24,12 +24,12 @@ void EventManager::Deinitialize() {
     mBindingsManager.Deinitialize();
 }
 
-void EventManager::HandleEvent(Event* event) {
+void EventManager::InjectEvent(Event* event) {
     std::shared_ptr<Event> safe_event(event);
-    HandleEvent(safe_event);
+    InjectEvent(safe_event);
 }
 
-void EventManager::HandleEvent(std::shared_ptr<Event> event) {
+void EventManager::InjectEvent(std::shared_ptr<Event> event) {
 #ifdef COMPILER_MSVC
     BOOST_FOREACH(EventListener* l, mListeners) {
 #else

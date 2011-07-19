@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
 
     sf::Sleep(200);
 
-    // root.GetEventManager()->HandleEvent(&stop_event);
+    // root.GetEventManager()->InjectEvent(&stop_event);
     sound_component->StopSound();
     if(sound_component->GetSound().GetStatus() != sf::Music::Stopped) {
         std::cerr << "[3] The music is currently not stopped." << std::endl;
@@ -73,7 +73,7 @@ int main(int argc, char** argv) {
 
     /* Test the SoundsControlEvent */
 
-    root.GetEventManager()->HandleEvent(new dt::SoundsControlEvent(dt::SoundsControlEvent::PAUSE));
+    root.GetEventManager()->InjectEvent(new dt::SoundsControlEvent(dt::SoundsControlEvent::PAUSE));
     if(sound_component->GetSound().GetStatus() != sf::Music::Paused) {
         std::cerr << "[5] The music is currently playing. It should be paused." << std::endl;
         exit(1);
@@ -81,7 +81,7 @@ int main(int argc, char** argv) {
 
     sf::Sleep(200);
 
-    root.GetEventManager()->HandleEvent(new dt::SoundsControlEvent(dt::SoundsControlEvent::STOP));
+    root.GetEventManager()->InjectEvent(new dt::SoundsControlEvent(dt::SoundsControlEvent::STOP));
     if(sound_component->GetSound().GetStatus() != sf::Music::Stopped) {
         std::cerr << "[6] The music is currently not stopped." << std::endl;
         exit(1);
@@ -89,7 +89,7 @@ int main(int argc, char** argv) {
 
     sf::Sleep(200);
 
-    root.GetEventManager()->HandleEvent(new dt::SoundsControlEvent(dt::SoundsControlEvent::PLAY));
+    root.GetEventManager()->InjectEvent(new dt::SoundsControlEvent(dt::SoundsControlEvent::PLAY));
     if(sound_component->GetSound().GetStatus() != sf::Music::Playing) {
         std::cerr << "[7] The music is currently not playing." << std::endl;
         exit(1);

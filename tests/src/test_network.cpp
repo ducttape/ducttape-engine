@@ -66,7 +66,7 @@ public:
             if(c->mEnum == CustomNetworkEvent::CLIENT) {
                 std::cout << "Server: received CustomNetworkEvent" << std::endl;
                 // send it back, adding 1 to the data
-                dt::Root::get_mutable_instance().GetEventManager()->HandleEvent(new CustomNetworkEvent(c->mData + DATA_INCREMENT, CustomNetworkEvent::SERVER));
+                dt::Root::get_mutable_instance().GetEventManager()->InjectEvent(new CustomNetworkEvent(c->mData + DATA_INCREMENT, CustomNetworkEvent::SERVER));
                 mDataReceived = c->mData;
             }
         }
@@ -128,7 +128,7 @@ void client() {
 
     CustomClientEventListener ccel;
     root.GetEventManager()->AddListener(&ccel);
-    root.GetEventManager()->HandleEvent(new CustomNetworkEvent(data, CustomNetworkEvent::CLIENT));
+    root.GetEventManager()->InjectEvent(new CustomNetworkEvent(data, CustomNetworkEvent::CLIENT));
 
     while(ccel.mDataReceived == 0) {
         nm->HandleIncomingEvents();

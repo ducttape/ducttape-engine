@@ -73,7 +73,7 @@ void Client::InputThread(void* user_data) {
         } else if(in == "/quit" || in == "/exit") {
             client->RequestShutdown();
         } else {
-            dt::Root::get_mutable_instance().GetEventManager()->HandleEvent(new ChatMessageEvent(in, client->GetNick()));
+            dt::Root::get_mutable_instance().GetEventManager()->InjectEvent(new ChatMessageEvent(in, client->GetNick()));
         }
     }
 }
