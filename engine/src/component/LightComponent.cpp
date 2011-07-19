@@ -12,27 +12,47 @@
 #include "scene/Scene.hpp"
 
 namespace dt {
+    LightComponent::LightComponent(const std::string& name) : Component(name) {
+        mLight = nullptr;
+    }
 
-LightComponent::LightComponent(const std::string& name)
-   : Component(name) {
-}
+    void LightComponent::HandleEvent(std::shared_ptr<Event> e) {
+    }
 
-void LightComponent::HandleEvent(std::shared_ptr<Event> e) {
-}
+    void LightComponent::OnChangeColor() {
+    }
 
-void LightComponent::OnCreate() {
-    mLight = GetNode()->GetScene()->GetSceneManager()->createLight(mName);
-    mLight->setType(Ogre::Light::LT_POINT);
-    mLight->setDiffuseColour(1.0, 0.0, 0.0);
-    mLight->setSpecularColour(1.0, 0.0, 0.0);
-}
+    void LightComponent::OnCreate() {
+        mLight = GetNode()->GetScene()->GetSceneManager()->createLight(mName);
 
-void LightComponent::OnDestroy() {
-    GetNode()->GetScene()->GetSceneManager()->destroyLight(mLight);
-}
+        // Set the point light as the default light type
+        mLight->setType(Ogre::Light::LT_POINT);
 
-void LightComponent::OnUpdate(double time_diff) {
-    mLight->setPosition(mNode->GetPosition(Node::SCENE));
-}
+        // White light
+        mLight->setDiffuseColour(1.0, 1.0, 1.0);
+        mLight->setSpecularColour(1.0, 1.0, 1.0);
+    }
 
+    void LightComponent::OnDestroy() {
+        GetNode()->GetScene()->GetSceneManager()->destroyLight(mLight);
+    }
+
+    void LightComponent::OnUpdate(double time_diff) {
+        mLight->setPosition(mNode->GetPosition(Node::SCENE));
+    }
+
+    void LightComponent::SetColor(const Ogre::ColourValue color) {
+        mLight->setDiffuseColour(color);
+        mLight->setSpecularColour(color);
+        OnChangeColor();
+        _CallSignal("ChangeColor");
+    }
+
+    void LightComponent::OnEnable() {
+        mLight->setVisible(true);
+    }
+
+    void LightComponent::OnDisable() {
+        mLight->setVisible(false);
+    }
 }
