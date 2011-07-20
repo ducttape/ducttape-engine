@@ -13,6 +13,7 @@
 #include "component/MeshComponent.hpp"
 #include "component/FollowPathComponent.hpp"
 #include "component/PlaneComponent.hpp"
+#include "component/SimplePlayerComponent.hpp"
 #include "component/LightComponent.hpp"
 #include "event/EventListener.hpp"
 
@@ -36,6 +37,7 @@ public:
 
     void OnInitialize() {
         dt::EventManager::Get()->AddListener(&mScene);
+        dt::InputManager::Get()->SetJailInput(true);
 
         dt::ResourceManager::Get()->AddResourceLocation("sinbad.zip","Zip", true);
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
@@ -44,12 +46,15 @@ public:
         mScene.FindChildNode("camnode", false)->AddComponent(new dt::CameraComponent("cam"));
         mScene.FindChildNode("camnode", false)->SetPosition(Ogre::Vector3(0, 5, 10));
         mScene.FindChildNode("camnode", false)->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 0, 0));
+        mScene.FindChildNode("camnode", false)->AddComponent(new dt::SimplePlayerComponent("player"));
 
         mScene.AddChildNode(new dt::Node("meshnode"));
         dt::MeshComponent* mesh = new dt::MeshComponent("lolmesh", "Sinbad.mesh");
         mScene.FindChildNode("meshnode", false)->AddComponent(mesh);
         dt::FollowPathComponent* path = new dt::FollowPathComponent("path", dt::FollowPathComponent::ALTERNATING);
         mScene.FindChildNode("meshnode", false)->AddComponent(path);
+
+        /*
         path = mScene.FindChildNode("meshnode", false)->FindComponent<dt::FollowPathComponent>("path");
 
         path->AddPoint(Ogre::Vector3(3, 0, 0));
@@ -60,7 +65,7 @@ public:
         }
         path->SetDuration(3.f);
         path->SetSmoothCorners(true);
-        path->SetSmoothAcceleration(true);
+        path->SetSmoothAcceleration(true); */
 
 
         /*std::cout << "Available Animations: ";

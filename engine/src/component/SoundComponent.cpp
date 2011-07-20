@@ -37,13 +37,9 @@ void SoundComponent::HandleEvent(std::shared_ptr<Event> e) {
     }
 }
 
-void SoundComponent::OnCreate() {
-    EventManager::Get()->AddListener(this);
-}
+void SoundComponent::OnCreate() {}
 
-void SoundComponent::OnDestroy() {
-    EventManager::Get()->RemoveListener(this);
-}
+void SoundComponent::OnDestroy() {}
 
 void SoundComponent::OnUpdate(double time_diff) {
 	mSound.SetPosition(mNode->GetPosition(Node::SCENE).x, 

@@ -76,13 +76,25 @@ public:
     virtual void windowResized(Ogre::RenderWindow* window);
     virtual void windowClosed(Ogre::RenderWindow* window);
 
-private:
-    Ogre::RenderWindow* mWindow;
-    OIS::InputManager* mInputSystem;
-    OIS::Mouse* mMouse;
-    OIS::Keyboard* mKeyboard;
+    /**
+      * Returns the mouse object.
+      * @returns The mouse object.
+      */
+    OIS::Mouse* GetMouse();
 
-    bool mJailInput;
+    /**
+      * Returns the keyboard object.
+      * @returns The keyboard object.
+      */
+    OIS::Keyboard* GetKeyboard();
+
+private:
+    Ogre::RenderWindow* mWindow;        //!< The Window used for input (from the DisplayManager).
+    OIS::InputManager* mInputSystem;    //!< The OIS input manager.
+    OIS::Mouse* mMouse;                 //!< The mouse object.
+    OIS::Keyboard* mKeyboard;           //!< The keyboard object.
+
+    bool mJailInput;                    //!< Whether the input devices are jailed (for details on that see InputManager::SetJailInput).
 
 };
 

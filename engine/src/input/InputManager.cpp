@@ -149,4 +149,12 @@ void InputManager::windowClosed(Ogre::RenderWindow* window) {
     }
 }
 
+OIS::Mouse* InputManager::GetMouse() {
+    return mMouse;
+}
+
+OIS::Keyboard* InputManager::GetKeyboard() {
+    return mKeyboard;
+}
+
 }

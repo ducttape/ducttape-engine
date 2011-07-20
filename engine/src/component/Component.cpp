@@ -58,9 +58,11 @@ void Component::Create() {
         OnCreate();
         Enable();
     }
+    EventManager::Get()->AddListener(this);
 }
 
 void Component::Destroy() {
+    EventManager::Get()->RemoveListener(this);
     if(mIsCreated) {
         mIsCreated = false;
         OnDestroy();
