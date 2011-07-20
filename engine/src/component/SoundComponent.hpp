@@ -66,6 +66,12 @@ public:
      */
     void StopSound();
 
+    /**
+      * Sets the global master sound/music volume.
+      * @param volume The global master sound/music volumn. Minimum: 0. Maximum: 100. Default: 100.
+      */
+    static void SetMasterVolume(float volume);
+
 private:
 	/**
      * Private method. Tries to load sound to buffer and then from buffer to mSound.

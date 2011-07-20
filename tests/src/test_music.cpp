@@ -8,6 +8,7 @@
 
 #include "Root.hpp"
 
+#include "component/SoundComponent.hpp"
 #include "component/MusicComponent.hpp"
 
 #include "event/MusicPauseEvent.hpp"
@@ -21,6 +22,9 @@ int main(int argc, char** argv) {
     dt::Root& root = dt::Root::get_mutable_instance();
     root.Initialize(argc, argv);
     std::string music_file = "test_music_loop.ogg";
+
+    // set global volume
+    dt::MusicComponent::SetMasterVolume(2);
 
     dt::Scene scene("scene1");
 
@@ -40,7 +44,9 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    sf::Sleep(2000);
+    sf::Sleep(1000);
+    dt::MusicComponent::SetMasterVolume(1);
+    sf::Sleep(1000);
 
     if(resmgr->GetMusicFile(music_file)->GetPlayingOffset() < 100) {
         std::cerr << "The music was not played correctly." << std::endl;
