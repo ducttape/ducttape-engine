@@ -3,6 +3,7 @@
 
 namespace dt {
 
+// Manager interface class
 class Manager {
 public:
     virtual ~Manager() = 0;
