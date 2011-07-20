@@ -16,8 +16,10 @@
 class TestEvent : public dt::Event {
 public:
     TestEvent() {
-        std::cout << "lol" << std::endl;
-        lol.push_back(3);
+        // This payload only exists to make sure this event can't leak.
+        // If this event is created in the wrong way, it will leak the
+        // contents of its vector.
+        anti-leak-payload.push_back(10);
     }
 
     const std::string GetType() const  {
@@ -29,7 +31,7 @@ public:
         return ptr;
     }
 
-    std::vector<uint64_t> lol;
+    std::vector<uint64_t> anti-leak-payload;
 };
 
 class TestEventListener : public dt::EventListener {
