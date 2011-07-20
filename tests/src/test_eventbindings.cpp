@@ -12,7 +12,7 @@
 
 #include "event/Event.hpp"
 #include "event/EventListener.hpp"
-#include "event/EventBinding.hpp"
+#include "event/SimpleEventBinding.hpp"
 
 class TestTriggerEvent : public dt::Event {
 public:
@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
     TestEventListener listener;
     root.GetEventManager()->AddListener(&listener);
 
-    dt::BindingsManager::Get()->Bind(new dt::EventBinding("testtriggerevent", new TestBoundEvent(42)));
+    dt::BindingsManager::Get()->Bind(std::make_shared<dt::SimpleEventBinding>(new TestBoundEvent(42), "testtriggerevent"));
 
     root.GetEventManager()->InjectEvent(std::make_shared<TestTriggerEvent>());
 

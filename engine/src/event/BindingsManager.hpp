@@ -9,7 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_BINDINGSMANAGER
 #define DUCTTAPE_ENGINE_EVENT_BINDINGSMANAGER
 
-#include <boost/ptr_container/ptr_map.hpp>
+#include <memory>
+#include <map>
 
 #include "EventListener.hpp"
 #include "EventBinding.hpp"
@@ -50,7 +51,7 @@ public:
       * @see EventBinding
       * @see void Unbind(uint32_t binding_id);
       */
-    uint32_t Bind(EventBinding* binding);
+    uint32_t Bind(std::shared_ptr<EventBinding> binding);
 
     /**
       * Removes an EventBinding.
@@ -63,7 +64,7 @@ private:
       */
     uint32_t _GetNewId();
 
-    boost::ptr_map<uint32_t, EventBinding> mBindings;   //!< The list of bindings.
+    std::map<uint32_t, std::shared_ptr<EventBinding> > mBindings;   //!< The list of bindings.
 };
 
 }

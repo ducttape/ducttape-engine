@@ -30,13 +30,13 @@ BindingsManager* BindingsManager::Get() {
 
 void BindingsManager::HandleEvent(std::shared_ptr<Event> e) {
     for(auto iter = mBindings.begin(); iter != mBindings.end(); ++iter) {
-        iter->second->TriggerEvent(e);
+        iter->second->HandleEvent(e);
     }
 }
 
-uint32_t BindingsManager::Bind(EventBinding* binding) {
+uint32_t BindingsManager::Bind(std::shared_ptr<EventBinding> binding) {
     uint32_t new_id = _GetNewId();
-    mBindings.insert(new_id, binding);
+    mBindings.insert(std::make_pair(new_id, binding));
     return new_id;
 }
 

@@ -22,16 +22,10 @@ namespace dt {
 class EventBinding {
 public:
     /**
-      * Default constructor.
-      */
-    EventBinding();
-
-    /**
       * Advanced constructor.
-      * @param trigger_type The type of the event that triggers the new event.
       * @param target The new event to be triggered.
       */
-    EventBinding(const std::string& trigger_type, Event* target);
+    EventBinding(Event* target);
 
     /**
       * Destructor.
@@ -39,13 +33,24 @@ public:
     ~EventBinding();
 
     /**
-      * Called when an event occurs that might match the trigger type.
+      * Called when an event occurs.
       * @param e The event that occured.
       */
-    void TriggerEvent(std::shared_ptr<Event> e);
+    void HandleEvent(std::shared_ptr<Event> e);
+
+    /**
+      * Called when an event occurs that triggered the EventBinding.
+      */
+    void TriggerEvent();
+
+    /**
+      * Returns whether the binding should trigger when the specified event is received.
+      * @param e The event that was received.
+      * @returns Whether the binding should trigger.
+      */
+    virtual bool MatchesEvent(std::shared_ptr<Event> e) = 0;
 
 private:
-    std::string mTriggerType;       //!< The type of the event that triggers the new event.
     std::shared_ptr<Event> mTarget; //!< The new event to be triggered.
 };
 
