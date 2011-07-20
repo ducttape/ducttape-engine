@@ -58,6 +58,10 @@ const std::string& MusicComponent::GetMusicFile() const {
     return mMusicFile;
 }
 
+void MusicComponent::SetMasterVolume(float volume) {
+    sf::Listener::SetGlobalVolume(volume);
+}
+
 void MusicComponent::_LoadMusic() {
     if(mMusicFile == "") {
         Logger::Get().Error("MusicComponent [" + mName + "]: Needs a music file.");

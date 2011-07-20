@@ -94,4 +94,8 @@ void SoundComponent::_LoadSound() {
 	}
 }
 
+void SoundComponent::SetMasterVolume(float volume) {
+    sf::Listener::SetGlobalVolume(volume);
+}
+
 }

@@ -45,6 +45,12 @@ public:
       */
     const std::string& GetMusicFile() const;
 
+    /**
+      * Sets the global master sound/music volume.
+      * @param volume The global master sound/music volumn. Minimum: 0. Maximum: 100. Default: 100.
+      */
+    static void SetMasterVolume(float volume);
+
 private:
     /**
       * Private method. Prepares the music stream.
