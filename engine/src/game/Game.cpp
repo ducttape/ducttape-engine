@@ -52,7 +52,8 @@ void Game::Run(int argc, char** argv) {
         while(accumulator >= simulation_frame_time) {
             anti_spiral_clock.Reset();
             // SIMULATION
-            EventManager::Get()->InjectEvent(new BeginFrameEvent(simulation_frame_time));
+            EventManager::Get()->
+                InjectEvent(std::make_shared<BeginFrameEvent>(simulation_frame_time));
 
             // NETWORKING
             root.GetNetworkManager()->HandleIncomingEvents();
@@ -79,7 +80,8 @@ void Game::Run(int argc, char** argv) {
     }
 
     // Send the GoodbyeEvent to close the network connection.
-    root.GetEventManager()->InjectEvent(new GoodbyeEvent("The client closed the session."));
+    root.GetEventManager()->
+        InjectEvent(std::make_shared<GoodbyeEvent>("The client closed the session."));
     root.GetNetworkManager()->SendQueuedEvents();
 
     mIsRunning = false;

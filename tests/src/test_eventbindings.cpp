@@ -76,7 +76,7 @@ int main(int argc, char** argv) {
 
     dt::BindingsManager::Get()->Bind(new dt::EventBinding("testtriggerevent", new TestBoundEvent(42)));
 
-    root.GetEventManager()->InjectEvent(new TestTriggerEvent());
+    root.GetEventManager()->InjectEvent(std::make_shared<TestTriggerEvent>());
 
     if(!listener.mHasReceivedTriggerEvent) {
         std::cerr << "The EventListener has not received the trigger event." << std::endl;

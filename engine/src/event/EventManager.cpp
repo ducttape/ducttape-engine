@@ -29,11 +29,6 @@ EventManager* EventManager::Get() {
     return Root::get_mutable_instance().GetEventManager();
 }
 
-void EventManager::InjectEvent(Event* event) {
-    std::shared_ptr<Event> safe_event(event);
-    InjectEvent(safe_event);
-}
-
 void EventManager::InjectEvent(std::shared_ptr<Event> event) {
 #ifdef COMPILER_MSVC
     BOOST_FOREACH(EventListener* l, mListeners) {

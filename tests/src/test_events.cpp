@@ -15,14 +15,21 @@
 
 class TestEvent : public dt::Event {
 public:
+    TestEvent() {
+        std::cout << "lol" << std::endl;
+        lol.push_back(3);
+    }
+
     const std::string GetType() const  {
         return "testevent";
     }
 
     std::shared_ptr<Event> Clone() const {
-        std::shared_ptr<Event> ptr(new TestEvent());
+        std::shared_ptr<Event> ptr(new TestEvent);
         return ptr;
     }
+
+    std::vector<uint64_t> lol;
 };
 
 class TestEventListener : public dt::EventListener {
@@ -47,7 +54,7 @@ int main(int argc, char** argv) {
     TestEventListener listener;
 
     root.GetEventManager()->AddListener(&listener);
-    root.GetEventManager()->InjectEvent(new TestEvent);
+    root.GetEventManager()->InjectEvent(std::make_shared<TestEvent>());
 
     if(!listener.mHasReceivedAnEvent) {
         std::cerr << "The EventListener has not received any event." << std::endl;

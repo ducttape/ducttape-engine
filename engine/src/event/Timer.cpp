@@ -46,7 +46,8 @@ void Timer::HandleEvent(std::shared_ptr<Event> e) {
 
 void Timer::TriggerTickEvent() {
     if(mUseEvents)
-        EventManager::Get()->InjectEvent(new TimerTickEvent(mMessage, mInterval));
+        EventManager::Get()->
+            InjectEvent(std::make_shared<TimerTickEvent>(mMessage, mInterval));
     mTickSignal(mMessage);
 
     if(mRepeat && mThreaded) {

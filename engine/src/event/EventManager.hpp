@@ -43,15 +43,7 @@ public:
       * The events are then distributed to all listeners. It should be noted
       * that events are converted into shared_ptrs in this method which is why
       * this method should be used like this:
-      * @code EventManager::Get()->InjectEvent(new SomeEvent()); @endcode
-      * @param event The Event to be sent.
-      */
-    void InjectEvent(Event* event);
-
-    /**
-      * See above. This method should only be used when the event is already
-      * present as a shared_ptr, for example when it has been Cloned.
-      * @see Event::Clone
+      * @code EventManager::Get()->InjectEvent(std::make_shared<SomeEvent>()); @endcode
       * @param event The Event to be sent.
       */
     void InjectEvent(std::shared_ptr<Event> event);

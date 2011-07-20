@@ -73,7 +73,8 @@ void Client::InputThread(void* user_data) {
         } else if(in == "/quit" || in == "/exit") {
             client->RequestShutdown();
         } else {
-            dt::EventManager::Get()->InjectEvent(new ChatMessageEvent(in, client->GetNick()));
+            dt::EventManager::Get()->
+                InjectEvent(std::make_shared<ChatMessageEvent>(in, client->GetNick()));
         }
     }
 }

@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    root.GetEventManager()->InjectEvent(new dt::MusicPauseEvent);
+    root.GetEventManager()->InjectEvent(std::make_shared<dt::MusicPauseEvent>());
     if(resmgr->GetMusicFile(music_file)->GetStatus() != sf::Music::Paused) {
         std::cerr << "The music is currently playing. It should be paused." << std::endl;
         resmgr->GetMusicFile(music_file)->Stop();
@@ -57,7 +57,7 @@ int main(int argc, char** argv) {
 
     sf::Sleep(200);
 
-    root.GetEventManager()->InjectEvent(new dt::MusicStopEvent);
+    root.GetEventManager()->InjectEvent(std::make_shared<dt::MusicStopEvent>());
     if(resmgr->GetMusicFile(music_file)->GetStatus() != sf::Music::Stopped) {
         std::cerr << "The music is currently not stopped." << std::endl;
         resmgr->GetMusicFile(music_file)->Stop();
@@ -66,7 +66,7 @@ int main(int argc, char** argv) {
 
     sf::Sleep(200);
 
-    root.GetEventManager()->InjectEvent(new dt::MusicStartEvent);
+    root.GetEventManager()->InjectEvent(std::make_shared<dt::MusicStartEvent>());
     if(resmgr->GetMusicFile(music_file)->GetStatus() != sf::Music::Playing) {
         std::cerr << "The music is currently not playing." << std::endl;
         resmgr->GetMusicFile(music_file)->Stop();

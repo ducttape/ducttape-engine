@@ -92,15 +92,10 @@ void NetworkManager::DisconnectAll() {
 }
 
 void NetworkManager::SendQueuedEvents() {
-#ifdef COMPILER_MSVC
-    BOOST_FOREACH(std::shared_ptr<NetworkEvent> event, mQueue) {
-#else
-    for(std::shared_ptr<NetworkEvent> event : mQueue) {
-#endif
-        _SendEvent(event);
+    while(mQueue.size() > 0) {
+        _SendEvent(mQueue.front());
+        mQueue.pop_front();
     }
-    // clear queue after all packages have been sent
-    mQueue.clear();
 }
 
 void NetworkManager::QueueEvent(std::shared_ptr<NetworkEvent> event) {

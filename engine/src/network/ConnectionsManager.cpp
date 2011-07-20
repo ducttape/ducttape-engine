@@ -173,7 +173,7 @@ void ConnectionsManager::HandleEvent(std::shared_ptr<Event> e) {
 }
 
 void ConnectionsManager::_Ping() {
-    EventManager::Get()->InjectEvent(new PingEvent(Root::get_mutable_instance().GetTimeSinceInitialize()));
+    EventManager::Get()->InjectEvent(std::make_shared<PingEvent>(Root::get_mutable_instance().GetTimeSinceInitialize()));
 }
 
 void ConnectionsManager::_HandlePing(std::shared_ptr<PingEvent> ping_event) {

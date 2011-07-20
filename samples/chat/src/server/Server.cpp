@@ -32,13 +32,15 @@ void Server::HandleEvent(std::shared_ptr<dt::Event> e) {
 
             if(c->GetMessageEvent() == "/help") {
                 std::string msg = "\nThe following commands are available:\n    /help - This message\n    /quit - disconnects from the server\n    /nick [nickname] - changes your nickname";
-                dt::EventManager::Get()->InjectEvent(new ChatMessageEvent(msg, c->GetSenderNick()));
+                dt::EventManager::Get()->
+                    InjectEvent(std::make_shared<ChatMessageEvent>(msg, c->GetSenderNick()));
             } else {
                 std::cout << std::endl << c->GetSenderNick() << ": " << c->GetMessageEvent() << std::endl;
             }
 
             // send back to everyone else
-            dt::EventManager::Get()->InjectEvent(new ChatMessageEvent(c->GetMessageEvent(), c->GetSenderNick()));
+            dt::EventManager::Get()->
+                InjectEvent(std::make_shared<ChatMessageEvent>(c->GetMessageEvent(), c->GetSenderNick()));
         }
 
     } else if(e->GetType() == "DT_GOODBYEEVENT") {
