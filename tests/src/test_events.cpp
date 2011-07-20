@@ -19,7 +19,7 @@ public:
         // This payload only exists to make sure this event can't leak.
         // If this event is created in the wrong way, it will leak the
         // contents of its vector.
-        anti-leak-payload.push_back(10);
+        anti_leak_payload.push_back(10);
     }
 
     const std::string GetType() const  {
@@ -31,7 +31,7 @@ public:
         return ptr;
     }
 
-    std::vector<uint64_t> anti-leak-payload;
+    std::vector<uint64_t> anti_leak_payload;
 };
 
 class TestEventListener : public dt::EventListener {
