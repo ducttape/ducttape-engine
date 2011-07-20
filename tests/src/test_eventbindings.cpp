@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
     TestEventListener listener;
     root.GetEventManager()->AddListener(&listener);
 
-    dt::BindingsManager::Get()->Bind(new dt::SimpleEventBinding(new TestBoundEvent(42), "testtriggerevent"));
+    dt::BindingsManager::Get()->Bind(std::make_shared<dt::SimpleEventBinding>(new TestBoundEvent(42), "testtriggerevent"));
 
     root.GetEventManager()->InjectEvent(new TestTriggerEvent());
 
