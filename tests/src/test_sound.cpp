@@ -20,13 +20,10 @@ int main(int argc, char** argv) {
     root.Initialize(argc, argv);
 
     dt::Scene scene("scene1");
-    scene.AddChildNode(new dt::Node("sound"));
+    dt::Node* sound = scene.AddChildNode(new dt::Node("sound"));
     dt::SoundComponent* sound_component = new dt::SoundComponent("sound", "test_music_loop_mono.ogg");
-    scene.FindChildNode("sound", false)->AddComponent(sound_component);
-
-    sound_component = scene.FindChildNode("sound", false)->FindComponent<dt::SoundComponent>("sound");
+    sound->AddComponent(sound_component);
     sound_component->PlaySound();
-
 	if(sound_component->GetSound().GetStatus() != sf::Sound::Playing) {
         std::cerr << "The sound is currently not playing." << std::endl;
         exit(1);

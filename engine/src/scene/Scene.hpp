@@ -41,7 +41,7 @@ protected:
 
 private:
     std::string mName;
-    Node mRootNode; //!< The root Node of the Scene.
+
 };
 
 }

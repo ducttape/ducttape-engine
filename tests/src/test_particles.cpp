@@ -41,32 +41,27 @@ public:
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
         // make a scene
-        mScene.AddChildNode(new dt::Node("camnode"));
-        mScene.FindChildNode("camnode", false)->AddComponent(new dt::CameraComponent("cam"));
-        mScene.FindChildNode("camnode", false)->SetPosition(Ogre::Vector3(0, 2, 10));
-        mScene.FindChildNode("camnode", false)->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 2, 0));
+        dt::Node* camnode = mScene.AddChildNode(new dt::Node("camnode"));
+        camnode->AddComponent(new dt::CameraComponent("cam"));
+        camnode->SetPosition(Ogre::Vector3(0, 2, 10));
+        camnode->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 2, 0));
 
-        mScene.AddChildNode(new dt::Node("p"));
-        dt::Node* p = mScene.FindChildNode("p", false);
+        dt::Node* p = mScene.AddChildNode(new dt::Node("p"));
 
         p->SetScale(0.2);
-        p->AddComponent(new dt::MeshComponent("lolmesh", "Sinbad.mesh"));
-        dt::MeshComponent* mesh = p->FindComponent<dt::MeshComponent>("lolmesh");
+        dt::MeshComponent* mesh = p->AddComponent(new dt::MeshComponent("lolmesh", "Sinbad.mesh"));
         mesh->SetAnimation("RunBase");
         mesh->SetLoopAnimation(true);
         mesh->PlayAnimation();
 
-        p->AddComponent(new dt::FollowPathComponent("path", dt::FollowPathComponent::LOOP));
-        dt::FollowPathComponent* path = p->FindComponent<dt::FollowPathComponent>("path");
+        dt::FollowPathComponent* path = p->AddComponent(new dt::FollowPathComponent("path", dt::FollowPathComponent::LOOP));
         path->AddPoint(Ogre::Vector3(-10, 0, 0));
         path->AddPoint(Ogre::Vector3(10, 0, 0));
         path->SetDuration(2.f);
         path->SetFollowRotation(true);
 
         // create the particle system
-        p->AddComponent(new dt::ParticleSystemComponent("p_sys"));
-        dt::ParticleSystemComponent* p_sys = p->FindComponent<dt::ParticleSystemComponent>("p_sys");
-
+        dt::ParticleSystemComponent* p_sys = p->AddComponent(new dt::ParticleSystemComponent("p_sys"));
         p_sys->SetMaterialName("Test/Particle");
         p_sys->SetParticleCountLimit(1000);
         p_sys->GetOgreParticleSystem()->setDefaultDimensions(0.03, 0.03);

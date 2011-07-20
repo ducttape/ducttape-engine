@@ -38,23 +38,11 @@ Node::Node(const std::string& name) {
     mRotation = Ogre::Quaternion::IDENTITY;
 }
 
-void Node::AddChildNode(Node* child) {
+Node* Node::AddChildNode(Node* child) {
     std::string key = child->GetName();
     mChildren.insert(key, child);
     mChildren[key].SetParent(this);
-}
-
-void Node::AddComponent(Component* component) {
-    const std::string& cname = component->GetName();
-    if(!HasComponent(cname)) {
-        std::shared_ptr<Component> ptr(component);
-        ptr->SetNode(this);
-        ptr->Create();
-        std::pair<std::string, std::shared_ptr<Component> > pair(cname, ptr);
-        mComponents.insert(pair);
-
-        _UpdateAllComponents(0);
-    }
+    return FindChildNode(key, false);
 }
 
 Node* Node::FindChildNode(const std::string& name, bool recursive) {
