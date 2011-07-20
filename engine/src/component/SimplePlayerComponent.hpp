@@ -34,22 +34,76 @@ public:
     void OnDestroy();
     void OnUpdate(double time_diff);
 
+    /**
+      * Sets whether the WASD keys are enabled for movement.
+      * @param wasd_enabled Whether the WASD keys are enabled for movement.
+      */
     void SetWASDEnabled(bool wasd_enabled);
+
+    /**
+      * Gets whether the WASD keys are enabled for movement.
+      * @returns Whether the WASD keys are enabled for movement.
+      */
     bool GetWASDEnabled() const;
 
+    /**
+      * Sets whether the arrow keys are enabled for movement.
+      * @param arrows_enabled Whether the arrow keys are enabled for movement.
+      */
     void SetArrowsEnabled(bool arrows_enabled);
+
+    /**
+      * Gets whether the arrow keys are enabled for movement.
+      * @returns Whether the arrow keys are enabled for movement.
+      */
     bool GetArrowsEnabled() const;
 
+    /**
+      * Sets the speed the player moves at.
+      * @param move_speed The maximum speed, in units per second.
+      */
     void SetMoveSpeed(float move_speed);
+
+    /**
+      * Gets the speed the player moves at.
+      * @returns The player speed, in units per second.
+      */
     float GetMoveSpeed() const;
 
+    /**
+      * Sets whether the mouse is enabled for looking around.
+      * @param mouse_enabled Whether the mouse is enabled for looking around.
+      */
     void SetMouseEnabled(bool mouse_enabled);
+
+    /**
+      * Gets whether the mouse is enabled for looking around.
+      * @returns Whether the mouse is enabled for looking around.
+      */
     bool GetMouseEnabled() const;
 
-    void SetMouseSensitity(float mouse_sensitity);
-    float GetMouseSensitity() const;
+    /**
+      * Sets the mouse sensitivity. Default: 1.0.
+      * @param mouse_sensitivity The mouse sensitivity. Default: 1.0.
+      */
+    void SetMouseSensitivity(float mouse_sensitivity);
 
+    /**
+      * Gets the mouse sensitivity. Default: 1.0.
+      * @returns The mouse sensitivity. Default: 1.0.
+      */
+    float GetMouseSensitivity() const;
+
+    /**
+      * Sets whether the mouse y-axis should be inversed.
+      * @param mouse_y_inversed Whether the mouse y-axis should be inversed.
+      */
     void SetMouseYInversed(bool mouse_y_inversed);
+
+    /**
+      * Gets whether the mouse y-axis should be inversed.
+      * @returns Whether the mouse y-axis should be inversed.
+      */
     bool GetMouseYInversed() const;
 
 private:

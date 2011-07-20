@@ -16,7 +16,7 @@ public:
     /**
       * Advanced constructor.
       * @param target The event that is being triggered.
-      * @param trigger_type The type of the event that triggers this binding.
+      * @param key_code The key that triggers the event.
       */
     KeyboardBinding(Event* target, OIS::KeyCode key_code);
     bool MatchesEvent(std::shared_ptr<Event> e);

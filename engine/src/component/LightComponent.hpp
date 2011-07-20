@@ -39,39 +39,15 @@ namespace dt {
           */
         virtual void OnChangeColor();
 
-        /**
-          * Override the OnCreate of the Component.
-          * @see Component
-          */
         void OnCreate();
-
-        /**
-          * Override the OnDestroy of the Component.
-          * @see Component
-          */
         void OnDestroy();
-
-        /**
-          * Override the OnEnable of the Component. Used to turn on the light(set it visible).
-          * @see Component
-          */
         void OnEnable();
-
-        /**
-          * Override the OnDisable of the Component. Used to turn off the light(set it unvisible).
-          * @see Component
-          */
         void OnDisable();
-
-        /**
-          * Override the OnUpdate of the Component.
-          * @see Component
-          */
         void OnUpdate(double time_diff);
 
         /**
-          * Set the color of the light.
-          * @param the color of the light
+          * Sets the color of the light.
+          * @param color The color of the light.
           */
         void SetColor(const Ogre::ColourValue color);
 

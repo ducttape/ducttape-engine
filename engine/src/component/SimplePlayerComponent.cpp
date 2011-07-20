@@ -124,11 +124,11 @@ bool SimplePlayerComponent::GetMouseEnabled() const {
     return mMouseEnabled;
 }
 
-void SimplePlayerComponent::SetMouseSensitity(float mouse_sensitity) {
-    mMouseSensitivity = mouse_sensitity;
+void SimplePlayerComponent::SetMouseSensitivity(float mouse_sensitivity) {
+    mMouseSensitivity = mouse_sensitivity;
 }
 
-float SimplePlayerComponent::GetMouseSensitity() const {
+float SimplePlayerComponent::GetMouseSensitivity() const {
     return mMouseSensitivity;
 }
 

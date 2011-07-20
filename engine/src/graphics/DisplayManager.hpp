@@ -67,6 +67,7 @@ public:
       * Activates a camera for the active viewport. 
       * This will fail if this CameraComponent has not yet been registered.
       * @param name The name of the CameraComponent.
+      * @param viewport_name The name of the Viewport.
       * @returns \c true for success and \c false in case the CameraComponent is unknown.
       */
     bool ActivateCamera(const std::string& name, const std::string& viewport_name = "");

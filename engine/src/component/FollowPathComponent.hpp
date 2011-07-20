@@ -34,6 +34,7 @@ public:
       * Advanced constructor.
       * @see Component
       * @param name The name of the component.
+      * @param mode The mode.
       */
     FollowPathComponent(const std::string& name = "", Mode mode = SINGLE);
 
@@ -75,7 +76,7 @@ public:
 
     /**
       * Gets whether the node should accelerate smoothly.
-      * @param Whether the node should accelerate smoothly.
+      * @returns Whether the node should accelerate smoothly.
       */
     bool GetSmoothAcceleration() const;
 
@@ -91,10 +92,9 @@ public:
       */
     bool GetSmoothCorners() const;
 
-
     /**
       * Sets whether the node direction should follow the path.
-      * @param smooth_corners Whether the node direction should follow the path. From 0 (sharp corners) to 1 (no straight edges).
+      * @param follow_rotation Whether the node direction should follow the path. From 0 (sharp corners) to 1 (no straight edges).
       */
     void SetFollowRotation(bool follow_rotation);
 
