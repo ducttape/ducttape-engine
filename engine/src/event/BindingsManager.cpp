@@ -30,7 +30,7 @@ BindingsManager* BindingsManager::Get() {
 
 void BindingsManager::HandleEvent(std::shared_ptr<Event> e) {
     for(auto iter = mBindings.begin(); iter != mBindings.end(); ++iter) {
-        iter->second->TriggerEvent(e);
+        iter->second->HandleEvent(e);
     }
 }
 
