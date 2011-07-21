@@ -153,8 +153,8 @@ private:
 
     Ogre::Real mPlaneWidth;
     Ogre::Real mPlaneHeight;
-    int mPlaneXSegments;
-    int mPlaneYSegments;
+    uint16 mPlaneXSegments;
+    uint16 mPlaneYSegments;
     bool mPlaneNormals;
     unsigned short mPlaneNumTexCoordSets;
     Ogre::Real mPlaneUTile;
