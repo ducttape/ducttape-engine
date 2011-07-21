@@ -32,6 +32,7 @@ public:
         if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
             if(mRuntime > 5.0) {
+                dt::EventManager::Get()->InjectEvent(std::make_shared<dt::MusicStopEvent>());
                 RequestShutdown();
             }
         }
