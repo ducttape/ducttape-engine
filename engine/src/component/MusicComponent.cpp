@@ -49,11 +49,11 @@ void MusicComponent::OnDestroy() {
 void MusicComponent::OnUpdate(double time_diff) {
     if(mFadeFlag) {
         auto* resmgr = ResourceManager::Get();
-        if(resmgr == nullptr || mElapsedTime >= mFadeTime) {
+        if(mElapsedTime >= mFadeTime) {
             mFadeFlag = false;
         }
         else {
-            float volume = time_diff * mFadeVolume / mFadeTime + resmgr->GetMusicFile(mMusicFile)->GetVolume();
+            float volume = ((time_diff / mFadeTime) * mFadeVolume) + resmgr->GetMusicFile(mMusicFile)->GetVolume();
             resmgr->GetMusicFile(mMusicFile)->SetVolume(volume);
             mElapsedTime += time_diff;
         }
@@ -102,11 +102,11 @@ void MusicComponent::Fade(double time, float target_volume) {
     else
         mFadeTime = 0.001;
     mElapsedTime = 0.0;
+    //Keep the range of the volume between 0.0 and 100.0
     if(target_volume < 0.0f)
         target_volume = 0.0f;
     else if(target_volume > 100.0f)
         target_volume = 100.0f;
     mFadeVolume = target_volume - ResourceManager::Get()->GetMusicFile(mMusicFile)->GetVolume();
 }
-
 }

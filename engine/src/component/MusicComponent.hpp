@@ -57,6 +57,7 @@ public:
       * @param the target volume
       */
     void Fade(double time, float target_volume);
+
 private:
     /**
       * Private method. Prepares the music stream.
@@ -82,7 +83,6 @@ private:
     float mFadeVolume;          //!< The fading target volume.
 
     bool mFadeFlag;             //!< The fading flag.
-
 };
 
 }
