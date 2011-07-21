@@ -49,12 +49,13 @@ public:
         dt::Node* p = mScene.AddChildNode(new dt::Node("p"));
 
         p->SetScale(0.2);
-        dt::MeshComponent* mesh = p->AddComponent(new dt::MeshComponent("lolmesh", "Sinbad.mesh"));
+        dt::MeshComponent* mesh = p->AddComponent(new dt::MeshComponent("Sinbad.mesh"));
         mesh->SetAnimation("RunBase");
         mesh->SetLoopAnimation(true);
         mesh->PlayAnimation();
 
-        dt::FollowPathComponent* path = p->AddComponent(new dt::FollowPathComponent("path", dt::FollowPathComponent::LOOP));
+        dt::FollowPathComponent* path =
+            p->AddComponent(new dt::FollowPathComponent(dt::FollowPathComponent::LOOP));
         path->AddPoint(Ogre::Vector3(-10, 0, 0));
         path->AddPoint(Ogre::Vector3(10, 0, 0));
         path->SetDuration(2.f);

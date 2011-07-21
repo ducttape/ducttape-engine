@@ -12,7 +12,7 @@
 
 namespace dt {
 
-MusicComponent::MusicComponent(const std::string& name, const std::string& music_file)
+MusicComponent::MusicComponent(const std::string& music_file, const std::string& name)
     : Component(name) {
     mMusicFile = music_file;
     _LoadMusic();

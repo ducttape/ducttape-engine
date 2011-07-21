@@ -21,7 +21,8 @@ int main(int argc, char** argv) {
 
     dt::Scene scene("scene1");
     dt::Node* sound = scene.AddChildNode(new dt::Node("sound"));
-    dt::SoundComponent* sound_component = new dt::SoundComponent("sound", "test_music_loop_mono.ogg");
+    dt::SoundComponent* sound_component =
+        new dt::SoundComponent("test_music_loop_mono.ogg");
     sound->AddComponent(sound_component);
     sound_component->PlaySound();
 	if(sound_component->GetSound().GetStatus() != sf::Sound::Playing) {

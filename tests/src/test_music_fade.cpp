@@ -42,8 +42,8 @@ public:
         std::string music1 = "test_music_intro.ogg";
         std::string music2 = "test_music_loop.ogg";
 
-        dt::MusicComponent* music_component1 = new dt::MusicComponent("music1", music1);
-        dt::MusicComponent* music_component2 = new dt::MusicComponent("music2", music2);
+        dt::MusicComponent* music_component1 = new dt::MusicComponent(music1);
+        dt::MusicComponent* music_component2 = new dt::MusicComponent(music2);
 
         auto node = mScene.AddChildNode(new dt::Node("music_node"));
         node->AddComponent(music_component1);
