@@ -7,7 +7,7 @@
 // ----------------------------------------------------------------------------
 
 #include "Root.hpp"
-#include "Game/Game.hpp"
+#include "game/Game.hpp"
 
 #include "component/SoundComponent.hpp"
 #include "component/MusicComponent.hpp"
@@ -51,10 +51,6 @@ public:
         mScene.FindChildNode("music_node", false)->AddComponent(music_component1);
 
         mScene.FindChildNode("music_node", false)->AddComponent(music_component2);
-
-        dt::EventManager::Get()->AddListener(music_component1);
-
-        dt::EventManager::Get()->AddListener(music_component2);
 
         auto resmgr = dt::ResourceManager::Get();
 
