@@ -42,33 +42,26 @@ public:
         std::string music1 = "test_music_intro.ogg";
         std::string music2 = "test_music_loop.ogg";
 
-        mScene.AddChildNode(new dt::Node("music_node"));
-
         dt::MusicComponent* music_component1 = new dt::MusicComponent("music1", music1);
-
         dt::MusicComponent* music_component2 = new dt::MusicComponent("music2", music2);
 
-        mScene.FindChildNode("music_node", false)->AddComponent(music_component1);
-
-        mScene.FindChildNode("music_node", false)->AddComponent(music_component2);
+        auto node = mScene.AddChildNode(new dt::Node("music_node"));
+        node->AddComponent(music_component1);
+        node->AddComponent(music_component2);
 
         auto resmgr = dt::ResourceManager::Get();
+        float origin_vol = 100.0f;
 
-        float originVol = 100.0f;
-
-        resmgr->GetMusicFile(music1)->SetVolume(originVol);
-
+        resmgr->GetMusicFile(music1)->SetVolume(origin_vol);
         music_component1->Fade(5.0, 0.0f);
 
         resmgr->GetMusicFile(music2)->SetVolume(0.0f);
-
-        music_component2->Fade(5.0, originVol);
+        music_component2->Fade(5.0, origin_vol);
     }
 
 private:
     double mRuntime;
     dt::Scene mScene;
-
 };
 
 int main(int argc, char* argv[]) {
@@ -77,3 +70,4 @@ int main(int argc, char* argv[]) {
     g.Run(argc, argv);
     return 0;
 }
+
