@@ -34,6 +34,5 @@ add_test(test_sound ${CMAKE_SOURCE_DIR}/bin/test_sound)
 add_test(test_multiple_camera ${CMAKE_SOURCE_DIR}/bin/test_multiple_camera)
 add_test(test_particles ${CMAKE_SOURCE_DIR}/bin/test_particles)
 add_test(test_names ${CMAKE_SOURCE_DIR}/bin/test_names)
-add_test(test_music_fade ${CMAKE_SOURCE_DIR}/bin/test_music_fade)
 
 set(memorycheck_command:FILEPATH=/usr/bin/valgrind)
