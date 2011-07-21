@@ -51,6 +51,13 @@ public:
       */
     static void SetMasterVolume(float volume);
 
+    /**
+      * Make the music start to fade.
+      * @param the fading duration time
+      * @param the target volume
+      */
+    void Fade(double time, float target_volume);
+
 private:
     /**
       * Private method. Prepares the music stream.
@@ -69,6 +76,13 @@ private:
 
     std::string mMusicFile;     //!< The file the music was loaded from.
 
+    double mElapsedTime;        //!< The elapsed time during the fading.
+
+    double mFadeTime;           //!< The fading duration time.
+
+    float mFadeVolume;          //!< The fading target volume.
+
+    bool mFadeFlag;             //!< The fading flag.
 };
 
 }
