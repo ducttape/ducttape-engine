@@ -58,41 +58,29 @@ public:
         dt::ResourceManager::Get()->AddResourceLocation("sinbad.zip","Zip", true);
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-        mScene.AddChildNode(new dt::Node("camnode"));
-        mScene.FindChildNode("camnode", false)->AddComponent(new dt::CameraComponent("cam"));
-        mScene.FindChildNode("camnode", false)->SetPosition(Ogre::Vector3(0, 5, 10));
-        mScene.FindChildNode("camnode", false)->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 0, 0));
+        dt::Node* camnode = mScene.AddChildNode(new dt::Node("camnode"));
+        camnode->AddComponent(new dt::CameraComponent("cam"));
+        camnode->SetPosition(Ogre::Vector3(0, 5, 10));
+        camnode->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 0, 0));
 
-        mScene.AddChildNode(new dt::Node("newcam"));
-        mScene.FindChildNode("newcam", false)->AddComponent(new dt::CameraComponent("new"));
-        mScene.FindChildNode("newcam", false)->SetPosition(Ogre::Vector3(0, 15, 10));
-        mScene.FindChildNode("newcam", false)->FindComponent<dt::CameraComponent>("new")->LookAt(Ogre::Vector3(0, 0, 0));
+        dt::Node* newcam = mScene.AddChildNode(new dt::Node("newcam"));
+        newcam->AddComponent(new dt::CameraComponent("new"));
+        newcam->SetPosition(Ogre::Vector3(0, 15, 10));
+        newcam->FindComponent<dt::CameraComponent>("new")->LookAt(Ogre::Vector3(0, 0, 0));
 
-        mScene.AddChildNode(new dt::Node("meshnode"));
-        dt::MeshComponent* mesh = new dt::MeshComponent("lolmesh", "Sinbad.mesh");
-        mScene.FindChildNode("meshnode", false)->AddComponent(mesh);
-
-        /* std::cout << "Available Animations: ";
-        for(std::string s: mesh->GetAvailableAnimations()) {
-            std::cout << s << " ";
-        }
-        std::cout << std::endl; */
+        dt::Node* meshnode = mScene.AddChildNode(new dt::Node("meshnode"));
+        dt::MeshComponent* mesh = meshnode->AddComponent(new dt::MeshComponent("lolmesh", "Sinbad.mesh"));
         mesh->SetAnimation("Dance");
         mesh->SetLoopAnimation(true);
         mesh->PlayAnimation();
 
-        mScene.AddChildNode(new dt::Node("lightnode"));
-        mScene.FindChildNode("lightnode", false)->AddComponent(new dt::LightComponent("light"));
-        mScene.FindChildNode("lightnode", false)->SetPosition(Ogre::Vector3(0, 30, 0));
+        dt::Node* lightnode = mScene.AddChildNode(new dt::Node("lightnode"));
+        lightnode->AddComponent(new dt::LightComponent("light"));
+        lightnode->SetPosition(Ogre::Vector3(0, 30, 0));
 
-        mScene.AddChildNode(new dt::Node("lightnode2"));
-        mScene.FindChildNode("lightnode2", false)->AddComponent(new dt::LightComponent("light2"));
-        mScene.FindChildNode("lightnode2", false)->SetPosition(Ogre::Vector3(0, -10, 0));
-
-        //Currently adding a plane would just look horrible till someone will implement the feature to add a material to a mesh or, in this case, a plane.
-        /*mScene.AddChildNode(new dt::Node("planenode"));
-        mScene.FindChildNode("planenode", false)->AddComponent(new dt::PlaneComponent("plane"));
-        mScene.FindChildNode("planenode", false)->SetPosition(Ogre::Vector3(0, -10, 0));*/
+        dt::Node* lightnode2 = mScene.AddChildNode(new dt::Node("lightnode2"));
+        lightnode2->AddComponent(new dt::LightComponent("light2"));
+        lightnode2->SetPosition(Ogre::Vector3(0, -10, 0));
     }
 
 private:

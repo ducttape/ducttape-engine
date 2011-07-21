@@ -37,17 +37,19 @@ public:
 
 	/**
      * Plays the sound located in mSound.
-	 * @param name of sound file to add. To get sound in 3D file should be mono.
+     * @param sound_file The name of the sound file to play. To get sound in 3D file should be mono.
      */
     void SetSoundFile(const std::string& sound_file);
 
 	/**
-     * Returns sound file name.
+     * Returns the name of the sound file.
+     * @returns The name of the found file.
      */
     const std::string& GetSoundFile() const;
 
 	/**
-     * Returns mSound for default action access.
+     * Returns the sf::Sound object for default action access.
+     * @returns The sf::Sound object.
      */
 	sf::Sound& GetSound();
 

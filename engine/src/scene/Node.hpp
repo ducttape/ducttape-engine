@@ -1,4 +1,5 @@
- // ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
 // This file is part of the Ducttape Project (http://ducttape-dev.org) and is
 // licensed under the GNU LESSER PUBLIC LICENSE version 3. For the full license
 // text, please see the LICENSE file in the root of this project or at
@@ -15,6 +16,7 @@
 #include <OGRE/OgreVector3.h>
 #include <OGRE/OgreQuaternion.h>
 
+#include "utils/Logger.hpp"
 #include "component/Component.hpp"
 
 namespace dt {
@@ -46,14 +48,30 @@ public:
     /**
       * Adds a Node as child.
       * @param child The Node to be added as child
+      * @returns A pointer to the Node.
       */
-    void AddChildNode(Node* child);
+    Node* AddChildNode(Node* child);
 
     /**
       * Assigns a component to this node.
       * @param component The Component to be assigned.
       */
-    void AddComponent(Component* component);
+    template <typename ComponentType>
+    ComponentType* AddComponent(ComponentType* component) {
+        const std::string& cname = component->GetName();
+        if(!HasComponent(cname)) {
+            std::shared_ptr<Component> ptr(component);
+            ptr->SetNode(this);
+            ptr->Create();
+            std::pair<std::string, std::shared_ptr<Component> > pair(cname, ptr);
+            mComponents.insert(pair);
+
+            _UpdateAllComponents(0);
+        } else {
+            Logger::Get().Error("Cannot add component " + cname + ": a component with this name already exists.");
+        }
+        return FindComponent<ComponentType>(cname);
+    }
 
     /**
       * Searches for a Node with the given name and returns a pointer to the first match.
