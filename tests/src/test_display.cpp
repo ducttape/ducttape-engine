@@ -17,38 +17,35 @@
 #include "component/LightComponent.hpp"
 #include "event/EventListener.hpp"
 
-class Game : public dt::Game {
+class Main: public dt::State {
 public:
-    Game()
-        : mScene("gamescene") {
+    Main() {
         mRuntime = 0;
     }
 
     void HandleEvent(std::shared_ptr<dt::Event> e) {
-        dt::Game::HandleEvent(e);
-
         if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
             if(mRuntime > 5.0) {
-                RequestShutdown();
+                dt::StateManager::Get()->Pop(1);
             }
         }
     }
 
     void OnInitialize() {
-        dt::EventManager::Get()->AddListener(&mScene);
+        dt::Scene* scene = AddScene(new dt::Scene("testscene"));
         dt::InputManager::Get()->SetJailInput(true);
 
         dt::ResourceManager::Get()->AddResourceLocation("sinbad.zip","Zip", true);
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-        dt::Node* camnode = mScene.AddChildNode(new dt::Node("camnode"));
+        dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
         camnode->AddComponent(new dt::CameraComponent("cam"));
         camnode->SetPosition(Ogre::Vector3(0, 5, 10));
         camnode->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 0, 0));
         camnode->AddComponent(new dt::SimplePlayerComponent("player"));
 
-        dt::Node* meshnode = mScene.AddChildNode(new dt::Node("meshnode"));
+        dt::Node* meshnode = scene->AddChildNode(new dt::Node("meshnode"));
         dt::FollowPathComponent* path =
             new dt::FollowPathComponent(dt::FollowPathComponent::ALTERNATING);
         meshnode->AddComponent(path);
@@ -58,23 +55,22 @@ public:
         mesh->SetLoopAnimation(true);
         mesh->PlayAnimation();
 
-        dt::Node* lightnode = mScene.AddChildNode(new dt::Node("lightnode"));
+        dt::Node* lightnode = scene->AddChildNode(new dt::Node("lightnode"));
         lightnode->AddComponent(new dt::LightComponent("light"));
         lightnode->SetPosition(Ogre::Vector3(0, 30, 0));
 
-        dt::Node* lightnode2 = mScene.AddChildNode(new dt::Node("lightnode2"));
+        dt::Node* lightnode2 = scene->AddChildNode(new dt::Node("lightnode2"));
         lightnode2->AddComponent(new dt::LightComponent("light2"));
         lightnode2->SetPosition(Ogre::Vector3(0, -10, 0));
     }
 
 private:
     double mRuntime;
-    dt::Scene mScene;
 
 };
 
 int main(int argc, char** argv) {
-    Game g;
-    g.Run(argc, argv);
+    dt::Game game;
+    game.Run(new Main(), argc, argv);
     return 0;
 }

@@ -22,26 +22,45 @@
 namespace dt {
 
 Node::Node(const std::string& name) {
-    uint32_t new_id;
-
     if(name == "") {
-        new_id = StringManager::Get()->GetNextAutoId();
-        mName = "Node-"+tostr(new_id);
+        mName = "Node-"+tostr(StringManager::Get()->GetNextAutoId());
     } else {
         mName = name;
     }
 
     mParent = nullptr;
-
     mPosition = Ogre::Vector3::ZERO;
     mScale = Ogre::Vector3(1,1,1);
     mRotation = Ogre::Quaternion::IDENTITY;
 }
 
+void Node::Initialize() {
+    OnInitialize();
+}
+
+void Node::Deinitialize() {
+    OnDeinitialize();
+
+    // clear all children
+    while(mChildren.size() > 0) {
+        RemoveChildNode(mChildren.begin()->first);
+    }
+
+    // clear all components
+    while(mComponents.size() > 0) {
+        RemoveComponent(mComponents.begin()->second->GetName());
+    }
+}
+
+void Node::OnInitialize() {}
+
+void Node::OnDeinitialize() {}
+
 Node* Node::AddChildNode(Node* child) {
     std::string key = child->GetName();
     mChildren.insert(key, child);
     mChildren[key].SetParent(this);
+    mChildren[key].Initialize();
     return FindChildNode(key, false);
 }
 
@@ -69,6 +88,7 @@ bool Node::HasComponent(const std::string &name) {
 
 void Node::RemoveChildNode(const std::string& name) {
     if(FindChildNode(name, false) != nullptr) {
+        FindChildNode(name, false)->Deinitialize(); // destroy recursively
         mChildren.erase(name);
     }
 }

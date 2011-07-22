@@ -19,34 +19,32 @@
 #include "scene/Node.hpp"
 #include "scene/Scene.hpp"
 
-class Game : public dt::Game {
+class Main : public dt::State {
 public:
-    Game()
-        : mScene("gamescene") {
+    Main() {
         mRuntime = 0;
     }
 
     void HandleEvent(std::shared_ptr<dt::Event> e) {
-        dt::Game::HandleEvent(e);
-
         if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
             if(mRuntime > 5.0) {
                 dt::EventManager::Get()->InjectEvent(std::make_shared<dt::MusicStopEvent>());
-                RequestShutdown();
+                dt::StateManager::Get()->Pop(1);
             }
         }
     }
 
     void OnInitialize() {
-        dt::EventManager::Get()->AddListener(&mScene);
+        dt::Scene* scene = AddScene(new dt::Scene("testscene"));
+
         std::string music1 = "test_music_intro.ogg";
         std::string music2 = "test_music_loop.ogg";
 
         dt::MusicComponent* music_component1 = new dt::MusicComponent(music1);
         dt::MusicComponent* music_component2 = new dt::MusicComponent(music2);
 
-        auto node = mScene.AddChildNode(new dt::Node("music_node"));
+        auto node = scene->AddChildNode(new dt::Node("music_node"));
         node->AddComponent(music_component1);
         node->AddComponent(music_component2);
 
@@ -62,13 +60,12 @@ public:
 
 private:
     double mRuntime;
-    dt::Scene mScene;
+
 };
 
 int main(int argc, char* argv[]) {
-
-    Game g;
-    g.Run(argc, argv);
+    dt::Game game;
+    game.Run(new Main(), argc, argv);
     return 0;
 }
 

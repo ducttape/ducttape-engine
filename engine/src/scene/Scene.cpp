@@ -14,13 +14,17 @@
 
 namespace dt {
 
-Scene::Scene(const std::string& name) {
-    mName = name;
-    // EventManager::Get()->AddListener(this);
+Scene::Scene(const std::string& name)
+    : Node(name) {}
+
+void Scene::OnInitialize() {
+    Logger::Get().Debug("Scene " + mName + " is being initialized.");
+    EventManager::Get()->AddListener(this);
 }
 
-Scene::~Scene() {
-    // EventManager::Get()->RemoveListener(this);
+void Scene::OnDeinitialize() {
+    Logger::Get().Debug("Scene " + mName + " is being deinitialized.");
+    EventManager::Get()->RemoveListener(this);
 }
 
 Ogre::SceneManager* Scene::GetSceneManager() {
@@ -29,10 +33,6 @@ Ogre::SceneManager* Scene::GetSceneManager() {
 
 bool Scene::_IsScene() {
     return true;
-}
-
-const std::string& Scene::GetName() {
-    return mName;
 }
 
 void Scene::HandleEvent(std::shared_ptr<Event> e) {

@@ -29,9 +29,7 @@ int main(int argc, char** argv) {
     dt::Scene scene("scene1");
 
     dt::Node* music = scene.AddChildNode(new dt::Node("music"));
-    dt::MusicComponent* music_component =
-        music->AddComponent(new dt::MusicComponent(music_file));
-    root.GetEventManager()->AddListener(music_component);
+    music->AddComponent(new dt::MusicComponent(music_file));
 
     auto resmgr = root.GetResourceManager();
 

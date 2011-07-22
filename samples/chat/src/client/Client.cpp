@@ -31,8 +31,6 @@ void Client::OnInitialize() {
 }
 
 void Client::HandleEvent(std::shared_ptr<dt::Event> e) {
-    Game::HandleEvent(e);
-
     if(e->GetType() == "CHATMESSAGEEVENT") {
         std::shared_ptr<ChatMessageEvent> c = std::dynamic_pointer_cast<ChatMessageEvent>(e);
         if(c->IsLocalEvent()) { // we just received this
@@ -71,7 +69,8 @@ void Client::InputThread(void* user_data) {
         } else if(in.substr(0,5) == "/ping") {
             std::cout << "** Your ping is: " << dt::ConnectionsManager::Get()->GetPing(1) << std::endl;
         } else if(in == "/quit" || in == "/exit") {
-            client->RequestShutdown();
+            // quit this state. the application will terminate
+            dt::StateManager::Get()->Pop();
         } else {
             dt::EventManager::Get()->
                 InjectEvent(std::make_shared<ChatMessageEvent>(in, client->GetNick()));

@@ -13,10 +13,20 @@
 
 namespace dt {
 
-StateManager::StateManager() {}
+StateManager::StateManager() {
+    mPopCount = 0;
+    mHasNewState = false;
+}
 
 void StateManager::Initialize() {}
-void StateManager::Deinitialize() {}
+
+void StateManager::Deinitialize() {
+    // cleanup all states
+    while(mStates.size() > 0) {
+        mStates.back()->Deinitialize();
+        mStates.pop_back();
+    }
+}
 
 StateManager* StateManager::Get() {
     return Root::get_mutable_instance().GetStateManager();
@@ -24,16 +34,43 @@ StateManager* StateManager::Get() {
 
 void StateManager::SetNewState(State* new_state) {
     mNewState = std::shared_ptr<State>(new_state);
+    mHasNewState = true;
 }
 
-void StateManager::PushNewState() {
-    mStates.push_back(mNewState.get());
-    mNewState = std::shared_ptr<State>();
+bool StateManager::ShiftStates() {
+    // pop old states
+    if(mPopCount > 0) {
+        // deactivate and pop states
+        while(mPopCount > 0 && mStates.size() > 0) {
+            mStates.back()->Deinitialize();
+            mStates.pop_back();
+            Logger::Get().Info("Deinitialized 1 state.");
+        }
+        if(mStates.size() > 0) {
+            mStates.back()->Initialize();
+        }
+    }
+
+    // add new state
+    if(mHasNewState) {
+        if(mStates.size() > 0) {
+            mStates.back()->Deinitialize();
+        }
+        mStates.push_back(mNewState);
+        mStates.back()->Initialize();
+        mHasNewState = false;
+    }
+
+    return mStates.size() > 0;
+}
+
+void StateManager::Pop(uint16_t count) {
+    mPopCount += count;
 }
 
 State* StateManager::GetCurrentState() {
     if(mStates.size() > 0)
-        return &(mStates.back());
+        return mStates.back().get();
     return nullptr;
 }
 

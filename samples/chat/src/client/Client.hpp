@@ -14,7 +14,7 @@
 #include <SFML/System/Thread.hpp>
 #include <memory>
 
-class Client : public dt::Game {
+class Client : public dt::State {
 public:
     Client();
 

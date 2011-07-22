@@ -9,11 +9,13 @@
 #include <iostream>
 
 #include "Server.hpp"
+#include "game/Game.hpp"
 
 int main(int argc, char** argv) {
-    Server server;
+    dt::Game game;
+    Server* server = new Server();
 
-    server.Run(argc, argv);
+    game.Run(server, argc, argv);
 
     return 0;
 }

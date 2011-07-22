@@ -11,7 +11,7 @@
 
 #include "game/Game.hpp"
 
-class Server : public dt::Game {
+class Server : public dt::State {
 public:
     void OnInitialize();
     void HandleEvent(std::shared_ptr<dt::Event> e);

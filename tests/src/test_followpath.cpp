@@ -17,26 +17,23 @@
 #include "component/LightComponent.hpp"
 #include "event/EventListener.hpp"
 
-class Game : public dt::Game {
+class Main : public dt::State {
 public:
-    Game()
-        : mScene("gamescene") {
+    Main() {
         mRuntime = 0;
     }
 
     void HandleEvent(std::shared_ptr<dt::Event> e) {
-        dt::Game::HandleEvent(e);
-
         if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
             if(mRuntime > 5.0) {
-                RequestShutdown();
+                dt::StateManager::Get()->Pop(1);
             }
         }
     }
 
     void OnInitialize() {
-        dt::EventManager::Get()->AddListener(&mScene);
+        dt::Scene* scene = AddScene(new dt::Scene("testscene"));
         dt::InputManager::Get()->SetJailInput(true);
 
         // Load resources
@@ -44,21 +41,21 @@ public:
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
         // Create camera
-        dt::Node* camnode = mScene.AddChildNode(new dt::Node("camnode"));
+        dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
         camnode->AddComponent(new dt::CameraComponent("cam"));
         camnode->SetPosition(Ogre::Vector3(0, 20, 20));
         camnode->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 0, 0));
         camnode->AddComponent(new dt::SimplePlayerComponent("player"));
 
         // Create light
-        dt::Node* lightnode = mScene.AddChildNode(new dt::Node("lightnode"));
+        dt::Node* lightnode = scene->AddChildNode(new dt::Node("lightnode"));
         lightnode->AddComponent(new dt::LightComponent("light"));
         lightnode->SetPosition(Ogre::Vector3(0, 30, 0));
 
         // Sample #1: LOOP, SmoothAcceleration, Sharp corners, No rotation
-        dt::Node* meshnode = mScene.AddChildNode(new dt::Node("meshnode"));
+        dt::Node* meshnode = scene->AddChildNode(new dt::Node("meshnode"));
         meshnode->SetScale(0.3);
-        dt::FollowPathComponent* path = meshnode->AddComponent(new dt::FollowPathComponent("path", dt::FollowPathComponent::LOOP));
+        dt::FollowPathComponent* path = meshnode->AddComponent(new dt::FollowPathComponent(dt::FollowPathComponent::LOOP, "path"));
         path->SetFollowRotation(false);
         path->SetSmoothAcceleration(true);
         path->SetSmoothCorners(false);
@@ -68,13 +65,13 @@ public:
         path->AddPoint(Ogre::Vector3(5, 0, -5));
         path->AddPoint(Ogre::Vector3(5, 0, 5));
         path->SetDuration(1.5);
-        dt::MeshComponent* mesh = new dt::MeshComponent("lolmesh", "Sinbad.mesh");
+        dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh", "lolmesh");
         meshnode->AddComponent(mesh);
 
         // Sample #2: Alternating, Smooth corners, Follow rotation
-        dt::Node* meshnode2 = mScene.AddChildNode(new dt::Node("meshnode2"));
+        dt::Node* meshnode2 = scene->AddChildNode(new dt::Node("meshnode2"));
         meshnode2->SetScale(0.3);
-        dt::FollowPathComponent* path2 = meshnode2->AddComponent(new dt::FollowPathComponent("path2", dt::FollowPathComponent::ALTERNATING));
+        dt::FollowPathComponent* path2 = meshnode2->AddComponent(new dt::FollowPathComponent(dt::FollowPathComponent::ALTERNATING, "path2"));
         path2->SetFollowRotation(true);
         path2->SetSmoothAcceleration(false);
         path2->SetSmoothCorners(true);
@@ -82,13 +79,13 @@ public:
         path2->AddPoint(Ogre::Vector3(0, 0, -4));
         path2->AddPoint(Ogre::Vector3(-4, 0, 4));
         path2->SetDuration(2.5);
-        dt::MeshComponent* mesh2 = new dt::MeshComponent("lolmesh2", "Sinbad.mesh");
+        dt::MeshComponent* mesh2 = new dt::MeshComponent("Sinbad.mesh", "lolmesh2");
         meshnode2->AddComponent(mesh2);
 
         // Sample #3: Single, Smooth acceleration, Follow rotation, 3D space
-        dt::Node* meshnode3 = mScene.AddChildNode(new dt::Node("meshnode3"));
+        dt::Node* meshnode3 = scene->AddChildNode(new dt::Node("meshnode3"));
         meshnode3->SetScale(0.3);
-        dt::FollowPathComponent* path3 = meshnode3->AddComponent(new dt::FollowPathComponent("path3", dt::FollowPathComponent::SINGLE));
+        dt::FollowPathComponent* path3 = meshnode3->AddComponent(new dt::FollowPathComponent(dt::FollowPathComponent::SINGLE, "path3"));
         path3->SetFollowRotation(false);
         path3->SetSmoothAcceleration(false);
         path3->SetSmoothCorners(true);
@@ -100,18 +97,17 @@ public:
         path3->AddPoint(Ogre::Vector3(-4, 3, 0));
         path3->AddPoint(Ogre::Vector3(-6, 0, 0));
         path3->SetDuration(4.0);
-        dt::MeshComponent* mesh3 = new dt::MeshComponent("lolmesh3", "Sinbad.mesh");
+        dt::MeshComponent* mesh3 = new dt::MeshComponent("Sinbad.mesh", "lolmesh3");
         meshnode3->AddComponent(mesh3);
     }
 
 private:
     double mRuntime;
-    dt::Scene mScene;
 
 };
 
 int main(int argc, char** argv) {
-    Game g;
-    g.Run(argc, argv);
+    dt::Game game;
+    game.Run(new Main(), argc, argv);
     return 0;
 }
