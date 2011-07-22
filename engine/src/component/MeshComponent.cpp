@@ -14,7 +14,7 @@
 
 namespace dt {
 
-MeshComponent::MeshComponent(const std::string& name, const std::string& mesh_file)
+MeshComponent::MeshComponent(const std::string& mesh_file, const std::string& name)
     : Component(name) {
     mEntity = nullptr;
     mSceneNode = nullptr;

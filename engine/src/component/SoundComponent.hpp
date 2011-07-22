@@ -27,7 +27,7 @@ public:
      * Advanced constructor.
      * @see Component
      */
-    SoundComponent(const std::string& name = "", const std::string& sound_file = "");
+    SoundComponent(const std::string& sound_file = "", const std::string& name = "");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 
@@ -81,7 +81,7 @@ private:
     void _LoadSound();
 
     std::string mSoundFile; //!< Name of sound file loaded in component.
-	sf::Sound mSound; //!< SFML Sound. It is set during _LoadSound().
+	sf::Sound mSound;       //!< SFML Sound. It is set during _LoadSound().
 
 };
 

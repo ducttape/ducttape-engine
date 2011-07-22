@@ -14,7 +14,7 @@
 
 namespace dt {
 
-FollowPathComponent::FollowPathComponent(const std::string& name, Mode mode)
+FollowPathComponent::FollowPathComponent(Mode mode, const std::string& name)
     : Component(name) {
     mSmoothAcceleration = false;
     mSmoothCorners = 0;

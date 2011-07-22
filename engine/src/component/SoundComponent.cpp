@@ -15,8 +15,7 @@
 
 namespace dt {
 
-SoundComponent::SoundComponent(const std::string& name, 
-                               const std::string& sound_file)
+SoundComponent::SoundComponent(const std::string& sound_file, const std::string& name)
     : Component(name) {
     mSoundFile = sound_file;
     _LoadSound();

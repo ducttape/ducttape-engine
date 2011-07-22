@@ -12,11 +12,11 @@ public:
     Game()
         : mScene("gamescene") {
         mRuntime = 0;
-        cameraChanged = false;
-        cameraChanged2 = false;
-        cameraChanged3 = false;
-        cameraChanged4 = false;
-        cameraChanged5 = false;
+        camera_changed1 = false;
+        camera_changed2 = false;
+        camera_changed3 = false;
+        camera_changed4 = false;
+        camera_changed5 = false;
     }
 
     void HandleEvent(std::shared_ptr<dt::Event> e) {
@@ -27,27 +27,27 @@ public:
             if(mRuntime > 6.0) {
                 RequestShutdown();
             }
-            if(mRuntime > 5.0 && !cameraChanged5) {
+            if(mRuntime > 5.0 && !camera_changed5) {
                 dt::DisplayManager::Get()->ShowViewport("newView");
-                cameraChanged5 = true;
+                camera_changed5 = true;
             }
-            if(mRuntime > 4.0 && !cameraChanged4) {
+            if(mRuntime > 4.0 && !camera_changed4) {
                 dt::DisplayManager::Get()->HideViewport("newView");
-                cameraChanged4 = true;
+                camera_changed4 = true;
             }
-            if(mRuntime > 3.0 && !cameraChanged3) {
+            if(mRuntime > 3.0 && !camera_changed3) {
                 dt::DisplayManager::Get()->ActivateCamera("new", "main");
                 dt::DisplayManager::Get()->ActivateCamera("cam");
-                cameraChanged3 = true;
+                camera_changed3 = true;
             }
-            if(mRuntime > 2.0 && !cameraChanged2) {
+            if(mRuntime > 2.0 && !camera_changed2) {
                 dt::DisplayManager::Get()->AddViewport("newView", "new", true, 0.5F, 0.5F, 0.5F, 0.5F);
                 dt::DisplayManager::Get()->ActivateCamera("cam", "main");
-                cameraChanged2 = true;
+                camera_changed2 = true;
             }
-            if(mRuntime > 1.0 && !cameraChanged) {
+            if(mRuntime > 1.0 && !camera_changed1) {
                 dt::DisplayManager::Get()->ActivateCamera("new");
-                cameraChanged = true;
+                camera_changed1 = true;
             }
         }
     }
@@ -69,7 +69,8 @@ public:
         newcam->FindComponent<dt::CameraComponent>("new")->LookAt(Ogre::Vector3(0, 0, 0));
 
         dt::Node* meshnode = mScene.AddChildNode(new dt::Node("meshnode"));
-        dt::MeshComponent* mesh = meshnode->AddComponent(new dt::MeshComponent("lolmesh", "Sinbad.mesh"));
+        dt::MeshComponent* mesh =
+            meshnode->AddComponent(new dt::MeshComponent("Sinbad.mesh"));
         mesh->SetAnimation("Dance");
         mesh->SetLoopAnimation(true);
         mesh->PlayAnimation();
@@ -86,11 +87,11 @@ public:
 private:
     double mRuntime;
     dt::Scene mScene;
-    bool cameraChanged;
-    bool cameraChanged2;
-    bool cameraChanged3;
-    bool cameraChanged4;
-    bool cameraChanged5;
+    bool camera_changed1;
+    bool camera_changed2;
+    bool camera_changed3;
+    bool camera_changed4;
+    bool camera_changed5;
 
 };
 

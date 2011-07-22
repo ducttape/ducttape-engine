@@ -25,7 +25,7 @@ public:
      * Advanced constructor.
      * @see Component
      */
-    MusicComponent(const std::string& name = "", const std::string& music_file = "");
+    MusicComponent(const std::string& music_file = "", const std::string& name = "");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 
@@ -75,13 +75,9 @@ private:
     void _StopMusic();
 
     std::string mMusicFile;     //!< The file the music was loaded from.
-
     double mElapsedTime;        //!< The elapsed time during the fading.
-
     double mFadeTime;           //!< The fading duration time.
-
     float mFadeVolume;          //!< The fading target volume.
-
     bool mFadeFlag;             //!< The fading flag.
 };
 

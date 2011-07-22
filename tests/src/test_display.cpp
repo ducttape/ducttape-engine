@@ -49,9 +49,10 @@ public:
         camnode->AddComponent(new dt::SimplePlayerComponent("player"));
 
         dt::Node* meshnode = mScene.AddChildNode(new dt::Node("meshnode"));
-        dt::FollowPathComponent* path = new dt::FollowPathComponent("path", dt::FollowPathComponent::ALTERNATING);
+        dt::FollowPathComponent* path =
+            new dt::FollowPathComponent(dt::FollowPathComponent::ALTERNATING);
         meshnode->AddComponent(path);
-        dt::MeshComponent* mesh = new dt::MeshComponent("lolmesh", "Sinbad.mesh");
+        dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh");
         meshnode->AddComponent(mesh);
         mesh->SetAnimation("Dance");
         mesh->SetLoopAnimation(true);
