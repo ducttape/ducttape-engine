@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
 	for(int i = 15; i >= -15; i--)
 	{
         // don't move it "through" the camera
-        sound->SetPosition(Ogre::Vector3(i, 10, 0));
+        scene.FindChildNode("sound", false)->SetPosition(Ogre::Vector3(i, 10, 0));
 		sf::Sleep(200);
 	}
 

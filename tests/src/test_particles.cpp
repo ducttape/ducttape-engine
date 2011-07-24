@@ -39,9 +39,9 @@ public:
 
         // make a scene
         dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
-        dt::CameraComponent* cam = camnode->AddComponent(new dt::CameraComponent("cam"));
+        camnode->AddComponent(new dt::CameraComponent("cam"));
         camnode->SetPosition(Ogre::Vector3(0, 2, 10));
-        cam->LookAt(Ogre::Vector3(0, 2, 0));
+        camnode->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 2, 0));
 
         dt::Node* p = scene->AddChildNode(new dt::Node("p"));
 
