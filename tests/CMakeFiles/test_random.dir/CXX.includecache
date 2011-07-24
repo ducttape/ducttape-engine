@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/developer/ducttape-engine/tests/src/test_random.cpp
+iostream
+-
+utils/Random.hpp
+/home/developer/ducttape-engine/tests/src/utils/Random.hpp
+
+engine/src/utils/Random.hpp
+ctime
+-
+random
+-
+
