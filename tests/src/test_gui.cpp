@@ -43,7 +43,6 @@ public:
         }
     }
 
-
     void OnInitialize() {
         dt::Scene* scene = AddScene(new dt::Scene("testscene"));
         dt::InputManager::Get()->SetJailInput(false);
