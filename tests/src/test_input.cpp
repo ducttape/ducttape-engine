@@ -11,11 +11,7 @@
 #include "scene/Scene.hpp"
 #include "scene/Node.hpp"
 #include "component/MeshComponent.hpp"
-#include "component/FollowPathComponent.hpp"
-#include "component/PlaneComponent.hpp"
 #include "component/SimplePlayerComponent.hpp"
-#include "component/LightComponent.hpp"
-#include "event/EventListener.hpp"
 
 class Main: public dt::State {
 public:
@@ -46,22 +42,11 @@ public:
         camnode->AddComponent(new dt::SimplePlayerComponent("player"));
 
         dt::Node* meshnode = scene->AddChildNode(new dt::Node("meshnode"));
-        dt::FollowPathComponent* path =
-            new dt::FollowPathComponent(dt::FollowPathComponent::ALTERNATING);
-        meshnode->AddComponent(path);
         dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh");
         meshnode->AddComponent(mesh);
         mesh->SetAnimation("Dance");
         mesh->SetLoopAnimation(true);
         mesh->PlayAnimation();
-
-        dt::Node* lightnode = scene->AddChildNode(new dt::Node("lightnode"));
-        lightnode->AddComponent(new dt::LightComponent("light"));
-        lightnode->SetPosition(Ogre::Vector3(0, 30, 0));
-
-        dt::Node* lightnode2 = scene->AddChildNode(new dt::Node("lightnode2"));
-        lightnode2->AddComponent(new dt::LightComponent("light2"));
-        lightnode2->SetPosition(Ogre::Vector3(0, -10, 0));
     }
 
 private:
@@ -70,6 +55,7 @@ private:
 };
 
 int main(int argc, char** argv) {
+    dt::Logger::Get().Warning("This test is not working with automated testing - it will always return success.");
     dt::Game game;
     game.Run(new Main(), argc, argv);
     return 0;

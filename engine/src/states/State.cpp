@@ -14,8 +14,45 @@ namespace dt {
 
 State::State() {}
 
-uint32_t State::GetTypeID() {
-    return StringManager::Get()->GetId(GetType());
+void State::HandleEvent(std::shared_ptr<Event> e) {}
+
+void State::OnDeinitialize() {}
+
+void State::Initialize() {
+    EventManager::Get()->AddListener(this);
+    OnInitialize();
+}
+
+void State::Deinitialize() {
+    // deinitialize all scenes
+    while(mScenes.size() > 0) {
+        DeleteScene(mScenes.begin()->second->GetName());
+    }
+
+    OnDeinitialize();
+    EventManager::Get()->RemoveListener(this);
+}
+
+Scene* State::AddScene(Scene* scene) {
+    std::string key = scene->GetName();
+    mScenes.insert(key, scene);
+    GetScene(key)->Initialize();
+    return GetScene(key);
+}
+
+Scene* State::GetScene(const std::string& name) {
+    if(mScenes.find(name) != mScenes.end())
+        return mScenes.find(name)->second;
+    return nullptr;
+}
+
+void State::DeleteScene(const std::string& name) {
+    if(GetScene(name) == nullptr) {
+        Logger::Get().Warning("Cannot delete scene " + name + ": There is no such scene.");
+        return;
+    }
+    GetScene(name)->Deinitialize();
+    mScenes.erase(mScenes.find(name));
 }
 
 }

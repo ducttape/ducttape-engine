@@ -46,6 +46,26 @@ public:
     Node(const std::string& name = "");
 
     /**
+      * Initializer.
+      */
+    void Initialize();
+
+    /**
+      * Deinitializer. Cleans up the whole mess :D
+      */
+    void Deinitialize();
+
+    /**
+      * Called when the Node is initialized.
+      */
+    virtual void OnInitialize();
+
+    /**
+      * Called when the Node is deinitialized.
+      */
+    virtual void OnDeinitialize();
+
+    /**
       * Adds a Node as child.
       * @param child The Node to be added as child
       * @returns A pointer to the Node.
@@ -188,9 +208,9 @@ protected:
 
     std::map<std::string, std::shared_ptr<Component> > mComponents;   //!< The list of Components.
 
-private:
     std::string mName;          //!< The Node name.
 
+private:
     boost::ptr_map<std::string, Node> mChildren;        //!< List of child nodes.
 
     Ogre::Vector3 mPosition;    //!< The Node position.

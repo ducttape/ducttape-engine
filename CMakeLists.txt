@@ -57,8 +57,8 @@ find_package(Boost COMPONENTS filesystem program_options system date_time thread
 #find_package(ImageMagick COMPONENTS Magick++ REQUIRED)
 find_package(OIS REQUIRED)
 find_package(OGRE REQUIRED)
-#find_package(MyGUI REQUIRED)
-#find_package(MyGUI_PLATFORM REQUIRED)
+find_package(MyGUI REQUIRED)
+find_package(MyGUI_PLATFORM REQUIRED)
 
 if(MSVC) # Sort the odd stuff out
     set(CMAKE_CXX_FLAGS "/DCOMPILER_MSVC /WX /MP /EHsc")

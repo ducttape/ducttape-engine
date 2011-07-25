@@ -13,6 +13,7 @@
 
 #include "event/BeginFrameEvent.hpp"
 #include "event/GoodbyeEvent.hpp"
+#include "states/State.hpp"
 
 namespace dt {
 
@@ -29,16 +30,11 @@ public:
     virtual void HandleEvent(std::shared_ptr<Event> e);
 
     /**
-      * Called when initializing the game. Create custom stuff here.
-      */
-    virtual void OnInitialize() = 0;
-
-    /**
       * The main loop of the Game. Calls OnInitialize().
       * @param argc Command line param count.
       * @param argv Command line params.
       */
-    void Run(int argc, char** argv);
+    void Run(State* start_state, int argc, char** argv);
 
     /**
       * Requests a shutdown. The current frame is being processed, but then the main loop will be cancelled.

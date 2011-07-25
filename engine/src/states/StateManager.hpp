@@ -33,12 +33,15 @@ public:
     static StateManager* Get();
 
     void SetNewState(State* new_state);
-    void PushNewState();
+    bool ShiftStates();
+    void Pop(uint16_t count = 1);
     State* GetCurrentState();
 
 private:
-    std::shared_ptr<State> mNewState; //!< The newly created stack to be pushed onto the stack in the next step
-    boost::ptr_vector<State> mStates;    //!< The stack of game states
+    std::shared_ptr<State> mNewState;   //!< The newly created game state to be pushed onto the stack in the next step.
+    bool mHasNewState;
+    std::vector<std::shared_ptr<State> > mStates;   //!< The stack of game states.
+    uint16_t mPopCount;
 };
 
 }

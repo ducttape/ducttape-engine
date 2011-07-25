@@ -28,19 +28,16 @@ public:
       */
     Scene(const std::string& name);
 
-    ~Scene();
+    void OnInitialize();
+
+    void OnDeinitialize();
 
     Ogre::SceneManager* GetSceneManager();
-
-    const std::string& GetName();
 
     void HandleEvent(std::shared_ptr<Event> e);
 
 protected:
     bool _IsScene();
-
-private:
-    std::string mName;
 
 };
 

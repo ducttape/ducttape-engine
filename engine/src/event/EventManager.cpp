@@ -52,8 +52,14 @@ bool EventManager::HasListener(EventListener* listener) {
 }
 
 void EventManager::AddListener(EventListener* listener) {
-    if(!HasListener(listener))
-        mListeners.push_back(listener);
+    if(!HasListener(listener)) {
+        if(listener == nullptr)
+            Logger::Get().Error("EventManager: Could not add listener. It is NULL.");
+        else
+            mListeners.push_back(listener);
+    } else {
+        Logger::Get().Error("EventManager: Could not add listener - already registered.");
+    }
 }
 
 void EventManager::RemoveListener(EventListener* listener) {

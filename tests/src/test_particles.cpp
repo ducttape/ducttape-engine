@@ -15,38 +15,35 @@
 #include "component/ParticleSystemComponent.hpp"
 #include "event/EventListener.hpp"
 
-class Game : public dt::Game {
+class Main : public dt::State {
 public:
-    Game()
-        : mScene("gamescene") {
+    Main() {
         mRuntime = 0;
     }
 
     void HandleEvent(std::shared_ptr<dt::Event> e) {
-        dt::Game::HandleEvent(e);
-
         if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
             if(mRuntime > 6.0) {
-                RequestShutdown();
+                dt::StateManager::Get()->Pop(1);
             }
         }
     }
 
     void OnInitialize() {
-        dt::EventManager::Get()->AddListener(&mScene);
+        dt::Scene* scene = AddScene(new dt::Scene("testscene"));
 
         dt::ResourceManager::Get()->AddResourceLocation("sinbad.zip","Zip", true);
         dt::ResourceManager::Get()->AddResourceLocation("particle/","FileSystem", true);
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
         // make a scene
-        dt::Node* camnode = mScene.AddChildNode(new dt::Node("camnode"));
-        camnode->AddComponent(new dt::CameraComponent("cam"));
+        dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
+        dt::CameraComponent* cam = camnode->AddComponent(new dt::CameraComponent("cam"));
         camnode->SetPosition(Ogre::Vector3(0, 2, 10));
-        camnode->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 2, 0));
+        cam->LookAt(Ogre::Vector3(0, 2, 0));
 
-        dt::Node* p = mScene.AddChildNode(new dt::Node("p"));
+        dt::Node* p = scene->AddChildNode(new dt::Node("p"));
 
         p->SetScale(0.2);
         dt::MeshComponent* mesh = p->AddComponent(new dt::MeshComponent("Sinbad.mesh"));
@@ -88,12 +85,11 @@ public:
 
 private:
     double mRuntime;
-    dt::Scene mScene;
 
 };
 
 int main(int argc, char** argv) {
-    Game g;
-    g.Run(argc, argv);
+    dt::Game game;
+    game.Run(new Main(), argc, argv);
     return 0;
 }

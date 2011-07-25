@@ -22,12 +22,12 @@ void Game::HandleEvent(std::shared_ptr<Event> e) {
     }
 }
 
-void Game::Run(int argc, char** argv) {
+void Game::Run(State* start_state, int argc, char** argv) {
     Root& root = Root::get_mutable_instance();
 
     root.Initialize(argc, argv);
+    root.GetStateManager()->SetNewState(start_state);
     root.GetEventManager()->AddListener(this);
-    OnInitialize();
 
     mClock.Reset();
     mIsRunning = true;
@@ -44,6 +44,10 @@ void Game::Run(int argc, char** argv) {
         // TODO: Implement real timing instead of just getting the time difference
         double frame_time = mClock.GetElapsedTime() / 1000.0;
         mClock.Reset();
+
+        // Shift states and cancel if none are left
+        if(!root.GetStateManager()->ShiftStates())
+            break;
 
         // INPUT
         InputManager::Get()->Capture();

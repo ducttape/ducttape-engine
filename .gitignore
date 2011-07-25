@@ -6,3 +6,4 @@ lib/
 *.user
 docs/doxygen
 Ogre.log
+MyGUI.log

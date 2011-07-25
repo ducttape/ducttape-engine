@@ -22,6 +22,7 @@
 #include "utils/Logger.hpp"
 #include "graphics/Viewport.hpp"
 #include "Manager.hpp"
+#include "GuiManager.hpp"
 
 namespace dt {
 
@@ -109,6 +110,10 @@ public:
 
     Ogre::RenderWindow* GetRenderWindow();
 
+    CameraComponent* GetMainCamera();
+
+    GuiManager* GetGuiManager();
+
 private:
     /**
       * Creates the render window and sets up Ogre. It is called when the first CameraComponent is registered. 
@@ -125,10 +130,13 @@ private:
     boost::ptr_map<std::string, dt::Viewport> mViewports;
     std::map<std::string, std::string> mViewportsCameras;
     std::string mMainViewport;
+    std::string mMainCamera;
 
     Ogre::Root* mOgreRoot;
     Ogre::RenderSystem* mOgreRenderSystem;
     Ogre::RenderWindow* mOgreRenderWindow;
+
+    GuiManager mGuiManager;
     
     int mNextZOrder;
 };

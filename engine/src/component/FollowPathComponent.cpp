@@ -46,7 +46,7 @@ void FollowPathComponent::OnUpdate(double time_diff) {
             mLastPoint = mNode->GetPosition();
         }
 
-        if(mDurationSinceStart >= mTotalDuration || mDurationSinceStart <= 0) {
+        if(mDurationSinceStart > mTotalDuration || mDurationSinceStart < 0) {
             // we have travelled the whole path. now what?
             if(mMode == FollowPathComponent::LOOP) {
                 Reset();
