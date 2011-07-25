@@ -3,4 +3,4 @@
 	url = git://github.com/ducttape/ogre-procedural.git
 [submodule "externals/btogre"]
 	path = externals/btogre
-	url = git://github.com/nikki93/btogre.git
+	url = git://github.com/ducttape/btogre.git

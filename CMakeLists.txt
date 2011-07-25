@@ -83,6 +83,7 @@ include_directories(
     ${BULLET_INCLUDE_DIRS}
     ${OIS_INCLUDE_DIRS}
     ${OgreProcedural_INCLUDE_DIR}
+    ${CMAKE_SOURCE_DIR}/externals/btogre/include
 )
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/engine/")

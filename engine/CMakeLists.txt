@@ -20,6 +20,7 @@ endif()
 
 add_library(ducttape ${BUILD_MODE}
     ${engine_src}
+    ${CMAKE_SOURCE_DIR}/externals/btogre/BtOgre.cpp
 )
 
 target_link_libraries(ducttape

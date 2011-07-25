@@ -13,6 +13,7 @@
 #include "scene/Scene.hpp"
 #include "scene/Node.hpp"
 #include "component/MeshComponent.hpp"
+#include "component/PhysicsBodyComponent.hpp"
 #include "component/FollowPathComponent.hpp"
 #include "component/LightComponent.hpp"
 #include "event/EventListener.hpp"
@@ -38,6 +39,7 @@ public:
         OgreProcedural::Root::getInstance()->sceneManager = scene->GetSceneManager();
 
         OgreProcedural::SphereGenerator().setRadius(5.f).setUTile(.5f).realizeMesh("spheremesh");
+        OgreProcedural::PlaneGenerator().setSizeX(5.f).setSizeY(5.f).realizeMesh("planemesh");
 
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
@@ -48,6 +50,11 @@ public:
 
         dt::Node* spherenode = scene->AddChildNode(new dt::Node("spherenode"));
         spherenode->AddComponent(new dt::MeshComponent("spheremesh"));
+        spherenode->SetPosition(Ogre::Vector3(0, 20, 0));
+
+        dt::Node* planenode = scene->AddChildNode(new dt::Node("planenode"));
+        planenode->AddComponent(new dt::MeshComponent("planemesh"));
+        planenode->SetPosition(Ogre::Vector3(0, 20, -10));
 
         dt::Node* lightnode1 = scene->AddChildNode(new dt::Node("lightnode1"));
         lightnode1->AddComponent(new dt::LightComponent("light1"));
