@@ -1,0 +1,17 @@
+/home/developer/ducttape-engine/docs/CMakeFiles/doc.dir
+/home/developer/ducttape-engine/engine/CMakeFiles/ducttape.dir
+/home/developer/ducttape-engine/samples/CMakeFiles/sample_chat_client.dir
+/home/developer/ducttape-engine/samples/CMakeFiles/sample_chat_server.dir
+/home/developer/ducttape-engine/tests/CMakeFiles/test_connections.dir
+/home/developer/ducttape-engine/tests/CMakeFiles/test_display.dir
+/home/developer/ducttape-engine/tests/CMakeFiles/test_eventbindings.dir
+/home/developer/ducttape-engine/tests/CMakeFiles/test_events.dir
+/home/developer/ducttape-engine/tests/CMakeFiles/test_logger.dir
+/home/developer/ducttape-engine/tests/CMakeFiles/test_multiple_camera.dir
+/home/developer/ducttape-engine/tests/CMakeFiles/test_music.dir
+/home/developer/ducttape-engine/tests/CMakeFiles/test_names.dir
+/home/developer/ducttape-engine/tests/CMakeFiles/test_network.dir
+/home/developer/ducttape-engine/tests/CMakeFiles/test_particles.dir
+/home/developer/ducttape-engine/tests/CMakeFiles/test_random.dir
+/home/developer/ducttape-engine/tests/CMakeFiles/test_sound.dir
+/home/developer/ducttape-engine/tests/CMakeFiles/test_timer.dir
