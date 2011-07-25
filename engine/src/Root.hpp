@@ -26,6 +26,7 @@
   * \li Matz-Jona \a 'Timesqueezer' Radloff
   * \li Fabian \a 'zetaron' Stegemann
   * \li Thomas \a 'tomt610' Fiedor
+  * \li Antonio \a 'amalvagomes' MalvaGomes
   * \subsection Media
   * \li Darren \a 'visionseeker' Cullen (http://www.deliciousmusic.co.nz/artists/visionseeker)
   * \li Lasse \a 'lazzly' Bienkowski
