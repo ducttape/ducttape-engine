@@ -16,6 +16,7 @@ DisplayManager::DisplayManager() {
     mOgreRoot = nullptr;
     mNextZOrder = 1;
     mMainViewport = "";
+    mMainCamera = "";
 }
 
 DisplayManager::~DisplayManager() {}
@@ -130,6 +131,10 @@ bool DisplayManager::AddViewport(const std::string& name, const std::string& cam
 
     if(set_as_main) {
         mMainViewport = name;
+        mMainCamera = camera_name;
+
+        // set the scene manager for the gui
+        mGuiManager.SetSceneManager(mCameras[mMainCamera]->GetCamera()->getSceneManager());
     }
 
     mViewports[name].setBackgroundColour(Ogre::ColourValue(0, 0, 0));
@@ -182,6 +187,14 @@ Ogre::RenderWindow* DisplayManager::GetRenderWindow() {
     return mOgreRenderWindow;
 }
 
+CameraComponent* DisplayManager::GetMainCamera() {
+    if(mCameras.count(mMainCamera) > 0) {
+        return mCameras.find(mMainCamera)->second;
+    }
+    return nullptr;
+}
+
+
 void DisplayManager::_CreateWindow() {
     if(mOgreRoot != nullptr) {
         return;
@@ -204,6 +217,9 @@ void DisplayManager::_CreateWindow() {
 }
 
 void DisplayManager::_DestroyWindow() {
+    // Make sure to destroy the GUI first (it won't do anything if it was not initialized)
+    mGuiManager.Deinitialize();
+
     // Unattach OIS before window shutdown (very important under Linux)
     Root::get_mutable_instance().GetInputManager()->Deinitialize();
 
@@ -215,9 +231,15 @@ void DisplayManager::_DestroyWindow() {
 void DisplayManager::CreateOgreRoot() {
     if(mOgreRoot == nullptr) {
         _CreateWindow();
+
+        // Attach OIS
         InputManager::Get()->SetWindow(mOgreRenderWindow);
         InputManager::Get()->Initialize();
     }
+}
+
+GuiManager* DisplayManager::GetGuiManager() {
+    return &mGuiManager;
 }
 
 }
