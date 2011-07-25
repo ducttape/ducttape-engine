@@ -21,8 +21,8 @@ set(BUILD_TESTS TRUE CACHE BOOL "TRUE to build the tests, FALSE to ignore them")
 set(BUILD_DOC TRUE CACHE BOOL "TRUE to generate the API documentation, FALSE to ignore it")
 
 if(WIN32)
-	# We currentlty have no dll exports on Windows so this needs to be on.
-	set(BUILD_STATIC "TRUE" CACHE BOOL "Currently needs to be ON in Windows" FORCE)
+    # We currentlty have no dll exports on Windows so this needs to be on.
+    set(BUILD_STATIC "TRUE" CACHE BOOL "Currently needs to be ON in Windows" FORCE)
 endif()
 
 if(BUILD_STATIC)
@@ -37,18 +37,20 @@ set(BULLET_ROOT "" CACHE PATH "Path to Bullet dir")
 set(BOOST_ROOT "" CACHE PATH "Path to Boost dir")
 set(OGRE_HOME "" CACHE PATH "Path to OGRE dir")
 set(SFMLDIR "" CACHE PATH "Path to SFML dir")
+set(PROCEDURAL_HOME "" CACHE PATH "Path to Ogre Procedural dir")
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake-extras/")
 
 if(EXISTS "${CMAKE_SOURCE_DIR}/dependencies")
-	set(BULLET_ROOT "${CMAKE_SOURCE_DIR}/dependencies/bullet")
-	set(BOOST_ROOT "${CMAKE_SOURCE_DIR}/dependencies/boost")
-	set(OGRE_HOME "${CMAKE_SOURCE_DIR}/dependencies/ogre")
-	set(SFMLDIR "${CMAKE_SOURCE_DIR}/dependencies/sfml")
-	file(GLOB_RECURSE DLLS_LIST ${CMAKE_SOURCE_DIR}/dependencies/*.dll)
-	file(MAKE_DIRECTORY "${EXECUTABLE_OUTPUT_DIRECTORY}/${CMAKE_BUILD_TYPE}")
-	file(COPY ${DLLS_LIST} DESTINATION "${EXECUTABLE_OUTPUT_PATH}/Debug")
-	file(COPY ${DLLS_LIST} DESTINATION "${EXECUTABLE_OUTPUT_PATH}/Release")
+    set(BULLET_ROOT "${CMAKE_SOURCE_DIR}/dependencies/bullet")
+    set(BOOST_ROOT "${CMAKE_SOURCE_DIR}/dependencies/boost")
+    set(OGRE_HOME "${CMAKE_SOURCE_DIR}/dependencies/ogre")
+    set(SFMLDIR "${CMAKE_SOURCE_DIR}/dependencies/sfml")
+    set(OgreProcedural_HOME "${CMAKE_SOURCE_DIR}/dependencies/ogre-procedural")
+    file(GLOB_RECURSE DLLS_LIST ${CMAKE_SOURCE_DIR}/dependencies/*.dll)
+    file(MAKE_DIRECTORY "${EXECUTABLE_OUTPUT_DIRECTORY}/${CMAKE_BUILD_TYPE}")
+    file(COPY ${DLLS_LIST} DESTINATION "${EXECUTABLE_OUTPUT_PATH}/Debug")
+    file(COPY ${DLLS_LIST} DESTINATION "${EXECUTABLE_OUTPUT_PATH}/Release")
 endif()
 
 find_package(SFML 2 COMPONENTS audio graphics network system window REQUIRED)
@@ -59,6 +61,7 @@ find_package(OIS REQUIRED)
 find_package(OGRE REQUIRED)
 find_package(MyGUI REQUIRED)
 find_package(MyGUI_PLATFORM REQUIRED)
+find_package(OgreProcedural REQUIRED)
 
 if(MSVC) # Sort the odd stuff out
     set(CMAKE_CXX_FLAGS "/DCOMPILER_MSVC /WX /MP /EHsc")
@@ -79,6 +82,7 @@ include_directories(
     ${MYGUI_PLATFORM_INCLUDE_DIR}
     ${BULLET_INCLUDE_DIRS}
     ${OIS_INCLUDE_DIRS}
+    ${OgreProcedural_INCLUDE_DIR}
 )
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/engine/")
