@@ -1,3 +1,6 @@
 [submodule "externals/ogre-procedural"]
 	path = externals/ogre-procedural
 	url = git://github.com/ducttape/ogre-procedural.git
+[submodule "externals/btogre"]
+	path = externals/btogre
+	url = git://github.com/nikki93/btogre.git
