@@ -12,7 +12,6 @@
 #include "scene/Node.hpp"
 #include "component/MeshComponent.hpp"
 #include "component/FollowPathComponent.hpp"
-#include "component/PlaneComponent.hpp"
 #include "component/SimplePlayerComponent.hpp"
 #include "component/LightComponent.hpp"
 #include "event/EventListener.hpp"
@@ -66,7 +65,6 @@ public:
 
 private:
     double mRuntime;
-
 };
 
 int main(int argc, char** argv) {

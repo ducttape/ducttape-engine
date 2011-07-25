@@ -3,7 +3,6 @@
 #include "scene/Scene.hpp"
 #include "scene/Node.hpp"
 #include "component/MeshComponent.hpp"
-#include "component/PlaneComponent.hpp"
 #include "component/LightComponent.hpp"
 #include "event/EventListener.hpp"
 
