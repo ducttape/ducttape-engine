@@ -14,11 +14,11 @@
 
 namespace dt {
 
-MeshComponent::MeshComponent(const std::string& mesh_file, const std::string& name)
+MeshComponent::MeshComponent(const std::string& mesh_handle, const std::string& name)
     : Component(name) {
     mEntity = nullptr;
     mSceneNode = nullptr;
-    mMeshFile = mesh_file;
+    mMeshHandle = mesh_handle;
     mAnimationState = nullptr;
 }
 
@@ -40,22 +40,21 @@ void MeshComponent::OnUpdate(double time_diff) {
     mSceneNode->setOrientation(GetNode()->GetRotation(Node::SCENE));
     mSceneNode->setScale(GetNode()->GetScale(Node::SCENE));
 
-
     if(mAnimationState != nullptr && mAnimationState->getEnabled()) {
         mAnimationState->addTime(time_diff);
     }
 }
 
-void MeshComponent::SetMeshFile(const std::string& mesh_file) {
-    if(mesh_file != mMeshFile && IsCreated()) {
+void MeshComponent::SetMeshHandle(const std::string& mesh_handle) {
+    if(mesh_handle != mMeshHandle && IsCreated()) {
         // we got a new mesh; load it
         _LoadMesh();
     }
-    mMeshFile = mesh_file;
+    mMeshHandle = mesh_handle;
 }
 
-const std::string& MeshComponent::GetMeshFile() const {
-    return mMeshFile;
+const std::string& MeshComponent::GetMeshHandle() const {
+    return mMeshHandle;
 }
 
 std::vector<std::string> MeshComponent::GetAvailableAnimations() {
@@ -122,13 +121,13 @@ void MeshComponent::_LoadMesh() {
     // destroy existing mesh and scene node
     _DestroyMesh();
 
-    if(mMeshFile == "") {
-        Logger::Get().Error("MeshComponent ["+ mName + "]: Needs a mesh file.");
+    if(mMeshHandle == "") {
+        Logger::Get().Error("MeshComponent ["+ mName + "]: Needs a mesh handle.");
     }
 
     Ogre::SceneManager* scene_mgr = GetNode()->GetScene()->GetSceneManager();
     const std::string& nodename = GetNode()->GetName();
-    mEntity = scene_mgr->createEntity(nodename + "-mesh-entity-" + mName, mMeshFile);
+    mEntity = scene_mgr->createEntity(nodename + "-mesh-entity-" + mName, mMeshHandle);
     mSceneNode = scene_mgr->getRootSceneNode()->createChildSceneNode(nodename + "-mesh-scenenode-" + mName);
     mSceneNode->attachObject(mEntity);
 }

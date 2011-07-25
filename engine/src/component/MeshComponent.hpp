@@ -9,7 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_MESHCOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_MESHCOMPONENT
 
-#include <OGRE/OgreEntity.h>
+#include <OgreEntity.h>
 
 #include "component/Component.hpp"
 
@@ -23,10 +23,12 @@ public:
     /**
       * Advanced constructor.
       * @param name The name of the Component.
-      * @param mesh_file The file the mesh is loaded from.
+      * @param mesh_handle The handle the mesh is loaded from. This could be
+      * a file path or a generated's mesh name.
       * @see Component
       */
-    MeshComponent(const std::string& mesh_file = "", const std::string& name = "");
+    MeshComponent(const std::string& mesh_handle = "",
+                  const std::string& name = "");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 
@@ -35,16 +37,17 @@ public:
     void OnUpdate(double time_diff);
 
     /**
-      * Sets the file the mesh is being loaded from.
-      * @param mesh_file The filename of the mesh.
+      * Sets the handle the mesh is being loaded from.
+      * @param mesh_handle The handle of the mesh.
       */
-    void SetMeshFile(const std::string& mesh_file);
+    void SetMeshHandle(const std::string& mesh_handle);
 
     /**
-      * Returns the name of the mesh file.
-      * @returns The name of the mesh file.
+      * Returns the name of the mesh handle.
+      * @returns The name of the mesh handle. This could be a file path or a
+      * generated's mesh name.
       */
-    const std::string& GetMeshFile() const;
+    const std::string& GetMeshHandle() const;
 
     /**
       * Returns a list of available animations for the loaded mesh.
@@ -88,7 +91,7 @@ public:
 
 private:
     /**
-      * Private method. Loads the mesh file.
+      * Private method. Loads the mesh handle.
       */
     void _LoadMesh();
 
@@ -99,10 +102,11 @@ private:
 
     Ogre::SceneNode* mSceneNode;    //!< The scene Node the mesh is being attached to.
     Ogre::Entity* mEntity;          //!< The actual mesh.
+
     Ogre::AnimationState* mAnimationState;  //!< The current animation state.
     bool mLoopAnimation;            //!< Whether the animation shall be looped.
 
-    std::string mMeshFile;          //!< The filename of the mesh file.
+    std::string mMeshHandle;          //!< The handle of the mesh.
 };
 
 }

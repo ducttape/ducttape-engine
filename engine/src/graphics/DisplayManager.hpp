@@ -18,6 +18,8 @@
 #include <OgreViewport.h>
 #include <OgreWindowEventUtilities.h>
 
+#include <OgreProcedural.h>
+
 #include "component/CameraComponent.hpp"
 #include "utils/Logger.hpp"
 #include "graphics/Viewport.hpp"

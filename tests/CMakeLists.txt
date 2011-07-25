@@ -38,5 +38,6 @@ add_test(test_music_fade ${CMAKE_SOURCE_DIR}/bin/test_music_fade)
 add_test(test_followpath ${CMAKE_SOURCE_DIR}/bin/test_followpath)
 add_test(test_input ${CMAKE_SOURCE_DIR}/bin/test_input)
 add_test(test_gui ${CMAKE_SOURCE_DIR}/bin/test_gui)
+add_test(test_primitive_mesh ${CMAKE_SOURCE_DIR}/bin/test_primitive_mesh)
 
 set(memorycheck_command:FILEPATH=/usr/bin/valgrind)

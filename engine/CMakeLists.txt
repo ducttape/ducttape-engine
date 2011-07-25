@@ -30,6 +30,7 @@ target_link_libraries(ducttape
     ${OIS_LIBRARIES}
     ${MYGUI_LIBRARIES}
     ${MYGUI_PLATFORM_LIBRARIES}
+    ${OgreProcedural_LIBRARIES}
 )
 
 set_target_properties(ducttape
