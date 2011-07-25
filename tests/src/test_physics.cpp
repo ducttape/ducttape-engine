@@ -50,11 +50,11 @@ public:
 
         dt::Node* spherenode = scene->AddChildNode(new dt::Node("spherenode"));
         spherenode->AddComponent(new dt::MeshComponent("spheremesh"));
-        spherenode->SetPosition(Ogre::Vector3(0, 20, 0));
+        spherenode->SetPosition(Ogre::Vector3(0, 0, 0));
 
         dt::Node* planenode = scene->AddChildNode(new dt::Node("planenode"));
         planenode->AddComponent(new dt::MeshComponent("planemesh"));
-        planenode->SetPosition(Ogre::Vector3(0, 20, -10));
+        planenode->SetPosition(Ogre::Vector3(0, 0, -10));
 
         dt::Node* lightnode1 = scene->AddChildNode(new dt::Node("lightnode1"));
         lightnode1->AddComponent(new dt::LightComponent("light1"));
