@@ -13,10 +13,17 @@
 #include <BulletCollision/CollisionShapes/btBox2dShape.h>
 #include <BulletCollision/CollisionShapes/btConvex2dShape.h>
 
+#include <BtOgrePG.h>
+#include <BtOgreGP.h>
+#include <BtOgreExtras.h>
+
 #include "component/Component.hpp"
+#include "component/MeshComponent.hpp"
 #include "event/FreezePhysicsEvent.hpp"
 #include "event/UnfreezePhysicsEvent.hpp"
 #include "event/ChangeGravityEvent.hpp"
+#include "scene/Node.hpp"
+#include "physics/PhysicsManager.hpp"
 
 namespace dt {
 
@@ -30,7 +37,8 @@ public:
       * @param name The name of the Component.
       * @see Component
       */
-    PhysicsBodyComponent(const std::string& name = "");
+    PhysicsBodyComponent(const std::string& mesh_component_name,
+                         const std::string& name = "");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 
@@ -38,11 +46,11 @@ public:
     void OnDestroy();
     void OnUpdate(double time_diff);
 
-
 private:
+    std::string mMeshComponentName;
 	btCollisionShape* mCollisionShape;
 	btRigidBody* mBody;
-	btDefaultMotionState* mMotionState;
+    BtOgre::RigidBodyState* mMotionState;
 };
 
 }

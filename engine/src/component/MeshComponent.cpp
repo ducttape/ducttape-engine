@@ -116,6 +116,13 @@ bool MeshComponent::GetLoopAnimation() {
     return mLoopAnimation;
 }
 
+Ogre::SceneNode* MeshComponent::GetOgreSceneNode() const {
+    return mSceneNode;
+}
+
+Ogre::Entity* MeshComponent::GetOgreEntity() const {
+    return mEntity;
+}
 
 void MeshComponent::_LoadMesh() {
     // destroy existing mesh and scene node

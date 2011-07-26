@@ -6,6 +6,8 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
+#include "Root.hpp"
+
 #include "PhysicsManager.hpp"
 
 namespace dt {
@@ -21,7 +23,7 @@ PhysicsManager::PhysicsManager() {
 
 void PhysicsManager::Initialize() {
     // Manually create and manager memory for the Bullet stuff - the Bullet way.
-    mBroadphase new btDbvtBroadphase();
+    mBroadphase = new btDbvtBroadphase();
     mCollisionConfiguration = new btDefaultCollisionConfiguration;
     mCollisionDispatcher = new btCollisionDispatcher(mCollisionConfiguration);
     //mSimplex = new btVoronoiSimplexSolver();
@@ -30,6 +32,8 @@ void PhysicsManager::Initialize() {
     mDynamicsWorld = new btDiscreteDynamicsWorld(mCollisionDispatcher,
                                                  mBroadphase, mSolver,
                                                  mCollisionConfiguration);
+
+    mDynamicsWorld->setGravity(btVector3(0, -9.8, 0));
 
     //mConvexAlgo2d = boost::shared_ptr<btConvex2dConvex2dAlgorithm::CreateFunc>(new btConvex2dConvex2dAlgorithm::CreateFunc(mSimplex.get(), mPdSolver.get()));
 
@@ -63,35 +67,40 @@ PhysicsManager* PhysicsManager::Get() {
     return Root::get_mutable_instance().GetPhysicsManager();
 }
 
-void PhysicsManager::TickCallback(btScalar timestep) {
-	int numManifolds = mDynamicsWorld->getDispatcher()->getNumManifolds();
-	for(int i = 0; i < numManifolds; ++i) {
-		btPersistentManifold* contactManifold =  mDynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
-		btCollisionObject* obA = static_cast<btCollisionObject*>(contactManifold->getBody0());
-		btCollisionObject* obB = static_cast<btCollisionObject*>(contactManifold->getBody1());
-		int numContacts = contactManifold->getNumContacts();
-		for (int j = 0; j < numContacts; **j) {
-			btManifoldPoint& pt = contactManifold->getContactPoint(j);
-			if (pt.getDistance()<0.f) {
-				const btVector3& ptA = pt.getPositionWorldOnA();
-				const btVector3& ptB = pt.getPositionWorldOnB();
-				const btVector3& normalOnB = pt.m_normalWorldOnB;
-
-				if (obA->getUserPointer()!=NULL && obB->getUserPointer()!=NULL) {
-					Node* a = (Node*)obA->getUserPointer();
-					Node* b = (Node*)obB->getUserPointer();
-					/*Root& app = Root::get_mutable_instance();
-					if ( a->GetUID().substr(0,5)=="heart" && b->GetUID()=="player") {
-						app.SetWorldHearts(app.GetWorldHearts()+1);
-						DeleteEntityByUID(a->GetUID());
-					} else if (b->GetUID().substr(0,5)=="heart" && a->GetUID()=="player") {
-						app.SetWorldHearts(app.GetWorldHearts()+1);
-						DeleteEntityByUID(b->GetUID());
-					} */
-				}
-			}
-		}
-	}
+btDiscreteDynamicsWorld* PhysicsManager::GetPhysicsWorld() {
+    return mDynamicsWorld;
 }
+
+void PhysicsManager::TickCallback(btScalar timestep) {
+}
+//	int numManifolds = mDynamicsWorld->getDispatcher()->getNumManifolds();
+//	for(int i = 0; i < numManifolds; ++i) {
+//		btPersistentManifold* contactManifold =  mDynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
+//		btCollisionObject* obA = static_cast<btCollisionObject*>(contactManifold->getBody0());
+//		btCollisionObject* obB = static_cast<btCollisionObject*>(contactManifold->getBody1());
+//		int numContacts = contactManifold->getNumContacts();
+//		for (int j = 0; j < numContacts; ++j) {
+//			btManifoldPoint& pt = contactManifold->getContactPoint(j);
+//			if (pt.getDistance()<0.f) {
+//				const btVector3& ptA = pt.getPositionWorldOnA();
+//				const btVector3& ptB = pt.getPositionWorldOnB();
+//				const btVector3& normalOnB = pt.m_normalWorldOnB;
+//
+//				if (obA->getUserPointer()!=NULL && obB->getUserPointer()!=NULL) {
+//					Node* a = (Node*)obA->getUserPointer();
+//					Node* b = (Node*)obB->getUserPointer();
+//					/*Root& app = Root::get_mutable_instance();
+//					if ( a->GetUID().substr(0,5)=="heart" && b->GetUID()=="player") {
+//						app.SetWorldHearts(app.GetWorldHearts()+1);
+//						DeleteEntityByUID(a->GetUID());
+//					} else if (b->GetUID().substr(0,5)=="heart" && a->GetUID()=="player") {
+//						app.SetWorldHearts(app.GetWorldHearts()+1);
+//						DeleteEntityByUID(b->GetUID());
+//					} */
+//				}
+//			}
+//		}
+//	}
+//}
 
 }
