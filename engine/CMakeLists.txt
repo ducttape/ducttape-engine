@@ -9,6 +9,7 @@ aux_source_directory(src/resources engine_src)
 aux_source_directory(src/scene engine_src)
 aux_source_directory(src/states engine_src)
 aux_source_directory(src/utils engine_src)
+aux_source_directory(src/physics engine_src)
 
 include_directories(src/)
 

@@ -21,11 +21,13 @@ Root::Root() {
     mDisplayManager = new DisplayManager();
     mStateManager = new StateManager();
     mNetworkManager = new NetworkManager();
+    mPhysicsManager = new PhysicsManager();
 }
 
 Root::~Root() {
     // Complementary to the constructor, we destroy the managers in reverse
     // order.
+    delete mPhysicsManager;
     delete mNetworkManager;
     delete mStateManager;
     delete mDisplayManager;
@@ -50,9 +52,11 @@ void Root::Initialize(int argc, char** argv) {
     // The display manager does this when the window is created.
     mNetworkManager->Initialize();
     mStateManager->Initialize();
+    mPhysicsManager->Initialize();
 }
 
 void Root::Deinitialize() {
+    mPhysicsManager->Deinitialize();
     mStateManager->Deinitialize();
     mNetworkManager->Deinitialize();
     // Do not deinitialize the InputManager (see above).
@@ -101,6 +105,10 @@ InputManager* Root::GetInputManager() {
 
 ResourceManager* Root::GetResourceManager() {
     return mResourceManager;
+}
+
+PhysicsManager* Root::GetPhysicsManager() {
+    return mPhysicsManager;
 }
 
 }

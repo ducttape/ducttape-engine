@@ -17,6 +17,8 @@
 //#include <BulletCollision/CollisionShapes/btConvex2dShape.h>
 //#include <BulletCollision/NarrowPhaseCollision/btMinkowskiPenetrationDepthSolver.h>
 
+#include "Manager.hpp"
+
 namespace dt {
 
 /**
@@ -32,6 +34,7 @@ public:
     void Initialize();
     void Deinitialize();
     static PhysicsManager* Get();
+    btDiscreteDynamicsWorld* GetPhysicsWorld();
 
     void TickCallback(btScalar timestep);
 

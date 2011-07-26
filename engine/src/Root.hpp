@@ -46,6 +46,7 @@
 #include "graphics/DisplayManager.hpp"
 #include "resources/ResourceManager.hpp"
 #include "input/InputManager.hpp"
+#include "physics/PhysicsManager.hpp"
 
 namespace dt {
 
@@ -138,6 +139,12 @@ public:
       */
     ResourceManager* GetResourceManager();
 
+    /**
+      * Returns the PhysicsManager.
+      * @returns the PhysicsManager
+      */
+    PhysicsManager* GetPhysicsManager();
+
 private:
     sf::Clock mSfClock;                 //!< sf::Clock for keeping time since Initialize()
     boost::filesystem::path mExecutablePath; //!< absolute path to current executable
@@ -149,6 +156,7 @@ private:
     DisplayManager* mDisplayManager;    //!< pointer to the DisplayManager
     InputManager* mInputManager;        //!< pointer to the InputManager
     ResourceManager* mResourceManager;  //!< pointer to the ResourceManager
+    PhysicsManager* mPhysicsManager;  //!< pointer to the ResourceManager
 };
 
 }

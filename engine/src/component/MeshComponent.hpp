@@ -89,6 +89,10 @@ public:
       */
     bool GetLoopAnimation();
 
+    Ogre::SceneNode* GetOgreSceneNode() const;
+
+    Ogre::Entity* GetOgreEntity() const;
+
 private:
     /**
       * Private method. Loads the mesh handle.

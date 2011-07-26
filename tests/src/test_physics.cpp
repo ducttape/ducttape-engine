@@ -26,7 +26,12 @@ public:
 
     void HandleEvent(std::shared_ptr<dt::Event> e) {
         if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-            mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
+            double last_frame_time =
+                std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
+
+            dt::PhysicsManager::Get()->GetPhysicsWorld()->stepSimulation(last_frame_time, 10);
+
+            mRuntime += last_frame_time;
             if(mRuntime > 5.0) {
                 dt::StateManager::Get()->Pop(1);
             }
@@ -45,15 +50,17 @@ public:
 
         dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
         camnode->AddComponent(new dt::CameraComponent("cam"));
-        camnode->SetPosition(Ogre::Vector3(0, 5, 10));
+        camnode->SetPosition(Ogre::Vector3(0, 50, 0));
         camnode->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 0, 0));
 
         dt::Node* spherenode = scene->AddChildNode(new dt::Node("spherenode"));
-        spherenode->AddComponent(new dt::MeshComponent("spheremesh"));
+        spherenode->AddComponent(new dt::MeshComponent("spheremesh", "spheremeshcomponent"));
+        spherenode->AddComponent(new dt::PhysicsBodyComponent("spheremeshcomponent"));
         spherenode->SetPosition(Ogre::Vector3(0, 0, 0));
 
         dt::Node* planenode = scene->AddChildNode(new dt::Node("planenode"));
-        planenode->AddComponent(new dt::MeshComponent("planemesh"));
+        planenode->AddComponent(new dt::MeshComponent("planemesh", "planemeshcomponent"));
+        planenode->AddComponent(new dt::PhysicsBodyComponent("planemeshcomponent"));
         planenode->SetPosition(Ogre::Vector3(0, 0, -10));
 
         dt::Node* lightnode1 = scene->AddChildNode(new dt::Node("lightnode1"));
