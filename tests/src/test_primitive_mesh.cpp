@@ -79,8 +79,38 @@ public:
         camnode->SetPosition(Ogre::Vector3(0, 10, 10));
         camnode->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 0, 0));
 
+        dt::Node* planenode = scene->AddChildNode(new dt::Node("planenode"));
+        planenode->AddComponent(new dt::MeshComponent("planeMesh"));
+
         dt::Node* spherenode = scene->AddChildNode(new dt::Node("spherenode"));
         spherenode->AddComponent(new dt::MeshComponent("sphereMesh"));
+
+        dt::Node* cylindernode = scene->AddChildNode(new dt::Node("cylindernode"));
+        cylindernode->AddComponent(new dt::MeshComponent("cylinderMesh"));
+
+        dt::Node* torusnode = scene->AddChildNode(new dt::Node("torusnode"));
+        torusnode->AddComponent(new dt::MeshComponent("torusMesh"));
+
+        dt::Node* conenode = scene->AddChildNode(new dt::Node("conenode"));
+        conenode->AddComponent(new dt::MeshComponent("coneMesh"));
+
+        dt::Node* tubenode = scene->AddChildNode(new dt::Node("tubenode"));
+        tubenode->AddComponent(new dt::MeshComponent("tubeMesh"));
+
+        dt::Node* boxnode = scene->AddChildNode(new dt::Node("boxnode"));
+        boxnode->AddComponent(new dt::MeshComponent("boxMesh"));
+
+        dt::Node* capsulenode = scene->AddChildNode(new dt::Node("capsulenode"));
+        capsulenode->AddComponent(new dt::MeshComponent("capsuleMesh"));
+
+        dt::Node* torusknotnode = scene->AddChildNode(new dt::Node("torusknotnode"));
+        torusknotnode->AddComponent(new dt::MeshComponent("torusKnotMesh"));
+
+        dt::Node* icospherenode = scene->AddChildNode(new dt::Node("icospherenode"));
+        icospherenode->AddComponent(new dt::MeshComponent("icoSphereMesh"));
+
+        dt::Node* roundedboxnode = scene->AddChildNode(new dt::Node("roundedboxnode"));
+        roundedboxnode->AddComponent(new dt::MeshComponent("roundedBoxMesh"));
 
         dt::Node* lightnode1 = scene->AddChildNode(new dt::Node("lightnode1"));
         lightnode1->AddComponent(new dt::LightComponent("light1"));
