@@ -16,6 +16,7 @@ InputManager::InputManager() {
     mInputSystem = nullptr;
     mWindow = nullptr;
     mJailInput = false;
+    mMouseCursorMode = InputManager::SYSTEM;
 }
 
 void InputManager::Initialize() {
@@ -29,49 +30,14 @@ void InputManager::Initialize() {
         return;
     }
 
-    OIS::ParamList params;
-
-    // getting window handle
-    size_t window_handle = 0;
-    mWindow->getCustomAttribute("WINDOW", &window_handle);
-    params.insert(std::make_pair(std::string("WINDOW"), tostr(window_handle)));
-    if(!mJailInput) {
-#if defined OIS_WIN32_PLATFORM
-        params.insert(std::make_pair(std::string("w32_mouse"), std::string("DISCL_FOREGROUND" )));
-        params.insert(std::make_pair(std::string("w32_mouse"), std::string("DISCL_NONEXCLUSIVE")));
-        params.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_FOREGROUND")));
-        params.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_NONEXCLUSIVE")));
-#elif defined OIS_LINUX_PLATFORM
-        params.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
-        params.insert(std::make_pair(std::string("x11_mouse_hide"), std::string("false")));
-        params.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
-        params.insert(std::make_pair(std::string("XAutoRepeatOn"), std::string("true")));
-#endif
-    }
-
-    Logger::Get().Info("Initializing input system (Window: " + tostr(window_handle) + ")");
-    mInputSystem = OIS::InputManager::createInputSystem(params);
-
-    mKeyboard = static_cast<OIS::Keyboard*>(mInputSystem->createInputObject(OIS::OISKeyboard, true));
-    mMouse = static_cast<OIS::Mouse*>(mInputSystem->createInputObject(OIS::OISMouse, true));
-
-    mKeyboard->setEventCallback(this);
-    mMouse->setEventCallback(this);
-
-    // Set initial mouse clipping size
-    windowResized(mWindow);
+    _CreateInputSystem();
 
     // Register as a Window listener
     Ogre::WindowEventUtilities::addWindowEventListener(mWindow, this);
 }
 
 void InputManager::Deinitialize() {
-    if(mInputSystem != nullptr) {
-        mInputSystem->destroyInputObject(mMouse);
-        mInputSystem->destroyInputObject(mKeyboard);
-        OIS::InputManager::destroyInputSystem(mInputSystem);
-        mInputSystem = nullptr;
-    }
+    _DestroyInputSystem();
 }
 
 InputManager* InputManager::Get() {
@@ -155,6 +121,78 @@ OIS::Mouse* InputManager::GetMouse() {
 
 OIS::Keyboard* InputManager::GetKeyboard() {
     return mKeyboard;
+}
+
+void InputManager::SetMouseCursorMode(InputManager::MouseCursorMode mode) {
+    if(mMouseCursorMode == mode) {
+        // don't do anything
+        return;
+    }
+
+    GuiManager::Get()->SetMouseCursorVisible(mode == InputManager::GRAPHICAL);
+
+    mMouseCursorMode = mode;
+
+    // restart the input system with the correct settings, so
+    // the cursor visibility is being applied
+    _ResetInputSystem();
+}
+
+InputManager::MouseCursorMode InputManager::GetMouseCursorMode() const {
+    return mMouseCursorMode;
+}
+
+void InputManager::_ResetInputSystem() {
+    _DestroyInputSystem();
+    _CreateInputSystem();
+}
+
+void InputManager::_DestroyInputSystem() {
+    if(mInputSystem != nullptr) {
+        Logger::Get().Info("Deinitializing input system");
+        mInputSystem->destroyInputObject(mMouse);
+        mInputSystem->destroyInputObject(mKeyboard);
+        OIS::InputManager::destroyInputSystem(mInputSystem);
+        mInputSystem = nullptr;
+    }
+}
+
+void InputManager::_CreateInputSystem() {
+    OIS::ParamList params;
+
+    // getting window handle
+    size_t window_handle = 0;
+    mWindow->getCustomAttribute("WINDOW", &window_handle);
+    params.insert(std::make_pair(std::string("WINDOW"), tostr(window_handle)));
+    if(!mJailInput) {
+#if defined OIS_WIN32_PLATFORM
+        params.insert(std::make_pair(std::string("w32_mouse"), std::string("DISCL_NONEXCLUSIVE")));
+        params.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_FOREGROUND")));
+        params.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_NONEXCLUSIVE")));
+#elif defined OIS_LINUX_PLATFORM
+        params.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
+        params.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
+        params.insert(std::make_pair(std::string("XAutoRepeatOn"), std::string("true")));
+#endif
+    }
+
+#if defined OIS_WIN32_PLATFORM
+    params.insert(std::make_pair(std::string("w32_mouse"), std::string(mMouseCursorMode == InputManager::SYSTEM ? "DISCL_FOREGROUND" : "DISCL_BACKGROUND" )));
+#elif defined OIS_LINUX_PLATFORM
+    params.insert(std::make_pair(std::string("x11_mouse_hide"), std::string(mMouseCursorMode == InputManager::SYSTEM ? "false" : "true")));
+#endif
+
+    Logger::Get().Info("Initializing input system (Window: " + tostr(window_handle) + ")");
+    mInputSystem = OIS::InputManager::createInputSystem(params);
+
+    mKeyboard = static_cast<OIS::Keyboard*>(mInputSystem->createInputObject(OIS::OISKeyboard, true));
+    mMouse = static_cast<OIS::Mouse*>(mInputSystem->createInputObject(OIS::OISMouse, true));
+
+    mKeyboard->setEventCallback(this);
+    mMouse->setEventCallback(this);
+
+    // Set initial mouse clipping size
+    windowResized(mWindow);
 }
 
 }

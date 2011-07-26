@@ -35,7 +35,10 @@ void EventManager::InjectEvent(std::shared_ptr<Event> event) {
 #else
     for(EventListener* l: mListeners) {
 #endif
-        l->HandleEvent(event);
+        if(l == nullptr)
+            Logger::Get().Error("EventManager: Could not inject Event to listener (nullptr).");
+        else
+            l->HandleEvent(event);
     }
 }
 

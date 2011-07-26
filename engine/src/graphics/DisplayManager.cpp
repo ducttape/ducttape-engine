@@ -214,6 +214,10 @@ void DisplayManager::_CreateWindow() {
 
     mOgreRoot->initialise(false, "Ducttape Game Engine");
     mOgreRenderWindow = mOgreRoot->createRenderWindow("RenderWindow", 1024, 768, false);
+
+    // Attach OIS
+    InputManager::Get()->SetWindow(mOgreRenderWindow);
+    InputManager::Get()->Initialize();
 }
 
 void DisplayManager::_DestroyWindow() {
@@ -231,10 +235,6 @@ void DisplayManager::_DestroyWindow() {
 void DisplayManager::CreateOgreRoot() {
     if(mOgreRoot == nullptr) {
         _CreateWindow();
-
-        // Attach OIS
-        InputManager::Get()->SetWindow(mOgreRenderWindow);
-        InputManager::Get()->Initialize();
     }
 }
 

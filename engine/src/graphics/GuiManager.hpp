@@ -35,11 +35,20 @@ public:
 
     MyGUI::Gui* GetGuiSystem();
 
+    /**
+      * Only for internal use. Sets the visibility of the mouse cursor.
+      * @see void InputManager::SetMouseCursorMode(MouseCursorMode mode);
+      * @param visible Whether the mouse cursor should be visible.
+      * @internal
+      */
+    void SetMouseCursorVisible(bool visible);
+
     static GuiManager* Get();
 
 private:
     MyGUI::Gui* mGuiSystem;
     MyGUI::OgrePlatform* mPlatform;
+    bool mMouseCursorVisible;
 
 };
 
