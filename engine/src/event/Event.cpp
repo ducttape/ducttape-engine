@@ -12,7 +12,9 @@
 
 namespace dt {
 
-Event::Event() {}
+Event::Event() {
+    mIsCanceled = false;
+}
 
 bool Event::IsNetworkEvent() const {
     return false;
@@ -20,6 +22,18 @@ bool Event::IsNetworkEvent() const {
 
 uint32_t Event::GetTypeID() const {
     return StringManager::Get()->GetId(GetType());
+}
+
+void Event::Cancel() {
+    mIsCanceled = true;
+}
+
+void Event::Uncancel() {
+    mIsCanceled = false;
+}
+
+bool Event::IsCanceled() {
+    return mIsCanceled;
 }
 
 }

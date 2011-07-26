@@ -68,6 +68,12 @@ public:
     void RemoveListener(EventListener* listener);
 
     /**
+      * Updates the priorities so the listeners will be called in the right order again. This needs to be
+      * done when the priority of one EventListener has changed.
+      */
+    void UpdatePriorities();
+
+    /**
       * Returns the BindingsManager.
       * @returns The BindingsManager.
       */

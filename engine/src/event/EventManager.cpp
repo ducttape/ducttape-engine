@@ -37,8 +37,18 @@ void EventManager::InjectEvent(std::shared_ptr<Event> event) {
 #endif
         if(l == nullptr)
             Logger::Get().Error("EventManager: Could not inject Event to listener (nullptr).");
-        else
+        else {
             l->HandleEvent(event);
+            if(event->IsCanceled()) {
+                if(l->GetEventPriority() == EventListener::MONITOR) {
+                    // events cannot be cancelled in Monitor mode
+                    Logger::Get().Warning("EventListener with priority MONITOR cannot cancel events. Use HIGHEST instead. Continuing.");
+                    event->Uncancel();
+                } else {
+                    break;
+                }
+            }
+        }
     }
 }
 
@@ -56,10 +66,12 @@ bool EventManager::HasListener(EventListener* listener) {
 
 void EventManager::AddListener(EventListener* listener) {
     if(!HasListener(listener)) {
-        if(listener == nullptr)
+        if(listener == nullptr) {
             Logger::Get().Error("EventManager: Could not add listener. It is NULL.");
-        else
+        } else {
             mListeners.push_back(listener);
+            UpdatePriorities();
+        }
     } else {
         Logger::Get().Error("EventManager: Could not add listener - already registered.");
     }
@@ -74,6 +86,10 @@ void EventManager::RemoveListener(EventListener* listener) {
     }
 
     mListeners = new_listeners;
+}
+
+void EventManager::UpdatePriorities() {
+    std::sort(mListeners.begin(), mListeners.end(), EventListener::SortHelper);
 }
 
 BindingsManager* EventManager::GetBindingsManager() {
