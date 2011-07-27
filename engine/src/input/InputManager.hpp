@@ -29,6 +29,12 @@ class InputManager : public Manager,
         public OIS::MouseListener,
         public Ogre::WindowEventListener {
 public:
+    enum MouseCursorMode {
+        HIDDEN,
+        SYSTEM,
+        GRAPHICAL
+    };
+
     /**
       * Default constructor.
       */
@@ -88,14 +94,33 @@ public:
       */
     OIS::Keyboard* GetKeyboard();
 
+    /**
+      * Sets the mouse cursor mode. Available modes are:
+      * - HIDDEN (no cursor)
+      * - SYSTEM (show the default system cursor)
+      * - GRAPHICAL (use the GUI system to show the cursor)
+      * @param mode The mouse cursor mode.
+      */
+    void SetMouseCursorMode(MouseCursorMode mode);
+
+    /**
+      * Gets the mouse cursor mode.
+      * @returns The mouse cursor mode.
+      */
+    MouseCursorMode GetMouseCursorMode() const;
+
 private:
+    void _ResetInputSystem();
+    void _DestroyInputSystem();
+    void _CreateInputSystem();
+
     Ogre::RenderWindow* mWindow;        //!< The Window used for input (from the DisplayManager).
     OIS::InputManager* mInputSystem;    //!< The OIS input manager.
     OIS::Mouse* mMouse;                 //!< The mouse object.
     OIS::Keyboard* mKeyboard;           //!< The keyboard object.
 
+    MouseCursorMode mMouseCursorMode;
     bool mJailInput;                    //!< Whether the input devices are jailed (for details on that see InputManager::SetJailInput).
-
 };
 
 }

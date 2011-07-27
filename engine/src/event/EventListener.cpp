@@ -12,4 +12,12 @@ namespace dt {
 
 EventListener::~EventListener() {}
 
+EventListener::Priority EventListener::GetEventPriority() const {
+    return EventListener::NORMAL;
+}
+
+bool EventListener::SortHelper(const EventListener* l, const EventListener* r) {
+    return static_cast<uint8_t>(l->GetEventPriority()) < static_cast<uint8_t>(r->GetEventPriority());
+}
+
 }

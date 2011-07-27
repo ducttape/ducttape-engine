@@ -55,10 +55,23 @@ public:
     uint32_t GetTypeID() const;
 
     /**
-      * Serializes this Event into / from the IOPacket.
-      * @param p The IOPacket to serialize into / from.
+      * Cancels the execution of the event.
       */
- //   virtual void Serialize(IOPacket& p);
+    void Cancel();
+
+    /**
+      * Lets the execution of the event continue.
+      */
+    void Uncancel();
+
+    /**
+      * Gets whether the event has been canceled.
+      * @ returns Whether the event has been canceled.
+      */
+    bool IsCanceled();
+
+private:
+    bool mIsCanceled;   //!< Whether the event is canceled or not.
 };
 
 }

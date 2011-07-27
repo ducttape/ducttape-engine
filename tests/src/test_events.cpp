@@ -34,6 +34,48 @@ public:
     std::vector<uint64_t> anti_leak_payload;
 };
 
+class CancelEvent : public dt::Event {
+public:
+    const std::string GetType() const  {
+        return "cancelevent";
+    }
+
+    std::shared_ptr<Event> Clone() const {
+        std::shared_ptr<Event> ptr(new CancelEvent);
+        return ptr;
+    }
+};
+
+class CancelListener : public dt::EventListener {
+public:
+    void HandleEvent(std::shared_ptr<dt::Event> e) {
+        if(e->GetType() == "cancelevent") {
+            dt::Logger::Get().Info("CancelListener: Canceling event");
+            e->Cancel();
+        }
+    }
+
+    Priority GetEventPriority() const {
+        return HIGHEST;
+    }
+};
+
+class NonCancelListener : public dt::EventListener {
+public:
+    void HandleEvent(std::shared_ptr<dt::Event> e) {
+        if(e->GetType() == "cancelevent") {
+            std::cerr << "Error: NonCancelListener should not receive a CancelEvent." << std::endl;
+            exit(1);
+        }
+    }
+
+    Priority GetEventPriority() const {
+        return LOWEST;
+    }
+};
+
+
+
 class TestEventListener : public dt::EventListener {
 public:
     void HandleEvent(std::shared_ptr<dt::Event> e) {
@@ -67,6 +109,17 @@ int main(int argc, char** argv) {
         std::cerr << "The Event has not been recognized as a TestEvent." << std::endl;
         return 1;
     }
+
+    // cancel test
+    CancelListener cancel;
+    NonCancelListener non_cancel;
+
+    // add the non_cancel listener first to see if they get swapped
+    dt::EventManager::Get()->AddListener(&non_cancel);
+    dt::EventManager::Get()->AddListener(&cancel);
+
+    // try it out
+    dt::EventManager::Get()->InjectEvent(std::make_shared<CancelEvent>());
 
     std::cout << "Events: OK" << std::endl;
     root.Deinitialize();
