@@ -13,8 +13,8 @@
 #include <string>
 #include <map>
 
-#include <MYGUI/MyGUI.h>
-#include <MYGUI/MyGUI_OgrePlatform.h>
+#include <MyGUI.h>
+#include <MyGUI_OgrePlatform.h>
 
 #include "event/EventManager.hpp"
 #include "input/MouseEvent.hpp"

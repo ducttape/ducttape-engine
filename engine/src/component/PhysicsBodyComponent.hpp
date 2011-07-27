@@ -9,7 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_PHYSICSBODYCOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_PHYSICSBODYCOMPONENT
 
-#include <bullet/btBulletDynamicsCommon.h>
+#include <btBulletDynamicsCommon.h>
 #include <BulletCollision/CollisionShapes/btBox2dShape.h>
 #include <BulletCollision/CollisionShapes/btConvex2dShape.h>
 

@@ -11,7 +11,7 @@
 
 #include <string>
 
-#include <MYGUI/MyGUI.h>
+#include <MyGUI.h>
 
 #include "graphics/GuiManager.hpp"
 #include "component/Component.hpp"
