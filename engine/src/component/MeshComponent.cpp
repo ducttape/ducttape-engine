@@ -14,12 +14,13 @@
 
 namespace dt {
 
-MeshComponent::MeshComponent(const std::string& mesh_handle, const std::string& name)
+MeshComponent::MeshComponent(const std::string& mesh_handle, const std::string& name, const std::string& mat)
     : Component(name) {
     mEntity = nullptr;
     mSceneNode = nullptr;
     mMeshHandle = mesh_handle;
     mAnimationState = nullptr;
+    material = mat;
 }
 
 void MeshComponent::HandleEvent(std::shared_ptr<Event> e) {
@@ -28,6 +29,7 @@ void MeshComponent::HandleEvent(std::shared_ptr<Event> e) {
 
 void MeshComponent::OnCreate() {
     _LoadMesh();
+    this->SetMaterialName(material);
 }
 
 void MeshComponent::OnDestroy() {
