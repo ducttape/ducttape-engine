@@ -9,23 +9,28 @@ get_debug_names ( MYGUI_PLATFORM_LIBRARY_NAMES )
 
 find_path ( MYGUI_PLATFORM_INCLUDE_DIR
   MyGUI_OgrePlatform.h PATHS
+  ${MYGUI_ROOT}/Platforms/Ogre/OgrePlatform/include
   "/usr/include/MYGUI"
   "/usr/local/include/MYGUI"
   "/usr/include/OGRE"
   "/usr/local/include/OGRE"
-  )
+)
 
 find_library ( MYGUI_PLATFORM_LIBRARY_REL
   ${MYGUI_PLATFORM_LIBRARY_NAMES} PATHS
+  ${MyGUI_ROOT}/lib/Release
+  ${MyGUI_ROOT}/lib/RelWithDebInfo
+  ${MyGUI_ROOT}/lib/MinSizeRel
   "/usr/lib"
   "/usr/local/lib"
-  )
- 
+)
+
 find_library ( MYGUI_PLATFORM_LIBRARY_DBG
   ${MYGUI_PLATFORM_LIBRARY_NAMES_DBG} PATHS
+  ${MyGUI_ROOT}/lib/Debug
   "/usr/lib"
   "/usr/local/lib"
-  )
+)
 
 make_library_set ( MYGUI_PLATFORM_LIBRARY )
 

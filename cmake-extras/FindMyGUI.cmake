@@ -11,21 +11,26 @@ get_debug_names ( MYGUI_LIBRARY_NAMES )
 
 find_path ( MYGUI_INCLUDE_DIR
   MyGUI.h PATHS
+  ${MYGUI_ROOT}/MyGUIEngine/include
   "/usr/include/MYGUI"
   "/usr/local/include/MYGUI"
-  )
+)
 
 find_library ( MYGUI_LIBRARY_REL
   ${MYGUI_LIBRARY_NAMES} PATHS
+  ${MyGUI_ROOT}/lib/Release
+  ${MyGUI_ROOT}/lib/RelWithDebInfo
+  ${MyGUI_ROOT}/lib/MinSizeRel
   "/usr/lib"
   "/usr/local/lib"
-  )
-  
+)
+
 find_library ( MYGUI_LIBRARY_DBG
   ${MYGUI_LIBRARY_NAMES_DBG} PATHS
+  ${MyGUI_ROOT}/lib/Debug
   "/usr/lib"
   "/usr/local/lib"
-  )
+)
 
 make_library_set ( MYGUI_LIBRARY )
 
