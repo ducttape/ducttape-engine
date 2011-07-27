@@ -37,6 +37,7 @@ set(BULLET_ROOT "" CACHE PATH "Path to Bullet dir")
 set(BOOST_ROOT "" CACHE PATH "Path to Boost dir")
 set(OGRE_HOME "" CACHE PATH "Path to OGRE dir")
 set(SFMLDIR "" CACHE PATH "Path to SFML dir")
+set(MYGUI_ROOT "" CACHE PATH "Path to MYGUI dir")
 set(OgreProcedural_HOME "" CACHE PATH "Path to Ogre Procedural dir")
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake-extras/")
