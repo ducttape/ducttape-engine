@@ -18,16 +18,16 @@ find_path ( MYGUI_INCLUDE_DIR
 
 find_library ( MYGUI_LIBRARY_REL
   ${MYGUI_LIBRARY_NAMES} PATHS
-  ${MyGUI_ROOT}/lib/Release
-  ${MyGUI_ROOT}/lib/RelWithDebInfo
-  ${MyGUI_ROOT}/lib/MinSizeRel
+  ${MYGUI_ROOT}/lib/Release
+  ${MYGUI_ROOT}/lib/RelWithDebInfo
+  ${MYGUI_ROOT}/lib/MinSizeRel
   "/usr/lib"
   "/usr/local/lib"
 )
 
 find_library ( MYGUI_LIBRARY_DBG
   ${MYGUI_LIBRARY_NAMES_DBG} PATHS
-  ${MyGUI_ROOT}/lib/Debug
+  ${MYGUI_ROOT}/lib/Debug
   "/usr/lib"
   "/usr/local/lib"
 )
