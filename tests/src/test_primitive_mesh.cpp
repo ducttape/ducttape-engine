@@ -100,7 +100,7 @@ private:
 	ent2->setMaterialName("PrimitivesTest/Pebbles");*/
 	dt::Scene* scene = dt::StateManager::Get()->GetCurrentState()->GetScene("testscene");
         dt::Node* node = scene->AddChildNode(new dt::Node("" + meshName + "node"));
-	dt::MeshComponent* mesh = new dt::MeshComponent(meshName,meshName,materialName);
+	dt::MeshComponent* mesh = new dt::MeshComponent(meshName, materialName, meshName);
         node->AddComponent(mesh);
 	node->SetPosition(position);
 
