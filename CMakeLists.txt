@@ -61,14 +61,13 @@ find_package(OIS REQUIRED)
 find_package(OGRE REQUIRED)
 find_package(MyGUI REQUIRED)
 find_package(MyGUI_PLATFORM REQUIRED)
-find_package(OgreProcedural REQUIRED)
 
 if(MSVC) # Sort the odd stuff out
     set(CMAKE_CXX_FLAGS "/DCOMPILER_MSVC /WX /MP /EHsc")
     set(CMAKE_CXX_FLAGS_RELEASE "/O2")
     set(CMAKE_CXX_FLAGS_DEBUG "/Zi")
 else() # GCC/Mingw
-    set(CMAKE_CXX_FLAGS "-DCOMPILER_GCC -Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-but-set-parameter -pedantic -std=c++0x")
+    set(CMAKE_CXX_FLAGS "-DCOMPILER_GCC -Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-but-set-parameter -pedantic -std=c++0x -fPIC")
     set(CMAKE_CXX_FLAGS_RELEASE "-O3")
     set(CMAKE_CXX_FLAGS_DEBUG "-g")
 endif()
@@ -82,9 +81,11 @@ include_directories(
     ${MYGUI_PLATFORM_INCLUDE_DIR}
     ${BULLET_INCLUDE_DIRS}
     ${OIS_INCLUDE_DIRS}
-    ${OgreProcedural_INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR}/externals/btogre/include
+    ${CMAKE_SOURCE_DIR}/externals/ogre-procedural/library/include
 )
+
+add_subdirectory(${CMAKE_SOURCE_DIR}/externals)
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/engine/")
 

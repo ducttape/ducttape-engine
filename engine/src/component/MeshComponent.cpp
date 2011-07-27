@@ -116,6 +116,11 @@ bool MeshComponent::GetLoopAnimation() {
     return mLoopAnimation;
 }
 
+void MeshComponent::SetMaterialName(const std::string& name)
+{
+    mEntity->setMaterialName(name);
+}
+
 Ogre::SceneNode* MeshComponent::GetOgreSceneNode() const {
     return mSceneNode;
 }

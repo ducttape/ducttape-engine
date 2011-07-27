@@ -89,6 +89,8 @@ public:
       */
     bool GetLoopAnimation();
 
+    void SetMaterialName(const std::string& name);
+
     Ogre::SceneNode* GetOgreSceneNode() const;
 
     Ogre::Entity* GetOgreEntity() const;

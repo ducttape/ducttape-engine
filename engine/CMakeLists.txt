@@ -21,7 +21,6 @@ endif()
 
 add_library(ducttape ${BUILD_MODE}
     ${engine_src}
-    ${CMAKE_SOURCE_DIR}/externals/btogre/BtOgre.cpp
 )
 
 target_link_libraries(ducttape
@@ -32,7 +31,8 @@ target_link_libraries(ducttape
     ${OIS_LIBRARIES}
     ${MYGUI_LIBRARIES}
     ${MYGUI_PLATFORM_LIBRARIES}
-    ${OgreProcedural_LIBRARIES}
+    BtOgre
+    OgreProcedural
 )
 
 set_target_properties(ducttape

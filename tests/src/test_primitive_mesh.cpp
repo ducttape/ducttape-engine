@@ -33,6 +33,7 @@ public:
     }
 
     void OnInitialize() {
+    	dt::InputManager::Get()->SetJailInput(false);
         dt::Scene* scene = AddScene(new dt::Scene("testscene"));
 
         OgreProcedural::Root::getInstance()->sceneManager = scene->GetSceneManager();
@@ -42,7 +43,7 @@ public:
 
 	// Test primitive generation
 	OgreProcedural::PlaneGenerator().setNumSegX(20).setNumSegY(20).setSizeX(150).setSizeY(150).setUTile(5.0).setVTile(5.0).realizeMesh("planeMesh");
-	putMeshNoShadow("planeMesh");
+	putMeshShadow("planeMesh", Ogre::Vector3::ZERO);
 
 	OgreProcedural::SphereGenerator().setRadius(2.f).setUTile(5.).setVTile(5.).realizeMesh("sphereMesh");
 	putMeshShadow("sphereMesh", Ogre::Vector3(0,10,0));
@@ -79,39 +80,6 @@ public:
         camnode->SetPosition(Ogre::Vector3(0, 10, 10));
         camnode->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 0, 0));
 
-        dt::Node* planenode = scene->AddChildNode(new dt::Node("planenode"));
-        planenode->AddComponent(new dt::MeshComponent("planeMesh"));
-
-        dt::Node* spherenode = scene->AddChildNode(new dt::Node("spherenode"));
-        spherenode->AddComponent(new dt::MeshComponent("sphereMesh"));
-
-        dt::Node* cylindernode = scene->AddChildNode(new dt::Node("cylindernode"));
-        cylindernode->AddComponent(new dt::MeshComponent("cylinderMesh"));
-
-        dt::Node* torusnode = scene->AddChildNode(new dt::Node("torusnode"));
-        torusnode->AddComponent(new dt::MeshComponent("torusMesh"));
-
-        dt::Node* conenode = scene->AddChildNode(new dt::Node("conenode"));
-        conenode->AddComponent(new dt::MeshComponent("coneMesh"));
-
-        dt::Node* tubenode = scene->AddChildNode(new dt::Node("tubenode"));
-        tubenode->AddComponent(new dt::MeshComponent("tubeMesh"));
-
-        dt::Node* boxnode = scene->AddChildNode(new dt::Node("boxnode"));
-        boxnode->AddComponent(new dt::MeshComponent("boxMesh"));
-
-        dt::Node* capsulenode = scene->AddChildNode(new dt::Node("capsulenode"));
-        capsulenode->AddComponent(new dt::MeshComponent("capsuleMesh"));
-
-        dt::Node* torusknotnode = scene->AddChildNode(new dt::Node("torusknotnode"));
-        torusknotnode->AddComponent(new dt::MeshComponent("torusKnotMesh"));
-
-        dt::Node* icospherenode = scene->AddChildNode(new dt::Node("icospherenode"));
-        icospherenode->AddComponent(new dt::MeshComponent("icoSphereMesh"));
-
-        dt::Node* roundedboxnode = scene->AddChildNode(new dt::Node("roundedboxnode"));
-        roundedboxnode->AddComponent(new dt::MeshComponent("roundedBoxMesh"));
-
         dt::Node* lightnode1 = scene->AddChildNode(new dt::Node("lightnode1"));
         lightnode1->AddComponent(new dt::LightComponent("light1"));
         lightnode1->SetPosition(Ogre::Vector3(0, 30, 0));
@@ -125,25 +93,18 @@ private:
     double mRuntime;
     void putMeshShadow(const std::string& meshName, const Ogre::Vector3& position)
     {
-	Ogre::Entity* ent2 = OgreProcedural::Root::getInstance()->sceneManager->createEntity(meshName);
-	std::cout << "created Entity " << meshName << " successfully" << std::endl;
-	Ogre::SceneNode* sn = OgreProcedural::Root::getInstance()->sceneManager->getRootSceneNode()->createChildSceneNode();
-	std::cout << "created ChildSceneNode for  " << meshName << " successfully" << std::endl;
-	sn->attachObject(ent2);
-	std::cout << "attached Entity to Child Scene Node" << std::endl;
-	sn->setPosition(position);
-	std::cout << "set Child Scene Node position successfully" << std::endl;
-	ent2->setMaterialName("PrimitivesTest/Pebbles");
-	std::cout << "set Entity Material Name successfully" << std::endl;
-    }
-    void putMeshNoShadow(const std::string& meshName, const Ogre::Vector3& position = Ogre::Vector3::ZERO)
-    {
-	Ogre::Entity* ent2 = OgreProcedural::Root::getInstance()->sceneManager->createEntity(meshName);
+	/*Ogre::Entity* ent2 = OgreProcedural::Root::getInstance()->sceneManager->createEntity(meshName);
 	Ogre::SceneNode* sn = OgreProcedural::Root::getInstance()->sceneManager->getRootSceneNode()->createChildSceneNode();
 	sn->attachObject(ent2);
 	sn->setPosition(position);
-	ent2->setMaterialName("PrimitivesTest/RedBrick");
-	ent2->setCastShadows(false);
+	ent2->setMaterialName("PrimitivesTest/Pebbles");*/
+	dt::Scene* scene = dt::StateManager::Get()->GetCurrentState()->GetScene("testscene");
+        dt::Node* node = scene->AddChildNode(new dt::Node("" + meshName + "node"));
+	dt::MeshComponent* mesh = new dt::MeshComponent(meshName);
+	mesh->SetMaterialName("PrimitivesTest/Pebbles");
+        node->AddComponent(mesh);
+	node->SetPosition(position);
+
     }
 };
 
