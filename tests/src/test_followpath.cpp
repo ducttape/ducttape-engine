@@ -64,7 +64,7 @@ public:
         path->AddPoint(Ogre::Vector3(5, 0, -5));
         path->AddPoint(Ogre::Vector3(5, 0, 5));
         path->SetDuration(1.5);
-        dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh", "lolmesh");
+        dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh", "", "lolmesh");
         meshnode->AddComponent(mesh);
 
         // Sample #2: Alternating, Smooth corners, Follow rotation
@@ -78,7 +78,7 @@ public:
         path2->AddPoint(Ogre::Vector3(0, 0, -4));
         path2->AddPoint(Ogre::Vector3(-4, 0, 4));
         path2->SetDuration(2.5);
-        dt::MeshComponent* mesh2 = new dt::MeshComponent("Sinbad.mesh", "lolmesh2");
+        dt::MeshComponent* mesh2 = new dt::MeshComponent("Sinbad.mesh", "", "lolmesh2");
         meshnode2->AddComponent(mesh2);
 
         // Sample #3: Single, Smooth acceleration, Follow rotation, 3D space
@@ -96,7 +96,7 @@ public:
         path3->AddPoint(Ogre::Vector3(-4, 3, 0));
         path3->AddPoint(Ogre::Vector3(-6, 0, 0));
         path3->SetDuration(4.0);
-        dt::MeshComponent* mesh3 = new dt::MeshComponent("Sinbad.mesh", "lolmesh3");
+        dt::MeshComponent* mesh3 = new dt::MeshComponent("Sinbad.mesh", "", "lolmesh3");
         meshnode3->AddComponent(mesh3);
     }
 

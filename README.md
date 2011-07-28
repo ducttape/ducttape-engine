@@ -22,3 +22,8 @@ Resources
 - sinbad.zip: http://www.ogre3d.org
 - THA-rocketship clips: http://www.hamsteralliance.com/
 - ttf-dejavu: http://dejavu-fonts.org/wiki/Main_Page
+
+Credits
+-------
+- Tiziana from OpenGameArt.org - 01bricks1.png
+- opatut - pebbles.jpg

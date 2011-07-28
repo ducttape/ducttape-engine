@@ -14,12 +14,13 @@
 
 namespace dt {
 
-MeshComponent::MeshComponent(const std::string& mesh_handle, const std::string& name)
+MeshComponent::MeshComponent(const std::string& mesh_handle, const std::string& mat, const std::string& name)
     : Component(name) {
     mEntity = nullptr;
     mSceneNode = nullptr;
     mMeshHandle = mesh_handle;
     mAnimationState = nullptr;
+    mMaterial = mat;
 }
 
 void MeshComponent::HandleEvent(std::shared_ptr<Event> e) {
@@ -28,6 +29,7 @@ void MeshComponent::HandleEvent(std::shared_ptr<Event> e) {
 
 void MeshComponent::OnCreate() {
     _LoadMesh();
+    this->SetMaterialName(mMaterial);
 }
 
 void MeshComponent::OnDestroy() {
@@ -114,6 +116,12 @@ void MeshComponent::SetLoopAnimation(bool loop_animation) {
 
 bool MeshComponent::GetLoopAnimation() {
     return mLoopAnimation;
+}
+
+void MeshComponent::SetMaterialName(const std::string& name)
+{
+    if(name=="") return;
+    mEntity->setMaterialName(name);
 }
 
 Ogre::SceneNode* MeshComponent::GetOgreSceneNode() const {
