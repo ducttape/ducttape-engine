@@ -1,0 +1,33 @@
+material PrimitivesTest/RedBrick
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.4 0.4 0.4
+			diffuse 1.0 1.0 1.0
+			texture_unit
+			{
+				texture 01bricks1.png
+			}
+		}
+	}
+}
+
+material PrimitivesTest/Pebbles
+{
+	technique
+	{
+		pass
+		{
+			ambient  0.5 0.5 0.5
+			diffuse  1.0 1.0 1.0		
+			specular 0.2 0.2 0.2 1.0 30.0
+
+			texture_unit
+			{
+				texture pebbles.jpg
+			}
+		}
+	}
+}

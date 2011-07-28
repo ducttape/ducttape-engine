@@ -28,7 +28,7 @@ public:
       * @see Component
       */
     MeshComponent(const std::string& mesh_handle = "",
-                  const std::string& name = "");
+                  const std::string& mat = "", const std::string& name = "");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 
@@ -89,6 +89,8 @@ public:
       */
     bool GetLoopAnimation();
 
+    void SetMaterialName(const std::string& name);
+
     Ogre::SceneNode* GetOgreSceneNode() const;
 
     Ogre::Entity* GetOgreEntity() const;
@@ -111,6 +113,7 @@ private:
     bool mLoopAnimation;            //!< Whether the animation shall be looped.
 
     std::string mMeshHandle;          //!< The handle of the mesh.
+    std::string mMaterial;
 };
 
 }
