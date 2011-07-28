@@ -54,12 +54,12 @@ public:
         camnode->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 0, 0));
 
         dt::Node* spherenode = scene->AddChildNode(new dt::Node("spherenode"));
-        spherenode->AddComponent(new dt::MeshComponent("spheremesh", "spheremeshcomponent"));
+        spherenode->AddComponent(new dt::MeshComponent("spheremesh", "", "spheremeshcomponent"));
         spherenode->AddComponent(new dt::PhysicsBodyComponent("spheremeshcomponent"));
         spherenode->SetPosition(Ogre::Vector3(0, 0, 0));
 
         dt::Node* planenode = scene->AddChildNode(new dt::Node("planenode"));
-        planenode->AddComponent(new dt::MeshComponent("planemesh", "planemeshcomponent"));
+        planenode->AddComponent(new dt::MeshComponent("planemesh", "", "planemeshcomponent"));
         planenode->AddComponent(new dt::PhysicsBodyComponent("planemeshcomponent"));
         planenode->SetPosition(Ogre::Vector3(0, 0, -10));
 

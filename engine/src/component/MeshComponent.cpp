@@ -120,6 +120,7 @@ bool MeshComponent::GetLoopAnimation() {
 
 void MeshComponent::SetMaterialName(const std::string& name)
 {
+    if(name=="") return;
     mEntity->setMaterialName(name);
 }
 
