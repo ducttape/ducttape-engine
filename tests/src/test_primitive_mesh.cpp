@@ -43,7 +43,7 @@ public:
 
 	// Test primitive generation
 	OgreProcedural::PlaneGenerator().setNumSegX(20).setNumSegY(20).setSizeX(150).setSizeY(150).setUTile(5.0).setVTile(5.0).realizeMesh("planeMesh");
-	putMeshShadow("planeMesh", Ogre::Vector3(0,-20,-20), "PrimitivesTest/Pebbles");
+	putMeshShadow("planeMesh", Ogre::Vector3(0,5,-20), "PrimitivesTest/Pebbles");
 
 	OgreProcedural::SphereGenerator().setRadius(2.f).setUTile(5.).setVTile(5.).realizeMesh("sphereMesh");
 	putMeshShadow("sphereMesh", Ogre::Vector3(0,10,0), "PrimitivesTest/RedBrick");
@@ -77,7 +77,7 @@ public:
 
         dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
         camnode->AddComponent(new dt::CameraComponent("cam"));
-        camnode->SetPosition(Ogre::Vector3(-30, 0, 30));
+        camnode->SetPosition(Ogre::Vector3(-30, 20, 30));
         camnode->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 0, 0));
 
         dt::Node* lightnode1 = scene->AddChildNode(new dt::Node("lightnode1"));
