@@ -11,6 +11,7 @@
 
 #include <string>
 
+#define MYGUI_DONT_USE_OBSOLETE
 #include <MyGUI.h>
 
 #include "graphics/GuiManager.hpp"

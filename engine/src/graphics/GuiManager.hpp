@@ -13,6 +13,7 @@
 #include <string>
 #include <map>
 
+#define MYGUI_DONT_USE_OBSOLETE
 #include <MyGUI.h>
 #include <MyGUI_OgrePlatform.h>
 
