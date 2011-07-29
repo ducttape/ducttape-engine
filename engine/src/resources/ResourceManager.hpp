@@ -45,7 +45,7 @@ public:
 
     /**
       * Adds a resource location of to the search path.
-      * @param path Path of the resource. Depending on \a type this is either a directory or a single file.
+      * @param path Path of the resource, relative to the data directory. Depending on \a type this is either a directory or a single file.
       * @param type Can either be \c FileSystem for a directory in the filesystem sys or \c Zip for a zip file containing the resources.
       * @param recursive A flag to set when resources should be searched recursively.
       * @todo Perhaps merge the other resource methods into this.
@@ -54,7 +54,7 @@ public:
 
     /**
       * Adds a single sound file to memory. A sound file in memory is called a sound buffer.
-      * @param path Path of the SoundBuffer. For a complete list of supported formats, see SFML documentation.
+      * @param path Path of the SoundBuffer, relative to the data directory. For a complete list of supported formats, see SFML documentation.
       * @param sound_file Optional name for the SoundBuffer. If none is given, the filename is used.
       * @see http://www.sfml-dev.org/documentation/2.0/classsf_1_1SoundBuffer.php#aec8a8960c145915855d956600e9c7032
       * @todo Merge this into AddResourceLocation
@@ -81,6 +81,19 @@ public:
      */
     std::shared_ptr<sf::Music> GetMusicFile(const std::string& music_file);
  
+    /**
+      * Returns the data directory.
+      * @returns The data directory.
+      */
+    const boost::filesystem::path& GetDataPath();
+
+    /**
+      * Returns whether the data directory has been found.
+      * @returns Whether the data directory has been found.
+      */
+    bool FoundDataPath() const;
+
+
 private:
     /**
      * Private method for internal use only. Tries to find the data path using
@@ -92,9 +105,10 @@ private:
      */
     void _FindDataPath();
 
-    boost::filesystem::path mDataPath; //!< Path to the actual data directory. It is set during Initialize().
+    boost::filesystem::path mDataPath;  //!< Path to the actual data directory. It is set during Initialize().
+    bool mFoundDataPath;                //!< Whether the data directory has been found.
     std::map<std::string, std::shared_ptr<sf::Music>> mMusic; //!< Pool of registered music objects. This does not actually contain the music data since music is actually streamed.
-	boost::ptr_map<std::string, sf::SoundBuffer> mSoundBuffers; //!< Pool of registered sound buffers. These are in fact loaded into memory.
+    boost::ptr_map<std::string, sf::SoundBuffer> mSoundBuffers; //!< Pool of registered sound buffers. These are in fact loaded into memory.
 };
 
 }

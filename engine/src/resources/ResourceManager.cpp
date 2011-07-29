@@ -13,7 +13,9 @@
 
 namespace dt {
 
-ResourceManager::ResourceManager() {}
+ResourceManager::ResourceManager() {
+    mFoundDataPath = false;
+}
 
 ResourceManager::~ResourceManager() {}
 
@@ -117,24 +119,36 @@ std::shared_ptr<sf::Music> ResourceManager::GetMusicFile(const std::string& musi
 	}
 }
 
+const boost::filesystem::path& ResourceManager::GetDataPath() {
+    if(!mFoundDataPath) {
+        _FindDataPath();
+    }
+    return mDataPath;
+}
+
+bool ResourceManager::FoundDataPath() const {
+    return mFoundDataPath;
+}
+
 void ResourceManager::_FindDataPath() {
-    bool found_data_path = false;
+    if(mFoundDataPath) {
+        Logger::Get().Info("ResourceManager: Data path already found. Skipping.");
+        return;
+    }
 
     auto path = Root::get_const_instance().GetExecutablePath();
-    while(path.has_parent_path() && !found_data_path) {
+    while(path.has_parent_path() && !mFoundDataPath) {
         path = path.parent_path();
-        Logger::Get().Debug("Trying to find data path in \""+path.string()+"\"");
 
         if(boost::filesystem::is_directory(path / "data")) {
-            found_data_path = true;
+            mFoundDataPath = true;
             mDataPath = path / "data";
-            Logger::Get().Info("Found data path: \""+mDataPath.string()+"\"");
+            Logger::Get().Debug("Found data path: \""+mDataPath.string()+"\"");
         }
     }
 
-    if(!found_data_path) {
-        Logger::Get().Error("Unable to find data path");
-        exit(1);
+    if(!mFoundDataPath) {
+        Logger::Get().Error("ResourceManager: Unable to find data path.");
     }
 }
 
