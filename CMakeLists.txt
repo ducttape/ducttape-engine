@@ -65,7 +65,7 @@ find_package(MyGUI REQUIRED)
 find_package(MyGUI_PLATFORM REQUIRED)
 
 if(MSVC) # Sort the odd stuff out
-    set(CMAKE_CXX_FLAGS "/DCOMPILER_MSVC /WX /MP /EHsc")
+    set(CMAKE_CXX_FLAGS "/DCOMPILER_MSVC /DOgreProcedural_STATIC /WX /MP /EHsc")
     set(CMAKE_CXX_FLAGS_RELEASE "/O2")
     set(CMAKE_CXX_FLAGS_DEBUG "/Zi")
 else() # GCC/Mingw
