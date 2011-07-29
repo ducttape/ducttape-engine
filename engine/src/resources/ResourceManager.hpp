@@ -13,8 +13,10 @@
 
 #include <iostream>
 #include <queue>
+#include <vector>
 
 #include <boost/ptr_container/ptr_map.hpp>
+#include <boost/ptr_container/ptr_vector.hpp>
 #include <boost/filesystem.hpp>
 
 #include <OgreResourceGroupManager.h>
@@ -80,33 +82,38 @@ public:
      * Retrieves a single music file from memory.
      */
     std::shared_ptr<sf::Music> GetMusicFile(const std::string& music_file);
- 
-    /**
-      * Returns the data directory.
-      * @returns The data directory.
-      */
-    const boost::filesystem::path& GetDataPath();
 
     /**
-      * Returns whether the data directory has been found.
-      * @returns Whether the data directory has been found.
+      * Returns whether at least one data directory has been found.
+      * @returns Whether at least one data directory has been found.
       */
     bool FoundDataPath() const;
 
+    /**
+      * Adds a path to the list of data directories, where data may be located in.
+      * @param path The path to the data directory.
+      */
+    void AddDataPath(boost::filesystem::path path);
 
 private:
     /**
-     * Private method for internal use only. Tries to find the data path using
+     * Private method for internal use only. Tries to find the data paths using
      * two different strategies in this order:
      * -# Starting at the executable path, go up the hierarchy and test each
      *  path for the existence of data/ (this is convenient for developers)
-     * -# Check compile-time path set by DATA_PATH (this is for system installation)
-     *  @todo Only the first method works for now.
+     * -# Check compile-time path set by DT_DATA_PATH (this is for system installation)
      */
-    void _FindDataPath();
+    void _FindDataPaths();
 
-    boost::filesystem::path mDataPath;  //!< Path to the actual data directory. It is set during Initialize().
-    bool mFoundDataPath;                //!< Whether the data directory has been found.
+    /**
+      * Attempts to find a file in one of the data directories. Alters the file path to point to the right location.
+      * @param path The path of the file.
+      * @returns Whether the file has been found.
+      */
+    bool _FindFileInDataPaths(boost::filesystem::path& file);
+
+    std::vector<boost::filesystem::path> mDataPaths;  //!< Paths where data may be located in.
+    bool mDataPathsSearched;
     std::map<std::string, std::shared_ptr<sf::Music>> mMusic; //!< Pool of registered music objects. This does not actually contain the music data since music is actually streamed.
     boost::ptr_map<std::string, sf::SoundBuffer> mSoundBuffers; //!< Pool of registered sound buffers. These are in fact loaded into memory.
 };
