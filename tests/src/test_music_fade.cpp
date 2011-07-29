@@ -41,20 +41,18 @@ public:
         std::string music1 = "test_music_intro.ogg";
         std::string music2 = "test_music_loop.ogg";
 
+        float origin_vol = 9.f;
         dt::MusicComponent* music_component1 = new dt::MusicComponent(music1);
+        music_component1->SetVolume(origin_vol);
         dt::MusicComponent* music_component2 = new dt::MusicComponent(music2);
+        music_component2->SetVolume(origin_vol);
 
         auto node = scene->AddChildNode(new dt::Node("music_node"));
         node->AddComponent(music_component1);
         node->AddComponent(music_component2);
 
-        auto resmgr = dt::ResourceManager::Get();
-        float origin_vol = 100.0f;
-
-        resmgr->GetMusicFile(music1)->SetVolume(origin_vol);
         music_component1->Fade(5.0, 0.0f);
 
-        resmgr->GetMusicFile(music2)->SetVolume(0.0f);
         music_component2->Fade(5.0, origin_vol);
     }
 

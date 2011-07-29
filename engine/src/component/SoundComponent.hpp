@@ -35,23 +35,23 @@ public:
     void OnDestroy();
     void OnUpdate(double time_diff);
 
-	/**
+    /**
      * Plays the sound located in mSound.
      * @param sound_file The name of the sound file to play. To get sound in 3D file should be mono.
      */
     void SetSoundFile(const std::string& sound_file);
 
-	/**
+    /**
      * Returns the name of the sound file.
      * @returns The name of the found file.
      */
     const std::string& GetSoundFile() const;
 
-	/**
+    /**
      * Returns the sf::Sound object for default action access.
      * @returns The sf::Sound object.
      */
-	sf::Sound& GetSound();
+    sf::Sound& GetSound();
 
     /**
      * Tries to play / continue sound located in mSound.
@@ -69,19 +69,25 @@ public:
     void StopSound();
 
     /**
+      * Sets the sound volume.
+      * @param volume The sound volume. Minimum: 0. Maximum: 100. Default: 100.
+      */
+    void SetVolume(float volume);
+
+    /**
       * Sets the global master sound/music volume.
-      * @param volume The global master sound/music volumn. Minimum: 0. Maximum: 100. Default: 100.
+      * @param volume The global master sound/music volume. Minimum: 0. Maximum: 100. Default: 100.
       */
     static void SetMasterVolume(float volume);
 
 private:
-	/**
+    /**
      * Private method. Tries to load sound to buffer and then from buffer to mSound.
      */
     void _LoadSound();
 
     std::string mSoundFile; //!< Name of sound file loaded in component.
-	sf::Sound mSound;       //!< SFML Sound. It is set during _LoadSound().
+    sf::Sound mSound;       //!< SFML Sound. It is set during _LoadSound().
 
 };
 
