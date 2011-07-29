@@ -15,7 +15,9 @@
 
 namespace dt {
 
-EventManager::EventManager() {}
+EventManager::EventManager() {
+    mListenersLocked = false;
+}
 
 void EventManager::Initialize() {
     mBindingsManager.Initialize();
@@ -30,6 +32,7 @@ EventManager* EventManager::Get() {
 }
 
 void EventManager::InjectEvent(std::shared_ptr<Event> event) {
+    _LockListeners();
 #ifdef COMPILER_MSVC
     BOOST_FOREACH(EventListener* l, mListeners) {
 #else
@@ -50,6 +53,7 @@ void EventManager::InjectEvent(std::shared_ptr<Event> event) {
             }
         }
     }
+    _UnlockListeners();
 }
 
 bool EventManager::HasListener(EventListener* listener) {
@@ -65,6 +69,12 @@ bool EventManager::HasListener(EventListener* listener) {
 }
 
 void EventManager::AddListener(EventListener* listener) {
+    if(mListenersLocked) {
+        Logger::Get().Debug("EventManager: Cannot add listener. List locked. Queued listener for adding.");
+        mListenerAddQueue.push_back(listener);
+        return;
+    }
+
     if(!HasListener(listener)) {
         if(listener == nullptr) {
             Logger::Get().Error("EventManager: Could not add listener. It is NULL.");
@@ -78,6 +88,12 @@ void EventManager::AddListener(EventListener* listener) {
 }
 
 void EventManager::RemoveListener(EventListener* listener) {
+    if(mListenersLocked) {
+        Logger::Get().Debug("EventManager: Cannot remove listener. List locked. Queued listener for removal.");
+        mListenerRemoveQueue.push_back(listener);
+        return;
+    }
+
     std::vector<EventListener*> new_listeners;
 
     for(auto iter = mListeners.begin(); iter != mListeners.end(); ++iter) {
@@ -94,6 +110,25 @@ void EventManager::UpdatePriorities() {
 
 BindingsManager* EventManager::GetBindingsManager() {
     return &mBindingsManager;
+}
+
+
+void EventManager::_LockListeners() {
+    mListenersLocked = true;
+}
+
+void EventManager::_UnlockListeners() {
+    mListenersLocked = false;
+
+    while(mListenerRemoveQueue.size() > 0) {
+        RemoveListener(mListenerRemoveQueue.back());
+        mListenerRemoveQueue.pop_back();
+    }
+
+    while(mListenerAddQueue.size() > 0) {
+        AddListener(mListenerAddQueue.back());
+        mListenerAddQueue.pop_back();
+    }
 }
 
 }

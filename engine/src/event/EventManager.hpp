@@ -80,8 +80,22 @@ public:
     BindingsManager* GetBindingsManager();
 
 private:
+    /**
+      * Locks the list of listener.
+      */
+    void _LockListeners();
+
+    /**
+      * Unlocks the list of listeners and applies all queues. (Queue order: Remove, Add).
+      */
+    void _UnlockListeners();
+
     std::vector<EventListener*> mListeners; //!< The list of EventListeners.
     BindingsManager mBindingsManager;
+
+    bool mListenersLocked;
+    std::vector<EventListener*> mListenerAddQueue;
+    std::vector<EventListener*> mListenerRemoveQueue;
 };
 
 }
