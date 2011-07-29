@@ -9,6 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_INPUT_INPUTMANAGER
 #define DUCTTAPE_ENGINE_INPUT_INPUTMANAGER
 
+#define OIS_DYNAMIC_LIB
 #include <OIS.h>
 #include <OgreWindowEventUtilities.h>
 
