@@ -15,7 +15,7 @@ MyGUI::WidgetPtr GuiWidgetComponent::GetWidget() {
 }
 
 void GuiWidgetComponent::OnCreate() {
-    mWidget = GuiManager::Get()->GetGuiSystem()->createWidgetT(mType, "Button", 10, 10, 100, 100, MyGUI::Align::Default, "Main");
+    mWidget = GuiManager::Get()->GetGuiSystem()->createWidgetT(mType, "Button", 10, 10, 100, 100, MyGUI::Align::Default, "Main", mName);
 }
 
 void GuiWidgetComponent::OnDestroy() {
