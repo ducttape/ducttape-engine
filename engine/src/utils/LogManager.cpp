@@ -20,6 +20,11 @@ void LogManager::Initialize() {
     mOgreLogManager.createLog("Ogre.log", true, false)->addListener(this);
     GetLogger("Ogre.log").GetStream("INFO")->SetDisabled(true);
     GetLogger("Ogre.log").GetStream("DEBUG")->SetDisabled(true);
+
+    // Disable MyGUI output completely, Ogre will throw an exception if a
+    // resource cannot be found
+    MyGUI::LogManager::initialise();
+    MyGUI::LogManager::setSTDOutputEnabled(false);
 }
 
 void LogManager::Deinitialize() {}
