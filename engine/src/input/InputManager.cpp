@@ -177,7 +177,9 @@ void InputManager::_CreateInputSystem() {
     }
 
 #if defined OIS_WIN32_PLATFORM
-    params.insert(std::make_pair(std::string("w32_mouse"), std::string(mMouseCursorMode == InputManager::SYSTEM ? "DISCL_FOREGROUND" : "DISCL_BACKGROUND" )));
+    // TODO: This stuff crashes OIS, WHY?
+    //params.insert(std::make_pair(std::string("w32_mouse"), std::string("DISCL_FOREGROUND" )));
+    //params.insert(std::make_pair(std::string("w32_mouse"), std::string(mMouseCursorMode == InputManager::SYSTEM ? "DISCL_FOREGROUND" : "DISCL_BACKGROUND" )));
 #elif defined OIS_LINUX_PLATFORM
     params.insert(std::make_pair(std::string("x11_mouse_hide"), std::string(mMouseCursorMode == InputManager::SYSTEM ? "false" : "true")));
 #endif
