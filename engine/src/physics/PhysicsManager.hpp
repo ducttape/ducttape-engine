@@ -48,6 +48,7 @@ private:
     btDiscreteDynamicsWorld* mDynamicsWorld;
     //btConvex2dConvex2dAlgorithm::CreateFunc> mConvexAlgo2d;
     //btBox2dBox2dCollisionAlgorithm::CreateFunc> mBox2dAlgo2d;
+
 };
 
 }

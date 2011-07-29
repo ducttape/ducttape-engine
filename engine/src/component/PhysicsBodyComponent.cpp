@@ -9,6 +9,7 @@
 #include "utils/Logger.hpp"
 
 #include "PhysicsBodyComponent.hpp"
+#include "scene/Scene.hpp"
 
 namespace dt {
 
@@ -40,15 +41,17 @@ void PhysicsBodyComponent::OnCreate() {
         mNode->FindComponent<MeshComponent>(mMeshComponentName);
 
     BtOgre::StaticMeshToShapeConverter converter(mesh_component->GetOgreEntity());
-    mCollisionShape = converter.createSphere();
+    mCollisionShape = converter.createConvex();
 
     btScalar mass = 5;
     btVector3 inertia;
     mCollisionShape->calculateLocalInertia(mass, inertia);
 
-    mMotionState = new BtOgre::RigidBodyState(mesh_component->GetOgreSceneNode());
+    btDefaultMotionState* state = new btDefaultMotionState(
+        btTransform(BtOgre::Convert::toBullet(GetNode()->GetRotation(Node::SCENE)),
+                    BtOgre::Convert::toBullet(GetNode()->GetPosition(Node::SCENE))));
 
-    mBody = new btRigidBody(mass, mMotionState, mCollisionShape, inertia);
+    mBody = new btRigidBody(mass, state, mCollisionShape, inertia);
 
     PhysicsManager::Get()->GetPhysicsWorld()->addRigidBody(mBody);
 }
@@ -58,8 +61,15 @@ void PhysicsBodyComponent::OnDestroy() {}
 void PhysicsBodyComponent::OnUpdate(double time_diff) {
     btTransform trans;
     mBody->getMotionState()->getWorldTransform(trans);
-    std::cout << "x: " << trans.getOrigin().getX() << " y: "
-        << trans.getOrigin().getY() << " z: " << trans.getOrigin().getZ() << std::endl;
+    /*std::cout << "x: " << trans.getOrigin().getX() << " y: "
+        << trans.getOrigin().getY() << " z: " << trans.getOrigin().getZ() << std::endl;*/
+
+    GetNode()->SetPosition(BtOgre::Convert::toOgre(trans.getOrigin()), Node::SCENE);
+    GetNode()->SetRotation(BtOgre::Convert::toOgre(trans.getRotation()), Node::SCENE);
+}
+
+void PhysicsBodyComponent::SetMass(btScalar mass) {
+    mBody->setMassProps(mass, btVector3(0, 0, 0));
 }
 
 }

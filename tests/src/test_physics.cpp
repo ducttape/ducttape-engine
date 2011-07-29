@@ -30,6 +30,9 @@ public:
                 std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
 
             dt::PhysicsManager::Get()->GetPhysicsWorld()->stepSimulation(last_frame_time, 10);
+            dt::PhysicsManager::Get()->GetPhysicsWorld()->debugDrawWorld();
+            mDebugDrawer->setDebugMode(mRuntime > 2.5);
+            mDebugDrawer->step();
 
             mRuntime += last_frame_time;
             if(mRuntime > 5.0) {
@@ -41,27 +44,38 @@ public:
     void OnInitialize() {
         dt::Scene* scene = AddScene(new dt::Scene("testscene"));
 
+        dt::ResourceManager::Get()->AddResourceLocation("","FileSystem");
+        Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+
         OgreProcedural::Root::getInstance()->sceneManager = scene->GetSceneManager();
 
-        OgreProcedural::SphereGenerator().setRadius(5.f).setUTile(.5f).realizeMesh("spheremesh");
-        OgreProcedural::PlaneGenerator().setSizeX(5.f).setSizeY(5.f).realizeMesh("planemesh");
+
+        mDebugDrawer = new BtOgre::DebugDrawer(scene->GetSceneManager()->getRootSceneNode(), dt::PhysicsManager::Get()->GetPhysicsWorld());
+        dt::PhysicsManager::Get()->GetPhysicsWorld()->setDebugDrawer(mDebugDrawer);
+
+
+        OgreProcedural::SphereGenerator().setRadius(1.f).setUTile(.5f).realizeMesh("Sphere");
+        OgreProcedural::PlaneGenerator().setSizeX(10.f).setSizeY(10.f).realizeMesh("Plane");
 
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
         dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
         camnode->AddComponent(new dt::CameraComponent("cam"));
-        camnode->SetPosition(Ogre::Vector3(0, 50, 0));
-        camnode->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 0, 0));
+        camnode->SetPosition(Ogre::Vector3(20, 10, 0));
+        camnode->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 5, 0));
 
         dt::Node* spherenode = scene->AddChildNode(new dt::Node("spherenode"));
-        spherenode->AddComponent(new dt::MeshComponent("spheremesh", "", "spheremeshcomponent"));
-        spherenode->AddComponent(new dt::PhysicsBodyComponent("spheremeshcomponent"));
-        spherenode->SetPosition(Ogre::Vector3(0, 0, 0));
+        spherenode->SetPosition(Ogre::Vector3(0, 10, 0));
+        spherenode->AddComponent(new dt::MeshComponent("Sphere", "PrimitivesTest/RedBrick", "sphere-mesh"));
+        spherenode->AddComponent(new dt::PhysicsBodyComponent("sphere-mesh", "sphere-body"));
 
         dt::Node* planenode = scene->AddChildNode(new dt::Node("planenode"));
-        planenode->AddComponent(new dt::MeshComponent("planemesh", "", "planemeshcomponent"));
-        planenode->AddComponent(new dt::PhysicsBodyComponent("planemeshcomponent"));
-        planenode->SetPosition(Ogre::Vector3(0, 0, -10));
+        planenode->SetPosition(Ogre::Vector3(0, 0, 0));
+        Ogre::Quaternion q;
+        q.FromAngleAxis(Ogre::Degree(20), Ogre::Vector3::UNIT_X);
+        planenode->SetRotation(q);
+        planenode->AddComponent(new dt::MeshComponent("Plane", "PrimitivesTest/Pebbles", "plane-mesh"));
+        planenode->AddComponent(new dt::PhysicsBodyComponent("plane-mesh", "plane-body"))->SetMass(0.f);
 
         dt::Node* lightnode1 = scene->AddChildNode(new dt::Node("lightnode1"));
         lightnode1->AddComponent(new dt::LightComponent("light1"));
@@ -74,6 +88,8 @@ public:
 
 private:
     double mRuntime;
+    BtOgre::DebugDrawer* mDebugDrawer;
+
 };
 
 int main(int argc, char** argv) {

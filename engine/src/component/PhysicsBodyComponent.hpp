@@ -46,6 +46,12 @@ public:
     void OnDestroy();
     void OnUpdate(double time_diff);
 
+    /**
+      * Sets the mass of the physics body.
+      * @param mass The new mass.
+      */
+    void SetMass(btScalar mass);
+
 private:
     std::string mMeshComponentName;
 	btCollisionShape* mCollisionShape;
