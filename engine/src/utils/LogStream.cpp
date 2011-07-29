@@ -9,6 +9,7 @@
 #include "LogStream.hpp"
 
 #include "Logger.hpp"
+#include <boost/format.hpp>
 
 namespace dt {
 
@@ -28,9 +29,7 @@ LogStream::LogStream(const std::string& name) {
 }
 
 std::string LogStream::FormatMessage(Logger* logger, const std::string& msg) {
-    char result[256];
-    sprintf(result, mFormat.c_str(), logger->GetName().c_str(), mName.c_str(), msg.c_str());
-    return result;
+    return (boost::format(mFormat) % logger->GetName() % mName % msg).str();
 }
 
 void LogStream::Output(Logger* logger, const std::string& msg) {

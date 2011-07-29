@@ -15,11 +15,27 @@ LogManager::LogManager() {
     //GetLogger("default"); // create default logger
 }
 
-void LogManager::Initialize() {}
+void LogManager::Initialize() {
+    // Redirect the Ogre log (create a default log)
+    mOgreLogManager.createLog("ogre", true, false)->addListener(this);
+    GetLogger("ogre").GetStream("INFO")->SetDisabled(true);
+    GetLogger("ogre").GetStream("DEBUG")->SetDisabled(true);
+}
+
 void LogManager::Deinitialize() {}
 
 LogManager* LogManager::Get() {
     return Root::get_mutable_instance().GetLogManager();
+}
+
+void LogManager::messageLogged(const std::string& message, Ogre::LogMessageLevel level, bool mask_debug, const std::string& log_name) {
+    if(level == Ogre::LML_CRITICAL) {
+        GetLogger(log_name).Error(message);
+    } else if(level == Ogre::LML_NORMAL) {
+        GetLogger(log_name).Info(message);
+    } else if(level == Ogre::LML_TRIVIAL) {
+        GetLogger(log_name).Debug(message);
+    }
 }
 
 Logger& LogManager::GetLogger() {

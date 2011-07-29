@@ -10,6 +10,7 @@
 #define DUCTTAPE_ENGINE_UTILS_LOGMANAGER
 
 #include <boost/ptr_container/ptr_map.hpp>
+#include <OGRE/OgreLogManager.h>
 
 #include "Logger.hpp"
 #include "Manager.hpp"
@@ -19,7 +20,8 @@ namespace dt {
 /**
   * A manager responsible for holding and providing all Loggers.
   */
-class LogManager : public Manager {
+class LogManager : public Manager,
+    public Ogre::LogListener {
 public:
     /**
       * Default constructor.
@@ -38,6 +40,15 @@ public:
     static LogManager* Get();
 
     /**
+      * Logs an Ogre message to the logger "ogre".
+      * @param message The message to be logged.
+      * @param level The log level.
+      * @param mask_debug If the Ogre log is set up to print to the console.
+      * @param log_name The name of the ogre logger.
+      */
+    void messageLogged(const std::string& message, Ogre::LogMessageLevel level, bool mask_debug, const std::string& log_name);
+
+    /**
       * Returns the logger with a given name.
       * @param name the name of the Logger to find
       * @returns the Logger if one is found, otherwise creates a new one
@@ -46,6 +57,7 @@ public:
 
 
 private:
+    Ogre::LogManager mOgreLogManager;
     boost::ptr_map<std::string, Logger> mLoggers;   //!< The list of Loggers, defined by their name
 };
 
