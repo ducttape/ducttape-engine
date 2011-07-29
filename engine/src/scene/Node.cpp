@@ -169,8 +169,7 @@ void Node::SetRotation(Ogre::Quaternion rotation, Node::RelativeTo rel) {
     } else {
         Logger::Get().Error("Not implemented: Node::SetRotation relative to SCENE");
         // TODO: implement backward rotation
-        // Ogre::Quaternion p = mParent->GetRotation(SCENE);
-        mRotation = rotation;
+        mRotation = mParent->GetRotation(SCENE) * (-rotation);
     }
     OnUpdate(0);
 }
