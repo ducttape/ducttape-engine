@@ -99,11 +99,11 @@ int main(int argc, char** argv) {
     sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/20.f);
 
     sound->RemoveComponent(sound_component->GetName());
-    sound_component =
-        new dt::SoundComponent("sad-trombone.wav");
+    sound_component = new dt::SoundComponent("sad-trombone.wav");
+    sound_component->SetVolume(5.f);
     sound->AddComponent(sound_component);
     sound_component->PlaySound();
-	if(sound_component->GetSound().GetStatus() != sf::Sound::Playing) {
+    if(sound_component->GetSound().GetStatus() != sf::Sound::Playing) {
         std::cerr << "The sound is currently not playing." << std::endl;
         exit(1);
     }

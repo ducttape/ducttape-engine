@@ -86,7 +86,11 @@ void SoundComponent::_LoadSound() {
         Logger::Get().Error("SoundComponent [" + mName + "]: Wasn't able to load sound file [" + mSoundFile + "].");
     } else {
         mSound.SetBuffer(ResourceManager::Get()->GetSoundBuffer(mSoundFile));
-	}
+    }
+}
+
+void SoundComponent::SetVolume(float volume) {
+    mSound.SetVolume(volume);
 }
 
 void SoundComponent::SetMasterVolume(float volume) {
