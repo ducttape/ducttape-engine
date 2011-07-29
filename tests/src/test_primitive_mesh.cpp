@@ -90,11 +90,11 @@ public:
 private:
     double mRuntime;
     void putMeshShadow(const std::string& meshName, const Ogre::Vector3& position, const std::string materialName = "") {
-	dt::Scene* scene = dt::StateManager::Get()->GetCurrentState()->GetScene("testscene");
-	dt::Node* node = scene->AddChildNode(new dt::Node("" + meshName + "node"));
-	dt::MeshComponent* mesh = new dt::MeshComponent(meshName, materialName, meshName);
-	node->AddComponent(mesh);
-	node->SetPosition(position);
+        dt::Scene* scene = dt::StateManager::Get()->GetCurrentState()->GetScene("testscene");
+        dt::Node* node = scene->AddChildNode(new dt::Node("" + meshName + "node"));
+        dt::MeshComponent* mesh = new dt::MeshComponent(meshName, materialName, meshName);
+        node->AddComponent(mesh);
+        node->SetPosition(position);
     }
 };
 
