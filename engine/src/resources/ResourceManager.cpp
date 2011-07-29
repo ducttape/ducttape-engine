@@ -166,12 +166,12 @@ bool ResourceManager::_FindFileInDataPaths(boost::filesystem::path& file) {
 #else
     for(boost::filesystem::path& path: mDataPaths) {
 #endif
-        if(boost::filesystem::is_regular_file(path / f)) {
+        if(boost::filesystem::exists(path / f)) {
             file = path/f;
             return true;
         }
     }
-    Logger::Get().Error("Cannot find file: " + file.string());
+    Logger::Get().Error("Cannot find file or directory: " + file.string());
     return false;
 }
 

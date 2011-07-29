@@ -199,7 +199,7 @@ void DisplayManager::_CreateWindow() {
     if(mOgreRoot != nullptr) {
         return;
     }
-    mOgreRoot = new Ogre::Root();
+    mOgreRoot = new Ogre::Root("", "");
 
     // TODO: These paths have to be determined correctly.
 #ifdef COMPILER_MSVC

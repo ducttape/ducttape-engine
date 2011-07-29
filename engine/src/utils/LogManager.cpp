@@ -17,9 +17,9 @@ LogManager::LogManager() {
 
 void LogManager::Initialize() {
     // Redirect the Ogre log (create a default log)
-    mOgreLogManager.createLog("ogre", true, false)->addListener(this);
-    GetLogger("ogre").GetStream("INFO")->SetDisabled(true);
-    GetLogger("ogre").GetStream("DEBUG")->SetDisabled(true);
+    mOgreLogManager.createLog("Ogre.log", true, false)->addListener(this);
+    GetLogger("Ogre.log").GetStream("INFO")->SetDisabled(true);
+    GetLogger("Ogre.log").GetStream("DEBUG")->SetDisabled(true);
 }
 
 void LogManager::Deinitialize() {}
