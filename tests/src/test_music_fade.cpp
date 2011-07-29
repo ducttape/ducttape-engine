@@ -51,12 +51,8 @@ public:
         node->AddComponent(music_component1);
         node->AddComponent(music_component2);
 
-        //auto resmgr = dt::ResourceManager::Get();
-
-        //resmgr->GetMusicFile(music1)->SetVolume(origin_vol);
         music_component1->Fade(5.0, 0.0f);
 
-        //resmgr->GetMusicFile(music2)->SetVolume(0.0f);
         music_component2->Fade(5.0, origin_vol);
     }
 
