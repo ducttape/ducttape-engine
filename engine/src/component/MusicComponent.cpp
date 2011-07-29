@@ -72,6 +72,10 @@ const std::string& MusicComponent::GetMusicFile() const {
     return mMusicFile;
 }
 
+void MusicComponent::SetVolume(float volume) {
+    ResourceManager::Get()->GetMusicFile(mMusicFile)->SetVolume(volume);
+}
+
 void MusicComponent::SetMasterVolume(float volume) {
     sf::Listener::SetGlobalVolume(volume);
 }
