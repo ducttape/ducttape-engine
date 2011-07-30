@@ -9,13 +9,24 @@ For further instructions and developer information please browse the docs/
 directory. If you have Doxygen and Graphviz, you can build the API docs by
 issuing `make doc` in your CMake build dir.
 
+Cloning
+-------
+If you clone this using the usual
+`git://github.com/ducttape/ducttape-engine.git`
+please run
+`git sudmodule update --init`
+as the first thing you do in within the cloned repo.
+This will get our externals that are in different git repos to keep this one
+clean and dandy.
+
 Building
 --------
 See INSTALL for short instructions for experienced users or our [Getting started](https://github.com/ducttape/ducttape-engine/wiki/Getting-started) article on the wiki for more detailed instructions.
 
 License
 -------
-Tbe Ducttape Engine and its components such as the editor as well as examples and tests are available under the LGPL3 license unless noted otherwise.
+Tbe Ducttape Engine and its components such as the editor as well as examples and
+tests are available under the LGPL3 license unless noted otherwise.
 
 See the docs/licenses/ directory for individual licenses of our resources.
 
