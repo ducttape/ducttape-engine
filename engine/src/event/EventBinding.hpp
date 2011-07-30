@@ -11,6 +11,7 @@
 
 #include <memory>
 
+#include "Config.hpp"
 #include "event/Event.hpp"
 
 namespace dt {
@@ -19,7 +20,7 @@ namespace dt {
   * Binds an Event to call another, more specific event. Usually used
   * to forward raw input.
   */
-class EventBinding {
+class DUCTTAPE_API EventBinding {
 public:
     /**
       * Advanced constructor.

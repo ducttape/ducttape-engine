@@ -9,6 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_PINGEVENT
 #define DUCTTAPE_ENGINE_EVENT_PINGEVENT
 
+#include "Config.hpp"
 #include "NetworkEvent.hpp"
 
 namespace dt {
@@ -16,7 +17,7 @@ namespace dt {
 /**
   * Event for measuring and calculating round-trip-time (ping).
   */
-class PingEvent : public NetworkEvent {
+class DUCTTAPE_API PingEvent : public NetworkEvent {
 public:
     /**
       * Advanced constructor.

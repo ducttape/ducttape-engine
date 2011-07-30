@@ -15,6 +15,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/ptr_container/ptr_vector.hpp>
 
+#include "Config.hpp"
 #include "LogStream.hpp"
 
 namespace dt {
@@ -23,7 +24,7 @@ namespace dt {
   * A class responsible for logging different messages to their LogStreams. This class can hold different
   * LogStreams and output the messages to these, defined by their log level.
   */
-class Logger {
+class DUCTTAPE_API Logger {
 public:
     /**
       * Advanced constructor. Creates a logger with the given name.

@@ -11,6 +11,7 @@
 
 #include <OgreEntity.h>
 
+#include "Config.hpp"
 #include "component/Component.hpp"
 
 namespace dt {
@@ -18,7 +19,7 @@ namespace dt {
 /**
   * Component to add a mesh to a node. Animations are supported.
   */
-class MeshComponent : public Component {
+class DUCTTAPE_API MeshComponent : public Component {
 public:
     /**
       * Advanced constructor.

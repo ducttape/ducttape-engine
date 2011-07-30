@@ -11,6 +11,7 @@
 
 #include <SFML/Audio.hpp>
 
+#include "Config.hpp"
 #include "component/Component.hpp"
 #include "event/SoundsControlEvent.hpp"
 #include "Root.hpp"
@@ -21,7 +22,7 @@ namespace dt {
   * Component for managing sounds in 3D enviroment.
   * @todo Positions should be calculated relatively to position of player, but there is no method to get those now.
   */
-class SoundComponent : public Component {
+class DUCTTAPE_API SoundComponent : public Component {
 public:
     /**
      * Advanced constructor.

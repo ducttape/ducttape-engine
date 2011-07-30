@@ -9,12 +9,14 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_COMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_COMPONENT
 
-#include "event/EventListener.hpp"
-
 #include <string>
 
 #include <boost/ptr_container/ptr_map.hpp>
 #include <boost/signals2.hpp>
+#include <boost/utility.hpp>
+
+#include "Config.hpp"
+#include "event/EventListener.hpp"
 
 namespace dt {
 
@@ -25,7 +27,7 @@ class Node;
   * Modifier for a node. This will add all the functionality to an otherwise empty node,
   * such as a mesh or sound.
   */
-class Component : public EventListener {
+class DUCTTAPE_API Component : public EventListener, public boost::noncopyable {
 public:
     /**
       * Constructor with set name.

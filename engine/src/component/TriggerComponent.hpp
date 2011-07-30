@@ -9,8 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_TRIGGERCOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_TRIGGERCOMPONENT
 
+#include "Config.hpp"
 #include "Component.hpp"
-
 
 namespace dt {
 
@@ -18,7 +18,7 @@ namespace dt {
   * A simple trigger component that triggers a callback on certain conditions.
   * @warning Class not complete.
   */
-class TriggerComponent : public Component {
+class DUCTTAPE_API TriggerComponent : public Component {
 public:
     /**
       * Advanced constructor.

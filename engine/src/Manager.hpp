@@ -9,10 +9,12 @@
 #ifndef DUCTTAPE_ENGINE_MANAGER
 #define DUCTTAPE_ENGINE_MANAGER
 
+#include "Config.hpp"
+
 namespace dt {
 
 // Manager interface class
-class Manager {
+class DUCTTAPE_API Manager {
 public:
     virtual ~Manager() = 0;
     virtual void Initialize() = 0;

@@ -28,7 +28,7 @@ void LogManager::Initialize() {
 void LogManager::Deinitialize() {}
 
 LogManager* LogManager::Get() {
-    return Root::get_mutable_instance().GetLogManager();
+    return Root::GetInstance().GetLogManager();
 }
 
 void LogManager::messageLogged(const std::string& message, Ogre::LogMessageLevel level, bool mask_debug, const std::string& log_name) {

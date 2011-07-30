@@ -11,6 +11,7 @@
 
 #include <boost/ptr_container/ptr_map.hpp>
 
+#include "Config.hpp"
 #include "Manager.hpp"
 #include "PhysicsWorld.hpp"
 #include "event/EventListener.hpp"
@@ -20,8 +21,7 @@ namespace dt {
 /**
   * A manager for keeping the physics world and for taking care of the complicated initialization.
   */
-class PhysicsManager : public Manager,
-    public EventListener {
+class DUCTTAPE_API PhysicsManager : public Manager, public EventListener {
 public:
     /**
       * Default constructor.

@@ -15,6 +15,7 @@
 
 #include <SFML/System/Thread.hpp>
 
+#include "Config.hpp"
 #include "TimerTickEvent.hpp"
 #include "BeginFrameEvent.hpp"
 #include "EventListener.hpp"
@@ -24,7 +25,7 @@ namespace dt {
 /**
   * A timer to send Tick events in regular intervals.
   */
-class Timer : public EventListener {
+class DUCTTAPE_API Timer : public EventListener {
 public:
     /**
       * Advanced constructor.

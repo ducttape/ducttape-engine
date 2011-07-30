@@ -13,6 +13,7 @@
 #include <string>
 #include <map>
 
+#include "Config.hpp"
 #include "Manager.hpp"
 
 namespace dt {
@@ -22,7 +23,7 @@ namespace dt {
   * the network traffic to a minimum (a uint32_t is smaller than most strings), but strings are used to keep the source code clean
   * and readable and to output (debug) messages in a readable format.
   */
-class StringManager : public Manager {
+class DUCTTAPE_API StringManager : public Manager {
 public:
     /**
       * Default constructor.

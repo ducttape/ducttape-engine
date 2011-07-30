@@ -42,7 +42,7 @@ EventListener::Priority PhysicsManager::GetEventPriority() const {
 
 
 PhysicsManager* PhysicsManager::Get() {
-    return Root::get_mutable_instance().GetPhysicsManager();
+    return Root::GetInstance().GetPhysicsManager();
 }
 
 bool PhysicsManager::HasWorld(const std::string& name) {
@@ -61,6 +61,5 @@ PhysicsWorld* PhysicsManager::GetWorld(const std::string& name) {
         return mWorlds.find(name)->second;
     return nullptr;
 }
-
 
 }

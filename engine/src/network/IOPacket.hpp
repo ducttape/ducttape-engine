@@ -10,6 +10,8 @@
 #define DUCTTAPE_ENGINE_NETWORK_IOPACKET
 
 #include <SFML/Network.hpp>
+
+#include "Config.hpp"
 #include "utils/EnumHelper.hpp"
 
 namespace dt {
@@ -31,7 +33,7 @@ namespace dt {
   * @note Credit for the idea of using the operator& for context based streaming goes to the authors of
   * boost serialization (boost::archive).
   */
-class IOPacket {
+class DUCTTAPE_API IOPacket {
 public:
     /**
       * Mode for streaming data.
@@ -76,6 +78,7 @@ public:
       * @returns This IOPacket itself to combine multiple stream instruction in one statement.
       */
     IOPacket& operator & (EnumHelper h);
+
 private:
     sf::Packet* mPacket;    //!< A pointer to the packet to stream data from/into.
     Mode mMode;             //!< The streaming mode.

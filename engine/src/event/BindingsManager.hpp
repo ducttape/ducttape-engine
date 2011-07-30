@@ -12,6 +12,7 @@
 #include <memory>
 #include <map>
 
+#include "Config.hpp"
 #include "EventListener.hpp"
 #include "EventBinding.hpp"
 #include "Manager.hpp"
@@ -24,7 +25,7 @@ namespace dt {
   * @see EventManager
   * @see EventListener
   */
-class BindingsManager : public Manager,
+class DUCTTAPE_API BindingsManager : public Manager,
         public EventListener {
 public:
     /**

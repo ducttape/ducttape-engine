@@ -22,7 +22,7 @@ void Game::HandleEvent(std::shared_ptr<Event> e) {
 }
 
 void Game::Run(State* start_state, int argc, char** argv) {
-    Root& root = Root::get_mutable_instance();
+    Root& root = Root::GetInstance();
 
     root.Initialize(argc, argv);
     root.GetStateManager()->SetNewState(start_state);

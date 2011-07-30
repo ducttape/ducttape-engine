@@ -37,6 +37,11 @@ Root::~Root() {
     delete mLogManager;
 }
 
+Root& Root::GetInstance() {
+    static Root instance;
+    return instance;
+}
+
 void Root::Initialize(int argc, char** argv) {
     mSfClock.Reset();
 

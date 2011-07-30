@@ -12,6 +12,7 @@
 #include <string>
 #include <memory>
 
+#include "Config.hpp"
 #include "network/IOPacket.hpp"
 
 namespace dt {
@@ -21,7 +22,7 @@ namespace dt {
   * @see EventManager
   * @see NetworkEvent
   */
-class Event {
+class DUCTTAPE_API Event {
 public:
     /**
       * Default constructor.

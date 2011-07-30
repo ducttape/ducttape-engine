@@ -15,6 +15,7 @@ include_directories(src/)
 
 if(BUILD_STATIC)
     set(BUILD_MODE STATIC)
+    add_definitions(-DDUCTTAPE_STATIC)
 else()
     set(BUILD_MODE SHARED)
 endif()

@@ -16,7 +16,7 @@
 #include "scene/Scene.hpp"
 
 int main(int argc, char** argv) {
-    dt::Root& root = dt::Root::get_mutable_instance();
+    dt::Root& root = dt::Root::GetInstance();
     root.Initialize(argc, argv);
 
     dt::Scene scene("scene1");

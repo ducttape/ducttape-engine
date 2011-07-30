@@ -16,6 +16,7 @@
 #include <OgreVector3.h>
 #include <OgreMath.h>
 
+#include "Config.hpp"
 #include "component/Component.hpp"
 
 namespace dt {
@@ -24,7 +25,7 @@ namespace dt {
       * The light component.
       * @see Component
       */
-    class LightComponent : public Component {
+    class DUCTTAPE_API LightComponent : public Component {
     public:
         /**
           * Advanced constructor.

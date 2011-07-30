@@ -12,12 +12,14 @@
 #include <ctime>
 #include <random>
 
+#include "Config.hpp"
+
 namespace dt {
 
 /**
   * A pseudorandom number generator helper.
   */
-class Random {
+class DUCTTAPE_API Random {
 public:
     /**
       * Initializes the generator. This uses the current time to seed the generator.

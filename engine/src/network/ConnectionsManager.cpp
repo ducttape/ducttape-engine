@@ -166,24 +166,24 @@ void ConnectionsManager::HandleEvent(std::shared_ptr<Event> e) {
         std::shared_ptr<NetworkEvent> n = std::dynamic_pointer_cast<NetworkEvent>(e);
         if(n->IsLocalEvent()) {
             // we received a network event
-            mLastActivity[n->GetSenderID()] = Root::get_mutable_instance().GetTimeSinceInitialize();
+            mLastActivity[n->GetSenderID()] = Root::GetInstance().GetTimeSinceInitialize();
         }
     }
 }
 
 void ConnectionsManager::_Ping() {
-    EventManager::Get()->InjectEvent(std::make_shared<PingEvent>(Root::get_mutable_instance().GetTimeSinceInitialize()));
+    EventManager::Get()->InjectEvent(std::make_shared<PingEvent>(Root::GetInstance().GetTimeSinceInitialize()));
 }
 
 void ConnectionsManager::_HandlePing(std::shared_ptr<PingEvent> ping_event) {
-    uint32_t ping = Root::get_mutable_instance().GetTimeSinceInitialize() - ping_event->GetTimestamp();
+    uint32_t ping = Root::GetInstance().GetTimeSinceInitialize() - ping_event->GetTimestamp();
     mPings[ping_event->GetSenderID()] = ping;
 
     Logger::Get().Debug("Ping for connection #" + tostr(ping_event->GetSenderID()) + ": " + tostr(ping));
 }
 
 void ConnectionsManager::_CheckTimeouts() {
-    uint32_t time = Root::get_mutable_instance().GetTimeSinceInitialize();
+    uint32_t time = Root::GetInstance().GetTimeSinceInitialize();
     for(auto i = mConnections.begin(); i != mConnections.end(); ++i) {
         uint32_t diff = time - mLastActivity[i->first];
         if(diff > mTimeout) {
@@ -195,7 +195,7 @@ void ConnectionsManager::_CheckTimeouts() {
 void ConnectionsManager::_TimeoutConnection(ConnectionsManager::ID_t connection) {
     Logger::Get().Warning("Connection timed out: " + tostr(connection));
 
-    uint32_t diff = Root::get_mutable_instance().GetTimeSinceInitialize() - mLastActivity[connection];
+    uint32_t diff = Root::GetInstance().GetTimeSinceInitialize() - mLastActivity[connection];
 
     // Send the event, hoping it will arrive at the destination
     std::shared_ptr<GoodbyeEvent> e(new GoodbyeEvent("Timeout after " + tostr(diff) + " seconds."));

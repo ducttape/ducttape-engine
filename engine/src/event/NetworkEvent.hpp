@@ -12,6 +12,7 @@
 #include <cstdint>
 #include <vector>
 
+#include "Config.hpp"
 #include "Event.hpp"
 
 namespace dt {
@@ -19,7 +20,7 @@ namespace dt {
 /**
   * Abstract base class for all Events supposed to be sent via network.
   */
-class NetworkEvent : public Event {
+class DUCTTAPE_API NetworkEvent : public Event {
 public:
     /**
       * Default constructor.

@@ -9,6 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_BEGINFRAMEEVENT
 #define DUCTTAPE_ENGINE_EVENT_BEGINFRAMEEVENT
 
+#include "Config.hpp"
 #include "Event.hpp"
 
 namespace dt {
@@ -16,7 +17,7 @@ namespace dt {
 /**
   * Event that is being triggered at the beginning of each frame, carrying the frame time delta.
   */
-class BeginFrameEvent : public Event {
+class DUCTTAPE_API BeginFrameEvent : public Event {
 public:
     /**
       * Advanced constructor.

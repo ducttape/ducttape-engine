@@ -9,16 +9,17 @@
 #ifndef DUCTTAPE_ENGINE_INPUT_KEYBOARDEVENT
 #define DUCTTAPE_ENGINE_INPUT_KEYBOARDEVENT
 
-#include "event/Event.hpp"
-
 #include <OIS/OISKeyboard.h>
+
+#include "Config.hpp"
+#include "event/Event.hpp"
 
 namespace dt {
 
 /**
   * Event triggered on MousePressed, MouseReleased and MouseMoved
   */
-class KeyboardEvent : public Event {
+class DUCTTAPE_API KeyboardEvent : public Event {
 public:
     /**
       * Action performed that triggered the event.

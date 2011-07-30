@@ -9,16 +9,17 @@
 #ifndef DUCTTAPE_ENGINE_INPUT_MOUSEEVENT
 #define DUCTTAPE_ENGINE_INPUT_MOUSEEVENT
 
-#include "event/Event.hpp"
-
 #include <OIS/OISMouse.h>
+
+#include "Config.hpp"
+#include "event/Event.hpp"
 
 namespace dt {
 
 /**
   * Event triggered on MousePressed, MouseReleased and MouseMoved.
   */
-class MouseEvent : public Event {
+class DUCTTAPE_API MouseEvent : public Event {
 public:
     /**
       * The action that caused the MouseEvent.

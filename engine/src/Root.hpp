@@ -36,8 +36,9 @@
 #define DUCTTAPE_ENGINE_ROOT
 
 #include <boost/filesystem.hpp>
-#include <boost/serialization/singleton.hpp>
+#include <boost/utility.hpp>
 
+#include "Config.hpp"
 #include "utils/StringManager.hpp"
 #include "utils/LogManager.hpp"
 #include "states/StateManager.hpp"
@@ -57,17 +58,18 @@ namespace dt {
   * @see LogManager
   * @see StateManager
   */
-class Root : public boost::serialization::singleton<Root> {
+class DUCTTAPE_API Root : public boost::noncopyable {
 public:
-    /**
-      * Default constructor. All instances are created here.
-      */
-    Root();
-
     /**
       * Destructor. All instances are deleted here.
       */
     ~Root();
+
+    /**
+     * Gets singleton instance reference.
+     * @returns singleton instance reference to itself
+     */
+    static Root& GetInstance();
 
     /**
       * Initializes all managers.
@@ -146,6 +148,11 @@ public:
     PhysicsManager* GetPhysicsManager();
 
 private:
+    /**
+      * Private default constructor (for singleton). All instances are created here.
+      */
+    Root();
+
     sf::Clock mSfClock;                 //!< Clock for keeping time since Initialize() was called.
     boost::filesystem::path mExecutablePath; //!< Absolute path to current executable.
 

@@ -9,6 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_MESSAGEEVENT
 #define DUCTTAPE_ENGINE_EVENT_MESSAGEEVENT
 
+#include "Config.hpp"
 #include "Event.hpp"
 
 namespace dt {
@@ -16,7 +17,7 @@ namespace dt {
 /**
   * Event for sending generic string messages through the event system.
   */
-class MessageEvent : public Event {
+class DUCTTAPE_API MessageEvent : public Event {
 public:
     /**
       * Advanced constructor.

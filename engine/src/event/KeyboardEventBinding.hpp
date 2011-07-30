@@ -9,6 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_KEYBOARDEVENTBINDING
 #define DUCTTAPE_ENGINE_EVENT_KEYBOARDEVENTBINDING
 
+#include "Config.hpp"
 #include "EventBinding.hpp"
 #include "input/KeyboardEvent.hpp"
 #include "utils/StringManager.hpp"
@@ -19,7 +20,7 @@ namespace dt {
   * An event binding that triggers when an specific
   * key was pressed.
   */
-class KeyboardBinding : public EventBinding {
+class DUCTTAPE_API KeyboardBinding : public EventBinding {
 public:
     /**
       * Advanced constructor.

@@ -11,8 +11,9 @@
 
 #include <SFML/Audio.hpp>
 
-#include "event/MusicControlEvent.hpp"
+#include "Config.hpp"
 #include "component/Component.hpp"
+#include "event/MusicControlEvent.hpp"
 #include "Root.hpp"
 
 namespace dt {
@@ -20,7 +21,7 @@ namespace dt {
 /**
   * Adds music to the scene.
   */
-class MusicComponent : public Component {
+class DUCTTAPE_API MusicComponent : public Component {
 public:
     /**
      * Advanced constructor.

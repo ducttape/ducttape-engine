@@ -11,6 +11,7 @@
 
 #include <memory>
 
+#include "Config.hpp"
 #include "Event.hpp"
 
 namespace dt {
@@ -20,7 +21,7 @@ namespace dt {
   * @see Event
   * @see EventManager
   */
-class EventListener {
+class DUCTTAPE_API EventListener {
 public:
     /**
       * The priority of a listener. Influences the calling order.

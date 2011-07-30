@@ -11,6 +11,7 @@
 
 #include <string>
 
+#include "Config.hpp"
 #include "Event.hpp"
 
 namespace dt {
@@ -18,7 +19,7 @@ namespace dt {
 /**
  * Event for controlling all music components at once.
  */
-class MusicControlEvent : public Event {
+class DUCTTAPE_API MusicControlEvent : public Event {
 public:
     enum Action {
         PLAY = 0,

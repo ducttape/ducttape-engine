@@ -9,6 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_HANDSHAKEEVENT
 #define DUCTTAPE_ENGINE_EVENT_HANDSHAKEEVENT
 
+#include "Config.hpp"
 #include "NetworkEvent.hpp"
 
 namespace dt {
@@ -16,7 +17,7 @@ namespace dt {
 /**
   * Event being sent over Network when establishing a new connection.
   */
-class HandshakeEvent : public NetworkEvent {
+class DUCTTAPE_API HandshakeEvent : public NetworkEvent {
 public:
     /**
       * Default constructor.

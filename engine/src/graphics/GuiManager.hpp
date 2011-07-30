@@ -17,6 +17,7 @@
 #include <MyGUI.h>
 #include <MyGUI_OgrePlatform.h>
 
+#include "Config.hpp"
 #include "event/EventManager.hpp"
 #include "input/MouseEvent.hpp"
 #include "input/KeyboardEvent.hpp"
@@ -24,7 +25,7 @@
 
 namespace dt {
 
-class GuiManager : public Manager, public EventListener {
+class DUCTTAPE_API GuiManager : public Manager, public EventListener {
 public:
     GuiManager();
 

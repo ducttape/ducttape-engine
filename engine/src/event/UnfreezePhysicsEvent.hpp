@@ -11,6 +11,7 @@
 
 #include <string>
 
+#include "Config.hpp"
 #include "Event.hpp"
 
 namespace dt {
@@ -18,7 +19,7 @@ namespace dt {
 /**
  * Event to unfreeze all physics.
  */
-class UnfreezePhysicsEvent : public Event {
+class DUCTTAPE_API UnfreezePhysicsEvent : public Event {
 public:
     /**
      * Default constructor.

@@ -20,6 +20,7 @@
 
 #include <OgreProcedural.h>
 
+#include "Config.hpp"
 #include "component/CameraComponent.hpp"
 #include "utils/Logger.hpp"
 #include "graphics/Viewport.hpp"
@@ -31,7 +32,7 @@ namespace dt {
 /**
   * A manager class for managing the display and rendering.
   */
-class DisplayManager : public Manager {
+class DUCTTAPE_API DisplayManager : public Manager {
 public:
     /**
       * Default constructor.

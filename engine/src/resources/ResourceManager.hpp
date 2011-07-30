@@ -9,8 +9,6 @@
 #ifndef DUCTTAPE_ENGINE_RESOURCES_RESOURCEMANAGER
 #define DUCTTAPE_ENGINE_RESOURCES_RESOURCEMANAGER
 
-#include <SFML/Audio.hpp>
-
 #include <iostream>
 #include <queue>
 #include <vector>
@@ -21,6 +19,9 @@
 
 #include <OgreResourceGroupManager.h>
 
+#include <SFML/Audio.hpp>
+
+#include "Config.hpp"
 #include "Manager.hpp"
 
 namespace dt {
@@ -29,7 +30,7 @@ namespace dt {
   * Manager for loading resources to memory and communicating resources to Ogre.
   * @todo This manager should eventually only allow adding of locations which are managed automatically.
   */
-class ResourceManager : public Manager {
+class DUCTTAPE_API ResourceManager : public Manager {
 public:
     /**
       * Default constructor.

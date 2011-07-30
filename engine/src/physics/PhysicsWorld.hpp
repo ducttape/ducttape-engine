@@ -11,9 +11,12 @@
 
 #include <OGRE/OgreVector3.h>
 #include <OGRE/OgreSceneNode.h>
+
 #include <BtOgreExtras.h>
 #include <btBulletDynamicsCommon.h>
 #include <BulletCollision/CollisionShapes/btBox2dShape.h>
+
+#include "Config.hpp"
 
 namespace dt {
 
@@ -23,7 +26,7 @@ class Scene;
 /**
   * Holds and manages a complete world of bullet objects and all associated instances.
   */
-class PhysicsWorld {
+class DUCTTAPE_API PhysicsWorld {
 public:
     /**
       * Default constructor.

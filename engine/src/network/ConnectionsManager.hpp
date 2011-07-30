@@ -13,6 +13,7 @@
 
 #include <vector>
 
+#include "Config.hpp"
 #include "Connection.hpp"
 #include "event/Timer.hpp"
 #include "event/PingEvent.hpp"
@@ -24,7 +25,7 @@ namespace dt {
   * Class for managing all Connections.
   * @see Connection
   */
-class ConnectionsManager : public Manager, public EventListener {
+class DUCTTAPE_API ConnectionsManager : public Manager, public EventListener {
 public:
     /**
       * Type of Connection IDs. Limits the number of maximum connections.

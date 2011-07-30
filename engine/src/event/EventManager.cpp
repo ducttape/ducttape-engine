@@ -27,7 +27,7 @@ void EventManager::Deinitialize() {
 }
 
 EventManager* EventManager::Get() {
-    return Root::get_mutable_instance().GetEventManager();
+    return Root::GetInstance().GetEventManager();
 }
 
 void EventManager::InjectEvent(std::shared_ptr<Event> event) {

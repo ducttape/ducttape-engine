@@ -14,6 +14,7 @@
 #include <OGRE/OgreCamera.h>
 #include <OGRE/OgreViewport.h>
 
+#include "Config.hpp"
 #include "component/Component.hpp"
 
 namespace dt {
@@ -21,7 +22,7 @@ namespace dt {
 /**
   * Adds a camera to the Node.
   */
-class CameraComponent : public Component {
+class DUCTTAPE_API CameraComponent : public Component {
 public:
     /**
       * Advanced constructor.

@@ -13,6 +13,7 @@
 
 #include <OgreLight.h>
 
+#include "Config.hpp"
 #include "component/Component.hpp"
 #include "utils/Math.hpp"
 
@@ -22,7 +23,7 @@ namespace dt {
   * Lets the node follow a bezier path.
   * @todo extrude the path stuff to make it usable somewhere else as well
   */
-class FollowPathComponent : public Component {
+class DUCTTAPE_API FollowPathComponent : public Component {
 public:
     enum Mode {
         SINGLE,

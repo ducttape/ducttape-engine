@@ -15,6 +15,7 @@
 
 #include <SFML/Network.hpp>
 
+#include "Config.hpp"
 #include "ConnectionsManager.hpp"
 #include "event/EventListener.hpp"
 #include "event/HandshakeEvent.hpp"
@@ -30,7 +31,7 @@ namespace dt {
   * Manager for serializing events and sending them over network.
   * @see ConnectionsManager - Holds all connections of this manager.
   */
-class NetworkManager : public Manager,
+class DUCTTAPE_API NetworkManager : public Manager,
         public EventListener {
 public:
     /**

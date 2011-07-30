@@ -12,17 +12,19 @@
 #include <string>
 
 #include <boost/ptr_container/ptr_map.hpp>
+
 #include <OGRE/OgreSceneManager.h>
 
-#include "physics/PhysicsWorld.hpp"
+#include "Config.hpp"
 #include "Node.hpp"
+#include "physics/PhysicsWorld.hpp"
 
 namespace dt {
 
 /**
   * A class to represent a whole scene of the game world.
   */
-class Scene : public Node, public EventListener {
+class DUCTTAPE_API Scene : public Node, public EventListener {
 public:
     /**
       * Default constructor.
