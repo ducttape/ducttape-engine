@@ -9,6 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_GOODBYEEVENT
 #define DUCTTAPE_ENGINE_EVENT_GOODBYEEVENT
 
+#include "Config.hpp"
 #include "NetworkEvent.hpp"
 
 namespace dt {
@@ -16,7 +17,7 @@ namespace dt {
 /**
   * An Event announcing the end of a Connection. Sent by the NetworkManager on disconnect.
   */
-class GoodbyeEvent : public NetworkEvent {
+class DUCTTAPE_API GoodbyeEvent : public NetworkEvent {
 public:
     /**
       * Advanced constructor.

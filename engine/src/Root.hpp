@@ -38,6 +38,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/serialization/singleton.hpp>
 
+#include "Config.hpp"
 #include "utils/StringManager.hpp"
 #include "utils/LogManager.hpp"
 #include "states/StateManager.hpp"
@@ -57,7 +58,7 @@ namespace dt {
   * @see LogManager
   * @see StateManager
   */
-class Root : public boost::serialization::singleton<Root> {
+class DUCTTAPE_API Root : public boost::serialization::singleton<Root> {
 public:
     /**
       * Default constructor. All instances are created here.

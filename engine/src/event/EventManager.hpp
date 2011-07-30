@@ -12,6 +12,7 @@
 #include <memory>
 #include <vector>
 
+#include "Config.hpp"
 #include "Event.hpp"
 #include "EventListener.hpp"
 #include "BindingsManager.hpp"
@@ -25,7 +26,7 @@ namespace dt {
   * @see EventListener
   * @see Event
   */
-class EventManager : public Manager {
+class DUCTTAPE_API EventManager : public Manager {
 public:
     /**
       * Default constructor.

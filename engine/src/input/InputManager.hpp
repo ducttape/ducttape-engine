@@ -13,6 +13,7 @@
 #include <OIS.h>
 #include <OgreWindowEventUtilities.h>
 
+#include "Config.hpp"
 #include "utils/Logger.hpp"
 #include "utils/Utils.hpp"
 #include "MouseEvent.hpp"
@@ -25,7 +26,7 @@ namespace dt {
 /**
   * Used to capture all OIS input events and forward them to the Event system, and also for unbuffered input.
   */
-class InputManager : public Manager,
+class DUCTTAPE_API InputManager : public Manager,
         public OIS::KeyListener,
         public OIS::MouseListener,
         public Ogre::WindowEventListener {

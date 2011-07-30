@@ -11,6 +11,7 @@
 
 #include <string>
 
+#include "Config.hpp"
 #include "Event.hpp"
 
 namespace dt {
@@ -18,7 +19,7 @@ namespace dt {
 /**
  * Event being sent when sending a pause toggle to the music.
  */
-class MusicPauseEvent : public Event {
+class DUCTTAPE_API MusicPauseEvent : public Event {
 public:
     /**
      * Default constructor.

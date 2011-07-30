@@ -14,15 +14,16 @@
 #define MYGUI_DONT_USE_OBSOLETE
 #include <MyGUI.h>
 
-#include "graphics/GuiManager.hpp"
+#include "Config.hpp"
 #include "component/Component.hpp"
+#include "graphics/GuiManager.hpp"
 
 namespace dt {
 
 /**
   * Adds a GUI widget.
   */
-class GuiWidgetComponent : public Component {
+class DUCTTAPE_API GuiWidgetComponent : public Component {
 public:
     /**
       * Advanced constructor.

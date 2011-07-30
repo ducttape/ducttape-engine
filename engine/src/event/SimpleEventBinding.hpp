@@ -1,6 +1,7 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_SIMPLEEVENTBINDING
 #define DUCTTAPE_ENGINE_EVENT_SIMPLEEVENTBINDING
 
+#include "Config.hpp"
 #include "EventBinding.hpp"
 #include "utils/StringManager.hpp"
 
@@ -10,7 +11,7 @@ namespace dt {
   * A simple event binding that triggers when an Event
   * of a specific type occurs.
   */
-class SimpleEventBinding : public EventBinding {
+class DUCTTAPE_API SimpleEventBinding : public EventBinding {
 public:
     /**
       * Advanced constructor.

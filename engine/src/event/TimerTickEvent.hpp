@@ -9,6 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_TIMERTICKEVENT
 #define DUCTTAPE_ENGINE_EVENT_TIMERTICKEVENT
 
+#include "Config.hpp"
 #include "MessageEvent.hpp"
 
 namespace dt {
@@ -16,7 +17,7 @@ namespace dt {
 /**
   * The event triggered by a Timer every tick.
   */
-class TimerTickEvent : public MessageEvent {
+class DUCTTAPE_API TimerTickEvent : public MessageEvent {
 public:
     /**
       * Advanced constructor.

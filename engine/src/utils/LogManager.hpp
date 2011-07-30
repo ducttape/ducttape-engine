@@ -12,6 +12,7 @@
 #include <boost/ptr_container/ptr_map.hpp>
 #include <OGRE/OgreLogManager.h>
 
+#include "Config.hpp"
 #include "Logger.hpp"
 #include "Manager.hpp"
 
@@ -20,7 +21,7 @@ namespace dt {
 /**
   * A manager responsible for holding and providing all Loggers.
   */
-class LogManager : public Manager,
+class DUCTTAPE_API LogManager : public Manager,
     public Ogre::LogListener {
 public:
     /**

@@ -16,6 +16,7 @@
 #include <OgreParticleSystem.h>
 #include <OgreParticleAffector.h>
 
+#include "Config.hpp"
 #include "component/Component.hpp"
 
 namespace dt {
@@ -26,7 +27,7 @@ namespace dt {
   * @todo Have a look at Emitting emitters: http://www.ogre3d.org/docs/manual/manual_38.html#SEC232
   * @todo Add effector shortcuts.
   */
-class ParticleSystemComponent : public Component {
+class DUCTTAPE_API ParticleSystemComponent : public Component {
 public:
     /**
       * Advanced constructor.

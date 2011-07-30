@@ -11,6 +11,7 @@
 
 #include <OGRE/OgreEntity.h>
 
+#include "Config.hpp"
 #include "component/Component.hpp"
 
 namespace dt {
@@ -19,7 +20,7 @@ namespace dt {
   * Moves the node when the WASD / Arrow keys are pressed and rotates it with the
   * mouse.
   */
-class SimplePlayerComponent : public Component {
+class DUCTTAPE_API SimplePlayerComponent : public Component {
 public:
     /**
       * Advanced constructor.

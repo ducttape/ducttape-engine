@@ -13,13 +13,15 @@
 
 #include <SFML/Network.hpp>
 
+#include "Config.hpp"
+
 namespace dt {
 
 /**
   * Structure holding information for one connection. A connection consists of an IP and a port and represents
   * a remote device (i.e. a client in server mode and vice versa).
   */
-class Connection {
+class DUCTTAPE_API Connection {
 public:
     /**
       * Default constructor. Needed for boost::ptr_map.

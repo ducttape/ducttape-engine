@@ -10,6 +10,7 @@
 #include <OgreViewport.h>
 #include <OgreWindowEventUtilities.h>
 
+#include "Config.hpp"
 #include "component/CameraComponent.hpp"
 #include "utils/Logger.hpp"
 
@@ -18,7 +19,7 @@ namespace dt {
 /**
   * A Ogre::Viewport class wrapper.
   */
-class Viewport {
+class DUCTTAPE_API Viewport {
 public:
     /**
       * Default constructor.

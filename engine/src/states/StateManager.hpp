@@ -12,6 +12,7 @@
 #include <boost/ptr_container/ptr_vector.hpp>
 #include <memory>
 
+#include "Config.hpp"
 #include "State.hpp"
 #include "Manager.hpp"
 
@@ -21,7 +22,7 @@ namespace dt {
   * A manager responsible for managing game states.
   * @see State
   */
-class StateManager : public Manager {
+class DUCTTAPE_API StateManager : public Manager {
 public:
     /**
       * Default constructor.

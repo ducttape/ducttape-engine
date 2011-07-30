@@ -17,6 +17,7 @@
 #include <BtOgreGP.h>
 #include <BtOgreExtras.h>
 
+#include "Config.hpp"
 #include "component/Component.hpp"
 #include "component/MeshComponent.hpp"
 #include "event/FreezePhysicsEvent.hpp"
@@ -30,7 +31,7 @@ namespace dt {
 /**
   * A component making the node physical.
   */
-class PhysicsBodyComponent : public Component {
+class DUCTTAPE_API PhysicsBodyComponent : public Component {
 public:
     /**
       * Advanced constructor.

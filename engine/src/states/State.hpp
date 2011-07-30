@@ -11,6 +11,7 @@
 
 #include <boost/ptr_container/ptr_map.hpp>
 
+#include "Config.hpp"
 #include "event/Event.hpp"
 #include "event/EventListener.hpp"
 #include "scene/Scene.hpp"
@@ -18,11 +19,11 @@
 namespace dt {
 
 /**
-  * A class for managing different stages of menu and gameplay.
+  * A class DUCTTAPE_API for managing different stages of menu and gameplay.
   * @warning Class mockup only. Documentation suspended.
   * @see StateManager
   */
-class State : public EventListener {
+class DUCTTAPE_API State : public EventListener {
 public:
     /**
       * Default constructor.

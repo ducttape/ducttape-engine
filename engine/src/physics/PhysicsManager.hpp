@@ -17,6 +17,7 @@
 //#include <BulletCollision/CollisionShapes/btConvex2dShape.h>
 //#include <BulletCollision/NarrowPhaseCollision/btMinkowskiPenetrationDepthSolver.h>
 
+#include "Config.hpp"
 #include "Manager.hpp"
 
 namespace dt {
@@ -24,7 +25,7 @@ namespace dt {
 /**
   * A manager for keeping the physics world and for taking care of the complicated initialization.
   */
-class PhysicsManager : public Manager {
+class DUCTTAPE_API PhysicsManager : public Manager {
 public:
     /**
       * Default constructor.

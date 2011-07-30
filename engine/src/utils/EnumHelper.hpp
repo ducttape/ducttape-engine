@@ -13,6 +13,8 @@
 
 #include <SFML/Network.hpp>
 
+#include "Config.hpp"
+
 namespace dt {
 
 /**
@@ -35,7 +37,7 @@ namespace dt {
   * @see sf::Packet
   * @see IOPacket
   */
-class EnumHelper {
+class DUCTTAPE_API EnumHelper {
 public:
     /**
       * Constructor.
@@ -54,6 +56,7 @@ public:
       * @param i The new integer value.
       */
     void Set(uint32_t i);
+
 private:
     void* mEnumObj; //!< A pointer to the enum object.
 };
@@ -66,7 +69,7 @@ private:
   * @returns The original sf::Packet to continue streaming.
   * @fn sf::Packet& EnumHelper::operator << (sf::Packet& p, EnumHelper e);
   */
-sf::Packet& operator << (sf::Packet& p, EnumHelper e);
+DUCTTAPE_API sf::Packet& operator << (sf::Packet& p, EnumHelper e);
 
 /**
   * Stream operator to deserialize the EnumHelper using it's Set() method.
@@ -75,7 +78,7 @@ sf::Packet& operator << (sf::Packet& p, EnumHelper e);
   * @param e The EnumHelper holding a pointer to the enum.
   * @returns The original sf::Packet to continue streaming.
   */
-sf::Packet& operator >> (sf::Packet& p, EnumHelper e);
+DUCTTAPE_API sf::Packet& operator >> (sf::Packet& p, EnumHelper e);
 
 }
 

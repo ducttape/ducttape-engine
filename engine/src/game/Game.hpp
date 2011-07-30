@@ -9,8 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_GAME_GAME
 #define DUCTTAPE_ENGINE_GAME_GAME
 
+#include "Config.hpp"
 #include "Root.hpp"
-
 #include "event/BeginFrameEvent.hpp"
 #include "event/GoodbyeEvent.hpp"
 #include "states/State.hpp"
@@ -20,7 +20,7 @@ namespace dt {
 /**
   * The main instance of a game, running the main loop.
   */
-class Game : public EventListener {
+class DUCTTAPE_API Game : public EventListener {
 public:
     /**
       * Default constructor.

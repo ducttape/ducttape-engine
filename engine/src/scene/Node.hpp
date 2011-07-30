@@ -13,9 +13,11 @@
 #include <vector>
 
 #include <boost/ptr_container/ptr_map.hpp>
+
 #include <OGRE/OgreVector3.h>
 #include <OGRE/OgreQuaternion.h>
 
+#include "Config.hpp"
 #include "utils/Logger.hpp"
 #include "component/Component.hpp"
 
@@ -25,13 +27,13 @@ namespace dt {
 class Scene;
 
 /**
-  * Basic scene object class. 
+  * Basic scene object class.
   * Any object in a scene is described by a node with a position, scale and rotation
-  * and other child nodes. The Node class is also able to have components to control 
+  * and other child nodes. The Node class is also able to have components to control
   * its behaviour, e.g. the look or events.
   * @see Component
   */
-class Node {
+class DUCTTAPE_API Node {
 public:
     enum RelativeTo {
         PARENT,

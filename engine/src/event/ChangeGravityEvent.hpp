@@ -13,6 +13,7 @@
 
 #include <OgreVector3.h>
 
+#include "Config.hpp"
 #include "Event.hpp"
 
 namespace dt {
@@ -20,7 +21,7 @@ namespace dt {
 /**
  * Event to change global gravity.
  */
-class ChangeGravityEvent : public Event {
+class DUCTTAPE_API ChangeGravityEvent : public Event {
 public:
     /**
       * Advanced constructor.

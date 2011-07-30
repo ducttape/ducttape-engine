@@ -11,6 +11,7 @@
 
 #include <string>
 
+#include "Config.hpp"
 #include "Event.hpp"
 
 namespace dt {
@@ -18,7 +19,7 @@ namespace dt {
 /**
  * Event being sent when sending a play to all sounds.
  */
-class SoundsControlEvent : public Event {
+class DUCTTAPE_API SoundsControlEvent : public Event {
 public:
     enum Action {
         PLAY = 0,

@@ -12,7 +12,9 @@
 
 #include <string>
 #include <iostream>
-#include <stdio.h>
+#include <cstdio>
+
+#include "Config.hpp"
 
 namespace dt {
 
@@ -22,7 +24,7 @@ class Logger;
 /**
   * A class for formatting log messages and writing them to the correct output stream.
   */
-class LogStream {
+class DUCTTAPE_API LogStream {
 public:
     static std::string COLOR_RED;       //!< ANSI color code for red
     static std::string COLOR_GREEN;     //!< ANSI color code for green
