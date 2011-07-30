@@ -22,6 +22,10 @@ SimplePlayerComponent::SimplePlayerComponent(const std::string& name)
       mMouseYInversed(false) {}
 
 void SimplePlayerComponent::HandleEvent(std::shared_ptr<Event> e) {
+    // do not react to any events if this component is disabled
+    if(!IsEnabled())
+        return;
+
     if(mMouseEnabled && e->GetType() == "DT_MOUSEEVENT") {
         std::shared_ptr<MouseEvent> m = std::dynamic_pointer_cast<MouseEvent>(e);
         if(m->GetAction() == MouseEvent::MOVED) {

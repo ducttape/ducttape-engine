@@ -53,11 +53,15 @@ void PhysicsBodyComponent::OnCreate() {
                     BtOgre::Convert::toBullet(GetNode()->GetPosition(Node::SCENE))));
 
     mBody = new btRigidBody(mass, state, mCollisionShape, inertia);
+}
 
+void PhysicsBodyComponent::OnDestroy() {}
+
+void PhysicsBodyComponent::OnEnable() {
     GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addRigidBody(mBody);
 }
 
-void PhysicsBodyComponent::OnDestroy() {
+void PhysicsBodyComponent::OnDisable() {
     GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->removeRigidBody(mBody);
 }
 

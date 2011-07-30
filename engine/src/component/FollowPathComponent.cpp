@@ -28,35 +28,33 @@ void FollowPathComponent::OnCreate() {}
 void FollowPathComponent::OnDestroy() {}
 
 void FollowPathComponent::OnUpdate(double time_diff) {
-    if(IsEnabled()) {
-        // move progress further
-        if(!mReversed) {
-            mDurationSinceStart += time_diff;
+    // move progress further
+    if(!mReversed) {
+        mDurationSinceStart += time_diff;
+    } else {
+        mDurationSinceStart -= time_diff;
+    }
+
+    // calculate new position
+    if(mNode != nullptr)
+        mNode->SetPosition(_CalculatePosition());
+
+    if(mFollowRotation && time_diff > 0) {
+        mNode->SetRotation(Ogre::Vector3::UNIT_Z.getRotationTo(mNode->GetPosition() - mLastPoint));
+        mLastPoint = mNode->GetPosition();
+    }
+
+    if(mDurationSinceStart > mTotalDuration || mDurationSinceStart < 0) {
+        // we have travelled the whole path. now what?
+        if(mMode == FollowPathComponent::LOOP) {
+            Reset();
+        } else if(mMode == FollowPathComponent::ALTERNATING) {
+            mReversed = !mReversed;
+            Reset();
         } else {
-            mDurationSinceStart -= time_diff;
-        }
-
-        // calculate new position
-        if(mNode != nullptr)
-            mNode->SetPosition(_CalculatePosition());
-
-        if(mFollowRotation && time_diff > 0) {
-            mNode->SetRotation(Ogre::Vector3::UNIT_Z.getRotationTo(mNode->GetPosition() - mLastPoint));
-            mLastPoint = mNode->GetPosition();
-        }
-
-        if(mDurationSinceStart > mTotalDuration || mDurationSinceStart < 0) {
-            // we have travelled the whole path. now what?
-            if(mMode == FollowPathComponent::LOOP) {
-                Reset();
-            } else if(mMode == FollowPathComponent::ALTERNATING) {
-                mReversed = !mReversed;
-                Reset();
-            } else {
-                // disable
-                Reset();
-                Disable();
-            }
+            // disable
+            Reset();
+            Disable();
         }
     }
 }

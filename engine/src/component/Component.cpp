@@ -61,6 +61,7 @@ void Component::Destroy() {
     EventManager::Get()->RemoveListener(this);
     if(mIsCreated) {
         mIsCreated = false;
+        Disable();
         OnDestroy();
     }
 }

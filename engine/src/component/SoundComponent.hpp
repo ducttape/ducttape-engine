@@ -55,6 +55,7 @@ public:
 
     /**
      * Tries to play / continue sound located in mSound.
+     * @warning The sound will not be played if the component is diabled.
      */
     void PlaySound();
 

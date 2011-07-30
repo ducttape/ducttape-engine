@@ -23,25 +23,30 @@ MusicComponent::MusicComponent(const std::string& music_file, const std::string&
 }
 
 void MusicComponent::HandleEvent(std::shared_ptr<Event> e) {
-    auto resmgr = ResourceManager::Get();
     if(e->GetType() == "DT_MUSICCONTROLEVENT") {
         std::shared_ptr<MusicControlEvent> m = std::dynamic_pointer_cast<MusicControlEvent>(e);
         if(m->GetAction() == MusicControlEvent::PAUSE) {
-            resmgr->GetMusicFile(mMusicFile)->Pause();
+            PauseMusic();
         } else if(m->GetAction() == MusicControlEvent::STOP) {
-            resmgr->GetMusicFile(mMusicFile)->Stop();
+            StopMusic();
         } else if(m->GetAction() == MusicControlEvent::PLAY) {
-            resmgr->GetMusicFile(mMusicFile)->Play();
+            PlayMusic();
         }
     }
 }
 
-void MusicComponent::OnCreate() {
-    _PlayMusic();
-}
+void MusicComponent::OnCreate() {}
 
 void MusicComponent::OnDestroy() {
-    _StopMusic();
+    StopMusic();
+}
+
+void MusicComponent::OnEnable() {
+    PlayMusic();
+}
+
+void MusicComponent::OnDisable() {
+    PauseMusic();
 }
 
 void MusicComponent::OnUpdate(double time_diff) {
@@ -87,14 +92,19 @@ void MusicComponent::_LoadMusic() {
     }
 }
 
-void MusicComponent::_PlayMusic() {
+void MusicComponent::PlayMusic() {
     // play music if possible
     ResourceManager::Get()->GetMusicFile(mMusicFile)->Play();
 }
 
-void MusicComponent::_StopMusic() {
+void MusicComponent::StopMusic() {
     // stop music if possible
     ResourceManager::Get()->GetMusicFile(mMusicFile)->Stop();
+}
+
+void MusicComponent::PauseMusic() {
+    // pause music if possible
+    ResourceManager::Get()->GetMusicFile(mMusicFile)->Pause();
 }
 
 void MusicComponent::Fade(double time, float target_volume) {

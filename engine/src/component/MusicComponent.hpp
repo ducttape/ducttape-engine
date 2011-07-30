@@ -32,6 +32,8 @@ public:
 
     void OnCreate();
     void OnDestroy();
+    void OnEnable();
+    void OnDisable();
     void OnUpdate(double time_diff);
 
     /**
@@ -65,21 +67,28 @@ public:
       */
     void Fade(double time, float target_volume);
 
+    /**
+      * Plays the music stream.
+      * @see Component::Enable()
+      */
+    void PlayMusic();
+
+    /**
+      * Stops the music stream.
+      */
+    void StopMusic();
+
+    /**
+      * Stops the music stream. You can also use Component::Disable() to pause the music.
+      * @see Component::Disable()
+      */
+    void PauseMusic();
+
 private:
     /**
       * Private method. Prepares the music stream.
       */
     void _LoadMusic();
-
-    /**
-      * Private method. Plays the music stream.
-      */
-    void _PlayMusic();
-
-    /**
-      * Private method. Stops the music stream.
-      */
-    void _StopMusic();
 
     std::string mMusicFile;     //!< The file the music was loaded from.
     bool mFadeFlag;             //!< The fading flag.

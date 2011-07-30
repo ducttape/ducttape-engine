@@ -39,6 +39,8 @@ public:
 
     void OnCreate();
     void OnDestroy();
+    void OnEnable();
+    void OnDisable();
     void OnUpdate(double time_diff);
 
     void SetUsesPixelCoordinates(bool uses_pixel_coordinates);

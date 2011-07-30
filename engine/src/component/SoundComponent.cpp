@@ -63,12 +63,13 @@ sf::Sound& SoundComponent::GetSound() {
 }
 
 void SoundComponent::PlaySound() {
-    // play sound if possible
-    mSound.Play();
+    // play sound if possible and enabled
+    if(IsEnabled())
+        mSound.Play();
 }
 
 void SoundComponent::PauseSound() {
-    // pause sound if possible
+    // pause sound if possible    
     mSound.Pause();
 }
 

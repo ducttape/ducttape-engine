@@ -34,6 +34,14 @@ void MeshComponent::OnDestroy() {
     _DestroyMesh();
 }
 
+void MeshComponent::OnEnable() {
+    mEntity->setVisible(true);
+}
+
+void MeshComponent::OnDisable() {
+    mEntity->setVisible(false);
+}
+
 void MeshComponent::OnUpdate(double time_diff) {
     // set position, rotation and scale of the node
     mSceneNode->setPosition(GetNode()->GetPosition(Node::SCENE));

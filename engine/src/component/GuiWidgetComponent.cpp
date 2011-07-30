@@ -21,6 +21,14 @@ void GuiWidgetComponent::OnDestroy() {
     GuiManager::Get()->GetGuiSystem()->destroyWidget(mWidget);
 }
 
+void GuiWidgetComponent::OnEnable() {
+    mWidget->setVisible(true);
+}
+
+void GuiWidgetComponent::OnDisable() {
+    mWidget->setVisible(false);
+}
+
 void GuiWidgetComponent::OnUpdate(double time_diff) {
     if(mUsesPixelCoordinates) {
         mWidget->setCoord(MyGUI::IntCoord(

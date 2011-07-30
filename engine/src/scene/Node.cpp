@@ -221,7 +221,9 @@ void Node::_UpdateAllComponents(double time_diff) {
 #else
     for(std::pair<std::string, std::shared_ptr<Component> > pair: mComponents) {
 #endif
-        pair.second->OnUpdate(time_diff);
+        if(pair.second->IsEnabled()) {
+            pair.second->OnUpdate(time_diff);
+        }
     }
     mIsUpdatingAfterChange = false;
 }

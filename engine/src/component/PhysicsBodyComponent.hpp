@@ -43,6 +43,8 @@ public:
 
     void OnCreate();
     void OnDestroy();
+    void OnEnable();
+    void OnDisable();
     void OnUpdate(double time_diff);
 
     /**
