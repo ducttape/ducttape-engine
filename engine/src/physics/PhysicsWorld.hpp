@@ -56,6 +56,10 @@ public:
 
     bool GetShowDebug() const;
 
+    void SetEnabled(bool enabled);
+
+    bool IsEnabled() const;
+
     static void BulletTickCallback(btDynamicsWorld* world, btScalar time_diff);
 
 private:
@@ -71,7 +75,7 @@ private:
     Scene* mScene;
     Ogre::Vector3 mGravity;
     std::string mName;
-
+    bool mIsEnabled;
 };
 
 }

@@ -21,14 +21,7 @@ PhysicsBodyComponent::PhysicsBodyComponent(const std::string& mesh_component_nam
       mBody(nullptr),
       mMotionState(nullptr) {}
 
-void PhysicsBodyComponent::HandleEvent(std::shared_ptr<Event> e) {
-    if(e->GetType() == "DT_FREEZEPHYSICS") {
-        Logger::Get().Error("Not implemented: Freeze physics");
-    }
-    if(e->GetType() == "DT_UNFREEZEPHYSICS") {
-        Logger::Get().Error("Not implemented: Unfreeze physics");
-    }
-}
+void PhysicsBodyComponent::HandleEvent(std::shared_ptr<Event> e) {}
 
 void PhysicsBodyComponent::OnCreate() {
     if(! mNode->HasComponent(mMeshComponentName)) {

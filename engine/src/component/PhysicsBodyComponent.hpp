@@ -20,8 +20,6 @@
 #include "Config.hpp"
 #include "component/Component.hpp"
 #include "component/MeshComponent.hpp"
-#include "event/FreezePhysicsEvent.hpp"
-#include "event/UnfreezePhysicsEvent.hpp"
 #include "scene/Node.hpp"
 #include "physics/PhysicsManager.hpp"
 

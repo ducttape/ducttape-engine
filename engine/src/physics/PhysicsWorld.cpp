@@ -19,7 +19,8 @@ PhysicsWorld::PhysicsWorld(const std::string& name, Scene* scene)
       mShowDebug(false),
       mScene(scene),
       mGravity(Ogre::Vector3(0, -9.8, 0)),
-      mName(name) {}
+      mName(name),
+      mIsEnabled(true) {}
 
 void PhysicsWorld::Initialize() {
     Logger::Get().Info("Initializing phyics world: " + mName);
@@ -53,8 +54,10 @@ void PhysicsWorld::Deinitialize() {
 }
 
 void PhysicsWorld::StepSimulation(double time_diff) {
-    mDynamicsWorld->stepSimulation(time_diff, 10);
-    mDebugDrawer->step();
+    if(mIsEnabled) {
+        mDynamicsWorld->stepSimulation(time_diff, 10);
+        mDebugDrawer->step();
+    }
 }
 
 btDiscreteDynamicsWorld* PhysicsWorld::GetBulletWorld() {
@@ -84,6 +87,15 @@ void PhysicsWorld::SetShowDebug(bool show_debug) {
 
 bool PhysicsWorld::GetShowDebug() const {
     return mShowDebug;
+}
+
+
+void PhysicsWorld::SetEnabled(bool enabled) {
+    mIsEnabled = enabled;
+}
+
+bool PhysicsWorld::IsEnabled() const {
+    return mIsEnabled;
 }
 
 // Callback stuff for Bullet (static)
