@@ -5,10 +5,9 @@
 namespace dt {
 
 GuiWidgetComponent::GuiWidgetComponent(const std::string& type, const std::string& name)
-    : Component(name) {
-    mType = type;
-    mUsesPixelCoordinates = false;
-}
+    : Component(name),
+      mType(type),
+      mUsesPixelCoordinates(false) {}
 
 MyGUI::WidgetPtr GuiWidgetComponent::GetWidget() {
     return mWidget;

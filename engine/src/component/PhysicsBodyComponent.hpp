@@ -21,7 +21,6 @@
 #include "component/MeshComponent.hpp"
 #include "event/FreezePhysicsEvent.hpp"
 #include "event/UnfreezePhysicsEvent.hpp"
-#include "event/ChangeGravityEvent.hpp"
 #include "scene/Node.hpp"
 #include "physics/PhysicsManager.hpp"
 

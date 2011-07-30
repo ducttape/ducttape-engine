@@ -12,9 +12,8 @@
 
 namespace dt {
 
-Event::Event() {
-    mIsCanceled = false;
-}
+Event::Event()
+    : mIsCanceled(false) {}
 
 bool Event::IsNetworkEvent() const {
     return false;

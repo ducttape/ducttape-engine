@@ -17,10 +17,9 @@
 
 namespace dt {
 
-StringManager::StringManager() {
-    mLastId = 0;
-    mAutoId = 0;
-}
+StringManager::StringManager()
+    : mLastId(0),
+      mAutoId(0) {}
 
 void StringManager::Initialize() {}
 void StringManager::Deinitialize() {}

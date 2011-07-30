@@ -10,9 +10,8 @@
 
 namespace dt {
 
-SoundsControlEvent::SoundsControlEvent(SoundsControlEvent::Action action) {
-    mAction = action;
-}
+SoundsControlEvent::SoundsControlEvent(SoundsControlEvent::Action action)
+    : mAction(action) {}
 
 const std::string SoundsControlEvent::GetType() const {
    return "DT_SOUNDSCONTROLEVENT";

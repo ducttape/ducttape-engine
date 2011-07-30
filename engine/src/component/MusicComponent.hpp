@@ -81,10 +81,10 @@ private:
     void _StopMusic();
 
     std::string mMusicFile;     //!< The file the music was loaded from.
+    bool mFadeFlag;             //!< The fading flag.
     double mElapsedTime;        //!< The elapsed time during the fading.
     double mFadeTime;           //!< The fading duration time.
     float mFadeVolume;          //!< The fading target volume.
-    bool mFadeFlag;             //!< The fading flag.
 };
 
 }

@@ -12,11 +12,10 @@
 
 namespace dt {
 
-ConnectionsManager::ConnectionsManager(ConnectionsManager::ID_t max_connections) {
-    mMaxConnections = max_connections;
-    mPingInterval = 1.0;
-    SetTimeout(10.0);
-}
+ConnectionsManager::ConnectionsManager(ConnectionsManager::ID_t max_connections)
+    : mMaxConnections(max_connections),
+      mTimeout(10.0),
+      mPingInterval(1.0) {}
 
 ConnectionsManager::~ConnectionsManager() {}
 

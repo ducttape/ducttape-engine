@@ -23,12 +23,14 @@ public:
     /**
       * Advanced constructor.
       * @param name The name of the Component.
+      * @param material_name The name of the material to assign to the mesh.
+      * Empty string to keep the mesh's material name. Default: none.
       * @param mesh_handle The handle the mesh is loaded from. This could be
       * a file path or a generated's mesh name.
       * @see Component
       */
     MeshComponent(const std::string& mesh_handle = "",
-                  const std::string& mat = "", const std::string& name = "");
+                  const std::string& material_name = "", const std::string& name = "");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 
@@ -89,7 +91,11 @@ public:
       */
     bool GetLoopAnimation();
 
-    void SetMaterialName(const std::string& name);
+    /**
+      * Sets the material name of the mesh.
+      * @param material_name The new Ogre material name.
+      */
+    void SetMaterialName(const std::string& material_name);
 
     Ogre::SceneNode* GetOgreSceneNode() const;
 
@@ -113,7 +119,7 @@ private:
     bool mLoopAnimation;            //!< Whether the animation shall be looped.
 
     std::string mMeshHandle;          //!< The handle of the mesh.
-    std::string mMaterial;
+    std::string mMaterialName;
 };
 
 }

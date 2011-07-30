@@ -10,10 +10,9 @@
 
 namespace dt {
 
-PingEvent::PingEvent(double timestamp, bool is_reply) {
-    mTimestamp = timestamp;
-    mIsReply = is_reply;
-}
+PingEvent::PingEvent(double timestamp, bool is_reply)
+    : mIsReply(is_reply),
+      mTimestamp(timestamp) {}
 
 const std::string PingEvent::GetType() const {
     return "DT_PINGEVENT";

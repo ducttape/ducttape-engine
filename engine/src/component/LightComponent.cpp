@@ -12,9 +12,9 @@
 #include "scene/Scene.hpp"
 
 namespace dt {
-    LightComponent::LightComponent(const std::string& name) : Component(name) {
-        mLight = nullptr;
-    }
+    LightComponent::LightComponent(const std::string& name)
+        : Component(name),
+          mLight(nullptr) {}
 
     void LightComponent::HandleEvent(std::shared_ptr<Event> e) {
     }

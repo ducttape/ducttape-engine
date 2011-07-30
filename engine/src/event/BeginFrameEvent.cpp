@@ -10,9 +10,8 @@
 
 namespace dt {
 
-BeginFrameEvent::BeginFrameEvent(double frame_time) {
-    mFrameTime = frame_time;
-}
+BeginFrameEvent::BeginFrameEvent(double frame_time)
+    : mFrameTime(frame_time) {}
 
 const std::string BeginFrameEvent::GetType() const {
     return "DT_BEGINFRAMEEVENT";

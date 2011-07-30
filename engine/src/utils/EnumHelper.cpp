@@ -10,9 +10,8 @@
 
 namespace dt {
 
-EnumHelper::EnumHelper(void* e) {
-    mEnumObj = e;
-}
+EnumHelper::EnumHelper(void* e)
+    : mEnumObj(e) {}
 
 sf::Uint32 EnumHelper::Get() {
     return (uint32_t)(*((int*)mEnumObj));

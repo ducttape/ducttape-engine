@@ -10,19 +10,18 @@
 
 namespace dt {
 
-Root::Root() {
-    // This list of new keywords exists to allow us fine-grained control over
-    // the creation and deletion of these managers.
-    mLogManager = new LogManager();
-    mStringManager = new StringManager();
-    mEventManager = new EventManager();
-    mResourceManager = new ResourceManager();
-    mInputManager = new InputManager();
-    mDisplayManager = new DisplayManager();
-    mStateManager = new StateManager();
-    mNetworkManager = new NetworkManager();
-    mPhysicsManager = new PhysicsManager();
-}
+// This list of new keywords exists to allow us fine-grained control over
+// the creation and deletion of these managers.
+Root::Root()
+    : mLogManager(new LogManager()),
+      mStringManager(new StringManager()),
+      mEventManager(new EventManager()),
+      mResourceManager(new ResourceManager()),
+      mInputManager(new InputManager()),
+      mDisplayManager(new DisplayManager()),
+      mStateManager(new StateManager()),
+      mNetworkManager(new NetworkManager()),
+      mPhysicsManager(new PhysicsManager()) {}
 
 Root::~Root() {
     // Complementary to the constructor, we destroy the managers in reverse

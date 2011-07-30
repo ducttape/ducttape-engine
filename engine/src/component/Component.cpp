@@ -12,18 +12,14 @@
 
 namespace dt {
 
-Component::Component(const std::string& name) {
-    uint32_t new_id;
-
-    if(name == "") {
-        new_id = StringManager::Get()->GetNextAutoId();
-        mName = "Component-"+tostr(new_id);
-    } else {
-        mName = name;
+Component::Component(const std::string& name)
+    : mName(name),
+      mIsEnabled(false),
+      mIsCreated(false) {
+    // auto-generate the component name
+    if(mName == "") {
+        mName = "Component-" + tostr(StringManager::Get()->GetNextAutoId());
     }
-
-	mIsCreated = false;
-    mIsEnabled = false;
 }
 
 Component::~Component() {}

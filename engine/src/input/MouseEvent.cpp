@@ -10,11 +10,10 @@
 
 namespace dt {
 
-MouseEvent::MouseEvent(MouseEvent::Action action, OIS::MouseState state, OIS::MouseButtonID button) {
-    mAction = action;
-    mState = state;
-    mButton = button;
-}
+MouseEvent::MouseEvent(MouseEvent::Action action, OIS::MouseState state, OIS::MouseButtonID button)
+    : mState(state),
+      mAction(action),
+      mButton(button) {}
 
 const std::string MouseEvent::GetType() const {
     return "DT_MOUSEEVENT";

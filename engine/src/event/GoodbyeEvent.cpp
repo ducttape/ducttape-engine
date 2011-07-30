@@ -10,9 +10,8 @@
 
 namespace dt {
 
-GoodbyeEvent::GoodbyeEvent(const std::string& reason) {
-    mReason = reason;
-}
+GoodbyeEvent::GoodbyeEvent(const std::string& reason)
+    : mReason(reason) {}
 
 const std::string GoodbyeEvent::GetType() const {
     return "DT_GOODBYEEVENT";

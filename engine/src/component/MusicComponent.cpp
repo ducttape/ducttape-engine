@@ -13,13 +13,13 @@
 namespace dt {
 
 MusicComponent::MusicComponent(const std::string& music_file, const std::string& name)
-    : Component(name) {
-    mMusicFile = music_file;
+    : Component(name),
+      mMusicFile(music_file),
+      mFadeFlag(false),
+      mElapsedTime(0.0),
+      mFadeTime(0.0),
+      mFadeVolume(0.0f) {
     _LoadMusic();
-    mFadeFlag = false;
-    mElapsedTime = 0.0;
-    mFadeTime = 0.0;
-    mFadeVolume = 0.0f;
 }
 
 void MusicComponent::HandleEvent(std::shared_ptr<Event> e) {

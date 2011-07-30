@@ -14,8 +14,7 @@
 namespace dt {
 
 CameraComponent::CameraComponent(const std::string& name)
-   : Component(name) {
-}
+   : Component(name) {}
 
 void CameraComponent::HandleEvent(std::shared_ptr<Event> e) {
 }

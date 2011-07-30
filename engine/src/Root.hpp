@@ -146,17 +146,18 @@ public:
     PhysicsManager* GetPhysicsManager();
 
 private:
-    sf::Clock mSfClock;                 //!< sf::Clock for keeping time since Initialize()
-    boost::filesystem::path mExecutablePath; //!< absolute path to current executable
-    StringManager* mStringManager;      //!< pointer to the StringManager
-    LogManager* mLogManager;            //!< pointer to the LogManager
-    StateManager* mStateManager;        //!< pointer to the StateManager
-    EventManager* mEventManager;        //!< pointer to the EventManager
-    NetworkManager* mNetworkManager;    //!< pointer to the NetworkManager
-    DisplayManager* mDisplayManager;    //!< pointer to the DisplayManager
-    InputManager* mInputManager;        //!< pointer to the InputManager
-    ResourceManager* mResourceManager;  //!< pointer to the ResourceManager
-    PhysicsManager* mPhysicsManager;  //!< pointer to the ResourceManager
+    sf::Clock mSfClock;                 //!< Clock for keeping time since Initialize() was called.
+    boost::filesystem::path mExecutablePath; //!< Absolute path to current executable.
+
+    LogManager* mLogManager;            //!< Pointer to the LogManager.
+    StringManager* mStringManager;      //!< Pointer to the StringManager.
+    EventManager* mEventManager;        //!< Pointer to the EventManager.
+    ResourceManager* mResourceManager;  //!< Pointer to the ResourceManager.
+    InputManager* mInputManager;        //!< Pointer to the InputManager.
+    DisplayManager* mDisplayManager;    //!< Pointer to the DisplayManager.
+    StateManager* mStateManager;        //!< Pointer to the StateManager.
+    NetworkManager* mNetworkManager;    //!< Pointer to the NetworkManager.
+    PhysicsManager* mPhysicsManager;    //!< Pointer to the PhysicsManager.
 };
 
 }

@@ -5,11 +5,10 @@
 
 namespace dt {
 
-GuiManager::GuiManager() {
-    mPlatform = nullptr;
-    mGuiSystem = nullptr;
-    mMouseCursorVisible = false;
-}
+GuiManager::GuiManager()
+    : mGuiSystem(nullptr),
+      mPlatform(nullptr),
+      mMouseCursorVisible(false) {}
 
 void GuiManager::Initialize() {
     if(mGuiSystem == nullptr) {

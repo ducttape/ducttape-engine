@@ -15,13 +15,12 @@
 namespace dt {
 
 FollowPathComponent::FollowPathComponent(Mode mode, const std::string& name)
-    : Component(name) {
-    mSmoothAcceleration = false;
-    mSmoothCorners = 0;
-    mMode = mode;
-    mReversed = false;
-    mFollowRotation = false;
-}
+    : Component(name),
+      mSmoothCorners(0),
+      mSmoothAcceleration(false),
+      mFollowRotation(false),
+      mReversed(false),
+      mMode(mode) {}
 
 void FollowPathComponent::HandleEvent(std::shared_ptr<Event> e) {}
 

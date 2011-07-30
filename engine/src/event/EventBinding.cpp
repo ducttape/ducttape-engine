@@ -12,9 +12,8 @@
 
 namespace dt {
 
-EventBinding::EventBinding(Event* target) {
-    mTarget = std::shared_ptr<Event>(target);
-}
+EventBinding::EventBinding(Event* target)
+    : mTarget(std::shared_ptr<Event>(target)) {}
 
 EventBinding::~EventBinding() {}
 

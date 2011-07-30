@@ -15,17 +15,18 @@ namespace dt {
 
 PhysicsBodyComponent::PhysicsBodyComponent(const std::string& mesh_component_name,
                                            const std::string& name)
-    : Component(name) {
-    mMeshComponentName = mesh_component_name;
-}
+    : Component(name),
+      mMeshComponentName(mesh_component_name),
+      mCollisionShape(nullptr),
+      mBody(nullptr),
+      mMotionState(nullptr) {}
 
 void PhysicsBodyComponent::HandleEvent(std::shared_ptr<Event> e) {
-    if(e->GetType() == "DT_FREEZEPHYSICS") {}
-    if(e->GetType() == "DT_UNFREEZEPHYSICS") {}
-    if(e->GetType() == "DT_CHANGEGRAVITY") {
-        std::shared_ptr<ChangeGravityEvent> g =
-            std::dynamic_pointer_cast<ChangeGravityEvent>(e);
-        g->GetDirection();
+    if(e->GetType() == "DT_FREEZEPHYSICS") {
+        Logger::Get().Error("Not implemented: Freeze physics");
+    }
+    if(e->GetType() == "DT_UNFREEZEPHYSICS") {
+        Logger::Get().Error("Not implemented: Unfreeze physics");
     }
 }
 

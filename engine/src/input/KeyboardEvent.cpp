@@ -10,11 +10,10 @@
 
 namespace dt {
 
-KeyboardEvent::KeyboardEvent(KeyboardEvent::Action action, OIS::KeyCode code, char text) {
-    mAction = action;
-    mCode = code;
-    mText = text;
-}
+KeyboardEvent::KeyboardEvent(KeyboardEvent::Action action, OIS::KeyCode code, char text)
+    : mCode(code),
+      mAction(action),
+      mText(text) {}
 
 const std::string KeyboardEvent::GetType() const {
     return "DT_KEYBOARDEVENT";

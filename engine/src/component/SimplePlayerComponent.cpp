@@ -13,14 +13,13 @@
 namespace dt {
 
 SimplePlayerComponent::SimplePlayerComponent(const std::string& name)
-    : Component(name) {
-    mWASDEnabled = true;
-    mArrowsEnabled = true;
-    mMoveSpeed = 10.0;
-    mMouseEnabled = true;
-    mMouseSensitivity = 1.0;
-    mMouseYInversed = false;
-}
+    : Component(name),
+      mWASDEnabled(true),
+      mArrowsEnabled(true),
+      mMoveSpeed(10.0),
+      mMouseEnabled(true),
+      mMouseSensitivity(1.0),
+      mMouseYInversed(false) {}
 
 void SimplePlayerComponent::HandleEvent(std::shared_ptr<Event> e) {
     if(mMouseEnabled && e->GetType() == "DT_MOUSEEVENT") {

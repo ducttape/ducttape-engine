@@ -14,22 +14,20 @@
 
 namespace dt {
 
-MeshComponent::MeshComponent(const std::string& mesh_handle, const std::string& mat, const std::string& name)
-    : Component(name) {
-    mEntity = nullptr;
-    mSceneNode = nullptr;
+MeshComponent::MeshComponent(const std::string& mesh_handle, const std::string& material_name, const std::string& name)
+    : Component(name),
+      mSceneNode(nullptr),
+      mEntity(nullptr),
+      mAnimationState(nullptr),
+      mLoopAnimation(false) {
     mMeshHandle = mesh_handle;
-    mAnimationState = nullptr;
-    mMaterial = mat;
+    mMaterialName = material_name;
 }
 
-void MeshComponent::HandleEvent(std::shared_ptr<Event> e) {
-
-}
+void MeshComponent::HandleEvent(std::shared_ptr<Event> e) {}
 
 void MeshComponent::OnCreate() {
     _LoadMesh();
-    this->SetMaterialName(mMaterial);
 }
 
 void MeshComponent::OnDestroy() {
@@ -118,10 +116,11 @@ bool MeshComponent::GetLoopAnimation() {
     return mLoopAnimation;
 }
 
-void MeshComponent::SetMaterialName(const std::string& name)
-{
-    if(name=="") return;
-    mEntity->setMaterialName(name);
+void MeshComponent::SetMaterialName(const std::string& material_name) {
+    mMaterialName = material_name;
+    if(mEntity != nullptr && mMaterialName != "") {
+        mEntity->setMaterialName(material_name);
+    }
 }
 
 Ogre::SceneNode* MeshComponent::GetOgreSceneNode() const {
@@ -143,6 +142,7 @@ void MeshComponent::_LoadMesh() {
     Ogre::SceneManager* scene_mgr = GetNode()->GetScene()->GetSceneManager();
     const std::string& nodename = GetNode()->GetName();
     mEntity = scene_mgr->createEntity(nodename + "-mesh-entity-" + mName, mMeshHandle);
+    SetMaterialName(mMaterialName);
     mSceneNode = scene_mgr->getRootSceneNode()->createChildSceneNode(nodename + "-mesh-scenenode-" + mName);
     mSceneNode->attachObject(mEntity);
 }

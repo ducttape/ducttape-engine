@@ -15,9 +15,8 @@
 
 namespace dt {
 
-EventManager::EventManager() {
-    mListenersLocked = false;
-}
+EventManager::EventManager()
+    : mListenersLocked(false) {}
 
 void EventManager::Initialize() {
     mBindingsManager.Initialize();

@@ -13,18 +13,18 @@
 
 namespace dt {
 
-PhysicsWorld::PhysicsWorld(const std::string& name, Scene* scene) {
-    mName = name;
-    mScene = scene;
-    mDynamicsWorld = nullptr;
-    mDebugDrawer = nullptr;
-    mShowDebug = false;
-}
+PhysicsWorld::PhysicsWorld(const std::string& name, Scene* scene)
+    : mDynamicsWorld(nullptr),
+      mDebugDrawer(nullptr),
+      mShowDebug(false),
+      mScene(scene),
+      mGravity(Ogre::Vector3(0, -9.8, 0)),
+      mName(name) {}
 
 void PhysicsWorld::Initialize() {
     Logger::Get().Info("Initializing phyics world: " + mName);
 
-    // Manually create and manager memory for the Bullet stuff - the Bullet way.
+    // Manually create and manage memory for the Bullet stuff -- the Bullet way.
     mBroadphase = new btDbvtBroadphase();
     mCollisionConfiguration = new btDefaultCollisionConfiguration;
     mCollisionDispatcher = new btCollisionDispatcher(mCollisionConfiguration);
@@ -33,10 +33,9 @@ void PhysicsWorld::Initialize() {
                                                  mBroadphase, mSolver,
                                                  mCollisionConfiguration);
 
+    // setup world
+    SetGravity(mGravity);
     mDynamicsWorld->setInternalTickCallback(PhysicsWorld::BulletTickCallback, static_cast<void *>(this));
-
-    // Set realistic gravity.
-    SetGravity(Ogre::Vector3(0, -9.8, 0));
 
     // setup debug drawer
     mDebugDrawer = new BtOgre::DebugDrawer(mScene->GetSceneManager()->getRootSceneNode(), mDynamicsWorld);

@@ -11,9 +11,7 @@
 
 namespace dt {
 
-LogManager::LogManager() {
-    //GetLogger("default"); // create default logger
-}
+LogManager::LogManager() {}
 
 void LogManager::Initialize() {
     // Redirect the Ogre log (create a default log)

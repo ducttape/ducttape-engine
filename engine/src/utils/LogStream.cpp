@@ -21,12 +21,11 @@ std::string LogStream::COLOR_PURPLE = "\033[22;35m";
 std::string LogStream::COLOR_CYAN = "\033[22;36m";
 std::string LogStream::COLOR_NONE = "\033[0m";
 
-LogStream::LogStream(const std::string& name) {
-    SetName(name);
-    SetStream(std::cout);
-    SetFormat("[%1$s | %2$s] %3$s"); // e.g.: "[default | WARNING] This is a warning!"
-    SetDisabled(false);
-}
+LogStream::LogStream(const std::string& name)
+    : mStream(&std::cout),
+      mFormat("[%1$s | %2$s] %3$s"),        // e.g.: "[default | WARNING] This is a warning!"
+      mName(name),
+      mDisabled(false) {}
 
 std::string LogStream::FormatMessage(Logger* logger, const std::string& msg) {
     return (boost::format(mFormat) % logger->GetName() % mName % msg).str();

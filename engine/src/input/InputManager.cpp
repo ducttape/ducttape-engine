@@ -12,12 +12,11 @@
 
 namespace dt {
 
-InputManager::InputManager() {
-    mInputSystem = nullptr;
-    mWindow = nullptr;
-    mJailInput = false;
-    mMouseCursorMode = InputManager::SYSTEM;
-}
+InputManager::InputManager()
+    : mWindow(nullptr),
+      mInputSystem(nullptr),
+      mMouseCursorMode(InputManager::SYSTEM),
+      mJailInput(false) {}
 
 void InputManager::Initialize() {
     if(mInputSystem != nullptr) {

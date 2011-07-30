@@ -3,9 +3,8 @@
 namespace dt {
 
 KeyboardBinding::KeyboardBinding(Event* target, OIS::KeyCode key_code)
-    : EventBinding(target) {
-    mKeyCode = key_code;
-}
+    : EventBinding(target),
+      mKeyCode(key_code) {}
 
 bool KeyboardBinding::MatchesEvent(std::shared_ptr<Event> e) {
     if(e->GetType() == "DT_KEYBOARDEVENT") {

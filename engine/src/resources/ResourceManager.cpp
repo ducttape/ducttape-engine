@@ -15,9 +15,9 @@
 
 namespace dt {
 
-ResourceManager::ResourceManager() {
-    mDataPathsSearched = false;
-}
+ResourceManager::ResourceManager()
+    : mDataPathsSearched(false) {}
+
 
 ResourceManager::~ResourceManager() {}
 

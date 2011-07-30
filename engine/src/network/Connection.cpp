@@ -12,10 +12,9 @@ namespace dt {
 
 Connection::Connection() {}
 
-Connection::Connection(sf::IpAddress address, uint16_t port) {
-    mIPAddress = address;
-    mPort = port;
-}
+Connection::Connection(sf::IpAddress address, uint16_t port)
+    : mIPAddress(address),
+      mPort(port) {}
 
 Connection::~Connection() {}
 

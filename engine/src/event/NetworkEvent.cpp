@@ -16,10 +16,11 @@
 
 namespace dt {
 
-NetworkEvent::NetworkEvent() {
-    mIsLocalEvent = false;
-    mSenderID = 0;
+NetworkEvent::NetworkEvent()
+    : mSenderID(false),
+     mIsLocalEvent(false) {
 
+    // add default recipients
 #ifdef COMPILER_MSVC
     BOOST_FOREACH(Connection* c, ConnectionsManager::Get()->GetAllConnections()) {
 #else

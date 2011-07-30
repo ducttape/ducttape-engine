@@ -21,17 +21,17 @@
 
 namespace dt {
 
-Node::Node(const std::string& name) {
-    if(name == "") {
-        mName = "Node-"+tostr(StringManager::Get()->GetNextAutoId());
-    } else {
-        mName = name;
-    }
+Node::Node(const std::string& name)
+    : mName(name),
+      mPosition(Ogre::Vector3::ZERO),
+      mScale(Ogre::Vector3(1,1,1)),
+      mRotation(Ogre::Quaternion::IDENTITY),
+      mParent(nullptr) {
 
-    mParent = nullptr;
-    mPosition = Ogre::Vector3::ZERO;
-    mScale = Ogre::Vector3(1,1,1);
-    mRotation = Ogre::Quaternion::IDENTITY;
+    // auto-generate name
+    if(mName == "") {
+        mName = "Node-" + tostr(StringManager::Get()->GetNextAutoId());
+    }
 }
 
 void Node::Initialize() {

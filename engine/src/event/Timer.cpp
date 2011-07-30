@@ -12,13 +12,13 @@
 
 namespace dt {
 
-Timer::Timer(const std::string& message, double interval, bool repeat, bool threaded, bool use_events) {
-    mMessage = message;
-    mInterval = interval;
-    mThreaded = threaded;
-    mRepeat = repeat;
-    mUseEvents = use_events;
-
+Timer::Timer(const std::string& message, double interval, bool repeat, bool threaded, bool use_events)
+    : mMessage(message),
+      mInterval(interval),
+      mRepeat(repeat),
+      mThreaded(threaded),
+      mUseEvents(use_events) {
+    // start the timer
     if(threaded) {
         _RunThread();
     } else {

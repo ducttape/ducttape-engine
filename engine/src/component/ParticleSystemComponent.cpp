@@ -15,10 +15,9 @@
 namespace dt {
 
 ParticleSystemComponent::ParticleSystemComponent(const std::string& name)
-    : Component(name) {
-    mParticleSystem = nullptr;
-    mSceneNode = nullptr;
-}
+    : Component(name),
+      mSceneNode(nullptr),
+      mParticleSystem(nullptr) {}
 
 void ParticleSystemComponent::SetParticleCountLimit(uint32_t limit) {
     mParticleCountLimit = limit;

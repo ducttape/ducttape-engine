@@ -12,12 +12,11 @@
 
 namespace dt {
 
-DisplayManager::DisplayManager() {
-    mOgreRoot = nullptr;
-    mNextZOrder = 1;
-    mMainViewport = "";
-    mMainCamera = "";
-}
+DisplayManager::DisplayManager()
+    : mMainViewport(""),
+      mMainCamera(""),
+      mOgreRoot(nullptr),
+      mNextZOrder(1) {}
 
 DisplayManager::~DisplayManager() {}
 

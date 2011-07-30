@@ -13,10 +13,9 @@
 
 namespace dt {
 
-StateManager::StateManager() {
-    mPopCount = 0;
-    mHasNewState = false;
-}
+StateManager::StateManager()
+    : mHasNewState(false),
+      mPopCount(0) {}
 
 void StateManager::Initialize() {}
 
