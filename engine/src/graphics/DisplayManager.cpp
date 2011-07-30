@@ -30,7 +30,7 @@ void DisplayManager::Deinitialize() {
 }
 
 DisplayManager* DisplayManager::Get() {
-    return Root::get_mutable_instance().GetDisplayManager();
+    return Root::GetInstance().GetDisplayManager();
 }
 
 bool DisplayManager::RegisterCamera(CameraComponent* camera_component) {
@@ -225,7 +225,7 @@ void DisplayManager::_DestroyWindow() {
     mGuiManager.Deinitialize();
 
     // Unattach OIS before window shutdown (very important under Linux)
-    Root::get_mutable_instance().GetInputManager()->Deinitialize();
+    Root::GetInstance().GetInputManager()->Deinitialize();
 
     mOgreRenderWindow->destroy();
     mOgreRoot->shutdown();

@@ -10,6 +10,11 @@
 
 namespace dt {
 
+Root& Root::GetInstance() {
+    static Root instance;
+    return instance;
+}
+
 Root::Root() {
     // This list of new keywords exists to allow us fine-grained control over
     // the creation and deletion of these managers.

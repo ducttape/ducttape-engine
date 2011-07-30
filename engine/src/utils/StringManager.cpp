@@ -26,7 +26,7 @@ void StringManager::Initialize() {}
 void StringManager::Deinitialize() {}
 
 StringManager* StringManager::Get() {
-    return Root::get_mutable_instance().GetStringManager();
+    return Root::GetInstance().GetStringManager();
 }
 
 uint32_t StringManager::Add(const std::string& string) {

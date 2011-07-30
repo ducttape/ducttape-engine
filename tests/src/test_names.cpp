@@ -14,7 +14,7 @@
 #include "component/CameraComponent.hpp"
 
 int main(int argc, char** argv) {
-    dt::Root::get_mutable_instance().Initialize(argc, argv);
+    dt::Root::GetInstance().Initialize(argc, argv);
 
     dt::Node* node = new dt::Node();
     std::cout << "Node name: " << node->GetName() << std::endl;
@@ -24,6 +24,6 @@ int main(int argc, char** argv) {
     std::cout << "Component name: " << comp->GetName() << std::endl;
     assert(comp->GetName() == "Component-2");
 
-    dt::Root::get_mutable_instance().Deinitialize();
+    dt::Root::GetInstance().Deinitialize();
     return 0;
 }

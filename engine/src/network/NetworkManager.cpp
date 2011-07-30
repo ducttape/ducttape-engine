@@ -45,7 +45,7 @@ void NetworkManager::Deinitialize() {
 }
 
 NetworkManager* NetworkManager::Get() {
-    return Root::get_mutable_instance().GetNetworkManager();
+    return Root::GetInstance().GetNetworkManager();
 }
 
 bool NetworkManager::BindSocket(uint16_t port) {

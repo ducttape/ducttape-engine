@@ -48,7 +48,7 @@ void PhysicsManager::Initialize() {
     // Set realistic gravity.
     mDynamicsWorld->setGravity(btVector3(0, -10, 0));
 
-    //mDebugDraw = boost::shared_ptr<DebugDraw>(new DebugDraw(Root::get_mutable_instance().GetRenderWindow()));
+    //mDebugDraw = boost::shared_ptr<DebugDraw>(new DebugDraw(Root::GetInstance().GetRenderWindow()));
     ////mDebugDraw->setDebugMode(btIDebugDraw::DBG_DrawWireframe);
     //mDebugDraw->setDebugMode(btIDebugDraw::DBG_MAX_DEBUG_DRAW_MODE);
     //mDynamicsWorld->setDebugDrawer(mDebugDraw);
@@ -64,7 +64,7 @@ void PhysicsManager::Deinitialize() {
 }
 
 PhysicsManager* PhysicsManager::Get() {
-    return Root::get_mutable_instance().GetPhysicsManager();
+    return Root::GetInstance().GetPhysicsManager();
 }
 
 btDiscreteDynamicsWorld* PhysicsManager::GetPhysicsWorld() {
@@ -89,7 +89,7 @@ void PhysicsManager::TickCallback(btScalar timestep) {
 //				if (obA->getUserPointer()!=NULL && obB->getUserPointer()!=NULL) {
 //					Node* a = (Node*)obA->getUserPointer();
 //					Node* b = (Node*)obB->getUserPointer();
-//					/*Root& app = Root::get_mutable_instance();
+//					/*Root& app = Root::GetInstance().
 //					if ( a->GetUID().substr(0,5)=="heart" && b->GetUID()=="player") {
 //						app.SetWorldHearts(app.GetWorldHearts()+1);
 //						DeleteEntityByUID(a->GetUID());

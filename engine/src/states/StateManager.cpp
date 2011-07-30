@@ -29,7 +29,7 @@ void StateManager::Deinitialize() {
 }
 
 StateManager* StateManager::Get() {
-    return Root::get_mutable_instance().GetStateManager();
+    return Root::GetInstance().GetStateManager();
 }
 
 void StateManager::SetNewState(State* new_state) {

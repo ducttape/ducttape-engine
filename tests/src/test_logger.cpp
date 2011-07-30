@@ -11,7 +11,7 @@
 #include "utils/Logger.hpp"
 
 int main(int argc, char** argv) {
-    dt::Root::get_mutable_instance().Initialize(argc, argv);
+    dt::Root::GetInstance().Initialize(argc, argv);
 
     std::cout << std::endl << "= default logger test" << std::endl;
     dt::Logger::Get().Debug("DEBUG test");
@@ -28,6 +28,6 @@ int main(int argc, char** argv) {
     std::cout << std::endl << "= custom logger & logstream test" << std::endl;
     dt::Logger::GetByName("custom").Log("TESTSTREAM", "test");
 
-    dt::Root::get_mutable_instance().Deinitialize();
+    dt::Root::GetInstance().Deinitialize();
     return 0;
 }

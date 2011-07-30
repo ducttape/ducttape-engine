@@ -98,7 +98,7 @@ public:
 };
 
 void server() {
-    dt::Root& root = dt::Root::get_mutable_instance();
+    dt::Root& root = dt::Root::GetInstance();
     std::cout << "-- Running server" << std::endl;
 
     CustomServerEventListener csel;
@@ -118,7 +118,7 @@ void server() {
 }
 
 void client() {
-    dt::Root& root = dt::Root::get_mutable_instance();
+    dt::Root& root = dt::Root::GetInstance();
     std::cout << "-- Running client" << std::endl;
 
     dt::NetworkManager* nm = root.GetNetworkManager();
@@ -157,7 +157,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    dt::Root& root = dt::Root::get_mutable_instance();
+    dt::Root& root = dt::Root::GetInstance();
     root.Initialize(argc, argv);
 
     // register event prototype

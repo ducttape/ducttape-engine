@@ -28,7 +28,7 @@ void ResourceManager::Initialize() {
 void ResourceManager::Deinitialize() {}
 
 ResourceManager* ResourceManager::Get() {
-    return Root::get_mutable_instance().GetResourceManager();
+    return Root::GetInstance().GetResourceManager();
 }
 
 void ResourceManager::AddResourceLocation(const boost::filesystem::path& path, const std::string& type, bool recursive) {
@@ -140,7 +140,7 @@ void ResourceManager::_FindDataPaths() {
     mDataPathsSearched = true;
 
     // check recursively upwards
-    auto path = Root::get_const_instance().GetExecutablePath();
+    auto path = Root::GetInstance().GetExecutablePath();
     while(path.has_parent_path()) {
         path = path.parent_path();
         if(boost::filesystem::is_directory(path / "data")) {

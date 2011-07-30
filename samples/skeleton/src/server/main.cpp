@@ -11,10 +11,10 @@
 #include "Root.hpp"
 
 int main(int argc, char** argv) {
-    dt::Root::get_mutable_instance().Initialize(argc, argv);
+    dt::Root::GetInstance().InstancePtr()->Initialize(argc, argv);
 
     std::cout << "Hello World." << std::endl;
 
-    dt::Root::get_mutable_instance().Deinitialize();
+    dt::Root::GetInstance().Deinitialize();
     return 0;
 }

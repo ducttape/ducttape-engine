@@ -9,7 +9,7 @@
 #include "Root.hpp"
 
 int main(int argc, char** argv) {
-    dt::Root::get_mutable_instance().Initialize(argc, argv);
+    dt::Root::GetInstance().Initialize(argc, argv);
 
     dt::ResourceManager* mgr = dt::ResourceManager::Get();
 
@@ -29,6 +29,6 @@ int main(int argc, char** argv) {
     // we'd get an Ogre exception if this one failed. No need to check ourselves.
 
     std::cout << "ResourceManager: OK" << std::endl;
-    dt::Root::get_mutable_instance().Deinitialize();
+    dt::Root::GetInstance().Deinitialize();
     return 0;
 }
