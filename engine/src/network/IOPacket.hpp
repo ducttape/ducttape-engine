@@ -77,7 +77,7 @@ public:
       * @param h The EnumHelper instance to use for streaming.
       * @returns This IOPacket itself to combine multiple stream instruction in one statement.
       */
-    DUCTTAPE_API IOPacket& operator & (EnumHelper h);
+    IOPacket& operator & (EnumHelper h);
 
 private:
     sf::Packet* mPacket;    //!< A pointer to the packet to stream data from/into.
