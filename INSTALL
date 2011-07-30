@@ -1,0 +1,16 @@
+To make this engine, you will need these dependencies:
+    - Boost (recent stable release)
+    - CMake (recent stable release)
+    - Ogre3D (recent stable release)
+    - OIS (recent stable release)
+    - Bullet (recent stable release)
+    - MyGUI (recent stable release)
+    - SFML (recent clone from upstream git)
+
+In general, we always try to keep up close with upstream and thus the newest
+version will always work.
+
+Then just do the usual:
+mkdir build && cd build
+cmake ..
+make
