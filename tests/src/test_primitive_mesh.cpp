@@ -13,7 +13,6 @@
 #include "scene/Scene.hpp"
 #include "scene/Node.hpp"
 #include "component/MeshComponent.hpp"
-#include "component/FollowPathComponent.hpp"
 #include "component/LightComponent.hpp"
 #include "event/EventListener.hpp"
 
@@ -33,7 +32,6 @@ public:
     }
 
     void OnInitialize() {
-    	dt::InputManager::Get()->SetJailInput(false);
         dt::Scene* scene = AddScene(new dt::Scene("testscene"));
 
         OgreProcedural::Root::getInstance()->sceneManager = scene->GetSceneManager();
