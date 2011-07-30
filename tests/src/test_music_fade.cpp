@@ -26,7 +26,7 @@ public:
     void HandleEvent(std::shared_ptr<dt::Event> e) {
         if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
-            if(mRuntime > 5.0) {
+            if(mRuntime > 2.0) {
                 dt::StateManager::Get()->Pop(1);
             }
         }
@@ -48,9 +48,9 @@ public:
         node->AddComponent(music_component1);
         node->AddComponent(music_component2);
 
-        music_component1->Fade(5.0, 0.0f);
+        music_component1->Fade(2.0, 0.0f);
 
-        music_component2->Fade(5.0, origin_vol);
+        music_component2->Fade(2.0, origin_vol);
     }
 
 private:
