@@ -44,4 +44,4 @@ Media files
 - [sad-trombone.wav](http://soundbible.com/1830-Sad-Trombone.html)
 - [sinbad.zip](http://www.ogre3d.org)
 - [ttf-dejavu](http://dejavu-fonts.org/wiki/Main_Page)
-- [01bricks1.png](Tiziana on http://opengameart.org)
+- [01bricks1.png](http://opengameart.org)
