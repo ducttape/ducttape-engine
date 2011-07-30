@@ -25,11 +25,7 @@ if(WIN32)
     set(BUILD_STATIC "TRUE" CACHE BOOL "Currently needs to be ON in Windows" FORCE)
 endif()
 
-if(BUILD_STATIC)
-    set(Boost_USE_STATIC_LIBS ON)
-else()
-    set(Boost_USE_STATIC_LIBS OFF)
-endif()
+set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 
@@ -111,14 +107,14 @@ endif()
 
 # Beautiful installation stuff.
 install(DIRECTORY "${CMAKE_SOURCE_DIR}/engine/src/"
-        DESTINATION include/ducttape/
+        DESTINATION include/ducttape
         FILES_MATCHING PATTERN "*.hpp")
 
 install(FILES "${CMAKE_SOURCE_DIR}/cmake-extras/FindDucttape.cmake"
         DESTINATION ${CMAKE_ROOT}/Modules)
 
 install(FILES "${CMAKE_SOURCE_DIR}/LICENSE"
-        DESTINATION share/ducttape/)
+        DESTINATION share/ducttape)
 
 # Awesome packaging stuff.
 #include(InstallRequiredSystemLibraries)
