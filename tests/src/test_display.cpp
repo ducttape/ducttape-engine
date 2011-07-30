@@ -12,7 +12,6 @@
 #include "scene/Node.hpp"
 #include "component/MeshComponent.hpp"
 #include "component/FollowPathComponent.hpp"
-#include "component/SimplePlayerComponent.hpp"
 #include "component/LightComponent.hpp"
 #include "event/EventListener.hpp"
 
@@ -33,7 +32,6 @@ public:
 
     void OnInitialize() {
         dt::Scene* scene = AddScene(new dt::Scene("testscene"));
-        dt::InputManager::Get()->SetJailInput(true);
 
         dt::ResourceManager::Get()->AddResourceLocation("sinbad.zip","Zip", true);
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
@@ -42,12 +40,8 @@ public:
         dt::CameraComponent* cam = camnode->AddComponent(new dt::CameraComponent("cam"));
         camnode->SetPosition(Ogre::Vector3(0, 5, 10));
         cam->LookAt(Ogre::Vector3(0, 0, 0));
-        camnode->AddComponent(new dt::SimplePlayerComponent("player"));
 
         dt::Node* meshnode = scene->AddChildNode(new dt::Node("meshnode"));
-        dt::FollowPathComponent* path =
-            new dt::FollowPathComponent(dt::FollowPathComponent::ALTERNATING);
-        meshnode->AddComponent(path);
         dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh");
         meshnode->AddComponent(mesh);
         mesh->SetAnimation("Dance");
