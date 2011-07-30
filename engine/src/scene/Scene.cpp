@@ -41,4 +41,13 @@ void Scene::HandleEvent(std::shared_ptr<Event> e) {
     }
 }
 
+PhysicsWorld* Scene::GetPhysicsWorld() {
+    PhysicsManager* mgr = PhysicsManager::Get();
+    // create a world if none exists
+    if(!mgr->HasWorld(mName)) {
+        return mgr->AddWorld(new PhysicsWorld(mName, this));
+    }
+    return mgr->GetWorld(mName);
+}
+
 }

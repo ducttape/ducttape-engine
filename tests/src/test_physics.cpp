@@ -26,15 +26,10 @@ public:
 
     void HandleEvent(std::shared_ptr<dt::Event> e) {
         if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-            double last_frame_time =
-                std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
+            mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
 
-            dt::PhysicsManager::Get()->GetPhysicsWorld()->stepSimulation(last_frame_time, 10);
-            dt::PhysicsManager::Get()->GetPhysicsWorld()->debugDrawWorld();
-            mDebugDrawer->setDebugMode(mRuntime > 2.5);
-            mDebugDrawer->step();
+            GetScene("testscene")->GetPhysicsWorld()->SetShowDebug(mRuntime > 2.0);
 
-            mRuntime += last_frame_time;
             if(mRuntime > 5.0) {
                 dt::StateManager::Get()->Pop(1);
             }
@@ -48,11 +43,6 @@ public:
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
         OgreProcedural::Root::getInstance()->sceneManager = scene->GetSceneManager();
-
-
-        mDebugDrawer = new BtOgre::DebugDrawer(scene->GetSceneManager()->getRootSceneNode(), dt::PhysicsManager::Get()->GetPhysicsWorld());
-        dt::PhysicsManager::Get()->GetPhysicsWorld()->setDebugDrawer(mDebugDrawer);
-
 
         OgreProcedural::SphereGenerator().setRadius(1.f).setUTile(.5f).realizeMesh("Sphere");
         OgreProcedural::PlaneGenerator().setSizeX(10.f).setSizeY(10.f).realizeMesh("Plane");
@@ -88,7 +78,6 @@ public:
 
 private:
     double mRuntime;
-    BtOgre::DebugDrawer* mDebugDrawer;
 
 };
 

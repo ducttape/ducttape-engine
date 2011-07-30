@@ -14,6 +14,7 @@
 #include <boost/ptr_container/ptr_map.hpp>
 #include <OGRE/OgreSceneManager.h>
 
+#include "physics/PhysicsWorld.hpp"
 #include "Node.hpp"
 
 namespace dt {
@@ -35,6 +36,8 @@ public:
     Ogre::SceneManager* GetSceneManager();
 
     void HandleEvent(std::shared_ptr<Event> e);
+
+    PhysicsWorld* GetPhysicsWorld();
 
 protected:
     bool _IsScene();

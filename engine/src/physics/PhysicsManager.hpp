@@ -9,22 +9,19 @@
 #ifndef DUCTTAPE_ENGINE_PHYSICS_PHYSICSMANAGER
 #define DUCTTAPE_ENGINE_PHYSICS_PHYSICSMANAGER
 
-#include <btBulletDynamicsCommon.h>
-#include <BulletCollision/CollisionShapes/btBox2dShape.h>
-//#include <BulletCollision/CollisionDispatch/btEmptyCollisionAlgorithm.h>
-//#include <BulletCollision/CollisionDispatch/btBox2dBox2dCollisionAlgorithm.h>
-//#include <BulletCollision/CollisionDispatch/btConvex2dConvex2dAlgorithm.h>
-//#include <BulletCollision/CollisionShapes/btConvex2dShape.h>
-//#include <BulletCollision/NarrowPhaseCollision/btMinkowskiPenetrationDepthSolver.h>
+#include <boost/ptr_container/ptr_map.hpp>
 
 #include "Manager.hpp"
+#include "PhysicsWorld.hpp"
+#include "event/EventListener.hpp"
 
 namespace dt {
 
 /**
   * A manager for keeping the physics world and for taking care of the complicated initialization.
   */
-class PhysicsManager : public Manager {
+class PhysicsManager : public Manager,
+    public EventListener {
 public:
     /**
       * Default constructor.
@@ -33,21 +30,17 @@ public:
 
     void Initialize();
     void Deinitialize();
-    static PhysicsManager* Get();
-    btDiscreteDynamicsWorld* GetPhysicsWorld();
+    void HandleEvent(std::shared_ptr<dt::Event> e);
+    Priority GetEventPriority() const;
 
-    void TickCallback(btScalar timestep);
+    static PhysicsManager* Get();
+
+    bool HasWorld(const std::string& name);
+    PhysicsWorld* AddWorld(PhysicsWorld* world);
+    PhysicsWorld* GetWorld(const std::string& name);
 
 private:
-    btDbvtBroadphase* mBroadphase;
-    btDefaultCollisionConfiguration* mCollisionConfiguration;
-    btCollisionDispatcher* mCollisionDispatcher;
-    //btVoronoiSimplexSolver* mSimplex;
-    //btMinkowskiPenetrationDepthSolver* mPdSolver;
-    btSequentialImpulseConstraintSolver* mSolver;
-    btDiscreteDynamicsWorld* mDynamicsWorld;
-    //btConvex2dConvex2dAlgorithm::CreateFunc> mConvexAlgo2d;
-    //btBox2dBox2dCollisionAlgorithm::CreateFunc> mBox2dAlgo2d;
+    boost::ptr_map<std::string, PhysicsWorld> mWorlds;
 
 };
 

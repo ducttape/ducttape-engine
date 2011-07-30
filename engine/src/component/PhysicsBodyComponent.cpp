@@ -53,10 +53,12 @@ void PhysicsBodyComponent::OnCreate() {
 
     mBody = new btRigidBody(mass, state, mCollisionShape, inertia);
 
-    PhysicsManager::Get()->GetPhysicsWorld()->addRigidBody(mBody);
+    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addRigidBody(mBody);
 }
 
-void PhysicsBodyComponent::OnDestroy() {}
+void PhysicsBodyComponent::OnDestroy() {
+    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->removeRigidBody(mBody);
+}
 
 void PhysicsBodyComponent::OnUpdate(double time_diff) {
     btTransform trans;
