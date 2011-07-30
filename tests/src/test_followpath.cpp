@@ -12,7 +12,6 @@
 #include "scene/Node.hpp"
 #include "component/MeshComponent.hpp"
 #include "component/FollowPathComponent.hpp"
-#include "component/SimplePlayerComponent.hpp"
 #include "component/LightComponent.hpp"
 #include "event/EventListener.hpp"
 
@@ -44,7 +43,6 @@ public:
         dt::CameraComponent* cam = camnode->AddComponent(new dt::CameraComponent("cam"));
         camnode->SetPosition(Ogre::Vector3(0, 20, 20));
         cam->LookAt(Ogre::Vector3(0, 0, 0));
-        camnode->AddComponent(new dt::SimplePlayerComponent("player"));
 
         // Create light
         dt::Node* lightnode = scene->AddChildNode(new dt::Node("lightnode"));

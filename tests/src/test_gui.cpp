@@ -13,7 +13,6 @@
 #include "component/GuiWidgetComponent.hpp"
 #include "component/MeshComponent.hpp"
 #include "component/CameraComponent.hpp"
-#include "component/SimplePlayerComponent.hpp"
 
 void Click(MyGUI::Widget* _sender) {
     dt::Logger::Get().Debug("Clicked! " + _sender->getName());
@@ -46,7 +45,6 @@ public:
 
     void OnInitialize() {
         dt::Scene* scene = AddScene(new dt::Scene("testscene"));
-        dt::InputManager::Get()->SetJailInput(false);
 
         dt::ResourceManager::Get()->AddResourceLocation("sinbad.zip","Zip", true);
         dt::ResourceManager::Get()->AddResourceLocation("gui","FileSystem", true);
