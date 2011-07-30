@@ -11,11 +11,9 @@ issuing `make doc` in your CMake build dir.
 
 Cloning
 -------
-If you clone this using the usual
-`git://github.com/ducttape/ducttape-engine.git`
-please run
-`git sudmodule update --init`
-as the first thing you do in within the cloned repo.
+If you clone this using the usual `git://github.com/ducttape/ducttape-engine.git`
+please run `git sudmodule update --init` as the first thing you do within the 
+cloned repo.
 This will get our externals that are in different git repos to keep this one
 clean and dandy.
 
