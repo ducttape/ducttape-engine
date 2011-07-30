@@ -24,22 +24,20 @@ MusicComponent::MusicComponent(const std::string& music_file, const std::string&
 
 void MusicComponent::HandleEvent(std::shared_ptr<Event> e) {
     auto resmgr = ResourceManager::Get();
-    if(e->GetType() == "DT_MUSICPAUSEEVENT") {
-        if(resmgr->GetMusicFile(mMusicFile)->GetStatus() == sf::Music::Paused) {
-            resmgr->GetMusicFile(mMusicFile)->Play();
-        } else {
+    if(e->GetType() == "DT_MUSICCONTROLEVENT") {
+        std::shared_ptr<MusicControlEvent> m = std::dynamic_pointer_cast<MusicControlEvent>(e);
+        if(m->GetAction() == MusicControlEvent::PAUSE) {
             resmgr->GetMusicFile(mMusicFile)->Pause();
+        } else if(m->GetAction() == MusicControlEvent::STOP) {
+            resmgr->GetMusicFile(mMusicFile)->Stop();
+        } else if(m->GetAction() == MusicControlEvent::PLAY) {
+            resmgr->GetMusicFile(mMusicFile)->Play();
         }
-    } else if(e->GetType() == "DT_MUSICSTOPEVENT") {
-        resmgr->GetMusicFile(mMusicFile)->Stop();
-    } else if(e->GetType() == "DT_MUSICSTARTEVENT") {
-        resmgr->GetMusicFile(mMusicFile)->Stop();
-        resmgr->GetMusicFile(mMusicFile)->Play();
     }
 }
 
 void MusicComponent::OnCreate() {
-   _PlayMusic();
+    _PlayMusic();
 }
 
 void MusicComponent::OnDestroy() {

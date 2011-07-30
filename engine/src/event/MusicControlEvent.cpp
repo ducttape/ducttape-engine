@@ -6,19 +6,24 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "MusicPauseEvent.hpp"
+#include "MusicControlEvent.hpp"
 
 namespace dt {
 
-MusicPauseEvent::MusicPauseEvent() {}
+MusicControlEvent::MusicControlEvent(MusicControlEvent::Action action)
+    : mAction(action) {}
 
-const std::string MusicPauseEvent::GetType() const {
-   return "DT_MUSICPAUSEEVENT";
+const std::string MusicControlEvent::GetType() const {
+   return "DT_MUSICCONTROLEVENT";
 }
 
-std::shared_ptr<Event> MusicPauseEvent::Clone() const {
-    std::shared_ptr<Event> ptr(new MusicPauseEvent());
+std::shared_ptr<Event> MusicControlEvent::Clone() const {
+    std::shared_ptr<Event> ptr(new MusicControlEvent(mAction));
     return ptr;
+}
+
+MusicControlEvent::Action MusicControlEvent::GetAction() const {
+    return mAction;
 }
 
 }

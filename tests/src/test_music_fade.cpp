@@ -12,9 +12,7 @@
 #include "component/SoundComponent.hpp"
 #include "component/MusicComponent.hpp"
 
-#include "event/MusicPauseEvent.hpp"
-#include "event/MusicStartEvent.hpp"
-#include "event/MusicStopEvent.hpp"
+#include "event/MusicControlEvent.hpp"
 
 #include "scene/Node.hpp"
 #include "scene/Scene.hpp"
@@ -29,7 +27,6 @@ public:
         if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
             if(mRuntime > 5.0) {
-                dt::EventManager::Get()->InjectEvent(std::make_shared<dt::MusicStopEvent>());
                 dt::StateManager::Get()->Pop(1);
             }
         }

@@ -11,9 +11,7 @@
 #include "component/SoundComponent.hpp"
 #include "component/MusicComponent.hpp"
 
-#include "event/MusicPauseEvent.hpp"
-#include "event/MusicStartEvent.hpp"
-#include "event/MusicStopEvent.hpp"
+#include "event/MusicControlEvent.hpp"
 
 #include "scene/Node.hpp"
 #include "scene/Scene.hpp"
@@ -49,7 +47,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    root.GetEventManager()->InjectEvent(std::make_shared<dt::MusicPauseEvent>());
+    root.GetEventManager()->InjectEvent(std::make_shared<dt::MusicControlEvent>(dt::MusicControlEvent::PAUSE));
     if(resmgr->GetMusicFile(music_file)->GetStatus() != sf::Music::Paused) {
         std::cerr << "The music is currently playing. It should be paused." << std::endl;
         resmgr->GetMusicFile(music_file)->Stop();
@@ -58,7 +56,7 @@ int main(int argc, char** argv) {
 
     sf::Sleep(200);
 
-    root.GetEventManager()->InjectEvent(std::make_shared<dt::MusicStopEvent>());
+    root.GetEventManager()->InjectEvent(std::make_shared<dt::MusicControlEvent>(dt::MusicControlEvent::STOP));
     if(resmgr->GetMusicFile(music_file)->GetStatus() != sf::Music::Stopped) {
         std::cerr << "The music is currently not stopped." << std::endl;
         resmgr->GetMusicFile(music_file)->Stop();
@@ -67,7 +65,7 @@ int main(int argc, char** argv) {
 
     sf::Sleep(200);
 
-    root.GetEventManager()->InjectEvent(std::make_shared<dt::MusicStartEvent>());
+    root.GetEventManager()->InjectEvent(std::make_shared<dt::MusicControlEvent>(dt::MusicControlEvent::PLAY));
     if(resmgr->GetMusicFile(music_file)->GetStatus() != sf::Music::Playing) {
         std::cerr << "The music is currently not playing." << std::endl;
         resmgr->GetMusicFile(music_file)->Stop();

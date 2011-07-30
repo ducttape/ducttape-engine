@@ -11,6 +11,7 @@
 
 #include <SFML/Audio.hpp>
 
+#include "event/MusicControlEvent.hpp"
 #include "component/Component.hpp"
 #include "Root.hpp"
 

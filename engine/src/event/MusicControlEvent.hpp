@@ -6,8 +6,8 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#ifndef DUCTTAPE_ENGINE_EVENT_MUSICSTARTEVENT
-#define DUCTTAPE_ENGINE_EVENT_MUSICSTARTEVENT
+#ifndef DUCTTAPE_ENGINE_EVENT_MUSICCONTROLEVENT
+#define DUCTTAPE_ENGINE_EVENT_MUSICCONTROLEVENT
 
 #include <string>
 
@@ -16,16 +16,28 @@
 namespace dt {
 
 /**
- * Event being sent when sending a pause toggle to the music.
+ * Event for controlling all music components at once.
  */
-class MusicStartEvent : public Event {
+class MusicControlEvent : public Event {
 public:
+    enum Action {
+        PLAY = 0,
+        PAUSE = 1,
+        STOP = 2
+    };
+
     /**
-     * Default constructor.
+     * Advanced constructor.
+     * @param action The action to perform with all sounds.
      */
-    MusicStartEvent();
+    MusicControlEvent(Action action);
     const std::string GetType() const;
     std::shared_ptr<Event> Clone() const;
+
+    Action GetAction() const;
+
+private:
+    Action mAction;
 };
 
 }
