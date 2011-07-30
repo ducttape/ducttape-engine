@@ -33,7 +33,6 @@ public:
     }
 
     void OnInitialize() {
-    	dt::InputManager::Get()->SetJailInput(false);
         dt::Scene* scene = AddScene(new dt::Scene("testscene"));
 
         OgreProcedural::Root::getInstance()->sceneManager = scene->GetSceneManager();
