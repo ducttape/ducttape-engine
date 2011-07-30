@@ -32,7 +32,10 @@ class DUCTTAPE_API PhysicsBodyComponent : public Component {
 public:
     /**
       * Advanced constructor.
+      * @param mesh_component_name The name of the MeshComponent this
+      * PhysicsBodyComponent will use for its shape.
       * @param name The name of the Component.
+      * @see MeshComponent
       * @see Component
       */
     PhysicsBodyComponent(const std::string& mesh_component_name,
