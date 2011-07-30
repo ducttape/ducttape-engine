@@ -31,8 +31,10 @@ public:
 
     /**
       * The main loop of the Game. Calls OnInitialize().
+      * @param start_state The initial state to start with.
       * @param argc Command line param count.
       * @param argv Command line params.
+      * @see State
       */
     void Run(State* start_state, int argc, char** argv);
 

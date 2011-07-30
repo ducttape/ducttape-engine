@@ -108,7 +108,7 @@ private:
 
     /**
       * Attempts to find a file in one of the data directories. Alters the file path to point to the right location.
-      * @param path The path of the file.
+      * @param file The path of the file.
       * @returns Whether the file has been found.
       */
     bool _FindFileInDataPaths(boost::filesystem::path& file);

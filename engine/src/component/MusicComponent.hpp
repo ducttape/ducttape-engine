@@ -63,8 +63,8 @@ public:
 
     /**
       * Make the music start to fade.
-      * @param the fading duration time
-      * @param the target volume
+      * @param time the fading duration time
+      * @param target_volume the target volume
       */
     void Fade(double time, float target_volume);
 
