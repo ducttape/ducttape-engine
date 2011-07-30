@@ -19,13 +19,13 @@ public:
         mTimer3Count = 0;
 
         std::cout << "TIMER: Starting 3 timers:" << std::endl;
-        std::cout << "  1 - Event mode  - every second" << std::endl;
-        std::cout << "  2 - Thread mode - every 2nd second" << std::endl;
-        std::cout << "  3 - Thread mode - every second - Callback, no events" << std::endl;
+        std::cout << "  1 - Event mode  - 100ms" << std::endl;
+        std::cout << "  2 - Thread mode - 200ms" << std::endl;
+        std::cout << "  3 - Thread mode - 100ms - Callback, no events" << std::endl;
 
-        mTimer1 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 1 (event mode)", 1.0, true, false));
-        mTimer2 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 2 (thread mode)", 2.01, true, true));
-        mTimer3 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 3 (callback)", 1.0, true, true, false));
+        mTimer1 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 1 (event mode)", 0.1, true, false));
+        mTimer2 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 2 (thread mode)", 0.2, true, true));
+        mTimer3 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 3 (callback)", 0.1, true, true, false));
         mTimer3->BindSlot(boost::bind(&Main::TimerCallback, this, _1));
 
         mTotalTime = 0;
@@ -47,7 +47,7 @@ public:
         } else if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             mTotalTime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
 
-            if(mTotalTime >= 10.0) {
+            if(mTotalTime >= 1.0) {
                 dt::StateManager::Get()->Pop(1);
                 mTimer1->Stop();
                 mTimer2->Stop();

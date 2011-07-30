@@ -37,9 +37,9 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    sf::Sleep(1000);
+    sf::Sleep(500);
     dt::MusicComponent::SetMasterVolume(1);
-    sf::Sleep(1000);
+    sf::Sleep(500);
 
     if(resmgr->GetMusicFile(music_file)->GetPlayingOffset() < 100) {
         std::cerr << "The music was not played correctly." << std::endl;

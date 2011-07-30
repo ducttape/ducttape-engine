@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
 	{
         // don't move it "through" the camera
         sound->SetPosition(Ogre::Vector3(i, 10, 0));
-		sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/20.f);
+        sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/50.f);
 	}
 
 	if(sound_component->GetSound().GetPlayingOffset() < 100) {
@@ -55,7 +55,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/20.f);
+    sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/50.f);
 
     // root.GetEventManager()->InjectEvent(&stop_event);
     sound_component->StopSound();
@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/20.f);
+    sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/50.f);
 
     sound_component->PlaySound();
     if(sound_component->GetSound().GetStatus() != sf::Music::Playing) {
@@ -80,7 +80,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/20.f);
+    sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/50.f);
 
     root.GetEventManager()->InjectEvent(std::make_shared<dt::SoundsControlEvent>(dt::SoundsControlEvent::STOP));
     if(sound_component->GetSound().GetStatus() != sf::Music::Stopped) {
@@ -88,7 +88,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/20.f);
+    sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/50.f);
 
     root.GetEventManager()->InjectEvent(std::make_shared<dt::SoundsControlEvent>(dt::SoundsControlEvent::PLAY));
     if(sound_component->GetSound().GetStatus() != sf::Music::Playing) {
@@ -96,7 +96,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/20.f);
+    sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/50.f);
 
     sound->RemoveComponent(sound_component->GetName());
     sound_component = new dt::SoundComponent("sad-trombone.wav");

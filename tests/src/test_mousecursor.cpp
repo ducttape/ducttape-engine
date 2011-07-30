@@ -25,24 +25,24 @@ public:
                 mStep = 1;
                 dt::Logger::Get().Debug("Mode: Hidden");
                 dt::InputManager::Get()->SetMouseCursorMode(dt::InputManager::HIDDEN);
-            } else if(mRuntime >= 2.0 && mStep == 1) {
+            } else if(mRuntime >= 0.5 && mStep == 1) {
                 mStep = 2;
                 dt::Logger::Get().Debug("Mode: Graphical");
                 dt::InputManager::Get()->SetMouseCursorMode(dt::InputManager::GRAPHICAL);
-            } else if(mRuntime >= 4.0 && mStep == 2) {
+            } else if(mRuntime >= 1.0 && mStep == 2) {
                 mStep = 3;
                 dt::Logger::Get().Debug("Mode: System");
                 dt::InputManager::Get()->SetMouseCursorMode(dt::InputManager::SYSTEM);
-            } else if(mRuntime >= 6.0 && mStep == 3) {
+            } else if(mRuntime >= 1.5 && mStep == 3) {
                 mStep = 4;
                 dt::Logger::Get().Debug("Mode: Graphical again");
                 dt::InputManager::Get()->SetMouseCursorMode(dt::InputManager::GRAPHICAL);
-            } else if(mRuntime >= 8.0 && mStep == 4) {
+            } else if(mRuntime >= 2.0 && mStep == 4) {
                mStep = 5;
                dt::Logger::Get().Debug("Mode: Hidden again");
                dt::InputManager::Get()->SetMouseCursorMode(dt::InputManager::HIDDEN);
             }
-            if(mRuntime > 10.0) {
+            if(mRuntime > 2.5) {
                 dt::StateManager::Get()->Pop(1);
             }
         }
