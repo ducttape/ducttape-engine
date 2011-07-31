@@ -23,7 +23,8 @@ TextComponent::TextComponent(const std::string& text, const std::string& name)
       mFontSize(12),
       mColor(Ogre::ColourValue::White),
       mTextWidth(0),
-      mBackgroundMaterial("") {}
+      mBackgroundMaterial(""),
+      mPadding(Ogre::Vector2(10,4)) {}
 
 void TextComponent::OnCreate() {
     // overlay
@@ -106,15 +107,13 @@ void TextComponent::OnUpdate(double time_diff) {
     x *= camera->getViewport()->getActualWidth();
     y *= camera->getViewport()->getActualHeight();
 
-    Ogre::Vector2 padding(10, 4);
-
     mPanel->setMetricsMode(Ogre::GMM_PIXELS);
-    mPanel->setWidth(mTextWidth + 2 * padding.x);
-    mPanel->setHeight(mFontSize + 2 * padding.y);
-    mPanel->setLeft(x - mTextWidth / 2 - padding.x);
-    mPanel->setTop(y - mFontSize / 2 - padding.y);
+    mPanel->setWidth(mTextWidth + 2 * mPadding.x);
+    mPanel->setHeight(mFontSize + 2 * mPadding.y);
+    mPanel->setLeft(x - mTextWidth / 2 - mPadding.x);
+    mPanel->setTop(y - mFontSize / 2 - mPadding.y);
 
-    mLabel->setPosition(padding.x, padding.y);
+    mLabel->setPosition(mPadding.x, mPadding.y);
     mLabel->setDimensions(mTextWidth, mFontSize);
 }
 
@@ -173,6 +172,14 @@ void TextComponent::SetBackgroundMaterial(const std::string& material_name) {
 
 const std::string& TextComponent::GetBackgroundMaterial() const {
     return mBackgroundMaterial;
+}
+
+void TextComponent::SetPadding(Ogre::Vector2 padding) {
+    mPadding = padding;
+}
+
+Ogre::Vector2 TextComponent::GetPadding() const {
+    return mPadding;
 }
 
 }
