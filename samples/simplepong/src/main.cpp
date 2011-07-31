@@ -28,39 +28,57 @@ public:
             mBallSpeed = Ogre::Vector3(4, -3, 0);
         } else {
             mBallSpeed = Ogre::Vector3::ZERO;
+            std::string p(mScore1 == 10 ? "left" : "right");
+            GetScene("testscene")->FindChildNode("info")->FindComponent<dt::TextComponent>("text")->SetText("The " + p + " player wins the game.");
         }
         mBallNode->SetPosition(Ogre::Vector3(0,0,0));
         mScore1Text->SetText(dt::tostr(mScore1));
         mScore2Text->SetText(dt::tostr(mScore2));
+
     }
 
     void HandleEvent(std::shared_ptr<dt::Event> e) {
         if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             double frame_time = std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
 
+            mBallSpeed *= 1.0 + (frame_time * 0.05);
+
             // move paddle 1
+            float move1 = 0;
+            if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_W)) {
+                move1 += 1;
+            }
+            if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_S)) {
+                move1 -= 1;
+            }
+            float new_y1 = mPaddle1Node->GetPosition().y + move1 * frame_time * 8;
+            if(new_y1 > FIELD_HEIGHT / 2 - PADDLE_SIZE / 2)
+                new_y1 = FIELD_HEIGHT / 2 - PADDLE_SIZE / 2;
+            else if(new_y1 < - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2)
+                new_y1 = - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2;
+
             mPaddle1Node->SetPosition(Ogre::Vector3(
                                           mPaddle1Node->GetPosition().x,
-                                          mBallNode->GetPosition().y,
+                                          new_y1,
                                           mPaddle1Node->GetPosition().z));
 
             // move paddle 2
-            float move = 0;
+            float move2 = 0;
             if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_UP)) {
-                move += 1;
+                move2 += 1;
             }
             if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_DOWN)) {
-                move -= 1;
+                move2 -= 1;
             }
-            float new_y = mPaddle2Node->GetPosition().y + move * frame_time * 8;
-            if(new_y > FIELD_HEIGHT / 2 - PADDLE_SIZE / 2)
-                new_y = FIELD_HEIGHT / 2 - PADDLE_SIZE / 2;
-            else if(new_y < - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2)
-                new_y = - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2;
+            float new_y2 = mPaddle2Node->GetPosition().y + move2 * frame_time * 8;
+            if(new_y2 > FIELD_HEIGHT / 2 - PADDLE_SIZE / 2)
+                new_y2 = FIELD_HEIGHT / 2 - PADDLE_SIZE / 2;
+            else if(new_y2 < - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2)
+                new_y2 = - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2;
 
             mPaddle2Node->SetPosition(Ogre::Vector3(
                                           mPaddle2Node->GetPosition().x,
-                                          new_y,
+                                          new_y2,
                                           mPaddle2Node->GetPosition().z));
 
             // move ball
@@ -90,6 +108,12 @@ public:
             }
 
             mBallNode->SetPosition(mBallNode->GetPosition() + mBallSpeed * frame_time);
+
+            Ogre::Quaternion q;
+            q.FromAngleAxis(Ogre::Radian(Ogre::Math::Cos(Ogre::Radian(dt::Root::GetInstance().GetTimeSinceInitialize() * 0.2))) * 0.1, Ogre::Vector3::UNIT_X);
+            Ogre::Quaternion w;
+            w.FromAngleAxis(Ogre::Radian(Ogre::Math::Sin(Ogre::Radian(dt::Root::GetInstance().GetTimeSinceInitialize() * 0.2))) * 0.1, Ogre::Vector3::UNIT_Y);
+            mGameNode->SetRotation(q * w);
         }
     }
 
@@ -137,16 +161,22 @@ public:
         mPaddle2Node->AddComponent(new dt::MeshComponent("Paddle", "SimplePongPaddle", "mesh"));
 
         dt::Node* score1_node = mGameNode->AddChildNode(new dt::Node("score1"));
-        score1_node->SetPosition(Ogre::Vector3(10, FIELD_HEIGHT / 2 + 2, 0));
+        score1_node->SetPosition(Ogre::Vector3(-10, FIELD_HEIGHT / 2 + 2, 0));
         mScore1Text = score1_node->AddComponent(new dt::TextComponent("0", "text"));
         mScore1Text->SetFont("DejaVuSans");
         mScore1Text->SetFontSize(64);
 
         dt::Node* score2_node = mGameNode->AddChildNode(new dt::Node("score2"));
-        score2_node->SetPosition(Ogre::Vector3(-10, FIELD_HEIGHT / 2 + 2, 0));
+        score2_node->SetPosition(Ogre::Vector3(10, FIELD_HEIGHT / 2 + 2, 0));
         mScore2Text = score2_node->AddComponent(new dt::TextComponent("0", "text"));
         mScore2Text->SetFont("DejaVuSans");
         mScore2Text->SetFontSize(64);
+
+        dt::Node* info_node = scene->AddChildNode(new dt::Node("info"));
+        info_node->SetPosition(Ogre::Vector3(0, - FIELD_HEIGHT / 2 - 3, 0));
+        dt::TextComponent* info_text = info_node->AddComponent(new dt::TextComponent("Left player: W/S -- Right player: Up/Down", "text"));
+        info_text->SetFont("DejaVuSans");
+        info_text->SetFontSize(20);
 
         ResetBall();
     }
