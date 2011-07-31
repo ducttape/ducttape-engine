@@ -35,6 +35,10 @@ void PhysicsBodyComponent::OnCreate() {
         mNode->FindComponent<MeshComponent>(mMeshComponentName);
 
     BtOgre::StaticMeshToShapeConverter converter(mesh_component->GetOgreEntity());
+
+    // TODO: CollisionShapes should likely be stored at a central place.
+    // Perhaps the PhysicsManager is a good place. It would save a lot of memory
+    // for many bodies with the same CollisionShape.
     mCollisionShape = converter.createConvex();
 
     btScalar mass = 5;
@@ -46,9 +50,17 @@ void PhysicsBodyComponent::OnCreate() {
                     BtOgre::Convert::toBullet(GetNode()->GetPosition(Node::SCENE))));
 
     mBody = new btRigidBody(mass, state, mCollisionShape, inertia);
+
+    // Store pointer to this PHysicsBodyComponent for later retrieval (for
+    // collisions, for instance)
+    mBody->setUserPointer((void *)(this));
 }
 
-void PhysicsBodyComponent::OnDestroy() {}
+void PhysicsBodyComponent::OnDestroy() {
+    delete mBody->getMotionState();
+    delete mBody;
+    delete mCollisionShape;
+}
 
 void PhysicsBodyComponent::OnEnable() {
     GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addRigidBody(mBody);

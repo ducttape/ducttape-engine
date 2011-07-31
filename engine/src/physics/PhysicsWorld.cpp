@@ -46,6 +46,7 @@ void PhysicsWorld::Initialize() {
 
 void PhysicsWorld::Deinitialize() {
     // Delete in reverse order.
+    delete mDebugDrawer;
     delete mDynamicsWorld;
     delete mSolver;
     delete mCollisionDispatcher;
