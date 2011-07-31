@@ -61,7 +61,7 @@
 
     // For Visual C++ compilers, we also need to turn off this annoying C4251 warning.
     // You can read lots ot different things about it, but the point is the code will
-    // just work fine, and so the simplest way to get rid of this warning is to disable it
+    // just work fine, and so the simplest way to get rid of this warning is to disable it.
     #ifdef _MSC_VER
         #pragma warning(disable : 4251)
     #endif
