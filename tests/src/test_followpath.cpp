@@ -32,7 +32,6 @@ public:
 
     void OnInitialize() {
         dt::Scene* scene = AddScene(new dt::Scene("testscene"));
-        dt::InputManager::Get()->SetJailInput(true);
 
         // Load resources
         dt::ResourceManager::Get()->AddResourceLocation("sinbad.zip","Zip", true);

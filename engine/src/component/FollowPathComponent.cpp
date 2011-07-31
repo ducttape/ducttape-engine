@@ -16,6 +16,8 @@ namespace dt {
 
 FollowPathComponent::FollowPathComponent(Mode mode, const std::string& name)
     : Component(name),
+      mDurationSinceStart(0),
+      mTotalDuration(0),
       mSmoothCorners(0),
       mSmoothAcceleration(false),
       mFollowRotation(false),
@@ -24,7 +26,10 @@ FollowPathComponent::FollowPathComponent(Mode mode, const std::string& name)
 
 void FollowPathComponent::HandleEvent(std::shared_ptr<Event> e) {}
 
-void FollowPathComponent::OnCreate() {}
+void FollowPathComponent::OnCreate() {
+    mLastPoint = mNode->GetPosition();
+}
+
 void FollowPathComponent::OnDestroy() {}
 
 void FollowPathComponent::OnUpdate(double time_diff) {
