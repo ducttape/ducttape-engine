@@ -193,6 +193,22 @@ public:
     void SetRotation(Ogre::Quaternion rotation, RelativeTo rel = PARENT);
 
     /**
+      * Sets the direction the Node is facing.
+      * @param direction The direction the Node is facing.
+      * @param front_vector The local direction that specifies the front of the Node (which part of the Node should be facing into the direction).
+      */
+    void SetDirection(Ogre::Vector3 direction, Ogre::Vector3 front_vector = Ogre::Vector3::UNIT_Z);
+
+    /**
+      * Rotates the node to look at the target.
+      * @param target The point the node should look at.
+      * @param front_vector The local direction that specifies the front of the Node (which part of the Node should be facing into the direction).
+      * @param rel Reference position.
+      */
+    void LookAt(Ogre::Vector3 target, Ogre::Vector3 front_vector = Ogre::Vector3::UNIT_Z, RelativeTo rel = PARENT);
+
+
+    /**
       * Sets the parent Node pointer.
       * @param parent The parent Node pointer.
       */

@@ -172,6 +172,14 @@ void Node::SetRotation(Ogre::Quaternion rotation, Node::RelativeTo rel) {
     OnUpdate(0);
 }
 
+void Node::SetDirection(Ogre::Vector3 direction, Ogre::Vector3 front_vector) {
+    SetRotation(front_vector.getRotationTo(direction));
+}
+
+void Node::LookAt(Ogre::Vector3 target, Ogre::Vector3 front_vector, RelativeTo rel) {
+    SetDirection(target - GetPosition(rel), front_vector);
+}
+
 void Node::SetParent(Node* parent) {
     if(parent != nullptr) {
         if(parent->FindChildNode(mName, false) == nullptr) { // we are not already a child of the new parent
