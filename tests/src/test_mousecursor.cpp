@@ -51,7 +51,6 @@ public:
     void OnInitialize() {
         mStep = 0;
 
-        dt::InputManager::Get()->SetJailInput(false);
         dt::ResourceManager::Get()->AddResourceLocation("gui","FileSystem", true);
 
         // need to create a camera so we have a window

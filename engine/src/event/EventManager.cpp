@@ -104,6 +104,7 @@ void EventManager::RemoveListener(EventListener* listener) {
 }
 
 void EventManager::UpdatePriorities() {
+    // TODO: There is an overlap here some where.       Or here?
     std::sort(mListeners.begin(), mListeners.end(), EventListener::SortHelper);
 }
 
