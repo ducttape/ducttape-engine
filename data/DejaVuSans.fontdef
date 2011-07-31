@@ -2,7 +2,7 @@ DejaVuSans
 {
     type truetype
     source gui/DejaVuSans.ttf
-    size 32
+    size 64
     resolution 72
     antialias_colour false
     code_points 33-166

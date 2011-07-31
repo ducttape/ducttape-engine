@@ -49,3 +49,40 @@ material TextOverlayBackground
         }
     }
 }
+
+material SimplePongField
+{
+    technique
+    {
+        pass
+        {
+			ambient  0.5 0.5 0.5
+			diffuse  0.1 0.1 0.1
+        }
+    }
+}
+
+material SimplePongBall
+{
+    technique
+    {
+        pass
+        {
+			ambient  0.5 0.5 0.5
+			diffuse  1.0 1.0 1.0		
+        }
+    }
+}
+
+material SimplePongPaddle
+{
+    technique
+    {
+        pass
+        {
+			ambient  0.5 0.5 0.5
+			diffuse  1.0 1.0 1.0
+            specular 1.0 1.0 1.0 0.5 100.0
+        }
+    }
+}

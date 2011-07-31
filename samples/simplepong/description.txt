@@ -1,0 +1,1 @@
+A very simple pong game. No network, no effects, no physics, nothing special.
