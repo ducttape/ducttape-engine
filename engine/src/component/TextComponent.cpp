@@ -1,0 +1,178 @@
+
+// ----------------------------------------------------------------------------
+// This file is part of the Ducttape Project (http://ducttape-dev.org) and is
+// licensed under the GNU LESSER PUBLIC LICENSE version 3. For the full license
+// text, please see the LICENSE file in the root of this project or at
+// http://www.gnu.org/licenses/lgpl.html
+// ----------------------------------------------------------------------------
+
+#include "TextComponent.hpp"
+
+#include "scene/Node.hpp"
+
+namespace dt {
+
+TextComponent::TextComponent(const std::string& text, const std::string& name)
+    : Component(name),
+      mText(text),
+      mOverlay(nullptr),
+      mPanel(nullptr),
+      mLabel(nullptr),
+      mRefresh(false),
+      mFont(""),
+      mFontSize(12),
+      mColor(Ogre::ColourValue::White),
+      mTextWidth(0),
+      mBackgroundMaterial("") {}
+
+void TextComponent::OnCreate() {
+    // overlay
+    std::string oname = GetNode()->GetName() + "-" + mName;
+    mOverlay = Ogre::OverlayManager::getSingleton().create(oname + "-overlay");
+
+    mPanel = static_cast<Ogre::OverlayContainer*>(Ogre::OverlayManager::getSingleton().createOverlayElement("Panel", oname + "-panel"));
+    mPanel->setDimensions(0.0, 0.0);
+
+    mLabel = static_cast<Ogre::TextAreaOverlayElement*>(Ogre::OverlayManager::getSingleton().createOverlayElement("TextArea", oname + "-label"));
+
+    mLabel->setMetricsMode(Ogre::GMM_PIXELS);
+    mLabel->setPosition(0, 0);
+    SetColor(mColor);
+    SetFontSize(mFontSize);
+    SetFont(mFont);
+    SetBackgroundMaterial(mBackgroundMaterial);
+    SetText(mText);
+    mRefresh = true;
+
+    mOverlay->add2D(mPanel);
+    mPanel->addChild(mLabel);
+    mOverlay->show();
+}
+
+void TextComponent::OnDestroy() {
+    Ogre::OverlayManager* mgr = Ogre::OverlayManager::getSingletonPtr();
+
+    mPanel->removeChild(mLabel->getName());
+    mOverlay->remove2D(mPanel);
+
+    mgr->destroyOverlayElement(mLabel);
+    mgr->destroyOverlayElement(mPanel);
+    mgr->destroy(mOverlay);
+}
+
+void TextComponent::OnEnable() {
+    mOverlay->show();
+}
+
+void TextComponent::OnDisable() {
+    mOverlay->hide();
+}
+
+void TextComponent::OnUpdate(double time_diff) {
+    if(mRefresh && mFont != "") {
+        // calculate the text width
+        mTextWidth = 0;
+        const Ogre::Font *font = dynamic_cast<Ogre::Font*>(Ogre::FontManager::getSingleton().getByName(mFont).getPointer());
+        if(font == nullptr) {
+            Logger::Get().Warning("Cannot find font: \"" + mFont + "\".");
+        } else {
+            for(Ogre::String::iterator iter = mText.begin(); iter < mText.end(); ++iter) {
+                if(*iter == 0x0020) {
+                    mTextWidth += font->getGlyphAspectRatio(0x0030);
+                } else {
+                    mTextWidth += font->getGlyphAspectRatio(*iter);
+                }
+            }
+            mTextWidth *= mFontSize;
+        }
+        mRefresh = false;
+    }
+
+    // set the position
+
+    Ogre::Camera* camera = DisplayManager::Get()->GetMainCamera()->GetCamera();
+    Ogre::Vector3 screen_pos = camera->getProjectionMatrix() * camera->getViewMatrix() * GetNode()->GetPosition(Node::SCENE);
+
+    if(screen_pos.z >= 1) {
+        // behind or in the camera, hide
+        mOverlay->hide();
+    } else {
+        mOverlay->show();
+    }
+
+    float x = 1.0f - ((screen_pos.x * 0.5f) + 0.5f);   // 0 <= x <= 1 // left := 0,right := 1
+    float y = ((screen_pos.y * 0.5f) + 0.5f);          // 0 <= y <= 1 // bottom := 0,top := 1
+
+    x *= camera->getViewport()->getActualWidth();
+    y *= camera->getViewport()->getActualHeight();
+
+    Ogre::Vector2 padding(10, 4);
+
+    mPanel->setMetricsMode(Ogre::GMM_PIXELS);
+    mPanel->setWidth(mTextWidth + 2 * padding.x);
+    mPanel->setHeight(mFontSize + 2 * padding.y);
+    mPanel->setLeft(x - mTextWidth / 2 - padding.x);
+    mPanel->setTop(y - mFontSize / 2 - padding.y);
+
+    mLabel->setPosition(padding.x, padding.y);
+    mLabel->setDimensions(mTextWidth, mFontSize);
+}
+
+void TextComponent::SetText(const std::string& text) {
+    mText = text;
+    if(mLabel != nullptr) {
+        mLabel->setCaption(mText);
+        mRefresh = true;
+    }
+}
+
+const std::string& TextComponent::GetText() const {
+    return mText;
+}
+
+void TextComponent::SetFont(const std::string& fontname) {
+    mFont = fontname;
+    if(mLabel != nullptr && mFont != "") {
+        mLabel->setFontName(mFont);
+    }
+}
+
+const std::string& TextComponent::GetFont() const {
+    return mFont;
+}
+
+void TextComponent::SetColor(Ogre::ColourValue color) {
+    mColor = color;
+    if(mLabel != nullptr) {
+        mLabel->setColour(mColor);
+    }
+}
+
+Ogre::ColourValue TextComponent::GetColor() const {
+    return mColor;
+}
+
+void TextComponent::SetFontSize(uint8_t font_size) {
+    mFontSize = font_size;
+    if(mLabel != nullptr) {
+        mLabel->setCharHeight(mFontSize);
+        mRefresh = true;
+    }
+}
+
+uint8_t TextComponent::GetFontSize() const {
+    return mFontSize;
+}
+
+void TextComponent::SetBackgroundMaterial(const std::string& material_name) {
+    mBackgroundMaterial = material_name;
+    if(mPanel != nullptr && mBackgroundMaterial != "") {
+        mPanel->setMaterialName(mBackgroundMaterial);
+    }
+}
+
+const std::string& TextComponent::GetBackgroundMaterial() const {
+    return mBackgroundMaterial;
+}
+
+}
