@@ -44,6 +44,11 @@ public:
 
     void Initialize();
     void Deinitialize();
+
+    /**
+      * Returns a pointer to the Manager instance.
+      * @returns A pointer to the Manager instance.
+      */
     static ResourceManager* Get();
 
     /**
@@ -61,6 +66,7 @@ public:
       * @param sound_file Optional name for the SoundBuffer. If none is given, the filename is used.
       * @see http://www.sfml-dev.org/documentation/2.0/classsf_1_1SoundBuffer.php#aec8a8960c145915855d956600e9c7032
       * @todo Merge this into AddResourceLocation
+      * @returns Whether the operation was successful or not.
       */
 	bool AddSoundBuffer(const boost::filesystem::path& path, const std::string& sound_file="");
 
@@ -75,6 +81,9 @@ public:
 
     /**
      * Adds a single music file to memory.
+     * @param path The path to the file, relative to any data path.
+     * @param music_file The key for the new music. Optional. Will be generated from filename if not specified.
+     * @returns Whether the operation was successful or not.
      * @todo Merge this into AddResourceLocation
      */
     bool AddMusicFile(const boost::filesystem::path& path, const std::string& music_file="");
@@ -114,7 +123,7 @@ private:
     bool _FindFileInDataPaths(boost::filesystem::path& file);
 
     std::vector<boost::filesystem::path> mDataPaths;  //!< Paths where data may be located in.
-    bool mDataPathsSearched;
+    bool mDataPathsSearched;    //!< Whether the local data paths have been searched for suitable data locations.
     std::map<std::string, std::shared_ptr<sf::Music>> mMusic; //!< Pool of registered music objects. This does not actually contain the music data since music is actually streamed.
     boost::ptr_map<std::string, sf::SoundBuffer> mSoundBuffers; //!< Pool of registered sound buffers. These are in fact loaded into memory.
 };

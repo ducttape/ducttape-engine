@@ -56,6 +56,13 @@ public:
       */
     virtual Priority GetEventPriority() const;
 
+    /**
+      * Required to sort the EventListeners by priority in the EventManager.
+      * @param l The first EventListener
+      * @param r The second EventListener
+      * @returns Whether the first listener has higher Priority than the second listener.
+      * @see std::sort
+      */
     static bool SortHelper(const EventListener* l, const EventListener* r);
 
 };

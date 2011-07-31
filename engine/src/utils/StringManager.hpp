@@ -33,6 +33,10 @@ public:
     void Initialize();
     void Deinitialize();
 
+    /**
+      * Returns a pointer to the Manager instance.
+      * @returns A pointer to the Manager instance.
+      */
     static StringManager* Get();
 
     /**

@@ -49,29 +49,35 @@ public:
       */
     void Deinitialize();
 
-
-    void setCamera(Ogre::Camera* cam);
-
-    void setBackgroundColour(const Ogre::ColourValue& color);
+    /**
+      * Sets the camera for this viewport.
+      * @param cam The camera.
+      */
+    void SetCamera(Ogre::Camera* cam);
 
     /**
-      * Hides mViewport from being visible on screen.
+      * Sets the background color for this viewport.
+      * @param color The background color.
       */
-    void hide();
+    void SetBackgroundColor(const Ogre::ColourValue& color);
 
     /**
-      * Restores its size to mViewport making it visible again.
+      * Hides the viewport.
       */
-    void show();
+    void Hide();
+
+    /**
+      * Shows the viewport.
+      */
+    void Show();
 
 private:
-
-    Ogre::Viewport* mViewport;
-    bool hidden;
-    Ogre::Real top;
-    Ogre::Real left;
-    Ogre::Real height;
-    Ogre::Real width;
+    Ogre::Viewport* mViewport;  //!< The Ogre::Viewport managed by this class.
+    bool hidden;        //!< Whether this viewport is hidden or not.
+    Ogre::Real top;     //!< The y-coordinate of the viewport.
+    Ogre::Real left;    //!< The x-coordinate of the viewport.
+    Ogre::Real height;  //!< The height of the viewport.
+    Ogre::Real width;   //!< The width of the viewport.
 };
 
 }

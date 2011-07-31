@@ -101,7 +101,7 @@ void FollowPathComponent::Reset() {
     }
 }
 
-Ogre::Vector3 FollowPathComponent::_CalculatePosition(float delta) {
+Ogre::Vector3 FollowPathComponent::_CalculatePosition() {
     if(mPoints.size() == 0) {
         if(mNode != nullptr)
             return mNode->GetPosition();

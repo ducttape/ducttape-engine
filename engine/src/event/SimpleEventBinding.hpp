@@ -30,7 +30,7 @@ public:
     bool MatchesEvent(std::shared_ptr<Event> e);
 
 private:
-    std::string mTriggerType;
+    std::string mTriggerType;   //!< The type of the event that triggers this binding.
 
 };
 

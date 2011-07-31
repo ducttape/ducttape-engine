@@ -74,6 +74,7 @@ private:
 
     /**
       * Private method. The actual thread method.
+      * @param user_data Data that is being passed in by the sf::Thread (void* to Timer instance).
       */
     static void _ThreadFunction(void* user_data);
 

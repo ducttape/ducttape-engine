@@ -38,6 +38,10 @@ public:
     void Initialize();
     void Deinitialize();
 
+    /**
+      * Returns a pointer to the Manager instance.
+      * @returns A pointer to the Manager instance.
+      */
     static LogManager* Get();
 
     /**
@@ -58,7 +62,7 @@ public:
 
 
 private:
-    Ogre::LogManager mOgreLogManager;
+    Ogre::LogManager mOgreLogManager;   //!< The Ogre log manager, which is required to redirect the Ogre log.
     boost::ptr_map<std::string, Logger> mLoggers;   //!< The list of Loggers, defined by their name
 };
 

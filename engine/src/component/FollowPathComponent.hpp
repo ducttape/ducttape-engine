@@ -25,10 +25,13 @@ namespace dt {
   */
 class DUCTTAPE_API FollowPathComponent : public Component {
 public:
+    /**
+      * The mode which determines what happens when the Node reaches the end of the path.
+      */
     enum Mode {
-        SINGLE,
-        LOOP,
-        ALTERNATING
+        SINGLE,         //!< Stop the movement at the end.
+        LOOP,           //!< Repeat the movement from the beginning.
+        ALTERNATING     //!< Move back along the path (forth and back).
     };
 
     /**
@@ -45,7 +48,12 @@ public:
     void OnDestroy();
     void OnUpdate(double time_diff);
 
+    /**
+      * Adds a point to the end of the path.
+      * @param point The new point to add.
+      */
     void AddPoint(Ogre::Vector3 point);
+
     /**
       * Sets the speed with which the Node should travel along the path.
       * @param speed The speed in units per second.
@@ -120,22 +128,22 @@ public:
 protected:
     /**
       * Calculates the position for the current progress.
-      * @returns The position the node should have right now.
+      * @returns The position the Node should have right now.
       */
-    Ogre::Vector3 _CalculatePosition(float delta = 0.f);
+    Ogre::Vector3 _CalculatePosition();
 
 private:
-    std::vector<Ogre::Vector3> mPoints;
-    float mDurationSinceStart;
-    float mTotalDuration;
-    Ogre::Vector3 mLastPoint;
+    std::vector<Ogre::Vector3> mPoints; //!< The list of path points.
+    float mDurationSinceStart;          //!< The time the Node has been traveling.
+    float mTotalDuration;               //!< The time it will take the Node to travel the whole path.
+    Ogre::Vector3 mLastPoint;           //!< The point the Node has been at in the last frame. Used to calculate the direction.
 
-    bool mSmoothCorners;
-    bool mSmoothAcceleration;
-    bool mFollowRotation;
-    bool mReversed;
+    bool mSmoothCorners;        //!< Whether the path's corners should be rounded.
+    bool mSmoothAcceleration;   //!< Whether the component should accelerate smoothly at the beginning and the end.
+    bool mFollowRotation;       //!< Whether the component should rotate while moving along the path to always face the moving direction.
+    bool mReversed;             //!< Whether the component is currently on the way back (in ALTERNATING mode).
 
-    Mode mMode;
+    Mode mMode;         //!< The movement mode to use.
 };
 
 }

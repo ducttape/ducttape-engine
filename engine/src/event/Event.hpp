@@ -67,7 +67,7 @@ public:
 
     /**
       * Gets whether the event has been canceled.
-      * @ returns Whether the event has been canceled.
+      * @returns Whether the event has been canceled.
       */
     bool IsCanceled();
 

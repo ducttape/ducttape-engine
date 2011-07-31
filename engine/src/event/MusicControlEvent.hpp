@@ -21,10 +21,13 @@ namespace dt {
  */
 class DUCTTAPE_API MusicControlEvent : public Event {
 public:
+    /**
+      * The Action to perform with all MusicComponents.
+      */
     enum Action {
-        PLAY = 0,
-        PAUSE = 1,
-        STOP = 2
+        PLAY = 0,   //!< Play the music.
+        PAUSE = 1,  //!< Pause the music.
+        STOP = 2    //!< Stop the music.
     };
 
     /**
@@ -35,10 +38,14 @@ public:
     const std::string GetType() const;
     std::shared_ptr<Event> Clone() const;
 
+    /**
+      * Returns the Action to perform.
+      * @returns The Action to perform.
+      */
     Action GetAction() const;
 
 private:
-    Action mAction;
+    Action mAction; //!< The Action to perform.
 };
 
 }

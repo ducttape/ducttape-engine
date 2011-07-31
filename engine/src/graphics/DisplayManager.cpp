@@ -105,7 +105,7 @@ bool DisplayManager::ActivateCamera(const std::string& name, const std::string& 
     if(mViewports.count(change_viewport_name) == 0)
         return false;
 
-    mViewports[change_viewport_name].setCamera(mCameras[name]->GetCamera());
+    mViewports[change_viewport_name].SetCamera(mCameras[name]->GetCamera());
     mViewportsCameras[change_viewport_name] = name;
 
     return true;
@@ -136,31 +136,29 @@ bool DisplayManager::AddViewport(const std::string& name, const std::string& cam
         mGuiManager.SetSceneManager(mCameras[mMainCamera]->GetCamera()->getSceneManager());
     }
 
-    mViewports[name].setBackgroundColour(Ogre::ColourValue(0, 0, 0));
+    mViewports[name].SetBackgroundColor(Ogre::ColourValue(0, 0, 0));
 
     ActivateCamera(camera_name, name);
 
     return true;
 }
 
-bool DisplayManager::HideViewport(const std::string& name) {
-    // Do not hide if a Viewport does not exists.
-    if(mViewports.count(name) == 0)
-        return false;
-
-    mViewports[name].hide();
-
-    return true;
+void DisplayManager::HideViewport(const std::string& name) {
+    // Do not hide if the Viewport does not exist.
+    if(mViewports.count(name) == 0) {
+        Logger::Get().Warning("Cannot hide viewport \"" + name + "\": viewport does not exist.");
+    } else {
+        mViewports[name].Hide();
+    }
 }
 
-bool DisplayManager::ShowViewport(const std::string& name) {
-    // Do not show if a Viewport does not exists.
-    if(mViewports.count(name) == 0)
-        return false;
-
-    mViewports[name].show();
-
-    return true;
+void DisplayManager::ShowViewport(const std::string& name) {
+    // Do not show if the Viewport does not exist.
+    if(mViewports.count(name) == 0) {
+        Logger::Get().Warning("Cannot show viewport \"" + name + "\": viewport does not exist.");
+    } else {
+        mViewports[name].Show();
+    }
 }
 
 void DisplayManager::Render() {

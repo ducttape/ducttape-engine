@@ -30,6 +30,7 @@ public:
       * Returns a random integer.
       * @param min The minimum return value.
       * @param max The maximum return value.
+      * @returns A random integer.
       */
     static int Get(int min, int max);
 
@@ -37,6 +38,7 @@ public:
       * Returns a random float.
       * @param min The minimum return value.
       * @param max The maximum return value.
+      * @returns A random float.
       */
     static float Get(float min, float max);
 private:

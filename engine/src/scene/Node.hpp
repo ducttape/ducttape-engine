@@ -35,12 +35,14 @@ class Scene;
   */
 class DUCTTAPE_API Node {
 public:
+    /**
+      * The coordinates space for getting/setting rotation, position and scale.
+      */
     enum RelativeTo {
-        PARENT,
-        SCENE
+        PARENT, //!< Relative to the parent node.
+        SCENE   //!< Relative to the scene root node (i.e. absolute value).
     };
 
-public:
     /**
       * Constructor.
       * @param name The name of the Node.
@@ -77,6 +79,7 @@ public:
     /**
       * Assigns a component to this node.
       * @param component The Component to be assigned.
+      * @returns A pointer to the new component.
       */
     template <typename ComponentType>
     ComponentType* AddComponent(ComponentType* component) {
@@ -103,6 +106,11 @@ public:
       */
     Node* FindChildNode(const std::string& name, bool recursive = true);
 
+    /**
+      * Returns a component.
+      * @param name The name of the component to find.
+      * @returns A pointer to the component, or nullptr if no component with the specified name exists.
+      */
     template <typename ComponentType>
     ComponentType* FindComponent(const std::string& name) {
         if(!HasComponent(name))
@@ -197,31 +205,49 @@ public:
     Node* GetParent();
 
     /**
-      *
+      * Returns the Scene this Node is attached to.
+      * @returns The Scene this Node is attached to.
       */
     Scene* GetScene();
 
+    /**
+      * Called when the Node is being updated.
+      * @param time_diff The frame time.
+      */
     virtual void OnUpdate(double time_diff);
 
 protected:
+    /**
+      * Returns whether this Node is a Scene.
+      * @internal
+      * @returns Whether this Node is a Scene.
+      */
     virtual bool _IsScene();
+
+    /**
+      * Updates all components.
+      * @param time_diff The frame time.
+      * @see Component::OnUpdate(double time_diff);
+      */
     void _UpdateAllComponents(double time_diff);
+
+    /**
+      * Updates all child nodes.
+      * @param time_diff The frame time.
+      * @see OnUpdate(double time_diff);
+      */
     void _UpdateAllChildren(double time_diff);
 
     std::map<std::string, std::shared_ptr<Component> > mComponents;   //!< The list of Components.
-
-    std::string mName;          //!< The Node name.
+    std::string mName;              //!< The Node name.
 
 private:
     boost::ptr_map<std::string, Node> mChildren;        //!< List of child nodes.
-
-    Ogre::Vector3 mPosition;    //!< The Node position.
-    Ogre::Vector3 mScale;       //!< The Node scale.
-    Ogre::Quaternion mRotation; //!< The Node rotation.
-
-    Node* mParent;              //!< A pointer to the parent Node.
-
-    bool mIsUpdatingAfterChange; //!< Whether the node is just in the process of updating all components after a change occurred. This is to prevent infinite stack loops.
+    Ogre::Vector3 mPosition;        //!< The Node position.
+    Ogre::Vector3 mScale;           //!< The Node scale.
+    Ogre::Quaternion mRotation;     //!< The Node rotation.
+    Node* mParent;                  //!< A pointer to the parent Node.
+    bool mIsUpdatingAfterChange;    //!< Whether the node is just in the process of updating all components after a change occurred. This is to prevent infinite stack loops.
 
 };
 

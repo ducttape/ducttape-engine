@@ -100,8 +100,16 @@ public:
       */
     void SetMaterialName(const std::string& material_name);
 
+    /**
+      * Gets the Ogre::SceneNode.
+      * @returns The Ogre::SceneNode this mesh is attached to.
+      */
     Ogre::SceneNode* GetOgreSceneNode() const;
 
+    /**
+      * Gets the Ogre::Entity;
+      * @returns The Ogre::Entity representing this mesh.
+      */
     Ogre::Entity* GetOgreEntity() const;
 
 private:
@@ -121,8 +129,8 @@ private:
     Ogre::AnimationState* mAnimationState;  //!< The current animation state.
     bool mLoopAnimation;            //!< Whether the animation shall be looped.
 
-    std::string mMeshHandle;          //!< The handle of the mesh.
-    std::string mMaterialName;
+    std::string mMeshHandle;        //!< The handle of the mesh.
+    std::string mMaterialName;      //!< The name of the material to apply to the mesh.
 };
 
 }

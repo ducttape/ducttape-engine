@@ -17,6 +17,7 @@
 #include <BulletCollision/CollisionShapes/btBox2dShape.h>
 
 #include "Config.hpp"
+#include "Manager.hpp"
 
 namespace dt {
 
@@ -26,19 +27,30 @@ class Scene;
 /**
   * Holds and manages a complete world of bullet objects and all associated instances.
   */
-class DUCTTAPE_API PhysicsWorld {
+class DUCTTAPE_API PhysicsWorld : public Manager {
 public:
     /**
       * Default constructor.
+      * @param name The name for this PhysicsWorld.
+      * @param scene The scene to link this world to.
       */
     PhysicsWorld(const std::string& name, Scene* scene);
+
 
     void Initialize();
 
     void Deinitialize();
 
+    /**
+      * Steps the simulation.
+      * @param time_diff The time to step the simulation with.
+      */
     void StepSimulation(double time_diff);
 
+    /**
+      * Returns the bullet world.
+      * @returns The bullet world.
+      */
     btDiscreteDynamicsWorld* GetBulletWorld();
 
     /**
@@ -48,34 +60,63 @@ public:
       */
     void OnTick(btScalar time_diff);
 
+    /**
+      * Sets the Gravity in the world.
+      * @param gravity The gravity vector. Default: (0, -9.81, 0)
+      */
     void SetGravity(Ogre::Vector3 gravity);
 
+    /**
+      * Returns the name of this world.
+      * @returns The name of this world.
+      */
     const std::string& GetName() const;
 
+    /**
+      * Sets whether debug drawings should be displayed.
+      * @param show_debug Whether debug drawings should be displayed.
+      */
     void SetShowDebug(bool show_debug);
 
+    /**
+      * Gets whether debug drawings are being displayed.
+      * @returns Whether debug drawings are being displayed.
+      */
     bool GetShowDebug() const;
 
+    /**
+      * Sets whether the world is enabled.
+      * @param enabled Whether the world is enabled.
+      */
     void SetEnabled(bool enabled);
 
+    /**
+      * Gets whether the world is enabled.
+      * @returns Whether the world is enabled.
+      */
     bool IsEnabled() const;
 
+    /**
+      * Bullet tick callback.
+      * @param world The bullet world that was stepped.
+      * @param time_diff The time the world was stepped with.
+      */
     static void BulletTickCallback(btDynamicsWorld* world, btScalar time_diff);
 
 private:
     // bullet stuff
-    btDbvtBroadphase* mBroadphase;
-    btDefaultCollisionConfiguration* mCollisionConfiguration;
-    btCollisionDispatcher* mCollisionDispatcher;
-    btSequentialImpulseConstraintSolver* mSolver;
-    btDiscreteDynamicsWorld* mDynamicsWorld;
+    btDbvtBroadphase* mBroadphase;                              //!< The Bullet broadphase.
+    btDefaultCollisionConfiguration* mCollisionConfiguration;   //!< The Bullet collision configuration.
+    btCollisionDispatcher* mCollisionDispatcher;                //!< The Bullet collision dispatcher.
+    btSequentialImpulseConstraintSolver* mSolver;               //!< The Bullet solver.
+    btDiscreteDynamicsWorld* mDynamicsWorld;                    //!< The Bullet world.
 
-    BtOgre::DebugDrawer* mDebugDrawer;
-    bool mShowDebug;
-    Scene* mScene;
-    Ogre::Vector3 mGravity;
-    std::string mName;
-    bool mIsEnabled;
+    BtOgre::DebugDrawer* mDebugDrawer;  //!< The debug drawer.
+    bool mShowDebug;                    //!< Whether to show debug drawings or not.
+    Scene* mScene;                      //!< The scene associated with this PhysicsWorld.
+    Ogre::Vector3 mGravity;             //!< The gravity of this world.
+    std::string mName;                  //!< The name of this world.
+    bool mIsEnabled;                    //!< Whether the world is enabled or not.
 };
 
 }
