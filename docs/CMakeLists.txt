@@ -1,4 +1,4 @@
-find_package(Doxygen REQUIRED)
+find_package(Doxygen)
 
 configure_file(${CMAKE_SOURCE_DIR}/docs/Doxyfile.in ${CMAKE_BINARY_DIR}/docs/Doxyfile)
 

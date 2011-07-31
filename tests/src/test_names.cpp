@@ -16,13 +16,13 @@
 int main(int argc, char** argv) {
     dt::Root::GetInstance().Initialize(argc, argv);
 
-    dt::Node* node = new dt::Node();
-    std::cout << "Node name: " << node->GetName() << std::endl;
-    assert(node->GetName() == "Node-1");
+    dt::Node node;
+    std::cout << "Node name: " << node.GetName() << std::endl;
+    assert(node.GetName() == "Node-1");
 
-    dt::CameraComponent* comp = new dt::CameraComponent();
-    std::cout << "Component name: " << comp->GetName() << std::endl;
-    assert(comp->GetName() == "Component-2");
+    dt::CameraComponent component;
+    std::cout << "Component name: " << component.GetName() << std::endl;
+    assert(component.GetName() == "Component-2");
 
     dt::Root::GetInstance().Deinitialize();
     return 0;
