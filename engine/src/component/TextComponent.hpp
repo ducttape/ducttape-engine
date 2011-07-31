@@ -51,6 +51,9 @@ public:
     void SetBackgroundMaterial(const std::string& material_name);
     const std::string& GetBackgroundMaterial() const;
 
+    void SetPadding(Ogre::Vector2 padding);
+    Ogre::Vector2 GetPadding() const;
+
 private:
     std::string mText;
     Ogre::Overlay* mOverlay;
@@ -62,6 +65,7 @@ private:
     Ogre::ColourValue mColor;
     float mTextWidth;
     std::string mBackgroundMaterial;
+    Ogre::Vector2 mPadding;
 
 };
 

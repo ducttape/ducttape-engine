@@ -53,6 +53,7 @@ public:
         text1->SetColor(Ogre::ColourValue::White);
         text1->SetFont("DejaVuSans");
         text1->SetFontSize(24);
+        text1->SetPadding(Ogre::Vector2(20, 20));
 
 
         dt::Node* node2 = scene->AddChildNode(new dt::Node("node2"));
