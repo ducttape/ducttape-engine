@@ -21,13 +21,13 @@ Logger::Logger(const std::string& name)
 }
 
 void Logger::Log(const std::string& level, const std::string& msg) {
-    std::string lvl = boost::to_upper_copy(level);
+    std::string lvl(boost::to_upper_copy(level));
     LogStream* s = GetStream(lvl);
     s->Output(this, msg);
 }
 
 LogStream* Logger::GetStream(const std::string& streamname) {
-    std::string name = boost::to_upper_copy(streamname);
+    std::string name(boost::to_upper_copy(streamname));
     for(auto iter = mStreams.begin(); mStreams.end() != iter; ++iter) {
         std::string sname = boost::to_upper_copy(iter->GetName());
         if(name == sname) {

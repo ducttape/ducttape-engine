@@ -71,7 +71,7 @@ std::vector<std::string> MeshComponent::GetAvailableAnimations() {
     if(mEntity == nullptr)
         return result;
 
-    Ogre::AnimationStateIterator iter = mEntity->getAllAnimationStates()->getAnimationStateIterator();
+    Ogre::AnimationStateIterator iter(mEntity->getAllAnimationStates()->getAnimationStateIterator());
     while(iter.hasMoreElements()) {
         result.push_back(iter.current()->second->getAnimationName());
         iter.moveNext();

@@ -57,7 +57,7 @@ void Node::OnInitialize() {}
 void Node::OnDeinitialize() {}
 
 Node* Node::AddChildNode(Node* child) {
-    std::string key = child->GetName();
+    std::string key(child->GetName());
     mChildren.insert(key, child);
     mChildren[key].SetParent(this);
     mChildren[key].Initialize();
@@ -129,7 +129,7 @@ Ogre::Vector3 Node::GetScale(Node::RelativeTo rel) const {
     if(rel == PARENT || mParent == nullptr) {
         return mScale;
     } else {
-        Ogre::Vector3 p = mParent->GetScale(SCENE);
+        Ogre::Vector3 p(mParent->GetScale(SCENE));
         return Ogre::Vector3(p.x * mScale.x, p.y * mScale.y, p.z * mScale.z);
     }
 }
@@ -141,7 +141,7 @@ void Node::SetScale(Ogre::Vector3 scale, Node::RelativeTo rel) {
     if(rel == PARENT || mParent == nullptr) {
         mScale = scale;
     } else {
-        Ogre::Vector3 p = mParent->GetScale(SCENE);
+        Ogre::Vector3 p(mParent->GetScale(SCENE));
         mScale = Ogre::Vector3(scale.x / p.x, scale.y / p.y, scale.z / p.z);
     }
     OnUpdate(0);

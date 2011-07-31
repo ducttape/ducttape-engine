@@ -48,7 +48,7 @@ bool ResourceManager::AddSoundBuffer(const boost::filesystem::path& path, const 
     // Does the path exist?
     if(_FindFileInDataPaths(file)) {
         // if the optional param key is not given, use the basename as key
-        std::string sound_key = "";
+        std::string sound_key;
         if(sound_file == "") {
             sound_key = path.string();
         } else {
@@ -87,7 +87,7 @@ bool ResourceManager::AddMusicFile(const boost::filesystem::path& path, const st
     // Does the path exist?
     if(_FindFileInDataPaths(file)) {
         // if the optional param music_file is not given, use the basename as key
-        std::string music_key = "";
+        std::string music_key;
         if(music_file == "") {
             music_key = path.string();
         } else {
@@ -140,7 +140,7 @@ void ResourceManager::_FindDataPaths() {
     mDataPathsSearched = true;
 
     // check recursively upwards
-    auto path = Root::GetInstance().GetExecutablePath();
+    boost::filesystem::path path(Root::GetInstance().GetExecutablePath());
     while(path.has_parent_path()) {
         path = path.parent_path();
         if(boost::filesystem::is_directory(path / "data")) {
@@ -169,7 +169,7 @@ bool ResourceManager::_FindFileInDataPaths(boost::filesystem::path& file) {
     for(boost::filesystem::path& path: mDataPaths) {
 #endif
         if(boost::filesystem::exists(path / f)) {
-            file = path/f;
+            file = path / f;
             return true;
         }
     }

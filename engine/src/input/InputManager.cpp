@@ -101,9 +101,8 @@ void InputManager::windowResized(Ogre::RenderWindow* window) {
     int left, top;
     window->getMetrics(width, height, depth, left, top);
 
-    const OIS::MouseState &ms = mMouse->getMouseState();
-    ms.width = width;
-    ms.height = height;
+    mMouse->getMouseState().width = width;
+    mMouse->getMouseState().height = height;
 }
 
 void InputManager::windowClosed(Ogre::RenderWindow* window) {

@@ -70,7 +70,7 @@ void SimplePlayerComponent::OnUpdate(double time_diff) {
     OIS::Keyboard* k = InputManager::Get()->GetKeyboard();
 
     if(mWASDEnabled || mArrowsEnabled) {
-        Ogre::Vector3 move = Ogre::Vector3::ZERO;
+        Ogre::Vector3 move(Ogre::Vector3::ZERO);
 
         if((mWASDEnabled && k->isKeyDown(OIS::KC_W)) || (mArrowsEnabled && k->isKeyDown(OIS::KC_UP))) {
             move.z -= 1.0;
