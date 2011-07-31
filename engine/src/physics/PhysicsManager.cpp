@@ -19,6 +19,10 @@ void PhysicsManager::Initialize() {
 }
 
 void PhysicsManager::Deinitialize() {
+    for(auto it = mWorlds.begin(); it != mWorlds.end(); ++it) {
+        it->second->Deinitialize();
+    }
+    mWorlds.clear();
     EventManager::Get()->RemoveListener(this);
 }
 

@@ -26,7 +26,7 @@ public:
     /**
       * The priority of a listener. Influences the calling order.
       */
-    enum Priority {
+    enum Priority : uint8_t {
         MONITOR = 1,            //!< (1) Only monitor events here, do not cancel the event here.
         INTERNAL_HIGHEST = 2,   //!< (2) Only for internal usage. It is possible but highly discouraged to use this outside of the engine.
         HIGHEST = 3,            //!< (3) Highest priority.
