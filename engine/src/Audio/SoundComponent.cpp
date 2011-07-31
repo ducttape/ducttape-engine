@@ -36,8 +36,8 @@ void SoundComponent::OnCreate() {}
 void SoundComponent::OnDestroy() {}
 
 void SoundComponent::OnUpdate(double time_diff) {
-	mSound.SetPosition(mNode->GetPosition(Node::SCENE).x, 
-                       mNode->GetPosition(Node::SCENE).y, 
+	mSound.SetPosition(mNode->GetPosition(Node::SCENE).x,
+                       mNode->GetPosition(Node::SCENE).y,
                        mNode->GetPosition(Node::SCENE).z);
 }
 
@@ -64,7 +64,7 @@ void SoundComponent::PlaySound() {
 }
 
 void SoundComponent::PauseSound() {
-    // pause sound if possible    
+    // pause sound if possible
     mSound.Pause();
 }
 

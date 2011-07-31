@@ -30,7 +30,7 @@ public:
     ~Viewport();
 
     /**
-      * Initializer. 
+      * Initializer.
       */
     void Initialize(Ogre::Viewport* Viewport);
 

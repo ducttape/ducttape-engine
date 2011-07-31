@@ -59,7 +59,7 @@ public:
     bool UnregisterCamera(CameraComponent* camera_component);
 
     /**
-      * Activates a camera for the active viewport. 
+      * Activates a camera for the active viewport.
       * This will fail if this CameraComponent has not yet been registered.
       * @param name The name of the CameraComponent.
       * @param viewport_name The name of the Viewport.
@@ -78,8 +78,8 @@ public:
       * @param height From 0.0 to 1.0, tells how much height of screen should viewport occupy.
       * @returns Whether the operation was successful or not.
       */
-    bool AddViewport(const std::string& name, const std::string& camera_name, 
-                     bool set_as_main = false, float left = 0.0F, float top = 0.0F, 
+    bool AddViewport(const std::string& name, const std::string& camera_name,
+                     bool set_as_main = false, float left = 0.0F, float top = 0.0F,
                      float width = 1.0F, float height = 1.0F);
 
     /**
@@ -131,12 +131,12 @@ public:
 
 private:
     /**
-      * Creates the render window and sets up Ogre. It is called when the first CameraComponent is registered. 
+      * Creates the render window and sets up Ogre. It is called when the first CameraComponent is registered.
       */
     void _CreateWindow();
 
     /**
-      * Destroy the render window and kills Ogre. It is called after the last CameraComponent has been unregistered. 
+      * Destroy the render window and kills Ogre. It is called after the last CameraComponent has been unregistered.
       */
     void _DestroyWindow();
 
@@ -152,7 +152,7 @@ private:
     Ogre::RenderWindow* mOgreRenderWindow;  //!< The render window.
 
     GuiManager mGuiManager;     //!< The GuiManager.
-    
+
     int mNextZOrder;            //!< The z-order for the next viewport to be created.
 };
 

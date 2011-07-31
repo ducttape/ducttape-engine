@@ -6,7 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#ifndef DUCTTAPE_ENGINE_COMPONENT_CAMERACOMPONENT 
+#ifndef DUCTTAPE_ENGINE_COMPONENT_CAMERACOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_CAMERACOMPONENT
 
 

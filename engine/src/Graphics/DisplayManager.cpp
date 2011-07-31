@@ -101,7 +101,7 @@ bool DisplayManager::ActivateCamera(const std::string& name, const std::string& 
     return true;
 }
 
-bool DisplayManager::AddViewport(const std::string& name, const std::string& camera_name, 
+bool DisplayManager::AddViewport(const std::string& name, const std::string& camera_name,
                                  bool set_as_main, float left, float top, float width, float height)
 {
     // Do not add if a Viewport of the same name already exists.
@@ -114,7 +114,7 @@ bool DisplayManager::AddViewport(const std::string& name, const std::string& cam
     std::string viewport_name(name);
 
     mViewports.insert(viewport_name, new dt::Viewport);
-    mViewports[name].Initialize((GetRenderWindow()->addViewport(mCameras[camera_name]->GetCamera(), 
+    mViewports[name].Initialize((GetRenderWindow()->addViewport(mCameras[camera_name]->GetCamera(),
                                   mNextZOrder, left, top, width, height)));
     mNextZOrder++;
 
