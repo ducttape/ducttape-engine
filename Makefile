@@ -3,7 +3,7 @@ default: debug test
 clean:
 	[[ -d build ]] && rm -r build
 
-bake:
+release:
 	mkdir -p build
 	cd build; cmake -DCMAKE_BUILD_TYPE=Release ..; make -j$(shell grep -c ^processor /proc/cpuinfo)
 
