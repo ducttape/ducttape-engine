@@ -9,12 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_MUSICCOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_MUSICCOMPONENT
 
-#include <SFML/Audio.hpp>
-
-#include "Config.hpp"
-#include "component/Component.hpp"
-#include "event/MusicControlEvent.hpp"
-#include "Root.hpp"
+#include <Scene/Component.hpp>
 
 namespace dt {
 

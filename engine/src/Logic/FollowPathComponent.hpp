@@ -9,13 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_FOLLOWPATHCOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_FOLLOWPATHCOMPONENT
 
-#include <string>
 
-#include <OgreLight.h>
 
-#include "Config.hpp"
-#include "component/Component.hpp"
-#include "utils/Math.hpp"
 
 namespace dt {
 

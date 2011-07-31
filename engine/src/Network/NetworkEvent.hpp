@@ -9,11 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_NETWORKEVENT
 #define DUCTTAPE_ENGINE_EVENT_NETWORKEVENT
 
-#include <cstdint>
-#include <vector>
 
-#include "Config.hpp"
-#include "Event.hpp"
 
 namespace dt {
 

@@ -9,11 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_EVENT
 #define DUCTTAPE_ENGINE_EVENT_EVENT
 
-#include <string>
-#include <memory>
 
-#include "Config.hpp"
-#include "network/IOPacket.hpp"
 
 namespace dt {
 

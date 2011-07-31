@@ -9,21 +9,20 @@
 #ifndef DUCTTAPE_ENGINE_SCENE_NODE
 #define DUCTTAPE_ENGINE_SCENE_NODE
 
-#include <string>
-#include <vector>
+#include <Config.hpp>
 
 #include <boost/ptr_container/ptr_map.hpp>
 
-#include <OGRE/OgreVector3.h>
-#include <OGRE/OgreQuaternion.h>
+#include <OgreVector3.h>
+#include <OgreQuaternion.h>
 
-#include "Config.hpp"
-#include "utils/Logger.hpp"
-#include "component/Component.hpp"
+#include <map>
+#include <memory>
+#include <string>
 
 namespace dt {
 
-// forward declaration
+class Component;
 class Scene;
 
 /**
@@ -251,6 +250,6 @@ private:
 
 };
 
-}
+} // namespace dt
 
 #endif

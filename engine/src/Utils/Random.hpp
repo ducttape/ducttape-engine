@@ -9,10 +9,10 @@
 #ifndef DUCTTAPE_ENGINE_UTILS_RANDOM
 #define DUCTTAPE_ENGINE_UTILS_RANDOM
 
-#include <ctime>
-#include <random>
+#include <Config.hpp>
 
-#include "Config.hpp"
+#include <cstdint>
+#include <random>
 
 namespace dt {
 
@@ -32,7 +32,7 @@ public:
       * @param max The maximum return value.
       * @returns A random integer.
       */
-    static int Get(int min, int max);
+    static int32_t Get(int32_t min, int32_t max);
 
     /**
       * Returns a random float.
@@ -45,6 +45,6 @@ private:
     static std::mt19937 Generator;  //!< The generator used to generate pseudorandom numbers.
 };
 
-}
+} // namespace dt
 
 #endif

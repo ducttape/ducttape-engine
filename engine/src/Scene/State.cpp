@@ -6,11 +6,18 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "State.hpp"
+#include <Scene/State.hpp>
 
-#include "Root.hpp"
+#include <Event/EventManager.hpp>
+#include <Scene/Scene.hpp>
+#include <Utils/Logger.hpp>
+
+#include <memory>
+#include <string>
 
 namespace dt {
+
+class Event;
 
 State::State() {}
 
@@ -51,8 +58,9 @@ void State::DeleteScene(const std::string& name) {
         Logger::Get().Warning("Cannot delete scene " + name + ": There is no such scene.");
         return;
     }
+
     GetScene(name)->Deinitialize();
     mScenes.erase(mScenes.find(name));
 }
 
-}
+} // namespace dt

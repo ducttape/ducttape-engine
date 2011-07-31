@@ -9,10 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_INPUT_KEYBOARDEVENT
 #define DUCTTAPE_ENGINE_INPUT_KEYBOARDEVENT
 
-#include <OIS/OISKeyboard.h>
 
-#include "Config.hpp"
-#include "event/Event.hpp"
 
 namespace dt {
 

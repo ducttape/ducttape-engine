@@ -9,17 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_TEXTCOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_TEXTCOMPONENT
 
-#include <OGRE/OgreOverlay.h>
-#include <OGRE/OgreOverlayManager.h>
-#include <OGRE/OgreOverlayContainer.h>
-#include <OGRE/OgreOverlayElement.h>
-#include <OGRE/OgreTextAreaOverlayElement.h>
-#include <OGRE/OgreFontManager.h>
 
-#include "Config.hpp"
-#include "component/Component.hpp"
-#include "graphics/DisplayManager.hpp"
-#include "utils/Utils.hpp"
 
 namespace dt {
 

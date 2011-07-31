@@ -9,13 +9,10 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_BINDINGSMANAGER
 #define DUCTTAPE_ENGINE_EVENT_BINDINGSMANAGER
 
-#include <memory>
-#include <map>
+class Event;
 
-#include "Config.hpp"
-#include "EventListener.hpp"
-#include "EventBinding.hpp"
-#include "Manager.hpp"
+#include <Core/Manager.hpp>
+#include <Event/EventListener.hpp>
 
 namespace dt {
 

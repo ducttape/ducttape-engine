@@ -9,8 +9,6 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_PINGEVENT
 #define DUCTTAPE_ENGINE_EVENT_PINGEVENT
 
-#include "Config.hpp"
-#include "NetworkEvent.hpp"
 
 namespace dt {
 

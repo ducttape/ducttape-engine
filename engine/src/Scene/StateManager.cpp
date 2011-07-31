@@ -6,12 +6,17 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <boost/foreach.hpp>
+#include <Scene/StateManager.hpp>
 
-#include "StateManager.hpp"
-#include "Root.hpp"
+#include <Core/Root.hpp>
+#include <Utils/Logger.hpp>
+
+#include <cstdint>
+#include <memory>
 
 namespace dt {
+
+class Scene;
 
 StateManager::StateManager()
     : mHasNewState(false),
@@ -73,4 +78,4 @@ State* StateManager::GetCurrentState() {
     return nullptr;
 }
 
-}
+} // namespace dt

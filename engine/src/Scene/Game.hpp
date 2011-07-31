@@ -9,13 +9,18 @@
 #ifndef DUCTTAPE_ENGINE_GAME_GAME
 #define DUCTTAPE_ENGINE_GAME_GAME
 
-#include "Config.hpp"
-#include "Root.hpp"
-#include "event/BeginFrameEvent.hpp"
-#include "event/GoodbyeEvent.hpp"
-#include "states/State.hpp"
+#include <Config.hpp>
+
+#include <Event/EventListener.hpp>
+
+#include <SFML/System.hpp>
+
+#include <memory>
 
 namespace dt {
+
+class Event;
+class State;
 
 /**
   * The main instance of a game, running the main loop.
@@ -61,6 +66,6 @@ protected:
     bool mIsRunning;            //!< Whether the game loop is running.
 };
 
-}
+} // namespace dt
 
 #endif

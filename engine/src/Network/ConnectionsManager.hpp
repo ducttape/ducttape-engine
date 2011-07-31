@@ -9,15 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_NETWORK_CONNECTIONSMANAGER
 #define DUCTTAPE_ENGINE_NETWORK_CONNECTIONSMANAGER
 
-#include <boost/ptr_container/ptr_map.hpp>
 
-#include <vector>
 
-#include "Config.hpp"
-#include "Connection.hpp"
-#include "event/Timer.hpp"
-#include "event/PingEvent.hpp"
-#include "Manager.hpp"
 
 namespace dt {
 

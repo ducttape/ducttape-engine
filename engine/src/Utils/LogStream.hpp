@@ -9,16 +9,13 @@
 #ifndef DUCTTAPE_ENGINE_UTILS_LOGSTREAM
 #define DUCTTAPE_ENGINE_UTILS_LOGSTREAM
 
+#include <Config.hpp>
 
+#include <ostream>
 #include <string>
-#include <iostream>
-#include <cstdio>
-
-#include "Config.hpp"
 
 namespace dt {
 
-// forward declaration
 class Logger;
 
 /**
@@ -104,6 +101,6 @@ private:
     bool mDisabled;         //!< Whether this LogStream is disabled or not.
 };
 
-}
+} // namespace dt
 
 #endif

@@ -6,7 +6,15 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "Root.hpp"
+#include <Utils/LogManager.hpp>
+#include <Core/StringManager.hpp>
+#include <Event/EventManager.hpp>
+#include <Core/ResourceManager.hpp>
+#include <Input/InputManager.hpp>
+#include <Graphics/DisplayManager.hpp>
+#include <Scene/StateManager.hpp>
+#include <Network/NetworkManager.hpp>
+#include <Physics/PhysicsManager.hpp>
 
 namespace dt {
 

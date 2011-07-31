@@ -6,10 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "GuiManager.hpp"
 
-#include "DisplayManager.hpp"
-#include "input/InputManager.hpp"
 
 namespace dt {
 

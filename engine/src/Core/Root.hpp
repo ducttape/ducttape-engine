@@ -35,21 +35,17 @@
 #ifndef DUCTTAPE_ENGINE_ROOT
 #define DUCTTAPE_ENGINE_ROOT
 
-#include <boost/filesystem.hpp>
-#include <boost/utility.hpp>
-
-#include "Config.hpp"
-#include "utils/StringManager.hpp"
-#include "utils/LogManager.hpp"
-#include "states/StateManager.hpp"
-#include "event/EventManager.hpp"
-#include "network/NetworkManager.hpp"
-#include "graphics/DisplayManager.hpp"
-#include "resources/ResourceManager.hpp"
-#include "input/InputManager.hpp"
-#include "physics/PhysicsManager.hpp"
-
 namespace dt {
+
+class LogManager;
+class StringManager;
+class EventManager;
+class ResourceManager;
+class InputManager;
+class DisplayManager;
+class StateManager;
+class NetworkManager;
+class PhysicsManager;
 
 /**
   * Engine Root class holding various Manager instances. This class is designed to be the only singleton in the whole engine,

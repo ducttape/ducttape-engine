@@ -9,10 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_MESHCOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_MESHCOMPONENT
 
-#include <OgreEntity.h>
 
-#include "Config.hpp"
-#include "component/Component.hpp"
 
 namespace dt {
 

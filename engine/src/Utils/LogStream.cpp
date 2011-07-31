@@ -6,10 +6,13 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "LogStream.hpp"
+#include <Utils/LogStream.hpp>
 
-#include "Logger.hpp"
+#include <Utils/Logger.hpp>
+
 #include <boost/format.hpp>
+
+#include <string>
 
 namespace dt {
 
@@ -61,4 +64,4 @@ bool LogStream::IsDisabled() const {
     return mDisabled;
 }
 
-}
+} // namespace dt

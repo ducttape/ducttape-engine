@@ -6,9 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "BindingsManager.hpp"
-
-#include "Root.hpp"
+#include <BindingsManager.hpp>
 
 namespace dt {
 

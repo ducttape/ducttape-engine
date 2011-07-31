@@ -6,12 +6,25 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "utils/Logger.hpp"
+#include <PhysicsBodyComponent.hpp>
 
-#include "PhysicsBodyComponent.hpp"
-#include "scene/Scene.hpp"
+#include <Utils/Logger.hpp>
+
+#include <btDefaultMotionState.h>
+#include <btScalar.h>
+#include <btTransform.h>
+#include <btVector3.h>
+
+#include <BtOgreGP.h>
+#include <BtOgreExtras.h>
+
+#include <memory>
+#include <string>
 
 namespace dt {
+
+class Event;
+class MeshComponent;
 
 PhysicsBodyComponent::PhysicsBodyComponent(const std::string& mesh_component_name,
                                            const std::string& name)

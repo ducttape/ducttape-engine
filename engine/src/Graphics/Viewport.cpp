@@ -6,7 +6,6 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "graphics/Viewport.hpp"
 
 namespace dt {
 

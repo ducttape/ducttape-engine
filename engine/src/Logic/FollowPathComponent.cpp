@@ -6,11 +6,8 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "FollowPathComponent.hpp"
 
-#include "scene/Node.hpp"
 
-#include <boost/foreach.hpp>
 
 namespace dt {
 

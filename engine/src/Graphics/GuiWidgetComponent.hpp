@@ -9,14 +9,9 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_GUIWIDGETCOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_GUIWIDGETCOMPONENT
 
-#include <string>
 
 #define MYGUI_DONT_USE_OBSOLETE
-#include <MyGUI.h>
 
-#include "Config.hpp"
-#include "component/Component.hpp"
-#include "graphics/GuiManager.hpp"
 
 namespace dt {
 

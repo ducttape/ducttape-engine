@@ -9,11 +9,11 @@
 #ifndef DUCTTAPE_ENGINE_UTILS_ENUMHELPER
 #define DUCTTAPE_ENGINE_UTILS_ENUMHELPER
 
-#include <cstdint>
+#include <Config.hpp>
 
 #include <SFML/Network.hpp>
 
-#include "Config.hpp"
+#include <cstdint>
 
 namespace dt {
 
@@ -80,6 +80,6 @@ DUCTTAPE_API sf::Packet& operator << (sf::Packet& p, EnumHelper e);
   */
 DUCTTAPE_API sf::Packet& operator >> (sf::Packet& p, EnumHelper e);
 
-}
+} // namespace dt
 
 #endif

@@ -9,11 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_NETWORK_CONNECTION
 #define DUCTTAPE_ENGINE_NETWORK_CONNECTION
 
-#include <cstdint>
 
-#include <SFML/Network.hpp>
 
-#include "Config.hpp"
 
 namespace dt {
 

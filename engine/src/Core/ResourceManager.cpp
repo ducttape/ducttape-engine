@@ -6,12 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <boost/foreach.hpp>
-
-#include "resources/ResourceManager.hpp"
-#include "utils/Logger.hpp"
-
-#include "Root.hpp"
+#include <Core/ResourceManager.hpp>
 
 namespace dt {
 

@@ -9,21 +9,9 @@
 #ifndef DUCTTAPE_ENGINE_NETWORK_NETWORKMANAGER
 #define DUCTTAPE_ENGINE_NETWORK_NETWORKMANAGER
 
-#include <deque>
 
-#include <boost/ptr_container/ptr_vector.hpp>
 
-#include <SFML/Network.hpp>
 
-#include "Config.hpp"
-#include "ConnectionsManager.hpp"
-#include "event/EventListener.hpp"
-#include "event/HandshakeEvent.hpp"
-#include "event/GoodbyeEvent.hpp"
-#include "event/NetworkEvent.hpp"
-#include "event/PingEvent.hpp"
-#include "utils/Utils.hpp"
-#include "Manager.hpp"
 
 namespace dt {
 

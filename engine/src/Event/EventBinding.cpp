@@ -6,9 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "EventBinding.hpp"
 
-#include "Root.hpp"
 
 namespace dt {
 

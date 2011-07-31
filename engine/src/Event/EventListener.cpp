@@ -6,7 +6,6 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "EventListener.hpp"
 
 namespace dt {
 

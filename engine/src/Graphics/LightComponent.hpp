@@ -9,15 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_LIGHTCOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_LIGHTCOMPONENT
 
-#include <string>
 
-#include <OgreLight.h>
-#include <OgreColourValue.h>
-#include <OgreVector3.h>
-#include <OgreMath.h>
 
-#include "Config.hpp"
-#include "component/Component.hpp"
 
 namespace dt {
 

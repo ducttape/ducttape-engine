@@ -9,20 +9,25 @@
 #ifndef DUCTTAPE_ENGINE_UTILS_LOGMANAGER
 #define DUCTTAPE_ENGINE_UTILS_LOGMANAGER
 
-#include <boost/ptr_container/ptr_map.hpp>
-#include <OGRE/OgreLogManager.h>
+#include <Config.hpp>
 
-#include "Config.hpp"
-#include "Logger.hpp"
-#include "Manager.hpp"
+#include <Core/Manager.hpp>
+
+#include <OgreLog.h>
+#include <OgreLogManager.h>
+
+#include <boost/ptr_container/ptr_map.hpp>
+
+#include <string>
 
 namespace dt {
+
+class Logger;
 
 /**
   * A manager responsible for holding and providing all Loggers.
   */
-class DUCTTAPE_API LogManager : public Manager,
-    public Ogre::LogListener {
+class DUCTTAPE_API LogManager : public Manager, public Ogre::LogListener {
 public:
     /**
       * Default constructor.
@@ -60,12 +65,11 @@ public:
       */
     Logger& GetLogger(const std::string& name);
 
-
 private:
     Ogre::LogManager mOgreLogManager;   //!< The Ogre log manager, which is required to redirect the Ogre log.
     boost::ptr_map<std::string, Logger> mLoggers;   //!< The list of Loggers, defined by their name
 };
 
-}
+} // namespace dt
 
 #endif

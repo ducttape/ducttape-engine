@@ -6,11 +6,21 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "component/Component.hpp"
-#include "scene/Node.hpp"
-#include "Root.hpp"
+#include <Scene/Component.hpp>
+
+#include <Core/StringManager.hpp>
+#include <Event/EventListener.hpp>
+#include <Utils/Utils.hpp>
+
+#include <boost/function.hpp>
+#include <boost/signals2.hpp>
+
+#include <memory>
+#include <string>
 
 namespace dt {
+
+class Event;
 
 Component::Component(const std::string& name)
     : mName(name),
@@ -18,7 +28,7 @@ Component::Component(const std::string& name)
       mIsCreated(false) {
     // auto-generate the component name
     if(mName == "") {
-        mName = "Component-" + tostr(StringManager::Get()->GetNextAutoId());
+        mName = "Component-" + Utils::ToString(StringManager::Get()->GetNextAutoId());
     }
 }
 
@@ -96,4 +106,4 @@ void Component::_CallSignal(const std::string& signal_identifier) {
     mSignals[signal_identifier]();
 }
 
-}
+} // namespace dt

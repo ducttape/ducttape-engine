@@ -9,10 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_MUSICCONTROLEVENT
 #define DUCTTAPE_ENGINE_EVENT_MUSICCONTROLEVENT
 
-#include <string>
-
-#include "Config.hpp"
-#include "Event.hpp"
+#include <Event/Event.hpp>
 
 namespace dt {
 

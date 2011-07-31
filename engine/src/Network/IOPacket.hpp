@@ -9,10 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_NETWORK_IOPACKET
 #define DUCTTAPE_ENGINE_NETWORK_IOPACKET
 
-#include <SFML/Network.hpp>
 
-#include "Config.hpp"
-#include "utils/EnumHelper.hpp"
 
 namespace dt {
 

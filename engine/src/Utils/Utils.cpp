@@ -6,16 +6,23 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "Utils.hpp"
+#include <Utils/Utils.hpp>
 
 #include <boost/algorithm/string.hpp>
 
+#include <string>
+#include <vector>
+
 namespace dt {
 
-std::vector<std::string> split(std::string in, std::string chars) {
+namespace Utils {
+
+std::vector<std::string> Split(const std::string& in, const std::string& chars) {
     std::vector<std::string> res;
     boost::algorithm::split(res, in, boost::algorithm::is_any_of(chars), boost::algorithm::token_compress_on);
     return res;
 }
 
-}
+} // namespace Utils
+
+} // namespace dt

@@ -6,7 +6,10 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "Random.hpp"
+#include <Utils/Random.hpp>
+
+#include <cstdint>
+#include <random>
 
 namespace dt {
 
@@ -14,8 +17,8 @@ void Random::Initialize() {
     Generator.seed(time(0));
 }
 
-int Random::Get(int min, int max) {
-    return std::uniform_int_distribution<int>(min, max)(Generator);
+int32_t Random::Get(int32_t min, int32_t max) {
+    return std::uniform_int_distribution<int32_t>(min, max)(Generator);
 }
 
 float Random::Get(float min, float max) {
@@ -24,4 +27,4 @@ float Random::Get(float min, float max) {
 
 std::mt19937 Random::Generator;
 
-}
+} // namespace dt

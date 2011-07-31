@@ -9,8 +9,6 @@
 #ifndef DUCTTAPE_ENGINE_MANAGER
 #define DUCTTAPE_ENGINE_MANAGER
 
-#include "Config.hpp"
-
 namespace dt {
 
 /**

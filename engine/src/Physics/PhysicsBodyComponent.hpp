@@ -9,19 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_PHYSICSBODYCOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_PHYSICSBODYCOMPONENT
 
-#include <btBulletDynamicsCommon.h>
-#include <BulletCollision/CollisionShapes/btBox2dShape.h>
-#include <BulletCollision/CollisionShapes/btConvex2dShape.h>
 
-#include <BtOgrePG.h>
-#include <BtOgreGP.h>
-#include <BtOgreExtras.h>
 
-#include "Config.hpp"
-#include "component/Component.hpp"
-#include "component/MeshComponent.hpp"
-#include "scene/Node.hpp"
-#include "physics/PhysicsManager.hpp"
 
 namespace dt {
 

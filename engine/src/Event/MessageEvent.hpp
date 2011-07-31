@@ -9,8 +9,6 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_MESSAGEEVENT
 #define DUCTTAPE_ENGINE_EVENT_MESSAGEEVENT
 
-#include "Config.hpp"
-#include "Event.hpp"
 
 namespace dt {
 

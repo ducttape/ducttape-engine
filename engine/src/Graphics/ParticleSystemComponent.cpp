@@ -6,11 +6,6 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "ParticleSystemComponent.hpp"
-#include "scene/Node.hpp"
-#include "scene/Scene.hpp"
-#include "utils/Logger.hpp"
-#include "utils/Utils.hpp"
 
 namespace dt {
 

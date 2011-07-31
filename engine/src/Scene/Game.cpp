@@ -6,7 +6,17 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "Game.hpp"
+#include <Scene/Game.hpp>
+
+#include <Core/Root.hpp>
+#include <Event/Event.hpp>
+#include <Event/EventManager.hpp>
+#include <Graphics/DisplayManager.hpp>
+#include <Network/GoodbyeEvent.hpp>
+#include <Network/NetworkManager.hpp>
+#include <Utils/Logger.hpp>
+
+#include <SFML/System.hpp>
 
 namespace dt {
 
@@ -83,8 +93,7 @@ void Game::Run(State* start_state, int argc, char** argv) {
     }
 
     // Send the GoodbyeEvent to close the network connection.
-    root.GetEventManager()->
-        InjectEvent(std::make_shared<GoodbyeEvent>("The client closed the session."));
+    root.GetEventManager()->InjectEvent(std::make_shared<GoodbyeEvent>("The client closed the session."));
     root.GetNetworkManager()->SendQueuedEvents();
 
     mIsRunning = false;
@@ -106,4 +115,4 @@ bool Game::IsRunning() {
     return mIsRunning;
 }
 
-}
+} // namespace dt

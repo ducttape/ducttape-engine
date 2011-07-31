@@ -6,7 +6,6 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ---------------------------------------------------------------------------- 
 
-#include "KeyboardEvent.hpp"
 
 namespace dt {
 

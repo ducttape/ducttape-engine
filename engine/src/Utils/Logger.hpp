@@ -9,16 +9,15 @@
 #ifndef DUCTTAPE_ENGINE_UTILS_LOGGER
 #define DUCTTAPE_ENGINE_UTILS_LOGGER
 
-#include <string>
-#include <iostream>
+#include <Config.hpp>
 
-#include <boost/algorithm/string.hpp>
 #include <boost/ptr_container/ptr_vector.hpp>
 
-#include "Config.hpp"
-#include "LogStream.hpp"
+#include <string>
 
 namespace dt {
+
+class Logstream;
 
 /**
   * A class responsible for logging different messages to their LogStreams. This class can hold different
@@ -96,11 +95,12 @@ public:
       * @returns the Logger if one is found, otherwise it is created
       */
     static Logger& GetByName(const std::string& name);
+
 private:
     boost::ptr_vector<LogStream> mStreams;  //!< The list of Streams owned by this Logger
     std::string mName;                      //!< The name of this Logger
 };
 
-}
+} // namespace dt
 
 #endif

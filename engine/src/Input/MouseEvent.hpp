@@ -9,10 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_INPUT_MOUSEEVENT
 #define DUCTTAPE_ENGINE_INPUT_MOUSEEVENT
 
-#include <OIS/OISMouse.h>
 
-#include "Config.hpp"
-#include "event/Event.hpp"
 
 namespace dt {
 

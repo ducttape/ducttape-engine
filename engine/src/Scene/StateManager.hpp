@@ -9,14 +9,17 @@
 #ifndef DUCTTAPE_ENGINE_STATES_STATEMANAGER
 #define DUCTTAPE_ENGINE_STATES_STATEMANAGER
 
-#include <boost/ptr_container/ptr_vector.hpp>
-#include <memory>
+#include <Config.hpp>
 
-#include "Config.hpp"
-#include "State.hpp"
-#include "Manager.hpp"
+#include <Core/Manager.hpp>
+
+#include <cstdint>
+#include <memory>
+#include <vector>
 
 namespace dt {
+
+class State;
 
 /**
   * A manager responsible for managing game states.
@@ -69,6 +72,6 @@ private:
     uint16_t mPopCount; //!< The number of states to remove in the next frame.
 };
 
-}
+} // namespace dt
 
 #endif

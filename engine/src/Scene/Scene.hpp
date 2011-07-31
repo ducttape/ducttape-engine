@@ -9,22 +9,25 @@
 #ifndef DUCTTAPE_ENGINE_SCENE_SCENE
 #define DUCTTAPE_ENGINE_SCENE_SCENE
 
+#include <Config.hpp>
+
+#include <Event/EventListener.hpp>
+#include <Scene/Node.hpp>
+
+#include <OgreSceneManager.h>
+
+#include <memory>
 #include <string>
 
-#include <boost/ptr_container/ptr_map.hpp>
-
-#include <OGRE/OgreSceneManager.h>
-
-#include "Config.hpp"
-#include "Node.hpp"
-#include "physics/PhysicsWorld.hpp"
-
 namespace dt {
+
+class Event;
+class PhysicsWorld;
 
 /**
   * A class to represent a whole scene of the game world.
   */
-class DUCTTAPE_API Scene : public Node, public EventListener {
+class DUCTTAPE_API Scene : public EventListener, public Node {
 public:
     /**
       * Default constructor.
@@ -54,6 +57,6 @@ protected:
 
 };
 
-}
+} // namespace dt
 
 #endif

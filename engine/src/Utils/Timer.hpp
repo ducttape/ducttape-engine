@@ -9,18 +9,21 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_TIMER
 #define DUCTTAPE_ENGINE_EVENT_TIMER
 
-#include <memory>
+#include <Config.hpp>
 
+#include <Event/EventListener.hpp>
+
+#include <boost/function.hpp>
 #include <boost/signals2.hpp>
 
-#include <SFML/System/Thread.hpp>
+#include <SFML/System.hpp>
 
-#include "Config.hpp"
-#include "TimerTickEvent.hpp"
-#include "BeginFrameEvent.hpp"
-#include "EventListener.hpp"
+#include <memory>
+#include <string>
 
 namespace dt {
+
+class Event;
 
 /**
   * A timer to send Tick events in regular intervals.
@@ -89,6 +92,6 @@ private:
     double mTimeLeft; //!< The time left until the next tick. Only used in non-threaded mode.
 };
 
-}
+} // namespace dt
 
 #endif

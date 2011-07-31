@@ -10,16 +10,7 @@
 #define DUCTTAPE_ENGINE_INPUT_INPUTMANAGER
 
 #define OIS_DYNAMIC_LIB
-#include <OIS.h>
-#include <OgreWindowEventUtilities.h>
 
-#include "Config.hpp"
-#include "utils/Logger.hpp"
-#include "utils/Utils.hpp"
-#include "MouseEvent.hpp"
-#include "KeyboardEvent.hpp"
-#include "event/WindowClosedEvent.hpp"
-#include "Manager.hpp"
 
 namespace dt {
 

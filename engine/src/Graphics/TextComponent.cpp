@@ -6,9 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "TextComponent.hpp"
 
-#include "scene/Node.hpp"
 
 namespace dt {
 

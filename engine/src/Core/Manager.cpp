@@ -6,7 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "Manager.hpp"
+#include <Core/Manager.hpp>
 
 namespace dt {
 

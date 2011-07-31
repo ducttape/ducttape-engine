@@ -9,12 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_PHYSICS_PHYSICSMANAGER
 #define DUCTTAPE_ENGINE_PHYSICS_PHYSICSMANAGER
 
-#include <boost/ptr_container/ptr_map.hpp>
 
-#include "Config.hpp"
-#include "Manager.hpp"
-#include "PhysicsWorld.hpp"
-#include "event/EventListener.hpp"
 
 namespace dt {
 

@@ -6,13 +6,21 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "Scene.hpp"
+#include <Scene/Scene.hpp>
 
-#include "Root.hpp"
-#include "event/BeginFrameEvent.hpp"
-#include "graphics/DisplayManager.hpp"
+#include <Event/Event.hpp>
+#include <Event/EventManager.hpp>
+#include <Graphics/DisplayManager.hpp>
+#include <Physics/PhysicsManager.hpp>
+#include <Physics/PhysicsWorld.hpp>
+#include <Utils/Logger.hpp>
+
+#include <memory>
+#include <string>
 
 namespace dt {
+
+class BeginFrameEvent;
 
 Scene::Scene(const std::string& name)
     : Node(name) {}
@@ -50,4 +58,4 @@ PhysicsWorld* Scene::GetPhysicsWorld() {
     return mgr->GetWorld(mName);
 }
 
-}
+} // namespace dt

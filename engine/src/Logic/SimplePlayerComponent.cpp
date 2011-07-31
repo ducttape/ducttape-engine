@@ -6,9 +6,6 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "SimplePlayerComponent.hpp"
-#include "input/InputManager.hpp"
-#include "scene/Node.hpp"
 
 namespace dt {
 

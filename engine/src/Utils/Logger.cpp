@@ -6,9 +6,13 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "Logger.hpp"
+#include <Utils/Logger.hpp>
 
-#include "Root.hpp"
+#include <Utils/LogStream.hpp>
+
+#include <boost/algorithm/string.hpp>
+
+#include <string>
 
 namespace dt {
 
@@ -22,8 +26,8 @@ Logger::Logger(const std::string& name)
 
 void Logger::Log(const std::string& level, const std::string& msg) {
     std::string lvl(boost::to_upper_copy(level));
-    LogStream* s = GetStream(lvl);
-    s->Output(this, msg);
+    LogStream* stream = GetStream(lvl);
+    stream->Output(this, msg);
 }
 
 LogStream* Logger::GetStream(const std::string& streamname) {
@@ -71,4 +75,4 @@ Logger& Logger::GetByName(const std::string& name) {
     return LogManager::Get()->GetLogger(name);
 }
 
-}
+} // namespace dt

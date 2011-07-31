@@ -7,11 +7,8 @@
 // ----------------------------------------------------------------------------
 
 #ifdef COMPILER_MSVC
-#include <boost/foreach.hpp>
 #endif
 
-#include "Root.hpp"
-#include "EventManager.hpp"
 
 namespace dt {
 

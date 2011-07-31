@@ -9,14 +9,19 @@
 #ifndef DUCTTAPE_ENGINE_STATES_STATE
 #define DUCTTAPE_ENGINE_STATES_STATE
 
+#include <Config.hpp>
+
+#include <Event/EventListener.hpp>
+
 #include <boost/ptr_container/ptr_map.hpp>
 
-#include "Config.hpp"
-#include "event/Event.hpp"
-#include "event/EventListener.hpp"
-#include "scene/Scene.hpp"
+#include <memory>
+#include <string>
 
 namespace dt {
+
+class Event;
+class Scene;
 
 /**
   * A class DUCTTAPE_API for managing different stages of menu and gameplay.
@@ -77,6 +82,6 @@ private:
 
 };
 
-}
+} // namespace dt
 
 #endif

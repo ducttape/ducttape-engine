@@ -6,12 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "SoundComponent.hpp"
-#include "Root.hpp"
-#include "scene/Node.hpp"
-#include "scene/Scene.hpp"
-
-#include "utils/Logger.hpp"
+#include <Audio/SoundComponent.hpp>
 
 namespace dt {
 

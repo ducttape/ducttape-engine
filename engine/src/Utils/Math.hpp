@@ -9,25 +9,22 @@
 #ifndef MATH_HPP
 #define MATH_HPP
 
-#include <cmath>
-#include <iostream>
-#include <vector>
+#include <Config.hpp>
 
 namespace dt {
 
 namespace Math {
-	float BounceBoth(const float value1, const float value2, const float amount, const float overshoot = 20);
-	float BounceIn(const float value1, const float value2, const float amount, const float overshoot = 20);
-	float BounceOut(const float value1, const float value2, const float amount, const float overshoot = 20);
-	float Clamp(const float value, const float minval, const float maxval);
-	float Hermite(const float value1, const float tangent1, const float value2, const float tangent2, const float amount);
-	float Lerp(const float value1, const float value2, const float amount);
-	float Lerp2(const float value1, const float value2, const float amount);
-	float MultiLerp(const std::vector<float>& values, const float amount);
-	float NextPow2(const float value);
-	float SmoothStep(const float value1, const float value2, const float amount);
-    float SmoothStep2(const float value1, const float value2, const float amount);
-
+	float DUCTTAPE_API BounceBoth(const float value1, const float value2, const float amount, const float overshoot = 20);
+	float DUCTTAPE_API BounceIn(const float value1, const float value2, const float amount, const float overshoot = 20);
+	float DUCTTAPE_API BounceOut(const float value1, const float value2, const float amount, const float overshoot = 20);
+	float DUCTTAPE_API Clamp(const float value, const float minval, const float maxval);
+	float DUCTTAPE_API Hermite(const float value1, const float tangent1, const float value2, const float tangent2, const float amount);
+	float DUCTTAPE_API Lerp(const float value1, const float value2, const float amount);
+	float DUCTTAPE_API Lerp2(const float value1, const float value2, const float amount);
+	float DUCTTAPE_API MultiLerp(const std::vector<float>& values, const float amount);
+	float DUCTTAPE_API NextPow2(const float value);
+	float DUCTTAPE_API SmoothStep(const float value1, const float value2, const float amount);
+    float DUCTTAPE_API SmoothStep2(const float value1, const float value2, const float amount);
 } // namespace Math
 
 } // namespace dt

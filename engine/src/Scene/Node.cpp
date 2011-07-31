@@ -6,20 +6,26 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <memory>
+#include <Scene/Node.hpp>
+
+#include <Core/StringManager.hpp>
+#include <Utils/Utils.hpp>
 
 #ifdef COMPILER_MSVC
 #include <boost/foreach.hpp>
 #endif
 
-#include "Node.hpp"
-#include "Root.hpp"
+#include <boost/ptr_container/ptr_map.hpp>
 
-#include "utils/Logger.hpp"
-#include "Scene.hpp" // after forward declaration
-#include "utils/StringManager.hpp"
+#include <OgreVector3.h>
+#include <OgreQuaternion.h>
+
+#include <memory>
+#include <string>
 
 namespace dt {
+
+class Scene;
 
 Node::Node(const std::string& name)
     : mName(name),
@@ -30,7 +36,7 @@ Node::Node(const std::string& name)
 
     // auto-generate name
     if(mName == "") {
-        mName = "Node-" + tostr(StringManager::Get()->GetNextAutoId());
+        mName = "Node-" + Utils::ToString(StringManager::Get()->GetNextAutoId());
     }
 }
 
@@ -65,7 +71,7 @@ Node* Node::AddChildNode(Node* child) {
 }
 
 Node* Node::FindChildNode(const std::string& name, bool recursive) {
-    if(mChildren.find(name)!=mChildren.end())
+    if(mChildren.find(name) != mChildren.end())
         return mChildren.find(name)->second;
 
     if(recursive){
@@ -215,6 +221,7 @@ bool Node::_IsScene() {
 
 void Node::_UpdateAllComponents(double time_diff) {
     mIsUpdatingAfterChange = (time_diff == 0);
+
 #ifdef COMPILER_MSVC
     typedef std::pair<std::string, std::shared_ptr<Component> > pair_type;
     BOOST_FOREACH(pair_type pair, mComponents) {
@@ -225,15 +232,18 @@ void Node::_UpdateAllComponents(double time_diff) {
             pair.second->OnUpdate(time_diff);
         }
     }
+
     mIsUpdatingAfterChange = false;
 }
 
 void Node::_UpdateAllChildren(double time_diff) {
     mIsUpdatingAfterChange = (time_diff == 0);
+
     for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
         iter->second->OnUpdate(time_diff);
     }
+
     mIsUpdatingAfterChange = false;
 }
 
-}
+} // namespace dt

@@ -9,18 +9,20 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_COMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_COMPONENT
 
-#include <string>
+#include <Config.hpp>
 
-#include <boost/ptr_container/ptr_map.hpp>
+#include <Event/EventListener.hpp>
+#include <boost/noncopyable.hpp>
+
+#include <boost/function.hpp>
 #include <boost/signals2.hpp>
-#include <boost/utility.hpp>
+#include <boost/ptr_container/ptr_map.hpp>
 
-#include "Config.hpp"
-#include "event/EventListener.hpp"
+#include <memory>
+#include <string>
 
 namespace dt {
 
-// forward declaration
 class Node;
 
 /**
@@ -143,6 +145,6 @@ private:
     bool mIsCreated;    //!< Whether the component has been created or not.
 };
 
-}
+} // namespace dt
 
 #endif

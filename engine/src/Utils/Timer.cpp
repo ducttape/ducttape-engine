@@ -6,9 +6,21 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "Timer.hpp"
+#include <Utils/Timer.hpp>
 
-#include "Root.hpp"
+#include <Event/BeginFrameEvent.hpp>
+#include <Event/Event.hpp>
+#include <Event/EventManager.hpp>
+#include <Event/EventManager.hpp>
+#include <Utils/TimerTickEvent.hpp>
+
+#include <boost/function.hpp>
+#include <boost/signals2.hpp>
+
+#include <SFML/System.hpp>
+
+#include <memory>
+#include <string>
 
 namespace dt {
 
@@ -102,4 +114,4 @@ boost::signals2::connection Timer::BindSlot(boost::function<void (const std::str
     return mTickSignal.connect(slot);
 }
 
-}
+} // namespace dt

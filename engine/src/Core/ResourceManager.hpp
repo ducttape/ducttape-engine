@@ -9,20 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_RESOURCES_RESOURCEMANAGER
 #define DUCTTAPE_ENGINE_RESOURCES_RESOURCEMANAGER
 
-#include <iostream>
-#include <queue>
-#include <vector>
-
-#include <boost/ptr_container/ptr_map.hpp>
-#include <boost/ptr_container/ptr_vector.hpp>
-#include <boost/filesystem.hpp>
-
-#include <OgreResourceGroupManager.h>
-
-#include <SFML/Audio.hpp>
-
-#include "Config.hpp"
-#include "Manager.hpp"
+#include <Core/Manager.hpp>
 
 namespace dt {
 

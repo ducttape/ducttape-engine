@@ -9,19 +9,9 @@
 #ifndef DUCTTAPE_ENGINE_GRAPHICS_GUIMANAGER
 #define DUCTTAPE_ENGINE_GRAPHICS_GUIMANAGER
 
-#include <cstdint>
-#include <string>
-#include <map>
 
 #define MYGUI_DONT_USE_OBSOLETE
-#include <MyGUI.h>
-#include <MyGUI_OgrePlatform.h>
 
-#include "Config.hpp"
-#include "event/EventManager.hpp"
-#include "input/MouseEvent.hpp"
-#include "input/KeyboardEvent.hpp"
-#include "Manager.hpp"
 
 namespace dt {
 

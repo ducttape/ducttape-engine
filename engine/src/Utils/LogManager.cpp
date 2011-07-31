@@ -6,8 +6,14 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "LogManager.hpp"
-#include "Root.hpp"
+#include <Utils/LogManager.hpp>
+
+#include <Utils/Logger.hpp>
+
+#include <MyGUI_LogManager.h>
+#include <OgreLogManager.h>
+
+#include <string>
 
 namespace dt {
 
@@ -53,4 +59,4 @@ Logger& LogManager::GetLogger(const std::string& name) {
     return mLoggers[name];
 }
 
-}
+} // namespace dt

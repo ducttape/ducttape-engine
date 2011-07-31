@@ -9,10 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_SIMPLEPLAYERCOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_SIMPLEPLAYERCOMPONENT
 
-#include <OGRE/OgreEntity.h>
 
-#include "Config.hpp"
-#include "component/Component.hpp"
 
 namespace dt {
 

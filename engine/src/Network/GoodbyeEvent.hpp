@@ -9,8 +9,6 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_GOODBYEEVENT
 #define DUCTTAPE_ENGINE_EVENT_GOODBYEEVENT
 
-#include "Config.hpp"
-#include "NetworkEvent.hpp"
 
 namespace dt {
 

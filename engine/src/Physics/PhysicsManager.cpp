@@ -6,9 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "Root.hpp"
 
-#include "PhysicsManager.hpp"
 
 namespace dt {
 

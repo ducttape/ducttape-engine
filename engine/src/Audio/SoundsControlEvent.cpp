@@ -6,7 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "SoundsControlEvent.hpp"
+#include <Audio/SoundsControlEvent.hpp>
 
 namespace dt {
 

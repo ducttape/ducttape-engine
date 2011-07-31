@@ -6,19 +6,23 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "EnumHelper.hpp"
+#include <Utils/EnumHelper.hpp>
+
+#include <SFML/Network.hpp>
+
+#include <cstdint>
 
 namespace dt {
 
 EnumHelper::EnumHelper(void* e)
     : mEnumObj(e) {}
 
-sf::Uint32 EnumHelper::Get() {
-    return (uint32_t)(*((int*)mEnumObj));
+uint32_t EnumHelper::Get() {
+    return (uint32_t)(*((uint32_t*)mEnumObj));
 }
 
 void EnumHelper::Set(uint32_t i) {
-   *((int*)mEnumObj) = i;
+   *((uint32_t*)mEnumObj) = i;
 }
 
 sf::Packet& operator << (sf::Packet& p, EnumHelper e) {
@@ -34,4 +38,4 @@ sf::Packet& operator >> (sf::Packet& p, EnumHelper e) {
     return p;
 }
 
-}
+} // namespace dt

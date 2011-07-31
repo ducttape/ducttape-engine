@@ -6,10 +6,6 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "component/LightComponent.hpp"
-#include "Root.hpp"
-#include "scene/Node.hpp"
-#include "scene/Scene.hpp"
 
 namespace dt {
     LightComponent::LightComponent(const std::string& name)

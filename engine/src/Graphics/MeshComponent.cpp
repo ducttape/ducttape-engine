@@ -6,11 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "MeshComponent.hpp"
 
-#include "scene/Node.hpp"
-#include "scene/Scene.hpp"
-#include "utils/Logger.hpp"
 
 namespace dt {
 

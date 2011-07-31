@@ -6,9 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "MusicComponent.hpp"
-
-#include "utils/Logger.hpp"
+#include <Audio/MusicComponent.hpp>
 
 namespace dt {
 

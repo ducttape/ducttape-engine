@@ -9,8 +9,7 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_BEGINFRAMEEVENT
 #define DUCTTAPE_ENGINE_EVENT_BEGINFRAMEEVENT
 
-#include "Config.hpp"
-#include "Event.hpp"
+#include <Event/Event.hpp>
 
 namespace dt {
 

@@ -9,10 +9,16 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_TIMERTICKEVENT
 #define DUCTTAPE_ENGINE_EVENT_TIMERTICKEVENT
 
-#include "Config.hpp"
-#include "MessageEvent.hpp"
+#include <Config.hpp>
+
+#include <Event/MessageEvent.hpp>
+
+#include <memory>
+#include <string>
 
 namespace dt {
+
+class Event;
 
 /**
   * The event triggered by a Timer every tick.
@@ -38,6 +44,6 @@ private:
     double mInterval; //!< The interval the timer was configured with.
 };
 
-}
+} // namespace dt
 
 #endif

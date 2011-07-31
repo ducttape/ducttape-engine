@@ -9,15 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_PHYSICS_PHYSICSWORLD
 #define DUCTTAPE_ENGINE_PHYSICS_PHYSICSWORLD
 
-#include <OGRE/OgreVector3.h>
-#include <OGRE/OgreSceneNode.h>
 
-#include <BtOgreExtras.h>
-#include <btBulletDynamicsCommon.h>
-#include <BulletCollision/CollisionShapes/btBox2dShape.h>
 
-#include "Config.hpp"
-#include "Manager.hpp"
 
 namespace dt {
 
