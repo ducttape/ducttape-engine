@@ -20,7 +20,11 @@ set(BUILD_SAMPLES TRUE CACHE BOOL "TRUE to build the samples, FALSE to ignore th
 set(BUILD_TESTS TRUE CACHE BOOL "TRUE to build the tests, FALSE to ignore them")
 set(BUILD_DOC TRUE CACHE BOOL "TRUE to generate the API documentation, FALSE to ignore it")
 
-set(Boost_USE_STATIC_LIBS ON)
+if(WIN32)
+    set(Boost_USE_STATIC_LIBS ON)
+else()
+    set(Boost_USE_STATIC_LIBS OFF)
+endif()
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 
