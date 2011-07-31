@@ -19,7 +19,8 @@ MeshComponent::MeshComponent(const std::string& mesh_handle, const std::string& 
       mSceneNode(nullptr),
       mEntity(nullptr),
       mAnimationState(nullptr),
-      mLoopAnimation(false) {
+      mLoopAnimation(false),
+      mCastShadows(true) {
     mMeshHandle = mesh_handle;
     mMaterialName = material_name;
 }
@@ -139,6 +140,17 @@ Ogre::Entity* MeshComponent::GetOgreEntity() const {
     return mEntity;
 }
 
+void MeshComponent::SetCastShadows(bool cast_shadows) {
+    mCastShadows = cast_shadows;
+    if(mEntity != nullptr) {
+        mEntity->setCastShadows(mCastShadows);
+    }
+}
+
+bool MeshComponent::GetCastShadows() const {
+    return mCastShadows;
+}
+
 void MeshComponent::_LoadMesh() {
     // destroy existing mesh and scene node
     _DestroyMesh();
@@ -153,6 +165,7 @@ void MeshComponent::_LoadMesh() {
     SetMaterialName(mMaterialName);
     mSceneNode = scene_mgr->getRootSceneNode()->createChildSceneNode(nodename + "-mesh-scenenode-" + mName);
     mSceneNode->attachObject(mEntity);
+    SetCastShadows(mCastShadows);
 }
 
 void MeshComponent::_DestroyMesh() {

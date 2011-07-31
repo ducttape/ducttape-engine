@@ -112,6 +112,17 @@ public:
       */
     Ogre::Entity* GetOgreEntity() const;
 
+    /**
+      * Sets whether the mesh should cast shadows. Default: true.
+      * @param shadow Whether the mesh should cast shadows.
+      */
+    void SetCastShadows(bool cast_shadows);
+
+    /**
+      * Gets whether the mesh should cast shadows. Default: true.
+      * @returns Whether the mesh should cast shadows.
+      */
+    bool GetCastShadows() const;
 private:
     /**
       * Private method. Loads the mesh handle.
@@ -131,6 +142,7 @@ private:
 
     std::string mMeshHandle;        //!< The handle of the mesh.
     std::string mMaterialName;      //!< The name of the material to apply to the mesh.
+    bool mCastShadows;              //!< Whether the mesh should cast shadows.
 };
 
 }
