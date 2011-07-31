@@ -109,7 +109,7 @@ Ogre::Vector3 Node::GetPosition(Node::RelativeTo rel) const {
     if(rel == PARENT || mParent == nullptr) {
         return mPosition;
     } else {
-        return mParent->GetPosition(SCENE) + mPosition;
+        return mParent->GetPosition(SCENE) + mParent->GetRotation() * mPosition;
     }
 }
 
@@ -120,7 +120,7 @@ void Node::SetPosition(Ogre::Vector3 position, Node::RelativeTo rel) {
     if(rel == PARENT || mParent == nullptr) {
         mPosition = position;
     } else {
-        mPosition = position - mParent->GetPosition(SCENE);
+        mPosition = mParent->GetRotation() * position - mParent->GetPosition(SCENE);
     }
     OnUpdate(0);
 }

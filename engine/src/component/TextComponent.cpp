@@ -101,8 +101,8 @@ void TextComponent::OnUpdate(double time_diff) {
         mOverlay->show();
     }
 
-    float x = 1.0f - ((screen_pos.x * 0.5f) + 0.5f);   // 0 <= x <= 1 // left := 0,right := 1
-    float y = ((screen_pos.y * 0.5f) + 0.5f);          // 0 <= y <= 1 // bottom := 0,top := 1
+    float x = 1.0f - ((-screen_pos.x * 0.5f) + 0.5f);   // 0 <= x <= 1 // left := 0,right := 1
+    float y = ((-screen_pos.y * 0.5f) + 0.5f);          // 0 <= y <= 1 // bottom := 0,top := 1
 
     x *= camera->getViewport()->getActualWidth();
     y *= camera->getViewport()->getActualHeight();
