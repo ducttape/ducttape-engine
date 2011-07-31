@@ -56,10 +56,10 @@ public:
     void SetMass(btScalar mass);
 
 private:
-    std::string mMeshComponentName;
-	btCollisionShape* mCollisionShape;
-	btRigidBody* mBody;
-    BtOgre::RigidBodyState* mMotionState;
+    std::string mMeshComponentName;         //!< The name of the mesh component to create the collision shape from.
+    btCollisionShape* mCollisionShape;      //!< The bullet collision shape.
+    btRigidBody* mBody;                     //!< The bullet rigid body.
+    BtOgre::RigidBodyState* mMotionState;   //!< The motion state of the physics body.
 };
 
 }

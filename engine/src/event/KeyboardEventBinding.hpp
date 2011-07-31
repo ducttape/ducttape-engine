@@ -31,8 +31,7 @@ public:
     bool MatchesEvent(std::shared_ptr<Event> e);
 
 private:
-    OIS::KeyCode mKeyCode;
-
+    OIS::KeyCode mKeyCode; //!< The key to trigger on.
 };
 
 }

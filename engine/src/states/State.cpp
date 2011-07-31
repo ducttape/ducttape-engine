@@ -34,7 +34,7 @@ void State::Deinitialize() {
 }
 
 Scene* State::AddScene(Scene* scene) {
-    std::string key = scene->GetName();
+    std::string key(scene->GetName());
     mScenes.insert(key, scene);
     GetScene(key)->Initialize();
     return GetScene(key);

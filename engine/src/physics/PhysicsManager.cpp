@@ -26,7 +26,7 @@ void PhysicsManager::Deinitialize() {
     EventManager::Get()->RemoveListener(this);
 }
 
-void PhysicsManager::HandleEvent(std::shared_ptr<dt::Event> e) {
+void PhysicsManager::HandleEvent(std::shared_ptr<Event> e) {
    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
        double time_diff = std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
 

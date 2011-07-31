@@ -51,7 +51,7 @@ void PhysicsBodyComponent::OnCreate() {
 
     mBody = new btRigidBody(mass, state, mCollisionShape, inertia);
 
-    // Store pointer to this PHysicsBodyComponent for later retrieval (for
+    // Store pointer to this PhysicsBodyComponent for later retrieval (for
     // collisions, for instance)
     mBody->setUserPointer((void *)(this));
 }
@@ -81,7 +81,9 @@ void PhysicsBodyComponent::OnUpdate(double time_diff) {
 }
 
 void PhysicsBodyComponent::SetMass(btScalar mass) {
-    mBody->setMassProps(mass, btVector3(0, 0, 0));
+    btVector3 inertia;
+    mCollisionShape->calculateLocalInertia(mass, inertia);
+    mBody->setMassProps(mass, inertia);
 }
 
 }

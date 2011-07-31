@@ -101,8 +101,7 @@ private:
     std::ostream* mStream;  //!< the output stream
     std::string mFormat;    //!< the message format
     std::string mName;      //!< this LogStream's name, also called "log level"
-
-    bool mDisabled;
+    bool mDisabled;         //!< Whether this LogStream is disabled or not.
 };
 
 }

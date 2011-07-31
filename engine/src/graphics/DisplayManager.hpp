@@ -46,6 +46,11 @@ public:
 
     void Initialize();
     void Deinitialize();
+
+    /**
+      * Returns a pointer to the Manager instance.
+      * @returns A pointer to the Manager instance.
+      */
     static DisplayManager* Get();
 
     /**
@@ -85,6 +90,7 @@ public:
       * @param top From 0.0 to 1.0, tells where to put viewport from top edge of screen.
       * @param width From 0.0 to 1.0, tells how much width of screen should viewport occupy.
       * @param height From 0.0 to 1.0, tells how much height of screen should viewport occupy.
+      * @returns Whether the operation was successful or not.
       */
     bool AddViewport(const std::string& name, const std::string& camera_name, 
                      bool set_as_main = false, float left = 0.0F, float top = 0.0F, 
@@ -94,27 +100,47 @@ public:
       * Hides Viewport from visibility on screen. Remember to not hide viewport that has no viewport under it.
       * @param name Name of Viewport to hide.
       */
-    bool HideViewport(const std::string& name);
+    void HideViewport(const std::string& name);
 
     /**
       * Shows previously hidden Viewport.
       * @param name Name of Viewport to show.
       */
-    bool ShowViewport(const std::string& name);
+    void ShowViewport(const std::string& name);
 
     /**
       * Renders the current frame.
       */
     void Render();
 
+    /**
+      * Returns the Ogre::SceneManager for a scene. Creates a new SceneManager if none exists for that scene.
+      * @param scene The name of the scene.
+      * @returns A pointer to the Ogre::SceneManager.
+      */
     Ogre::SceneManager* GetSceneManager(const std::string& scene);
 
+    /**
+      * Initializes the Ogre Render System.
+      */
     void CreateOgreRoot();
 
+    /**
+      * Returns the RenderWindow.
+      * @returns The window.
+      */
     Ogre::RenderWindow* GetRenderWindow();
 
+    /**
+      * Returns the main CameraComponent.
+      * @returns The main CameraComponent.
+      */
     CameraComponent* GetMainCamera();
 
+    /**
+      * Returns the GuiManager.
+      * @returns The GuiManager.
+      */
     GuiManager* GetGuiManager();
 
 private:
@@ -128,20 +154,20 @@ private:
       */
     void _DestroyWindow();
 
-    std::map<std::string, CameraComponent*> mCameras;
-    std::map<std::string, Ogre::SceneManager*> mSceneManagers;
-    boost::ptr_map<std::string, dt::Viewport> mViewports;
-    std::map<std::string, std::string> mViewportsCameras;
-    std::string mMainViewport;
-    std::string mMainCamera;
+    std::map<std::string, CameraComponent*> mCameras;               //!< The list of camera components.
+    std::map<std::string, Ogre::SceneManager*> mSceneManagers;      //!< The list of scene manager for the scenes.
+    boost::ptr_map<std::string, dt::Viewport> mViewports;           //!< The list of viewports.
+    std::map<std::string, std::string> mViewportsCameras;           //!< The assignment map for cameras<>viewports.
+    std::string mMainViewport;  //!< The name of the main viewport.
+    std::string mMainCamera;    //!< The name of the main camera.
 
-    Ogre::Root* mOgreRoot;
-    Ogre::RenderSystem* mOgreRenderSystem;
-    Ogre::RenderWindow* mOgreRenderWindow;
+    Ogre::Root* mOgreRoot;      //!< The Ogre::Root instance.
+    Ogre::RenderSystem* mOgreRenderSystem;  //!< The Ogre::RenderSystem instance.
+    Ogre::RenderWindow* mOgreRenderWindow;  //!< The render window.
 
-    GuiManager mGuiManager;
+    GuiManager mGuiManager;     //!< The GuiManager.
     
-    int mNextZOrder;
+    int mNextZOrder;            //!< The z-order for the next viewport to be created.
 };
 
 }

@@ -73,7 +73,7 @@ void TextComponent::OnUpdate(double time_diff) {
     if(mRefresh && mFont != "") {
         // calculate the text width
         mTextWidth = 0;
-        const Ogre::Font *font = dynamic_cast<Ogre::Font*>(Ogre::FontManager::getSingleton().getByName(mFont).getPointer());
+        Ogre::Font* font = dynamic_cast<Ogre::Font*>(Ogre::FontManager::getSingleton().getByName(mFont).getPointer());
         if(font == nullptr) {
             Logger::Get().Warning("Cannot find font: \"" + mFont + "\".");
         } else {
@@ -92,7 +92,7 @@ void TextComponent::OnUpdate(double time_diff) {
     // set the position
 
     Ogre::Camera* camera = DisplayManager::Get()->GetMainCamera()->GetCamera();
-    Ogre::Vector3 screen_pos = camera->getProjectionMatrix() * camera->getViewMatrix() * GetNode()->GetPosition(Node::SCENE);
+    Ogre::Vector3 screen_pos(camera->getProjectionMatrix() * camera->getViewMatrix() * GetNode()->GetPosition(Node::SCENE));
 
     if(screen_pos.z >= 1) {
         // behind or in the camera, hide

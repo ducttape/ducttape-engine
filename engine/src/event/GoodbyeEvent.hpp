@@ -41,7 +41,7 @@ public:
       */
     void SetReason(const std::string& reason);
 private:
-    std::string mReason;
+    std::string mReason;    //!< The reason for the disconnect.
 };
 
 }

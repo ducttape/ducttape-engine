@@ -35,10 +35,18 @@ public:
 
     void OnDeinitialize();
 
+    /**
+      * Returns the Ogre::SceneManager of this Scene.
+      * @returns The Ogre::SceneManager of this Scene.
+      */
     Ogre::SceneManager* GetSceneManager();
 
     void HandleEvent(std::shared_ptr<Event> e);
 
+    /**
+      * Returns the PhysicsWorld of this Scene. Creates the PhysicsWorld on-demand.
+      * @returns The PhysicsWorld of this Scene.
+      */
     PhysicsWorld* GetPhysicsWorld();
 
 protected:

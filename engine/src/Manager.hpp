@@ -13,14 +13,26 @@
 
 namespace dt {
 
-// Manager interface class
+/**
+  * The Manager interface class.
+  * @note Remember to implement the \code static YourManager* Get(); \endcode shortcut for new managers!
+  */
 class DUCTTAPE_API Manager {
 public:
+    /**
+      * Pure virtual destructor.
+      */
     virtual ~Manager() = 0;
-    virtual void Initialize() = 0;
-    virtual void Deinitialize() = 0;
 
-    // remember to implement the "static Manager_T Get();" shortcut
+    /**
+      * Called when the Manager is being initialized.
+      */
+    virtual void Initialize() = 0;
+
+    /**
+      * Called when the Manager is being deinitialized.
+      */
+    virtual void Deinitialize() = 0;
 
 };
 

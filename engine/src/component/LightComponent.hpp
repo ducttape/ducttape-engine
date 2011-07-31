@@ -29,6 +29,7 @@ namespace dt {
     public:
         /**
           * Advanced constructor.
+          * @param name The name for this component.
           * @see Component
           */
         LightComponent(const std::string& name = "");

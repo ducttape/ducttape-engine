@@ -31,10 +31,13 @@ class DUCTTAPE_API InputManager : public Manager,
         public OIS::MouseListener,
         public Ogre::WindowEventListener {
 public:
+    /**
+      * The mode of the mouse cursor.
+      */
     enum MouseCursorMode {
-        HIDDEN,
-        SYSTEM,
-        GRAPHICAL
+        HIDDEN,     //!< Do not display the mouse cursor.
+        SYSTEM,     //!< Use the system's default cursor.
+        GRAPHICAL   //!< Display a graphical mouse cursor using the GuiManager.
     };
 
     /**
@@ -44,6 +47,11 @@ public:
 
     void Initialize();
     void Deinitialize();
+
+    /**
+      * Returns a pointer to the Manager instance.
+      * @returns A pointer to the Manager instance.
+      */
     static InputManager* Get();
 
     /**
@@ -71,17 +79,53 @@ public:
       */
     bool GetJailInput() const;
 
-    // OIS::KeyListener
+    /**
+      * OIS callback.
+      * @internal
+      * @param event The OIS event.
+      */
     virtual bool keyPressed(const OIS::KeyEvent& event);
+
+    /**
+      * OIS callback.
+      * @internal
+      * @param event The OIS event.
+      */
     virtual bool keyReleased(const OIS::KeyEvent& event);
 
-    // OIS::MouseListener
+    /**
+      * OIS callback.
+      * @internal
+      * @param event The OIS event.
+      */
     virtual bool mouseMoved(const OIS::MouseEvent& event);
+
+    /**
+      * OIS callback.
+      * @internal
+      * @param event The OIS event.
+      */
     virtual bool mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID button);
+
+    /**
+      * OIS callback.
+      * @internal
+      * @param event The OIS event.
+      */
     virtual bool mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID button);
 
-    // Ogre::WindowEventListener
+    /**
+      * Ogre window callback.
+      * @internal
+      * @param window The Ogre::RenderWindow.
+      */
     virtual void windowResized(Ogre::RenderWindow* window);
+
+    /**
+      * Ogre window callback.
+      * @internal
+      * @param window The Ogre::RenderWindow.
+      */
     virtual void windowClosed(Ogre::RenderWindow* window);
 
     /**
@@ -112,8 +156,21 @@ public:
     MouseCursorMode GetMouseCursorMode() const;
 
 private:
+    /**
+      * Resets the input system. Required when the settings change.
+      * @see _DestroyInputSystem();
+      * @see _CreateInputSystem();
+      */
     void _ResetInputSystem();
+
+    /**
+      * Destroys the input system.
+      */
     void _DestroyInputSystem();
+
+    /**
+      * Creates the input system.
+      */
     void _CreateInputSystem();
 
     Ogre::RenderWindow* mWindow;        //!< The Window used for input (from the DisplayManager).
@@ -121,7 +178,7 @@ private:
     OIS::Mouse* mMouse;                 //!< The mouse object.
     OIS::Keyboard* mKeyboard;           //!< The keyboard object.
 
-    MouseCursorMode mMouseCursorMode;
+    MouseCursorMode mMouseCursorMode;   //!< The mode of the mouse cursor.
     bool mJailInput;                    //!< Whether the input devices are jailed (for details on that see InputManager::SetJailInput).
 };
 

@@ -26,6 +26,7 @@ class DUCTTAPE_API CameraComponent : public Component {
 public:
     /**
       * Advanced constructor.
+      * @name The name of the component.
       * @see Component
       */
     CameraComponent(const std::string& name = "");
@@ -42,6 +43,10 @@ public:
       */
     void LookAt(Ogre::Vector3 target_point);
 
+    /**
+      * Returns the Ogre Camera object.
+      * @returns The Ogre Camera object.
+      */
 	Ogre::Camera* GetCamera();
 
 private:

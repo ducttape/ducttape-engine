@@ -24,15 +24,15 @@ void Viewport::Deinitialize() {
 
 }
 
-void Viewport::setCamera(Ogre::Camera* cam) {
+void Viewport::SetCamera(Ogre::Camera* cam) {
     mViewport->setCamera(cam);
 }
 
-void Viewport::setBackgroundColour(const Ogre::ColourValue& color) {
+void Viewport::SetBackgroundColor(const Ogre::ColourValue& color) {
     mViewport->setBackgroundColour(color);
 }
 
-void Viewport::hide() {
+void Viewport::Hide() {
     if(!hidden) {
         mViewport->setAutoUpdated(false);
         top = mViewport->getTop();
@@ -45,7 +45,7 @@ void Viewport::hide() {
     }
 }
 
-void Viewport::show() {
+void Viewport::Show() {
     if(hidden) {
         mViewport->setAutoUpdated(true);
         mViewport->setDimensions(left, top, width, height);

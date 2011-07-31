@@ -19,12 +19,14 @@
 namespace dt {
 
 /**
-  * Adds music to the scene.
+  * Plays a music file.
   */
 class DUCTTAPE_API MusicComponent : public Component {
 public:
     /**
      * Advanced constructor.
+     * @param music_file The name of the music resource to play.
+     * @param name The name for this component.
      * @see Component
      */
     MusicComponent(const std::string& music_file = "", const std::string& name = "");

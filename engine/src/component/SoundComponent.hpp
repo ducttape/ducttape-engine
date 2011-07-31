@@ -26,6 +26,8 @@ class DUCTTAPE_API SoundComponent : public Component {
 public:
     /**
      * Advanced constructor.
+     * @param sound_file The name of the sound resource to play.
+     * @param name The name for this Component.
      * @see Component
      */
     SoundComponent(const std::string& sound_file = "", const std::string& name = "");

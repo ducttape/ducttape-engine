@@ -106,7 +106,7 @@ void FollowPathComponent::Reset() {
     }
 }
 
-Ogre::Vector3 FollowPathComponent::_CalculatePosition(float delta) {
+Ogre::Vector3 FollowPathComponent::_CalculatePosition() {
     if(mPoints.size() == 0) {
         if(mNode != nullptr)
             return mNode->GetPosition();
@@ -138,14 +138,14 @@ Ogre::Vector3 FollowPathComponent::_CalculatePosition(float delta) {
                 // this is gonna be complicated ^^
 
                 // determine the corner we are at
-                std::vector<Ogre::Vector3>::iterator corner = iter - 1; // current corner is ahead
+                std::vector<Ogre::Vector3>::iterator corner(iter - 1); // current corner is ahead
                 if(segment_progress >= 0.5) {
                     corner = iter;                                  // current corner is behind
                 }
 
-                Ogre::Vector3 c = *corner;
-                Ogre::Vector3 n = *(corner+1);
-                Ogre::Vector3 p = *(corner-1);
+                Ogre::Vector3 c(*corner);
+                Ogre::Vector3 n(*(corner+1));
+                Ogre::Vector3 p(*(corner-1));
 
                 float corner_progress = segment_progress - 0.5;
                 if(segment_progress < 0.5)

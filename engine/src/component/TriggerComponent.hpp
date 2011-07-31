@@ -22,6 +22,7 @@ class DUCTTAPE_API TriggerComponent : public Component {
 public:
     /**
       * Advanced constructor.
+      * @param name The name for this component.
       * @see Component
       */
     TriggerComponent(const std::string& name = "");

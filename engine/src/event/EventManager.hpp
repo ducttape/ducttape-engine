@@ -36,6 +36,10 @@ public:
     void Initialize();
     void Deinitialize();
 
+    /**
+      * Returns a pointer to the Manager instance.
+      * @returns A pointer to the Manager instance.
+      */
     static EventManager* Get();
 
     /**
@@ -92,11 +96,11 @@ private:
     void _UnlockListeners();
 
     std::vector<EventListener*> mListeners; //!< The list of EventListeners.
-    BindingsManager mBindingsManager;
+    BindingsManager mBindingsManager;       //!< The BindingManager.
 
-    bool mListenersLocked;
-    std::vector<EventListener*> mListenerAddQueue;
-    std::vector<EventListener*> mListenerRemoveQueue;
+    bool mListenersLocked;                              //!< Whether the list of listener is locked (due to being looped over etc.)
+    std::vector<EventListener*> mListenerAddQueue;      //!< The queue of listeners to add when the list is unlocked.
+    std::vector<EventListener*> mListenerRemoveQueue;   //!< The queue of listeners to remove when the list is unlocked.
 };
 
 }

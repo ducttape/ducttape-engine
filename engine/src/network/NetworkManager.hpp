@@ -47,6 +47,10 @@ public:
     void Initialize();
     void Deinitialize();
 
+    /**
+      * Returns a pointer to the Manager instance.
+      * @returns A pointer to the Manager instance.
+      */
     static NetworkManager* Get();
 
     void HandleEvent(std::shared_ptr<Event> e);
