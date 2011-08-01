@@ -119,7 +119,7 @@ public:
     void SetCastShadows(bool cast_shadows);
 
     /**
-      * Gets whether the mesh should cast shadows. Default: true.
+      * Gets whether the mesh should cast shadows.
       * @returns Whether the mesh should cast shadows.
       */
     bool GetCastShadows() const;

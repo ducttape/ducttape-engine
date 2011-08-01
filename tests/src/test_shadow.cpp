@@ -67,14 +67,24 @@ public:
         camnode->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 2, 0));
 
         dt::Node* lightnode1 = scene->AddChildNode(new dt::Node("lightnode1"));
-        lightnode1->AddComponent(new dt::LightComponent("light1"));
-        lightnode1->SetPosition(Ogre::Vector3(0, 30, 0));
+        dt::LightComponent* light = lightnode1->AddComponent(new dt::LightComponent("light1"));
+        light->SetColor(Ogre::ColourValue::White);
+        Ogre::Light* ogl = light->GetOgreLight();
+        ogl->setType(Ogre::Light::LT_SPOTLIGHT);
+        ogl->setSpotlightInnerAngle(Ogre::Degree(30));
+        ogl->setSpotlightOuterAngle(Ogre::Degree(40));
+        lightnode1->SetPosition(Ogre::Vector3(0, 20, 0));
+        lightnode1->SetDirection(Ogre::Vector3::NEGATIVE_UNIT_Y);
 
         dt::Node* lightnode2 = scene->AddChildNode(new dt::Node("lightnode2"));
-        lightnode2->AddComponent(new dt::LightComponent("light2"));
-        lightnode2->SetPosition(Ogre::Vector3(0, 30, 2));
-
-        scene->GetSceneManager()->setAmbientLight(Ogre::ColourValue::Black);
+        dt::LightComponent* light2 = lightnode2->AddComponent(new dt::LightComponent("light2"));
+        light2->SetColor(Ogre::ColourValue::White);
+        Ogre::Light* ogl2 = light->GetOgreLight();
+        ogl2->setType(Ogre::Light::LT_SPOTLIGHT);
+        ogl2->setSpotlightInnerAngle(Ogre::Degree(30));
+        ogl2->setSpotlightOuterAngle(Ogre::Degree(40));
+        lightnode2->SetPosition(Ogre::Vector3(5, 20, 0));
+        lightnode2->LookAt(Ogre::Vector3(-2,5,0));
     }
 
 private:
