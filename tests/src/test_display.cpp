@@ -46,6 +46,7 @@ public:
         mesh->SetAnimation("Dance");
         mesh->SetLoopAnimation(true);
         mesh->PlayAnimation();
+        mesh->SetCastShadows(false);
 
         dt::Node* lightnode = scene->AddChildNode(new dt::Node("lightnode"));
         lightnode->AddComponent(new dt::LightComponent("light"));
