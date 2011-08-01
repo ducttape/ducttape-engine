@@ -8,6 +8,7 @@
 
 #include <Utils/Math.hpp>
 
+#include <cmath>
 #include <cstdint>
 
 namespace dt {
@@ -82,7 +83,7 @@ namespace Math {
         if(result == 1.f)
             return *(values.end());
 
-         position = int32_t(floor(amount * (values.size() - 1)));
+        int32_t position = int32_t(floor(amount * (values.size() - 1)));
         float individual_lerp = 1.f / values.size() - 1;
         float current_lerp = amount - position * individual_lerp;
         float lerp_amount = current_lerp / individual_lerp;

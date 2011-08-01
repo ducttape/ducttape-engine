@@ -8,6 +8,9 @@
 
 #include <Graphics/GuiWidgetComponent.hpp>
 
+#include <Graphics/GuiManager.hpp>
+#include <Scene/Node.hpp>
+
 namespace dt {
 
 GuiWidgetComponent::GuiWidgetComponent(const std::string& type, const std::string& name)

@@ -16,7 +16,7 @@
 
 #include <boost/ptr_container/ptr_map.hpp>
 
-#include <OgreLogManager.hpp>
+#include <OgreLogManager.h>
 
 #include <string>
 

@@ -13,8 +13,8 @@
 
 #include <Event/Event.hpp>
 #include <Event/EventListener.hpp>
-#include <Node/Node.hpp>
 #include <Physics/PhysicsWorld.hpp>
+#include <Scene/Node.hpp>
 
 #include <memory>
 #include <string>

@@ -8,6 +8,10 @@
 
 #include <Utils/Logger.hpp>
 
+#include <Utils/LogManager.hpp>
+
+#include <boost/algorithm/string.hpp>
+
 namespace dt {
 
 Logger::Logger(const std::string& name)

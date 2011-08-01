@@ -12,6 +12,8 @@
 #include <Config.hpp>
 
 #include <Core/Manager.hpp>
+#include <Event/Event.hpp>
+#include <Event/EventBinding.hpp>
 #include <Event/EventListener.hpp>
 
 #include <cstdint>

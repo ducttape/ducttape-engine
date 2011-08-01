@@ -13,7 +13,7 @@
 
 #include <Scene/Component.hpp>
 
-#include <OgreColorValue.h>
+#include <OgreColourValue.h>
 #include <OgreOverlay.h>
 #include <OgreTextAreaOverlayElement.h>
 #include <OgreVector2.h>

@@ -8,6 +8,13 @@
 
 #include <Input/InputManager.hpp>
 
+#include <Core/Root.hpp>
+#include <Utils/Logger.hpp>
+#include <Input/MouseEvent.hpp>
+#include <Input/KeyboardEvent.hpp>
+#include <Graphics/WindowClosedEvent.hpp>
+#include <Utils/Utils.hpp>
+
 namespace dt {
 
 InputManager::InputManager()
@@ -159,7 +166,7 @@ void InputManager::_CreateInputSystem() {
     // getting window handle
     size_t window_handle = 0;
     mWindow->getCustomAttribute("WINDOW", &window_handle);
-    params.insert(std::make_pair(std::string("WINDOW"), tostr(window_handle)));
+    params.insert(std::make_pair(std::string("WINDOW"), Utils::ToString(window_handle)));
     if(!mJailInput) {
 #if defined OIS_WIN32_PLATFORM
         params.insert(std::make_pair(std::string("w32_mouse"), std::string("DISCL_NONEXCLUSIVE")));
@@ -180,7 +187,7 @@ void InputManager::_CreateInputSystem() {
     params.insert(std::make_pair(std::string("x11_mouse_hide"), std::string(mMouseCursorMode == InputManager::SYSTEM ? "false" : "true")));
 #endif
 
-    Logger::Get().Info("Initializing input system (Window: " + tostr(window_handle) + ")");
+    Logger::Get().Info("Initializing input system (Window: " + Utils::ToString(window_handle) + ")");
     mInputSystem = OIS::InputManager::createInputSystem(params);
 
     mKeyboard = static_cast<OIS::Keyboard*>(mInputSystem->createInputObject(OIS::OISKeyboard, true));

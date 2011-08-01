@@ -6,7 +6,12 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <PhysicsWorld.hpp>
+#include <Physics/PhysicsWorld.hpp>
+
+#include <Scene/Scene.hpp>
+#include <Utils/Logger.hpp>
+
+#include <OgreSceneManager.h>
 
 namespace dt {
 

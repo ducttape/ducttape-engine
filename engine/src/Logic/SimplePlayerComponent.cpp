@@ -8,6 +8,12 @@
 
 #include <Logic/SimplePlayerComponent.hpp>
 
+#include <Input/InputManager.hpp>
+#include <Input/MouseEvent.hpp>
+#include <Scene/Node.hpp>
+
+#include <OgreMatrix3.h>
+
 namespace dt {
 
 SimplePlayerComponent::SimplePlayerComponent(const std::string& name)

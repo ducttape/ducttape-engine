@@ -8,6 +8,8 @@
 
 #include <Scene/State.hpp>
 
+#include <Event/EventManager.hpp>
+
 namespace dt {
 
 State::State() {}

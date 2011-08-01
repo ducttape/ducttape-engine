@@ -8,6 +8,8 @@
 
 #include <Graphics/DisplayManager.hpp>
 
+#include <Core/Root.hpp>
+
 namespace dt {
 
 DisplayManager::DisplayManager()

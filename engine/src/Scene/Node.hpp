@@ -11,6 +11,7 @@
 
 #include <Config.hpp>
 
+#include <Scene/Component.hpp>
 #include <Utils/Logger.hpp>
 
 #include <boost/ptr_container/ptr_map.hpp>

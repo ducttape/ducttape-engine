@@ -8,6 +8,8 @@
 
 #include <Event/Event.hpp>
 
+#include <Core/StringManager.hpp>
+
 namespace dt {
 
 Event::Event()

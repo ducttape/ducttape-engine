@@ -11,10 +11,17 @@
 
 #include <Config.hpp>
 
+#include <Event/BeginFrameEvent.hpp>
 #include <Event/Event.hpp>
+#include <Event/EventManager.hpp>
+
+#include <Utils/TimerTickEvent.hpp>
 
 #include <boost/function.hpp>
 #include <boost/signals2.hpp>
+
+#include <SFML/System/Sleep.hpp>
+#include <SFML/System/Thread.hpp>
 
 #include <memory>
 #include <string>

@@ -8,6 +8,11 @@
 
 #include <Graphics/LightComponent.hpp>
 
+#include <Scene/Node.hpp>
+#include <Scene/Scene.hpp>
+
+#include <OgreSceneManager.h>
+
 namespace dt {
     LightComponent::LightComponent(const std::string& name)
         : Component(name),

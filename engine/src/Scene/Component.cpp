@@ -8,6 +8,10 @@
 
 #include <Scene/Component.hpp>
 
+#include <Core/StringManager.hpp>
+#include <Event/EventManager.hpp>
+#include <Utils/Utils.hpp>
+
 namespace dt {
 
 Component::Component(const std::string& name)

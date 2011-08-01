@@ -6,7 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <Network/HandshapeEvent.hpp>
+#include <Network/HandshakeEvent.hpp>
 
 namespace dt {
 

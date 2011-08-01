@@ -8,6 +8,13 @@
 
 #include <Network/ConnectionsManager.hpp>
 
+#include <Core/Root.hpp>
+#include <Event/EventManager.hpp>
+#include <Network/GoodbyeEvent.hpp>
+#include <Network/NetworkManager.hpp>
+#include <Utils/TimerTickEvent.hpp>
+#include <Utils/Utils.hpp>
+
 namespace dt {
 
 ConnectionsManager::ConnectionsManager(ConnectionsManager::ID_t max_connections)
@@ -177,7 +184,7 @@ void ConnectionsManager::_HandlePing(std::shared_ptr<PingEvent> ping_event) {
     uint32_t ping = Root::GetInstance().GetTimeSinceInitialize() - ping_event->GetTimestamp();
     mPings[ping_event->GetSenderID()] = ping;
 
-    Logger::Get().Debug("Ping for connection #" + tostr(ping_event->GetSenderID()) + ": " + tostr(ping));
+    Logger::Get().Debug("Ping for connection #" + Utils::ToString(ping_event->GetSenderID()) + ": " + Utils::ToString(ping));
 }
 
 void ConnectionsManager::_CheckTimeouts() {
@@ -191,12 +198,12 @@ void ConnectionsManager::_CheckTimeouts() {
 }
 
 void ConnectionsManager::_TimeoutConnection(ConnectionsManager::ID_t connection) {
-    Logger::Get().Warning("Connection timed out: " + tostr(connection));
+    Logger::Get().Warning("Connection timed out: " + Utils::ToString(connection));
 
     uint32_t diff = Root::GetInstance().GetTimeSinceInitialize() - mLastActivity[connection];
 
     // Send the event, hoping it will arrive at the destination
-    std::shared_ptr<GoodbyeEvent> e(new GoodbyeEvent("Timeout after " + tostr(diff) + " seconds."));
+    std::shared_ptr<GoodbyeEvent> e(new GoodbyeEvent("Timeout after " + Utils::ToString(diff) + " seconds."));
     e->ClearRecipients();
     e->AddRecipient(connection);
     // send it directly

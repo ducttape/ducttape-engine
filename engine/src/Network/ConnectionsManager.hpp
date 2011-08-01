@@ -15,6 +15,8 @@
 #include <Event/Event.hpp>
 #include <Event/EventListener.hpp>
 #include <Network/Connection.hpp>
+#include <Network/PingEvent.hpp>
+#include <Utils/Timer.hpp>
 
 #include <boost/ptr_container/ptr_map.hpp>
 

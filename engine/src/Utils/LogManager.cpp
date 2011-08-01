@@ -8,6 +8,11 @@
 
 #include <Utils/LogManager.hpp>
 
+#include <Core/Root.hpp>
+
+#define MYGUI_DONT_USE_OBSOLETE
+#include <MYGUI/MyGUI_LogManager.h>
+
 namespace dt {
 
 LogManager::LogManager() {}

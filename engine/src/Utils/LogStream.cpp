@@ -6,7 +6,13 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <LogStream.hpp>
+#include <Utils/LogStream.hpp>
+
+#include <Utils/Logger.hpp>
+
+#include <boost/format.hpp>
+
+#include <iostream>
 
 namespace dt {
 

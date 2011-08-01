@@ -8,6 +8,11 @@
 
 #include <Scene/Scene.hpp>
 
+#include <Event/BeginFrameEvent.hpp>
+#include <Event/EventManager.hpp>
+#include <Graphics/DisplayManager.hpp>
+#include <Physics/PhysicsManager.hpp>
+
 namespace dt {
 
 Scene::Scene(const std::string& name)

@@ -11,7 +11,7 @@
 
 #include <Config.hpp>
 
-#include <SFML/Network/IpAdress.hpp>
+#include <SFML/Network/IpAddress.hpp>
 
 #include <cstdint>
 

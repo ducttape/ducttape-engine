@@ -8,6 +8,13 @@
 
 #include <Graphics/GuiManager.hpp>
 
+#include <Event/EventManager.hpp>
+#include <Input/KeyboardEvent.hpp>
+#include <Input/MouseEvent.hpp>
+#include <Graphics/CameraComponent.hpp>
+#include <Graphics/DisplayManager.hpp>
+#include <Utils/Logger.hpp>
+
 namespace dt {
 
 GuiManager::GuiManager()

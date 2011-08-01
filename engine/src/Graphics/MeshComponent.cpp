@@ -8,6 +8,11 @@
 
 #include <Graphics/MeshComponent.hpp>
 
+#include <Scene/Node.hpp>
+#include <Scene/Scene.hpp>
+
+#include <OgreSceneManager.h>
+
 namespace dt {
 
 MeshComponent::MeshComponent(const std::string& mesh_handle, const std::string& material_name, const std::string& name)

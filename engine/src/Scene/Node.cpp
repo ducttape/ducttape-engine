@@ -8,6 +8,9 @@
 
 #include <Scene/Node.hpp>
 
+#include <Core/StringManager.hpp>
+#include <Utils/Utils.hpp>
+
 #ifdef COMPILER_MSVC
 #include <boost/foreach.hpp>
 #endif

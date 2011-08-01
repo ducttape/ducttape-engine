@@ -8,6 +8,9 @@
 
 #include <Logic/FollowPathComponent.hpp>
 
+#include <Scene/Node.hpp>
+#include <Utils/Math.hpp>
+
 namespace dt {
 
 FollowPathComponent::FollowPathComponent(Mode mode, const std::string& name)

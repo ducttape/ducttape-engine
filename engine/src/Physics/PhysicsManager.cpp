@@ -8,6 +8,10 @@
 
 #include <Physics/PhysicsManager.hpp>
 
+#include <Core/Root.hpp>
+#include <Event/EventManager.hpp>
+#include <Event/BeginFrameEvent.hpp>
+
 namespace dt {
 
 PhysicsManager::PhysicsManager() {}

@@ -8,6 +8,12 @@
 
 #include <Graphics/CameraComponent.hpp>
 
+#include <Graphics/DisplayManager.hpp>
+#include <Scene/Node.hpp>
+#include <Scene/Scene.hpp>
+
+#include <OgreSceneManager.h>
+
 namespace dt {
 
 CameraComponent::CameraComponent(const std::string& name)

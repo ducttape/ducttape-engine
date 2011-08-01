@@ -8,6 +8,8 @@
 
 #include <Event/EventBinding.hpp>
 
+#include <Event/EventManager.hpp>
+
 namespace dt {
 
 EventBinding::EventBinding(Event* target)

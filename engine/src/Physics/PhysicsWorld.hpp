@@ -13,10 +13,7 @@
 
 #include <Core/Manager.hpp>
 
-#include <btDbvtBroadphase.h>
-#include <btDefaultCollisionConfiguration.h>
-#include <btCollisionDispatcher.h>
-#include <btSequentialImpulseConstraintSolver.h>
+#include <btBulletCollisionCommon.h>
 
 #include <BtOgreExtras.h>
 

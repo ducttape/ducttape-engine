@@ -8,6 +8,14 @@
 
 #include <Graphics/TextComponent.hpp>
 
+#include <Graphics/DisplayManager.hpp>
+#include <Scene/Node.hpp>
+
+#include <OgreCamera.h>
+#include <OgreFontManager.h>
+#include <OgreOverlayContainer.h>
+#include <OgreOverlayManager.h>
+
 namespace dt {
 
 TextComponent::TextComponent(const std::string& text, const std::string& name)

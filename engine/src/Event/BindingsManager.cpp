@@ -6,7 +6,9 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <BindingsManager.hpp>
+#include <Event/BindingsManager.hpp>
+
+#include <Event/EventManager.hpp>
 
 namespace dt {
 

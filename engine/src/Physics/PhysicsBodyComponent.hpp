@@ -14,8 +14,7 @@
 #include <Event/Event.hpp>
 #include <Scene/Component.hpp>
 
-#include <btCollisionShape.h>
-#include <btRigidBody.h>
+#include <btBulletCollisionCommon.h>
 
 #include <BtOgrePG.h>
 

@@ -11,6 +11,8 @@
 
 #include <Config.hpp>
 
+#include <vector>
+
 namespace dt {
 
 namespace Math {

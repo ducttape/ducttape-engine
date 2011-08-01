@@ -8,6 +8,13 @@
 
 #include <Graphics/ParticleSystemComponent.hpp>
 
+#include <Scene/Node.hpp>
+#include <Scene/Scene.hpp>
+#include <Utils/Utils.hpp>
+
+#include <OgreParticleAffector.h>
+#include <OgreSceneManager.h>
+
 namespace dt {
 
 ParticleSystemComponent::ParticleSystemComponent(const std::string& name)
@@ -64,13 +71,13 @@ Ogre::ParticleAffector* ParticleSystemComponent::GetAffector(const std::string& 
 
 Ogre::ParticleAffector* ParticleSystemComponent::AddScalerAffector(const std::string& name, float rate) {
     Ogre::ParticleAffector* a = AddAffector(name, "Scaler");
-    a->setParameter("rate", tostr(rate));
+    a->setParameter("rate", Utils::ToString(rate));
     return a;
 }
 
 Ogre::ParticleAffector* ParticleSystemComponent::AddLinearForceAffector(const std::string& name, Ogre::Vector3 force) {
     Ogre::ParticleAffector* a = AddAffector(name, "LinearForce");
-    a->setParameter("force_vector", tostr(force.x) + " " + tostr(force.y) + " " + tostr(force.z));
+    a->setParameter("force_vector", Utils::ToString(force.x) + " " + Utils::ToString(force.y) + " " + Utils::ToString(force.z));
     return a;
 }
 

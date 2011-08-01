@@ -11,6 +11,8 @@
 
 #include <Config.hpp>
 
+#include <Utils/EnumHelper.hpp>
+
 #include <SFML/Network/Packet.hpp>
 
 namespace dt {

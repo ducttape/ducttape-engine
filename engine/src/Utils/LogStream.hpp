@@ -11,8 +11,6 @@
 
 #include <Config.hpp>
 
-#include <Utils/Logger.hpp>
-
 #include <ostream>
 
 namespace dt {

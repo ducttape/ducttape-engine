@@ -8,6 +8,12 @@
 
 #include <Physics/PhysicsBodyComponent.hpp>
 
+#include <Graphics/MeshComponent.hpp>
+#include <Scene/Node.hpp>
+#include <Scene/Scene.hpp>
+
+#include <BtOgreGP.h>
+
 namespace dt {
 
 PhysicsBodyComponent::PhysicsBodyComponent(const std::string& mesh_component_name,

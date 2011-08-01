@@ -11,8 +11,8 @@
 
 #include <Config.hpp>
 
-#include <Event/Event,hpp>
-#include <Event/EventBinding,hpp>
+#include <Event/Event.hpp>
+#include <Event/EventBinding.hpp>
 
 #include <OIS.h>
 

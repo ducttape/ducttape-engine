@@ -8,6 +8,12 @@
 
 #include <Scene/Game.hpp>
 
+#include <Core/Root.hpp>
+#include <Event/BeginFrameEvent.hpp>
+#include <Network/GoodbyeEvent.hpp>
+
+#include <SFML/System/Sleep.hpp>
+
 namespace dt {
 
 Game::Game()

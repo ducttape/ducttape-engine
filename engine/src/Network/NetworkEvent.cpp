@@ -8,6 +8,9 @@
 
 #include <Network/NetworkEvent.hpp>
 
+#include <Network/Connection.hpp>
+#include <Network/ConnectionsManager.hpp>
+
 #ifdef COMPILER_MSVC
 #include <boost/foreach.hpp>
 #endif

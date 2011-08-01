@@ -6,7 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <Random.hpp>
+#include <Utils/Random.hpp>
 
 namespace dt {
 

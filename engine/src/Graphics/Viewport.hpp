@@ -13,7 +13,6 @@
 
 #include <OgreCamera.h>
 #include <OgreColourValue.h>
-#include <OgreReal.h>
 #include <OgreViewport.h>
 
 namespace dt {

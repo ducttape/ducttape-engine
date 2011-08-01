@@ -8,6 +8,8 @@
 
 #include <Input/KeyboardEventBinding.hpp>
 
+#include <Input/KeyboardEvent.hpp>
+
 namespace dt {
 
 KeyboardBinding::KeyboardBinding(Event* target, OIS::KeyCode key_code)

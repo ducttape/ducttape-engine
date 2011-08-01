@@ -19,7 +19,6 @@
 #include <OgreRenderWindow.h>
 #include <OgreWindowEventUtilities.h>
 
-
 namespace dt {
 
 /**

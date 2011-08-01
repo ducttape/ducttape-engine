@@ -8,6 +8,8 @@
 
 #include <Scene/StateManager.hpp>
 
+#include <Core/Root.hpp>
+
 namespace dt {
 
 StateManager::StateManager()
