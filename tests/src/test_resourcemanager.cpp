@@ -6,7 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "Root.hpp"
+#include <Core/Root.hpp>
 
 int main(int argc, char** argv) {
     dt::Root::GetInstance().Initialize(argc, argv);

@@ -6,19 +6,20 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <cstdint>
-#include <map>
-#include <memory>
-#include <iostream>
-#include <random>
+#include <Core/Root.hpp>
+#include <Network/ConnectionsManager.hpp>
+#include <Utils/Random.hpp>
+#include <Utils/Utils.hpp>
 
 #ifdef COMPILER_MSVC
 #include <boost/foreach.hpp>
 #endif
 
-#include "Root.hpp"
-#include "network/ConnectionsManager.hpp"
-#include "utils/Random.hpp"
+#include <cstdint>
+#include <iostream>
+#include <map>
+#include <memory>
+#include <random>
 
 int main(int argc, char** argv) {
     bool broken = false;
@@ -33,7 +34,7 @@ int main(int argc, char** argv) {
         uint16_t ip = dt::Random::Get(1, 255);
         uint16_t port = dt::Random::Get(1001, 51311);
 
-        auto connection = std::shared_ptr<dt::Connection>(new dt::Connection(sf::IpAddress("127.168.178."+dt::tostr(ip)), port+i));
+        auto connection = std::shared_ptr<dt::Connection>(new dt::Connection(sf::IpAddress("127.168.178."+dt::Utils::ToString(ip)), port+i));
         uint16_t connection_id = connections_manager.AddConnection(connection.get());
         if(connection_id != 0) {
            connections[connection_id] = std::shared_ptr<dt::Connection>(connection);

@@ -6,10 +6,11 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <iostream>
-
 #include "Server.hpp"
-#include "game/Game.hpp"
+
+#include <Scene/Game.hpp>
+
+#include <iostream>
 
 int main(int argc, char** argv) {
     dt::Game game;

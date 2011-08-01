@@ -9,7 +9,7 @@
 #ifndef DUCTTAPE_SAMPLE_CHAT_COMMON_CHATMESSAGEEVENT
 #define DUCTTAPE_SAMPLE_CHAT_COMMON_CHATMESSAGEEVENT
 
-#include "event/NetworkEvent.hpp"
+#include <Network/NetworkEvent.hpp>
 
 class ChatMessageEvent : public dt::NetworkEvent {
 public:

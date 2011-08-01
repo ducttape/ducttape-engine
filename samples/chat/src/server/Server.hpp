@@ -9,7 +9,7 @@
 #ifndef DUCTTAPE_SAMPLE_CHAT_SERVER_SERVER
 #define DUCTTAPE_SAMPLE_CHAT_SERVER_SERVER
 
-#include "game/Game.hpp"
+#include <Scene/Game.hpp>
 
 class Server : public dt::State {
 public:

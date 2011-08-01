@@ -6,9 +6,9 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <iostream>
+#include <Utils/Random.hpp>
 
-#include "utils/Random.hpp"
+#include <iostream>
 
 int main(int argc, char** argv) {
     dt::Random::Initialize();

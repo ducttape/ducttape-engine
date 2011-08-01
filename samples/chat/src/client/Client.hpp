@@ -9,9 +9,11 @@
 #ifndef DUCTTAPE_SAMPLE_CHAT_CLIENT_CLIENT
 #define DUCTTAPE_SAMPLE_CHAT_CLIENT_CLIENT
 
-#include "game/Game.hpp"
+#include <Scene/Game.hpp>
 
+#include <SFML/Network/IpAddress.hpp>
 #include <SFML/System/Thread.hpp>
+
 #include <memory>
 
 class Client : public dt::State {

@@ -6,13 +6,13 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "Root.hpp"
-#include "game/Game.hpp"
-#include "scene/Scene.hpp"
-#include "scene/Node.hpp"
-#include "component/MeshComponent.hpp"
-#include "component/LightComponent.hpp"
-#include "event/EventListener.hpp"
+#include <Core/Root.hpp>
+#include <Event/EventListener.hpp>
+#include <Graphics/LightComponent.hpp>
+#include <Graphics/MeshComponent.hpp>
+#include <Scene/Game.hpp>
+#include <Scene/Node.hpp>
+#include <Scene/Scene.hpp>
 
 class Main: public dt::State {
 public:

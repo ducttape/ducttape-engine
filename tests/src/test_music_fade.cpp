@@ -6,16 +6,13 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "Root.hpp"
-#include "game/Game.hpp"
-
-#include "component/SoundComponent.hpp"
-#include "component/MusicComponent.hpp"
-
-#include "event/MusicControlEvent.hpp"
-
-#include "scene/Node.hpp"
-#include "scene/Scene.hpp"
+#include <Audio/MusicComponent.hpp>
+#include <Audio/MusicControlEvent.hpp>
+#include <Audio/SoundComponent.hpp>
+#include <Core/Root.hpp>
+#include <Scene/Game.hpp>
+#include <Scene/Node.hpp>
+#include <Scene/Scene.hpp>
 
 class Main : public dt::State {
 public:

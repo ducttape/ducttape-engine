@@ -8,6 +8,9 @@
 
 #include "Server.hpp"
 
+#include <Core/Root.hpp>
+#include <Network/GoodbyeEvent.hpp>
+
 #include "ChatMessageEvent.hpp"
 
 void Server::OnInitialize() {

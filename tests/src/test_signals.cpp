@@ -6,7 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "Root.hpp"
+#include <Core/Root.hpp>
 
 class TestComponent : public dt::Component {
 public:

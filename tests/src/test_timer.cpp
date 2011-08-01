@@ -6,10 +6,10 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "Root.hpp"
-#include "event/Timer.hpp"
-#include "game/Game.hpp"
-#include "states/State.hpp"
+#include <Core/Root.hpp>
+#include <Scene/Game.hpp>
+#include <Scene/State.hpp>
+#include <Utils/Timer.hpp>
 
 class Main : public dt::State {
 public:

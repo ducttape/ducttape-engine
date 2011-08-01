@@ -6,14 +6,11 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "Root.hpp"
-
-#include "component/SoundComponent.hpp"
-
-#include "event/SoundsControlEvent.hpp"
-
-#include "scene/Node.hpp"
-#include "scene/Scene.hpp"
+#include <Audio/SoundComponent.hpp>
+#include <Audio/SoundsControlEvent.hpp>
+#include <Core/Root.hpp>
+#include <Scene/Node.hpp>
+#include <Scene/Scene.hpp>
 
 int main(int argc, char** argv) {
     dt::Root& root = dt::Root::GetInstance();

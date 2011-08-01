@@ -6,13 +6,11 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "Root.hpp"
-
-#include "utils/Logger.hpp"
-
-#include "event/Event.hpp"
-#include "event/EventListener.hpp"
-#include "event/SimpleEventBinding.hpp"
+#include <Core/Root.hpp>
+#include <Utils/Logger.hpp>
+#include <Event/Event.hpp>
+#include <Event/EventListener.hpp>
+#include <Event/SimpleEventBinding.hpp>
 
 class TestTriggerEvent : public dt::Event {
 public:

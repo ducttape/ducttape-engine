@@ -10,10 +10,9 @@
 #define CLIENT_PORT 20502
 #define DATA_INCREMENT 42
 
-#include "Root.hpp"
-
-#include "network/NetworkManager.hpp"
-#include "utils/Utils.hpp"
+#include <Core/Root.hpp>
+#include <Network/NetworkManager.hpp>
+#include <Utils/Utils.hpp>
 
 /**
   * @file
@@ -143,7 +142,7 @@ void client() {
 
     bool correct_data = ((int)ccel.mDataReceived == data + DATA_INCREMENT);
     if(!correct_data) {
-        std::cerr << "Client: Received wrong data (" + dt::tostr(ccel.mDataReceived) + " instead of " + dt::tostr(data + DATA_INCREMENT) + ")" << std::endl;
+        std::cerr << "Client: Received wrong data (" + dt::Utils::ToString(ccel.mDataReceived) + " instead of " + dt::Utils::ToString(data + DATA_INCREMENT) + ")" << std::endl;
         exit(1);
     }
 }

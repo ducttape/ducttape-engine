@@ -6,10 +6,12 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <iostream>
-#include <ctime>
-
 #include "Client.hpp"
+
+#include <Utils/Utils.hpp>
+
+#include <ctime>
+#include <iostream>
 
 int main(int argc, char** argv) {
     dt::Game game;
@@ -18,7 +20,7 @@ int main(int argc, char** argv) {
     if(argc > 1)
         client->SetNick(argv[1]);
     else
-        client->SetNick("chatter-" + dt::tostr(time(0)));
+        client->SetNick("chatter-" + dt::Utils::ToString(time(0)));
 
     if(argc > 2)
         client->SetServerIP(sf::IpAddress(argv[2]));

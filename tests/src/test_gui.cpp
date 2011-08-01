@@ -6,13 +6,13 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "Root.hpp"
-#include "game/Game.hpp"
-#include "scene/Scene.hpp"
-#include "scene/Node.hpp"
-#include "component/GuiWidgetComponent.hpp"
-#include "component/MeshComponent.hpp"
-#include "component/CameraComponent.hpp"
+#include <Core/Root.hpp>
+#include <Graphics/CameraComponent.hpp>
+#include <Graphics/GuiWidgetComponent.hpp>
+#include <Graphics/MeshComponent.hpp>
+#include <Scene/Game.hpp>
+#include <Scene/Node.hpp>
+#include <Scene/Scene.hpp>
 
 void Click(MyGUI::Widget* _sender) {
     dt::Logger::Get().Debug("Clicked! " + _sender->getName());

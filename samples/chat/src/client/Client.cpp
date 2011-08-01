@@ -7,9 +7,10 @@
 // ----------------------------------------------------------------------------
 
 #include "Client.hpp"
-#include "Client.hpp"
 
 #include "ChatMessageEvent.hpp"
+
+#include <Core/Root.hpp>
 
 Client::Client() {
     mServerIP = sf::IpAddress::LocalHost;

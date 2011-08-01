@@ -6,12 +6,10 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "Root.hpp"
-
-
-#include "scene/Node.hpp"
-#include "component/Component.hpp"
-#include "component/CameraComponent.hpp"
+#include <Core/Root.hpp>
+#include <Graphics/CameraComponent.hpp>
+#include <Scene/Component.hpp>
+#include <Scene/Node.hpp>
 
 int main(int argc, char** argv) {
     dt::Root::GetInstance().Initialize(argc, argv);
