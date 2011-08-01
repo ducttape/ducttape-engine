@@ -167,6 +167,7 @@ Ogre::SceneManager* DisplayManager::GetSceneManager(const std::string& scene) {
         Logger::Get().Info("Creating a scene manager for scene " + scene + ".");
         Ogre::SceneManager* mgr = mOgreRoot->createSceneManager("DefaultSceneManager");
         mgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
+        mgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
         mSceneManagers[scene] = mgr;
     }
     return mSceneManagers[scene];

@@ -106,7 +106,7 @@ Ogre::Vector3 Node::GetPosition(Node::RelativeTo rel) const {
     if(rel == PARENT || mParent == nullptr) {
         return mPosition;
     } else {
-        return mParent->GetPosition(SCENE) + mPosition;
+        return mParent->GetPosition(SCENE) + mParent->GetRotation() * mPosition;
     }
 }
 
@@ -117,7 +117,7 @@ void Node::SetPosition(Ogre::Vector3 position, Node::RelativeTo rel) {
     if(rel == PARENT || mParent == nullptr) {
         mPosition = position;
     } else {
-        mPosition = position - mParent->GetPosition(SCENE);
+        mPosition = mParent->GetRotation() * position - mParent->GetPosition(SCENE);
     }
     OnUpdate(0);
 }
@@ -167,6 +167,14 @@ void Node::SetRotation(Ogre::Quaternion rotation, Node::RelativeTo rel) {
         mRotation = mParent->GetRotation(SCENE) * (-rotation);
     }
     OnUpdate(0);
+}
+
+void Node::SetDirection(Ogre::Vector3 direction, Ogre::Vector3 front_vector) {
+    SetRotation(front_vector.getRotationTo(direction));
+}
+
+void Node::LookAt(Ogre::Vector3 target, Ogre::Vector3 front_vector, RelativeTo rel) {
+    SetDirection(target - GetPosition(rel), front_vector);
 }
 
 void Node::SetParent(Node* parent) {

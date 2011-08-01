@@ -21,47 +21,60 @@
 
 namespace dt {
 
+/**
+  * The light component.
+  * @see Component
+  */
+class DUCTTAPE_API LightComponent : public Component {
+public:
     /**
-      * The light component.
+      * Advanced constructor.
+      * @param name The name for this component.
       * @see Component
       */
-    class DUCTTAPE_API LightComponent : public Component {
-    public:
-        /**
-          * Advanced constructor.
-          * @param name The name for this component.
-          * @see Component
-          */
-        LightComponent(const std::string& name = "");
+    LightComponent(const std::string& name = "");
 
-        virtual void HandleEvent(std::shared_ptr<Event> e);
+    /**
+      * Called when the color of the light is changed.
+      */
+    virtual void OnChangeColor();
 
-        /**
-          * Called when the color of the light is changed.
-          */
-        virtual void OnChangeColor();
+    void OnCreate();
+    void OnDestroy();
+    void OnEnable();
+    void OnDisable();
+    void OnUpdate(double time_diff);
 
-        void OnCreate();
-        void OnDestroy();
-        void OnEnable();
-        void OnDisable();
-        void OnUpdate(double time_diff);
+    /**
+      * Sets the color of the light.
+      * @param color The color of the light.
+      */
+    void SetColor(const Ogre::ColourValue color);
 
-        /**
-          * Sets the color of the light.
-          * @param color The color of the light.
-          */
-        void SetColor(const Ogre::ColourValue color);
+    /**
+      * Get the ogre light object.
+      * @return A pointer to the ogre light object.
+      */
+    Ogre::Light* GetOgreLight() const;
 
-        /**
-          * Get the ogre light object.
-          * @return A pointer to the ogre light object.
-          */
-        const Ogre::Light* GetOgreLight() const;
+    /**
+      * Sets whether the mesh should cast shadows. Default: true.
+      * @param shadow Whether the mesh should cast shadows.
+      */
+    void SetCastShadows(bool cast_shadows);
 
-    protected:
-        Ogre::Light* mLight;    //!< The pointer to the ogre light object.
-    };
+    /**
+      * Gets whether the mesh should cast shadows.
+      * @returns Whether the mesh should cast shadows.
+      */
+    bool GetCastShadows() const;
+
+protected:
+    Ogre::Light* mLight;    //!< The pointer to the ogre light object.
+    Ogre::SceneNode* mSceneNode; //!< The pointer to the ogre SceneNode the light is attached to.
+    bool mCastShadows;              //!< Whether the light should cast shadows.
+};
+
 }
 
 #endif

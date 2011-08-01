@@ -44,7 +44,7 @@ void FollowPathComponent::OnUpdate(double time_diff) {
         mNode->SetPosition(_CalculatePosition());
 
     if(mFollowRotation && time_diff > 0) {
-        mNode->SetRotation(Ogre::Vector3::UNIT_Z.getRotationTo(mNode->GetPosition() - mLastPoint));
+        mNode->LookAt(mLastPoint, Ogre::Vector3::NEGATIVE_UNIT_Z); // look backwards at the point we were
         mLastPoint = mNode->GetPosition();
     }
 
