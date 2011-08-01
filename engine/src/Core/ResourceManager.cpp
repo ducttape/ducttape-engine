@@ -8,6 +8,8 @@
 
 #include <Core/ResourceManager.hpp>
 
+#include <Core/Root.hpp>
+
 namespace dt {
 
 ResourceManager::ResourceManager()
