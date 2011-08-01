@@ -6,7 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <Math.hpp>
+#include <Utils/Math.hpp>
 
 #include <cstdint>
 
@@ -82,7 +82,7 @@ namespace Math {
         if(result == 1.f)
             return *(values.end());
 
-        int32_t position = int32_t(floor(amount * (values.size() - 1)));
+         position = int32_t(floor(amount * (values.size() - 1)));
         float individual_lerp = 1.f / values.size() - 1;
         float current_lerp = amount - position * individual_lerp;
         float lerp_amount = current_lerp / individual_lerp;

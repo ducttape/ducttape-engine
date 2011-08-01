@@ -6,6 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
+#include <Graphics/CameraComponent.hpp>
 
 namespace dt {
 

@@ -9,7 +9,14 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_EVENTMANAGER
 #define DUCTTAPE_ENGINE_EVENT_EVENTMANAGER
 
+#include <Config.hpp>
 
+#include <Core/Manager.hpp>
+#include <Event/EventListener.hpp>
+#include <Event/BindingsManager.hpp>
+
+#include <memory>
+#include <vector>
 
 namespace dt {
 

@@ -8,15 +8,7 @@
 
 #include <Scene/StateManager.hpp>
 
-#include <Core/Root.hpp>
-#include <Utils/Logger.hpp>
-
-#include <cstdint>
-#include <memory>
-
 namespace dt {
-
-class Scene;
 
 StateManager::StateManager()
     : mHasNewState(false),

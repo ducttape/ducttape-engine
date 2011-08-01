@@ -6,6 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
+#include <Logic/SimplePlayerComponent.hpp>
 
 namespace dt {
 

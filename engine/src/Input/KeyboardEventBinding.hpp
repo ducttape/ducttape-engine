@@ -9,6 +9,14 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_KEYBOARDEVENTBINDING
 #define DUCTTAPE_ENGINE_EVENT_KEYBOARDEVENTBINDING
 
+#include <Config.hpp>
+
+#include <Event/Event,hpp>
+#include <Event/EventBinding,hpp>
+
+#include <OIS.h>
+
+#include <memory>
 
 namespace dt {
 

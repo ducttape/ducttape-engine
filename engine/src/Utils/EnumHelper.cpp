@@ -8,10 +8,6 @@
 
 #include <Utils/EnumHelper.hpp>
 
-#include <SFML/Network.hpp>
-
-#include <cstdint>
-
 namespace dt {
 
 EnumHelper::EnumHelper(void* e)

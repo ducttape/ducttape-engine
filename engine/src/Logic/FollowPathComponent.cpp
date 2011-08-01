@@ -6,8 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-
-
+#include <Logic/FollowPathComponent.hpp>
 
 namespace dt {
 

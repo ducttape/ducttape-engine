@@ -8,24 +8,11 @@
 
 #include <Scene/Node.hpp>
 
-#include <Core/StringManager.hpp>
-#include <Utils/Utils.hpp>
-
 #ifdef COMPILER_MSVC
 #include <boost/foreach.hpp>
 #endif
 
-#include <boost/ptr_container/ptr_map.hpp>
-
-#include <OgreVector3.h>
-#include <OgreQuaternion.h>
-
-#include <memory>
-#include <string>
-
 namespace dt {
-
-class Scene;
 
 Node::Node(const std::string& name)
     : mName(name),

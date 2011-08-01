@@ -12,17 +12,15 @@
 #include <Config.hpp>
 
 #include <Core/Manager.hpp>
-
-#include <OgreLog.h>
-#include <OgreLogManager.h>
+#include <Utils/Logger.hpp>
 
 #include <boost/ptr_container/ptr_map.hpp>
+
+#include <OgreLogManager.hpp>
 
 #include <string>
 
 namespace dt {
-
-class Logger;
 
 /**
   * A manager responsible for holding and providing all Loggers.

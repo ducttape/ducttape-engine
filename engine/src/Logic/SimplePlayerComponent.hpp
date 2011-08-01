@@ -9,7 +9,13 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_SIMPLEPLAYERCOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_SIMPLEPLAYERCOMPONENT
 
+#include <Config.hpp>
 
+#include <Event/Event.hpp>
+#include <Scene/Component.hpp>
+
+#include <memory>
+#include <string>
 
 namespace dt {
 

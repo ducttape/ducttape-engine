@@ -11,18 +11,18 @@
 
 #include <Config.hpp>
 
+#include <Utils/Logger.hpp>
+
 #include <boost/ptr_container/ptr_map.hpp>
 
-#include <OgreVector3.h>
 #include <OgreQuaternion.h>
+#include <OgreVector3.h>
 
-#include <map>
 #include <memory>
 #include <string>
 
 namespace dt {
 
-class Component;
 class Scene;
 
 /**

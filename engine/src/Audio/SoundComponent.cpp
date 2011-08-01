@@ -8,6 +8,13 @@
 
 #include <Audio/SoundComponent.hpp>
 
+#include <Audio/SoundsControlEvent.hpp>
+#include <Core/ResourceManager.hpp>
+#include <Scene/Node.hpp>
+#include <Utils/Logger.hpp>
+
+#include <SFML/Audio/Listener.hpp>
+
 namespace dt {
 
 SoundComponent::SoundComponent(const std::string& sound_file, const std::string& name)

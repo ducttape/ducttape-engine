@@ -8,19 +8,7 @@
 
 #include <Scene/Scene.hpp>
 
-#include <Event/Event.hpp>
-#include <Event/EventManager.hpp>
-#include <Graphics/DisplayManager.hpp>
-#include <Physics/PhysicsManager.hpp>
-#include <Physics/PhysicsWorld.hpp>
-#include <Utils/Logger.hpp>
-
-#include <memory>
-#include <string>
-
 namespace dt {
-
-class BeginFrameEvent;
 
 Scene::Scene(const std::string& name)
     : Node(name) {}

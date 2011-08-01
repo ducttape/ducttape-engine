@@ -8,16 +8,6 @@
 
 #include <Scene/Game.hpp>
 
-#include <Core/Root.hpp>
-#include <Event/Event.hpp>
-#include <Event/EventManager.hpp>
-#include <Graphics/DisplayManager.hpp>
-#include <Network/GoodbyeEvent.hpp>
-#include <Network/NetworkManager.hpp>
-#include <Utils/Logger.hpp>
-
-#include <SFML/System.hpp>
-
 namespace dt {
 
 Game::Game()

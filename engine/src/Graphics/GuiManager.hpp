@@ -9,8 +9,19 @@
 #ifndef DUCTTAPE_ENGINE_GRAPHICS_GUIMANAGER
 #define DUCTTAPE_ENGINE_GRAPHICS_GUIMANAGER
 
+#include <Config.hpp>
+
+#include <Core/Manager.hpp>
+#include <Event/Event.hpp>
+#include <Event/EventListener.hpp>
 
 #define MYGUI_DONT_USE_OBSOLETE
+#include <MyGUI.h>
+#include <MyGUI_OgrePlatform.h>
+
+#include <OgreSceneManager.h>
+
+#include <memory>
 
 
 namespace dt {

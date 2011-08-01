@@ -9,8 +9,18 @@
 #ifndef DUCTTAPE_ENGINE_PHYSICS_PHYSICSWORLD
 #define DUCTTAPE_ENGINE_PHYSICS_PHYSICSWORLD
 
+#include <Config.hpp>
 
+#include <Core/Manager.hpp>
 
+#include <btDbvtBroadphase.h>
+#include <btDefaultCollisionConfiguration.h>
+#include <btCollisionDispatcher.h>
+#include <btSequentialImpulseConstraintSolver.h>
+
+#include <BtOgreExtras.h>
+
+#include <string>
 
 namespace dt {
 

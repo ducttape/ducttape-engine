@@ -8,16 +8,7 @@
 
 #include <Scene/State.hpp>
 
-#include <Event/EventManager.hpp>
-#include <Scene/Scene.hpp>
-#include <Utils/Logger.hpp>
-
-#include <memory>
-#include <string>
-
 namespace dt {
-
-class Event;
 
 State::State() {}
 

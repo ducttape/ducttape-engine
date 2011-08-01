@@ -9,7 +9,15 @@
 #ifndef DUCTTAPE_ENGINE_INPUT_INPUTMANAGER
 #define DUCTTAPE_ENGINE_INPUT_INPUTMANAGER
 
+#include <Config.hpp>
+
+#include <Core/Manager.hpp>
+
 #define OIS_DYNAMIC_LIB
+#include <OIS.h>
+
+#include <OgreRenderWindow.h>
+#include <OgreWindowEventUtilities.h>
 
 
 namespace dt {

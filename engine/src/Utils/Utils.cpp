@@ -10,9 +10,6 @@
 
 #include <boost/algorithm/string.hpp>
 
-#include <string>
-#include <vector>
-
 namespace dt {
 
 namespace Utils {

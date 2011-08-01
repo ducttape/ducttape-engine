@@ -12,14 +12,13 @@
 #include <Config.hpp>
 
 #include <Core/Manager.hpp>
+#include <Scene/State.hpp>
 
 #include <cstdint>
 #include <memory>
 #include <vector>
 
 namespace dt {
-
-class State;
 
 /**
   * A manager responsible for managing game states.

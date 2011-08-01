@@ -11,19 +11,15 @@
 
 #include <Config.hpp>
 
-#include <Event/EventListener.hpp>
+#include <Event/Event.hpp>
 
 #include <boost/function.hpp>
 #include <boost/signals2.hpp>
-
-#include <SFML/System.hpp>
 
 #include <memory>
 #include <string>
 
 namespace dt {
-
-class Event;
 
 /**
   * A timer to send Tick events in regular intervals.

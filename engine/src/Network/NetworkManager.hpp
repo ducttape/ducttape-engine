@@ -9,9 +9,20 @@
 #ifndef DUCTTAPE_ENGINE_NETWORK_NETWORKMANAGER
 #define DUCTTAPE_ENGINE_NETWORK_NETWORKMANAGER
 
+#include <Network/NetworkManager.hpp>
 
+#include <Core/Manager.hpp>
+#include <Event/Event.hpp>
+#include <Event/EventListener.hpp>
+#include <Network/ConnectionsManager.hpp>
+#include <Network/NetworkEvent.hpp>
 
+#include <SFML/Network/UdpSocket.hpp>
 
+#include <cstdint>
+#include <deque>
+#include <memory>
+#include <vector>
 
 namespace dt {
 
@@ -19,8 +30,7 @@ namespace dt {
   * Manager for serializing events and sending them over network.
   * @see ConnectionsManager - Holds all connections of this manager.
   */
-class DUCTTAPE_API NetworkManager : public Manager,
-        public EventListener {
+class DUCTTAPE_API NetworkManager : public Manager, public EventListener {
 public:
     /**
       * Default constructor.

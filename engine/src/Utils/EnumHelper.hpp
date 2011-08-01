@@ -11,7 +11,7 @@
 
 #include <Config.hpp>
 
-#include <SFML/Network.hpp>
+#include <SFML/Network/Packet.hpp>
 
 #include <cstdint>
 

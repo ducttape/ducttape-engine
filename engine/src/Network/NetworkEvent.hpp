@@ -9,7 +9,15 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_NETWORKEVENT
 #define DUCTTAPE_ENGINE_EVENT_NETWORKEVENT
 
+#include <Config.hpp>
 
+#include <Event/Event.hpp>
+#include <Network/IOPacket.hpp>
+
+#include <cstdint>
+#include <memory>
+#include <string>
+#include <vector>
 
 namespace dt {
 

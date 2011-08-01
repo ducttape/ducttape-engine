@@ -11,18 +11,15 @@
 
 #include <Config.hpp>
 
+#include <Event/Event.hpp>
 #include <Event/EventListener.hpp>
-#include <Scene/Node.hpp>
-
-#include <OgreSceneManager.h>
+#include <Node/Node.hpp>
+#include <Physics/PhysicsWorld.hpp>
 
 #include <memory>
 #include <string>
 
 namespace dt {
-
-class Event;
-class PhysicsWorld;
 
 /**
   * A class to represent a whole scene of the game world.

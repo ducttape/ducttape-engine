@@ -9,8 +9,17 @@
 #ifndef DUCTTAPE_ENGINE_NETWORK_CONNECTIONSMANAGER
 #define DUCTTAPE_ENGINE_NETWORK_CONNECTIONSMANAGER
 
+#include <Config.hpp>
 
+#include <Core/Manager.hpp>
+#include <Event/Event.hpp>
+#include <Event/EventListener.hpp>
+#include <Network/Connection.hpp>
 
+#include <boost/ptr_container/ptr_map.hpp>
+
+#include <map>
+#include <memory>
 
 namespace dt {
 

@@ -11,18 +11,20 @@
 
 #include <Config.hpp>
 
+#include <Event/Event.hpp>
 #include <Event/EventListener.hpp>
-#include <boost/noncopyable.hpp>
 
 #include <boost/function.hpp>
-#include <boost/signals2.hpp>
+#include <boost/noncopyable.hpp>
 #include <boost/ptr_container/ptr_map.hpp>
+#include <boost/signals2.hpp>
 
 #include <memory>
 #include <string>
 
 namespace dt {
 
+// forward declaration
 class Node;
 
 /**

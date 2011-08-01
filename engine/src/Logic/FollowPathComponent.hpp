@@ -9,8 +9,16 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_FOLLOWPATHCOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_FOLLOWPATHCOMPONENT
 
+#include <Config.hpp>
 
+#include <Event/Event.hpp>
+#include <Scene/Component.hpp>
 
+#include <OgreVector3.h>
+
+#include <memory>
+#include <string>
+#include <vector>
 
 namespace dt {
 

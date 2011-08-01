@@ -9,6 +9,13 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_SIMPLEEVENTBINDING
 #define DUCTTAPE_ENGINE_EVENT_SIMPLEEVENTBINDING
 
+#include <Config.hpp>
+
+#include <Event/Event.hpp>
+#include <Event/EventBinding.hpp>
+
+#include <memory>
+#include <string>
 
 namespace dt {
 

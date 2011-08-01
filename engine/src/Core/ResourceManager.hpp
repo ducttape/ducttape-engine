@@ -9,7 +9,19 @@
 #ifndef DUCTTAPE_ENGINE_RESOURCES_RESOURCEMANAGER
 #define DUCTTAPE_ENGINE_RESOURCES_RESOURCEMANAGER
 
+#include <Config.hpp>
+
 #include <Core/Manager.hpp>
+
+#include <boost/filesystem.hpp>
+#include <boost/ptr_container/ptr_map.hpp>
+
+#include <SFML/Audio/Music.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
+
+#include <memory>
+#include <string>
+#include <vector>
 
 namespace dt {
 

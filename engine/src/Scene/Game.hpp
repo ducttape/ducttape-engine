@@ -11,16 +11,15 @@
 
 #include <Config.hpp>
 
+#include <Event/Event.hpp>
 #include <Event/EventListener.hpp>
+#include <Scene/State.hpp>
 
-#include <SFML/System.hpp>
+#include <SFML/System/Clock.hpp>
 
 #include <memory>
 
 namespace dt {
-
-class Event;
-class State;
 
 /**
   * The main instance of a game, running the main loop.

@@ -9,6 +9,13 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_PINGEVENT
 #define DUCTTAPE_ENGINE_EVENT_PINGEVENT
 
+#include <Config.hpp>
+
+#include <Event/Event.hpp>
+#include <Network/NetworkEvent.hpp>
+
+#include <memory>
+#include <string>
 
 namespace dt {
 
@@ -39,6 +46,7 @@ public:
       * @returns The time the ping was sent.
       */
     double GetTimestamp() const;
+
 protected:
     bool mIsReply;          //!< Whether this ping is a reply.
     double mTimestamp;    //!< The time the ping was sent.

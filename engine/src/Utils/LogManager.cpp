@@ -8,13 +8,6 @@
 
 #include <Utils/LogManager.hpp>
 
-#include <Utils/Logger.hpp>
-
-#include <MyGUI_LogManager.h>
-#include <OgreLogManager.h>
-
-#include <string>
-
 namespace dt {
 
 LogManager::LogManager() {}

@@ -9,7 +9,14 @@
 #ifndef DUCTTAPE_ENGINE_INPUT_KEYBOARDEVENT
 #define DUCTTAPE_ENGINE_INPUT_KEYBOARDEVENT
 
+#include <Config.hpp>
 
+#include <Event/Event.hpp>
+
+#include <OIS.h>
+
+#include <memory>
+#include <string>
 
 namespace dt {
 

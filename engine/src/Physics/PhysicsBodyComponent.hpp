@@ -9,8 +9,18 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_PHYSICSBODYCOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_PHYSICSBODYCOMPONENT
 
+#include <Config.hpp>
 
+#include <Event/Event.hpp>
+#include <Scene/Component.hpp>
 
+#include <btCollisionShape.h>
+#include <btRigidBody.h>
+
+#include <BtOgrePG.h>
+
+#include <memory>
+#include <string>
 
 namespace dt {
 

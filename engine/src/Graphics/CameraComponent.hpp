@@ -9,8 +9,15 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_CAMERACOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_CAMERACOMPONENT
 
+#include <Config.hpp>
 
+#include <Scene/Component.hpp>
 
+#include <OgreCamera.h>
+#include <OgreVector3.h>
+
+#include <memory>
+#include <string>
 
 namespace dt {
 

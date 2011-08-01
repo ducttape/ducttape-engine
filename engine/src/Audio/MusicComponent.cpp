@@ -8,6 +8,12 @@
 
 #include <Audio/MusicComponent.hpp>
 
+#include <Audio/MusicControlEvent.hpp>
+#include <Core/ResourceManager.hpp>
+#include <Utils/Logger.hpp>
+
+#include <SFML/Audio/Listener.hpp>
+
 namespace dt {
 
 MusicComponent::MusicComponent(const std::string& music_file, const std::string& name)

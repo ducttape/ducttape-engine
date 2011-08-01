@@ -6,14 +6,9 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <TimerTickEvent.hpp>
-
-#include <memory>
-#include <string>
+#include <Utils/TimerTickEvent.hpp>
 
 namespace dt {
-
-class Event;
 
 TimerTickEvent::TimerTickEvent(const std::string& message, double interval)
     : MessageEvent(message),

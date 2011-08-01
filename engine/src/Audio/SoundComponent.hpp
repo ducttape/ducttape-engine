@@ -9,7 +9,14 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_SOUNDCOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_SOUNDCOMPONENT
 
+#include <Config.hpp>
+
 #include <Scene/Component.hpp>
+
+#include <SFML/Audio/Sound.hpp>
+
+#include <memory>
+#include <string>
 
 namespace dt {
 

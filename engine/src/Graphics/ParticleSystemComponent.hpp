@@ -9,8 +9,16 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_PARTICLESYSTEMCOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_PARTICLESYSTEMCOMPONENT
 
+#include <Config.hpp>
 
+#include <Scene/Component.hpp>
 
+#include <OgreParticleEmitter.h>
+#include <OgreParticleSystem.h>
+#include <OgreSceneNode.h>
+
+#include <map>
+#include <string>
 
 namespace dt {
 

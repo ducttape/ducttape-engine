@@ -8,20 +8,6 @@
 
 #include <Utils/Timer.hpp>
 
-#include <Event/BeginFrameEvent.hpp>
-#include <Event/Event.hpp>
-#include <Event/EventManager.hpp>
-#include <Event/EventManager.hpp>
-#include <Utils/TimerTickEvent.hpp>
-
-#include <boost/function.hpp>
-#include <boost/signals2.hpp>
-
-#include <SFML/System.hpp>
-
-#include <memory>
-#include <string>
-
 namespace dt {
 
 Timer::Timer(const std::string& message, double interval, bool repeat, bool threaded, bool use_events)

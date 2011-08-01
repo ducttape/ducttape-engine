@@ -9,6 +9,13 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_GOODBYEEVENT
 #define DUCTTAPE_ENGINE_EVENT_GOODBYEEVENT
 
+#include <Config.hpp>
+
+#include <Network/NetworkEvent.hpp>
+#include <Network/IOPacket.hpp>
+
+#include <memory>
+#include <string>
 
 namespace dt {
 
@@ -38,6 +45,7 @@ public:
       * @param reason The reason for the disconnect.
       */
     void SetReason(const std::string& reason);
+
 private:
     std::string mReason;    //!< The reason for the disconnect.
 };

@@ -9,7 +9,10 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_EVENTLISTENER
 #define DUCTTAPE_ENGINE_EVENT_EVENTLISTENER
 
+#include <Config.hpp>
 
+#include <cstdint>
+#include <memory>
 
 namespace dt {
 

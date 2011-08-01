@@ -11,7 +11,9 @@
 
 #include <Config.hpp>
 
+#include <Event/Event.hpp>
 #include <Event/EventListener.hpp>
+#include <Scene/Scene.hpp>
 
 #include <boost/ptr_container/ptr_map.hpp>
 
@@ -19,9 +21,6 @@
 #include <string>
 
 namespace dt {
-
-class Event;
-class Scene;
 
 /**
   * A class DUCTTAPE_API for managing different stages of menu and gameplay.

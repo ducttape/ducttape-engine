@@ -9,7 +9,12 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_WINDOWCLOSEDEVENT
 #define DUCTTAPE_ENGINE_EVENT_WINDOWCLOSEDEVENT
 
+#include <Config.hpp>
 
+#include <Event/Event.hpp>
+
+#include <memory>
+#include <string>
 
 namespace dt {
 

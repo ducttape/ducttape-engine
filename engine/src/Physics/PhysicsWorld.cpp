@@ -6,8 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-
-// include after forward declaration
+#include <PhysicsWorld.hpp>
 
 namespace dt {
 

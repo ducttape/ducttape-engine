@@ -9,7 +9,13 @@
 #ifndef DUCTTAPE_ENGINE_UTILS_STRINGMANAGER
 #define DUCTTAPE_ENGINE_UTILS_STRINGMANAGER
 
+#include <Config.hpp>
 
+#include <Core/Manager.hpp>
+
+#include <cstdint>
+#include <map>
+#include <string>
 
 namespace dt {
 

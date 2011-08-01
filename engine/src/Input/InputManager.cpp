@@ -6,7 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-
+#include <Input/InputManager.hpp>
 
 namespace dt {
 

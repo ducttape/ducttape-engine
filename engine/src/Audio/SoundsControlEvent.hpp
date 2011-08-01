@@ -9,7 +9,12 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_SOUNDSCONTROLEVENT
 #define DUCTTAPE_ENGINE_EVENT_SOUNDSCONTROLEVENT
 
+#include <Config.hpp>
+
 #include <Event/Event.hpp>
+
+#include <memory>
+#include <string>
 
 namespace dt {
 

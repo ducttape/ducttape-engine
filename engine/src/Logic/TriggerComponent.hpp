@@ -9,6 +9,12 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_TRIGGERCOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_TRIGGERCOMPONENT
 
+#include <Config.hpp>
+
+#include <Event/Event.hpp>
+#include <Scene/Component.hpp>
+
+#include <string>
 
 namespace dt {
 

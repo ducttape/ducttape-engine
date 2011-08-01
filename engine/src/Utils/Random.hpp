@@ -9,8 +9,6 @@
 #ifndef DUCTTAPE_ENGINE_UTILS_RANDOM
 #define DUCTTAPE_ENGINE_UTILS_RANDOM
 
-#include <Config.hpp>
-
 #include <cstdint>
 #include <random>
 

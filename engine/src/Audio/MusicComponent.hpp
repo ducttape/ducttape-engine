@@ -9,7 +9,12 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_MUSICCOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_MUSICCOMPONENT
 
+#include <Config.hpp>
+
 #include <Scene/Component.hpp>
+
+#include <memory>
+#include <string>
 
 namespace dt {
 

@@ -11,13 +11,13 @@
 
 #include <Config.hpp>
 
+#include <Utils/LogStream.hpp>
+
 #include <boost/ptr_container/ptr_vector.hpp>
 
 #include <string>
 
 namespace dt {
-
-class Logstream;
 
 /**
   * A class responsible for logging different messages to their LogStreams. This class can hold different

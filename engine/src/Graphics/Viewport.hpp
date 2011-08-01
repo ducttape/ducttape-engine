@@ -9,8 +9,12 @@
 #ifndef DUCTTAPE_ENGINE_GRAPHICS_VIEWPORT
 #define DUCTTAPE_ENGINE_GRAPHICS_VIEWPORT
 
+#include <Config.hpp>
 
-
+#include <OgreCamera.h>
+#include <OgreColourValue.h>
+#include <OgreReal.h>
+#include <OgreViewport.h>
 
 namespace dt {
 

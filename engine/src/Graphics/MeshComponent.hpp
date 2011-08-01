@@ -9,7 +9,17 @@
 #ifndef DUCTTAPE_ENGINE_COMPONENT_MESHCOMPONENT
 #define DUCTTAPE_ENGINE_COMPONENT_MESHCOMPONENT
 
+#include <Config.hpp>
 
+#include <Scene/Component.hpp>
+
+#include <OgreAnimationState.h>
+#include <OgreEntity.h>
+#include <OgreSceneNode.h>
+
+#include <memory>
+#include <string>
+#include <vector>
 
 namespace dt {
 

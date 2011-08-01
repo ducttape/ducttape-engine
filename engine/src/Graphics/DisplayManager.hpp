@@ -9,9 +9,22 @@
 #ifndef DUCTTAPE_ENGINE_GRAPHICS_DISPLAYMANAGER
 #define DUCTTAPE_ENGINE_GRAPHICS_DISPLAYMANAGER
 
+#include <Config.hpp>
 
+#include <Core/Manager.hpp>
+#include <Graphics/CameraComponent.hpp>
+#include <Graphics/GuiManager.hpp>
+#include <Graphics/Viewport.hpp>
 
+#include <boost/ptr_container/ptr_map.hpp>
 
+#include <OgreRenderSystem.h>
+#include <OgreRenderWindow.h>
+#include <OgreSceneManager.h>
+#include <OgreRoot.h>
+
+#include <map>
+#include <string>
 
 namespace dt {
 

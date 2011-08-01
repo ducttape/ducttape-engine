@@ -6,7 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-
+#include <Graphics/MeshComponent.hpp>
 
 namespace dt {
 

@@ -9,6 +9,12 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_HANDSHAKEEVENT
 #define DUCTTAPE_ENGINE_EVENT_HANDSHAKEEVENT
 
+#include <Config.hpp>
+
+#include <Network/NetworkEvent.hpp>
+#include <Network/IOPacket.hpp>
+
+#include <memory>
 
 namespace dt {
 

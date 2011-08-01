@@ -11,14 +11,13 @@
 
 #include <Config.hpp>
 
+#include <Event/Event.hpp>
 #include <Event/MessageEvent.hpp>
 
 #include <memory>
 #include <string>
 
 namespace dt {
-
-class Event;
 
 /**
   * The event triggered by a Timer every tick.

@@ -9,8 +9,11 @@
 #ifndef DUCTTAPE_ENGINE_NETWORK_CONNECTION
 #define DUCTTAPE_ENGINE_NETWORK_CONNECTION
 
+#include <Config.hpp>
 
+#include <SFML/Network/IpAdress.hpp>
 
+#include <cstdint>
 
 namespace dt {
 

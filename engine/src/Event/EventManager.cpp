@@ -6,9 +6,11 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#ifdef COMPILER_MSVC
-#endif
+#include <Event/EventManager.hpp>
 
+#ifdef COMPILER_MSVC
+#include <boost/foreach.hpp>
+#endif
 
 namespace dt {
 

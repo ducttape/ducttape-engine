@@ -8,19 +8,7 @@
 
 #include <Scene/Component.hpp>
 
-#include <Core/StringManager.hpp>
-#include <Event/EventListener.hpp>
-#include <Utils/Utils.hpp>
-
-#include <boost/function.hpp>
-#include <boost/signals2.hpp>
-
-#include <memory>
-#include <string>
-
 namespace dt {
-
-class Event;
 
 Component::Component(const std::string& name)
     : mName(name),

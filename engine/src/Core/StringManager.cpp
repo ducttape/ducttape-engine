@@ -6,10 +6,11 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
+#include <Core/StringManager.hpp>
 
 #ifdef COMPILER_MSVC
+#include <boost/foreach.hpp>
 #endif
-
 
 namespace dt {
 

@@ -9,10 +9,14 @@
 #ifndef DUCTTAPE_ENGINE_EVENT_BINDINGSMANAGER
 #define DUCTTAPE_ENGINE_EVENT_BINDINGSMANAGER
 
-class Event;
+#include <Config.hpp>
 
 #include <Core/Manager.hpp>
 #include <Event/EventListener.hpp>
+
+#include <cstdint>
+#include <map>
+#include <memory>
 
 namespace dt {
 
@@ -22,8 +26,7 @@ namespace dt {
   * @see EventManager
   * @see EventListener
   */
-class DUCTTAPE_API BindingsManager : public Manager,
-        public EventListener {
+class DUCTTAPE_API BindingsManager : public Manager, public EventListener {
 public:
     /**
       * Default constructor.
