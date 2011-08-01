@@ -6,16 +6,19 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "Root.hpp"
-#include "game/Game.hpp"
-#include "scene/Scene.hpp"
-#include "scene/Node.hpp"
-#include "component/TextComponent.hpp"
-#include "component/MeshComponent.hpp"
-#include "component/LightComponent.hpp"
-#include "utils/Utils.hpp"
+#include <Core/Root.hpp>
+#include <Graphics/LightComponent.hpp>
+#include <Graphics/MeshComponent.hpp>
+#include <Graphics/TextComponent.hpp>
+#include <Scene/Game.hpp>
+#include <Scene/Node.hpp>
+#include <Scene/Scene.hpp>
+#include <Utils/Utils.hpp>
 
-#include <OGRE/OgreVector3.h>
+#include <OgreFontManager.h>
+#include <OgreVector3.h>
+
+#include <OgreProcedural.h>
 
 float FIELD_WIDTH = 24;
 float FIELD_HEIGHT = 16;
@@ -32,8 +35,8 @@ public:
             GetScene("testscene")->FindChildNode("info")->FindComponent<dt::TextComponent>("text")->SetText("The " + p + " player wins the game.");
         }
         mBallNode->SetPosition(Ogre::Vector3(0,0,0));
-        mScore1Text->SetText(dt::tostr(mScore1));
-        mScore2Text->SetText(dt::tostr(mScore2));
+        mScore1Text->SetText(dt::Utils::ToString(mScore1));
+        mScore2Text->SetText(dt::Utils::ToString(mScore2));
 
     }
 
