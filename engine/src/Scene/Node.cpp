@@ -10,6 +10,7 @@
 
 #include <Core/StringManager.hpp>
 #include <Utils/Utils.hpp>
+#include <Scene/Scene.hpp>
 
 #ifdef COMPILER_MSVC
 #include <boost/foreach.hpp>

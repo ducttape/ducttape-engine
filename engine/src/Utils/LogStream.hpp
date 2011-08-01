@@ -15,6 +15,7 @@
 
 namespace dt {
 
+// forward declaration due to circular dependency
 class Logger;
 
 /**

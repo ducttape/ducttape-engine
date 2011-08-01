@@ -24,7 +24,7 @@
 
 namespace dt {
 
-// forward declaration
+// forward declaration due to circular dependency
 class Node;
 
 /**

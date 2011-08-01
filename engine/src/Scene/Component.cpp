@@ -10,6 +10,7 @@
 
 #include <Core/StringManager.hpp>
 #include <Event/EventManager.hpp>
+#include <Scene/Node.hpp>
 #include <Utils/Utils.hpp>
 
 namespace dt {
