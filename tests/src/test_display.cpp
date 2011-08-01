@@ -46,22 +46,14 @@ public:
         mesh->SetAnimation("Dance");
         mesh->SetLoopAnimation(true);
         mesh->PlayAnimation();
-        mesh->SetCastShadows(true);
+        mesh->SetCastShadows(false);
 
         dt::Node* lightnode = scene->AddChildNode(new dt::Node("lightnode"));
-        dt::LightComponent* light = lightnode->AddComponent(new dt::LightComponent("light"));
-        Ogre::Light* ogl = light->GetOgreLight();
-        ogl->setType(Ogre::Light::LT_SPOTLIGHT);
-        ogl->setSpotlightInnerAngle(Ogre::Degree(30));
-        ogl->setSpotlightOuterAngle(Ogre::Degree(50));
+        lightnode->AddComponent(new dt::LightComponent("light"));
         lightnode->SetPosition(Ogre::Vector3(0, 30, 0));
 
         dt::Node* lightnode2 = scene->AddChildNode(new dt::Node("lightnode2"));
-        dt::LightComponent* light2 = lightnode2->AddComponent(new dt::LightComponent("light2"));
-        Ogre::Light* ogl2 = light2->GetOgreLight();
-        ogl2->setType(Ogre::Light::LT_SPOTLIGHT);
-        ogl2->setSpotlightInnerAngle(Ogre::Degree(30));
-        ogl2->setSpotlightOuterAngle(Ogre::Degree(50));
+        lightnode2->AddComponent(new dt::LightComponent("light2"));
         lightnode2->SetPosition(Ogre::Vector3(0, -10, 0));
     }
 
