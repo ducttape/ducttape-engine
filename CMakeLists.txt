@@ -57,6 +57,9 @@ find_package(OIS REQUIRED)
 find_package(OGRE REQUIRED)
 find_package(MyGUI REQUIRED)
 find_package(MyGUI_PLATFORM REQUIRED)
+
+set(QT_USE_QTSCRIPT TRUE)
+set(QT_DONT_USE_QTGUI TRUE)
 find_package(Qt4 REQUIRED)
 
 include(${QT_USE_FILE})
