@@ -8,6 +8,8 @@
 
 #include <Utils/Random.hpp>
 
+#include <ctime>
+
 namespace dt {
 
 void Random::Initialize() {
