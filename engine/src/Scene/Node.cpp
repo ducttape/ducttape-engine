@@ -12,10 +12,6 @@
 #include <Utils/Utils.hpp>
 #include <Scene/Scene.hpp>
 
-#ifdef COMPILER_MSVC
-#include <boost/foreach.hpp>
-#endif
-
 namespace dt {
 
 Node::Node(const std::string& name)
@@ -221,14 +217,9 @@ bool Node::_IsScene() {
 void Node::_UpdateAllComponents(double time_diff) {
     mIsUpdatingAfterChange = (time_diff == 0);
 
-#ifdef COMPILER_MSVC
-    typedef std::pair<std::string, std::shared_ptr<Component> > pair_type;
-    BOOST_FOREACH(pair_type pair, mComponents) {
-#else
-    for(std::pair<std::string, std::shared_ptr<Component> > pair: mComponents) {
-#endif
-        if(pair.second->IsEnabled()) {
-            pair.second->OnUpdate(time_diff);
+    for(auto iter = mComponents.begin(); iter != mComponents.end(); ++iter) {
+        if(iter->second->IsEnabled()) {
+            iter->second->OnUpdate(time_diff);
         }
     }
 

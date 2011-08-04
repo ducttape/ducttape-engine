@@ -11,10 +11,6 @@
 #include <Network/Connection.hpp>
 #include <Network/ConnectionsManager.hpp>
 
-#ifdef COMPILER_MSVC
-#include <boost/foreach.hpp>
-#endif
-
 namespace dt {
 
 NetworkEvent::NetworkEvent()
@@ -22,12 +18,9 @@ NetworkEvent::NetworkEvent()
      mIsLocalEvent(false) {
 
     // add default recipients
-#ifdef COMPILER_MSVC
-    BOOST_FOREACH(Connection* c, ConnectionsManager::Get()->GetAllConnections()) {
-#else
-    for(Connection* c: ConnectionsManager::Get()->GetAllConnections()) {
-#endif
-        AddRecipient(ConnectionsManager::Get()->GetConnectionID(*c));
+    const std::vector<Connection*>&& connections = ConnectionsManager::Get()->GetAllConnections();
+    for(auto iter = connections.begin(); iter != connections.end(); ++iter) {
+        AddRecipient(ConnectionsManager::Get()->GetConnectionID(**iter));
     }
 }
 
@@ -56,13 +49,10 @@ const std::vector<uint16_t>& NetworkEvent::GetRecipients() const {
 }
 
 bool NetworkEvent::HasRecipient(uint16_t id) {
-#ifdef COMPILER_MSVC
-    BOOST_FOREACH(uint16_t i, mRecipients)
-#else
-    for(uint16_t i: mRecipients)
-#endif
-        if(i == id)
+    for(auto iter = mRecipients.begin(); iter != mRecipients.end(); ++iter) {
+        if(*iter == id)
             return true;
+    }
     return false;
 }
 

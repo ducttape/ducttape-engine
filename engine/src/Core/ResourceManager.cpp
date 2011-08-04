@@ -160,13 +160,9 @@ void ResourceManager::_FindDataPaths() {
 bool ResourceManager::_FindFileInDataPaths(boost::filesystem::path& file) {
     const boost::filesystem::path f(file);
 
-#ifdef COMPILER_MSVC
-    BOOST_FOREACH(boost::filesystem::path& path, mDataPaths) {
-#else
-    for(boost::filesystem::path& path: mDataPaths) {
-#endif
-        if(boost::filesystem::exists(path / f)) {
-            file = path / f;
+    for(auto iter = mDataPaths.begin(); iter != mDataPaths.end(); ++iter) {
+        if(boost::filesystem::exists(*iter / f)) {
+            file = *iter / f;
             return true;
         }
     }
