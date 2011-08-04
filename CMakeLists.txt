@@ -3,7 +3,7 @@ project(ducttape)
 cmake_minimum_required(VERSION 2.8.3)
 
 set(VERSION_MAJOR 0)
-set(VERSION_MINOR 1)
+set(VERSION_MINOR 2)
 set(VERSION_PATCH 0)
 
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
@@ -51,8 +51,7 @@ endif()
 
 find_package(SFML 2 COMPONENTS audio graphics network system window REQUIRED)
 find_package(Bullet REQUIRED)
-find_package(Boost COMPONENTS filesystem program_options system date_time thread REQUIRED)
-#find_package(ImageMagick COMPONENTS Magick++ REQUIRED)
+find_package(Boost COMPONENTS filesystem program_options thread REQUIRED)
 find_package(OIS REQUIRED)
 find_package(OGRE REQUIRED)
 find_package(MyGUI REQUIRED)
