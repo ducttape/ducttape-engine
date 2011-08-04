@@ -15,7 +15,8 @@ QString Root::_VERSION = DUCTTAPE_VERSION;
 // This list of new keywords exists to allow us fine-grained control over
 // the creation and deletion of these managers.
 Root::Root()
-    : mLogManager(new LogManager()),
+    : mCoreApplication(nullptr),
+      mLogManager(new LogManager()),
       mStringManager(new StringManager()),
       mEventManager(new EventManager()),
       mResourceManager(new ResourceManager()),
@@ -47,9 +48,9 @@ Root& Root::GetInstance() {
 }
 
 void Root::Initialize(int argc, char** argv) {
-    mSfClock.Reset();
+    mCoreApplication = new QCoreApplication(argc, argv);
 
-    mExecutablePath = boost::filesystem::system_complete(boost::filesystem::path( argv[0]));
+    mSfClock.Reset();
 
     mLogManager->Initialize();
     mStringManager->Initialize();
@@ -75,14 +76,12 @@ void Root::Deinitialize() {
     mEventManager->Deinitialize();
     mStringManager->Deinitialize();
     mLogManager->Deinitialize();
+
+    delete mCoreApplication;
 }
 
 double Root::GetTimeSinceInitialize() const {
     return mSfClock.GetElapsedTime() / 1000.0;
-}
-
-const boost::filesystem::path& Root::GetExecutablePath() const {
-    return mExecutablePath;
 }
 
 StringManager* Root::GetStringManager() {

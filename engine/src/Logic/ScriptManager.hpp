@@ -34,13 +34,13 @@ public:
     static ScriptManager* Get();
 
     bool AddScript(QString script, QString name);
-    bool LoadScript(QFile file, QString name = "");
+    bool LoadScript(QString path, QString name = "");
 
     bool ExecuteScript(QString name);
     QScriptValue GetLastReturnValue();
 
 private:
-    QScriptEngine mScriptEngine;
+    QScriptEngine* mScriptEngine;
     QMap<QString, QString> mScripts;
     QScriptValue mLastReturnValue;
 

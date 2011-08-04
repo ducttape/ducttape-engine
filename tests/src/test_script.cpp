@@ -31,15 +31,15 @@ void run(QString name, QScriptValue expected_value = QScriptValue::UndefinedValu
 }
 
 int main(int argc, char** argv) {
-    QCoreApplication application(argc, argv);
-
     dt::Root::GetInstance().Initialize(argc, argv);
 
     dt::ScriptManager::Get()->AddScript("print(DT_VERSION);", "print_test");
     dt::ScriptManager::Get()->AddScript("DT_VERSION", "return_version");
+    dt::ScriptManager::Get()->LoadScript("scripts/test_load_script_file.js");
 
     run("print_test");
     run("return_version", dt::Root::_VERSION);
+    run("test_load_script_file.js", "test");
 
     if(failed) {
         std::cout << "Test Script: Errors occured." << std::endl;

@@ -48,7 +48,6 @@
 #include <Physics/PhysicsManager.hpp>
 #include <Logic/ScriptManager.hpp>
 
-#include <boost/filesystem.hpp>
 #include <boost/noncopyable.hpp>
 
 #include <SFML/System/Clock.hpp>
@@ -92,12 +91,6 @@ public:
       * @returns The time in seconds since calling Initialize()
       */
     double GetTimeSinceInitialize() const;
-
-    /**
-      * Gets absolute path to current executable.
-      * @returns absolute path to current executable
-      */
-    const boost::filesystem::path& GetExecutablePath() const;
 
     /**
       * Returns the StringManager.
@@ -166,7 +159,7 @@ private:
     Root();
 
     sf::Clock mSfClock;                 //!< Clock for keeping time since Initialize() was called.
-    boost::filesystem::path mExecutablePath; //!< Absolute path to current executable.
+    QCoreApplication* mCoreApplication; //!< Pointer to the Qt Core Application (required for QScriptEngine and command line parameter parsing).
 
     LogManager* mLogManager;            //!< Pointer to the LogManager.
     StringManager* mStringManager;      //!< Pointer to the StringManager.

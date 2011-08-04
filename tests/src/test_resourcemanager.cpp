@@ -13,14 +13,9 @@ int main(int argc, char** argv) {
 
     dt::ResourceManager* mgr = dt::ResourceManager::Get();
 
-    if(!mgr->FoundDataPath()) {
-        std::cerr << "Data path not found." << std::endl;
-        exit(1);
-    }
-
     mgr->AddSoundBuffer("sad-trombone.wav", "trombone");
-    if(mgr->GetSoundBuffer("trombone").GetDuration() <= 1000) {
-        std::cerr << "The sound buffer is too short, probably empty. Length: " << mgr->GetSoundBuffer("trombone").GetDuration() <<
+    if(mgr->GetSoundBuffer("trombone")->GetDuration() <= 1000) {
+        std::cerr << "The sound buffer is too short, probably empty. Length: " << mgr->GetSoundBuffer("trombone")->GetDuration() <<
                      " - Expected: 4150." << std::endl;
         exit(1);
     }

@@ -19,8 +19,10 @@ namespace dt {
 ScriptManager::ScriptManager() {}
 
 void ScriptManager::Initialize() {
+    mScriptEngine = new QScriptEngine();
+
     // setup globals and engine info
-    mScriptEngine.globalObject().setProperty("DT_VERSION", DUCTTAPE_VERSION);
+    mScriptEngine->globalObject().setProperty("DT_VERSION", DUCTTAPE_VERSION);
 }
 
 void ScriptManager::Deinitialize() {}
@@ -39,20 +41,30 @@ bool ScriptManager::AddScript(QString script, QString name) {
         return false;
     }
 
+    Logger::Get().Debug("Adding script \"" + name + "\".");
     mScripts[name] = script;
     return true;
 }
 
-bool ScriptManager::LoadScript(QFile file, QString name) {
-    if(!file.isOpen() && !file.open(QIODevice::ReadOnly | QIODevice::Text))
+bool ScriptManager::LoadScript(QString path, QString name) {
+    QFileInfo&& info = ResourceManager::Get()->FindFile(path);
+    QFile file(info.absoluteFilePath());
+
+    if(!file.exists())
         return false;
+
+    // check if file is open or open it
+    if(!(file.isOpen() || file.open(QIODevice::ReadOnly | QIODevice::Text))) {
+        Logger::Get().Error("Cannot open file <" + path + ">: " + file.errorString());
+        return false;
+    }
 
     QTextStream stream(&file);
     QString script = stream.readAll();
     file.close();
 
     if(name == "") {
-        name = file.fileName();
+        name = info.fileName();
     }
 
     return AddScript(script, name);
@@ -65,10 +77,10 @@ bool ScriptManager::ExecuteScript(QString name) {
     }
 
     // do the magix
-    mLastReturnValue = mScriptEngine.evaluate(mScripts[name], name);
+    mLastReturnValue = mScriptEngine->evaluate(mScripts[name], name);
 
-    if(mScriptEngine.hasUncaughtException()) {
-        int line = mScriptEngine.uncaughtExceptionLineNumber();
+    if(mScriptEngine->hasUncaughtException()) {
+        int line = mScriptEngine->uncaughtExceptionLineNumber();
         Logger::Get().Error( QString("SCRIPT EXCEPTION -- %1:%2 -- %3").arg(name, Utils::ToString(line), mLastReturnValue.toString()) );
         return false;
     } else {

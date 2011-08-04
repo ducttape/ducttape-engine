@@ -13,9 +13,12 @@
 
 #include <Core/Manager.hpp>
 
-#include <boost/filesystem.hpp>
 #include <boost/ptr_container/ptr_map.hpp>
 
+#include <QDir>
+#include <QFile>
+#include <QList>
+#include <QMap>
 #include <QString>
 
 #include <SFML/Audio/Music.hpp>
@@ -77,7 +80,7 @@ public:
       * @returns A reference to the requested sound buffer.
       * @todo This shouldn't really be required if resources or loaded automatically in a lazy manner.
       */
-    const sf::SoundBuffer& GetSoundBuffer(const QString& sound_file);
+    std::shared_ptr<sf::SoundBuffer> GetSoundBuffer(const QString& sound_file);
 
     /**
      * Adds a single music file to memory.
@@ -94,22 +97,17 @@ public:
     std::shared_ptr<sf::Music> GetMusicFile(const QString& music_file);
 
     /**
-      * Returns whether at least one data directory has been found.
-      * @returns Whether at least one data directory has been found.
-      */
-    bool FoundDataPath() const;
-
-    /**
       * Adds a path to the list of data directories, where data may be located in.
       * @param path The path to the data directory.
       */
-    void AddDataPath(boost::filesystem::path path);
+    void AddDataPath(QDir path);
 
     /**
-      * Adds a path to the list of data directories, where data may be located in.
-      * @param path The path to the data directory.
+      * Attempts to find a file in one of the data directories.
+      * @param relative_path The relative path of the file.
+      * @returns A QFile object. Use the \c exists() method to check if it was found.
       */
-    void AddDataPath(QString path);
+    QFileInfo FindFile(const QString& relative_path);
 
 private:
     /**
@@ -121,17 +119,9 @@ private:
      */
     void _FindDataPaths();
 
-    /**
-      * Attempts to find a file in one of the data directories. Alters the file path to point to the right location.
-      * @param file The path of the file.
-      * @returns Whether the file has been found.
-      */
-    bool _FindFileInDataPaths(boost::filesystem::path& file);
-
-    std::vector<boost::filesystem::path> mDataPaths;  //!< Paths where data may be located in.
-    bool mDataPathsSearched;    //!< Whether the local data paths have been searched for suitable data locations.
-    std::map<QString, std::shared_ptr<sf::Music>> mMusic; //!< Pool of registered music objects. This does not actually contain the music data since music is actually streamed.
-    boost::ptr_map<QString, sf::SoundBuffer> mSoundBuffers; //!< Pool of registered sound buffers. These are in fact loaded into memory.
+    bool mDataPathsSearched;                                        //!< Whether the local data paths have been searched for suitable data locations.
+    QMap<QString, std::shared_ptr<sf::Music> > mMusic;              //!< Pool of registered music objects. This does not actually contain the music data since music is actually streamed.
+    QMap<QString, std::shared_ptr<sf::SoundBuffer> > mSoundBuffers; //!< Pool of registered sound buffers. These are in fact loaded into memory.
 };
 
 }
