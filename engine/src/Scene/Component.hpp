@@ -37,7 +37,15 @@ class DUCTTAPE_API Component : public QObject,
                                public EventListener,
                                public boost::noncopyable {
     Q_OBJECT
+    Q_PROPERTY(bool mIsEnabled READ IsEnabled)
+    Q_PROPERTY(QString mName READ GetQName CONSTANT)
+
 public:
+
+    QString GetQName() const {
+        return QString(mName.c_str());
+    }
+
     /**
       * Constructor with set name.
       * @param name The Component name.
