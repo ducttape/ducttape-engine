@@ -14,10 +14,6 @@
 #include <Network/GoodbyeEvent.hpp>
 #include <Utils/Utils.hpp>
 
-#ifdef COMPILER_MSVC
-#include <boost/foreach.hpp>
-#endif
-
 namespace dt {
 
 NetworkManager::NetworkManager() {}
@@ -86,12 +82,9 @@ void NetworkManager::Disconnect(Connection target) {
 }
 
 void NetworkManager::DisconnectAll() {
-#ifdef COMPILER_MSVC
-    BOOST_FOREACH(Connection* c, mConnectionsManager.GetAllConnections()) {
-#else
-    for(Connection* c: mConnectionsManager.GetAllConnections()) {
-#endif
-        Disconnect(*c);
+    const std::vector<Connection*>&& connections = mConnectionsManager.GetAllConnections();
+    for(auto iter = connections.begin(); iter != connections.end(); ++iter) {
+        Disconnect(**iter);
     }
 }
 
@@ -201,15 +194,12 @@ void NetworkManager::_SendEvent(std::shared_ptr<NetworkEvent> event) {
     event->Serialize(packet);
 
     // send packet to all recipients
-#ifdef COMPILER_MSVC
-    BOOST_FOREACH(int i, event->GetRecipients()) {
-#else
-    for(int i: event->GetRecipients()) {
-#endif
+    const std::vector<uint16_t>& recipients = event->GetRecipients();
+    for(auto iter = recipients.begin(); iter != recipients.end(); ++iter) {
         // Logger::Get().Debug("NetworkManager: Sending Event to " + Utils::ToString(i));
-        Connection* r = mConnectionsManager.GetConnection(i);
+        Connection* r = mConnectionsManager.GetConnection(*iter);
         if(r == nullptr) {
-            Logger::Get().Error("Cannot send event to " + Utils::ToString(i) + ": No connection with this ID");
+            Logger::Get().Error("Cannot send event to " + Utils::ToString(*iter) + ": No connection with this ID");
         } else {
             mSocket.Send(p, r->GetIPAddress(), r->GetPort());
         }

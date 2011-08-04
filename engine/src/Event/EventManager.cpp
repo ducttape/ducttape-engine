@@ -10,10 +10,6 @@
 
 #include <Core/Root.hpp>
 
-#ifdef COMPILER_MSVC
-#include <boost/foreach.hpp>
-#endif
-
 namespace dt {
 
 EventManager::EventManager()
@@ -33,17 +29,13 @@ EventManager* EventManager::Get() {
 
 void EventManager::InjectEvent(std::shared_ptr<Event> event) {
     _LockListeners();
-#ifdef COMPILER_MSVC
-    BOOST_FOREACH(EventListener* l, mListeners) {
-#else
-    for(EventListener* l: mListeners) {
-#endif
-        if(l == nullptr)
+    for(auto iter = mListeners.begin(); iter != mListeners.end(); ++iter) {
+        if(*iter == nullptr)
             Logger::Get().Error("EventManager: Could not inject Event to listener (nullptr).");
         else {
-            l->HandleEvent(event);
+            (*iter)->HandleEvent(event);
             if(event->IsCanceled()) {
-                if(l->GetEventPriority() == EventListener::MONITOR) {
+                if((*iter)->GetEventPriority() == EventListener::MONITOR) {
                     // events cannot be cancelled in Monitor mode
                     Logger::Get().Warning("EventListener with priority MONITOR cannot cancel events. Use HIGHEST instead. Continuing.");
                     event->Uncancel();
@@ -57,12 +49,8 @@ void EventManager::InjectEvent(std::shared_ptr<Event> event) {
 }
 
 bool EventManager::HasListener(EventListener* listener) {
-#ifdef COMPILER_MSVC
-    BOOST_FOREACH(EventListener* l, mListeners) {
-#else
-    for(EventListener* l: mListeners) {
-#endif
-        if(l == listener)
+    for(auto iter = mListeners.begin(); iter != mListeners.end(); ++iter) {
+        if(*iter == listener)
             return true;
     }
     return false;
