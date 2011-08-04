@@ -20,7 +20,7 @@ ScriptManager::ScriptManager() {}
 
 void ScriptManager::Initialize() {
     // setup globals and engine info
-    mScriptEngine.globalObject().setProperty("DT_VERSION", DUCTTAPE_VERSION); // TODO: use precompiler macro
+    mScriptEngine.globalObject().setProperty("DT_VERSION", DUCTTAPE_VERSION);
 }
 
 void ScriptManager::Deinitialize() {}
