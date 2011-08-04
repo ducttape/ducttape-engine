@@ -46,6 +46,7 @@
 #include <Scene/StateManager.hpp>
 #include <Network/NetworkManager.hpp>
 #include <Physics/PhysicsManager.hpp>
+#include <Logic/ScriptManager.hpp>
 
 #include <boost/filesystem.hpp>
 #include <boost/noncopyable.hpp>
@@ -63,6 +64,8 @@ namespace dt {
   */
 class DUCTTAPE_API Root : public boost::noncopyable {
 public:
+    static QString _VERSION;  //!< Metadata: engine version number (Format: "0.0.0")
+
     /**
       * Destructor. All instances are deleted here.
       */
@@ -150,6 +153,12 @@ public:
       */
     PhysicsManager* GetPhysicsManager();
 
+    /**
+      * Returns the ScriptManager.
+      * @returns the ScriptManager
+      */
+    ScriptManager* GetScriptManager();
+
 private:
     /**
       * Private default constructor (for singleton). All instances are created here.
@@ -168,6 +177,7 @@ private:
     StateManager* mStateManager;        //!< Pointer to the StateManager.
     NetworkManager* mNetworkManager;    //!< Pointer to the NetworkManager.
     PhysicsManager* mPhysicsManager;    //!< Pointer to the PhysicsManager.
+    ScriptManager* mScriptManager;      //!< Pointer to the ScriptManager;
 };
 
 }

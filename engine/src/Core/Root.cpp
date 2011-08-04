@@ -10,6 +10,8 @@
 
 namespace dt {
 
+QString Root::_VERSION = DUCTTAPE_VERSION;
+
 // This list of new keywords exists to allow us fine-grained control over
 // the creation and deletion of these managers.
 Root::Root()
@@ -21,11 +23,13 @@ Root::Root()
       mDisplayManager(new DisplayManager()),
       mStateManager(new StateManager()),
       mNetworkManager(new NetworkManager()),
-      mPhysicsManager(new PhysicsManager()) {}
+      mPhysicsManager(new PhysicsManager()),
+      mScriptManager(new ScriptManager()) {}
 
 Root::~Root() {
     // Complementary to the constructor, we destroy the managers in reverse
     // order.
+    delete mScriptManager;
     delete mPhysicsManager;
     delete mNetworkManager;
     delete mStateManager;
@@ -57,9 +61,11 @@ void Root::Initialize(int argc, char** argv) {
     mNetworkManager->Initialize();
     mStateManager->Initialize();
     mPhysicsManager->Initialize();
+    mScriptManager->Initialize();
 }
 
 void Root::Deinitialize() {
+    mScriptManager->Deinitialize();
     mPhysicsManager->Deinitialize();
     mStateManager->Deinitialize();
     mNetworkManager->Deinitialize();
@@ -113,6 +119,10 @@ ResourceManager* Root::GetResourceManager() {
 
 PhysicsManager* Root::GetPhysicsManager() {
     return mPhysicsManager;
+}
+
+ScriptManager* Root::GetScriptManager() {
+    return mScriptManager;
 }
 
 }
