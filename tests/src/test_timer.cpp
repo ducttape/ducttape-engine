@@ -39,10 +39,10 @@ public:
 
             if(t1) {
                 mTimer1Count++;
-                std::cout << "Timer tick " << mTimer1Count << ": " << t->GetMessageEvent() << std::endl;
+                std::cout << "Timer tick " << mTimer1Count << ": " << t->GetMessageEvent().toStdString() << std::endl;
             } else if(t2) {
                 mTimer2Count++;
-                std::cout << "Timer tick " << mTimer2Count << ": " << t->GetMessageEvent() << std::endl;
+                std::cout << "Timer tick " << mTimer2Count << ": " << t->GetMessageEvent().toStdString() << std::endl;
             }
         } else if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             mTotalTime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
@@ -56,9 +56,9 @@ public:
         }
     }
 
-    void TimerCallback(const std::string& message) {
+    void TimerCallback(const QString& message) {
         mTimer3Count++;
-        std::cout << "Timer tick " << mTimer3Count << ": " << message << std::endl;
+        std::cout << "Timer tick " << mTimer3Count << ": " << message.toStdString() << std::endl;
     }
 
 public:
@@ -93,7 +93,6 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    std::cout << "Timers test finished." << std::endl;
     std::cout << "TIMERS: OK." << std::endl;
 
     return 0;

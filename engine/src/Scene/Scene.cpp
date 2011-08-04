@@ -15,7 +15,7 @@
 
 namespace dt {
 
-Scene::Scene(const std::string& name)
+Scene::Scene(const QString& name)
     : Node(name) {}
 
 void Scene::OnInitialize() {

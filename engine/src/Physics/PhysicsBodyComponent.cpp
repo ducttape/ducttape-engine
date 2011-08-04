@@ -16,8 +16,8 @@
 
 namespace dt {
 
-PhysicsBodyComponent::PhysicsBodyComponent(const std::string& mesh_component_name,
-                                           const std::string& name)
+PhysicsBodyComponent::PhysicsBodyComponent(const QString& mesh_component_name,
+                                           const QString& name)
     : Component(name),
       mMeshComponentName(mesh_component_name),
       mCollisionShape(nullptr),

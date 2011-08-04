@@ -20,7 +20,7 @@ public:
         anti_leak_payload.push_back(10);
     }
 
-    const std::string GetType() const  {
+    const QString GetType() const  {
         return "testevent";
     }
 
@@ -34,7 +34,7 @@ public:
 
 class CancelEvent : public dt::Event {
 public:
-    const std::string GetType() const  {
+    const QString GetType() const  {
         return "cancelevent";
     }
 

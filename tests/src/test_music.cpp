@@ -16,7 +16,7 @@
 int main(int argc, char** argv) {
     dt::Root& root = dt::Root::GetInstance();
     root.Initialize(argc, argv);
-    std::string music_file = "test_music_loop.ogg";
+    QString music_file = "test_music_loop.ogg";
 
     // set global volume
     dt::MusicComponent::SetMasterVolume(2);

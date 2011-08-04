@@ -16,7 +16,7 @@
 
 namespace dt {
 
-SimplePlayerComponent::SimplePlayerComponent(const std::string& name)
+SimplePlayerComponent::SimplePlayerComponent(const QString& name)
     : Component(name),
       mWASDEnabled(true),
       mArrowsEnabled(true),

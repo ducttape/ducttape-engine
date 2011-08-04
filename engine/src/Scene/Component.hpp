@@ -20,9 +20,9 @@
 #include <boost/signals2.hpp>
 
 #include <QObject>
+#include <QString>
 
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -38,19 +38,14 @@ class DUCTTAPE_API Component : public QObject,
                                public boost::noncopyable {
     Q_OBJECT
     Q_PROPERTY(bool mIsEnabled READ IsEnabled)
-    Q_PROPERTY(QString mName READ GetQName CONSTANT)
+    Q_PROPERTY(QString mName READ GetName CONSTANT)
 
 public:
-
-    QString GetQName() const {
-        return QString(mName.c_str());
-    }
-
     /**
       * Constructor with set name.
       * @param name The Component name.
       */
-    Component(const std::string& name = "");
+    Component(const QString& name = "");
 
     /**
       * Pure virtual destructor makes this class abstract.
@@ -61,7 +56,7 @@ public:
       * Returns the name of the Component.
       * @returns The name of the Component.
       */
-    const std::string& GetName() const;
+    const QString& GetName() const;
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 
@@ -141,7 +136,7 @@ public:
       * @param slot The callback function.
       * @returns A boost signals2 connection to disconnect the slot again.
       */
-    boost::signals2::connection BindSlot(const std::string& signal_identifier, boost::function<void ()> slot);
+    boost::signals2::connection BindSlot(const QString& signal_identifier, boost::function<void ()> slot);
 
 protected:
 
@@ -149,10 +144,10 @@ protected:
       * Calls the signal with the identifier given.
       * @param signal_identifier The signal to call.
       */
-    void _CallSignal(const std::string& signal_identifier);
-    boost::ptr_map<std::string, boost::signals2::signal<void ()> > mSignals;    //!< The list of signals.
+    void _CallSignal(const QString& signal_identifier);
+    boost::ptr_map<QString, boost::signals2::signal<void ()> > mSignals;    //!< The list of signals.
 
-    std::string mName;  //!< The Component name.
+    QString mName;  //!< The Component name.
     Node* mNode;        //!< The parent Node.
 
 private:

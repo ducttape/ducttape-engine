@@ -11,10 +11,11 @@
 
 #include <Config.hpp>
 
+#include <QString>
+
 #include <Scene/Component.hpp>
 
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -29,7 +30,7 @@ public:
      * @param name The name for this component.
      * @see Component
      */
-    MusicComponent(const std::string& music_file = "", const std::string& name = "");
+    MusicComponent(const QString& music_file = "", const QString& name = "");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 
@@ -43,13 +44,13 @@ public:
       * Sets the file to load music from.
       * @param music_file The file to load the music from.
       */
-    void SetMusicFile(const std::string& music_file);
+    void SetMusicFile(const QString& music_file);
 
     /**
       * Returns the file the music was loaded from.
       * @returns The file the music was loaded from.
       */
-    const std::string& GetMusicFile() const;
+    const QString& GetMusicFile() const;
 
     /**
       * Sets the music volume.
@@ -93,7 +94,7 @@ private:
       */
     void _LoadMusic();
 
-    std::string mMusicFile;     //!< The file the music was loaded from.
+    QString mMusicFile;     //!< The file the music was loaded from.
     bool mFadeFlag;             //!< The fading flag.
     double mElapsedTime;        //!< The elapsed time during the fading.
     double mFadeTime;           //!< The fading duration time.

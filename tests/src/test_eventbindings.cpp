@@ -14,7 +14,7 @@
 
 class TestTriggerEvent : public dt::Event {
 public:
-    const std::string GetType() const  {
+    const QString GetType() const  {
         return "testtriggerevent";
     }
 
@@ -30,7 +30,7 @@ public:
         mData = data;
     }
 
-    const std::string GetType() const  {
+    const QString GetType() const  {
         return "testboundevent";
     }
 
@@ -45,7 +45,7 @@ public:
 class TestEventListener : public dt::EventListener {
 public:
     void HandleEvent(std::shared_ptr<dt::Event> e) {
-        std::cout << "Received: " << e->GetType() << std::endl;
+        std::cout << "Received: " << e->GetType().toStdString() << std::endl;
         if(e->GetType() == "testtriggerevent") {
             mHasReceivedTriggerEvent = true;
         } else if(e->GetType() == "testboundevent") {

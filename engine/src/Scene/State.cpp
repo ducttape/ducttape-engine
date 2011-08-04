@@ -34,19 +34,19 @@ void State::Deinitialize() {
 }
 
 Scene* State::AddScene(Scene* scene) {
-    std::string key(scene->GetName());
+    QString key(scene->GetName());
     mScenes.insert(key, scene);
     GetScene(key)->Initialize();
     return GetScene(key);
 }
 
-Scene* State::GetScene(const std::string& name) {
+Scene* State::GetScene(const QString& name) {
     if(mScenes.find(name) != mScenes.end())
         return mScenes.find(name)->second;
     return nullptr;
 }
 
-void State::DeleteScene(const std::string& name) {
+void State::DeleteScene(const QString& name) {
     if(GetScene(name) == nullptr) {
         Logger::Get().Warning("Cannot delete scene " + name + ": There is no such scene.");
         return;

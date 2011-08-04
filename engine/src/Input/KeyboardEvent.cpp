@@ -15,7 +15,7 @@ KeyboardEvent::KeyboardEvent(KeyboardEvent::Action action, OIS::KeyCode code, ch
       mAction(action),
       mText(text) {}
 
-const std::string KeyboardEvent::GetType() const {
+const QString KeyboardEvent::GetType() const {
     return "DT_KEYBOARDEVENT";
 }
 

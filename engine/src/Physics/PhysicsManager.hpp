@@ -18,8 +18,9 @@
 
 #include <boost/ptr_container/ptr_map.hpp>
 
+#include <QString>
+
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -50,7 +51,7 @@ public:
       * @param name The name of the world to look for.
       * @returns Whether a world with the given name exists.
       */
-    bool HasWorld(const std::string& name);
+    bool HasWorld(const QString& name);
 
     /**
       * Adds a PhysicsWorld.
@@ -64,10 +65,10 @@ public:
       * @param name The name of the PhysicsWorld to find.
       * @returns A pointer to the PhysicsWorld, or nullptr of none was found.
       */
-    PhysicsWorld* GetWorld(const std::string& name);
+    PhysicsWorld* GetWorld(const QString& name);
 
 private:
-    boost::ptr_map<std::string, PhysicsWorld> mWorlds;  //!< The list of PhysicsWorlds.
+    boost::ptr_map<QString, PhysicsWorld> mWorlds;  //!< The list of PhysicsWorlds.
 
 };
 

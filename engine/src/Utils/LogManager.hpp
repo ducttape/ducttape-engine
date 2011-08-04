@@ -18,7 +18,7 @@
 
 #include <OgreLogManager.h>
 
-#include <string>
+#include <QString>
 
 namespace dt {
 
@@ -54,18 +54,18 @@ public:
       * @param mask_debug If the Ogre log is set up to print to the console.
       * @param log_name The name of the ogre logger.
       */
-    void messageLogged(const std::string& message, Ogre::LogMessageLevel level, bool mask_debug, const std::string& log_name);
+    void messageLogged(const Ogre::String& message, Ogre::LogMessageLevel level, bool mask_debug, const Ogre::String& log_name);
 
     /**
       * Returns the logger with a given name.
       * @param name the name of the Logger to find
       * @returns the Logger if one is found, otherwise creates a new one
       */
-    Logger& GetLogger(const std::string& name);
+    Logger& GetLogger(const QString& name);
 
 private:
     Ogre::LogManager mOgreLogManager;   //!< The Ogre log manager, which is required to redirect the Ogre log.
-    boost::ptr_map<std::string, Logger> mLoggers;   //!< The list of Loggers, defined by their name
+    boost::ptr_map<QString, Logger> mLoggers;   //!< The list of Loggers, defined by their name
 };
 
 } // namespace dt

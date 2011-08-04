@@ -26,13 +26,13 @@ public:
     void SetServerIP(sf::IpAddress server_ip);
     sf::IpAddress GetServerIP() const;
 
-    void SetNick(const std::string& nick);
-    const std::string& GetNick() const;
+    void SetNick(const QString& nick);
+    const QString& GetNick() const;
 
     static void InputThread(void* user_data);
 private:
     std::shared_ptr<sf::Thread> mInputThread;
-    std::string mNick;
+    QString mNick;
     sf::IpAddress mServerIP;
 };
 

@@ -32,8 +32,8 @@ public:
     void OnInitialize() {
         dt::Scene* scene = AddScene(new dt::Scene("testscene"));
 
-        std::string music1 = "test_music_intro.ogg";
-        std::string music2 = "test_music_loop.ogg";
+        QString music1 = "test_music_intro.ogg";
+        QString music2 = "test_music_loop.ogg";
 
         float origin_vol = 9.f;
         dt::MusicComponent* music_component1 = new dt::MusicComponent(music1);

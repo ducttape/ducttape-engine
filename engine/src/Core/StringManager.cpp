@@ -23,7 +23,7 @@ StringManager* StringManager::Get() {
     return Root::GetInstance().GetStringManager();
 }
 
-uint32_t StringManager::Add(const std::string& string) {
+uint32_t StringManager::Add(const QString& string) {
     if(!Has(string)) {
         mLastId++;
         mIds[mLastId] = string;
@@ -33,7 +33,7 @@ uint32_t StringManager::Add(const std::string& string) {
     }
 }
 
-bool StringManager::Has(const std::string& string) {
+bool StringManager::Has(const QString& string) {
     for(auto iter = mIds.begin(); iter != mIds.end(); ++iter) {
         if(iter->second == string)
             return true;
@@ -45,7 +45,7 @@ bool StringManager::Has(uint32_t id) {
     return mIds.count(id) > 0 && mIds[id] != "";
 }
 
-uint32_t StringManager::GetId(const std::string& string) {
+uint32_t StringManager::GetId(const QString& string) {
     for(auto iter = mIds.begin(); iter != mIds.end(); ++iter) {
         if(iter->second == string)
             return iter->first;
@@ -53,7 +53,7 @@ uint32_t StringManager::GetId(const std::string& string) {
     return 0;
 }
 
-const std::string& StringManager::GetString(uint32_t id) {
+const QString& StringManager::GetString(uint32_t id) {
     return mIds[id];
 }
 

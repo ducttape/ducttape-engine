@@ -14,8 +14,9 @@
 #include <Event/Event.hpp>
 #include <Scene/Component.hpp>
 
+#include <QString>
+
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -30,7 +31,7 @@ public:
       * @param name The name of the Component.
       * @see Component
       */
-    SimplePlayerComponent(const std::string& name = "");
+    SimplePlayerComponent(const QString& name = "");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 

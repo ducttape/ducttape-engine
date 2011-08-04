@@ -10,7 +10,7 @@
 
 namespace dt {
 
-SimpleEventBinding::SimpleEventBinding(Event* target, const std::string& trigger_type)
+SimpleEventBinding::SimpleEventBinding(Event* target, const QString& trigger_type)
     : EventBinding(target),
       mTriggerType(trigger_type) {}
 

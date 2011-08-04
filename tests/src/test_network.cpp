@@ -34,7 +34,7 @@ public:
         mEnum = e;
     }
 
-    const std::string GetType() const {
+    const QString GetType() const {
         return "CUSTOMNETWORKEVENT";
     }
 
@@ -142,13 +142,14 @@ void client() {
 
     bool correct_data = ((int)ccel.mDataReceived == data + DATA_INCREMENT);
     if(!correct_data) {
-        std::cerr << "Client: Received wrong data (" + dt::Utils::ToString(ccel.mDataReceived) + " instead of " + dt::Utils::ToString(data + DATA_INCREMENT) + ")" << std::endl;
+        std::cerr << "Client: Received wrong data (" + dt::Utils::ToString(ccel.mDataReceived).toStdString() + " instead of "
+                     + dt::Utils::ToString(data + DATA_INCREMENT).toStdString() + ")" << std::endl;
         exit(1);
     }
 }
 
 int main(int argc, char** argv) {
-    std::string arg1;
+    QString arg1;
     if(argc > 1)
         arg1 = argv[1];
     if(arg1 != "server" && arg1 != "client") {

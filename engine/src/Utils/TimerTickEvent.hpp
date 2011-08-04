@@ -14,8 +14,9 @@
 #include <Event/Event.hpp>
 #include <Event/MessageEvent.hpp>
 
+#include <QString>
+
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -29,8 +30,8 @@ public:
       * @param message The message the timer was configured with.
       * @param interval The interval of the timer.
       */
-    TimerTickEvent(const std::string& message, double interval);
-    const std::string GetType() const;
+    TimerTickEvent(const QString& message, double interval);
+    const QString GetType() const;
     std::shared_ptr<Event> Clone() const;
 
     /**

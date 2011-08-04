@@ -33,7 +33,7 @@ DisplayManager* DisplayManager::Get() {
 }
 
 bool DisplayManager::RegisterCamera(CameraComponent* camera_component) {
-    std::string name(camera_component->GetName());
+    QString name(camera_component->GetName());
 
     // Do not add if a CameraComponent of the same name already exists.
     if(mCameras.count(name) != 0)
@@ -55,7 +55,7 @@ bool DisplayManager::RegisterCamera(CameraComponent* camera_component) {
 }
 
 bool DisplayManager::UnregisterCamera(CameraComponent* camera_component) {
-    std::string name = camera_component->GetName();
+    QString name = camera_component->GetName();
 
     // Do not remove if the requested CameraComponent hasn't been registered.
     if(mCameras.count(name) == 0)
@@ -70,12 +70,12 @@ bool DisplayManager::UnregisterCamera(CameraComponent* camera_component) {
     return true;
 }
 
-bool DisplayManager::ActivateCamera(const std::string& name, const std::string& viewport_name) {
+bool DisplayManager::ActivateCamera(const QString& name, const QString& viewport_name) {
 	// Do not change if the requested CameraComponent hasn't been registered.
     if(mCameras.count(name) == 0)
         return false;
 
-    std::string new_viewport_name(viewport_name);
+    QString new_viewport_name(viewport_name);
 
     if(new_viewport_name == "") {
         if(mMainViewport == "") {
@@ -103,7 +103,7 @@ bool DisplayManager::ActivateCamera(const std::string& name, const std::string& 
     return true;
 }
 
-bool DisplayManager::AddViewport(const std::string& name, const std::string& camera_name,
+bool DisplayManager::AddViewport(const QString& name, const QString& camera_name,
                                  bool set_as_main, float left, float top, float width, float height)
 {
     // Do not add if a Viewport of the same name already exists.
@@ -113,7 +113,7 @@ bool DisplayManager::AddViewport(const std::string& name, const std::string& cam
     if(mCameras.count(camera_name) == 0)
         return false;
 
-    std::string viewport_name(name);
+    QString viewport_name(name);
 
     mViewports.insert(viewport_name, new dt::Viewport);
     mViewports[name].Initialize((GetRenderWindow()->addViewport(mCameras[camera_name]->GetCamera(),
@@ -135,7 +135,7 @@ bool DisplayManager::AddViewport(const std::string& name, const std::string& cam
     return true;
 }
 
-void DisplayManager::HideViewport(const std::string& name) {
+void DisplayManager::HideViewport(const QString& name) {
     // Do not hide if the Viewport does not exist.
     if(mViewports.count(name) == 0) {
         Logger::Get().Warning("Cannot hide viewport \"" + name + "\": viewport does not exist.");
@@ -144,7 +144,7 @@ void DisplayManager::HideViewport(const std::string& name) {
     }
 }
 
-void DisplayManager::ShowViewport(const std::string& name) {
+void DisplayManager::ShowViewport(const QString& name) {
     // Do not show if the Viewport does not exist.
     if(mViewports.count(name) == 0) {
         Logger::Get().Warning("Cannot show viewport \"" + name + "\": viewport does not exist.");
@@ -160,7 +160,7 @@ void DisplayManager::Render() {
     }
 }
 
-Ogre::SceneManager* DisplayManager::GetSceneManager(const std::string& scene) {
+Ogre::SceneManager* DisplayManager::GetSceneManager(const QString& scene) {
     if(mSceneManagers.count(scene) == 0) {
         _CreateWindow(); // TODO check if window already present
 

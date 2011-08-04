@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    std::cout << "SoundComponent file = " << sound_component->GetSoundFile() << std::endl;
+    std::cout << "SoundComponent file = " << sound_component->GetSoundFile().toStdString() << std::endl;
     std::cout << "SoundComponent duration = " << sound_component->GetSound().GetBuffer()->GetDuration() << std::endl;
 
     /* Test 3D sound */
@@ -105,7 +105,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    std::cout << "SoundComponent file = " << sound_component->GetSoundFile() << std::endl;
+    std::cout << "SoundComponent file = " << sound_component->GetSoundFile().toStdString() << std::endl;
     std::cout << "SoundComponent duration = " << sound_component->GetSound().GetBuffer()->GetDuration() << std::endl;
 
     /* Test 3D sound */

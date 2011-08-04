@@ -35,13 +35,13 @@ LogManager* LogManager::Get() {
     return Root::GetInstance().GetLogManager();
 }
 
-void LogManager::messageLogged(const std::string& message, Ogre::LogMessageLevel level, bool mask_debug, const std::string& log_name) {
+void LogManager::messageLogged(const Ogre::String& message, Ogre::LogMessageLevel level, bool mask_debug, const Ogre::String& log_name) {
     if(level == Ogre::LML_CRITICAL) {
-        GetLogger(log_name).Error(message);
+        GetLogger(QString::fromStdString(log_name)).Error(QString::fromStdString(message));
     } else if(level == Ogre::LML_NORMAL) {
-        GetLogger(log_name).Info(message);
+        GetLogger(QString::fromStdString(log_name)).Info(QString::fromStdString(message));
     } else if(level == Ogre::LML_TRIVIAL) {
-        GetLogger(log_name).Debug(message);
+        GetLogger(QString::fromStdString(log_name)).Debug(QString::fromStdString(message));
     }
 }
 
@@ -49,7 +49,7 @@ Logger& LogManager::GetLogger() {
     return GetLogger("default");
 }
 
-Logger& LogManager::GetLogger(const std::string& name) {
+Logger& LogManager::GetLogger(const QString& name) {
     // create logger with name if not exists
     if(mLoggers.find(name) == mLoggers.end()) {
         mLoggers[name] = Logger(name);

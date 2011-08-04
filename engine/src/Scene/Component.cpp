@@ -15,7 +15,7 @@
 
 namespace dt {
 
-Component::Component(const std::string& name)
+Component::Component(const QString& name)
     : mName(name),
       mIsEnabled(false),
       mIsCreated(false) {
@@ -27,7 +27,7 @@ Component::Component(const std::string& name)
 
 Component::~Component() {}
 
-const std::string& Component::GetName() const {
+const QString& Component::GetName() const {
     return mName;
 }
 
@@ -91,11 +91,11 @@ bool Component::IsEnabled() {
     return mIsEnabled;
 }
 
-boost::signals2::connection Component::BindSlot(const std::string& signal_identifier, boost::function<void ()> slot) {
+boost::signals2::connection Component::BindSlot(const QString& signal_identifier, boost::function<void ()> slot) {
     return mSignals[signal_identifier].connect(slot);
 }
 
-void Component::_CallSignal(const std::string& signal_identifier) {
+void Component::_CallSignal(const QString& signal_identifier) {
     mSignals[signal_identifier]();
 }
 

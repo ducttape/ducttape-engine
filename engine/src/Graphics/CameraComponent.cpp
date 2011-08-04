@@ -16,14 +16,14 @@
 
 namespace dt {
 
-CameraComponent::CameraComponent(const std::string& name)
+CameraComponent::CameraComponent(const QString& name)
    : Component(name) {}
 
 void CameraComponent::HandleEvent(std::shared_ptr<Event> e) {
 }
 
 void CameraComponent::OnCreate() {
-    mCamera = GetNode()->GetScene()->GetSceneManager()->createCamera("camera-" + mName);
+    mCamera = GetNode()->GetScene()->GetSceneManager()->createCamera("camera-" + mName.toStdString());
     DisplayManager::Get()->RegisterCamera(this);
 
     mCamera->setNearClipDistance(0.1);

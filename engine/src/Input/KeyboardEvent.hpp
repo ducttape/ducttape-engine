@@ -15,8 +15,9 @@
 
 #include <OIS.h>
 
+#include <QString>
+
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -40,7 +41,7 @@ public:
       * @param text The character the pressed key is assigned to.
       */
     KeyboardEvent(Action action, OIS::KeyCode code, char text);
-    const std::string GetType() const;
+    const QString GetType() const;
     std::shared_ptr<Event> Clone() const;
 
     /**

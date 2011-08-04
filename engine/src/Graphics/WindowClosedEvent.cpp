@@ -12,7 +12,7 @@ namespace dt {
 
 WindowClosedEvent::WindowClosedEvent() {}
 
-const std::string WindowClosedEvent::GetType() const {
+const QString WindowClosedEvent::GetType() const {
     return "DT_WINDOWCLOSEDEVENT";
 }
 

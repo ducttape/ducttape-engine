@@ -17,7 +17,7 @@
 
 namespace dt {
 
-ParticleSystemComponent::ParticleSystemComponent(const std::string& name)
+ParticleSystemComponent::ParticleSystemComponent(const QString& name)
     : Component(name),
       mSceneNode(nullptr),
       mParticleSystem(nullptr),
@@ -34,50 +34,50 @@ uint32_t ParticleSystemComponent::GetParticleCountLimit() const {
     return mParticleCountLimit;
 }
 
-void ParticleSystemComponent::SetMaterialName(const std::string& material_name) {
+void ParticleSystemComponent::SetMaterialName(const QString& material_name) {
     mMaterialName = material_name;
     if(IsCreated() && mParticleSystem != nullptr) {
-        mParticleSystem->setMaterialName(mMaterialName);
+        mParticleSystem->setMaterialName(mMaterialName.toStdString());
     }
 }
 
-const std::string& ParticleSystemComponent::GetMaterialName() const {
+const QString& ParticleSystemComponent::GetMaterialName() const {
     return mMaterialName;
 }
 
-Ogre::ParticleEmitter* ParticleSystemComponent::AddEmitter(const std::string& name, const std::string& type) {
-    Ogre::ParticleEmitter* e = mParticleSystem->addEmitter(type);
+Ogre::ParticleEmitter* ParticleSystemComponent::AddEmitter(const QString& name, const QString& type) {
+    Ogre::ParticleEmitter* e = mParticleSystem->addEmitter(type.toStdString());
     mParticleEmitters[name] = e;
     return e;
 }
 
-Ogre::ParticleEmitter* ParticleSystemComponent::GetEmitter(const std::string& name) {
+Ogre::ParticleEmitter* ParticleSystemComponent::GetEmitter(const QString& name) {
     if(mParticleEmitters.count(name) == 0)
         return nullptr;
     return mParticleEmitters[name];
 }
 
-Ogre::ParticleAffector* ParticleSystemComponent::AddAffector(const std::string& name, const std::string& type) {
-    Ogre::ParticleAffector* a = mParticleSystem->addAffector(type);
+Ogre::ParticleAffector* ParticleSystemComponent::AddAffector(const QString& name, const QString& type) {
+    Ogre::ParticleAffector* a = mParticleSystem->addAffector(type.toStdString());
     mParticleAffectors[name] = a;
     return a;
 }
 
-Ogre::ParticleAffector* ParticleSystemComponent::GetAffector(const std::string& name) {
+Ogre::ParticleAffector* ParticleSystemComponent::GetAffector(const QString& name) {
     if(mParticleAffectors.count(name) == 0)
         return nullptr;
     return mParticleAffectors[name];
 }
 
-Ogre::ParticleAffector* ParticleSystemComponent::AddScalerAffector(const std::string& name, float rate) {
+Ogre::ParticleAffector* ParticleSystemComponent::AddScalerAffector(const QString& name, float rate) {
     Ogre::ParticleAffector* a = AddAffector(name, "Scaler");
-    a->setParameter("rate", Utils::ToString(rate));
+    a->setParameter("rate", Utils::ToString(rate).toStdString());
     return a;
 }
 
-Ogre::ParticleAffector* ParticleSystemComponent::AddLinearForceAffector(const std::string& name, Ogre::Vector3 force) {
+Ogre::ParticleAffector* ParticleSystemComponent::AddLinearForceAffector(const QString& name, Ogre::Vector3 force) {
     Ogre::ParticleAffector* a = AddAffector(name, "LinearForce");
-    a->setParameter("force_vector", Utils::ToString(force.x) + " " + Utils::ToString(force.y) + " " + Utils::ToString(force.z));
+    a->setParameter("force_vector", Utils::ToString(force.x).toStdString() + " " + Utils::ToString(force.y).toStdString() + " " + Utils::ToString(force.z).toStdString());
     return a;
 }
 
@@ -91,10 +91,10 @@ Ogre::ParticleSystem* ParticleSystemComponent::GetOgreParticleSystem() {
 void ParticleSystemComponent::OnCreate() {
     if(mNode != nullptr) {
         Ogre::SceneManager* scene_mgr = mNode->GetScene()->GetSceneManager();
-        mSceneNode = scene_mgr->getRootSceneNode()->createChildSceneNode(mName + "-node");
-        mParticleSystem = scene_mgr->createParticleSystem(mName + "-system", mParticleCountLimit);
+        mSceneNode = scene_mgr->getRootSceneNode()->createChildSceneNode(mName.toStdString() + "-node");
+        mParticleSystem = scene_mgr->createParticleSystem(mName.toStdString() + "-system", mParticleCountLimit);
         if(mMaterialName != "")
-            mParticleSystem->setMaterialName(mMaterialName);
+            mParticleSystem->setMaterialName(mMaterialName.toStdString());
         mSceneNode->attachObject(mParticleSystem);
         mParticleSystem->setDefaultDimensions(1, 1);
     } else {

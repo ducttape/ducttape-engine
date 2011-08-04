@@ -15,7 +15,7 @@
 
 namespace dt {
 
-LightComponent::LightComponent(const std::string& name)
+LightComponent::LightComponent(const QString& name)
     : Component(name),
       mLight(nullptr),
       mSceneNode(nullptr),
@@ -24,7 +24,7 @@ LightComponent::LightComponent(const std::string& name)
 void LightComponent::OnChangeColor() {}
 
 void LightComponent::OnCreate() {
-    mLight = GetNode()->GetScene()->GetSceneManager()->createLight(mName);
+    mLight = GetNode()->GetScene()->GetSceneManager()->createLight(mName.toStdString());
 
     // Set the point light as the default light type
     mLight->setType(Ogre::Light::LT_POINT);
@@ -34,7 +34,7 @@ void LightComponent::OnCreate() {
     mLight->setSpecularColour(1.0, 1.0, 1.0);
     mLight->setDirection(Ogre::Vector3(0,0,1));
 
-    mSceneNode = GetNode()->GetScene()->GetSceneManager()->getRootSceneNode()->createChildSceneNode(mName + "-node");
+    mSceneNode = GetNode()->GetScene()->GetSceneManager()->getRootSceneNode()->createChildSceneNode(mName.toStdString() + "-node");
     mSceneNode->attachObject(mLight);
 }
 

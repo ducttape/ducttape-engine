@@ -13,6 +13,8 @@
 
 #include <Utils/EnumHelper.hpp>
 
+#include <QString>
+
 #include <SFML/Network/Packet.hpp>
 
 namespace dt {
@@ -79,6 +81,14 @@ public:
       * @returns This IOPacket itself to combine multiple stream instruction in one statement.
       */
     IOPacket& operator & (EnumHelper h);
+
+    /**
+      * Operator& used to stream a QString.
+      * @see template \<typename T> IOPacket& operator & (T& t);
+      * @param s The QString object.
+      * @returns This IOPacket itself to combine multiple stream instruction in one statement.
+      */
+    IOPacket& operator & (QString& s);
 
 private:
     sf::Packet* mPacket;    //!< A pointer to the packet to stream data from/into.

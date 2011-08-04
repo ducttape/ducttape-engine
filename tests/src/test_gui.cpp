@@ -15,7 +15,7 @@
 #include <Scene/Scene.hpp>
 
 void Click(MyGUI::Widget* _sender) {
-    dt::Logger::Get().Debug("Clicked! " + _sender->getName());
+    dt::Logger::Get().Debug("Clicked! " + QString::fromStdString(_sender->getName()));
     if(_sender->getName() == "b1") {
         _sender->setCaption("Not implemented!");
     } else if(_sender->getName() == "b2") {

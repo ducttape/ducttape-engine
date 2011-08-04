@@ -15,8 +15,9 @@
 
 #include <OIS.h>
 
+#include <QString>
+
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -41,7 +42,7 @@ public:
       * @param button The mouse button that caused the event. For MOVED, this will always be OIS::MB_Left.
       */
     MouseEvent(Action action, OIS::MouseState state, OIS::MouseButtonID button = OIS::MB_Left);
-    const std::string GetType() const;
+    const QString GetType() const;
     std::shared_ptr<Event> Clone() const;
 
     /**

@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
         uint16_t ip = dt::Random::Get(1, 255);
         uint16_t port = dt::Random::Get(1001, 51311);
 
-        auto connection = std::shared_ptr<dt::Connection>(new dt::Connection(sf::IpAddress("127.168.178."+dt::Utils::ToString(ip)), port+i));
+        auto connection = std::shared_ptr<dt::Connection>(new dt::Connection(sf::IpAddress("127.168.178." + dt::Utils::ToString(ip).toStdString()), port+i));
         uint16_t connection_id = connections_manager.AddConnection(connection.get());
         if(connection_id != 0) {
            connections[connection_id] = std::shared_ptr<dt::Connection>(connection);

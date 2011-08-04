@@ -16,8 +16,9 @@
 #include <OgreColourValue.h>
 #include <OgreLight.h>
 
+#include <QString>
+
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -32,7 +33,7 @@ public:
       * @param name The name for this component.
       * @see Component
       */
-    LightComponent(const std::string& name = "");
+    LightComponent(const QString& name = "");
 
     /**
       * Called when the color of the light is changed.

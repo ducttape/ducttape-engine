@@ -17,7 +17,7 @@
 
 namespace dt {
 
-SoundComponent::SoundComponent(const std::string& sound_file, const std::string& name)
+SoundComponent::SoundComponent(const QString& sound_file, const QString& name)
     : Component(name),
       mSoundFile(sound_file) {
     _LoadSound();
@@ -48,7 +48,7 @@ void SoundComponent::OnUpdate(double time_diff) {
                        mNode->GetPosition(Node::SCENE).z);
 }
 
-void SoundComponent::SetSoundFile(const std::string& sound_file) {
+void SoundComponent::SetSoundFile(const QString& sound_file) {
     if(sound_file != mSoundFile && IsCreated()) {
         // we got a new sound; load it
         _LoadSound();
@@ -56,7 +56,7 @@ void SoundComponent::SetSoundFile(const std::string& sound_file) {
     mSoundFile = sound_file;
 }
 
-const std::string& SoundComponent::GetSoundFile() const {
+const QString& SoundComponent::GetSoundFile() const {
     return mSoundFile;
 }
 

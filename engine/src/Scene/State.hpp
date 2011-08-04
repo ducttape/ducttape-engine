@@ -17,8 +17,9 @@
 
 #include <boost/ptr_container/ptr_map.hpp>
 
+#include <QString>
+
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -68,16 +69,16 @@ public:
       * @param name The name of the Scene to find.
       * @returns The scene, or nullptr if it was not found.
       */
-    Scene* GetScene(const std::string& name);
+    Scene* GetScene(const QString& name);
 
     /**
       * Deletes a scene.
       * @param name The name of the Scene to delete.
       */
-    void DeleteScene(const std::string& name);
+    void DeleteScene(const QString& name);
 
 private:
-    boost::ptr_map<std::string, Scene> mScenes;        //!< List of scenes.
+    boost::ptr_map<QString, Scene> mScenes;        //!< List of scenes.
 
 };
 

@@ -16,8 +16,9 @@
 #include <Physics/PhysicsWorld.hpp>
 #include <Scene/Node.hpp>
 
+#include <QString>
+
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -29,7 +30,7 @@ public:
     /**
       * Default constructor.
       */
-    Scene(const std::string& name);
+    Scene(const QString& name);
 
     void OnInitialize();
 

@@ -10,7 +10,7 @@
 
 namespace dt {
 
-Timer::Timer(const std::string& message, double interval, bool repeat, bool threaded, bool use_events)
+Timer::Timer(const QString& message, double interval, bool repeat, bool threaded, bool use_events)
     : mMessage(message),
       mInterval(interval),
       mRepeat(repeat),
@@ -68,7 +68,7 @@ double Timer::GetInterval() const {
     return mInterval;
 }
 
-const std::string& Timer::GetMessageEvent() const {
+const QString& Timer::GetMessageEvent() const {
     return mMessage;
 }
 
@@ -96,7 +96,7 @@ void Timer::Stop() {
     mTimeLeft = mInterval; // reset
 }
 
-boost::signals2::connection Timer::BindSlot(boost::function<void (const std::string&)> slot) {
+boost::signals2::connection Timer::BindSlot(boost::function<void (const QString&)> slot) {
     return mTickSignal.connect(slot);
 }
 

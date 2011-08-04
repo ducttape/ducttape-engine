@@ -23,8 +23,9 @@
 #include <SFML/System/Sleep.hpp>
 #include <SFML/System/Thread.hpp>
 
+#include <QString>
+
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -41,7 +42,7 @@ public:
       * @param threaded Whether the timer should be started in a separate thread or just rely on the BeginFrameEvent.
       * @param use_events Whether the timer should create a TimerTickEvent every tick or just call the signal.
       */
-    Timer(const std::string& message, double interval, bool repeat = true, bool threaded = false, bool use_events = true);
+    Timer(const QString& message, double interval, bool repeat = true, bool threaded = false, bool use_events = true);
 
     void HandleEvent(std::shared_ptr<Event> e);
 
@@ -60,7 +61,7 @@ public:
       * Returns the message to send with the TimerTickEvent.
       * @returns The message to send with the TimerTickEvent.
       */
-    const std::string& GetMessageEvent() const;
+    const QString& GetMessageEvent() const;
 
     /**
       * Stops the timer.
@@ -70,7 +71,7 @@ public:
     /**
       * Binds a slot to the signal.
       */
-    boost::signals2::connection BindSlot(boost::function<void (const std::string&)> slot);
+    boost::signals2::connection BindSlot(boost::function<void (const QString&)> slot);
 
 private:
     /**
@@ -85,8 +86,8 @@ private:
     static void _ThreadFunction(void* user_data);
 
     std::shared_ptr<sf::Thread> mThread;    //!< The sf::Thread the timer uses in threaded mode.
-    boost::signals2::signal<void (const std::string&)> mTickSignal;   //!< The signal to call on tick.
-    std::string mMessage;                   //!< The message to send with the TimerTickEvent.
+    boost::signals2::signal<void (const QString&)> mTickSignal;   //!< The signal to call on tick.
+    QString mMessage;                   //!< The message to send with the TimerTickEvent.
     double mInterval;                       //!< The timer interval, in seconds.
     bool mRepeat;                           //!< Whether the timer should proceed to tick after the first tick.
     bool mThreaded;                         //!< Whether the timer runs threaded or not.

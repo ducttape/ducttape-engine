@@ -13,8 +13,9 @@
 
 #include <Event/Event.hpp>
 
+#include <QString>
+
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -28,7 +29,7 @@ public:
       * @param frame_time The time delta of the current frame.
       */
     BeginFrameEvent(double frame_time);
-    const std::string GetType() const;
+    const QString GetType() const;
     std::shared_ptr<Event> Clone() const;
 
 

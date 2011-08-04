@@ -10,7 +10,7 @@
 
 class TestComponent : public dt::Component {
 public:
-    TestComponent(const std::string& name)
+    TestComponent(const QString& name)
         : Component(name) {}
 
     void OnCreate() {}

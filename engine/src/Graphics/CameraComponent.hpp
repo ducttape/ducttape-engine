@@ -16,8 +16,9 @@
 #include <OgreCamera.h>
 #include <OgreVector3.h>
 
+#include <QString>
+
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -31,7 +32,7 @@ public:
       * @name The name of the component.
       * @see Component
       */
-    CameraComponent(const std::string& name = "");
+    CameraComponent(const QString& name = "");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 

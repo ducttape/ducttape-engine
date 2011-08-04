@@ -24,7 +24,7 @@ void Server::OnInitialize() {
 
 void Server::HandleEvent(std::shared_ptr<dt::Event> e) {
     // This is quite useful for debugging purposes.
-    //dt::Logger::Get().Info("There are " + boost::lexical_cast<std::string>(dt::ConnectionsManager::Get()->GetConnectionCount()) + " connections active.");
+    //dt::Logger::Get().Info("There are " + boost::lexical_cast<QString>(dt::ConnectionsManager::Get()->GetConnectionCount()) + " connections active.");
 
     if(e->GetType() == "CHATMESSAGEEVENT") {
         std::shared_ptr<ChatMessageEvent> c = std::dynamic_pointer_cast<ChatMessageEvent>(e);
@@ -32,11 +32,11 @@ void Server::HandleEvent(std::shared_ptr<dt::Event> e) {
         if(c->IsLocalEvent()) { // we just received this
 
             if(c->GetMessageEvent() == "/help") {
-                std::string msg = "\nThe following commands are available:\n    /help - This message\n    /quit - disconnects from the server\n    /nick [nickname] - changes your nickname";
+                QString msg = "\nThe following commands are available:\n    /help - This message\n    /quit - disconnects from the server\n    /nick [nickname] - changes your nickname";
                 dt::EventManager::Get()->
                     InjectEvent(std::make_shared<ChatMessageEvent>(msg, c->GetSenderNick()));
             } else {
-                std::cout << std::endl << c->GetSenderNick() << ": " << c->GetMessageEvent() << std::endl;
+                std::cout << std::endl << c->GetSenderNick().toStdString() << ": " << c->GetMessageEvent().toStdString() << std::endl;
             }
 
             // send back to everyone else
