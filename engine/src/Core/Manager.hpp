@@ -11,13 +11,15 @@
 
 #include <Config.hpp>
 
+#include <boost/noncopyable.hpp>
+
 namespace dt {
 
 /**
   * The Manager interface class.
   * @note Remember to implement the \code static YourManager* Get(); \endcode shortcut for new managers!
   */
-class DUCTTAPE_API Manager {
+class DUCTTAPE_API Manager : public boost::noncopyable {
 public:
     /**
       * Pure virtual destructor.

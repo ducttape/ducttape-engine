@@ -14,10 +14,8 @@
 #include <Event/Event.hpp>
 #include <Event/EventListener.hpp>
 
-#include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/ptr_container/ptr_map.hpp>
-#include <boost/signals2.hpp>
 
 #include <QObject>
 #include <QString>
@@ -37,8 +35,9 @@ class DUCTTAPE_API Component : public QObject,
                                public EventListener,
                                public boost::noncopyable {
     Q_OBJECT
-    Q_PROPERTY(bool mIsEnabled READ IsEnabled)
-    Q_PROPERTY(QString mName READ GetName CONSTANT)
+    Q_PROPERTY(QString mName READ GetName CONSTANT FINAL)
+    Q_PROPERTY(bool mIsEnabled READ IsEnabled FINAL)
+    Q_PROPERTY(bool mIsCreated READ IsCreated FINAL)
 
 public:
     /**
@@ -99,6 +98,19 @@ public:
     Node* GetNode();
 
     /**
+      * Returns whether the component is created.
+      * @returns Whether the component is created.
+      */
+    bool IsCreated();
+
+    /**
+      * Returns whether the component is enabled.
+      * @returns Whether the component is enabled.
+      */
+    bool IsEnabled();
+
+public slots:
+    /**
       * Creates the component.
       */
     void Create();
@@ -118,35 +130,13 @@ public:
       */
     void Disable();
 
-    /**
-      * Returns whether the component is created.
-      * @returns Whether the component is created.
-      */
-    bool IsCreated();
-
-    /**
-      * Returns whether the component is enabled.
-      * @returns Whether the component is enabled.
-      */
-    bool IsEnabled();
-
-    /**
-      * Binds a slot to a signal.
-      * @param signal_identifier The name of the signal being called on events. Example: "Triggered" or "AnimationFinished". Case sensitive.
-      * @param slot The callback function.
-      * @returns A boost signals2 connection to disconnect the slot again.
-      */
-    boost::signals2::connection BindSlot(const QString& signal_identifier, boost::function<void ()> slot);
+signals:
+    void ComponentCreated();
+    void ComponentDestroyed();
+    void ComponentEnabled();
+    void ComponentDisabled();
 
 protected:
-
-    /**
-      * Calls the signal with the identifier given.
-      * @param signal_identifier The signal to call.
-      */
-    void _CallSignal(const QString& signal_identifier);
-    boost::ptr_map<QString, boost::signals2::signal<void ()> > mSignals;    //!< The list of signals.
-
     QString mName;  //!< The Component name.
     Node* mNode;        //!< The parent Node.
 

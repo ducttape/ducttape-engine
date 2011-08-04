@@ -5,8 +5,12 @@ foreach(test_cpp ${TESTS})
     string(REGEX REPLACE "\\.cpp$" "" test ${test_cpp})
     string(REGEX REPLACE "src/" "" test ${test})
 
+    qt4_wrap_cpp(test_hpp_moc "src/${test}.hpp")
+
     add_executable(${test}
-        "src/"${test_cpp})
+        "src/"${test_cpp}
+        ${test_hpp_moc}
+    )
 
     target_link_libraries(${test}
         ducttape)

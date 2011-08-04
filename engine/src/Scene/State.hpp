@@ -17,6 +17,7 @@
 
 #include <boost/ptr_container/ptr_map.hpp>
 
+#include <QObject>
 #include <QString>
 
 #include <memory>
@@ -28,7 +29,9 @@ namespace dt {
   * @warning Class mockup only. Documentation suspended.
   * @see StateManager
   */
-class DUCTTAPE_API State : public EventListener {
+class DUCTTAPE_API State : public QObject, public EventListener {
+    Q_OBJECT
+
 public:
     /**
       * Default constructor.

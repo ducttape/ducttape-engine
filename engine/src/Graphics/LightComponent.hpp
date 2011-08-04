@@ -27,6 +27,7 @@ namespace dt {
   * @see Component
   */
 class DUCTTAPE_API LightComponent : public Component {
+    Q_OBJECT
 public:
     /**
       * Advanced constructor.
@@ -38,19 +39,13 @@ public:
     /**
       * Called when the color of the light is changed.
       */
-    virtual void OnChangeColor();
+    virtual void OnColorChanged();
 
     void OnCreate();
     void OnDestroy();
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);
-
-    /**
-      * Sets the color of the light.
-      * @param color The color of the light.
-      */
-    void SetColor(const Ogre::ColourValue color);
 
     /**
       * Get the ogre light object.
@@ -69,6 +64,16 @@ public:
       * @returns Whether the mesh should cast shadows.
       */
     bool GetCastShadows() const;
+
+public slots:
+    /**
+      * Sets the color of the light.
+      * @param color The color of the light.
+      */
+    void SetColor(const Ogre::ColourValue color);
+
+signals:
+    void ColorChanged(const Ogre::ColourValue new_color);
 
 protected:
     Ogre::Light* mLight;    //!< The pointer to the ogre light object.

@@ -57,11 +57,12 @@ find_package(OGRE REQUIRED)
 find_package(MyGUI REQUIRED)
 find_package(MyGUI_PLATFORM REQUIRED)
 
+# Qt4 stuff
 set(QT_USE_QTSCRIPT TRUE)
 set(QT_DONT_USE_QTGUI TRUE)
 find_package(Qt4 REQUIRED)
-
 include(${QT_USE_FILE})
+add_definitions(${QT_DEFINITONS})
 
 if(MSVC) # Sort the odd stuff out
     set(CMAKE_CXX_FLAGS "/DCOMPILER_MSVC /DOgreProcedural_STATIC /WX /MP /EHsc")

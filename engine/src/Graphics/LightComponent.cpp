@@ -21,7 +21,7 @@ LightComponent::LightComponent(const QString& name)
       mSceneNode(nullptr),
       mCastShadows(true) {}
 
-void LightComponent::OnChangeColor() {}
+void LightComponent::OnColorChanged() {}
 
 void LightComponent::OnCreate() {
     mLight = GetNode()->GetScene()->GetSceneManager()->createLight(mName.toStdString());
@@ -65,8 +65,8 @@ void LightComponent::OnUpdate(double time_diff) {
 void LightComponent::SetColor(const Ogre::ColourValue color) {
     mLight->setDiffuseColour(color);
     mLight->setSpecularColour(color);
-    OnChangeColor();
-    _CallSignal("ChangeColor");
+    emit ColorChanged(color);
+    OnColorChanged();
 }
 
 Ogre::Light* LightComponent::GetOgreLight() const {

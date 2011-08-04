@@ -1,19 +1,9 @@
-aux_source_directory(src/Audio engine_src)
-aux_source_directory(src/Core engine_src)
-aux_source_directory(src/Event engine_src)
-aux_source_directory(src/Graphics engine_src)
-aux_source_directory(src/Input engine_src)
-aux_source_directory(src/Logic engine_src)
-aux_source_directory(src/Network engine_src)
-aux_source_directory(src/Physics engine_src)
-aux_source_directory(src/Scene engine_src)
-aux_source_directory(src/Utils engine_src)
+# Gather sources
+file(GLOB_RECURSE engine_SOURCES src/*.cpp)
 
 # Gather headers and run them through moc
 file(GLOB_RECURSE engine_HEADERS src/*.hpp)
 qt4_wrap_cpp(engine_HEADERS_MOC ${engine_HEADERS})
-
-add_definitions(${QT_DEFINITONS})
 
 if(BUILD_STATIC)
     set(BUILD_MODE STATIC)
@@ -24,8 +14,9 @@ endif()
 
 add_definitions(-DDUCTTAPE_VERSION="${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 
+message(ERROR ${engine_src})
 add_library(ducttape ${BUILD_MODE}
-    ${engine_src}
+    ${engine_SOURCES}
     ${engine_HEADERS_MOC}
 )
 

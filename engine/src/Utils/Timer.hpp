@@ -17,12 +17,10 @@
 
 #include <Utils/TimerTickEvent.hpp>
 
-#include <boost/function.hpp>
-#include <boost/signals2.hpp>
-
 #include <SFML/System/Sleep.hpp>
 #include <SFML/System/Thread.hpp>
 
+#include <QObject>
 #include <QString>
 
 #include <memory>
@@ -32,7 +30,9 @@ namespace dt {
 /**
   * A timer to send Tick events in regular intervals.
   */
-class DUCTTAPE_API Timer : public EventListener {
+class DUCTTAPE_API Timer : public QObject, public EventListener {
+    Q_OBJECT
+
 public:
     /**
       * Advanced constructor.
@@ -42,7 +42,8 @@ public:
       * @param threaded Whether the timer should be started in a separate thread or just rely on the BeginFrameEvent.
       * @param use_events Whether the timer should create a TimerTickEvent every tick or just call the signal.
       */
-    Timer(const QString& message, double interval, bool repeat = true, bool threaded = false, bool use_events = true);
+    Timer(const QString& message, double interval, bool repeat = true,
+          bool threaded = false, bool use_events = true);
 
     void HandleEvent(std::shared_ptr<Event> e);
 
@@ -68,10 +69,10 @@ public:
       */
     void Stop();
 
-    /**
-      * Binds a slot to the signal.
-      */
-    boost::signals2::connection BindSlot(boost::function<void (const QString&)> slot);
+public slots:
+
+signals:
+    void TimerTicked(const QString& message);
 
 private:
     /**
@@ -86,7 +87,6 @@ private:
     static void _ThreadFunction(void* user_data);
 
     std::shared_ptr<sf::Thread> mThread;    //!< The sf::Thread the timer uses in threaded mode.
-    boost::signals2::signal<void (const QString&)> mTickSignal;   //!< The signal to call on tick.
     QString mMessage;                   //!< The message to send with the TimerTickEvent.
     double mInterval;                       //!< The timer interval, in seconds.
     bool mRepeat;                           //!< Whether the timer should proceed to tick after the first tick.

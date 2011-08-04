@@ -55,6 +55,7 @@ void Component::Create() {
     if(!mIsCreated) {
         mIsCreated = true;
         OnCreate();
+        emit ComponentCreated();
         Enable();
     }
     EventManager::Get()->AddListener(this);
@@ -65,6 +66,7 @@ void Component::Destroy() {
     if(mIsCreated) {
         mIsCreated = false;
         Disable();
+        emit ComponentDestroyed();
         OnDestroy();
     }
 }
@@ -72,6 +74,7 @@ void Component::Destroy() {
 void Component::Enable() {
     if(!mIsEnabled) {
         mIsEnabled = true;
+        emit ComponentEnabled();
         OnEnable();
     }
 }
@@ -79,6 +82,7 @@ void Component::Enable() {
 void Component::Disable() {
     if(mIsEnabled) {
         mIsEnabled = false;
+        emit ComponentDisabled();
         OnDisable();
     }
 }
@@ -89,14 +93,6 @@ bool Component::IsCreated() {
 
 bool Component::IsEnabled() {
     return mIsEnabled;
-}
-
-boost::signals2::connection Component::BindSlot(const QString& signal_identifier, boost::function<void ()> slot) {
-    return mSignals[signal_identifier].connect(slot);
-}
-
-void Component::_CallSignal(const QString& signal_identifier) {
-    mSignals[signal_identifier]();
 }
 
 } // namespace dt

@@ -7,6 +7,7 @@
 // ----------------------------------------------------------------------------
 
 #include <Utils/Timer.hpp>
+#include <iostream>
 
 namespace dt {
 
@@ -46,7 +47,7 @@ void Timer::TriggerTickEvent() {
     if(mUseEvents)
         EventManager::Get()->
             InjectEvent(std::make_shared<TimerTickEvent>(mMessage, mInterval));
-    mTickSignal(mMessage);
+    emit TimerTicked(mMessage);
 
     if(mRepeat && mThreaded) {
         _RunThread();
@@ -94,10 +95,6 @@ void Timer::Stop() {
         EventManager::Get()->RemoveListener(this);
     }
     mTimeLeft = mInterval; // reset
-}
-
-boost::signals2::connection Timer::BindSlot(boost::function<void (const QString&)> slot) {
-    return mTickSignal.connect(slot);
 }
 
 } // namespace dt
