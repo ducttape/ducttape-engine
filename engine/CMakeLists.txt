@@ -22,7 +22,7 @@ else()
     set(BUILD_MODE SHARED)
 endif()
 
-add_definitions(-DDUCTTAPE_VERSION=${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
+add_definitions(-DDUCTTAPE_VERSION="${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 
 add_library(ducttape ${BUILD_MODE}
     ${engine_src}
