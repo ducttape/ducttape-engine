@@ -9,7 +9,11 @@ aux_source_directory(src/Physics engine_src)
 aux_source_directory(src/Scene engine_src)
 aux_source_directory(src/Utils engine_src)
 
-include_directories(src/)
+# Gather headers and run them through moc
+file(GLOB_RECURSE engine_HEADERS src/*.hpp)
+qt4_wrap_cpp(engine_HEADERS_MOC ${engine_HEADERS})
+
+add_definitions(${QT_DEFINITONS})
 
 if(BUILD_STATIC)
     set(BUILD_MODE STATIC)
@@ -20,6 +24,7 @@ endif()
 
 add_library(ducttape ${BUILD_MODE}
     ${engine_src}
+    ${engine_HEADERS_MOC}
 )
 
 target_link_libraries(ducttape
@@ -30,6 +35,7 @@ target_link_libraries(ducttape
     ${OIS_LIBRARIES}
     ${MYGUI_LIBRARIES}
     ${MYGUI_PLATFORM_LIBRARIES}
+    ${QT_LIBRARIES}
     BtOgre
     OgreProcedural
 )

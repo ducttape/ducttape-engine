@@ -19,6 +19,8 @@
 #include <boost/ptr_container/ptr_map.hpp>
 #include <boost/signals2.hpp>
 
+#include <QObject>
+
 #include <memory>
 #include <string>
 
@@ -31,7 +33,10 @@ class Node;
   * Modifier for a node. This will add all the functionality to an otherwise empty node,
   * such as a mesh or sound.
   */
-class DUCTTAPE_API Component : public EventListener, public boost::noncopyable {
+class DUCTTAPE_API Component : public QObject,
+                               public EventListener,
+                               public boost::noncopyable {
+    Q_OBJECT
 public:
     /**
       * Constructor with set name.

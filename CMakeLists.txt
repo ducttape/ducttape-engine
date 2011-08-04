@@ -15,7 +15,6 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/lib)
 
 set(BUILD_STATIC FALSE CACHE BOOL "TRUE to build static libraries (mind LGPL3 implications), FALSE to build shared libraries (preferred)")
-set(BUILD_EDITOR FALSE CACHE BOOL "TRUE to build the editor, FALSE to ignore it")
 set(BUILD_SAMPLES TRUE CACHE BOOL "TRUE to build the samples, FALSE to ignore them")
 set(BUILD_TESTS TRUE CACHE BOOL "TRUE to build the tests, FALSE to ignore them")
 set(BUILD_DOC TRUE CACHE BOOL "TRUE to generate the API documentation, FALSE to ignore it")
@@ -58,6 +57,9 @@ find_package(OIS REQUIRED)
 find_package(OGRE REQUIRED)
 find_package(MyGUI REQUIRED)
 find_package(MyGUI_PLATFORM REQUIRED)
+find_package(Qt4 REQUIRED)
+
+include(${QT_USE_FILE})
 
 if(MSVC) # Sort the odd stuff out
     set(CMAKE_CXX_FLAGS "/DCOMPILER_MSVC /DOgreProcedural_STATIC /WX /MP /EHsc")
