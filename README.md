@@ -23,8 +23,8 @@ See INSTALL for short instructions for experienced users or our [Getting started
 
 License
 -------
-Tbe Ducttape Engine and its components such as the editor as well as examples and
-tests are available under the LGPL3 license unless noted otherwise.
+Tbe Ducttape Engine and its components as well as examples and tests are
+available under the LGPL3 license unless noted otherwise.
 
 See the docs/licenses/ directory for individual licenses of our resources.
 
