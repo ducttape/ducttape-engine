@@ -56,7 +56,7 @@
         #define DUCTTAPE_API __declspec(dllexport)
     #else
         // From client application side, we must import
-        #define DUCTTAPE_API __declspec(dllimport)
+        #define DUCTTAPE_API
     #endif
 
     // For Visual C++ compilers, we also need to turn off this annoying C4251 warning.
