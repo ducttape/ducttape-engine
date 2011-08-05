@@ -60,7 +60,7 @@ public:
       * Returns the message to send with the TimerTickEvent.
       * @returns The message to send with the TimerTickEvent.
       */
-    const std::string& GetMessageText() const;
+    const std::string& GetMessageEvent() const;
 
     /**
       * Stops the timer.
