@@ -65,6 +65,12 @@ public:
     const QString& GetMessageEvent() const;
 
     /**
+     * Manually triggers a timer tick. This is mainly used for debugging
+     * purposes.
+     */
+    void TriggerTick();
+
+    /**
       * Stops the timer.
       */
     void Stop();
