@@ -17,7 +17,7 @@ const std::string MessageEvent::GetType() const {
     return "DT_MESSAGEEVENT";
 }
 
-const std::string& MessageEvent::GetMessageEvent() const {
+const std::string& MessageEvent::GetMessageText() const {
     return mMessage;
 }
 

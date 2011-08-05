@@ -68,7 +68,7 @@ double Timer::GetInterval() const {
     return mInterval;
 }
 
-const std::string& Timer::GetMessageEvent() const {
+const std::string& Timer::GetMessageText() const {
     return mMessage;
 }
 
