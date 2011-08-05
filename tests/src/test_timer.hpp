@@ -6,8 +6,8 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#ifndef TEST_TIMER
-#define TEST_TIMER
+#ifndef DUCTTAPE_ENGINE_TESTS_TEST_TIMER
+#define DUCTTAPE_ENGINE_TESTS_TEST_TIMER
 
 #include <Core/Root.hpp>
 #include <Scene/Game.hpp>
@@ -15,6 +15,8 @@
 #include <Utils/Timer.hpp>
 
 #include <QObject>
+
+namespace test_timer {
 
 class Main : public dt::State {
     Q_OBJECT
@@ -80,5 +82,9 @@ public:
 
     double mTotalTime;
 };
+
+int Run(int argc, char** argv);
+
+} // namespace test_timer
 
 #endif
