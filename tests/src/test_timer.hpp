@@ -34,8 +34,8 @@ public:
         mTimer2 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 2 (thread mode)", 0.2, true, true));
         mTimer3 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 3 (callback)", 0.1, true, true, false));
         QObject::connect(mTimer3.get(), SIGNAL(TimerTicked(const QString&)),
-                         this, SLOT(TimerCallback(const QString&)));
-
+                         this, SLOT(TimerCallback(const QString&)),
+                         Qt::DirectConnection);
         mTotalTime = 0;
     }
 
