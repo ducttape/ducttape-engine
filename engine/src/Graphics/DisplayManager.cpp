@@ -16,7 +16,8 @@ DisplayManager::DisplayManager()
     : mMainViewport(""),
       mMainCamera(""),
       mOgreRoot(nullptr),
-      mNextZOrder(1) {}
+      mNextZOrder(1),
+      mWindowSize(Ogre::Vector2(1024, 768)) {}
 
 DisplayManager::~DisplayManager() {}
 
@@ -30,6 +31,15 @@ void DisplayManager::Deinitialize() {
 
 DisplayManager* DisplayManager::Get() {
     return Root::GetInstance().GetDisplayManager();
+}
+
+void DisplayManager::SetWindowSize(int width, int height) {
+    mWindowSize.x = width;
+    mWindowSize.y = height;
+
+    if(mOgreRoot != nullptr) {
+        mOgreRenderWindow->resize(width, height);
+    }
 }
 
 bool DisplayManager::RegisterCamera(CameraComponent* camera_component) {
@@ -203,7 +213,7 @@ void DisplayManager::_CreateWindow() {
     mOgreRoot->setRenderSystem(mOgreRenderSystem);
 
     mOgreRoot->initialise(false, "Ducttape Game Engine");
-    mOgreRenderWindow = mOgreRoot->createRenderWindow("RenderWindow", 1024, 768, false);
+    mOgreRenderWindow = mOgreRoot->createRenderWindow("RenderWindow", static_cast<int>(mWindowSize.x), static_cast<int>(mWindowSize.y), false);
 
     // Attach OIS
     InputManager::Get()->SetWindow(mOgreRenderWindow);

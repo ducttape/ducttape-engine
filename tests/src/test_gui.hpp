@@ -69,28 +69,28 @@ public:
 
         // GUI
         dt::Node* w1 = scene->AddChildNode(new dt::Node("w1"));
-        dt::GuiWidgetComponent* b1 = w1->AddComponent(new dt::GuiWidgetComponent("Button", "b1"));
+        dt::GuiWidgetComponent* b1 = w1->AddComponent(new dt::GuiWidgetComponent("Button", "Button", "b1"));
         b1->GetWidget<MyGUI::Button>()->setCaption("Campaign");
         b1->GetWidget<MyGUI::Button>()->eventMouseButtonClick = MyGUI::newDelegate(&Click);
         w1->SetPosition(Ogre::Vector3(0.4, 0.15, 0.0));
         w1->SetScale(Ogre::Vector3(0.2, 0.1, 0.0));
 
         dt::Node* w2 = scene->AddChildNode(new dt::Node("w2"));
-        dt::GuiWidgetComponent* b2 = w2->AddComponent(new dt::GuiWidgetComponent("Button", "b2"));
+        dt::GuiWidgetComponent* b2 = w2->AddComponent(new dt::GuiWidgetComponent("Button", "Button", "b2"));
         b2->GetWidget<MyGUI::Button>()->setCaption("Tutorial");
         b2->GetWidget<MyGUI::Button>()->eventMouseButtonClick = MyGUI::newDelegate(&Click);
         w2->SetPosition(Ogre::Vector3(0.4, 0.35, 0.0));
         w2->SetScale(Ogre::Vector3(0.2, 0.1, 0.0));
 
         dt::Node* w3 = scene->AddChildNode(new dt::Node("w3"));
-        dt::GuiWidgetComponent* b3 = w3->AddComponent(new dt::GuiWidgetComponent("Button", "b3"));
+        dt::GuiWidgetComponent* b3 = w3->AddComponent(new dt::GuiWidgetComponent("Button", "Button", "b3"));
         b3->GetWidget<MyGUI::Button>()->setCaption("Options");
         b3->GetWidget<MyGUI::Button>()->eventMouseButtonClick = MyGUI::newDelegate(&Click);
         w3->SetPosition(Ogre::Vector3(0.4, 0.55, 0.0));
         w3->SetScale(Ogre::Vector3(0.2, 0.1, 0.0));
 
         dt::Node* w4 = scene->AddChildNode(new dt::Node("w4"));
-        dt::GuiWidgetComponent* b4 = w4->AddComponent(new dt::GuiWidgetComponent("Button", "b4"));
+        dt::GuiWidgetComponent* b4 = w4->AddComponent(new dt::GuiWidgetComponent("Button", "Button", "b4"));
         b4->GetWidget<MyGUI::Button>()->setCaption("Exit");
         b4->GetWidget<MyGUI::Button>()->eventMouseButtonClick = MyGUI::newDelegate(&Click);
         w4->SetPosition(Ogre::Vector3(0.4, 0.75, 0.0));

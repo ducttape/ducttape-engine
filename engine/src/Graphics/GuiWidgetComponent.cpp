@@ -13,9 +13,10 @@
 
 namespace dt {
 
-GuiWidgetComponent::GuiWidgetComponent(const QString& type, const QString& name)
+GuiWidgetComponent::GuiWidgetComponent(const QString& type, const QString& skin, const QString& name)
     : Component(name),
       mType(type),
+      mSkin(skin),
       mUsesPixelCoordinates(false) {}
 
 MyGUI::WidgetPtr GuiWidgetComponent::GetWidget() {
@@ -23,7 +24,8 @@ MyGUI::WidgetPtr GuiWidgetComponent::GetWidget() {
 }
 
 void GuiWidgetComponent::OnCreate() {
-    mWidget = GuiManager::Get()->GetGuiSystem()->createWidgetT(mType.toStdString(), "Button", 10, 10, 100, 100, MyGUI::Align::Default, "Main", mName.toStdString());
+    mWidget = GuiManager::Get()->GetGuiSystem()->createWidgetT(mType.toStdString(), mSkin.toStdString(),
+                                                               10, 10, 100, 100, MyGUI::Align::Default, "Main", mName.toStdString());
 }
 
 void GuiWidgetComponent::OnDestroy() {

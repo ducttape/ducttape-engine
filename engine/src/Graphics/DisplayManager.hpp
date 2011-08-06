@@ -54,6 +54,13 @@ public:
     static DisplayManager* Get();
 
     /**
+      * Sets the window size.
+      * @param width The window width, in pixels.
+      * @param height The window height, in pixels.
+      */
+    void SetWindowSize(int width, int height);
+
+    /**
       * Tries to register a camera.
       * This will fail if the same CameraComponent is already registered. The first CameraComponent that gets registered will also trigger the creation of the render window.
       * It will also run AddViewport with name \c main and set it as main Viewport.
@@ -168,6 +175,7 @@ private:
     GuiManager mGuiManager;     //!< The GuiManager.
 
     int mNextZOrder;            //!< The z-order for the next viewport to be created.
+    Ogre::Vector2 mWindowSize;  //!< The size of the window, in pixels (integer).
 };
 
 }
