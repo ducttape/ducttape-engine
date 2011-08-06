@@ -72,6 +72,7 @@ public:
         dt::Scene* scene = AddScene(new dt::Scene("testscene"));
 
         dt::ResourceManager::Get()->AddResourceLocation("","FileSystem");
+        dt::ResourceManager::Get()->AddResourceLocation("crate","FileSystem");
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
         OgreProcedural::Root::getInstance()->sceneManager = scene->GetSceneManager();
@@ -88,12 +89,12 @@ public:
 
         dt::Node* spherenode = scene->AddChildNode(new dt::Node("spherenode"));
         spherenode->SetPosition(Ogre::Vector3(0, 10, 0));
-        spherenode->AddComponent(new dt::MeshComponent("Sphere", "PrimitivesTest/RedBrick", "sphere-mesh"));
+        spherenode->AddComponent(new dt::MeshComponent("Crate01.mesh", "", "sphere-mesh"));
         spherenode->AddComponent(new dt::PhysicsBodyComponent("sphere-mesh", "sphere-body"));
 
         dt::Node* spherenode2 = scene->AddChildNode(new dt::Node("spherenode2"));
         spherenode2->SetPosition(Ogre::Vector3(2, 10, 0));
-        spherenode2->AddComponent(new dt::MeshComponent("Sphere", "PrimitivesTest/Pebbles", "sphere-mesh2"));
+        spherenode2->AddComponent(new dt::MeshComponent("Sphere", "PrimitivesTest/RedBrick", "sphere-mesh2"));
         spherenode2->AddComponent(new dt::PhysicsBodyComponent("sphere-mesh2", "sphere-body2"));
 
         dt::Node* planenode = scene->AddChildNode(new dt::Node("planenode"));
@@ -106,11 +107,7 @@ public:
 
         dt::Node* lightnode1 = scene->AddChildNode(new dt::Node("lightnode1"));
         lightnode1->AddComponent(new dt::LightComponent("light1"));
-        lightnode1->SetPosition(Ogre::Vector3(0, 30, 0));
-
-        dt::Node* lightnode2 = scene->AddChildNode(new dt::Node("lightnode2"));
-        lightnode2->AddComponent(new dt::LightComponent("light2"));
-        lightnode2->SetPosition(Ogre::Vector3(0, -10, 0));
+        lightnode1->SetPosition(Ogre::Vector3(15, 5, 15));
     }
 
 private:
