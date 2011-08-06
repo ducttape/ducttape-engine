@@ -210,6 +210,11 @@ void Node::OnUpdate(double time_diff) {
     _UpdateAllComponents(time_diff);
 }
 
+void Node::SetPosition(float x, float y, float z, RelativeTo rel) {
+    SetPosition(Ogre::Vector3(x,y,z), rel);
+}
+
+
 bool Node::_IsScene() {
     return false;
 }

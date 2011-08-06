@@ -10,6 +10,7 @@
 
 #include <Core/StringManager.hpp>
 #include <Event/EventManager.hpp>
+#include <Logic/ScriptManager.hpp>
 #include <Scene/Node.hpp>
 #include <Utils/Utils.hpp>
 
@@ -49,6 +50,12 @@ void Component::SetNode(Node* node) {
 
 Node* Component::GetNode() {
     return mNode;
+}
+
+QScriptValue Component::GetScriptNode() {
+    // Making QScriptValue from Node. Type conversion in C style only due to limitation of incomplete type.
+    // return dt::ScriptManager::GetScriptEngine()->newQObject((QObject*)mNode);
+    return dt::ScriptManager::Get()->GetScriptEngine()->newQObject(mNode);
 }
 
 void Component::Create() {

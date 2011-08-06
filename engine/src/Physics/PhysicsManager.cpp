@@ -43,7 +43,7 @@ EventListener::Priority PhysicsManager::GetEventPriority() const {
     // Set a high priority to update the physics world before
     // all the PhysicsBodyComponents are updated, so they do
     // not lag behind.
-    return EventListener::HIGHEST;
+    return EventListener::INTERNAL_HIGHEST;
 }
 
 

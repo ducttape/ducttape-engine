@@ -18,6 +18,10 @@ namespace dt {
 Scene::Scene(const QString& name)
     : Node(name) {}
 
+EventListener::Priority Scene::GetEventPriority() const {
+    return EventListener::LOWEST;
+}
+
 void Scene::OnInitialize() {
     Logger::Get().Debug("Scene " + mName + " is being initialized.");
     EventManager::Get()->AddListener(this);

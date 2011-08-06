@@ -18,6 +18,7 @@
 #include <boost/ptr_container/ptr_map.hpp>
 
 #include <QObject>
+#include <QScriptValue>
 #include <QString>
 
 #include <memory>
@@ -35,9 +36,10 @@ class DUCTTAPE_API Component : public QObject,
                                public EventListener,
                                public boost::noncopyable {
     Q_OBJECT
-    Q_PROPERTY(QString mName READ GetName CONSTANT FINAL)
-    Q_PROPERTY(bool mIsEnabled READ IsEnabled FINAL)
-    Q_PROPERTY(bool mIsCreated READ IsCreated FINAL)
+    Q_PROPERTY(QString name READ GetName CONSTANT FINAL)
+    Q_PROPERTY(bool isEnabled READ IsEnabled FINAL)
+    Q_PROPERTY(bool isCreated READ IsCreated FINAL)
+    Q_PROPERTY(QScriptValue node READ GetScriptNode)
 
 public:
     /**
@@ -50,12 +52,6 @@ public:
       * Pure virtual destructor makes this class abstract.
       */
     virtual ~Component() = 0;
-
-    /**
-      * Returns the name of the Component.
-      * @returns The name of the Component.
-      */
-    const QString& GetName() const;
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 
@@ -91,11 +87,24 @@ public:
       */
     void SetNode(Node* node);
 
+public slots:
+    /**
+      * Returns the name of the Component.
+      * @returns The name of the Component.
+      */
+    const QString& GetName() const;
+
     /**
       * Returns the Node of this component.
       * @returns The Node of this component.
       */
     Node* GetNode();
+
+    /**
+      * Returns the Node of this component. Used for scripting access.
+      * @returns The Node of this component.
+      */
+    QScriptValue GetScriptNode();
 
     /**
       * Returns whether the component is created.
@@ -109,7 +118,6 @@ public:
       */
     bool IsEnabled();
 
-public slots:
     /**
       * Creates the component.
       */

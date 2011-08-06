@@ -19,7 +19,7 @@ int main(int argc, char** argv) {
 
     dt::TriggerComponent trigger("testcomponent");
     QObject *object = &trigger;
-    QVariant var = object->property("mName");
+    QVariant var = object->property("name");
     char* c = var.toString().toAscii().data();
 
     if(strcmp(c, "testcomponent") != 0) {

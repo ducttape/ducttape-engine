@@ -19,6 +19,7 @@
 #include <OgreQuaternion.h>
 #include <OgreVector3.h>
 
+#include <QObject>
 #include <QString>
 
 #include <memory>
@@ -35,7 +36,14 @@ class Scene;
   * its behaviour, e.g. the look or events.
   * @see Component
   */
-class DUCTTAPE_API Node {
+class DUCTTAPE_API Node : public QObject {
+    Q_OBJECT
+    Q_ENUMS(RelativeTo)
+
+    Q_PROPERTY(QString name READ GetName CONSTANT FINAL)
+    Q_PROPERTY(Node* parent READ GetParent FINAL)
+    Q_PROPERTY(Scene* scene READ GetScene FINAL)
+
 public:
     /**
       * The coordinates space for getting/setting rotation, position and scale.
@@ -140,12 +148,6 @@ public:
     void RemoveComponent(const QString& name);
 
     /**
-      * Returns the name of the Node.
-      * @returns The name of the Node.
-      */
-    const QString& GetName() const;
-
-    /**
       * Returns the position of the Node.
       * @param rel Reference point.
       * @returns The Node position.
@@ -217,6 +219,19 @@ public:
     void SetParent(Node* parent);
 
     /**
+      * Called when the Node is being updated.
+      * @param time_diff The frame time.
+      */
+    virtual void OnUpdate(double time_diff);
+
+public slots:
+    /**
+      * Returns the name of the Node.
+      * @returns The name of the Node.
+      */
+    const QString& GetName() const;
+
+    /**
       * Returns a pointer to the parent Node.
       * @returns A pointer to the parent Node.
       */
@@ -229,10 +244,13 @@ public:
     Scene* GetScene();
 
     /**
-      * Called when the Node is being updated.
-      * @param time_diff The frame time.
+      * Sets the position of the Node.
+      * @param x The x position.
+      * @param y The y position.
+      * @param z The z position.
+      * @param rel Reference point.
       */
-    virtual void OnUpdate(double time_diff);
+    void SetPosition(float x, float y, float z, RelativeTo rel = PARENT);
 
 protected:
     /**

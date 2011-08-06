@@ -45,17 +45,19 @@ public:
 
 
             if(mRuntime >= 3.5 && testscene->GetPhysicsWorld()->IsEnabled()) {
+                testscene->GetPhysicsWorld()->SetEnabled(false);
                 mSphere1DisabledPosition = sphere1->GetNode()->GetPosition();
+                std::cout << "Disabled at " << sphere1->GetNode()->GetPosition() << std::endl;
             }
             if(!testscene->GetPhysicsWorld()->IsEnabled()) {
                 if(mSphere1DisabledPosition != sphere1->GetNode()->GetPosition()) {
                     std::cerr << "The first sphere moved, even though it should be disabled (the whole physics world should be disabled)." << std::endl;
+                    std::cout << "Position: " <<sphere1->GetNode()->GetPosition() << std::endl;
                     exit(1);
                 }
             }
 
             testscene->GetPhysicsWorld()->SetShowDebug(mRuntime > 2.0);
-            testscene->GetPhysicsWorld()->SetEnabled(mRuntime < 3.5);
 
             if(mRuntime > 5.0) {
                 dt::StateManager::Get()->Pop(1);
