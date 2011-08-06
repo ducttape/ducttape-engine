@@ -15,7 +15,9 @@
 
 #include <QObject>
 
-int main(int argc, char** argv) {
+namespace test_timer {
+
+int Run(int argc, char** argv) {
     dt::Game game;
     Main* main = new Main();
     game.Run(main, argc, argv);
@@ -40,3 +42,5 @@ int main(int argc, char** argv) {
 
     return 0;
 }
+
+} // namespace test_timer

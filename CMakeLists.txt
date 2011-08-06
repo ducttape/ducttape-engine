@@ -51,7 +51,7 @@ endif()
 
 find_package(SFML 2 COMPONENTS audio graphics network system window REQUIRED)
 find_package(Bullet REQUIRED)
-find_package(Boost COMPONENTS filesystem program_options thread REQUIRED)
+find_package(Boost COMPONENTS program_options thread REQUIRED)
 find_package(OIS REQUIRED)
 find_package(OGRE REQUIRED)
 find_package(MyGUI REQUIRED)

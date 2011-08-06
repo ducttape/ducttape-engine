@@ -6,8 +6,8 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#ifndef TEST_TIMER
-#define TEST_TIMER
+#ifndef DUCTTAPE_ENGINE_TESTS_TEST_TIMER
+#define DUCTTAPE_ENGINE_TESTS_TEST_TIMER
 
 #include <Core/Root.hpp>
 #include <Scene/Game.hpp>
@@ -15,6 +15,8 @@
 #include <Utils/Timer.hpp>
 
 #include <QObject>
+
+namespace test_timer {
 
 class Main : public dt::State {
     Q_OBJECT
@@ -34,8 +36,8 @@ public:
         mTimer2 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 2 (thread mode)", 0.2, true, true));
         mTimer3 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 3 (callback)", 0.1, true, true, false));
         QObject::connect(mTimer3.get(), SIGNAL(TimerTicked(const QString&)),
-                         this, SLOT(TimerCallback(const QString&)));
-
+                         this, SLOT(TimerCallback(const QString&)),
+                         Qt::DirectConnection);
         mTotalTime = 0;
     }
 
@@ -80,5 +82,9 @@ public:
 
     double mTotalTime;
 };
+
+int Run(int argc, char** argv);
+
+} // namespace test_timer
 
 #endif

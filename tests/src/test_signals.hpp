@@ -6,12 +6,14 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#ifndef TEST_SIGNALS
-#define TEST_SIGNALS
+#ifndef DUCTTAPE_ENGINE_TESTS_TEST_SIGNALS
+#define DUCTTAPE_ENGINE_TESTS_TEST_SIGNALS
 
 #include <Core/Root.hpp>
 
 #include <QObject>
+
+namespace test_signals {
 
 class TestComponent : public dt::Component {
     Q_OBJECT
@@ -46,5 +48,9 @@ public slots:
         invoked = true;
     }
 };
+
+int Run(int argc, char** argv);
+
+} // namespace test_signals
 
 #endif

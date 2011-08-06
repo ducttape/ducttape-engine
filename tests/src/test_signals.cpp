@@ -12,7 +12,9 @@
 
 #include <QObject>
 
-int main(int argc, char** argv) {
+namespace test_signals {
+
+int Run(int argc, char** argv) {
     dt::Root& root = dt::Root::GetInstance();
     root.Initialize(argc, argv);
 
@@ -30,3 +32,5 @@ int main(int argc, char** argv) {
     root.Deinitialize();
     return 0;
 }
+
+} // namespace test_signals

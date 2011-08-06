@@ -62,7 +62,6 @@ void Timer::TriggerTickEvent() {
             mTimeLeft = mInterval;
         }
     }
-
 }
 
 double Timer::GetInterval() const {
@@ -86,6 +85,10 @@ void Timer::_ThreadFunction(void* user_data) {
 
     // done, trigger event
     timer->TriggerTickEvent();
+}
+
+void Timer::TriggerTick() {
+    emit TimerTicked("DEBUG");
 }
 
 void Timer::Stop() {
