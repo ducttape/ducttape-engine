@@ -12,6 +12,10 @@
 #include <Scene/Node.hpp>
 #include <Graphics/CameraComponent.hpp>
 #include <Graphics/GuiWidgetComponent.hpp>
+#include <Utils/Utils.hpp>
+
+#include <QList>
+#include <QString>
 
 #include <sstream>
 #include <ios>
@@ -20,7 +24,8 @@ QString INFO_COLOR("#FFFF88");
 QString CMD_COLOR("#AACCFF");
 QString HELP_COLOR(INFO_COLOR);
 QString ERROR_COLOR("#AA0000");
-QString INPUT_COLOR("#FFCC33");
+//QString INPUT_COLOR("#FFCC33");
+QString INPUT_COLOR("#888888");
 
 class Main;
 
@@ -28,6 +33,38 @@ Main* THE_MAIN;
 
 class Main: public dt::State {
 public:
+    void KeyPressed(MyGUI::Widget* _sender, MyGUI::KeyCode _key, MyGUI::Char _char) {
+        // scroll history
+        QString text(mInput->getCaption().asUTF8_c_str());
+
+        int d = 0;
+        if(_key == MyGUI::KeyCode::ArrowUp) d = -1;
+        else if(_key == MyGUI::KeyCode::ArrowDown) d = 1;
+
+        if(d != 0) {
+            if(mHistoryIndex == mHistory.size() && d == -1 && text != "") // we are at the bottom, and want to scroll up, so save the bottom line
+                mCurrentCommand = text;
+
+            // now scroll around
+            mHistoryIndex += d;
+
+            if(mHistoryIndex < 0) mHistoryIndex = 0; // don't scroll up too fast
+            if(mHistoryIndex < mHistory.size()) {
+                // we are in the list
+                mInput->setCaption(mHistory.at(mHistoryIndex).toStdString());
+            } else {
+                // we are below, so just be emtpy / current command
+                mInput->setCaption(mCurrentCommand.toStdString());
+            }
+        } /*else {
+            // save current history entry
+            if(mHistoryIndex > 0 && mHistoryIndex < mHistory.size()) {
+                // but only if we selected something
+                mHistory[mHistoryIndex] = text;
+            }
+        } */
+    }
+
     void SubmitClicked(MyGUI::Widget* _sender) {
         Execute(QString(mInput->getCaption().asUTF8_c_str()));
         mInput->setCaption("");
@@ -39,9 +76,15 @@ public:
     }
 
     void Execute(QString script) {
+        // write into history
+        ++mCommandNumber;
+        mHistory.append(script);
+        mHistoryIndex = mHistory.size();
+        mCurrentCommand = "";
+
         Write("> " + script, INPUT_COLOR);
 
-        if(dt::ScriptManager::Get()->Evaluate(script, "<input>")) {
+        if(dt::ScriptManager::Get()->Evaluate(script, "command-" + dt::Utils::ToString(mCommandNumber))) {
             // success, print result
             QScriptValue result = dt::ScriptManager::Get()->GetLastReturnValue();
             if(!result.isUndefined()) {
@@ -87,6 +130,8 @@ public:
         THE_MAIN->Write("    "+CMD_COLOR+"info();"+INFO_COLOR+"      -- displays general information", HELP_COLOR);
         THE_MAIN->Write("    "+CMD_COLOR+"clear();"+INFO_COLOR+"     -- clear the output", HELP_COLOR);
         THE_MAIN->Write("    "+CMD_COLOR+"print(x);"+INFO_COLOR+"    -- prints the variable", HELP_COLOR);
+        THE_MAIN->Write("    "+CMD_COLOR+"quit;"+INFO_COLOR+"        -- terminates the application", HELP_COLOR);
+        THE_MAIN->Write("Use the "+CMD_COLOR+"Up/Down Arrow Keys"+INFO_COLOR+" to scroll your command history.", HELP_COLOR);
         return engine->undefinedValue();
     }
 
@@ -95,12 +140,22 @@ public:
         return engine->undefinedValue();
     }
 
+    static QScriptValue QuitFunction(QScriptContext *context, QScriptEngine *engine) {
+        dt::StateManager::Get()->Pop();
+        THE_MAIN->Write("Quitting...", INPUT_COLOR);
+        return engine->undefinedValue();
+    }
+
     void OnInitialize() {
+        mCommandNumber = 0;
+
         QScriptEngine* e = dt::ScriptManager::Get()->GetScriptEngine();
         e->globalObject().setProperty("print", e->newFunction(Main::PrintFunction));
         e->globalObject().setProperty("help", e->newFunction(Main::HelpFunction));
         e->globalObject().setProperty("info", e->newFunction(Main::InfoFunction));
         e->globalObject().setProperty("clear", e->newFunction(Main::ClearFunction));
+        e->globalObject().setProperty("quit", e->newFunction(Main::QuitFunction));
+        e->globalObject().setProperty("exit", e->newFunction(Main::QuitFunction));
 
 
         dt::DisplayManager::Get()->SetWindowSize(800, 600);
@@ -137,6 +192,7 @@ public:
         mInput->setEditMultiLine(false);
         mInput->setEditReadOnly(false);
         mInput->eventEditSelectAccept = MyGUI::newDelegate(this, &Main::EditSubmitted);
+        mInput->eventKeyButtonPressed = MyGUI::newDelegate(this, &Main::KeyPressed);
         mInput->setTextAlign(MyGUI::Align::Bottom | MyGUI::Align::Left);
 
         node = scene->AddChildNode(new dt::Node("button"));
@@ -157,6 +213,11 @@ private:
     MyGUI::Edit* mOutput;
     MyGUI::Edit* mInput;
     MyGUI::Button* mButton;
+    QList<QString> mHistory;
+    QString mCurrentCommand;
+    int mHistoryIndex;
+    int mCommandNumber;
+
 };
 
 int main(int argc, char** argv) {
