@@ -13,8 +13,8 @@
 
 #include <Core/Manager.hpp>
 #include <Graphics/CameraComponent.hpp>
-#include <Graphics/GuiManager.hpp>
 #include <Graphics/Viewport.hpp>
+#include <Gui/GuiManager.hpp>
 
 #include <boost/ptr_container/ptr_map.hpp>
 

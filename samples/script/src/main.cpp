@@ -11,7 +11,9 @@
 #include <Scene/Scene.hpp>
 #include <Scene/Node.hpp>
 #include <Graphics/CameraComponent.hpp>
-#include <Graphics/GuiWidgetComponent.hpp>
+#include <Gui/GuiManager.hpp>
+#include <Gui/GuiButton.hpp>
+#include <Gui/GuiEditBox.hpp>
 #include <Utils/Utils.hpp>
 
 #include <QList>
@@ -35,7 +37,7 @@ class Main: public dt::State {
 public:
     void KeyPressed(MyGUI::Widget* _sender, MyGUI::KeyCode _key, MyGUI::Char _char) {
         // scroll history
-        QString text(mInput->getCaption().asUTF8_c_str());
+        QString text(mInput->GetCaption());
 
         int d = 0;
         if(_key == MyGUI::KeyCode::ArrowUp) d = -1;
@@ -51,10 +53,10 @@ public:
             if(mHistoryIndex < 0) mHistoryIndex = 0; // don't scroll up too fast
             if(mHistoryIndex < mHistory.size()) {
                 // we are in the list
-                mInput->setCaption(mHistory.at(mHistoryIndex).toStdString());
+                mInput->SetCaption(mHistory.at(mHistoryIndex));
             } else {
                 // we are below, so just be emtpy / current command
-                mInput->setCaption(mCurrentCommand.toStdString());
+                mInput->SetCaption(mCurrentCommand);
             }
         } /*else {
             // save current history entry
@@ -66,13 +68,13 @@ public:
     }
 
     void SubmitClicked(MyGUI::Widget* _sender) {
-        Execute(QString(mInput->getCaption().asUTF8_c_str()));
-        mInput->setCaption("");
+        Execute(mInput->GetCaption());
+        mInput->SetCaption("");
     }
 
     void EditSubmitted(MyGUI::EditBox* _sender) {
-        Execute(QString(mInput->getCaption().asUTF8_c_str()));
-        mInput->setCaption("");
+        Execute(mInput->GetCaption());
+        mInput->SetCaption("");
     }
 
     void Execute(QString script) {
@@ -97,13 +99,11 @@ public:
     }
 
     void Write(QString text, QString color = "#FFFFFF") {
-        mOutput->addText(
-                    (mOutput->getCaption() != "" ? "\n" : "") // newline, but not if empty
-                     + color.toStdString() + text.toStdString());
+        mOutput->SetCaption(mOutput->GetCaption() + "\n" + color + text);
     }
 
     void Clear() {
-        mOutput->setCaption("");
+        mOutput->SetCaption("");
     }
 
     static QScriptValue PrintFunction(QScriptContext *context, QScriptEngine *engine) {
@@ -168,51 +168,42 @@ public:
         camnode->AddComponent(new dt::CameraComponent("camera"));
 
         // create GUI
-        dt::Node* node;
-        dt::GuiWidgetComponent* component;
+        dt::GuiRootWindow& win = dt::GuiManager::Get()->GetRootWindow();
 
+        mOutput = win.CreateChild<dt::GuiEditBox>("output");
+        mOutput->SetPosition(10, 10);
+        mOutput->SetSize(780, 550);
+        MyGUI::EditBox* output = dynamic_cast<MyGUI::EditBox*>(mOutput->GetMyGUIWidget());
+        output->changeWidgetSkin("TextBox");
+        output->setEditMultiLine(true);
+        output->setEditReadOnly(true);
+        output->setTextAlign(MyGUI::Align::Bottom | MyGUI::Align::Left);
 
-        node = scene->AddChildNode(new dt::Node("output"));
-        node->SetPosition(Ogre::Vector3(10, 10, 0));
-        node->SetScale(Ogre::Vector3(780, 550, 0));
-        component = node->AddComponent(new dt::GuiWidgetComponent("Edit", "EditEmpty", "output"));
-        component->SetUsesPixelCoordinates(true);
-        mOutput = component->GetWidget<MyGUI::EditBox>();
-        mOutput->setTextColour(MyGUI::Colour::White);
-        mOutput->setEditMultiLine(true);
-        mOutput->setEditReadOnly(true);
-        mOutput->setTextAlign(MyGUI::Align::Bottom | MyGUI::Align::Left);
+        mInput = win.CreateChild<dt::GuiEditBox>("input");
+        mInput->SetPosition(10, 570);
+        mInput->SetSize(700, 20);
+        MyGUI::EditBox* input = dynamic_cast<MyGUI::EditBox*>(mInput->GetMyGUIWidget());
+        input->setEditMultiLine(false);
+        input->setEditReadOnly(false);
+        input->eventEditSelectAccept += MyGUI::newDelegate(this, &Main::EditSubmitted);
+        input->eventKeyButtonPressed += MyGUI::newDelegate(this, &Main::KeyPressed);
+        input->setTextAlign(MyGUI::Align::Bottom | MyGUI::Align::Left);
 
-        node = scene->AddChildNode(new dt::Node("input"));
-        node->SetPosition(Ogre::Vector3(10, 570, 0));
-        node->SetScale(Ogre::Vector3(700, 20, 0));
-        component = node->AddComponent(new dt::GuiWidgetComponent("Edit", "Edit", "input"));
-        component->SetUsesPixelCoordinates(true);
-        mInput = component->GetWidget<MyGUI::EditBox>();
-        mInput->setEditMultiLine(false);
-        mInput->setEditReadOnly(false);
-        mInput->eventEditSelectAccept += MyGUI::newDelegate(this, &Main::EditSubmitted);
-        mInput->eventKeyButtonPressed += MyGUI::newDelegate(this, &Main::KeyPressed);
-        mInput->setTextAlign(MyGUI::Align::Bottom | MyGUI::Align::Left);
+        mButton = win.CreateChild<dt::GuiButton>("button");
+        mButton->SetPosition(720, 570);
+        mButton->SetSize(70, 20);
+        mButton->SetCaption("Run");
+        dynamic_cast<MyGUI::Button*>(mButton->GetMyGUIWidget())->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::SubmitClicked);
 
-        node = scene->AddChildNode(new dt::Node("button"));
-        node->SetPosition(Ogre::Vector3(720, 570, 0));
-        node->SetScale(Ogre::Vector3(70, 20, 0));
-        component = node->AddComponent(new dt::GuiWidgetComponent("Button", "Button", "button"));
-        component->SetUsesPixelCoordinates(true);
-        mButton = component->GetWidget<MyGUI::Button>();
-        mButton->setCaption("Run");
-        mButton->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::SubmitClicked);
-
-        MyGUI::InputManager::getInstance().setKeyFocusWidget(mInput);
 
         InfoFunction(nullptr, dt::ScriptManager::Get()->GetScriptEngine());
     }
 
 private:
-    MyGUI::EditBox* mOutput;
-    MyGUI::EditBox* mInput;
-    MyGUI::Button* mButton;
+    dt::GuiButton* mButton;
+    dt::GuiEditBox* mInput;
+    dt::GuiEditBox* mOutput;
+
     QList<QString> mHistory;
     QString mCurrentCommand;
     int mHistoryIndex;
