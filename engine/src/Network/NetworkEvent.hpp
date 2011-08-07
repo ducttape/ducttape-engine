@@ -25,7 +25,7 @@ namespace dt {
 /**
   * Abstract base class for all Events supposed to be sent via network.
   */
-class DUCTTAPE_API NetworkEvent : public Event {
+class DUCTTAPE_API NetworkEvent : public virtual Event {
 public:
     /**
       * Default constructor.

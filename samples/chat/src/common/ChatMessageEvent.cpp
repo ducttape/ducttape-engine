@@ -8,8 +8,8 @@
 
 #include "ChatMessageEvent.hpp"
 
-ChatMessageEvent::ChatMessageEvent(const QString& message, const QString& sender) {
-    mMessage = message;
+ChatMessageEvent::ChatMessageEvent(const QString& message, const QString& sender) :
+    MessageEvent(message) {
     mSenderNick = sender;
 }
 
@@ -25,10 +25,6 @@ std::shared_ptr<dt::Event> ChatMessageEvent::Clone() const {
 void ChatMessageEvent::Serialize(dt::IOPacket& p) {
     p & mMessage;
     p & mSenderNick;
-}
-
-const QString& ChatMessageEvent::GetMessageEvent() const {
-    return mMessage;
 }
 
 const QString& ChatMessageEvent::GetSenderNick() const {
