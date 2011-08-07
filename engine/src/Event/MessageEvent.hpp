@@ -20,7 +20,7 @@ namespace dt {
 /**
   * Event for sending generic string messages through the event system.
   */
-class DUCTTAPE_API MessageEvent : public Event {
+class DUCTTAPE_API MessageEvent : public virtual Event {
 public:
     /**
       * Advanced constructor.

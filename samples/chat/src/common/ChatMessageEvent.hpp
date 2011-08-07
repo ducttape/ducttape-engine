@@ -10,8 +10,9 @@
 #define DUCTTAPE_SAMPLE_CHAT_COMMON_CHATMESSAGEEVENT
 
 #include <Network/NetworkEvent.hpp>
+#include <Event/MessageEvent.hpp>
 
-class ChatMessageEvent : public dt::NetworkEvent {
+class ChatMessageEvent : public dt::NetworkEvent, public dt::MessageEvent {
 public:
     ChatMessageEvent(const std::string& message, const std::string& sender);
     const std::string GetType() const;
@@ -19,7 +20,6 @@ public:
     std::shared_ptr<dt::Event> Clone() const;
     void Serialize(dt::IOPacket& p);
 
-    const std::string& GetMessageEvent() const;
     const std::string& GetSenderNick() const;
 protected:
     std::string mMessage;
