@@ -20,7 +20,7 @@ namespace dt {
 /**
   * Event for sending generic string messages through the event system.
   */
-class DUCTTAPE_API MessageEvent : public Event {
+class DUCTTAPE_API MessageEvent : public virtual Event {
 public:
     /**
       * Advanced constructor.
@@ -33,7 +33,7 @@ public:
       * Returns the message of this Event.
       * @returns The message of the Event.
       */
-    const QString& GetMessageEvent() const;
+    const QString& GetMessageText() const;
 protected:
     QString mMessage;   //!< The message of this Event.
 };

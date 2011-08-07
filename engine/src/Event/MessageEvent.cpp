@@ -17,7 +17,7 @@ const QString MessageEvent::GetType() const {
     return "DT_MESSAGEEVENT";
 }
 
-const QString& MessageEvent::GetMessageEvent() const {
+const QString& MessageEvent::GetMessageText() const {
     return mMessage;
 }
 
