@@ -10,9 +10,6 @@
 
 #include <Core/Root.hpp>
 
-#define MYGUI_DONT_USE_OBSOLETE
-#include <MyGUI_LogManager.h>
-
 namespace dt {
 
 LogManager::LogManager() {}
@@ -23,9 +20,8 @@ void LogManager::Initialize() {
     GetLogger("Ogre.log").GetStream("INFO")->SetDisabled(true);
     GetLogger("Ogre.log").GetStream("DEBUG")->SetDisabled(true);
 
-    // Disable MyGUI output completely, Ogre will throw an exception if a
-    // resource cannot be found
-    MyGUI::LogManager::getInstance().setSTDOutputEnabled(false);
+    // The MyGUI LogManager configuration currently is done in Graphics/GuiManager.cpp
+    // due to initilization order reasons.
 }
 
 void LogManager::Deinitialize() {}

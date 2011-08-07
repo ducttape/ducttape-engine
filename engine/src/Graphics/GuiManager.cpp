@@ -15,6 +15,9 @@
 #include <Graphics/DisplayManager.hpp>
 #include <Utils/Logger.hpp>
 
+#define MYGUI_DONT_USE_OBSOLETE
+#include <MyGUI_LogManager.h>
+
 namespace dt {
 
 GuiManager::GuiManager()
@@ -33,6 +36,11 @@ void GuiManager::Initialize() {
         Ogre::SceneManager* scene_mgr = c->GetCamera()->getSceneManager();
 
         mPlatform = new MyGUI::OgrePlatform();
+
+        // Disable MyGUI output completely, Ogre will throw an exception if a
+        // resource cannot be found
+        MyGUI::LogManager::getInstance().setSTDOutputEnabled(false);
+
         mPlatform->initialise(DisplayManager::Get()->GetRenderWindow(), scene_mgr, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
         mGuiSystem = new MyGUI::Gui();
