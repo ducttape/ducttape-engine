@@ -10,6 +10,8 @@
 
 #include <Core/Root.hpp>
 
+#include <SFML/Window/VideoMode.hpp>
+
 namespace dt {
 
 DisplayManager::DisplayManager()
@@ -17,7 +19,8 @@ DisplayManager::DisplayManager()
       mMainCamera(""),
       mOgreRoot(nullptr),
       mNextZOrder(1),
-      mWindowSize(Ogre::Vector2(1024, 768)) {}
+      mWindowSize(Ogre::Vector2(1024, 768)),
+      mFullscreen(false) {}
 
 DisplayManager::~DisplayManager() {}
 
@@ -39,6 +42,20 @@ void DisplayManager::SetWindowSize(int width, int height) {
 
     if(mOgreRoot != nullptr) {
         mOgreRenderWindow->resize(width, height);
+    }
+}
+
+void DisplayManager::SetFullscreen(bool fullscreen, bool adjust_resolution) {
+    mFullscreen = fullscreen;
+
+    if(mOgreRoot != nullptr) {
+        if(adjust_resolution) {
+            sf::VideoMode desktop = sf::VideoMode::GetDesktopMode();
+            mOgreRenderWindow->setFullscreen(fullscreen, desktop.Width, desktop.Height);
+            // do not save as mWindowSize, so when we toggle back, we will get the old resolution back
+        } else {
+            mOgreRenderWindow->setFullscreen(fullscreen, mWindowSize.x, mWindowSize.y);
+        }
     }
 }
 
