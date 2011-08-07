@@ -10,6 +10,7 @@
 
 #include <Core/Root.hpp>
 #include <Event/EventManager.hpp>
+#include <Gui/GuiManager.hpp>
 #include <Utils/Logger.hpp>
 #include <Utils/Utils.hpp>
 
@@ -28,8 +29,11 @@ void ScriptManager::Initialize() {
     // redirect print output
     mGlobalObject.setProperty("print", mScriptEngine->newFunction(&ScriptManager::ScriptPrintFunction));
 
-    QScriptValue v = mScriptEngine->newQObject(DisplayManager::Get());
-    mScriptEngine->globalObject().setProperty("DisplayManager", v);
+    QScriptValue display_manager = mScriptEngine->newQObject(DisplayManager::Get());
+    mScriptEngine->globalObject().setProperty("DisplayManager", display_manager);
+
+    QScriptValue gui_root = mScriptEngine->newQObject(& GuiManager::Get()->GetRootWindow());
+    mScriptEngine->globalObject().setProperty("Gui", gui_root);
 }
 
 void ScriptManager::Deinitialize() {}
