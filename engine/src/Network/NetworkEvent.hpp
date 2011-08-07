@@ -14,9 +14,10 @@
 #include <Event/Event.hpp>
 #include <Network/IOPacket.hpp>
 
+#include <QString>
+
 #include <cstdint>
 #include <memory>
-#include <string>
 #include <vector>
 
 namespace dt {
@@ -30,7 +31,7 @@ public:
       * Default constructor.
       */
     NetworkEvent();
-    virtual const std::string GetType() const = 0;
+    virtual const QString GetType() const = 0;
     bool IsNetworkEvent() const;
 
     /**

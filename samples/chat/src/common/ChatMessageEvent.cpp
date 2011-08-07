@@ -8,13 +8,12 @@
 
 #include "ChatMessageEvent.hpp"
 
-ChatMessageEvent::ChatMessageEvent(const std::string& message, const std::string& sender) :
+ChatMessageEvent::ChatMessageEvent(const QString& message, const QString& sender) :
     MessageEvent(message) {
-    mMessage = message;
     mSenderNick = sender;
 }
 
-const std::string ChatMessageEvent::GetType() const {
+const QString ChatMessageEvent::GetType() const {
     return "CHATMESSAGEEVENT";
 }
 
@@ -28,6 +27,6 @@ void ChatMessageEvent::Serialize(dt::IOPacket& p) {
     p & mSenderNick;
 }
 
-const std::string& ChatMessageEvent::GetSenderNick() const {
+const QString& ChatMessageEvent::GetSenderNick() const {
     return mSenderNick;
 }

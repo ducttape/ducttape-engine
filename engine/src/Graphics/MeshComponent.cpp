@@ -15,7 +15,7 @@
 
 namespace dt {
 
-MeshComponent::MeshComponent(const std::string& mesh_handle, const std::string& material_name, const std::string& name)
+MeshComponent::MeshComponent(const QString& mesh_handle, const QString& material_name, const QString& name)
     : Component(name),
       mSceneNode(nullptr),
       mEntity(nullptr),
@@ -55,7 +55,7 @@ void MeshComponent::OnUpdate(double time_diff) {
     }
 }
 
-void MeshComponent::SetMeshHandle(const std::string& mesh_handle) {
+void MeshComponent::SetMeshHandle(const QString& mesh_handle) {
     if(mesh_handle != mMeshHandle && IsCreated()) {
         // we got a new mesh; load it
         _LoadMesh();
@@ -63,27 +63,27 @@ void MeshComponent::SetMeshHandle(const std::string& mesh_handle) {
     mMeshHandle = mesh_handle;
 }
 
-const std::string& MeshComponent::GetMeshHandle() const {
+const QString& MeshComponent::GetMeshHandle() const {
     return mMeshHandle;
 }
 
-std::vector<std::string> MeshComponent::GetAvailableAnimations() {
-    std::vector<std::string> result;
+std::vector<QString> MeshComponent::GetAvailableAnimations() {
+    std::vector<QString> result;
 
     if(mEntity == nullptr)
         return result;
 
     Ogre::AnimationStateIterator iter(mEntity->getAllAnimationStates()->getAnimationStateIterator());
     while(iter.hasMoreElements()) {
-        result.push_back(iter.current()->second->getAnimationName());
+        result.push_back(QString::fromStdString(iter.current()->second->getAnimationName()));
         iter.moveNext();
     }
     return result;
 }
 
-void MeshComponent::SetAnimation(const std::string& animation_state) {
+void MeshComponent::SetAnimation(const QString& animation_state) {
     if(mEntity != nullptr) {
-        mAnimationState = mEntity->getAnimationState(animation_state);
+        mAnimationState = mEntity->getAnimationState(animation_state.toStdString());
         mAnimationState->setLoop(mLoopAnimation);
     } else {
         Logger::Get().Error("Cannot set animation of component " + GetName() + ": No entity loaded.");
@@ -126,10 +126,10 @@ bool MeshComponent::GetLoopAnimation() {
     return mLoopAnimation;
 }
 
-void MeshComponent::SetMaterialName(const std::string& material_name) {
+void MeshComponent::SetMaterialName(const QString& material_name) {
     mMaterialName = material_name;
     if(mEntity != nullptr && mMaterialName != "") {
-        mEntity->setMaterialName(material_name);
+        mEntity->setMaterialName(material_name.toStdString());
     }
 }
 
@@ -161,10 +161,10 @@ void MeshComponent::_LoadMesh() {
     }
 
     Ogre::SceneManager* scene_mgr = GetNode()->GetScene()->GetSceneManager();
-    const std::string& nodename = GetNode()->GetName();
-    mEntity = scene_mgr->createEntity(nodename + "-mesh-entity-" + mName, mMeshHandle);
+    std::string nodename = GetNode()->GetName().toStdString();
+    mEntity = scene_mgr->createEntity(nodename + "-mesh-entity-" + mName.toStdString(), mMeshHandle.toStdString());
     SetMaterialName(mMaterialName);
-    mSceneNode = scene_mgr->getRootSceneNode()->createChildSceneNode(nodename + "-mesh-scenenode-" + mName);
+    mSceneNode = scene_mgr->getRootSceneNode()->createChildSceneNode(nodename + "-mesh-scenenode-" + mName.toStdString());
     mSceneNode->attachObject(mEntity);
     SetCastShadows(mCastShadows);
 }

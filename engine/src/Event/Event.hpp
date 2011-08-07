@@ -11,9 +11,10 @@
 
 #include <Config.hpp>
 
+#include <QString>
+
 #include <cstdint>
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -33,7 +34,7 @@ public:
       * Returns the type string of the Event for serialization / identification for typecasts.
       * @returns The type string of the Event.
       */
-    virtual const std::string GetType() const = 0;
+    virtual const QString GetType() const = 0;
 
     /**
       * Returns whether this Event is being sent over network. This is only applicable for Events being inherited from NetworkEvent.

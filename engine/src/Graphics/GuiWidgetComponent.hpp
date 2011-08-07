@@ -17,7 +17,7 @@
 #include <MyGUI.h>
 #include <MyGUI_OgrePlatform.h>
 
-#include <string>
+#include <QString>
 
 namespace dt {
 
@@ -29,11 +29,12 @@ public:
     /**
       * Advanced constructor.
       * @param type The type of the MyGUI widget.
+      * @param skin The name of the MyGUI skin.
       * @param name The name of the component.
       * @see http://mygui.info
       * @see Component
       */
-    GuiWidgetComponent(const std::string& type, const std::string& name = "");
+    GuiWidgetComponent(const QString& type, const QString& skin = "Button", const QString& name = "");
 
     /**
       * Returns the MyGUI widget.
@@ -48,7 +49,7 @@ public:
       * Returns the MyGUI widget.
       * @returns The MyGUI widget.
       */
-    MyGUI::WidgetPtr GetWidget();
+    MyGUI::Widget* GetWidget();
 
     void OnCreate();
     void OnDestroy();
@@ -69,8 +70,9 @@ public:
     bool GetUsesPixelCoordinates();
 
 protected:
-    std::string mType;          //!< The type of the MyGUI widget (e.g. "Button").
-    MyGUI::WidgetPtr mWidget;   //!< A pointer to MyGUI's widget.
+    QString mType;              //!< The type of the MyGUI widget (e.g. "Button").
+    QString mSkin;              //!< The name of the MyGUI skin (e.g. "Button").
+    MyGUI::Widget* mWidget;   //!< A pointer to MyGUI's widget.
     bool mUsesPixelCoordinates; //!< Whether the node's coordinates should be interpreted as pixel coordinates.
 };
 

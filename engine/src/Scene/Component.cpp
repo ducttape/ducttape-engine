@@ -10,12 +10,13 @@
 
 #include <Core/StringManager.hpp>
 #include <Event/EventManager.hpp>
+#include <Logic/ScriptManager.hpp>
 #include <Scene/Node.hpp>
 #include <Utils/Utils.hpp>
 
 namespace dt {
 
-Component::Component(const std::string& name)
+Component::Component(const QString& name)
     : mName(name),
       mIsEnabled(false),
       mIsCreated(false) {
@@ -27,7 +28,7 @@ Component::Component(const std::string& name)
 
 Component::~Component() {}
 
-const std::string& Component::GetName() const {
+const QString& Component::GetName() const {
     return mName;
 }
 
@@ -51,10 +52,17 @@ Node* Component::GetNode() {
     return mNode;
 }
 
+QScriptValue Component::GetScriptNode() {
+    // Making QScriptValue from Node. Type conversion in C style only due to limitation of incomplete type.
+    // return dt::ScriptManager::GetScriptEngine()->newQObject((QObject*)mNode);
+    return dt::ScriptManager::Get()->GetScriptEngine()->newQObject(mNode);
+}
+
 void Component::Create() {
     if(!mIsCreated) {
         mIsCreated = true;
         OnCreate();
+        emit ComponentCreated();
         Enable();
     }
     EventManager::Get()->AddListener(this);
@@ -65,6 +73,7 @@ void Component::Destroy() {
     if(mIsCreated) {
         mIsCreated = false;
         Disable();
+        emit ComponentDestroyed();
         OnDestroy();
     }
 }
@@ -72,6 +81,7 @@ void Component::Destroy() {
 void Component::Enable() {
     if(!mIsEnabled) {
         mIsEnabled = true;
+        emit ComponentEnabled();
         OnEnable();
     }
 }
@@ -79,6 +89,7 @@ void Component::Enable() {
 void Component::Disable() {
     if(mIsEnabled) {
         mIsEnabled = false;
+        emit ComponentDisabled();
         OnDisable();
     }
 }
@@ -89,14 +100,6 @@ bool Component::IsCreated() {
 
 bool Component::IsEnabled() {
     return mIsEnabled;
-}
-
-boost::signals2::connection Component::BindSlot(const std::string& signal_identifier, boost::function<void ()> slot) {
-    return mSignals[signal_identifier].connect(slot);
-}
-
-void Component::_CallSignal(const std::string& signal_identifier) {
-    mSignals[signal_identifier]();
 }
 
 } // namespace dt

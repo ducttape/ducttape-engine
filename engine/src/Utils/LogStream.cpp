@@ -16,27 +16,28 @@
 
 namespace dt {
 
-std::string LogStream::COLOR_RED = "\033[22;31m";
-std::string LogStream::COLOR_GREEN = "\033[22;32m";
-std::string LogStream::COLOR_YELLOW = "\033[01;33m";
-std::string LogStream::COLOR_BLUE = "\033[01;34m";
-std::string LogStream::COLOR_PURPLE = "\033[22;35m";
-std::string LogStream::COLOR_CYAN = "\033[22;36m";
-std::string LogStream::COLOR_NONE = "\033[0m";
+QString LogStream::COLOR_RED = "\033[22;31m";
+QString LogStream::COLOR_GREEN = "\033[22;32m";
+QString LogStream::COLOR_YELLOW = "\033[01;33m";
+QString LogStream::COLOR_BLUE = "\033[01;34m";
+QString LogStream::COLOR_PURPLE = "\033[22;35m";
+QString LogStream::COLOR_CYAN = "\033[22;36m";
+QString LogStream::COLOR_NONE = "\033[0m";
 
-LogStream::LogStream(const std::string& name)
+LogStream::LogStream(const QString& name)
     : mStream(&std::cout),
       mFormat("[%1$s | %2$s] %3$s"),        // e.g.: "[default | WARNING] This is a warning!"
       mName(name),
       mDisabled(false) {}
 
-std::string LogStream::FormatMessage(Logger* logger, const std::string& msg) {
-    return (boost::format(mFormat) % logger->GetName() % mName % msg).str();
+QString LogStream::FormatMessage(Logger* logger, const QString& msg) {
+    // return QString(mFormat).arg(logger->GetName()).arg(mName).arg(msg);
+    return QString::fromStdString((boost::format(mFormat.toStdString()) % logger->GetName().toStdString() % mName.toStdString() % msg.toStdString()).str());
 }
 
-void LogStream::Output(Logger* logger, const std::string& msg) {
+void LogStream::Output(Logger* logger, const QString& msg) {
     if(!mDisabled) {
-        *mStream << FormatMessage(logger, msg) << std::endl;
+        *mStream << FormatMessage(logger, msg).toStdString() << std::endl;
     }
 }
 
@@ -44,15 +45,15 @@ void LogStream::SetStream(std::ostream& stream) {
     mStream = &stream;
 }
 
-void LogStream::SetName(const std::string& name) {
+void LogStream::SetName(const QString& name) {
     mName = name;
 }
 
-void LogStream::SetFormat(const std::string& format) {
+void LogStream::SetFormat(const QString& format) {
     mFormat = format;
 }
 
-const std::string& LogStream::GetName() const {
+const QString& LogStream::GetName() const {
     return mName;
 }
 

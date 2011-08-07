@@ -14,13 +14,14 @@
 #include <Event/Event.hpp>
 #include <Event/EventListener.hpp>
 
-#include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/ptr_container/ptr_map.hpp>
-#include <boost/signals2.hpp>
+
+#include <QObject>
+#include <QScriptValue>
+#include <QString>
 
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -31,24 +32,26 @@ class Node;
   * Modifier for a node. This will add all the functionality to an otherwise empty node,
   * such as a mesh or sound.
   */
-class DUCTTAPE_API Component : public EventListener, public boost::noncopyable {
+class DUCTTAPE_API Component : public QObject,
+                               public EventListener,
+                               public boost::noncopyable {
+    Q_OBJECT
+    Q_PROPERTY(QString name READ GetName CONSTANT FINAL)
+    Q_PROPERTY(bool isEnabled READ IsEnabled FINAL)
+    Q_PROPERTY(bool isCreated READ IsCreated FINAL)
+    Q_PROPERTY(QScriptValue node READ GetScriptNode)
+
 public:
     /**
       * Constructor with set name.
       * @param name The Component name.
       */
-    Component(const std::string& name = "");
+    Component(const QString& name = "");
 
     /**
       * Pure virtual destructor makes this class abstract.
       */
     virtual ~Component() = 0;
-
-    /**
-      * Returns the name of the Component.
-      * @returns The name of the Component.
-      */
-    const std::string& GetName() const;
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 
@@ -84,11 +87,36 @@ public:
       */
     void SetNode(Node* node);
 
+public slots:
+    /**
+      * Returns the name of the Component.
+      * @returns The name of the Component.
+      */
+    const QString& GetName() const;
+
     /**
       * Returns the Node of this component.
       * @returns The Node of this component.
       */
     Node* GetNode();
+
+    /**
+      * Returns the Node of this component. Used for scripting access.
+      * @returns The Node of this component.
+      */
+    QScriptValue GetScriptNode();
+
+    /**
+      * Returns whether the component is created.
+      * @returns Whether the component is created.
+      */
+    bool IsCreated();
+
+    /**
+      * Returns whether the component is enabled.
+      * @returns Whether the component is enabled.
+      */
+    bool IsEnabled();
 
     /**
       * Creates the component.
@@ -110,36 +138,14 @@ public:
       */
     void Disable();
 
-    /**
-      * Returns whether the component is created.
-      * @returns Whether the component is created.
-      */
-    bool IsCreated();
-
-    /**
-      * Returns whether the component is enabled.
-      * @returns Whether the component is enabled.
-      */
-    bool IsEnabled();
-
-    /**
-      * Binds a slot to a signal.
-      * @param signal_identifier The name of the signal being called on events. Example: "Triggered" or "AnimationFinished". Case sensitive.
-      * @param slot The callback function.
-      * @returns A boost signals2 connection to disconnect the slot again.
-      */
-    boost::signals2::connection BindSlot(const std::string& signal_identifier, boost::function<void ()> slot);
+signals:
+    void ComponentCreated();
+    void ComponentDestroyed();
+    void ComponentEnabled();
+    void ComponentDisabled();
 
 protected:
-
-    /**
-      * Calls the signal with the identifier given.
-      * @param signal_identifier The signal to call.
-      */
-    void _CallSignal(const std::string& signal_identifier);
-    boost::ptr_map<std::string, boost::signals2::signal<void ()> > mSignals;    //!< The list of signals.
-
-    std::string mName;  //!< The Component name.
+    QString mName;  //!< The Component name.
     Node* mNode;        //!< The parent Node.
 
 private:

@@ -43,7 +43,7 @@ EventListener::Priority PhysicsManager::GetEventPriority() const {
     // Set a high priority to update the physics world before
     // all the PhysicsBodyComponents are updated, so they do
     // not lag behind.
-    return EventListener::HIGHEST;
+    return EventListener::INTERNAL_HIGHEST;
 }
 
 
@@ -51,18 +51,18 @@ PhysicsManager* PhysicsManager::Get() {
     return Root::GetInstance().GetPhysicsManager();
 }
 
-bool PhysicsManager::HasWorld(const std::string& name) {
+bool PhysicsManager::HasWorld(const QString& name) {
     return mWorlds.count(name) > 0;
 }
 
 PhysicsWorld* PhysicsManager::AddWorld(PhysicsWorld* world) {
-    std::string name = world->GetName();
+    QString name = world->GetName();
     mWorlds.insert(name, world);
     GetWorld(name)->Initialize();
     return GetWorld(name);
 }
 
-PhysicsWorld* PhysicsManager::GetWorld(const std::string& name) {
+PhysicsWorld* PhysicsManager::GetWorld(const QString& name) {
     if(HasWorld(name))
         return mWorlds.find(name)->second;
     return nullptr;

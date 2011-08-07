@@ -14,8 +14,9 @@
 #include <Event/Event.hpp>
 #include <Network/NetworkEvent.hpp>
 
+#include <QString>
+
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -30,7 +31,7 @@ public:
       * @param is_reply Whether this ping is a reply.
       */
     PingEvent(double timestamp, bool is_reply = false);
-    const std::string GetType() const;
+    const QString GetType() const;
 
     std::shared_ptr<Event> Clone() const;
     void Serialize(IOPacket& p);

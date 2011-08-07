@@ -36,7 +36,7 @@ public:
      * @param action The action to perform with all sounds.
      */
     MusicControlEvent(Action action);
-    const std::string GetType() const;
+    const QString GetType() const;
     std::shared_ptr<Event> Clone() const;
 
     /**

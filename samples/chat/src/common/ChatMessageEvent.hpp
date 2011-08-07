@@ -14,16 +14,15 @@
 
 class ChatMessageEvent : public dt::NetworkEvent, public dt::MessageEvent {
 public:
-    ChatMessageEvent(const std::string& message, const std::string& sender);
-    const std::string GetType() const;
+    ChatMessageEvent(const QString& message, const QString& sender);
+    const QString GetType() const;
 
     std::shared_ptr<dt::Event> Clone() const;
     void Serialize(dt::IOPacket& p);
 
-    const std::string& GetSenderNick() const;
+    const QString& GetSenderNick() const;
 protected:
-    std::string mMessage;
-    std::string mSenderNick;
+    QString mSenderNick;
 };
 
 #endif

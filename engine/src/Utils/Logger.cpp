@@ -14,7 +14,7 @@
 
 namespace dt {
 
-Logger::Logger(const std::string& name)
+Logger::Logger(const QString& name)
     : mName(name) {
     GetStream("debug")->SetFormat(  dt::LogStream::COLOR_CYAN   + "%2$8s: " + dt::LogStream::COLOR_NONE + "%3$s");
     GetStream("info")->SetFormat(   dt::LogStream::COLOR_BLUE   + "%2$8s: " + dt::LogStream::COLOR_NONE + "%3$s");
@@ -22,17 +22,15 @@ Logger::Logger(const std::string& name)
     GetStream("warning")->SetFormat(dt::LogStream::COLOR_YELLOW + "%2$8s: " + dt::LogStream::COLOR_NONE + "%3$s");
 }
 
-void Logger::Log(const std::string& level, const std::string& msg) {
-    std::string lvl(boost::to_upper_copy(level));
-    LogStream* stream = GetStream(lvl);
+void Logger::Log(const QString& level, const QString& msg) {
+    LogStream* stream = GetStream(level.toUpper());
     stream->Output(this, msg);
 }
 
-LogStream* Logger::GetStream(const std::string& streamname) {
-    std::string name(boost::to_upper_copy(streamname));
+LogStream* Logger::GetStream(const QString& streamname) {
+    QString name(streamname.toUpper());
     for(auto iter = mStreams.begin(); mStreams.end() != iter; ++iter) {
-        std::string sname = boost::to_upper_copy(iter->GetName());
-        if(name == sname) {
+        if(name == iter->GetName().toUpper()) {
             return &(*iter);
         }
     }
@@ -41,27 +39,27 @@ LogStream* Logger::GetStream(const std::string& streamname) {
 }
 
 
-void Logger::Debug(const std::string& msg) {
+void Logger::Debug(const QString& msg) {
     Log("DEBUG", msg);
 }
 
-void Logger::Info(const std::string& msg) {
+void Logger::Info(const QString& msg) {
     Log("INFO", msg);
 }
 
-void Logger::Warning(const std::string& msg) {
+void Logger::Warning(const QString& msg) {
     Log("WARNING", msg);
 }
 
-void Logger::Error(const std::string& msg) {
+void Logger::Error(const QString& msg) {
     Log("ERROR", msg);
 }
 
-void Logger::SetName(const std::string& name) {
+void Logger::SetName(const QString& name) {
     mName = name;
 }
 
-const std::string& Logger::GetName() const {
+const QString& Logger::GetName() const {
     return mName;
 }
 
@@ -69,7 +67,7 @@ Logger& Logger::Get() {
     return GetByName("default");
 }
 
-Logger& Logger::GetByName(const std::string& name) {
+Logger& Logger::GetByName(const QString& name) {
     return LogManager::Get()->GetLogger(name);
 }
 

@@ -46,8 +46,8 @@
 #include <Scene/StateManager.hpp>
 #include <Network/NetworkManager.hpp>
 #include <Physics/PhysicsManager.hpp>
+#include <Logic/ScriptManager.hpp>
 
-#include <boost/filesystem.hpp>
 #include <boost/noncopyable.hpp>
 
 #include <SFML/System/Clock.hpp>
@@ -63,6 +63,8 @@ namespace dt {
   */
 class DUCTTAPE_API Root : public boost::noncopyable {
 public:
+    static QString _VERSION;  //!< Metadata: engine version number (Format: "0.0.0")
+
     /**
       * Destructor. All instances are deleted here.
       */
@@ -89,12 +91,6 @@ public:
       * @returns The time in seconds since calling Initialize()
       */
     double GetTimeSinceInitialize() const;
-
-    /**
-      * Gets absolute path to current executable.
-      * @returns absolute path to current executable
-      */
-    const boost::filesystem::path& GetExecutablePath() const;
 
     /**
       * Returns the StringManager.
@@ -150,6 +146,12 @@ public:
       */
     PhysicsManager* GetPhysicsManager();
 
+    /**
+      * Returns the ScriptManager.
+      * @returns the ScriptManager
+      */
+    ScriptManager* GetScriptManager();
+
 private:
     /**
       * Private default constructor (for singleton). All instances are created here.
@@ -157,7 +159,7 @@ private:
     Root();
 
     sf::Clock mSfClock;                 //!< Clock for keeping time since Initialize() was called.
-    boost::filesystem::path mExecutablePath; //!< Absolute path to current executable.
+    QCoreApplication* mCoreApplication; //!< Pointer to the Qt Core Application (required for QScriptEngine and command line parameter parsing).
 
     LogManager* mLogManager;            //!< Pointer to the LogManager.
     StringManager* mStringManager;      //!< Pointer to the StringManager.
@@ -168,6 +170,7 @@ private:
     StateManager* mStateManager;        //!< Pointer to the StateManager.
     NetworkManager* mNetworkManager;    //!< Pointer to the NetworkManager.
     PhysicsManager* mPhysicsManager;    //!< Pointer to the PhysicsManager.
+    ScriptManager* mScriptManager;      //!< Pointer to the ScriptManager;
 };
 
 }

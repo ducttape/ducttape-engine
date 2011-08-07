@@ -14,12 +14,6 @@ namespace dt {
 
 namespace Utils {
 
-std::vector<std::string> Split(const std::string& in, const std::string& chars) {
-    std::vector<std::string> res;
-    boost::algorithm::split(res, in, boost::algorithm::is_any_of(chars), boost::algorithm::token_compress_on);
-    return res;
-}
-
 } // namespace Utils
 
 } // namespace dt

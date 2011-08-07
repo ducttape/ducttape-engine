@@ -14,8 +14,9 @@
 #include <Event/Event.hpp>
 #include <Event/EventBinding.hpp>
 
+#include <QString>
+
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -30,11 +31,11 @@ public:
       * @param target The event that is being triggered.
       * @param trigger_type The type of the event that triggers this binding.
       */
-    SimpleEventBinding(Event* target, const std::string& trigger_type);
+    SimpleEventBinding(Event* target, const QString& trigger_type);
     bool MatchesEvent(std::shared_ptr<Event> e);
 
 private:
-    std::string mTriggerType;   //!< The type of the event that triggers this binding.
+    QString mTriggerType;   //!< The type of the event that triggers this binding.
 
 };
 

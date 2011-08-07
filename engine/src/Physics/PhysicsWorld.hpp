@@ -17,7 +17,7 @@
 
 #include <BtOgreExtras.h>
 
-#include <string>
+#include <QString>
 
 namespace dt {
 
@@ -34,7 +34,7 @@ public:
       * @param name The name for this PhysicsWorld.
       * @param scene The scene to link this world to.
       */
-    PhysicsWorld(const std::string& name, Scene* scene);
+    PhysicsWorld(const QString& name, Scene* scene);
 
 
     void Initialize();
@@ -70,7 +70,7 @@ public:
       * Returns the name of this world.
       * @returns The name of this world.
       */
-    const std::string& GetName() const;
+    const QString& GetName() const;
 
     /**
       * Sets whether debug drawings should be displayed.
@@ -115,7 +115,7 @@ private:
     bool mShowDebug;                    //!< Whether to show debug drawings or not.
     Scene* mScene;                      //!< The scene associated with this PhysicsWorld.
     Ogre::Vector3 mGravity;             //!< The gravity of this world.
-    std::string mName;                  //!< The name of this world.
+    QString mName;                  //!< The name of this world.
     bool mIsEnabled;                    //!< Whether the world is enabled or not.
 };
 

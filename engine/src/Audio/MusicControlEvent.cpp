@@ -13,7 +13,7 @@ namespace dt {
 MusicControlEvent::MusicControlEvent(MusicControlEvent::Action action)
     : mAction(action) {}
 
-const std::string MusicControlEvent::GetType() const {
+const QString MusicControlEvent::GetType() const {
    return "DT_MUSICCONTROLEVENT";
 }
 

@@ -27,7 +27,7 @@ public:
       * Default constructor.
       */
     HandshakeEvent();
-    const std::string GetType() const;
+    const QString GetType() const;
     std::shared_ptr<Event> Clone() const;
     void Serialize(IOPacket& p);
 };

@@ -16,7 +16,7 @@
 
 namespace dt {
 
-MusicComponent::MusicComponent(const std::string& music_file, const std::string& name)
+MusicComponent::MusicComponent(const QString& music_file, const QString& name)
     : Component(name),
       mMusicFile(music_file),
       mFadeFlag(false),
@@ -67,7 +67,7 @@ void MusicComponent::OnUpdate(double time_diff) {
     }
 }
 
-void MusicComponent::SetMusicFile(const std::string& music_file) {
+void MusicComponent::SetMusicFile(const QString& music_file) {
     if(music_file != mMusicFile && IsCreated()) {
         // we got a new music; load it
         _LoadMusic();
@@ -75,7 +75,7 @@ void MusicComponent::SetMusicFile(const std::string& music_file) {
     mMusicFile = music_file;
 }
 
-const std::string& MusicComponent::GetMusicFile() const {
+const QString& MusicComponent::GetMusicFile() const {
     return mMusicFile;
 }
 

@@ -26,4 +26,15 @@ IOPacket& IOPacket::operator & (EnumHelper h) {
     return *this;
 }
 
+IOPacket& IOPacket::operator & (QString& s) {
+    if(mMode == MODE_RECEIVE) {
+        std::string stdstr;
+        *mPacket >> stdstr;
+        s.fromStdString(stdstr);
+    } else {
+        *mPacket << s.toStdString();
+    }
+    return *this;
+}
+
 }

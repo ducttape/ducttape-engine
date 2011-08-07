@@ -13,23 +13,18 @@
 
 #include <boost/lexical_cast.hpp>
 
+#include <QString>
+
 #include <cstdint>
-#include <string>
 #include <vector>
 
 namespace dt {
 
 namespace Utils {
 
-template <typename Source> DUCTTAPE_API std::string ToString(const Source& source) {
-    return boost::lexical_cast<std::string>(source);
+template <typename Source> DUCTTAPE_API QString ToString(const Source& source) {
+    return QString::fromStdString(boost::lexical_cast<std::string>(source));
 }
-
-template <typename Source> DUCTTAPE_API int32_t ToInt(const Source& source) {
-    return boost::lexical_cast<int32_t>(source);
-}
-
-std::vector<std::string> DUCTTAPE_API Split(const std::string& in, const std::string& chars);
 
 } // namespace Utils
 

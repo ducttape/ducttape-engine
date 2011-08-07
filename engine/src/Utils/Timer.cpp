@@ -7,10 +7,11 @@
 // ----------------------------------------------------------------------------
 
 #include <Utils/Timer.hpp>
+#include <iostream>
 
 namespace dt {
 
-Timer::Timer(const std::string& message, double interval, bool repeat, bool threaded, bool use_events)
+Timer::Timer(const QString& message, double interval, bool repeat, bool threaded, bool use_events)
     : mMessage(message),
       mInterval(interval),
       mRepeat(repeat),
@@ -46,7 +47,7 @@ void Timer::TriggerTickEvent() {
     if(mUseEvents)
         EventManager::Get()->
             InjectEvent(std::make_shared<TimerTickEvent>(mMessage, mInterval));
-    mTickSignal(mMessage);
+    emit TimerTicked(mMessage);
 
     if(mRepeat && mThreaded) {
         _RunThread();
@@ -61,14 +62,13 @@ void Timer::TriggerTickEvent() {
             mTimeLeft = mInterval;
         }
     }
-
 }
 
 double Timer::GetInterval() const {
     return mInterval;
 }
 
-const std::string& Timer::GetMessageEvent() const {
+const QString& Timer::GetMessageEvent() const {
     return mMessage;
 }
 
@@ -87,6 +87,10 @@ void Timer::_ThreadFunction(void* user_data) {
     timer->TriggerTickEvent();
 }
 
+void Timer::TriggerTick() {
+    emit TimerTicked("DEBUG");
+}
+
 void Timer::Stop() {
     if(mThreaded) {
         mThread->Terminate();
@@ -94,10 +98,6 @@ void Timer::Stop() {
         EventManager::Get()->RemoveListener(this);
     }
     mTimeLeft = mInterval; // reset
-}
-
-boost::signals2::connection Timer::BindSlot(boost::function<void (const std::string&)> slot) {
-    return mTickSignal.connect(slot);
 }
 
 } // namespace dt

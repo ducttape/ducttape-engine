@@ -15,7 +15,7 @@
 
 namespace dt {
 
-PhysicsWorld::PhysicsWorld(const std::string& name, Scene* scene)
+PhysicsWorld::PhysicsWorld(const QString& name, Scene* scene)
     : mDynamicsWorld(nullptr),
       mDebugDrawer(nullptr),
       mShowDebug(false),
@@ -77,7 +77,7 @@ void PhysicsWorld::SetGravity(Ogre::Vector3 gravity) {
     }
 }
 
-const std::string& PhysicsWorld::GetName() const {
+const QString& PhysicsWorld::GetName() const {
     return mName;
 }
 

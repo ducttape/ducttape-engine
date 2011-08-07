@@ -18,7 +18,7 @@
 
 namespace dt {
 
-TextComponent::TextComponent(const std::string& text, const std::string& name)
+TextComponent::TextComponent(const QString& text, const QString& name)
     : Component(name),
       mText(text),
       mOverlay(nullptr),
@@ -34,13 +34,13 @@ TextComponent::TextComponent(const std::string& text, const std::string& name)
 
 void TextComponent::OnCreate() {
     // overlay
-    std::string oname = GetNode()->GetName() + "-" + mName;
-    mOverlay = Ogre::OverlayManager::getSingleton().create(oname + "-overlay");
+    QString oname = GetNode()->GetName() + "-" + mName;
+    mOverlay = Ogre::OverlayManager::getSingleton().create(oname.toStdString() + "-overlay");
 
-    mPanel = static_cast<Ogre::OverlayContainer*>(Ogre::OverlayManager::getSingleton().createOverlayElement("Panel", oname + "-panel"));
+    mPanel = static_cast<Ogre::OverlayContainer*>(Ogre::OverlayManager::getSingleton().createOverlayElement("Panel", oname.toStdString() + "-panel"));
     mPanel->setDimensions(0.0, 0.0);
 
-    mLabel = static_cast<Ogre::TextAreaOverlayElement*>(Ogre::OverlayManager::getSingleton().createOverlayElement("TextArea", oname + "-label"));
+    mLabel = static_cast<Ogre::TextAreaOverlayElement*>(Ogre::OverlayManager::getSingleton().createOverlayElement("TextArea", oname.toStdString() + "-label"));
 
     mLabel->setMetricsMode(Ogre::GMM_PIXELS);
     mLabel->setPosition(0, 0);
@@ -79,11 +79,12 @@ void TextComponent::OnUpdate(double time_diff) {
     if(mRefresh && mFont != "") {
         // calculate the text width
         mTextWidth = 0;
-        Ogre::Font* font = dynamic_cast<Ogre::Font*>(Ogre::FontManager::getSingleton().getByName(mFont).getPointer());
+        Ogre::Font* font = dynamic_cast<Ogre::Font*>(Ogre::FontManager::getSingleton().getByName(mFont.toStdString()).getPointer());
         if(font == nullptr) {
             Logger::Get().Warning("Cannot find font: \"" + mFont + "\".");
         } else {
-            for(Ogre::String::iterator iter = mText.begin(); iter < mText.end(); ++iter) {
+            std::string str = mText.toStdString();
+            for(Ogre::String::iterator iter = str.begin(); iter < str.end(); ++iter) {
                 if(*iter == 0x0020) {
                     mTextWidth += font->getGlyphAspectRatio(0x0030);
                 } else {
@@ -123,26 +124,26 @@ void TextComponent::OnUpdate(double time_diff) {
     mLabel->setDimensions(mTextWidth, mFontSize);
 }
 
-void TextComponent::SetText(const std::string& text) {
+void TextComponent::SetText(const QString& text) {
     mText = text;
     if(mLabel != nullptr) {
-        mLabel->setCaption(mText);
+        mLabel->setCaption(mText.toStdString());
         mRefresh = true;
     }
 }
 
-const std::string& TextComponent::GetText() const {
+const QString& TextComponent::GetText() const {
     return mText;
 }
 
-void TextComponent::SetFont(const std::string& fontname) {
+void TextComponent::SetFont(const QString& fontname) {
     mFont = fontname;
     if(mLabel != nullptr && mFont != "") {
-        mLabel->setFontName(mFont);
+        mLabel->setFontName(mFont.toStdString());
     }
 }
 
-const std::string& TextComponent::GetFont() const {
+const QString& TextComponent::GetFont() const {
     return mFont;
 }
 
@@ -169,14 +170,14 @@ uint8_t TextComponent::GetFontSize() const {
     return mFontSize;
 }
 
-void TextComponent::SetBackgroundMaterial(const std::string& material_name) {
+void TextComponent::SetBackgroundMaterial(const QString& material_name) {
     mBackgroundMaterial = material_name;
     if(mPanel != nullptr && mBackgroundMaterial != "") {
-        mPanel->setMaterialName(mBackgroundMaterial);
+        mPanel->setMaterialName(mBackgroundMaterial.toStdString());
     }
 }
 
-const std::string& TextComponent::GetBackgroundMaterial() const {
+const QString& TextComponent::GetBackgroundMaterial() const {
     return mBackgroundMaterial;
 }
 

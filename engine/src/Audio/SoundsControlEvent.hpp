@@ -13,8 +13,9 @@
 
 #include <Event/Event.hpp>
 
+#include <QString>
+
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -37,7 +38,7 @@ public:
      * @param action The action to perform with all sounds.
      */
     SoundsControlEvent(Action action);
-    const std::string GetType() const;
+    const QString GetType() const;
     std::shared_ptr<Event> Clone() const;
 
     /**

@@ -13,14 +13,18 @@
 
 #include <Core/Manager.hpp>
 
-#include <boost/filesystem.hpp>
 #include <boost/ptr_container/ptr_map.hpp>
+
+#include <QDir>
+#include <QFile>
+#include <QList>
+#include <QMap>
+#include <QString>
 
 #include <SFML/Audio/Music.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
 
 #include <memory>
-#include <string>
 #include <vector>
 
 namespace dt {
@@ -57,7 +61,7 @@ public:
       * @param recursive A flag to set when resources should be searched recursively.
       * @todo Perhaps merge the other resource methods into this.
       */
-	void AddResourceLocation(const boost::filesystem::path& path, const std::string& type, bool recursive = false);
+    void AddResourceLocation(const QString& path, const QString& type, bool recursive = false);
 
     /**
       * Adds a single sound file to memory. A sound file in memory is called a sound buffer.
@@ -67,7 +71,7 @@ public:
       * @todo Merge this into AddResourceLocation
       * @returns Whether the operation was successful or not.
       */
-	bool AddSoundBuffer(const boost::filesystem::path& path, const std::string& sound_file="");
+    bool AddSoundBuffer(const QString& path, const QString& sound_file="");
 
     /**
       * Retrieves a single sound buffer from memory. If the requested soundbuffer is not found,
@@ -76,7 +80,7 @@ public:
       * @returns A reference to the requested sound buffer.
       * @todo This shouldn't really be required if resources or loaded automatically in a lazy manner.
       */
-    const sf::SoundBuffer& GetSoundBuffer(const std::string& sound_file);
+    std::shared_ptr<sf::SoundBuffer> GetSoundBuffer(const QString& sound_file);
 
     /**
      * Adds a single music file to memory.
@@ -85,24 +89,25 @@ public:
      * @returns Whether the operation was successful or not.
      * @todo Merge this into AddResourceLocation
      */
-    bool AddMusicFile(const boost::filesystem::path& path, const std::string& music_file="");
+    bool AddMusicFile(const QString& path, const QString& music_file="");
 
     /**
      * Retrieves a single music file from memory.
      */
-    std::shared_ptr<sf::Music> GetMusicFile(const std::string& music_file);
-
-    /**
-      * Returns whether at least one data directory has been found.
-      * @returns Whether at least one data directory has been found.
-      */
-    bool FoundDataPath() const;
+    std::shared_ptr<sf::Music> GetMusicFile(const QString& music_file);
 
     /**
       * Adds a path to the list of data directories, where data may be located in.
       * @param path The path to the data directory.
       */
-    void AddDataPath(boost::filesystem::path path);
+    void AddDataPath(QDir path);
+
+    /**
+      * Attempts to find a file in one of the data directories.
+      * @param relative_path The relative path of the file.
+      * @returns A QFile object. Use the \c exists() method to check if it was found.
+      */
+    QFileInfo FindFile(const QString& relative_path);
 
 private:
     /**
@@ -114,17 +119,9 @@ private:
      */
     void _FindDataPaths();
 
-    /**
-      * Attempts to find a file in one of the data directories. Alters the file path to point to the right location.
-      * @param file The path of the file.
-      * @returns Whether the file has been found.
-      */
-    bool _FindFileInDataPaths(boost::filesystem::path& file);
-
-    std::vector<boost::filesystem::path> mDataPaths;  //!< Paths where data may be located in.
-    bool mDataPathsSearched;    //!< Whether the local data paths have been searched for suitable data locations.
-    std::map<std::string, std::shared_ptr<sf::Music>> mMusic; //!< Pool of registered music objects. This does not actually contain the music data since music is actually streamed.
-    boost::ptr_map<std::string, sf::SoundBuffer> mSoundBuffers; //!< Pool of registered sound buffers. These are in fact loaded into memory.
+    bool mDataPathsSearched;                                        //!< Whether the local data paths have been searched for suitable data locations.
+    QMap<QString, std::shared_ptr<sf::Music> > mMusic;              //!< Pool of registered music objects. This does not actually contain the music data since music is actually streamed.
+    QMap<QString, std::shared_ptr<sf::SoundBuffer> > mSoundBuffers; //!< Pool of registered sound buffers. These are in fact loaded into memory.
 };
 
 }
