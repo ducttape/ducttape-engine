@@ -25,14 +25,14 @@ public:
         mRuntime = 0;
     }
 
-    void Click(MyGUI::Button* _sender) {
+    void Click(MyGUI::Widget* _sender) {
         dt::Logger::Get().Debug("Clicked! " + QString::fromStdString(_sender->getName()));
         if(_sender->getName() == "b1") {
-            _sender->setCaption("Not implemented!");
+            static_cast<MyGUI::Button*>(_sender)->setCaption("Not implemented!");
         } else if(_sender->getName() == "b2") {
-            _sender->setCaption("Not implemented!");
+            static_cast<MyGUI::Button*>(_sender)->setCaption("Not implemented!");
         } else if(_sender->getName() == "b3") {
-            _sender->setCaption("Not implemented!");
+            static_cast<MyGUI::Button*>(_sender)->setCaption("Not implemented!");
         } else if(_sender->getName() == "b4") {
             dt::StateManager::Get()->Pop(1);
         }
@@ -84,14 +84,14 @@ public:
         dt::Node* w3 = scene->AddChildNode(new dt::Node("w3"));
         dt::GuiWidgetComponent* b3 = w3->AddComponent(new dt::GuiWidgetComponent("Button", "Button", "b3"));
         b3->GetWidget<MyGUI::Button>()->setCaption("Options");
-        b3->GetWidget<MyGUI::Button>()->eventMouseButtonClick = MyGUI::newDelegate(this, &Main::Click);
+        b3->GetWidget<MyGUI::Button>()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
         w3->SetPosition(Ogre::Vector3(0.4, 0.55, 0.0));
         w3->SetScale(Ogre::Vector3(0.2, 0.1, 0.0));
 
         dt::Node* w4 = scene->AddChildNode(new dt::Node("w4"));
         dt::GuiWidgetComponent* b4 = w4->AddComponent(new dt::GuiWidgetComponent("Button", "Button", "b4"));
         b4->GetWidget<MyGUI::Button>()->setCaption("Exit");
-        b4->GetWidget<MyGUI::Button>()->eventMouseButtonClick = MyGUI::newDelegate(this, &Main::Click);
+        b4->GetWidget<MyGUI::Button>()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
         w4->SetPosition(Ogre::Vector3(0.4, 0.75, 0.0));
         w4->SetScale(Ogre::Vector3(0.2, 0.1, 0.0));
 
