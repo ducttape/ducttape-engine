@@ -44,15 +44,15 @@ public:
     void HandleEvent(std::shared_ptr<dt::Event> e) {
         if(e->GetType() == "DT_TIMERTICKEVENT") {
             std::shared_ptr<dt::TimerTickEvent> t = std::dynamic_pointer_cast<dt::TimerTickEvent>(e);
-            bool t1 = (t->GetMessageEvent() == "Timer 1 (event mode)");
-            bool t2 = (t->GetMessageEvent() == "Timer 2 (thread mode)");
+            bool t1 = (t->GetMessageText() == "Timer 1 (event mode)");
+            bool t2 = (t->GetMessageText() == "Timer 2 (thread mode)");
 
             if(t1) {
                 mTimer1Count++;
-                std::cout << "Timer tick " << mTimer1Count << ": " << t->GetMessageEvent().toStdString() << std::endl;
+                std::cout << "Timer tick " << mTimer1Count << ": " << t->GetMessageText().toStdString() << std::endl;
             } else if(t2) {
                 mTimer2Count++;
-                std::cout << "Timer tick " << mTimer2Count << ": " << t->GetMessageEvent().toStdString() << std::endl;
+                std::cout << "Timer tick " << mTimer2Count << ": " << t->GetMessageText().toStdString() << std::endl;
             }
         } else if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             mTotalTime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
