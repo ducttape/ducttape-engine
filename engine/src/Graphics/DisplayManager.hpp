@@ -33,6 +33,7 @@ namespace dt {
   * A manager class for managing the display and rendering.
   */
 class DUCTTAPE_API DisplayManager : public Manager {
+    Q_OBJECT
 public:
     /**
       * Default constructor.
@@ -53,14 +54,7 @@ public:
       */
     static DisplayManager* Get();
 
-    /**
-      * Sets the window size.
-      * @param width The window width, in pixels.
-      * @param height The window height, in pixels.
-      */
-    void SetWindowSize(int width, int height);
-
-    /**
+     /**
       * Tries to register a camera.
       * This will fail if the same CameraComponent is already registered. The first CameraComponent that gets registered will also trigger the creation of the render window.
       * It will also run AddViewport with name \c main and set it as main Viewport.
@@ -149,6 +143,14 @@ public:
       * @returns The GuiManager.
       */
     GuiManager* GetGuiManager();
+
+public slots:
+    /**
+      * Sets the window size.
+      * @param width The window width, in pixels.
+      * @param height The window height, in pixels.
+      */
+    void SetWindowSize(int width, int height);
 
 private:
     /**

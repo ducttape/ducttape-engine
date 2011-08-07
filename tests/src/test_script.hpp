@@ -56,7 +56,7 @@ int Run(int argc, char** argv) {
 
     dt::ScriptManager::Get()->AddScript("print(DT_VERSION);", "print_test");
     dt::ScriptManager::Get()->AddScript("DT_VERSION", "return_version");
-    dt::ScriptManager::Get()->AddScript("print(_TotalTime);", "update_context");
+    dt::ScriptManager::Get()->AddScript("print(TotalTime);", "update_context");
     dt::ScriptManager::Get()->LoadScript("scripts/test_load_script_file.js");
 
     run("print_test");

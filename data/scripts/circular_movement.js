@@ -12,7 +12,7 @@ function OnDestroy() {
 
 function OnUpdate(time_diff) {
     this.component.node.SetPosition(
-            this.radius * Math.sin(_TotalTime * 2 * Math.PI * this.speed),
-            this.radius * Math.cos(_TotalTime * 2 * Math.PI * this.speed),
+            this.radius * Math.sin(TotalTime * 2 * Math.PI * this.speed),
+            this.radius * Math.cos(TotalTime * 2 * Math.PI * this.speed),
             0);
 }

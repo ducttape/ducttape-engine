@@ -27,6 +27,9 @@ void ScriptManager::Initialize() {
     mGlobalObject.setProperty("DT_VERSION", DUCTTAPE_VERSION);
     // redirect print output
     mGlobalObject.setProperty("print", mScriptEngine->newFunction(&ScriptManager::ScriptPrintFunction));
+
+    QScriptValue v = mScriptEngine->newQObject(DisplayManager::Get());
+    mScriptEngine->globalObject().setProperty("DisplayManager", v);
 }
 
 void ScriptManager::Deinitialize() {}
@@ -93,7 +96,7 @@ void ScriptManager::UpdateContext(QScriptEngine* engine) {
         engine = mScriptEngine;
     }
 
-    engine->globalObject().setProperty("_TotalTime", Root::GetInstance().GetTimeSinceInitialize());
+    engine->globalObject().setProperty("TotalTime", Root::GetInstance().GetTimeSinceInitialize());
 }
 
 void ScriptManager::UpdateContext(QScriptValue object) {
