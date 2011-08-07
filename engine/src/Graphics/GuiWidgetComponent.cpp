@@ -19,7 +19,7 @@ GuiWidgetComponent::GuiWidgetComponent(const QString& type, const QString& skin,
       mSkin(skin),
       mUsesPixelCoordinates(false) {}
 
-MyGUI::WidgetPtr GuiWidgetComponent::GetWidget() {
+MyGUI::Widget* GuiWidgetComponent::GetWidget() {
     return mWidget;
 }
 

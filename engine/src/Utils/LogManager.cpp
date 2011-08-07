@@ -25,8 +25,7 @@ void LogManager::Initialize() {
 
     // Disable MyGUI output completely, Ogre will throw an exception if a
     // resource cannot be found
-    MyGUI::LogManager::initialise();
-    MyGUI::LogManager::setSTDOutputEnabled(false);
+    MyGUI::LogManager::getInstance().setSTDOutputEnabled(false);
 }
 
 void LogManager::Deinitialize() {}

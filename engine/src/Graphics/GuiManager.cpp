@@ -117,7 +117,7 @@ void GuiManager::SetMouseCursorVisible(bool visible) {
     }
 
     if(mGuiSystem != nullptr) {
-        mGuiSystem->setVisiblePointer(visible);
+        MyGUI::PointerManager::getInstance().setVisible(visible);
     }
 }
 

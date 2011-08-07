@@ -70,7 +70,7 @@ public:
         mInput->setCaption("");
     }
 
-    void EditSubmitted(MyGUI::Edit* _sender) {
+    void EditSubmitted(MyGUI::EditBox* _sender) {
         Execute(QString(mInput->getCaption().asUTF8_c_str()));
         mInput->setCaption("");
     }
@@ -177,7 +177,7 @@ public:
         node->SetScale(Ogre::Vector3(780, 550, 0));
         component = node->AddComponent(new dt::GuiWidgetComponent("Edit", "EditEmpty", "output"));
         component->SetUsesPixelCoordinates(true);
-        mOutput = component->GetWidget<MyGUI::Edit>();
+        mOutput = component->GetWidget<MyGUI::EditBox>();
         mOutput->setTextColour(MyGUI::Colour::White);
         mOutput->setEditMultiLine(true);
         mOutput->setEditReadOnly(true);
@@ -188,11 +188,11 @@ public:
         node->SetScale(Ogre::Vector3(700, 20, 0));
         component = node->AddComponent(new dt::GuiWidgetComponent("Edit", "Edit", "input"));
         component->SetUsesPixelCoordinates(true);
-        mInput = component->GetWidget<MyGUI::Edit>();
+        mInput = component->GetWidget<MyGUI::EditBox>();
         mInput->setEditMultiLine(false);
         mInput->setEditReadOnly(false);
-        mInput->eventEditSelectAccept = MyGUI::newDelegate(this, &Main::EditSubmitted);
-        mInput->eventKeyButtonPressed = MyGUI::newDelegate(this, &Main::KeyPressed);
+        mInput->eventEditSelectAccept += MyGUI::newDelegate(this, &Main::EditSubmitted);
+        mInput->eventKeyButtonPressed += MyGUI::newDelegate(this, &Main::KeyPressed);
         mInput->setTextAlign(MyGUI::Align::Bottom | MyGUI::Align::Left);
 
         node = scene->AddChildNode(new dt::Node("button"));
@@ -202,7 +202,7 @@ public:
         component->SetUsesPixelCoordinates(true);
         mButton = component->GetWidget<MyGUI::Button>();
         mButton->setCaption("Run");
-        mButton->eventMouseButtonClick = MyGUI::newDelegate(this, &Main::SubmitClicked);
+        mButton->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::SubmitClicked);
 
         MyGUI::InputManager::getInstance().setKeyFocusWidget(mInput);
 
@@ -210,8 +210,8 @@ public:
     }
 
 private:
-    MyGUI::Edit* mOutput;
-    MyGUI::Edit* mInput;
+    MyGUI::EditBox* mOutput;
+    MyGUI::EditBox* mInput;
     MyGUI::Button* mButton;
     QList<QString> mHistory;
     QString mCurrentCommand;

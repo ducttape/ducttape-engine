@@ -49,7 +49,7 @@ public:
       * Returns the MyGUI widget.
       * @returns The MyGUI widget.
       */
-    MyGUI::WidgetPtr GetWidget();
+    MyGUI::Widget* GetWidget();
 
     void OnCreate();
     void OnDestroy();
@@ -72,7 +72,7 @@ public:
 protected:
     QString mType;              //!< The type of the MyGUI widget (e.g. "Button").
     QString mSkin;              //!< The name of the MyGUI skin (e.g. "Button").
-    MyGUI::WidgetPtr mWidget;   //!< A pointer to MyGUI's widget.
+    MyGUI::Widget* mWidget;   //!< A pointer to MyGUI's widget.
     bool mUsesPixelCoordinates; //!< Whether the node's coordinates should be interpreted as pixel coordinates.
 };
 
