@@ -14,9 +14,10 @@
 #include <Event/Event.hpp>
 #include <Network/IOPacket.hpp>
 
+#include <QString>
+
 #include <cstdint>
 #include <memory>
-#include <string>
 #include <vector>
 
 namespace dt {
@@ -24,13 +25,13 @@ namespace dt {
 /**
   * Abstract base class for all Events supposed to be sent via network.
   */
-class DUCTTAPE_API NetworkEvent : public Event {
+class DUCTTAPE_API NetworkEvent : public virtual Event {
 public:
     /**
       * Default constructor.
       */
     NetworkEvent();
-    virtual const std::string GetType() const = 0;
+    virtual const QString GetType() const = 0;
     bool IsNetworkEvent() const;
 
     /**

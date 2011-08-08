@@ -10,10 +10,13 @@
 
 namespace dt {
 
+QString Root::_VERSION = DUCTTAPE_VERSION;
+
 // This list of new keywords exists to allow us fine-grained control over
 // the creation and deletion of these managers.
 Root::Root()
-    : mLogManager(new LogManager()),
+    : mCoreApplication(nullptr),
+      mLogManager(new LogManager()),
       mStringManager(new StringManager()),
       mEventManager(new EventManager()),
       mResourceManager(new ResourceManager()),
@@ -21,11 +24,13 @@ Root::Root()
       mDisplayManager(new DisplayManager()),
       mStateManager(new StateManager()),
       mNetworkManager(new NetworkManager()),
-      mPhysicsManager(new PhysicsManager()) {}
+      mPhysicsManager(new PhysicsManager()),
+      mScriptManager(new ScriptManager()) {}
 
 Root::~Root() {
     // Complementary to the constructor, we destroy the managers in reverse
     // order.
+    delete mScriptManager;
     delete mPhysicsManager;
     delete mNetworkManager;
     delete mStateManager;
@@ -43,9 +48,9 @@ Root& Root::GetInstance() {
 }
 
 void Root::Initialize(int argc, char** argv) {
-    mSfClock.Reset();
+    mCoreApplication = new QCoreApplication(argc, argv);
 
-    mExecutablePath = boost::filesystem::system_complete(boost::filesystem::path( argv[0]));
+    mSfClock.Reset();
 
     mLogManager->Initialize();
     mStringManager->Initialize();
@@ -57,9 +62,11 @@ void Root::Initialize(int argc, char** argv) {
     mNetworkManager->Initialize();
     mStateManager->Initialize();
     mPhysicsManager->Initialize();
+    mScriptManager->Initialize();
 }
 
 void Root::Deinitialize() {
+    mScriptManager->Deinitialize();
     mPhysicsManager->Deinitialize();
     mStateManager->Deinitialize();
     mNetworkManager->Deinitialize();
@@ -69,14 +76,12 @@ void Root::Deinitialize() {
     mEventManager->Deinitialize();
     mStringManager->Deinitialize();
     mLogManager->Deinitialize();
+
+    delete mCoreApplication;
 }
 
 double Root::GetTimeSinceInitialize() const {
     return mSfClock.GetElapsedTime() / 1000.0;
-}
-
-const boost::filesystem::path& Root::GetExecutablePath() const {
-    return mExecutablePath;
 }
 
 StringManager* Root::GetStringManager() {
@@ -113,6 +118,10 @@ ResourceManager* Root::GetResourceManager() {
 
 PhysicsManager* Root::GetPhysicsManager() {
     return mPhysicsManager;
+}
+
+ScriptManager* Root::GetScriptManager() {
+    return mScriptManager;
 }
 
 }

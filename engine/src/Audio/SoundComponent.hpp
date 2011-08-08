@@ -13,10 +13,11 @@
 
 #include <Scene/Component.hpp>
 
+#include <QString>
+
 #include <SFML/Audio/Sound.hpp>
 
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -32,7 +33,7 @@ public:
      * @param name The name for this Component.
      * @see Component
      */
-    SoundComponent(const std::string& sound_file = "", const std::string& name = "");
+    SoundComponent(const QString& sound_file = "", const QString& name = "");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 
@@ -44,13 +45,13 @@ public:
      * Plays the sound located in mSound.
      * @param sound_file The name of the sound file to play. To get sound in 3D file should be mono.
      */
-    void SetSoundFile(const std::string& sound_file);
+    void SetSoundFile(const QString& sound_file);
 
     /**
      * Returns the name of the sound file.
      * @returns The name of the found file.
      */
-    const std::string& GetSoundFile() const;
+    const QString& GetSoundFile() const;
 
     /**
      * Returns the sf::Sound object for default action access.
@@ -92,7 +93,7 @@ private:
      */
     void _LoadSound();
 
-    std::string mSoundFile; //!< Name of sound file loaded in component.
+    QString mSoundFile; //!< Name of sound file loaded in component.
     sf::Sound mSound;       //!< SFML Sound. It is set during _LoadSound().
 
 };

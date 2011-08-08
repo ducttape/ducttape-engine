@@ -10,11 +10,11 @@
 
 namespace dt {
 
-TimerTickEvent::TimerTickEvent(const std::string& message, double interval)
+TimerTickEvent::TimerTickEvent(const QString& message, double interval)
     : MessageEvent(message),
       mInterval(interval) {}
 
-const std::string TimerTickEvent::GetType() const {
+const QString TimerTickEvent::GetType() const {
     return "DT_TIMERTICKEVENT";
 }
 

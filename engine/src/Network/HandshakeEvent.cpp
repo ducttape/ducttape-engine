@@ -12,7 +12,7 @@ namespace dt {
 
 HandshakeEvent::HandshakeEvent() {}
 
-const std::string HandshakeEvent::GetType() const {
+const QString HandshakeEvent::GetType() const {
     return "DT_HANDSHAKEEVENT";
 }
 

@@ -9,9 +9,9 @@
 #ifndef DUCTTAPE_ENGINE_CONFIG
 #define DUCTTAPE_ENGINE_CONFIG
 
+#define MYGUI_DONT_USE_OBSOLETE
 
-// These definitions are kindly taken from SFML
-
+// The following definitions are kindly taken from SFML
 
 // Identify the operating system
 #if defined(_WIN32) || defined(__WIN32__)

@@ -14,8 +14,9 @@
 #include <Network/NetworkEvent.hpp>
 #include <Network/IOPacket.hpp>
 
+#include <QString>
+
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -28,9 +29,9 @@ public:
       * Advanced constructor.
       * @param reason The reason for the disconnect.
       */
-    GoodbyeEvent(const std::string& reason = "");
+    GoodbyeEvent(const QString& reason = "");
 
-    const std::string GetType() const;
+    const QString GetType() const;
     std::shared_ptr<Event> Clone() const;
     void Serialize(IOPacket& p);
 
@@ -38,16 +39,16 @@ public:
       * Returns the reason for the disconnect.
       * @returns The reason for the disconnect.
       */
-    const std::string& GetReason() const;
+    const QString& GetReason() const;
 
     /**
       * Sets the reason for the disconnect.
       * @param reason The reason for the disconnect.
       */
-    void SetReason(const std::string& reason);
+    void SetReason(const QString& reason);
 
 private:
-    std::string mReason;    //!< The reason for the disconnect.
+    QString mReason;    //!< The reason for the disconnect.
 };
 
 }

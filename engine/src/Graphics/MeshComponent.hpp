@@ -17,8 +17,9 @@
 #include <OgreEntity.h>
 #include <OgreSceneNode.h>
 
+#include <QString>
+
 #include <memory>
-#include <string>
 #include <vector>
 
 namespace dt {
@@ -37,8 +38,8 @@ public:
       * a file path or a generated's mesh name.
       * @see Component
       */
-    MeshComponent(const std::string& mesh_handle = "",
-                  const std::string& material_name = "", const std::string& name = "");
+    MeshComponent(const QString& mesh_handle = "",
+                  const QString& material_name = "", const QString& name = "");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 
@@ -52,27 +53,27 @@ public:
       * Sets the handle the mesh is being loaded from.
       * @param mesh_handle The handle of the mesh.
       */
-    void SetMeshHandle(const std::string& mesh_handle);
+    void SetMeshHandle(const QString& mesh_handle);
 
     /**
       * Returns the name of the mesh handle.
       * @returns The name of the mesh handle. This could be a file path or a
       * generated's mesh name.
       */
-    const std::string& GetMeshHandle() const;
+    const QString& GetMeshHandle() const;
 
     /**
       * Returns a list of available animations for the loaded mesh.
       * @returns A list of available animations for the loaded mesh.
       */
-    std::vector<std::string> GetAvailableAnimations();
+    std::vector<QString> GetAvailableAnimations();
 
     /**
       * Sets the animation to use.
       * @param animation_state The identifier (name) of the Ogre::AnimationState to use.
       * @see Ogre::AnimationState
       */
-    void SetAnimation(const std::string& animation_state);
+    void SetAnimation(const QString& animation_state);
 
     /**
       * Plays the current animation.
@@ -105,7 +106,7 @@ public:
       * Sets the material name of the mesh.
       * @param material_name The new Ogre material name.
       */
-    void SetMaterialName(const std::string& material_name);
+    void SetMaterialName(const QString& material_name);
 
     /**
       * Gets the Ogre::SceneNode.
@@ -147,8 +148,8 @@ private:
     Ogre::AnimationState* mAnimationState;  //!< The current animation state.
     bool mLoopAnimation;            //!< Whether the animation shall be looped.
 
-    std::string mMeshHandle;        //!< The handle of the mesh.
-    std::string mMaterialName;      //!< The name of the material to apply to the mesh.
+    QString mMeshHandle;        //!< The handle of the mesh.
+    QString mMaterialName;      //!< The name of the material to apply to the mesh.
     bool mCastShadows;              //!< Whether the mesh should cast shadows.
 };
 

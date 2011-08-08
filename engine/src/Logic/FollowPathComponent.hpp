@@ -16,8 +16,9 @@
 
 #include <OgreVector3.h>
 
+#include <QString>
+
 #include <memory>
-#include <string>
 #include <vector>
 
 namespace dt {
@@ -43,7 +44,7 @@ public:
       * @param name The name of the component.
       * @param mode The mode.
       */
-    FollowPathComponent(Mode mode = SINGLE, const std::string& name = "");
+    FollowPathComponent(Mode mode = SINGLE, const QString& name = "");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 

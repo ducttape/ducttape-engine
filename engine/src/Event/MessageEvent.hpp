@@ -11,31 +11,31 @@
 
 #include <Config.hpp>
 
-#include <Event/Event.hpp>
+#include <QString>
 
-#include <string>
+#include <Event/Event.hpp>
 
 namespace dt {
 
 /**
   * Event for sending generic string messages through the event system.
   */
-class DUCTTAPE_API MessageEvent : public Event {
+class DUCTTAPE_API MessageEvent : public virtual Event {
 public:
     /**
       * Advanced constructor.
       * @param message The message for this Event.
       */
-    MessageEvent(const std::string& message);
-    const std::string GetType() const;
+    MessageEvent(const QString& message);
+    const QString GetType() const;
 
     /**
       * Returns the message of this Event.
       * @returns The message of the Event.
       */
-    const std::string& GetMessageEvent() const;
+    const QString& GetMessageText() const;
 protected:
-    std::string mMessage;   //!< The message of this Event.
+    QString mMessage;   //!< The message of this Event.
 };
 
 }

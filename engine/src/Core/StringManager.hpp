@@ -13,9 +13,10 @@
 
 #include <Core/Manager.hpp>
 
+#include <QString>
+
 #include <cstdint>
 #include <map>
-#include <string>
 
 namespace dt {
 
@@ -45,14 +46,14 @@ public:
       * @param string The string to register.
       * @returns The new Id.
       */
-    uint32_t Add(const std::string& string);
+    uint32_t Add(const QString& string);
 
     /**
       * Checks whether a string is already registered.
       * @param string The string to be checked.
       * @returns true If the string is already registered, otherwise false.
       */
-    bool Has(const std::string& string);
+    bool Has(const QString& string);
 
     /**
       * Checks whether an Id is already used.
@@ -66,14 +67,14 @@ public:
       * @param string The string to find.
       * @returns The Id for the string.
       */
-    uint32_t GetId(const std::string& string);
+    uint32_t GetId(const QString& string);
 
     /**
       * Returns the string for an Id.
       * @param id The Id to find.
       * @returns The string for the Id.
       */
-    const std::string& GetString(uint32_t id);
+    const QString& GetString(uint32_t id);
 
     /**
       * Returns next Id for automatic name generation that is available.
@@ -84,7 +85,7 @@ public:
 private:
     uint32_t mLastId;                       //!< The Id used to register the last string with.
     uint32_t mAutoId;                       //!< The Id used for the last automatic name generation.
-    std::map<uint32_t, std::string> mIds;   //!< The relation map between Ids/strings.
+    std::map<uint32_t, QString> mIds;   //!< The relation map between Ids/strings.
 };
 
 }

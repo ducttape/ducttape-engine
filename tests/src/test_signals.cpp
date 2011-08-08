@@ -6,38 +6,25 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
+#include "test_signals.hpp"
+
 #include <Core/Root.hpp>
 
-class TestComponent : public dt::Component {
-public:
-    TestComponent(const std::string& name)
-        : Component(name) {}
+#include <QObject>
 
-    void OnCreate() {}
+namespace test_signals {
 
-    void OnDestroy() {}
-
-    void Invoke() {
-        _CallSignal("Invoke");
-    }
-};
-
-bool invoked = false;
-
-void the_callback() {
-    std::cout << "Callback was called." << std::endl;
-    invoked = true;
-}
-
-int main(int argc, char** argv) {
+int Run(int argc, char** argv) {
     dt::Root& root = dt::Root::GetInstance();
     root.Initialize(argc, argv);
 
     TestComponent component("test");
-    component.BindSlot("Invoke", boost::bind(&the_callback));
+    CallbackClass callback;
+    QObject::connect(&component, SIGNAL(Invoked()),
+                     &callback, SLOT(the_callback()));
     component.Invoke();
 
-    if(!invoked) {
+    if(!callback.invoked) {
         std::cerr << "Signal callback not received correctly." << std::endl;
         exit(1);
     }
@@ -45,3 +32,5 @@ int main(int argc, char** argv) {
     root.Deinitialize();
     return 0;
 }
+
+} // namespace test_signals

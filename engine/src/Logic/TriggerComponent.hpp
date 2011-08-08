@@ -14,7 +14,7 @@
 #include <Event/Event.hpp>
 #include <Scene/Component.hpp>
 
-#include <string>
+#include <QString>
 
 namespace dt {
 
@@ -29,7 +29,7 @@ public:
       * @param name The name for this component.
       * @see Component
       */
-    TriggerComponent(const std::string& name = "");
+    TriggerComponent(const QString& name = "");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 

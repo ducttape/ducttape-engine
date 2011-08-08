@@ -31,7 +31,7 @@ public:
             mBallSpeed = Ogre::Vector3(4, -3, 0);
         } else {
             mBallSpeed = Ogre::Vector3::ZERO;
-            std::string p(mScore1 == 10 ? "left" : "right");
+            QString p(mScore1 == 10 ? "left" : "right");
             GetScene("testscene")->FindChildNode("info")->FindComponent<dt::TextComponent>("text")->SetText("The " + p + " player wins the game.");
         }
         mBallNode->SetPosition(Ogre::Vector3(0,0,0));

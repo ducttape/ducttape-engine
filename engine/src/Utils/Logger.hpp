@@ -15,7 +15,7 @@
 
 #include <boost/ptr_container/ptr_vector.hpp>
 
-#include <string>
+#include <QString>
 
 namespace dt {
 
@@ -29,7 +29,7 @@ public:
       * Advanced constructor. Creates a logger with the given name.
       * @param name The name of the logger.
       */
-    Logger(const std::string& name = "default");
+    Logger(const QString& name = "default");
 
     // levels are usually (debug|info|warning|error) or self-defined levels
 
@@ -39,50 +39,50 @@ public:
       * @param level The level name of the LogStream
       * @param msg The log message
       */
-    void Log(const std::string& level, const std::string& msg);
+    void Log(const QString& level, const QString& msg);
 
     /**
       * Returns the stream with the given name.
       * @param streamname the name of the stream to find, usually the log level
       * @returns the LogStream
       */
-    LogStream* GetStream(const std::string& streamname);
+    LogStream* GetStream(const QString& streamname);
 
     /**
       * Logs a message at "DEBUG" level.
       * @param msg The log message
       */
-    void Debug(const std::string& msg);
+    void Debug(const QString& msg);
 
     /**
       * Logs a message at "INFO" level.
       * @param msg The log message
       */
-    void Info(const std::string& msg);
+    void Info(const QString& msg);
 
     /**
       * Logs a message at "WARNING" level.
       * @param msg The log message
       */
-    void Warning(const std::string& msg);
+    void Warning(const QString& msg);
 
     /**
       * Logs a message at "ERROR" level.
       * @param msg The log message
       */
-    void Error(const std::string& msg);
+    void Error(const QString& msg);
 
     /**
       * Sets the name of the Logger.
       * @param name The new name
       */
-    void SetName(const std::string& name);
+    void SetName(const QString& name);
 
     /**
       * Returns the name of the Logger.
       * @returns The name of the Logger
       */
-    const std::string& GetName() const;
+    const QString& GetName() const;
 
     /**
       * Return the "default" Logger from Root's LogManager.
@@ -94,11 +94,11 @@ public:
       * @param name the name of the Logger
       * @returns the Logger if one is found, otherwise it is created
       */
-    static Logger& GetByName(const std::string& name);
+    static Logger& GetByName(const QString& name);
 
 private:
     boost::ptr_vector<LogStream> mStreams;  //!< The list of Streams owned by this Logger
-    std::string mName;                      //!< The name of this Logger
+    QString mName;                      //!< The name of this Logger
 };
 
 } // namespace dt

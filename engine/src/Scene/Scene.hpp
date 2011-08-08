@@ -16,20 +16,25 @@
 #include <Physics/PhysicsWorld.hpp>
 #include <Scene/Node.hpp>
 
+#include <QObject>
+#include <QString>
+
 #include <memory>
-#include <string>
 
 namespace dt {
 
 /**
   * A class to represent a whole scene of the game world.
   */
-class DUCTTAPE_API Scene : public EventListener, public Node {
+class DUCTTAPE_API Scene : public Node, public EventListener {
+    Q_OBJECT
 public:
     /**
       * Default constructor.
       */
-    Scene(const std::string& name);
+    Scene(const QString& name);
+
+    Priority GetEventPriority() const;
 
     void OnInitialize();
 

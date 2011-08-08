@@ -11,9 +11,11 @@ issuing `make doc` in your CMake build dir.
 
 Cloning
 -------
-If you clone this using the usual `git://github.com/ducttape/ducttape-engine.git`
+If you clone this using the usual `git clone git://github.com/ducttape/ducttape-engine.git`
 please run `git submodule update --init` as the first thing you do within the 
 cloned repo.
+Alternatively, you can just clone with `git clone --recursive git://github.com/ducttape/ducttape-engine.git`
+and it will do that for you.
 This will get our externals that are in different git repos to keep this one
 clean and dandy.
 
@@ -23,8 +25,8 @@ See INSTALL for short instructions for experienced users or our [Getting started
 
 License
 -------
-Tbe Ducttape Engine and its components such as the editor as well as examples and
-tests are available under the LGPL3 license unless noted otherwise.
+Tbe Ducttape Engine and its components as well as examples and tests are
+available under the LGPL3 license unless noted otherwise.
 
 See the docs/licenses/ directory for individual licenses of our resources.
 

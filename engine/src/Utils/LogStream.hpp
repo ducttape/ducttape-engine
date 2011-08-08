@@ -11,6 +11,8 @@
 
 #include <Config.hpp>
 
+#include <QString>
+
 #include <ostream>
 
 namespace dt {
@@ -23,20 +25,20 @@ class Logger;
   */
 class DUCTTAPE_API LogStream {
 public:
-    static std::string COLOR_RED;       //!< ANSI color code for red
-    static std::string COLOR_GREEN;     //!< ANSI color code for green
-    static std::string COLOR_YELLOW;    //!< ANSI color code for yellow
-    static std::string COLOR_BLUE;      //!< ANSI color code for blue
-    static std::string COLOR_PURPLE;    //!< ANSI color code for purple
-    static std::string COLOR_CYAN;      //!< ANSI color code for cyan
-    static std::string COLOR_NONE;      //!< ANSI color code for no color (reset)
+    static QString COLOR_RED;       //!< ANSI color code for red
+    static QString COLOR_GREEN;     //!< ANSI color code for green
+    static QString COLOR_YELLOW;    //!< ANSI color code for yellow
+    static QString COLOR_BLUE;      //!< ANSI color code for blue
+    static QString COLOR_PURPLE;    //!< ANSI color code for purple
+    static QString COLOR_CYAN;      //!< ANSI color code for cyan
+    static QString COLOR_NONE;      //!< ANSI color code for no color (reset)
 
 public:
     /**
       * Advanced constructor. Creates a LogStream with the given name.
       * @param name the name of the new LogStream
       */
-    LogStream(const std::string& name);
+    LogStream(const QString& name);
 
     /**
       * Formats a log message, taking into account the name of the logger.
@@ -45,7 +47,7 @@ public:
       * @returns the formatted message
       * @see SetFormat()
       */
-    std::string FormatMessage(Logger* logger, const std::string& msg);
+    QString FormatMessage(Logger* logger, const QString& msg);
 
     /**
       * Formats and outputs a log message to the output stream.
@@ -54,7 +56,7 @@ public:
       * @param logger the Logger the message was sent from
       * @param msg the log message
       */
-    void Output(Logger* logger, const std::string& msg);
+    void Output(Logger* logger, const QString& msg);
 
     /**
       * Sets the output stream for this LogStream.
@@ -66,7 +68,7 @@ public:
       * Sets the name (level) for this LogStream.
       * @param name the new name
       */
-    void SetName(const std::string& name);
+    void SetName(const QString& name);
 
     /**
       * Sets the format which is used to format the messages before displaying.
@@ -74,13 +76,13 @@ public:
       * @see sprintf
       * @param format the new format string
       */
-    void SetFormat(const std::string& format);
+    void SetFormat(const QString& format);
 
     /**
       * Returns the Logger's name.
       * @returns the Logger's name
       */
-    const std::string& GetName() const;
+    const QString& GetName() const;
 
     /**
       * Sets whether messages should be written to this stream or not. Useful for disabling some streams, e.g. DEBUG, while keeping
@@ -96,8 +98,8 @@ public:
     bool IsDisabled() const;
 private:
     std::ostream* mStream;  //!< the output stream
-    std::string mFormat;    //!< the message format
-    std::string mName;      //!< this LogStream's name, also called "log level"
+    QString mFormat;    //!< the message format
+    QString mName;      //!< this LogStream's name, also called "log level"
     bool mDisabled;         //!< Whether this LogStream is disabled or not.
 };
 

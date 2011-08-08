@@ -10,6 +10,8 @@
 
 #include <Core/Root.hpp>
 
+#include <QCoreApplication>
+
 namespace dt {
 
 ResourceManager::ResourceManager()
@@ -28,146 +30,150 @@ ResourceManager* ResourceManager::Get() {
     return Root::GetInstance().GetResourceManager();
 }
 
-void ResourceManager::AddResourceLocation(const boost::filesystem::path& path, const std::string& type, bool recursive) {
-    boost::filesystem::path file(path); // copy for non-constness
+void ResourceManager::AddResourceLocation(const QString& path, const QString& type, bool recursive) {
+    QFile file(FindFile(path).absoluteFilePath());
 
     // Does the path exist?
-    if(_FindFileInDataPaths(file)) {
+    if(file.exists()) {
         DisplayManager::Get()->CreateOgreRoot();
-        Ogre::ResourceGroupManager::getSingleton().addResourceLocation(file.string(), type,
+        Ogre::ResourceGroupManager::getSingleton().addResourceLocation(file.fileName().toStdString(), type.toStdString(),
                     Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, recursive);
     }
 }
 
-bool ResourceManager::AddSoundBuffer(const boost::filesystem::path& path, const std::string& sound_file) {
-    boost::filesystem::path file(path);
+bool ResourceManager::AddSoundBuffer(const QString& path, const QString& sound_file) {
+    QFile file(FindFile(path).absoluteFilePath());
 
     // Does the path exist?
-    if(_FindFileInDataPaths(file)) {
+    if(file.exists()) {
         // if the optional param key is not given, use the basename as key
-        std::string sound_key;
+        QString sound_key;
         if(sound_file == "") {
-            sound_key = path.string();
+            sound_key = path;
         } else {
             sound_key = sound_file;
         }
 
         // if a sound with that key already exists in the dictionary, return
-        if(mSoundBuffers.count(sound_key) != 0) {
+        if(mSoundBuffers.contains(sound_key)) {
             return true;
         }
 
-        sf::SoundBuffer sound_buffer;
-        if(!sound_buffer.LoadFromFile(file.string())) {
-            Logger::Get().Error("Loading " + file.string() + " failed.");
+        std::shared_ptr<sf::SoundBuffer> sound_buffer(new sf::SoundBuffer());
+        if(!sound_buffer->LoadFromFile(file.fileName().toStdString())) {
+            Logger::Get().Error("Loading sound <" + file.fileName() + "> failed.");
             return false;
         }
 
-        mSoundBuffers[sound_key] = sound_buffer;
+        mSoundBuffers.insert(sound_key, sound_buffer);
         return true;
     }
     return false;
 }
 
-const sf::SoundBuffer& ResourceManager::GetSoundBuffer(const std::string& sound_file) {
-	if(mSoundBuffers.count(sound_file) >= 1) {
-		return mSoundBuffers[sound_file];
+std::shared_ptr<sf::SoundBuffer> ResourceManager::GetSoundBuffer(const QString& sound_file) {
+    if(mSoundBuffers.contains(sound_file)) {
+        return mSoundBuffers.value(sound_file);
 	} else {
-        Logger::Get().Error("Tried getting  " + sound_file + " but this sound doesn't exist!");
+        Logger::Get().Error("Error getting sound \"" + sound_file + "\": not found.");
 		exit(1);
 	}
 }
 
-bool ResourceManager::AddMusicFile(const boost::filesystem::path& path, const std::string& music_file) {
-    boost::filesystem::path file(path);
+bool ResourceManager::AddMusicFile(const QString& path, const QString& music_file) {
+    QFile file(FindFile(path).absoluteFilePath());
 
     // Does the path exist?
-    if(_FindFileInDataPaths(file)) {
+    if(file.exists()) {
         // if the optional param music_file is not given, use the basename as key
-        std::string music_key;
+        QString music_key;
         if(music_file == "") {
-            music_key = path.string();
+            music_key = path;
         } else {
             music_key = music_file;
         }
 
         // if a sound with that key already exists in the dictionary, return
-        if(mMusic.count(music_key) != 0) {
+        if(mMusic.contains(music_key)) {
             return true;
         }
 
         std::shared_ptr<sf::Music> music(new sf::Music());
-        if(!music->OpenFromFile(file.string())) {
-            Logger::Get().Error("Loading " + file.string() + " failed.");
+        if(!music->OpenFromFile(file.fileName().toStdString())) {
+            Logger::Get().Error("Loading Music <" + file.fileName() + "> failed.");
             return false;
         }
-        mMusic[music_key] = music;
+
+        mMusic.insert(music_key, music);
         return true;
     }
     return false;
 }
 
-std::shared_ptr<sf::Music> ResourceManager::GetMusicFile(const std::string& music_file) {
+std::shared_ptr<sf::Music> ResourceManager::GetMusicFile(const QString& music_file) {
 	if(mMusic.count(music_file) >= 1) {
 		return mMusic[music_file];
 	} else {
-        Logger::Get().Error("Tried getting  " + music_file + " but this music doesn't exist!");
+        Logger::Get().Error("Error getting music \"" + music_file + "\": not found.");
 		exit(1);
 	}
 }
 
-bool ResourceManager::FoundDataPath() const {
-    return mDataPaths.size() > 0;
-}
-
-void ResourceManager::AddDataPath(boost::filesystem::path path) {
+void ResourceManager::AddDataPath(QDir path) {
     // make sure the default paths are checked first
     if(!mDataPathsSearched)
         _FindDataPaths();
 
-    if(boost::filesystem::is_directory(path)) {
-        Logger::Get().Debug("Added data path: " + path.string());
-        mDataPaths.push_back(path);
+    if(path.exists()) {
+        Logger::Get().Debug("Added data path: <" + path.absolutePath() + ">.");
+        QDir::addSearchPath("data", path.absolutePath());
     } else {
-        Logger::Get().Warning("Cannot add data path: " + path.string() + ". Not a directory.");
+        Logger::Get().Warning("Cannot add data path <" + path.path() + ">: not a directory.");
     }
+}
+
+QFileInfo ResourceManager::FindFile(const QString& relative_path) {
+    QFile file("data:" + relative_path);
+
+    QFileInfo info(file);
+
+    if(!file.exists()) {
+        Logger::Get().Error("Could not locate file <" + relative_path + ">.");
+    }
+
+    return info;
 }
 
 void ResourceManager::_FindDataPaths() {
     mDataPathsSearched = true;
 
     // check recursively upwards
-    boost::filesystem::path path(Root::GetInstance().GetExecutablePath());
-    while(path.has_parent_path()) {
-        path = path.parent_path();
-        if(boost::filesystem::is_directory(path / "data")) {
-            AddDataPath(path / "data");
+    QDir dir(QCoreApplication::applicationDirPath());
+
+    while(!dir.isRoot()) {
+        QDir data(dir.absolutePath() + "/data");
+        if(data.exists()) {
+            AddDataPath(data.absolutePath());
             break;
         }
+        dir.cdUp();
     }
 
     // check compiled-in path (DT_DATA_PATH)
 #ifdef DT_DATA_PATH
-    boost::filesystem::path dt_data_path(DT_DATA_PATH);
-    if(boost::filesystem::is_directory(dt_data_path)) {
-        AddDataPath(dt_data_path);
+    QDir data_path(DT_DATA_PATH);
+    if(data_path.exists()) {
+        AddDataPath(data_path.absolutePath());
     } else {
-        Logger::Get().Error("Compiled-in data path not found: " + dt_data_path.string());
+        Logger::Get().Error("Compiled-in data path <" + DT_DATA_PATH + "> not found.");
+    }
+#else
+    // warn if we also did not find one previously
+    if(dir.isRoot()) {
+        // did not find the data path
+        Logger::Get().Warning("No relative data path found.");
     }
 #endif
-}
-
-bool ResourceManager::_FindFileInDataPaths(boost::filesystem::path& file) {
-    const boost::filesystem::path f(file);
-
-    for(auto iter = mDataPaths.begin(); iter != mDataPaths.end(); ++iter) {
-        if(boost::filesystem::exists(*iter / f)) {
-            file = *iter / f;
-            return true;
-        }
-    }
-    Logger::Get().Error("Cannot find file or directory: " + file.string());
-    return false;
 }
 
 }

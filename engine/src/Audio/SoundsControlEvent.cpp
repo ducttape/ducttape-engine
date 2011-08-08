@@ -13,7 +13,7 @@ namespace dt {
 SoundsControlEvent::SoundsControlEvent(SoundsControlEvent::Action action)
     : mAction(action) {}
 
-const std::string SoundsControlEvent::GetType() const {
+const QString SoundsControlEvent::GetType() const {
    return "DT_SOUNDSCONTROLEVENT";
 }
 

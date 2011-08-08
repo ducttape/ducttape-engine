@@ -1,9 +1,9 @@
-project(ducttape)
+project(ducttape-engine)
 
 cmake_minimum_required(VERSION 2.8.3)
 
 set(VERSION_MAJOR 0)
-set(VERSION_MINOR 1)
+set(VERSION_MINOR 2)
 set(VERSION_PATCH 0)
 
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
@@ -15,7 +15,6 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/lib)
 
 set(BUILD_STATIC FALSE CACHE BOOL "TRUE to build static libraries (mind LGPL3 implications), FALSE to build shared libraries (preferred)")
-set(BUILD_EDITOR FALSE CACHE BOOL "TRUE to build the editor, FALSE to ignore it")
 set(BUILD_SAMPLES TRUE CACHE BOOL "TRUE to build the samples, FALSE to ignore them")
 set(BUILD_TESTS TRUE CACHE BOOL "TRUE to build the tests, FALSE to ignore them")
 set(BUILD_DOC TRUE CACHE BOOL "TRUE to generate the API documentation, FALSE to ignore it")
@@ -52,12 +51,18 @@ endif()
 
 find_package(SFML 2 COMPONENTS audio graphics network system window REQUIRED)
 find_package(Bullet REQUIRED)
-find_package(Boost COMPONENTS filesystem program_options system date_time thread REQUIRED)
-#find_package(ImageMagick COMPONENTS Magick++ REQUIRED)
+find_package(Boost COMPONENTS program_options thread REQUIRED)
 find_package(OIS REQUIRED)
 find_package(OGRE REQUIRED)
 find_package(MyGUI REQUIRED)
 find_package(MyGUI_PLATFORM REQUIRED)
+
+# Qt4 stuff
+set(QT_USE_QTSCRIPT TRUE)
+set(QT_DONT_USE_QTGUI TRUE)
+find_package(Qt4 REQUIRED)
+include(${QT_USE_FILE})
+add_definitions(${QT_DEFINITONS})
 
 if(MSVC) # Sort the odd stuff out
     set(CMAKE_CXX_FLAGS "/DCOMPILER_MSVC /DOgreProcedural_STATIC /WX /MP /EHsc")

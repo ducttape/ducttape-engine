@@ -10,7 +10,7 @@
 
 namespace dt {
 
-TriggerComponent::TriggerComponent(const std::string& name)
+TriggerComponent::TriggerComponent(const QString& name)
     : Component(name) {
 }
 

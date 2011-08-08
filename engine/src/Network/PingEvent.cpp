@@ -14,7 +14,7 @@ PingEvent::PingEvent(double timestamp, bool is_reply)
     : mIsReply(is_reply),
       mTimestamp(timestamp) {}
 
-const std::string PingEvent::GetType() const {
+const QString PingEvent::GetType() const {
     return "DT_PINGEVENT";
 }
 

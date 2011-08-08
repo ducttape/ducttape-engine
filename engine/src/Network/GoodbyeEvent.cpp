@@ -10,10 +10,10 @@
 
 namespace dt {
 
-GoodbyeEvent::GoodbyeEvent(const std::string& reason)
+GoodbyeEvent::GoodbyeEvent(const QString& reason)
     : mReason(reason) {}
 
-const std::string GoodbyeEvent::GetType() const {
+const QString GoodbyeEvent::GetType() const {
     return "DT_GOODBYEEVENT";
 }
 
@@ -26,11 +26,11 @@ void GoodbyeEvent::Serialize(IOPacket& p) {
     p & mReason;
 }
 
-const std::string& GoodbyeEvent::GetReason() const {
+const QString& GoodbyeEvent::GetReason() const {
     return mReason;
 }
 
-void GoodbyeEvent::SetReason(const std::string& reason) {
+void GoodbyeEvent::SetReason(const QString& reason) {
     mReason = reason;
 }
 

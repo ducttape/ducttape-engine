@@ -10,14 +10,14 @@
 
 namespace dt {
 
-MessageEvent::MessageEvent(const std::string& message)
+MessageEvent::MessageEvent(const QString& message)
     : mMessage(message) {}
 
-const std::string MessageEvent::GetType() const {
+const QString MessageEvent::GetType() const {
     return "DT_MESSAGEEVENT";
 }
 
-const std::string& MessageEvent::GetMessageEvent() const {
+const QString& MessageEvent::GetMessageText() const {
     return mMessage;
 }
 

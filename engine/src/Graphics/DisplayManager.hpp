@@ -13,8 +13,8 @@
 
 #include <Core/Manager.hpp>
 #include <Graphics/CameraComponent.hpp>
-#include <Graphics/GuiManager.hpp>
 #include <Graphics/Viewport.hpp>
+#include <Gui/GuiManager.hpp>
 
 #include <boost/ptr_container/ptr_map.hpp>
 
@@ -23,8 +23,9 @@
 #include <OgreSceneManager.h>
 #include <OgreRoot.h>
 
+#include <QString>
+
 #include <map>
-#include <string>
 
 namespace dt {
 
@@ -32,6 +33,7 @@ namespace dt {
   * A manager class for managing the display and rendering.
   */
 class DUCTTAPE_API DisplayManager : public Manager {
+    Q_OBJECT
 public:
     /**
       * Default constructor.
@@ -52,7 +54,7 @@ public:
       */
     static DisplayManager* Get();
 
-    /**
+     /**
       * Tries to register a camera.
       * This will fail if the same CameraComponent is already registered. The first CameraComponent that gets registered will also trigger the creation of the render window.
       * It will also run AddViewport with name \c main and set it as main Viewport.
@@ -78,7 +80,7 @@ public:
       * @param viewport_name The name of the Viewport.
       * @returns \c true for success and \c false in case the CameraComponent is unknown.
       */
-    bool ActivateCamera(const std::string& name, const std::string& viewport_name = "");
+    bool ActivateCamera(const QString& name, const QString& viewport_name = "");
 
     /**
       * Adds Viewport to current window.
@@ -91,7 +93,7 @@ public:
       * @param height From 0.0 to 1.0, tells how much height of screen should viewport occupy.
       * @returns Whether the operation was successful or not.
       */
-    bool AddViewport(const std::string& name, const std::string& camera_name,
+    bool AddViewport(const QString& name, const QString& camera_name,
                      bool set_as_main = false, float left = 0.0F, float top = 0.0F,
                      float width = 1.0F, float height = 1.0F);
 
@@ -99,13 +101,13 @@ public:
       * Hides Viewport from visibility on screen. Remember to not hide viewport that has no viewport under it.
       * @param name Name of Viewport to hide.
       */
-    void HideViewport(const std::string& name);
+    void HideViewport(const QString& name);
 
     /**
       * Shows previously hidden Viewport.
       * @param name Name of Viewport to show.
       */
-    void ShowViewport(const std::string& name);
+    void ShowViewport(const QString& name);
 
     /**
       * Renders the current frame.
@@ -117,7 +119,7 @@ public:
       * @param scene The name of the scene.
       * @returns A pointer to the Ogre::SceneManager.
       */
-    Ogre::SceneManager* GetSceneManager(const std::string& scene);
+    Ogre::SceneManager* GetSceneManager(const QString& scene);
 
     /**
       * Initializes the Ogre Render System.
@@ -142,6 +144,21 @@ public:
       */
     GuiManager* GetGuiManager();
 
+public slots:
+    /**
+      * Sets the window size.
+      * @param width The window width, in pixels.
+      * @param height The window height, in pixels.
+      */
+    void SetWindowSize(int width, int height);
+
+    /**
+      * Sets if the window is displayed fullscreen.
+      * @param fullscreen Whether it should be fullscreen.
+      * @param adjust_resolution If true, the window's resolution will be adjusted to match the current desktop resolution.
+      */
+    void SetFullscreen(bool fullscreen, bool adjust_resolution = true);
+
 private:
     /**
       * Creates the render window and sets up Ogre. It is called when the first CameraComponent is registered.
@@ -153,12 +170,12 @@ private:
       */
     void _DestroyWindow();
 
-    std::map<std::string, CameraComponent*> mCameras;               //!< The list of camera components.
-    std::map<std::string, Ogre::SceneManager*> mSceneManagers;      //!< The list of scene manager for the scenes.
-    boost::ptr_map<std::string, dt::Viewport> mViewports;           //!< The list of viewports.
-    std::map<std::string, std::string> mViewportsCameras;           //!< The assignment map for cameras<>viewports.
-    std::string mMainViewport;  //!< The name of the main viewport.
-    std::string mMainCamera;    //!< The name of the main camera.
+    std::map<QString, CameraComponent*> mCameras;               //!< The list of camera components.
+    std::map<QString, Ogre::SceneManager*> mSceneManagers;      //!< The list of scene manager for the scenes.
+    boost::ptr_map<QString, dt::Viewport> mViewports;           //!< The list of viewports.
+    std::map<QString, QString> mViewportsCameras;           //!< The assignment map for cameras<>viewports.
+    QString mMainViewport;  //!< The name of the main viewport.
+    QString mMainCamera;    //!< The name of the main camera.
 
     Ogre::Root* mOgreRoot;      //!< The Ogre::Root instance.
     Ogre::RenderSystem* mOgreRenderSystem;  //!< The Ogre::RenderSystem instance.
@@ -167,6 +184,8 @@ private:
     GuiManager mGuiManager;     //!< The GuiManager.
 
     int mNextZOrder;            //!< The z-order for the next viewport to be created.
+    Ogre::Vector2 mWindowSize;  //!< The size of the window, in pixels (integer).
+    bool mFullscreen;           //!< Whether the window should be fullscreen.
 };
 
 }

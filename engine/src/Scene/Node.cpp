@@ -14,7 +14,7 @@
 
 namespace dt {
 
-Node::Node(const std::string& name)
+Node::Node(const QString& name)
     : mName(name),
       mPosition(Ogre::Vector3::ZERO),
       mScale(Ogre::Vector3(1,1,1)),
@@ -50,19 +50,19 @@ void Node::OnInitialize() {}
 void Node::OnDeinitialize() {}
 
 Node* Node::AddChildNode(Node* child) {
-    std::string key(child->GetName());
+    QString key(child->GetName());
     mChildren.insert(key, child);
     mChildren[key].SetParent(this);
     mChildren[key].Initialize();
     return FindChildNode(key, false);
 }
 
-Node* Node::FindChildNode(const std::string& name, bool recursive) {
+Node* Node::FindChildNode(const QString& name, bool recursive) {
     if(mChildren.find(name) != mChildren.end())
         return mChildren.find(name)->second;
 
     if(recursive){
-        for(boost::ptr_map<std::string, Node>::iterator itr = mChildren.begin(); itr != mChildren.end(); itr++) {
+        for(boost::ptr_map<QString, Node>::iterator itr = mChildren.begin(); itr != mChildren.end(); itr++) {
             if(itr->first == name)
                 return itr->second;
             else {
@@ -75,18 +75,18 @@ Node* Node::FindChildNode(const std::string& name, bool recursive) {
     return nullptr;
 }
 
-bool Node::HasComponent(const std::string &name) {
+bool Node::HasComponent(const QString &name) {
     return (mComponents.count(name) > 0);
 }
 
-void Node::RemoveChildNode(const std::string& name) {
+void Node::RemoveChildNode(const QString& name) {
     if(FindChildNode(name, false) != nullptr) {
         FindChildNode(name, false)->Deinitialize(); // destroy recursively
         mChildren.erase(name);
     }
 }
 
-void Node::RemoveComponent(const std::string& name) {
+void Node::RemoveComponent(const QString& name) {
     if(HasComponent(name)) {
         mComponents[name]->Destroy();
         mComponents[name]->SetNode(nullptr);
@@ -94,7 +94,7 @@ void Node::RemoveComponent(const std::string& name) {
     }
 }
 
-const std::string& Node::GetName() const {
+const QString& Node::GetName() const {
     return mName;
 }
 
@@ -209,6 +209,11 @@ void Node::OnUpdate(double time_diff) {
     _UpdateAllChildren(time_diff);
     _UpdateAllComponents(time_diff);
 }
+
+void Node::SetPosition(float x, float y, float z, RelativeTo rel) {
+    SetPosition(Ogre::Vector3(x,y,z), rel);
+}
+
 
 bool Node::_IsScene() {
     return false;

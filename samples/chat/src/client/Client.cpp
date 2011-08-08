@@ -35,7 +35,7 @@ void Client::HandleEvent(std::shared_ptr<dt::Event> e) {
     if(e->GetType() == "CHATMESSAGEEVENT") {
         std::shared_ptr<ChatMessageEvent> c = std::dynamic_pointer_cast<ChatMessageEvent>(e);
         if(c->IsLocalEvent()) { // we just received this
-            std::cout << std::endl << "<" << c->GetSenderNick() << "> " << c->GetMessageEvent() << std::endl;
+            std::cout << std::endl << "<" << c->GetSenderNick().toStdString() << "> " << c->GetMessageText().toStdString() << std::endl;
         }
     }
 }
@@ -48,11 +48,11 @@ sf::IpAddress Client::GetServerIP() const {
     return mServerIP;
 }
 
-void Client::SetNick(const std::string& nick) {
+void Client::SetNick(const QString& nick) {
     mNick = nick;
 }
 
-const std::string& Client::GetNick() const {
+const QString& Client::GetNick() const {
     return mNick;
 }
 
@@ -64,9 +64,9 @@ void Client::InputThread(void* user_data) {
         std::getline(std::cin, in);
 
         if(in.substr(0, 6) == "/nick ") {
-            std::string nick = in.substr(6);
+            QString nick = QString::fromStdString(in.substr(6));
             client->SetNick(nick);
-            std::cout << "** You changed your nick to: " << nick << std::endl;
+            std::cout << "** You changed your nick to: " << nick.toStdString() << std::endl;
         } else if(in.substr(0,5) == "/ping") {
             std::cout << "** Your ping is: " << dt::ConnectionsManager::Get()->GetPing(1) << std::endl;
         } else if(in == "/quit" || in == "/exit") {
@@ -74,7 +74,7 @@ void Client::InputThread(void* user_data) {
             dt::StateManager::Get()->Pop();
         } else {
             dt::EventManager::Get()->
-                InjectEvent(std::make_shared<ChatMessageEvent>(in, client->GetNick()));
+                InjectEvent(std::make_shared<ChatMessageEvent>(QString::fromStdString(in), client->GetNick()));
         }
     }
 }

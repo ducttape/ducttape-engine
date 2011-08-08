@@ -18,8 +18,9 @@
 
 #include <BtOgrePG.h>
 
+#include <QString>
+
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -36,8 +37,8 @@ public:
       * @see MeshComponent
       * @see Component
       */
-    PhysicsBodyComponent(const std::string& mesh_component_name,
-                         const std::string& name = "");
+    PhysicsBodyComponent(const QString& mesh_component_name,
+                         const QString& name = "");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 
@@ -54,7 +55,7 @@ public:
     void SetMass(btScalar mass);
 
 private:
-    std::string mMeshComponentName;         //!< The name of the mesh component to create the collision shape from.
+    QString mMeshComponentName;         //!< The name of the mesh component to create the collision shape from.
     btCollisionShape* mCollisionShape;      //!< The bullet collision shape.
     btRigidBody* mBody;                     //!< The bullet rigid body.
     BtOgre::RigidBodyState* mMotionState;   //!< The motion state of the physics body.

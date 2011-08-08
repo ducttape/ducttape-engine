@@ -19,8 +19,10 @@
 #include <OgreQuaternion.h>
 #include <OgreVector3.h>
 
+#include <QObject>
+#include <QString>
+
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -34,7 +36,14 @@ class Scene;
   * its behaviour, e.g. the look or events.
   * @see Component
   */
-class DUCTTAPE_API Node {
+class DUCTTAPE_API Node : public QObject {
+    Q_OBJECT
+    Q_ENUMS(RelativeTo)
+
+    Q_PROPERTY(QString name READ GetName CONSTANT FINAL)
+    Q_PROPERTY(Node* parent READ GetParent FINAL)
+    Q_PROPERTY(Scene* scene READ GetScene FINAL)
+
 public:
     /**
       * The coordinates space for getting/setting rotation, position and scale.
@@ -48,7 +57,7 @@ public:
       * Constructor.
       * @param name The name of the Node.
       */
-    Node(const std::string& name = "");
+    Node(const QString& name = "");
 
     /**
       * Initializer.
@@ -84,12 +93,12 @@ public:
       */
     template <typename ComponentType>
     ComponentType* AddComponent(ComponentType* component) {
-        const std::string& cname = component->GetName();
+        const QString& cname = component->GetName();
         if(!HasComponent(cname)) {
             std::shared_ptr<Component> ptr(component);
             ptr->SetNode(this);
             ptr->Create();
-            std::pair<std::string, std::shared_ptr<Component> > pair(cname, ptr);
+            std::pair<QString, std::shared_ptr<Component> > pair(cname, ptr);
             mComponents.insert(pair);
 
             _UpdateAllComponents(0);
@@ -105,7 +114,7 @@ public:
       * @param recursive Whether to search within child nodes or not.
       * @returns A pointer to the Node with the name or nullptr if none is found.
       */
-    Node* FindChildNode(const std::string& name, bool recursive = true);
+    Node* FindChildNode(const QString& name, bool recursive = true);
 
     /**
       * Returns a component.
@@ -113,7 +122,7 @@ public:
       * @returns A pointer to the component, or nullptr if no component with the specified name exists.
       */
     template <typename ComponentType>
-    ComponentType* FindComponent(const std::string& name) {
+    ComponentType* FindComponent(const QString& name) {
         if(!HasComponent(name))
             return nullptr;
         return dynamic_cast<ComponentType*>(mComponents[name].get());
@@ -124,25 +133,19 @@ public:
       * @param name The name of the Component.
       * @returns true if the component is assigned, otherwise false
       */
-    bool HasComponent(const std::string& name);
+    bool HasComponent(const QString& name);
 
     /**
       * Removes a child Node with a specific name.
       * @param name The name of the Node to be removed.
       */
-    void RemoveChildNode(const std::string& name);
+    void RemoveChildNode(const QString& name);
 
     /**
       * Removes a Component with a specific name.
       * @param name The name of the Component to be removed.
       */
-    void RemoveComponent(const std::string& name);
-
-    /**
-      * Returns the name of the Node.
-      * @returns The name of the Node.
-      */
-    const std::string& GetName() const;
+    void RemoveComponent(const QString& name);
 
     /**
       * Returns the position of the Node.
@@ -216,6 +219,19 @@ public:
     void SetParent(Node* parent);
 
     /**
+      * Called when the Node is being updated.
+      * @param time_diff The frame time.
+      */
+    virtual void OnUpdate(double time_diff);
+
+public slots:
+    /**
+      * Returns the name of the Node.
+      * @returns The name of the Node.
+      */
+    const QString& GetName() const;
+
+    /**
       * Returns a pointer to the parent Node.
       * @returns A pointer to the parent Node.
       */
@@ -228,10 +244,13 @@ public:
     Scene* GetScene();
 
     /**
-      * Called when the Node is being updated.
-      * @param time_diff The frame time.
+      * Sets the position of the Node.
+      * @param x The x position.
+      * @param y The y position.
+      * @param z The z position.
+      * @param rel Reference point.
       */
-    virtual void OnUpdate(double time_diff);
+    void SetPosition(float x, float y, float z, RelativeTo rel = PARENT);
 
 protected:
     /**
@@ -255,11 +274,11 @@ protected:
       */
     void _UpdateAllChildren(double time_diff);
 
-    std::map<std::string, std::shared_ptr<Component> > mComponents;   //!< The list of Components.
-    std::string mName;              //!< The Node name.
+    std::map<QString, std::shared_ptr<Component> > mComponents;   //!< The list of Components.
+    QString mName;              //!< The Node name.
 
 private:
-    boost::ptr_map<std::string, Node> mChildren;        //!< List of child nodes.
+    boost::ptr_map<QString, Node> mChildren;        //!< List of child nodes.
     Ogre::Vector3 mPosition;        //!< The Node position.
     Ogre::Vector3 mScale;           //!< The Node scale.
     Ogre::Quaternion mRotation;     //!< The Node rotation.

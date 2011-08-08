@@ -13,8 +13,9 @@
 
 #include <Event/Event.hpp>
 
+#include <QString>
+
 #include <memory>
-#include <string>
 
 namespace dt {
 
@@ -27,7 +28,7 @@ public:
      * Default constructor.
      */
     WindowClosedEvent();
-    const std::string GetType() const;
+    const QString GetType() const;
     std::shared_ptr<Event> Clone() const;
 };
 

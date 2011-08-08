@@ -13,7 +13,7 @@
 
 namespace dt {
 
-FollowPathComponent::FollowPathComponent(Mode mode, const std::string& name)
+FollowPathComponent::FollowPathComponent(Mode mode, const QString& name)
     : Component(name),
       mDurationSinceStart(0),
       mTotalDuration(0),
