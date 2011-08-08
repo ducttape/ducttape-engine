@@ -13,6 +13,8 @@
 #include <Gui/GuiManager.hpp>
 #include <Utils/Logger.hpp>
 #include <Utils/Utils.hpp>
+#include <Input/MouseState.hpp>
+#include <Input/KeyboardState.hpp>
 
 #include <QTextStream>
 
@@ -34,6 +36,12 @@ void ScriptManager::Initialize() {
 
     QScriptValue gui_root = mScriptEngine->newQObject(& GuiManager::Get()->GetRootWindow());
     mScriptEngine->globalObject().setProperty("Gui", gui_root);
+
+    QScriptValue keyboard = mScriptEngine->newQObject(new KeyboardState());
+    mScriptEngine->globalObject().setProperty("Keyboard", keyboard);
+
+    QScriptValue mouse = mScriptEngine->newQObject(new MouseState());
+    mScriptEngine->globalObject().setProperty("Mouse", mouse);
 }
 
 void ScriptManager::Deinitialize() {}
