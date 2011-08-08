@@ -13,8 +13,8 @@
 
 #include <Core/Manager.hpp>
 #include <Graphics/CameraComponent.hpp>
-#include <Graphics/GuiManager.hpp>
 #include <Graphics/Viewport.hpp>
+#include <Gui/GuiManager.hpp>
 
 #include <boost/ptr_container/ptr_map.hpp>
 
@@ -152,6 +152,13 @@ public slots:
       */
     void SetWindowSize(int width, int height);
 
+    /**
+      * Sets if the window is displayed fullscreen.
+      * @param fullscreen Whether it should be fullscreen.
+      * @param adjust_resolution If true, the window's resolution will be adjusted to match the current desktop resolution.
+      */
+    void SetFullscreen(bool fullscreen, bool adjust_resolution = true);
+
 private:
     /**
       * Creates the render window and sets up Ogre. It is called when the first CameraComponent is registered.
@@ -178,6 +185,7 @@ private:
 
     int mNextZOrder;            //!< The z-order for the next viewport to be created.
     Ogre::Vector2 mWindowSize;  //!< The size of the window, in pixels (integer).
+    bool mFullscreen;           //!< Whether the window should be fullscreen.
 };
 
 }

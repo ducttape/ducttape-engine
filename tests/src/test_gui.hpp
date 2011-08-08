@@ -11,8 +11,8 @@
 
 #include <Core/Root.hpp>
 #include <Graphics/CameraComponent.hpp>
-#include <Graphics/GuiWidgetComponent.hpp>
 #include <Graphics/MeshComponent.hpp>
+#include <Gui/GuiButton.hpp>
 #include <Scene/Game.hpp>
 #include <Scene/Node.hpp>
 #include <Scene/Scene.hpp>
@@ -27,13 +27,13 @@ public:
 
     void Click(MyGUI::Widget* _sender) {
         dt::Logger::Get().Debug("Clicked! " + QString::fromStdString(_sender->getName()));
-        if(_sender->getName() == "b1") {
+        if(_sender->getName() == "Gui.b1") {
             static_cast<MyGUI::Button*>(_sender)->setCaption("Not implemented!");
-        } else if(_sender->getName() == "b2") {
+        } else if(_sender->getName() == "Gui.b2") {
             static_cast<MyGUI::Button*>(_sender)->setCaption("Not implemented!");
-        } else if(_sender->getName() == "b3") {
+        } else if(_sender->getName() == "Gui.b3") {
             static_cast<MyGUI::Button*>(_sender)->setCaption("Not implemented!");
-        } else if(_sender->getName() == "b4") {
+        } else if(_sender->getName() == "Gui.b4") {
             dt::StateManager::Get()->Pop(1);
         }
     }
@@ -67,34 +67,31 @@ public:
         mesh->PlayAnimation();
 
         // GUI
-        dt::Node* w1 = scene->AddChildNode(new dt::Node("w1"));
-        dt::GuiWidgetComponent* b1 = w1->AddComponent(new dt::GuiWidgetComponent("Button", "Button", "b1"));
-        b1->GetWidget<MyGUI::Button>()->setCaption("Campaign");
-        b1->GetWidget<MyGUI::Button>()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
-        w1->SetPosition(Ogre::Vector3(0.4, 0.15, 0.0));
-        w1->SetScale(Ogre::Vector3(0.2, 0.1, 0.0));
+        dt::GuiRootWindow& win = dt::GuiManager::Get()->GetRootWindow();
 
-        dt::Node* w2 = scene->AddChildNode(new dt::Node("w2"));
-        dt::GuiWidgetComponent* b2 = w2->AddComponent(new dt::GuiWidgetComponent("Button", "Button", "b2"));
-        b2->GetWidget<MyGUI::Button>()->setCaption("Tutorial");
-        b2->GetWidget<MyGUI::Button>()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
-        w2->SetPosition(Ogre::Vector3(0.4, 0.35, 0.0));
-        w2->SetScale(Ogre::Vector3(0.2, 0.1, 0.0));
+        dt::GuiButton* button1 = win.CreateChild<dt::GuiButton>("b1");
+        button1->SetCaption("Campaign");
+        button1->SetPosition(10, 10);
+        button1->SetSize(200, 30);
+        dynamic_cast<MyGUI::Button*>(button1->GetMyGUIWidget())->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
 
-        dt::Node* w3 = scene->AddChildNode(new dt::Node("w3"));
-        dt::GuiWidgetComponent* b3 = w3->AddComponent(new dt::GuiWidgetComponent("Button", "Button", "b3"));
-        b3->GetWidget<MyGUI::Button>()->setCaption("Options");
-        b3->GetWidget<MyGUI::Button>()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
-        w3->SetPosition(Ogre::Vector3(0.4, 0.55, 0.0));
-        w3->SetScale(Ogre::Vector3(0.2, 0.1, 0.0));
+        dt::GuiButton* button2 = win.CreateChild<dt::GuiButton>("b2");
+        button2->SetCaption("Tutorial");
+        button2->SetPosition(10, 50);
+        button2->SetSize(200, 30);
+        dynamic_cast<MyGUI::Button*>(button2->GetMyGUIWidget())->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
 
-        dt::Node* w4 = scene->AddChildNode(new dt::Node("w4"));
-        dt::GuiWidgetComponent* b4 = w4->AddComponent(new dt::GuiWidgetComponent("Button", "Button", "b4"));
-        b4->GetWidget<MyGUI::Button>()->setCaption("Exit");
-        b4->GetWidget<MyGUI::Button>()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
-        w4->SetPosition(Ogre::Vector3(0.4, 0.75, 0.0));
-        w4->SetScale(Ogre::Vector3(0.2, 0.1, 0.0));
+        dt::GuiButton* button3 = win.CreateChild<dt::GuiButton>("b3");
+        button3->SetCaption("Options");
+        button3->SetPosition(10, 90);
+        button3->SetSize(200, 30);
+        dynamic_cast<MyGUI::Button*>(button3->GetMyGUIWidget())->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
 
+        dt::GuiButton* button4 = win.CreateChild<dt::GuiButton>("b4");
+        button4->SetCaption("Exit");
+        button4->SetPosition(10, 130);
+        button4->SetSize(200, 30);
+        dynamic_cast<MyGUI::Button*>(button4->GetMyGUIWidget())->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
     }
 
 private:

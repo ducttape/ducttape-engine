@@ -6,19 +6,35 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <Event/MessageEvent.hpp>
+#ifndef DUCTTAPE_ENGINE_GUI_GUIBUTTON
+#define DUCTTAPE_ENGINE_GUI_GUIBUTTON
+
+#include <Config.hpp>
+
+#include <Gui/GuiTextBox.hpp>
+
+#include <MyGUI.h>
 
 namespace dt {
 
-MessageEvent::MessageEvent(const QString& message)
-    : mMessage(message) {}
+/**
+  * GUI Button widget.
+  */
+class DUCTTAPE_API GuiButton : public GuiTextBox {
+    Q_OBJECT
+public:
+    /**
+      * Constructor.
+      */
+    GuiButton(const QString& name);
+    MyGUI::Widget* GetMyGUIWidget();
+    void OnCreate();
 
-const QString MessageEvent::GetType() const {
-    return "DT_MESSAGEEVENT";
+private:
+    MyGUI::Button* mButton;
+
+};
+
 }
 
-const QString& MessageEvent::GetMessageText() const {
-    return mMessage;
-}
-
-}
+#endif

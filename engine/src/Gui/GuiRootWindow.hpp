@@ -6,19 +6,31 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <Event/MessageEvent.hpp>
+#ifndef DUCTTAPE_ENGINE_GUI_GUIROOTWINDOW
+#define DUCTTAPE_ENGINE_GUI_GUIROOTWINDOW
+
+#include <Config.hpp>
+
+#include <Gui/GuiWindow.hpp>
+
+#include <MyGUI.h>
 
 namespace dt {
 
-MessageEvent::MessageEvent(const QString& message)
-    : mMessage(message) {}
+/**
+  * Like GuiWindow, but used in GuiManager as the root widget.
+  */
+class DUCTTAPE_API GuiRootWindow : public GuiWindow {
+    Q_OBJECT
+public:
+    /**
+      * Constructor.
+      */
+    GuiRootWindow(const QString& name);
+    void OnCreate();
 
-const QString MessageEvent::GetType() const {
-    return "DT_MESSAGEEVENT";
+};
+
 }
 
-const QString& MessageEvent::GetMessageText() const {
-    return mMessage;
-}
-
-}
+#endif

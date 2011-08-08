@@ -6,19 +6,21 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <Event/MessageEvent.hpp>
+#include <Gui/GuiTextBox.hpp>
 
 namespace dt {
 
-MessageEvent::MessageEvent(const QString& message)
-    : mMessage(message) {}
+GuiTextBox::GuiTextBox(QString name)
+    : GuiWidget(name) {}
 
-const QString MessageEvent::GetType() const {
-    return "DT_MESSAGEEVENT";
+GuiTextBox::~GuiTextBox() {}
+
+void GuiTextBox::SetCaption(QString caption) {
+    dynamic_cast<MyGUI::TextBox*>(GetMyGUIWidget())->setCaption(caption.toStdString());
 }
 
-const QString& MessageEvent::GetMessageText() const {
-    return mMessage;
+QString GuiTextBox::GetCaption() {
+    return QString(dynamic_cast<MyGUI::TextBox*>(GetMyGUIWidget())->getCaption().asUTF8_c_str());
 }
 
 }

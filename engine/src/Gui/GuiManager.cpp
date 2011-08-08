@@ -6,7 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <Graphics/GuiManager.hpp>
+#include <Gui/GuiManager.hpp>
 
 #include <Event/EventManager.hpp>
 #include <Input/KeyboardEvent.hpp>
@@ -15,7 +15,6 @@
 #include <Graphics/DisplayManager.hpp>
 #include <Utils/Logger.hpp>
 
-#define MYGUI_DONT_USE_OBSOLETE
 #include <MyGUI_LogManager.h>
 
 namespace dt {
@@ -23,7 +22,8 @@ namespace dt {
 GuiManager::GuiManager()
     : mGuiSystem(nullptr),
       mPlatform(nullptr),
-      mMouseCursorVisible(false) {}
+      mMouseCursorVisible(false),
+      mRootGuiWindow("Gui") {}
 
 void GuiManager::Initialize() {
     if(mGuiSystem == nullptr) {
@@ -48,8 +48,11 @@ void GuiManager::Initialize() {
 
         EventManager::Get()->AddListener(this);
 
-        // show/hide mouse cursor
+        // Show / hide the mouse cursor.
         SetMouseCursorVisible(mMouseCursorVisible);
+
+        // Create the root widget.
+        mRootGuiWindow.Create();
     }
 }
 
@@ -131,6 +134,10 @@ void GuiManager::SetMouseCursorVisible(bool visible) {
 
 GuiManager* GuiManager::Get() {
     return DisplayManager::Get()->GetGuiManager();
+}
+
+GuiRootWindow& GuiManager::GetRootWindow() {
+    return mRootGuiWindow;
 }
 
 }

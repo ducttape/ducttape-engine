@@ -146,7 +146,7 @@ double ConnectionsManager::GetTimeout() {
 void ConnectionsManager::HandleEvent(std::shared_ptr<Event> e) {
     if(e->GetType() == "DT_TIMERTICKEVENT") {
         std::shared_ptr<TimerTickEvent> t = std::dynamic_pointer_cast<TimerTickEvent>(e);
-        if(t->GetMessageEvent() == "DT_SEND_PING" && t->GetInterval() == mPingInterval) {
+        if(t->GetMessageText() == "DT_SEND_PING" && t->GetInterval() == mPingInterval) {
             // this is our timer
             _Ping();
             _CheckTimeouts();

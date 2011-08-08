@@ -6,19 +6,20 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <Event/MessageEvent.hpp>
+#include <Gui/GuiEditBox.hpp>
 
 namespace dt {
 
-MessageEvent::MessageEvent(const QString& message)
-    : mMessage(message) {}
+GuiEditBox::GuiEditBox(const QString& name)
+    : GuiTextBox(name),
+      mEditBox(nullptr) {}
 
-const QString MessageEvent::GetType() const {
-    return "DT_MESSAGEEVENT";
+MyGUI::Widget* GuiEditBox::GetMyGUIWidget() {
+    return mEditBox;
 }
 
-const QString& MessageEvent::GetMessageText() const {
-    return mMessage;
+void GuiEditBox::OnCreate() {
+    mEditBox = GetParent()->GetMyGUIWidget()->createWidget<MyGUI::EditBox>("EditBox", 0, 0, 100, 100, MyGUI::Align::Default, GetFullName().toStdString());
 }
 
 }

@@ -6,16 +6,16 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#ifndef DUCTTAPE_ENGINE_GRAPHICS_GUIMANAGER
-#define DUCTTAPE_ENGINE_GRAPHICS_GUIMANAGER
+#ifndef DUCTTAPE_ENGINE_GUI_GUIMANAGER
+#define DUCTTAPE_ENGINE_GUI_GUIMANAGER
 
 #include <Config.hpp>
 
 #include <Core/Manager.hpp>
 #include <Event/Event.hpp>
 #include <Event/EventListener.hpp>
+#include <Gui/GuiRootWindow.hpp>
 
-#define MYGUI_DONT_USE_OBSOLETE
 #include <MyGUI.h>
 #include <MyGUI_OgrePlatform.h>
 
@@ -67,11 +67,14 @@ public:
       */
     static GuiManager* Get();
 
+    GuiRootWindow& GetRootWindow();
+
 private:
     MyGUI::Gui* mGuiSystem;         //!< MyGUI's GUI system.
     MyGUI::OgrePlatform* mPlatform; //!< MyGUI's OgrePlatform.
     bool mMouseCursorVisible;       //!< Whether the GUI mouse cursor is visible.
-
+    GuiRootWindow mRootGuiWindow;      //!< The root window widget.
+    Ogre::SceneManager* mSceneManager; //!< The scene manager used for the GUI.
 };
 
 }

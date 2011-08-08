@@ -6,19 +6,19 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <Event/MessageEvent.hpp>
+#include <Gui/GuiRootWindow.hpp>
+
+#include <Gui/GuiManager.hpp>
 
 namespace dt {
 
-MessageEvent::MessageEvent(const QString& message)
-    : mMessage(message) {}
+GuiRootWindow::GuiRootWindow(const QString& name)
+    : GuiWindow(name) {}
 
-const QString MessageEvent::GetType() const {
-    return "DT_MESSAGEEVENT";
-}
-
-const QString& MessageEvent::GetMessageText() const {
-    return mMessage;
+void GuiRootWindow::OnCreate() {
+    mWindow = GuiManager::Get()->GetGuiSystem()->createWidget<MyGUI::Window>("PanelEmpty", 0, 0, 1, 1, MyGUI::Align::Default, "Main", GetFullName().toStdString());
+    SetPosition(0, 0);
+    SetSize(1.f, 1.f);
 }
 
 }
