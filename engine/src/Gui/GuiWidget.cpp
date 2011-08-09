@@ -35,6 +35,18 @@ void GuiWidget::Create() {
     OnCreate();
 }
 
+void GuiWidget::Destroy() {
+    // destroy all children
+    for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
+        iter->second->Destroy();
+
+        iter = mChildren.erase(iter);
+    }
+
+    // destroy the mygui widget
+    GuiManager::Get()->GetGuiSystem()->destroyWidget(GetMyGUIWidget());
+}
+
 const QString& GuiWidget::GetName() const {
     return mName;
 }
@@ -62,11 +74,15 @@ void GuiWidget::SetSize(int width, int height) {
 // Parent management
 
 void GuiWidget::SetParent(GuiWidget* parent) {
-    if(mParent != nullptr) {
+    if(mParent != nullptr && parent != nullptr) {
         // move ourselves to another widget
         boost::ptr_map<QString, GuiWidget>& from = mParent->GetChildrenMap();
         boost::ptr_map<QString, GuiWidget>& to = parent->GetChildrenMap();
         to.transfer(to.end(), from.find(mName), from);
+    }
+    if(mParent != nullptr && parent == nullptr) {
+        // just remove ourselves
+        mParent->GetChildrenMap().erase(mName);
     }
     mParent = parent;
 }
@@ -132,6 +148,13 @@ void GuiWidget::SetVisible(bool visible) {
 
 bool GuiWidget::IsVisible() const {
     return mIsVisible;
+}
+
+void GuiWidget::RemoveChild(const QString& name) {
+    GuiWidget* w = FindChild(name);
+    if(w != nullptr) {
+        w->Destroy();
+    }
 }
 
 boost::ptr_map<QString, GuiWidget>& GuiWidget::GetChildrenMap() {

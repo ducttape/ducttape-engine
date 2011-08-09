@@ -43,6 +43,8 @@ public:
 
     void Create();
 
+    void Destroy();
+
     /**
       * Called when the widget is being created.
       */
@@ -91,6 +93,8 @@ public:
         FindChild(name)->Create();
         return dynamic_cast<WidgetType*>(FindChild(name));
     }
+
+    void RemoveChild(const QString& name);
 
     boost::ptr_map<QString, GuiWidget>& GetChildrenMap();
 
