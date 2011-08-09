@@ -22,7 +22,7 @@ namespace dt {
 
 namespace Utils {
 
-template <typename Source> DUCTTAPE_API QString ToString(const Source& source) {
+template <typename Source> QString ToString(const Source& source) {
     return QString::fromStdString(boost::lexical_cast<std::string>(source));
 }
 
