@@ -83,6 +83,8 @@ include_directories(
     ${Boost_INCLUDE_DIRS}
     ${SFML_INCLUDE_DIR}
     ${OGRE_INCLUDE_DIRS}
+    ${OGRE_Paging_INCLUDE_DIRS}
+    ${OGRE_Terrain_INCLUDE_DIRS}
     ${MYGUI_INCLUDE_DIR}
     ${MYGUI_PLATFORM_INCLUDE_DIR}
     ${BULLET_INCLUDE_DIRS}
