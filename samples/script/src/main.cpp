@@ -116,6 +116,16 @@ public:
         return engine->undefinedValue();
     }
 
+    static QScriptValue CoutFunction(QScriptContext *context, QScriptEngine *engine) {
+        QString line;
+        for(int i = 0; i < context->argumentCount(); ++i) {
+            // append the argument, converted to string
+            line.append(context->argument(i).toString());
+        }
+        dt::Logger::Get().Info("Script output: " + line);
+        return engine->undefinedValue();
+    }
+
     static QScriptValue InfoFunction(QScriptContext *context, QScriptEngine *engine) {
         THE_MAIN->Write("This is a scripting console example. "
                         "Start by typing a script command into the textfield.\n"
@@ -130,7 +140,8 @@ public:
         THE_MAIN->Write("    "+CMD_COLOR+"info();"+INFO_COLOR+"      -- displays general information", HELP_COLOR);
         THE_MAIN->Write("    "+CMD_COLOR+"clear();"+INFO_COLOR+"     -- clear the output", HELP_COLOR);
         THE_MAIN->Write("    "+CMD_COLOR+"print(x);"+INFO_COLOR+"    -- prints the variable", HELP_COLOR);
-        THE_MAIN->Write("    "+CMD_COLOR+"quit;"+INFO_COLOR+"        -- terminates the application", HELP_COLOR);
+        THE_MAIN->Write("    "+CMD_COLOR+"cout(x);"+INFO_COLOR+"     -- prints the variable to std::cout", HELP_COLOR);
+        THE_MAIN->Write("    "+CMD_COLOR+"quit();"+INFO_COLOR+"      -- terminates the application", HELP_COLOR);
         THE_MAIN->Write("Use the "+CMD_COLOR+"Up/Down Arrow Keys"+INFO_COLOR+" to scroll your command history.", HELP_COLOR);
         return engine->undefinedValue();
     }
@@ -151,6 +162,7 @@ public:
 
         QScriptEngine* e = dt::ScriptManager::Get()->GetScriptEngine();
         e->globalObject().setProperty("print", e->newFunction(Main::PrintFunction));
+        e->globalObject().setProperty("cout", e->newFunction(Main::CoutFunction));
         e->globalObject().setProperty("help", e->newFunction(Main::HelpFunction));
         e->globalObject().setProperty("info", e->newFunction(Main::InfoFunction));
         e->globalObject().setProperty("clear", e->newFunction(Main::ClearFunction));
