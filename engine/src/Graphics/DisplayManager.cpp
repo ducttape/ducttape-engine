@@ -219,12 +219,14 @@ void DisplayManager::_CreateWindow() {
     mOgreRoot = new Ogre::Root("", "");
 
     // TODO: These paths have to be determined correctly.
-#ifdef COMPILER_MSVC
+#ifdef DUCTTAPE_SYSTEM_WINDOWS
     mOgreRoot->loadPlugin("RenderSystem_GL.dll");
     mOgreRoot->loadPlugin("Plugin_ParticleFX.dll");
+    mOgreRoot->loadPlugin("Plugin_CgProgramManager.dll");
 #else
     mOgreRoot->loadPlugin("/usr/lib/OGRE/RenderSystem_GL.so");
     mOgreRoot->loadPlugin("/usr/lib/OGRE/Plugin_ParticleFX.so");
+    mOgreRoot->loadPlugin("/usr/lib/OGRE/Plugin_CgProgramManager.so");
 #endif
     mOgreRenderSystem = mOgreRoot->getRenderSystemByName("OpenGL Rendering Subsystem");
     mOgreRoot->setRenderSystem(mOgreRenderSystem);
