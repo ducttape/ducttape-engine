@@ -19,7 +19,7 @@ Scene::Scene(const QString& name)
     : Node(name) {}
 
 EventListener::Priority Scene::GetEventPriority() const {
-    return EventListener::LOWEST;
+    return EventListener::NORMAL;
 }
 
 void Scene::OnInitialize() {
