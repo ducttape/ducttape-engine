@@ -12,12 +12,21 @@
 #include <Logic/ScriptManager.hpp>
 #include <Utils/Logger.hpp>
 
+#include <QStringList>
+
 namespace dt {
 
 GuiWidget::GuiWidget(const QString& name)
     : mName(name),
       mParent(nullptr),
-      mIsVisible(true) {}
+      mIsVisible(true) {
+
+    if(mName.contains('.')) {
+        Logger::Get().Warning("GuiWidget name cannot contain '.': \"" + mName + "\". All occurrences will be stripped.");
+        mName = mName.replace('.', "");
+        Logger::Get().Info("New widget name: \"" + mName + "\".");
+    }
+}
 
 GuiWidget::~GuiWidget() {}
 
@@ -82,12 +91,23 @@ void GuiWidget::SetScriptParent(QScriptValue parent) {
 // Children management
 
 GuiWidget* GuiWidget::FindChild(const QString& name) {
-    boost::ptr_map<QString, GuiWidget>::iterator iter = mChildren.find(name);
+    QStringList split = name.split('.', QString::SkipEmptyParts);
+    if(split.size() == 0)
+        return nullptr;
+
+    boost::ptr_map<QString, GuiWidget>::iterator iter = mChildren.find(split.first());
     if(iter == mChildren.end()) {
         return nullptr;
     }
-    return iter->second;
+    if(split.size() == 1) {
+        return iter->second;
+    } else {
+        split.removeFirst(); // remove first item from path
+        QString path(split.join("."));
+        return iter->second->FindChild(path);
+    }
 }
+
 
 QScriptValue GuiWidget::GetChild(const QString& name) {
     GuiWidget* widget = FindChild(name);
