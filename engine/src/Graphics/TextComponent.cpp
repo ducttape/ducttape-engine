@@ -98,6 +98,11 @@ void TextComponent::OnUpdate(double time_diff) {
 
     // set the position
 
+    if(DisplayManager::Get()->GetMainCamera() == nullptr) {
+        Logger::Get().Error("Cannot get main camera for text component: no main camera set. Disabling text component " + mName + ".");
+        Disable();
+        return;
+    }
     Ogre::Camera* camera = DisplayManager::Get()->GetMainCamera()->GetCamera();
     Ogre::Vector3 screen_pos(camera->getProjectionMatrix() * camera->getViewMatrix() * GetNode()->GetPosition(Node::SCENE));
 

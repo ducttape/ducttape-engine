@@ -42,9 +42,8 @@ public:
         dt::ScriptManager::Get()->LoadScript("scripts/circular_movement.js");
 
         dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
-        dt::CameraComponent* cam = camnode->AddComponent(new dt::CameraComponent("cam"));
         camnode->SetPosition(Ogre::Vector3(0, 5, 10));
-        cam->LookAt(Ogre::Vector3(0, 0, 0));
+        camnode->AddComponent(new dt::CameraComponent("cam"))->LookAt(Ogre::Vector3(0, 0, 0));;
 
         dt::Node* meshnode = scene->AddChildNode(new dt::Node("meshnode"));
         dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh");

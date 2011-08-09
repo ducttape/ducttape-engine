@@ -53,9 +53,8 @@ public:
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
         dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
-        camnode->AddComponent(new dt::CameraComponent("cam"));
         camnode->SetPosition(Ogre::Vector3(30, 25, 30));
-        camnode->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 10, 0));
+        camnode->AddComponent(new dt::CameraComponent("cam"))->LookAt(Ogre::Vector3(0, 10, 0));;
 
         dt::Node* planenode = scene->AddChildNode(new dt::Node("planenode"));
         planenode->SetPosition(Ogre::Vector3(0, 0, 0));

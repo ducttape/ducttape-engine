@@ -38,13 +38,14 @@ public:
 
     void OnCreate();
     void OnDestroy();
+    void OnEnable();
+    void OnDisable();
     void OnUpdate(double time_diff);
 
-    /**
-      * Rotates the camera to look at a target point.
-      * @param target_point The point to look at.
-      */
     void LookAt(Ogre::Vector3 target_point);
+
+    // sets the viewport size
+    void SetupViewport(float left, float top, float width, float height);
 
     /**
       * Returns the Ogre Camera object.
@@ -54,6 +55,8 @@ public:
 
 private:
     Ogre::Camera* mCamera;      //!< The Ogre camera instance.
+    Ogre::Viewport* mViewport;  //!< The viewport for this camera.
+    int mZOrder;                //!< The z-order of this viewport.
 };
 
 }

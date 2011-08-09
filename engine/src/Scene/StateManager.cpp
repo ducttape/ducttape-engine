@@ -9,6 +9,7 @@
 #include <Scene/StateManager.hpp>
 
 #include <Core/Root.hpp>
+#include <Utils/Utils.hpp>
 
 namespace dt {
 
@@ -42,7 +43,7 @@ bool StateManager::ShiftStates() {
         while(mPopCount > 0 && mStates.size() > 0) {
             mStates.back()->Deinitialize();
             mStates.pop_back();
-            Logger::Get().Info("Deinitialized 1 state.");
+            --mPopCount;
         }
         if(mStates.size() > 0) {
             mStates.back()->Initialize();
@@ -51,11 +52,11 @@ bool StateManager::ShiftStates() {
 
     // add new state
     if(mHasNewState) {
-        if(mStates.size() > 0) {
-            mStates.back()->Deinitialize();
+        if(GetCurrentState() != nullptr) {
+            GetCurrentState()->Deinitialize();
         }
         mStates.push_back(mNewState);
-        mStates.back()->Initialize();
+        GetCurrentState()->Initialize();
         mHasNewState = false;
     }
 

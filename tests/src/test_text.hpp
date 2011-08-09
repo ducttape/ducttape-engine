@@ -50,9 +50,8 @@ public:
         Ogre::FontManager::getSingleton().load("DejaVuSans", "General");
 
         dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
-        dt::CameraComponent* cam = camnode->AddComponent(new dt::CameraComponent("cam"));
         camnode->SetPosition(Ogre::Vector3(0, 0, 10));
-        cam->LookAt(Ogre::Vector3(0, 0, 0));
+        camnode->AddComponent(new dt::CameraComponent("cam"))->LookAt(Ogre::Vector3(0, 0, 0));
 
         dt::Node* node1 = scene->AddChildNode(new dt::Node("node1"));
         dt::TextComponent* text1 = node1->AddComponent(new dt::TextComponent("Hello World", "text1"));

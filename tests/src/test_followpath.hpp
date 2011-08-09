@@ -44,9 +44,8 @@ public:
 
         // Create camera
         dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
-        dt::CameraComponent* cam = camnode->AddComponent(new dt::CameraComponent("cam"));
         camnode->SetPosition(Ogre::Vector3(0, 20, 20));
-        cam->LookAt(Ogre::Vector3(0, 0, 0));
+        camnode->AddComponent(new dt::CameraComponent("cam"))->LookAt(Ogre::Vector3(0, 0, 0));;
 
         // Create light
         dt::Node* lightnode = scene->AddChildNode(new dt::Node("lightnode"));

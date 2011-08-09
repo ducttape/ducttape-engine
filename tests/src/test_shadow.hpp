@@ -67,9 +67,8 @@ public:
         node2->SetPosition(Ogre::Vector3(2,5,0));
 
         dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
-        camnode->AddComponent(new dt::CameraComponent("cam"));
         camnode->SetPosition(Ogre::Vector3(0, 5, 10));
-        camnode->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 2, 0));
+        camnode->AddComponent(new dt::CameraComponent("cam"))->LookAt(Ogre::Vector3(0, 2, 0));
 
         dt::Node* lightnode1 = scene->AddChildNode(new dt::Node("lightnode1"));
         dt::LightComponent* light = lightnode1->AddComponent(new dt::LightComponent("light1"));
