@@ -28,6 +28,12 @@ public:
         mRuntime = 0;
     }
 
+    EventListener::Priority GetEventPriority() const {
+        // handle event after the nodes have been updated, so we can
+        // monitor their final state
+        return EventListener::LOWEST;
+    }
+
     void HandleEvent(std::shared_ptr<dt::Event> e) {
         if(e->GetType() == "DT_BEGINFRAMEEVENT") {
             mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
@@ -49,7 +55,7 @@ public:
             }
 
 
-            if(mRuntime >= 3.5 && testscene->GetPhysicsWorld()->IsEnabled()) {
+            if(mRuntime >= 3.0 && testscene->GetPhysicsWorld()->IsEnabled()) {
                 mSphere1DisabledPosition = sphere1->GetNode()->GetPosition();
             }
             if(!testscene->GetPhysicsWorld()->IsEnabled()) {
@@ -60,7 +66,7 @@ public:
             }
 
             testscene->GetPhysicsWorld()->SetShowDebug(mRuntime > 2.0);
-            testscene->GetPhysicsWorld()->SetEnabled(mRuntime < 3.5);
+            testscene->GetPhysicsWorld()->SetEnabled(mRuntime < 3.0);
 
             if(mRuntime > 5.0) {
                 dt::StateManager::Get()->Pop(1);
