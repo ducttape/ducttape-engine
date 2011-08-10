@@ -91,6 +91,7 @@ include_directories(
     ${OIS_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/externals/btogre/include
     ${CMAKE_SOURCE_DIR}/externals/ogre-procedural/library/include
+    ${CMAKE_SOURCE_DIR}/externals/ogre-paged/library/include
 )
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/externals)
