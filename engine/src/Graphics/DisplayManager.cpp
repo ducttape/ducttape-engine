@@ -15,10 +15,9 @@
 namespace dt {
 
 DisplayManager::DisplayManager()
-    : mMainViewport(""),
-      mMainCamera(""),
+    : mMainCamera(nullptr),
       mOgreRoot(nullptr),
-      mNextZOrder(1),
+      mNextZOrder(0),
       mWindowSize(Ogre::Vector2(1024, 768)),
       mFullscreen(false) {}
 
@@ -59,127 +58,6 @@ void DisplayManager::SetFullscreen(bool fullscreen, bool adjust_resolution) {
     }
 }
 
-bool DisplayManager::RegisterCamera(CameraComponent* camera_component) {
-    QString name(camera_component->GetName());
-
-    // Do not add if a CameraComponent of the same name already exists.
-    if(mCameras.count(name) != 0)
-        return false;
-
-    int start_size = mCameras.size();
-
-    // Create the render window if this is the first CameraComponent.
-    if(mCameras.size() == 0 && (mOgreRoot == nullptr || !mOgreRoot->isInitialised()))
-        _CreateWindow();
-
-    mCameras[name] = camera_component;
-
-    if(start_size == 0) {
-        AddViewport("main", name, true);
-    }
-
-    return true;
-}
-
-bool DisplayManager::UnregisterCamera(CameraComponent* camera_component) {
-    QString name = camera_component->GetName();
-
-    // Do not remove if the requested CameraComponent hasn't been registered.
-    if(mCameras.count(name) == 0)
-        return false;
-
-    mCameras.erase(name);
-
-    // Destroy the render window if this is the last CameraComponent.
-    if(mCameras.size() == 0 && (mOgreRoot != nullptr && mOgreRoot->isInitialised()))
-        _DestroyWindow();
-
-    return true;
-}
-
-bool DisplayManager::ActivateCamera(const QString& name, const QString& viewport_name) {
-	// Do not change if the requested CameraComponent hasn't been registered.
-    if(mCameras.count(name) == 0)
-        return false;
-
-    QString new_viewport_name(viewport_name);
-
-    if(new_viewport_name == "") {
-        if(mMainViewport == "") {
-            // if there is no main Viewport made
-            if(AddViewport("main", name, true)) { // try to create a new main viewport
-                new_viewport_name = mMainViewport; //set it as Viewport for camera
-            } else {
-                Logger::Get().Error("Cannot activate camera " + name + ": No viewport given and no main viewport set.");
-                return false;
-            }
-        } else {
-            new_viewport_name = mMainViewport;
-        }
-    }
-
-    // Do not activate if the requested Viewport hasn't been created.
-    if(mViewports.count(new_viewport_name) == 0) {
-        Logger::Get().Error("Cannot activate camera " + name + " on viewport " + new_viewport_name + ": Viewport does not exist.");
-        return false;
-    }
-
-    mViewports[new_viewport_name].SetCamera(mCameras[name]->GetCamera());
-    mViewportsCameras[new_viewport_name] = name;
-
-    return true;
-}
-
-bool DisplayManager::AddViewport(const QString& name, const QString& camera_name,
-                                 bool set_as_main, float left, float top, float width, float height)
-{
-    // Do not add if a Viewport of the same name already exists.
-    if(mViewports.count(name) != 0)
-        return false;
-    // Cannot assign if there is no such camera.
-    if(mCameras.count(camera_name) == 0)
-        return false;
-
-    QString viewport_name(name);
-
-    mViewports.insert(viewport_name, new dt::Viewport);
-    mViewports[name].Initialize((GetRenderWindow()->addViewport(mCameras[camera_name]->GetCamera(),
-                                  mNextZOrder, left, top, width, height)));
-    mNextZOrder++;
-
-    if(set_as_main) {
-        mMainViewport = name;
-        mMainCamera = camera_name;
-
-        // set the scene manager for the gui
-        mGuiManager.SetSceneManager(mCameras[mMainCamera]->GetCamera()->getSceneManager());
-    }
-
-    mViewports[name].SetBackgroundColor(Ogre::ColourValue(0, 0, 0));
-
-    ActivateCamera(camera_name, name);
-
-    return true;
-}
-
-void DisplayManager::HideViewport(const QString& name) {
-    // Do not hide if the Viewport does not exist.
-    if(mViewports.count(name) == 0) {
-        Logger::Get().Warning("Cannot hide viewport \"" + name + "\": viewport does not exist.");
-    } else {
-        mViewports[name].Hide();
-    }
-}
-
-void DisplayManager::ShowViewport(const QString& name) {
-    // Do not show if the Viewport does not exist.
-    if(mViewports.count(name) == 0) {
-        Logger::Get().Warning("Cannot show viewport \"" + name + "\": viewport does not exist.");
-    } else {
-        mViewports[name].Show();
-    }
-}
-
 void DisplayManager::Render() {
     if(mOgreRoot != nullptr && mOgreRoot->isInitialised()) {
         mOgreRoot->renderOneFrame();
@@ -205,12 +83,12 @@ Ogre::RenderWindow* DisplayManager::GetRenderWindow() {
 }
 
 CameraComponent* DisplayManager::GetMainCamera() {
-    if(mCameras.count(mMainCamera) > 0) {
-        return mCameras.find(mMainCamera)->second;
-    }
-    return nullptr;
+    return mMainCamera;
 }
 
+void DisplayManager::SetMainCamera(CameraComponent* camera_component) {
+    mMainCamera = camera_component;
+}
 
 void DisplayManager::_CreateWindow() {
     if(mOgreRoot != nullptr) {
@@ -219,12 +97,14 @@ void DisplayManager::_CreateWindow() {
     mOgreRoot = new Ogre::Root("", "");
 
     // TODO: These paths have to be determined correctly.
-#ifdef COMPILER_MSVC
+#ifdef DUCTTAPE_SYSTEM_WINDOWS
     mOgreRoot->loadPlugin("RenderSystem_GL.dll");
     mOgreRoot->loadPlugin("Plugin_ParticleFX.dll");
+    mOgreRoot->loadPlugin("Plugin_CgProgramManager.dll");
 #else
     mOgreRoot->loadPlugin("/usr/lib/OGRE/RenderSystem_GL.so");
     mOgreRoot->loadPlugin("/usr/lib/OGRE/Plugin_ParticleFX.so");
+    mOgreRoot->loadPlugin("/usr/lib/OGRE/Plugin_CgProgramManager.so");
 #endif
     mOgreRenderSystem = mOgreRoot->getRenderSystemByName("OpenGL Rendering Subsystem");
     mOgreRoot->setRenderSystem(mOgreRenderSystem);
@@ -257,6 +137,11 @@ void DisplayManager::CreateOgreRoot() {
 
 GuiManager* DisplayManager::GetGuiManager() {
     return &mGuiManager;
+}
+
+int DisplayManager::GetNextZOrder() {
+    mNextZOrder++;
+    return mNextZOrder;
 }
 
 }

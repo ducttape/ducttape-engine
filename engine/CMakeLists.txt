@@ -24,12 +24,15 @@ target_link_libraries(ducttape
     ${SFML_LIBRARIES}
     ${BULLET_LIBRARIES}
     ${OGRE_LIBRARIES}
+    ${OGRE_Paging_LIBRARIES}
+    ${OGRE_Terrain_LIBRARIES}
     ${OIS_LIBRARIES}
     ${MYGUI_LIBRARIES}
     ${MYGUI_PLATFORM_LIBRARIES}
     ${QT_LIBRARIES}
     BtOgre
     OgreProcedural
+    ogre-paged
 )
 
 set_target_properties(ducttape

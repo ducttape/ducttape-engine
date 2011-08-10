@@ -54,61 +54,6 @@ public:
       */
     static DisplayManager* Get();
 
-     /**
-      * Tries to register a camera.
-      * This will fail if the same CameraComponent is already registered. The first CameraComponent that gets registered will also trigger the creation of the render window.
-      * It will also run AddViewport with name \c main and set it as main Viewport.
-      * @param camera_component Pointer to to the camera component. It should come out of the
-      * Node itself to ensure the pointer will always be safe and sound.
-      * @returns \c true for success and \c false in case the CameraComponent is already registered.
-      */
-    bool RegisterCamera(CameraComponent* camera_component);
-
-    /**
-      * Tries to unregister a camera.
-      * This will fail if the CameraComponent is not registered. Unregistering the last CameraComponent will trigger the destruction of the render window.
-      * @param camera_component Pointer to to the camera component. It should come out of the
-      * Node itself to ensure the pointer will always be safe and sound.
-      * @returns \c true for success and \c false in case the CameraComponent is not found.
-      */
-    bool UnregisterCamera(CameraComponent* camera_component);
-
-    /**
-      * Activates a camera for the active viewport.
-      * This will fail if this CameraComponent has not yet been registered.
-      * @param name The name of the CameraComponent.
-      * @param viewport_name The name of the Viewport.
-      * @returns \c true for success and \c false in case the CameraComponent is unknown.
-      */
-    bool ActivateCamera(const QString& name, const QString& viewport_name = "");
-
-    /**
-      * Adds Viewport to current window.
-      * @param name The name of Viewport.
-      * @param camera_name Name of the camera which should be initiated with Viewport.
-      * @param set_as_main Sets as main currently created viewport. It will be taken into consideration when doing any sound calculations. It will be also default viewport to assign camera to.
-      * @param left From 0.0 to 1.0, tells where to put viewport from left edge of screen.
-      * @param top From 0.0 to 1.0, tells where to put viewport from top edge of screen.
-      * @param width From 0.0 to 1.0, tells how much width of screen should viewport occupy.
-      * @param height From 0.0 to 1.0, tells how much height of screen should viewport occupy.
-      * @returns Whether the operation was successful or not.
-      */
-    bool AddViewport(const QString& name, const QString& camera_name,
-                     bool set_as_main = false, float left = 0.0F, float top = 0.0F,
-                     float width = 1.0F, float height = 1.0F);
-
-    /**
-      * Hides Viewport from visibility on screen. Remember to not hide viewport that has no viewport under it.
-      * @param name Name of Viewport to hide.
-      */
-    void HideViewport(const QString& name);
-
-    /**
-      * Shows previously hidden Viewport.
-      * @param name Name of Viewport to show.
-      */
-    void ShowViewport(const QString& name);
-
     /**
       * Renders the current frame.
       */
@@ -139,10 +84,22 @@ public:
     CameraComponent* GetMainCamera();
 
     /**
+      * Sets a camera component as main camera.
+      * @param camera_component The new main camera.
+      */
+    void SetMainCamera(CameraComponent* camera_component);
+
+    /**
       * Returns the GuiManager.
       * @returns The GuiManager.
       */
     GuiManager* GetGuiManager();
+
+    /**
+      * Returns the z-order for the next viewport that is being created.
+      * @return A new z-order index.
+      */
+    int GetNextZOrder();
 
 public slots:
     /**
@@ -170,12 +127,8 @@ private:
       */
     void _DestroyWindow();
 
-    std::map<QString, CameraComponent*> mCameras;               //!< The list of camera components.
-    std::map<QString, Ogre::SceneManager*> mSceneManagers;      //!< The list of scene manager for the scenes.
-    boost::ptr_map<QString, dt::Viewport> mViewports;           //!< The list of viewports.
-    std::map<QString, QString> mViewportsCameras;           //!< The assignment map for cameras<>viewports.
-    QString mMainViewport;  //!< The name of the main viewport.
-    QString mMainCamera;    //!< The name of the main camera.
+    std::map<QString, Ogre::SceneManager*> mSceneManagers; //!< The list of scene managers for the scenes.
+    CameraComponent* mMainCamera; //!< Pointer to the main camera component (usually the first / only one).
 
     Ogre::Root* mOgreRoot;      //!< The Ogre::Root instance.
     Ogre::RenderSystem* mOgreRenderSystem;  //!< The Ogre::RenderSystem instance.

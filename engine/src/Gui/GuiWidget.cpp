@@ -12,18 +12,39 @@
 #include <Logic/ScriptManager.hpp>
 #include <Utils/Logger.hpp>
 
+#include <QStringList>
+
 namespace dt {
 
 GuiWidget::GuiWidget(const QString& name)
     : mName(name),
       mParent(nullptr),
-      mIsVisible(true) {}
+      mIsVisible(true) {
+
+    if(mName.contains('.')) {
+        Logger::Get().Warning("GuiWidget name cannot contain '.': \"" + mName + "\". All occurrences will be stripped.");
+        mName = mName.replace('.', "");
+        Logger::Get().Info("New widget name: \"" + mName + "\".");
+    }
+}
 
 GuiWidget::~GuiWidget() {}
 
 void GuiWidget::Create() {
     GuiManager::Get()->Initialize(); // initialize if not already happened
     OnCreate();
+}
+
+void GuiWidget::Destroy() {
+    // destroy all children
+    for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
+        iter->second->Destroy();
+
+        iter = mChildren.erase(iter);
+    }
+
+    // destroy the mygui widget
+    GuiManager::Get()->GetGuiSystem()->destroyWidget(GetMyGUIWidget());
 }
 
 const QString& GuiWidget::GetName() const {
@@ -53,11 +74,15 @@ void GuiWidget::SetSize(int width, int height) {
 // Parent management
 
 void GuiWidget::SetParent(GuiWidget* parent) {
-    if(mParent != nullptr) {
+    if(mParent != nullptr && parent != nullptr) {
         // move ourselves to another widget
         boost::ptr_map<QString, GuiWidget>& from = mParent->GetChildrenMap();
         boost::ptr_map<QString, GuiWidget>& to = parent->GetChildrenMap();
         to.transfer(to.end(), from.find(mName), from);
+    }
+    if(mParent != nullptr && parent == nullptr) {
+        // just remove ourselves
+        mParent->GetChildrenMap().erase(mName);
     }
     mParent = parent;
 }
@@ -82,12 +107,23 @@ void GuiWidget::SetScriptParent(QScriptValue parent) {
 // Children management
 
 GuiWidget* GuiWidget::FindChild(const QString& name) {
-    boost::ptr_map<QString, GuiWidget>::iterator iter = mChildren.find(name);
+    QStringList split = name.split('.', QString::SkipEmptyParts);
+    if(split.size() == 0)
+        return nullptr;
+
+    boost::ptr_map<QString, GuiWidget>::iterator iter = mChildren.find(split.first());
     if(iter == mChildren.end()) {
         return nullptr;
     }
-    return iter->second;
+    if(split.size() == 1) {
+        return iter->second;
+    } else {
+        split.removeFirst(); // remove first item from path
+        QString path(split.join("."));
+        return iter->second->FindChild(path);
+    }
 }
+
 
 QScriptValue GuiWidget::GetChild(const QString& name) {
     GuiWidget* widget = FindChild(name);
@@ -112,6 +148,13 @@ void GuiWidget::SetVisible(bool visible) {
 
 bool GuiWidget::IsVisible() const {
     return mIsVisible;
+}
+
+void GuiWidget::RemoveChild(const QString& name) {
+    GuiWidget* w = FindChild(name);
+    if(w != nullptr) {
+        w->Destroy();
+    }
 }
 
 boost::ptr_map<QString, GuiWidget>& GuiWidget::GetChildrenMap() {
