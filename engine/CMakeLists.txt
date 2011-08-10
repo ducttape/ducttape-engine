@@ -32,6 +32,7 @@ target_link_libraries(ducttape
     ${QT_LIBRARIES}
     BtOgre
     OgreProcedural
+    ogre-paged
 )
 
 set_target_properties(ducttape
