@@ -6,4 +6,4 @@
 	url = git://github.com/ducttape/btogre.git
 [submodule "externals/ogre-paged"]
 	path = externals/ogre-paged
-	url = git@github.com:ducttape/ogre-paged.git
+	url = git://github.com/ducttape/ogre-paged.git
