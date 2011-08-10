@@ -20,6 +20,10 @@ set(BUILD_SAMPLES TRUE CACHE BOOL "TRUE to build the samples, FALSE to ignore th
 set(BUILD_TESTS TRUE CACHE BOOL "TRUE to build the tests, FALSE to ignore them")
 set(BUILD_DOC TRUE CACHE BOOL "TRUE to generate the API documentation, FALSE to ignore it")
 
+if(BUILD_STATIC)
+    add_definitions(-DDUCTTAPE_STATIC)
+endif()
+
 if(WIN32)
     set(Boost_USE_STATIC_LIBS ON)
 else()
@@ -49,8 +53,8 @@ if(EXISTS "${CMAKE_SOURCE_DIR}/dependencies")
     set(OgreProcedural_HOME "${CMAKE_SOURCE_DIR}/dependencies/ogre-procedural")
     file(GLOB_RECURSE DLLS_LIST ${CMAKE_SOURCE_DIR}/dependencies/*.dll)
     file(MAKE_DIRECTORY "${EXECUTABLE_OUTPUT_DIRECTORY}/${CMAKE_BUILD_TYPE}")
-    file(COPY ${DLLS_LIST} DESTINATION "${EXECUTABLE_OUTPUT_PATH}/Debug")
-    file(COPY ${DLLS_LIST} DESTINATION "${EXECUTABLE_OUTPUT_PATH}/Release")
+    file(COPY ${DLLS_LIST} DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug")
+    file(COPY ${DLLS_LIST} DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release")
 endif()
 
 find_package(SFML 2 COMPONENTS audio graphics network system window REQUIRED)
