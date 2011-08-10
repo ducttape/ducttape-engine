@@ -19,7 +19,7 @@ MyGUI::Widget* GuiWindow::GetMyGUIWidget() {
 }
 
 void GuiWindow::OnCreate() {
-    mWindow = GetParent()->GetMyGUIWidget()->createWidget<MyGUI::Window>("Window", 0, 0, 100, 100, MyGUI::Align::Default, GetFullName().toStdString());
+    mWindow = GetParent()->GetMyGUIWidget()->createWidget<MyGUI::Window>("WindowCS", 0, 0, 100, 100, MyGUI::Align::Default, GetFullName().toStdString());
 }
 
 }

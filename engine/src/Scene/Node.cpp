@@ -89,7 +89,6 @@ void Node::RemoveChildNode(const QString& name) {
 void Node::RemoveComponent(const QString& name) {
     if(HasComponent(name)) {
         mComponents[name]->Destroy();
-        mComponents[name]->SetNode(nullptr);
         mComponents.erase(name);
     }
 }
@@ -166,7 +165,7 @@ void Node::SetRotation(Ogre::Quaternion rotation, Node::RelativeTo rel) {
 }
 
 void Node::SetDirection(Ogre::Vector3 direction, Ogre::Vector3 front_vector) {
-    SetRotation(front_vector.getRotationTo(direction));
+    SetRotation(front_vector.getRotationTo(direction, Ogre::Vector3::UNIT_X));
 }
 
 void Node::LookAt(Ogre::Vector3 target, Ogre::Vector3 front_vector, RelativeTo rel) {

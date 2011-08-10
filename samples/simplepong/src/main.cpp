@@ -133,8 +133,7 @@ public:
 
         dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
         camnode->SetPosition(Ogre::Vector3(0, 0, 30));
-        dt::CameraComponent* cam = camnode->AddComponent(new dt::CameraComponent("cam"));
-        cam->LookAt(Ogre::Vector3(0, 0, 0));
+        camnode->AddComponent(new dt::CameraComponent("cam"))->LookAt(Ogre::Vector3(0, 0, 0));
 
         dt::Node* lightnode = scene->AddChildNode(new dt::Node("lightnode"));
         lightnode->SetPosition(Ogre::Vector3(-20, 20, 10));

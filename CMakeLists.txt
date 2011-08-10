@@ -87,12 +87,15 @@ include_directories(
     ${Boost_INCLUDE_DIRS}
     ${SFML_INCLUDE_DIR}
     ${OGRE_INCLUDE_DIRS}
+    ${OGRE_Paging_INCLUDE_DIRS}
+    ${OGRE_Terrain_INCLUDE_DIRS}
     ${MYGUI_INCLUDE_DIR}
     ${MYGUI_PLATFORM_INCLUDE_DIR}
     ${BULLET_INCLUDE_DIRS}
     ${OIS_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/externals/btogre/include
     ${CMAKE_SOURCE_DIR}/externals/ogre-procedural/library/include
+    ${CMAKE_SOURCE_DIR}/externals/ogre-paged/library/include
 )
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/externals)

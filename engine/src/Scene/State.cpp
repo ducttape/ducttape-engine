@@ -19,6 +19,7 @@ void State::HandleEvent(std::shared_ptr<Event> e) {}
 void State::OnDeinitialize() {}
 
 void State::Initialize() {
+    Logger::Get().Info("Initializing state.");
     EventManager::Get()->AddListener(this);
     OnInitialize();
 }
@@ -31,6 +32,8 @@ void State::Deinitialize() {
 
     OnDeinitialize();
     EventManager::Get()->RemoveListener(this);
+
+    Logger::Get().Info("Deinitialized state.");
 }
 
 Scene* State::AddScene(Scene* scene) {
