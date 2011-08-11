@@ -11,6 +11,7 @@
 #include <Graphics/DisplayManager.hpp>
 #include <Scene/Node.hpp>
 #include <Scene/Scene.hpp>
+#include <Utils/Utils.hpp>
 
 #include <OgreSceneManager.h>
 
@@ -26,7 +27,7 @@ void CameraComponent::OnCreate() {
     // create the ogre context if not present
     DisplayManager::Get()->CreateOgreRoot();
 
-    mCamera = GetNode()->GetScene()->GetSceneManager()->createCamera("camera-" + mName.toStdString());
+    mCamera = GetNode()->GetScene()->GetSceneManager()->createCamera("camera-" + dt::Utils::ToStdString(mName));
     mCamera->setNearClipDistance(0.1);
 
     mZOrder = DisplayManager::Get()->GetNextZOrder();
