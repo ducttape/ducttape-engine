@@ -35,7 +35,7 @@ void Client::HandleEvent(std::shared_ptr<dt::Event> e) {
     if(e->GetType() == "CHATMESSAGEEVENT") {
         std::shared_ptr<ChatMessageEvent> c = std::dynamic_pointer_cast<ChatMessageEvent>(e);
         if(c->IsLocalEvent()) { // we just received this
-            std::cout << std::endl << "<" << c->GetSenderNick().toStdString() << "> " << c->GetMessageText().toStdString() << std::endl;
+            std::cout << std::endl << "<" << dt::Utils::ToStdString(c->GetSenderNick()) << "> " << dt::Utils::ToStdString(c->GetMessageText()) << std::endl;
         }
     }
 }
@@ -66,7 +66,7 @@ void Client::InputThread(void* user_data) {
         if(in.substr(0, 6) == "/nick ") {
             QString nick = QString::fromStdString(in.substr(6));
             client->SetNick(nick);
-            std::cout << "** You changed your nick to: " << nick.toStdString() << std::endl;
+            std::cout << "** You changed your nick to: " << dt::Utils::ToStdString(nick) << std::endl;
         } else if(in.substr(0,5) == "/ping") {
             std::cout << "** Your ping is: " << dt::ConnectionsManager::Get()->GetPing(1) << std::endl;
         } else if(in == "/quit" || in == "/exit") {

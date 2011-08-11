@@ -32,7 +32,7 @@ IOPacket& IOPacket::operator & (QString& s) {
         *mPacket >> stdstr;
         s.fromStdString(stdstr);
     } else {
-        *mPacket << s.toStdString();
+        *mPacket << Utils::ToStdString(s);
     }
     return *this;
 }
