@@ -36,7 +36,7 @@ void Server::HandleEvent(std::shared_ptr<dt::Event> e) {
                 dt::EventManager::Get()->
                     InjectEvent(std::make_shared<ChatMessageEvent>(msg, c->GetSenderNick()));
             } else {
-                std::cout << std::endl << c->GetSenderNick().toStdString() << ": " << c->GetMessageText().toStdString() << std::endl;
+                std::cout << std::endl << dt::Utils::ToStdString(c->GetSenderNick()) << ": " << dt::Utils::ToStdString(c->GetMessageText()) << std::endl;
             }
 
             // send back to everyone else

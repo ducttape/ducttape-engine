@@ -63,7 +63,7 @@ std::shared_ptr<dt::Event> TestBoundEvent::Clone() const {
 ////////////////////////////////////////////////////////////////
 
 void TestEventListener::HandleEvent(std::shared_ptr<dt::Event> e) {
-    std::cout << "Received: " << e->GetType().toStdString() << std::endl;
+    std::cout << "Received: " << dt::Utils::ToStdString(e->GetType()) << std::endl;
     if(e->GetType() == "testtriggerevent") {
         mHasReceivedTriggerEvent = true;
     } else if(e->GetType() == "testboundevent") {

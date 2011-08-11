@@ -32,12 +32,12 @@ LogStream::LogStream(const QString& name)
 
 QString LogStream::FormatMessage(Logger* logger, const QString& msg) {
     // return QString(mFormat).arg(logger->GetName()).arg(mName).arg(msg);
-    return QString::fromStdString((boost::format(mFormat.toStdString()) % logger->GetName().toStdString() % mName.toStdString() % msg.toStdString()).str());
+    return QString::fromStdString((boost::format(dt::Utils::ToStdString(mFormat)) % dt::Utils::ToStdString(logger->GetName()) % dt::Utils::ToStdString(mName) % dt::Utils::ToStdString(msg)).str());
 }
 
 void LogStream::Output(Logger* logger, const QString& msg) {
     if(!mDisabled) {
-        *mStream << FormatMessage(logger, msg).toStdString() << std::endl;
+        *mStream << dt::Utils::ToStdString(FormatMessage(logger, msg)) << std::endl;
     }
 }
 

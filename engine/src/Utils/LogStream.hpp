@@ -15,6 +15,8 @@
 
 #include <ostream>
 
+#include <Utils/Utils.hpp>
+
 namespace dt {
 
 // forward declaration due to circular dependency
