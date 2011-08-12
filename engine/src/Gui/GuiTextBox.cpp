@@ -8,6 +8,8 @@
 
 #include <Gui/GuiTextBox.hpp>
 
+#include <Utils/Utils.hpp>
+
 namespace dt {
 
 GuiTextBox::GuiTextBox(QString name)

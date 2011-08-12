@@ -16,8 +16,6 @@
 #include <cstdint>
 #include <memory>
 
-#include <Utils/Utils.hpp>
-
 namespace dt {
 
 /**

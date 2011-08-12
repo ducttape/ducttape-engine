@@ -8,6 +8,8 @@
 
 #include <Network/IOPacket.hpp>
 
+#include <Utils/Utils.hpp>
+
 namespace dt {
 
 IOPacket::IOPacket(sf::Packet* packet, Mode mode)

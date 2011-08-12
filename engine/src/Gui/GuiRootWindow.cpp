@@ -10,6 +10,8 @@
 
 #include <Gui/GuiManager.hpp>
 
+#include <Utils/Utils.hpp>
+
 namespace dt {
 
 GuiRootWindow::GuiRootWindow(const QString& name)

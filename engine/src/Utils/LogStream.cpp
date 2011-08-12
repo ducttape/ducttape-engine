@@ -9,6 +9,7 @@
 #include <Utils/LogStream.hpp>
 
 #include <Utils/Logger.hpp>
+#include <Utils/Utils.hpp>
 
 #include <boost/format.hpp>
 

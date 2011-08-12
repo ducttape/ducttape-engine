@@ -8,6 +8,8 @@
 
 #include <Gui/GuiEditBox.hpp>
 
+#include <Utils/Utils.hpp>
+
 namespace dt {
 
 GuiEditBox::GuiEditBox(const QString& name)

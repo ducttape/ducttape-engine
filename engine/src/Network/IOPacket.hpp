@@ -17,8 +17,6 @@
 
 #include <SFML/Network/Packet.hpp>
 
-#include <Utils/Utils.hpp>
-
 namespace dt {
 
 /**

@@ -10,6 +10,7 @@
 
 #include <Scene/Node.hpp>
 #include <Scene/Scene.hpp>
+#include <Utils/Utils.hpp>
 
 #include <OgreSceneManager.h>
 

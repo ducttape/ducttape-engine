@@ -10,7 +10,6 @@
 #define DUCTTAPE_ENGINE_GUI_GUIWIDGET
 
 #include <Config.hpp>
-#include <Utils/Utils.hpp>
 
 #include <boost/ptr_container/ptr_map.hpp>
 

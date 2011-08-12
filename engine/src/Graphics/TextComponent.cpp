@@ -10,6 +10,7 @@
 
 #include <Graphics/DisplayManager.hpp>
 #include <Scene/Node.hpp>
+#include <Utils/Utils.hpp>
 
 #include <OgreCamera.h>
 #include <OgreFontManager.h>

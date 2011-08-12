@@ -8,6 +8,8 @@
 
 #include <Gui/GuiWindow.hpp>
 
+#include <Utils/Utils.hpp>
+
 namespace dt {
 
 GuiWindow::GuiWindow(const QString& name)

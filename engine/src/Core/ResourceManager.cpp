@@ -10,6 +10,8 @@
 
 #include <Core/Root.hpp>
 
+#include <Utils/Utils.hpp>
+
 #include <QCoreApplication>
 
 namespace dt {
