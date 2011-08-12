@@ -8,6 +8,8 @@
 
 #include <Network/IOPacket.hpp>
 
+#include <Utils/Utils.hpp>
+
 namespace dt {
 
 IOPacket::IOPacket(sf::Packet* packet, Mode mode)
@@ -32,7 +34,7 @@ IOPacket& IOPacket::operator & (QString& s) {
         *mPacket >> stdstr;
         s.fromStdString(stdstr);
     } else {
-        *mPacket << s.toStdString();
+        *mPacket << Utils::ToStdString(s);
     }
     return *this;
 }
