@@ -29,6 +29,7 @@
 #include "StatesTest/StatesTest.hpp"
 #include "TextTest/TextTest.hpp"
 #include "TimerTest/TimerTest.hpp"
+#include "Utils/Utils.hpp"
 
 #include <iostream>
 
@@ -85,7 +86,7 @@ int main(int argc, char** argv) {
         std::cout << "  ./TestFramework <test name>" << std::endl;
         std::cout << std::endl << "Available tests:" << std::endl;
         for(auto iter = Tests.begin(); iter != Tests.end(); ++iter) {
-            std::cout << "  - " << iter->first.toStdString() << std::endl;
+            std::cout << "  - " << dt::Utils::ToStdString(iter->first) << std::endl;
         }
     } else {
         bool failure = false;
@@ -94,15 +95,15 @@ int main(int argc, char** argv) {
             QString name(argv[i]);
             if(name == "client" || name == "server") // ignore parameters of network
                 continue;
-            std::cout << "Running test " + name.toStdString() + "..." << std::endl;
+            std::cout << "Running test " + dt::Utils::ToStdString(name) + "..." << std::endl;
             Test* test = GetTest(name);
             if(test == nullptr) {
-                std::cerr << "Test " + name.toStdString() + " not found. Skipping." << std::endl;
+                std::cerr << "Test " + dt::Utils::ToStdString(name) + " not found. Skipping." << std::endl;
             } else if(!test->Run(argc, argv)) {
                 failure = true;
-                std::cerr << "Test " + name.toStdString() + " FAILED." << std::endl;
+                std::cerr << "Test " + dt::Utils::ToStdString(name) + " FAILED." << std::endl;
             } else {
-                std::cout << "Test " + name.toStdString() + ": OK." << std::endl;
+                std::cout << "Test " + dt::Utils::ToStdString(name) + ": OK." << std::endl;
             }
         }
 
