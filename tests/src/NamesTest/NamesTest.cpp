@@ -1,5 +1,7 @@
 #include "NamesTest/NamesTest.hpp"
 
+#include <Utils/Utils.hpp>
+
 namespace NamesTest {
 
 bool NamesTest::Run(int argc, char** argv) {

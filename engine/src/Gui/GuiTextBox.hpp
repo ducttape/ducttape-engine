@@ -13,8 +13,6 @@
 
 #include <Gui/GuiWidget.hpp>
 
-#include <Utils/Utils.hpp>
-
 #include <MyGUI.h>
 
 namespace dt {

@@ -12,6 +12,7 @@
 #include <Scene/Game.hpp>
 #include <Scene/State.hpp>
 #include <Utils/Timer.hpp>
+#include <Utils/Utils.hpp>
 
 #include <QObject>
 

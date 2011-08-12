@@ -1,5 +1,7 @@
 #include "EventBindingsTest/EventBindingsTest.hpp"
 
+#include <Utils/Utils.hpp>
+
 namespace EventBindingsTest {
 
 bool EventBindingsTest::Run(int argc, char** argv) {

@@ -1,5 +1,7 @@
 #include "SoundTest/SoundTest.hpp"
 
+#include <Utils/Utils.hpp>
+
 namespace SoundTest {
 
 QString SoundTest::GetTestName() {

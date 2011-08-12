@@ -1,5 +1,7 @@
 #include "ScriptingTest/ScriptingTest.hpp"
 
+#include <Utils/Utils.hpp>
+
 namespace ScriptingTest {
 
 bool ScriptingTest::Run(int argc, char** argv) {

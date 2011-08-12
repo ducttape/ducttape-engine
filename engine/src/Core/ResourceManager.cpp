@@ -9,7 +9,6 @@
 #include <Core/ResourceManager.hpp>
 
 #include <Core/Root.hpp>
-
 #include <Utils/Utils.hpp>
 
 #include <QCoreApplication>
