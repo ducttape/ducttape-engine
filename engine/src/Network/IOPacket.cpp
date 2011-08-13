@@ -32,7 +32,7 @@ IOPacket& IOPacket::operator & (QString& s) {
     if(mMode == MODE_RECEIVE) {
         std::string stdstr;
         *mPacket >> stdstr;
-        s.fromStdString(stdstr);
+        s = QString(stdstr.c_str());
     } else {
         *mPacket << Utils::ToStdString(s);
     }
