@@ -8,6 +8,10 @@
 
 #include "TextTest/TextTest.hpp"
 
+#include <Event/BeginFrameEvent.hpp>
+#include <Scene/StateManager.hpp>
+#include <Core/ResourceManager.hpp>
+
 namespace TextTest {
 
 bool TextTest::Run(int argc, char** argv) {

@@ -10,10 +10,14 @@
 #include <Graphics/LightComponent.hpp>
 #include <Graphics/MeshComponent.hpp>
 #include <Graphics/TextComponent.hpp>
+#include <Graphics/CameraComponent.hpp>
 #include <Scene/Game.hpp>
 #include <Scene/Node.hpp>
 #include <Scene/Scene.hpp>
 #include <Utils/Utils.hpp>
+#include <Event/BeginFrameEvent.hpp>
+#include <Input/InputManager.hpp>
+#include <Core/ResourceManager.hpp>
 
 #include <OgreFontManager.h>
 #include <OgreVector3.h>

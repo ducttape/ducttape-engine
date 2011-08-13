@@ -8,6 +8,9 @@
 
 #include "EventsTest/EventsTest.hpp"
 
+#include <Core/StringManager.hpp>
+#include <Event/EventManager.hpp>
+
 namespace EventsTest {
 
 bool EventsTest::Run(int argc, char** argv) {

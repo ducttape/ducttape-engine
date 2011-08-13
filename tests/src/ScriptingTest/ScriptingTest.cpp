@@ -10,6 +10,8 @@
 
 #include <Utils/Utils.hpp>
 
+#include <SFML/System.hpp>
+
 namespace ScriptingTest {
 
 bool ScriptingTest::Run(int argc, char** argv) {

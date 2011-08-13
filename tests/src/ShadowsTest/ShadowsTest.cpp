@@ -8,6 +8,11 @@
 
 #include "ShadowsTest/ShadowsTest.hpp"
 
+#include <Event/BeginFrameEvent.hpp>
+#include <Scene/StateManager.hpp>
+#include <Core/ResourceManager.hpp>
+#include <Graphics/CameraComponent.hpp>
+
 namespace ShadowsTest {
 
 bool ShadowsTest::Run(int argc, char** argv) {

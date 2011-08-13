@@ -8,6 +8,12 @@
 
 #include "ScriptComponentTest/ScriptComponentTest.hpp"
 
+#include <Event/BeginFrameEvent.hpp>
+#include <Scene/StateManager.hpp>
+#include <Core/ResourceManager.hpp>
+#include <Logic/ScriptManager.hpp>
+#include <Graphics/CameraComponent.hpp>
+
 namespace ScriptComponentTest {
 
 bool ScriptComponentTest::Run(int argc, char** argv) {

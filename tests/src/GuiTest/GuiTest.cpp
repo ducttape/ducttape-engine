@@ -8,6 +8,12 @@
 
 #include "GuiTest/GuiTest.hpp"
 
+#include <Event/BeginFrameEvent.hpp>
+#include <Scene/StateManager.hpp>
+#include <Core/ResourceManager.hpp>
+#include <Graphics/CameraComponent.hpp>
+#include <Gui/GuiManager.hpp>
+
 namespace GuiTest {
 
 bool GuiTest::Run(int argc, char** argv) {

@@ -9,6 +9,8 @@
 #include "EventBindingsTest/EventBindingsTest.hpp"
 
 #include <Utils/Utils.hpp>
+#include <Core/StringManager.hpp>
+#include <Event/EventManager.hpp>
 
 namespace EventBindingsTest {
 

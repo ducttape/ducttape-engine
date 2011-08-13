@@ -8,6 +8,12 @@
 
 #include "MouseCursorTest/MouseCursorTest.hpp"
 
+#include <Event/BeginFrameEvent.hpp>
+#include <Scene/StateManager.hpp>
+#include <Core/ResourceManager.hpp>
+#include <Graphics/CameraComponent.hpp>
+#include <Input/InputManager.hpp>
+
 namespace MouseCursorTest {
 
 bool MouseCursorTest::Run(int argc, char** argv) {

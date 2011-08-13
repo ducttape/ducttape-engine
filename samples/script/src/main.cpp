@@ -15,6 +15,10 @@
 #include <Gui/GuiButton.hpp>
 #include <Gui/GuiEditBox.hpp>
 #include <Utils/Utils.hpp>
+#include <Graphics/DisplayManager.hpp>
+#include <Core/ResourceManager.hpp>
+#include <Logic/ScriptManager.hpp>
+#include <Scene/StateManager.hpp>
 
 #include <QList>
 #include <QString>

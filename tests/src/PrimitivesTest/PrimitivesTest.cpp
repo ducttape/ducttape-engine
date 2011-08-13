@@ -8,6 +8,11 @@
 
 #include "PrimitivesTest/PrimitivesTest.hpp"
 
+#include <Event/BeginFrameEvent.hpp>
+#include <Scene/StateManager.hpp>
+#include <Core/ResourceManager.hpp>
+#include <Graphics/CameraComponent.hpp>
+
 namespace PrimitivesTest {
 
 bool PrimitivesTest::Run(int argc, char** argv) {

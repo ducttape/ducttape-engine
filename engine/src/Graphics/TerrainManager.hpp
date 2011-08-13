@@ -25,7 +25,7 @@
 namespace dt {
 
 /**
-  * A manager class for managing the display and rendering.
+  * A manager class for managing terrain.
   */
 class DUCTTAPE_API TerrainManager : public Manager {
     Q_OBJECT

@@ -8,6 +8,11 @@
 
 #include "PhysicsStressTest/PhysicsStressTest.hpp"
 
+#include <Event/BeginFrameEvent.hpp>
+#include <Scene/StateManager.hpp>
+#include <Core/ResourceManager.hpp>
+#include <Graphics/CameraComponent.hpp>
+
 namespace PhysicsStressTest {
 
 bool PhysicsStressTest::Run(int argc, char** argv) {

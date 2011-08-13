@@ -8,6 +8,11 @@
 
 #include "MusicTest/MusicTest.hpp"
 
+#include <Core/ResourceManager.hpp>
+#include <Event/EventManager.hpp>
+
+#include <SFML/System.hpp>
+
 namespace MusicTest {
 
 bool MusicTest::Run(int argc, char** argv) {

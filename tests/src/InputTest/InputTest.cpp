@@ -8,6 +8,12 @@
 
 #include "InputTest/InputTest.hpp"
 
+#include <Event/BeginFrameEvent.hpp>
+#include <Input/InputManager.hpp>
+#include <Core/ResourceManager.hpp>
+#include <Graphics/CameraComponent.hpp>
+#include <Scene/StateManager.hpp>
+
 namespace InputTest {
 
 bool InputTest::Run(int argc, char** argv) {
