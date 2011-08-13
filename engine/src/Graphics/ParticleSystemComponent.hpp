@@ -30,6 +30,7 @@ namespace dt {
   * @todo Add effector shortcuts.
   */
 class DUCTTAPE_API ParticleSystemComponent : public Component {
+    Q_OBJECT
 public:
     /**
       * Advanced constructor.

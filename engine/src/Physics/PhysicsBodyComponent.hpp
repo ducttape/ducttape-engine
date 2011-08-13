@@ -28,6 +28,7 @@ namespace dt {
   * A component making the node physical.
   */
 class DUCTTAPE_API PhysicsBodyComponent : public Component {
+    Q_OBJECT
 public:
     /**
       * Advanced constructor.

@@ -29,6 +29,7 @@ namespace dt {
   */
 class DUCTTAPE_API PhysicsManager : public Manager,
         public EventListener {
+    Q_OBJECT
 public:
     /**
       * Default constructor.

@@ -26,6 +26,7 @@ namespace dt {
   * Component to add a text on the screen, at the position where the camera would see the node.
   */
 class DUCTTAPE_API TextComponent : public Component {
+    Q_OBJECT
 public:
     /**
       * Advanced constructor.
