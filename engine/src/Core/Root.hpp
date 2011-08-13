@@ -55,6 +55,19 @@
 
 namespace dt {
 
+//Forward declarations
+class LogManager;
+class StringManager;
+class EventManager;
+class ResourceManager;
+class InputManager;
+class DisplayManager;
+class StateManager;
+class NetworkManager;
+class PhysicsManager;
+class TerrainManager;
+class ScriptManager;
+
 /**
   * Engine Root class holding various Manager instances. This class is designed to be the only singleton in the whole engine,
   * so the creation order can be controlled.
