@@ -8,6 +8,8 @@
 
 #include <Gui/GuiWindow.hpp>
 
+#include <Utils/Utils.hpp>
+
 namespace dt {
 
 GuiWindow::GuiWindow(const QString& name)
@@ -19,7 +21,7 @@ MyGUI::Widget* GuiWindow::GetMyGUIWidget() {
 }
 
 void GuiWindow::OnCreate() {
-    mWindow = GetParent()->GetMyGUIWidget()->createWidget<MyGUI::Window>("WindowCS", 0, 0, 100, 100, MyGUI::Align::Default, GetFullName().toStdString());
+    mWindow = GetParent()->GetMyGUIWidget()->createWidget<MyGUI::Window>("WindowCS", 0, 0, 100, 100, MyGUI::Align::Default, dt::Utils::ToStdString(GetFullName()));
 }
 
 }

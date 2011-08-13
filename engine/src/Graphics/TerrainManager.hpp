@@ -13,12 +13,14 @@
 
 #include <Core/Manager.hpp>
 #include <Graphics/LightComponent.hpp>
+#include <Scene/Scene.hpp>
 
 #include <OgreSceneManager.h>
 #include <Terrain/OgreTerrain.h>
 #include <Terrain/OgreTerrainGroup.h>
 
 #include <QString>
+#include <boost/ptr_container/ptr_vector.hpp>
 
 namespace dt {
 
@@ -68,7 +70,7 @@ public:
       * Sets the scene.
       * @param scene The scene.
       */
-    void SetScene(const QString& scene);
+    void SetScene(dt::Scene* scene);
 
     /**
       * Sets the light which is used to build the lightmap.
@@ -81,7 +83,7 @@ public:
       * Sets the number of terrains in each direction
       * @todo rename: names misleading.
       */
-    void SetSize(long width, long height);
+    void SetSize(uint8_t count_x, uint8_t count_y);
 
     /**
       * Sets the scale-factor which is used to scale the height when you import from an image.
@@ -111,7 +113,7 @@ public:
       * @param files The filenames of the images to be used.
       * @returns true on success, false otherwise.
       */
-    bool Import(std::vector<QString>& files);
+    bool Import(const std::vector<QString>& files);
 
     /**
       * Loads an existing terrain using the file-prefix and suffix
@@ -154,26 +156,26 @@ private:
     /**
       * Private method. Load a part of the terrain.
       */
-    void _DefineTerrain(int x, int y);
+    void _DefineTerrain(uint8_t x, uint8_t y);
 
     /**
       * Private method. Import a part of the terrain.
       */
-    void _DefineTerrain(int x, int y, const QString& filename);
+    void _DefineTerrain(uint8_t x, uint8_t y, const QString& filename);
 
     /**
       * Private method. Creates the blendmaps for a terrain.
       */
     void _GenerateBlendMaps(Ogre::Terrain* terrain);
 
-    std::vector<TextureLayer*> mTextureLayer;               //!< The TextureLayers.
+    boost::ptr_vector<TextureLayer> mTextureLayer;          //!< The TextureLayers.
     dt::LightComponent* mLight;                             //!< The light to bake the lightmap
     Ogre::TerrainGroup* mTerrainGroup;                      //!< The terraingroup which holds our terrain.
     Ogre::TerrainGlobalOptions* mTerrainGlobalOptions;      //!< The global options for terrains.
-    QString mScene;                                         //!< The name of the scene.
+    dt::Scene* mScene;                                      //!< The scene.
 
-    long mWidth, mHeight;                                   //!< The number of terrains. TODO: names are misleading.
-    int mTerrainSize;                                       //!< The size of one terrain. (mTerrainSize*mTerrainSize vertices) Must be 2^n+1.
+    uint8_t mCountX, mCountY;                               //!< The number of terrains in x and y (Ogre-Z) coordinate.
+    uint32_t mTerrainSize;                                  //!< The size of one terrain. (mTerrainSize*mTerrainSize vertices) Must be 2^n+1.
     float mTerrainWorldSize;                                //!< The world size of one terrain. This is the scale of the terrain and depends on the size of the other entities.
     float mScale;                                           //!< Factor which is used to scale the imported height to your needs.
 

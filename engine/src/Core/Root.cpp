@@ -26,7 +26,7 @@ Root::Root()
       mNetworkManager(new NetworkManager()),
       mPhysicsManager(new PhysicsManager()),
       mTerrainManager(new TerrainManager()),
-      mScriptManager(new ScriptManager()){}
+      mScriptManager(new ScriptManager()) {}
 
 Root::~Root() {
     // Complementary to the constructor, we destroy the managers in reverse

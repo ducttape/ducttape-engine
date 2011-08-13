@@ -79,8 +79,8 @@ bool NetworkTest::RunClient() {
 
     bool correct_data = ((int)ccel.mDataReceived == data + DATA_INCREMENT);
     if(!correct_data) {
-        std::cerr << "Client: Received wrong data (" + dt::Utils::ToString(ccel.mDataReceived).toStdString() + " instead of "
-                     + dt::Utils::ToString(data + DATA_INCREMENT).toStdString() + ")" << std::endl;
+        std::cerr << "Client: Received wrong data (" + dt::Utils::ToStdString(dt::Utils::ToString(ccel.mDataReceived)) + " instead of "
+            + dt::Utils::ToStdString(dt::Utils::ToString(data + DATA_INCREMENT)) + ")" << std::endl;
         return false;
     }
     return true;

@@ -16,7 +16,7 @@
 #include <QString>
 
 #include <cstdint>
-#include <vector>
+#include <string>
 
 namespace dt {
 
@@ -25,6 +25,13 @@ namespace Utils {
 template <typename Source> QString ToString(const Source& source) {
     return QString::fromStdString(boost::lexical_cast<std::string>(source));
 }
+
+/**
+  * Convert a QString to a std::string. Use it to replace qt's toStdString() which has a locale bug.
+  * @param qstring The QString you are going to convert.
+  * @returns The converted std::string.
+  */
+DUCTTAPE_API std::string ToStdString(const QString& qstring);
 
 } // namespace Utils
 

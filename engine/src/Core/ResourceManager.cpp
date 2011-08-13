@@ -9,6 +9,7 @@
 #include <Core/ResourceManager.hpp>
 
 #include <Core/Root.hpp>
+#include <Utils/Utils.hpp>
 
 #include <QCoreApplication>
 
@@ -36,7 +37,7 @@ void ResourceManager::AddResourceLocation(const QString& path, const QString& ty
     // Does the path exist?
     if(file.exists()) {
         DisplayManager::Get()->CreateOgreRoot();
-        Ogre::ResourceGroupManager::getSingleton().addResourceLocation(file.fileName().toStdString(), type.toStdString(),
+        Ogre::ResourceGroupManager::getSingleton().addResourceLocation(Utils::ToStdString(file.fileName()), Utils::ToStdString(type),
                     Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, recursive);
     }
 }
@@ -60,7 +61,7 @@ bool ResourceManager::AddSoundBuffer(const QString& path, const QString& sound_f
         }
 
         std::shared_ptr<sf::SoundBuffer> sound_buffer(new sf::SoundBuffer());
-        if(!sound_buffer->LoadFromFile(file.fileName().toStdString())) {
+        if(!sound_buffer->LoadFromFile(Utils::ToStdString(file.fileName()))) {
             Logger::Get().Error("Loading sound <" + file.fileName() + "> failed.");
             return false;
         }
@@ -99,7 +100,7 @@ bool ResourceManager::AddMusicFile(const QString& path, const QString& music_fil
         }
 
         std::shared_ptr<sf::Music> music(new sf::Music());
-        if(!music->OpenFromFile(file.fileName().toStdString())) {
+        if(!music->OpenFromFile(Utils::ToStdString(file.fileName()))) {
             Logger::Get().Error("Loading Music <" + file.fileName() + "> failed.");
             return false;
         }

@@ -13,7 +13,6 @@
 
 #include <Core/Root.hpp>
 #include <Logic/ScriptManager.hpp>
-#include <Utils/Logger.hpp>
 
 #include <QCoreApplication>
 #include <QString>

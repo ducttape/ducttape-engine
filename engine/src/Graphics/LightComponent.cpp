@@ -10,6 +10,7 @@
 
 #include <Scene/Node.hpp>
 #include <Scene/Scene.hpp>
+#include <Utils/Utils.hpp>
 
 #include <OgreSceneManager.h>
 
@@ -24,7 +25,7 @@ LightComponent::LightComponent(const QString& name)
 void LightComponent::OnColorChanged() {}
 
 void LightComponent::OnCreate() {
-    mLight = GetNode()->GetScene()->GetSceneManager()->createLight(mName.toStdString());
+    mLight = GetNode()->GetScene()->GetSceneManager()->createLight(Utils::ToStdString(mName));
 
     // Set the point light as the default light type
     mLight->setType(Ogre::Light::LT_POINT);
@@ -34,7 +35,7 @@ void LightComponent::OnCreate() {
     mLight->setSpecularColour(1.0, 1.0, 1.0);
     mLight->setDirection(Ogre::Vector3(0,0,1));
 
-    mSceneNode = GetNode()->GetScene()->GetSceneManager()->getRootSceneNode()->createChildSceneNode(mName.toStdString() + "-node");
+    mSceneNode = GetNode()->GetScene()->GetSceneManager()->getRootSceneNode()->createChildSceneNode(Utils::ToStdString(mName) + "-node");
     mSceneNode->attachObject(mLight);
 }
 

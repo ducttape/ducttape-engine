@@ -166,7 +166,7 @@ void InputManager::_CreateInputSystem() {
     // getting window handle
     size_t window_handle = 0;
     mWindow->getCustomAttribute("WINDOW", &window_handle);
-    params.insert(std::make_pair(std::string("WINDOW"), Utils::ToString(window_handle).toStdString()));
+    params.insert(std::make_pair(std::string("WINDOW"), Utils::ToStdString(Utils::ToString(window_handle))));
     if(!mJailInput) {
 // THIS IS TOTALLY BROKEN AND NEEDS FIXING
 #if defined OIS_WIN32_PLATFORM

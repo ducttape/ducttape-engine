@@ -12,6 +12,7 @@
 #include <Scene/Game.hpp>
 #include <Scene/State.hpp>
 #include <Utils/Timer.hpp>
+#include <Utils/Utils.hpp>
 
 #include <QObject>
 
@@ -74,10 +75,10 @@ void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
 
         if(t1) {
             mTimer1Count++;
-            std::cout << "Timer tick " << mTimer1Count << ": " << t->GetMessageText().toStdString() << std::endl;
+            std::cout << "Timer tick " << mTimer1Count << ": " << dt::Utils::ToStdString(t->GetMessageText()) << std::endl;
         } else if(t2) {
             mTimer2Count++;
-            std::cout << "Timer tick " << mTimer2Count << ": " << t->GetMessageText().toStdString() << std::endl;
+            std::cout << "Timer tick " << mTimer2Count << ": " << dt::Utils::ToStdString(t->GetMessageText()) << std::endl;
         }
     } else if(e->GetType() == "DT_BEGINFRAMEEVENT") {
         mTotalTime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
@@ -93,7 +94,7 @@ void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
 
 void Main::TimerCallback(const QString& message) {
     mTimer3Count++;
-    std::cout << "Timer tick " << mTimer3Count << ": " << message.toStdString() << std::endl;
+    std::cout << "Timer tick " << mTimer3Count << ": " << dt::Utils::ToStdString(message) << std::endl;
 }
 
 } // namespace TimerTest

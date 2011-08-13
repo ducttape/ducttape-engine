@@ -34,6 +34,8 @@ public:
     void OnInitialize();
 private:
     double mRuntime;
+
+    bool mBuilding;
 };
 
 } // namespace TerrainTest
