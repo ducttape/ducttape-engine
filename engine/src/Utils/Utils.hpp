@@ -23,7 +23,7 @@ namespace dt {
 namespace Utils {
 
 template <typename Source> QString ToString(const Source& source) {
-    return QString::fromStdString(boost::lexical_cast<std::string>(source));
+    return QString((boost::lexical_cast<std::string>(source)).c_str());
 }
 
 /**

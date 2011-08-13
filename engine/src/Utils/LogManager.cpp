@@ -32,11 +32,11 @@ LogManager* LogManager::Get() {
 
 void LogManager::messageLogged(const Ogre::String& message, Ogre::LogMessageLevel level, bool mask_debug, const Ogre::String& log_name) {
     if(level == Ogre::LML_CRITICAL) {
-        GetLogger(QString(message.c_str())).Error(QString(message.c_str()));
+        GetLogger(QString(log_name.c_str())).Error(QString(message.c_str()));
     } else if(level == Ogre::LML_NORMAL) {
-        GetLogger(QString(message.c_str())).Info(QString(message.c_str()));
+        GetLogger(QString(log_name.c_str())).Info(QString(message.c_str()));
     } else if(level == Ogre::LML_TRIVIAL) {
-        GetLogger(QString(message.c_str())).Debug(QString(message.c_str()));
+        GetLogger(QString(log_name.c_str())).Debug(QString(message.c_str()));
     }
 }
 
