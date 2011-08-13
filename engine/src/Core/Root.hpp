@@ -46,6 +46,7 @@
 #include <Scene/StateManager.hpp>
 #include <Network/NetworkManager.hpp>
 #include <Physics/PhysicsManager.hpp>
+#include <Graphics/TerrainManager.hpp>
 #include <Logic/ScriptManager.hpp>
 
 #include <boost/noncopyable.hpp>
@@ -152,6 +153,12 @@ public:
       */
     ScriptManager* GetScriptManager();
 
+    /**
+      * Returns the TerrainManager.
+      * @returns the TerrainManager
+      */
+    TerrainManager* GetTerrainManager();
+
 private:
     /**
       * Private default constructor (for singleton). All instances are created here.
@@ -170,6 +177,7 @@ private:
     StateManager* mStateManager;        //!< Pointer to the StateManager.
     NetworkManager* mNetworkManager;    //!< Pointer to the NetworkManager.
     PhysicsManager* mPhysicsManager;    //!< Pointer to the PhysicsManager.
+    TerrainManager* mTerrainManager;    //!< Pointer to the TerrainManager.
     ScriptManager* mScriptManager;      //!< Pointer to the ScriptManager;
 };
 

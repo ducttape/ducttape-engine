@@ -26,6 +26,7 @@ namespace dt {
   * Adds a camera to the Node.
   */
 class DUCTTAPE_API CameraComponent : public Component {
+    Q_OBJECT
 public:
     /**
       * Advanced constructor.

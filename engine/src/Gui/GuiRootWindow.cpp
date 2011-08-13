@@ -9,7 +9,6 @@
 #include <Gui/GuiRootWindow.hpp>
 
 #include <Gui/GuiManager.hpp>
-
 #include <Utils/Utils.hpp>
 
 namespace dt {

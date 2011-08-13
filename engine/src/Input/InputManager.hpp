@@ -28,6 +28,7 @@ class DUCTTAPE_API InputManager : public Manager,
         public OIS::KeyListener,
         public OIS::MouseListener,
         public Ogre::WindowEventListener {
+    Q_OBJECT
 public:
     /**
       * The mode of the mouse cursor.

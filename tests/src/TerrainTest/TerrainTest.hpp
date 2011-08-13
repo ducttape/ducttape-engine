@@ -6,28 +6,38 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#ifndef DUCTTAPE_ENGINE_TESTS_SCRIPTINGTEST
-#define DUCTTAPE_ENGINE_TESTS_SCRIPTINGTEST
+#ifndef DUCTTAPE_ENGINE_TESTS_TERRAINTEST
+#define DUCTTAPE_ENGINE_TESTS_TERRAINTEST
 
 #include "Test.hpp"
 
 #include <Core/Root.hpp>
-#include <Logic/ScriptManager.hpp>
+#include <Event/EventListener.hpp>
+#include <Graphics/LightComponent.hpp>
+#include <Graphics/MeshComponent.hpp>
+#include <Scene/Game.hpp>
+#include <Scene/Node.hpp>
+#include <Scene/Scene.hpp>
 
-#include <QCoreApplication>
-#include <QString>
+namespace TerrainTest {
 
-namespace ScriptingTest {
-
-class ScriptingTest : public Test {
+class TerrainTest : public Test {
 public:
     bool Run(int argc, char** argv);
     QString GetTestName();
-    QScriptValue RunScript(QString name, QScriptValue expected_value = QScriptValue::UndefinedValue);
-private:
-    bool mFailed;
 };
 
-} // namespace ScriptingTest
+class Main: public dt::State {
+public:
+    Main();
+    void HandleEvent(std::shared_ptr<dt::Event> e);
+    void OnInitialize();
+private:
+    double mRuntime;
+
+    bool mBuilding;
+};
+
+} // namespace TerrainTest
 
 #endif

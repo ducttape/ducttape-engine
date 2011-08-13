@@ -29,6 +29,7 @@ namespace dt {
   * @see EventListener
   */
 class DUCTTAPE_API BindingsManager : public Manager, public EventListener {
+    Q_OBJECT
 public:
     /**
       * Default constructor.

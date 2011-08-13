@@ -23,6 +23,7 @@ namespace dt {
   * @warning Class not complete.
   */
 class DUCTTAPE_API TriggerComponent : public Component {
+    Q_OBJECT
 public:
     /**
       * Advanced constructor.

@@ -1,3 +1,11 @@
+
+// ----------------------------------------------------------------------------
+// This file is part of the Ducttape Project (http://ducttape-dev.org) and is
+// licensed under the GNU LESSER PUBLIC LICENSE version 3. For the full license
+// text, please see the LICENSE file in the root of this project or at
+// http://www.gnu.org/licenses/lgpl.html
+// ----------------------------------------------------------------------------
+
 #include "TestFramework.hpp"
 
 #include "CamerasTest/CamerasTest.hpp"
@@ -29,6 +37,7 @@
 #include "StatesTest/StatesTest.hpp"
 #include "TextTest/TextTest.hpp"
 #include "TimerTest/TimerTest.hpp"
+#include "TerrainTest/TerrainTest.hpp"
 #include "Utils/Utils.hpp"
 
 #include <iostream>
@@ -80,6 +89,7 @@ int main(int argc, char** argv) {
     AddTest(new StatesTest::StatesTest);
     AddTest(new TextTest::TextTest);
     AddTest(new TimerTest::TimerTest);
+    AddTest(new TerrainTest::TerrainTest);
 
     if(argc < 2) {
         std::cout << "TestFramework usage: " << std::endl;

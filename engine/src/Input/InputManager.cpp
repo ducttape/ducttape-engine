@@ -169,16 +169,16 @@ void InputManager::_CreateInputSystem() {
     params.insert(std::make_pair(std::string("WINDOW"), Utils::ToStdString(Utils::ToString(window_handle))));
     if(!mJailInput) {
 // THIS IS TOTALLY BROKEN AND NEEDS FIXING
-/*#if defined OIS_WIN32_PLATFORM
-        params.insert(std::make_pair(QString("w32_mouse"), QString("DISCL_NONEXCLUSIVE")));
+#if defined OIS_WIN32_PLATFORM
+        /*params.insert(std::make_pair(QString("w32_mouse"), QString("DISCL_NONEXCLUSIVE")));
         params.insert(std::make_pair(QString("w32_keyboard"), QString("DISCL_FOREGROUND")));
-        params.insert(std::make_pair(QString("w32_keyboard"), QString("DISCL_NONEXCLUSIVE")));
+        params.insert(std::make_pair(QString("w32_keyboard"), QString("DISCL_NONEXCLUSIVE")));*/
 #elif defined OIS_LINUX_PLATFORM
         params.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
         params.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
         params.insert(std::make_pair(std::string("XAutoRepeatOn"), std::string("true")));
 #endif
- */   }
+    }
 
 #if defined OIS_WIN32_PLATFORM
     // TODO: This stuff crashes OIS, WHY?

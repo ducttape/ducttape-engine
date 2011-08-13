@@ -7,6 +7,7 @@
 // ----------------------------------------------------------------------------
 
 #include <Gui/GuiButton.hpp>
+
 #include <Utils/Utils.hpp>
 
 namespace dt {

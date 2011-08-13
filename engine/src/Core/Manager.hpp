@@ -22,6 +22,7 @@ namespace dt {
   * @note Remember to implement the \code static YourManager* Get(); \endcode shortcut for new managers!
   */
 class DUCTTAPE_API Manager : public QObject, public boost::noncopyable {
+    Q_OBJECT
 public:
     /**
       * Pure virtual destructor.

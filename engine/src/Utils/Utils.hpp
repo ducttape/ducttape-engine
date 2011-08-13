@@ -16,7 +16,6 @@
 #include <QString>
 
 #include <cstdint>
-#include <vector>
 #include <string>
 
 namespace dt {

@@ -26,6 +26,7 @@ namespace dt {
   * and readable and to output (debug) messages in a readable format.
   */
 class DUCTTAPE_API StringManager : public Manager {
+    Q_OBJECT
 public:
     /**
       * Default constructor.

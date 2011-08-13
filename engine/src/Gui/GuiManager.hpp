@@ -31,6 +31,7 @@ namespace dt {
   * @see http://mygui.info
   */
 class DUCTTAPE_API GuiManager : public Manager, public EventListener {
+    Q_OBJECT
 public:
     /**
       * Default constructor.

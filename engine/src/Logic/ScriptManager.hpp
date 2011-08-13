@@ -26,6 +26,7 @@ namespace dt {
   * Manager class for the Scripting Engine.
   */
 class DUCTTAPE_API ScriptManager : public Manager {
+    Q_OBJECT
 public:
     /**
       * Default constructor.
