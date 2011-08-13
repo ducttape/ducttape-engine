@@ -31,9 +31,11 @@ Main::Main()
 
 void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
     if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-        mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
-        if(mRuntime > 10.0) {
-            //dt::StateManager::Get()->Pop(1);
+        if(!mBuilding) {
+            mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
+        }
+        if(mRuntime > 3.0) {
+            dt::StateManager::Get()->Pop(1);
         }
         if(mBuilding && !dt::TerrainManager::Get()->GetOgreTerrainGroup()->isDerivedDataUpdateInProgress()) {
             mBuilding = false;
@@ -52,11 +54,10 @@ void Main::OnInitialize() {
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
     dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
-    camnode->SetPosition(Ogre::Vector3(0, 300, 70));
+    camnode->SetPosition(Ogre::Vector3(0, 350, 150));
     dt::CameraComponent* cam = camnode->AddComponent(new dt::CameraComponent("cam"));
     cam->LookAt(Ogre::Vector3(0, 300, 0));
-    camnode->AddComponent(new dt::SimplePlayerComponent("player"));
-    //cam->GetCamera()->setPolygonMode( Ogre::PM_WIREFRAME );
+    //camnode->AddComponent(new dt::SimplePlayerComponent("player"));
 
     dt::Node* lightnode = scene->AddChildNode(new dt::Node("lightnode"));
     dt::LightComponent* light = lightnode->AddComponent(new dt::LightComponent("light"));
