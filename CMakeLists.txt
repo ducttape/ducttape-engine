@@ -74,7 +74,7 @@ add_definitions(${QT_DEFINITONS})
 
 if(MSVC) # Sort the odd stuff out
     set(CMAKE_CXX_FLAGS "/DCOMPILER_MSVC /DOgreProcedural_STATIC /WX /MP /EHsc")
-    set(CMAKE_CXX_FLAGS_RELEASE "/O2 /DNDEBUG") // Odd duplicate symbols with /GL
+    set(CMAKE_CXX_FLAGS_RELEASE "/O2 /DNDEBUG") # Odd duplicate symbols with /GL
     set(CMAKE_CXX_FLAGS_DEBUG "/Zi")
 else() # GCC/Mingw
     set(CMAKE_CXX_FLAGS "-DCOMPILER_GCC -Wall -Wextra -Werror -Wno-unused-parameter -Wno-unused-but-set-parameter -pedantic -std=c++0x -fPIC")
