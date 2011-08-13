@@ -11,6 +11,8 @@
 #include <Core/Root.hpp>
 #include <Network/GoodbyeEvent.hpp>
 #include <Utils/Utils.hpp>
+#include <Event/EventManager.hpp>
+#include <Network/NetworkManager.hpp>
 
 #include "ChatMessageEvent.hpp"
 

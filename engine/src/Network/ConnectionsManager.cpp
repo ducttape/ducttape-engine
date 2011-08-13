@@ -14,6 +14,7 @@
 #include <Network/NetworkManager.hpp>
 #include <Utils/TimerTickEvent.hpp>
 #include <Utils/Utils.hpp>
+#include <Utils/LogManager.hpp>
 
 namespace dt {
 

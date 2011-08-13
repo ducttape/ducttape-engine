@@ -37,23 +37,25 @@
 
 #include <Config.hpp>
 
-#include <Utils/LogManager.hpp>
-#include <Core/StringManager.hpp>
-#include <Event/EventManager.hpp>
-#include <Core/ResourceManager.hpp>
-#include <Input/InputManager.hpp>
-#include <Graphics/DisplayManager.hpp>
-#include <Scene/StateManager.hpp>
-#include <Network/NetworkManager.hpp>
-#include <Physics/PhysicsManager.hpp>
-#include <Graphics/TerrainManager.hpp>
-#include <Logic/ScriptManager.hpp>
-
 #include <boost/noncopyable.hpp>
 
 #include <SFML/System/Clock.hpp>
 
+#include <qcoreapplication.h>
+
 namespace dt {
+
+class LogManager;
+class StringManager;
+class EventManager;
+class ResourceManager;
+class InputManager;
+class DisplayManager;
+class StateManager;
+class NetworkManager;
+class PhysicsManager;
+class TerrainManager;
+class ScriptManager;
 
 /**
   * Engine Root class holding various Manager instances. This class is designed to be the only singleton in the whole engine,

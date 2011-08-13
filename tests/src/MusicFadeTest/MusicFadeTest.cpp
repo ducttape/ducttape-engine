@@ -8,6 +8,9 @@
 
 #include "MusicFadeTest/MusicFadeTest.hpp"
 
+#include <Event/BeginFrameEvent.hpp>
+#include <Scene/StateManager.hpp>
+
 namespace MusicFadeTest {
 
 bool MusicFadeTest::Run(int argc, char** argv) {

@@ -9,6 +9,8 @@
 #include <Graphics/DisplayManager.hpp>
 
 #include <Core/Root.hpp>
+#include <Utils/LogManager.hpp>
+#include <Input/InputManager.hpp>
 
 #include <SFML/Window/VideoMode.hpp>
 
