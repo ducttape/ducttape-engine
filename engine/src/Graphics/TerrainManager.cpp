@@ -22,7 +22,7 @@ TerrainManager::TextureLayer::TextureLayer(const std::vector<QString>& texture_n
       mMinHeight(min_height),
       mFadeDistance(fade_distance) {
     mLayerInstance->worldSize = world_size;
-    for(std::vector<QString>::const_iterator it = texture_names.begin(); it != texture_names.end(); ++it) {
+    for(auto it = texture_names.begin(); it != texture_names.end(); ++it) {
         mLayerInstance->textureNames.push_back(dt::Utils::ToStdString(*it));
     }
 }
@@ -77,7 +77,7 @@ void TerrainManager::SetLight(dt::LightComponent* light) {
     mLight = light;
 }
 
-void TerrainManager::SetSize(uint8_t count_x, uint8_t count_y) {
+void TerrainManager::SetSize(uint32_t count_x, uint32_t count_y) {
     mCountX = count_x;
     mCountY = count_y;
 }
@@ -99,13 +99,13 @@ void TerrainManager::AddTextureLayer(const std::vector<QString>& texture_names, 
 }
 
 bool TerrainManager::Import(const std::vector<QString>& files) {
-    //If we have to less files return false
+    // If we have to less files return false
     if(files.size() < (mCountX*mCountY))
         return false;
     _CreateTerrain();
     uint16_t i = 0;
-    for (uint8_t x = 0; x < mCountX; x++) {
-        for(uint8_t y = 0; y < mCountY; y++) {
+    for(uint32_t x = 0; x < mCountX; x++) {
+        for(uint32_t y = 0; y < mCountY; y++) {
             _DefineTerrain(x, y, files.at(i++));
         }
     }
@@ -118,7 +118,7 @@ bool TerrainManager::Import(const std::vector<QString>& files) {
 bool TerrainManager::Load(const QString& prefix, const QString& suffix) {
     _CreateTerrain();
     mTerrainGroup->setFilenameConvention(dt::Utils::ToStdString(prefix), dt::Utils::ToStdString(suffix));
-    for (long x = 0; x < mCountX; x++) {
+    for(long x = 0; x < mCountX; x++) {
         for(long y = 0; y < mCountY; y++) {
             _DefineTerrain(x, y);
         }
@@ -138,8 +138,7 @@ void TerrainManager::Save(const QString& prefix, const QString& suffix) {
 void TerrainManager::Refresh() {
     mTerrainGroup->loadAllTerrains(true);
 
-    if (mImported)
-    {
+    if(mImported) {
         Ogre::TerrainGroup::TerrainIterator it = mTerrainGroup->getTerrainIterator();
         while(it.hasMoreElements())
         {
@@ -159,8 +158,8 @@ void TerrainManager::_CreateTerrain() {
 
     Ogre::SceneManager* scene_mgr = mScene->GetSceneManager();
 
-    mTerrainGroup = OGRE_NEW Ogre::TerrainGroup(scene_mgr, Ogre::Terrain::ALIGN_X_Z, mTerrainSize, mTerrainWorldSize); //TODO: make these dynamic
-    mTerrainGroup->setOrigin(Ogre::Vector3::ZERO); //TODO: let the user move it where he wants it. (Is this necessary?)
+    mTerrainGroup = OGRE_NEW Ogre::TerrainGroup(scene_mgr, Ogre::Terrain::ALIGN_X_Z, mTerrainSize, mTerrainWorldSize);
+    mTerrainGroup->setOrigin(Ogre::Vector3::ZERO); // TODO: let the user move it where he wants it. (Is this necessary?)
 
     // Configure default import settings for if we use imported image
     Ogre::Terrain::ImportData& import_data = mTerrainGroup->getDefaultImportSettings();
@@ -173,8 +172,6 @@ void TerrainManager::_CreateTerrain() {
     for(auto it = mTextureLayer.begin(); it != mTextureLayer.end(); ++it) {
         import_data.layerList.push_back(*(it->getLayerInstance()));
     }
-
-    //OGRE_DELETE mTerrainGroup;
 }
 
 void TerrainManager::_InitOptions() {
@@ -208,30 +205,26 @@ void TerrainManager::_DestroyTerrain() {
     }
 }
 
-void TerrainManager::_DefineTerrain(uint8_t x, uint8_t y) {
+void TerrainManager::_DefineTerrain(uint32_t x, uint32_t y) {
     Ogre::String filename = mTerrainGroup->generateFilename(x, y);
-    if (Ogre::ResourceGroupManager::getSingleton().resourceExists(mTerrainGroup->getResourceGroup(), filename))
-    {
+    if(Ogre::ResourceGroupManager::getSingleton().resourceExists(mTerrainGroup->getResourceGroup(), filename)) {
         mTerrainGroup->defineTerrain(x, y);
-    } //TODO: else
+    } // TODO: else
 }
-void TerrainManager::_DefineTerrain(uint8_t x, uint8_t y, const QString& filename) {
+void TerrainManager::_DefineTerrain(uint32_t x, uint32_t y, const QString& filename) {
     Ogre::Image img;
     img.load(dt::Utils::ToStdString(filename), Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME); //TODO: resourcegroup???
     mTerrainGroup->defineTerrain(x, y, &img);
 }
 
-void TerrainManager::_GenerateBlendMaps(Ogre::Terrain* terrain)
-{
+void TerrainManager::_GenerateBlendMaps(Ogre::Terrain* terrain) {
     if(mTextureLayer.size() < 2) return;
     for(uint32_t i = 1; i < mTextureLayer.size()-1; i++) {
         TextureLayer layer = mTextureLayer[i];
         Ogre::TerrainLayerBlendMap* blend_map = terrain->getLayerBlendMap(i);
         float* blend_ptr = blend_map->getBlendPointer();
-        for (uint32_t y = 0; y < terrain->getLayerBlendMapSize(); ++y)
-        {
-            for (uint32_t x = 0; x < terrain->getLayerBlendMapSize(); ++x)
-            {
+        for(uint32_t y = 0; y < terrain->getLayerBlendMapSize(); ++y) {
+            for(uint32_t x = 0; x < terrain->getLayerBlendMapSize(); ++x) {
                 float tx, ty;
 
                 blend_map->convertImageToTerrainSpace(x, y, &tx, &ty);

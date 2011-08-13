@@ -75,7 +75,7 @@ public:
     /**
       * Sets the light which is used to build the lightmap.
       * @param light The light.
-      * @toto getLight(), fallback if not used e.g. default light
+      * @todo getLight(), fallback if not used e.g. default light
       */
     void SetLight(dt::LightComponent* light);
 
@@ -83,7 +83,7 @@ public:
       * Sets the number of terrains in each direction
       * @todo rename: names misleading.
       */
-    void SetSize(uint8_t count_x, uint8_t count_y);
+    void SetSize(uint32_t count_x, uint32_t count_y);
 
     /**
       * Sets the scale-factor which is used to scale the height when you import from an image.
@@ -156,12 +156,12 @@ private:
     /**
       * Private method. Load a part of the terrain.
       */
-    void _DefineTerrain(uint8_t x, uint8_t y);
+    void _DefineTerrain(uint32_t x, uint32_t y);
 
     /**
       * Private method. Import a part of the terrain.
       */
-    void _DefineTerrain(uint8_t x, uint8_t y, const QString& filename);
+    void _DefineTerrain(uint32_t x, uint32_t y, const QString& filename);
 
     /**
       * Private method. Creates the blendmaps for a terrain.
@@ -174,7 +174,7 @@ private:
     Ogre::TerrainGlobalOptions* mTerrainGlobalOptions;      //!< The global options for terrains.
     dt::Scene* mScene;                                      //!< The scene.
 
-    uint8_t mCountX, mCountY;                               //!< The number of terrains in x and y (Ogre-Z) coordinate.
+    uint32_t mCountX, mCountY;                              //!< The number of terrains in x and y (Ogre-Z) coordinate.
     uint32_t mTerrainSize;                                  //!< The size of one terrain. (mTerrainSize*mTerrainSize vertices) Must be 2^n+1.
     float mTerrainWorldSize;                                //!< The world size of one terrain. This is the scale of the terrain and depends on the size of the other entities.
     float mScale;                                           //!< Factor which is used to scale the imported height to your needs.
