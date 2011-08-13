@@ -31,6 +31,7 @@ namespace dt {
   * @see ConnectionsManager - Holds all connections of this manager.
   */
 class DUCTTAPE_API NetworkManager : public Manager, public EventListener {
+    Q_OBJECT
 public:
     /**
       * Default constructor.

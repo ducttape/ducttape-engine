@@ -25,6 +25,7 @@ namespace dt {
   * @see State
   */
 class DUCTTAPE_API StateManager : public Manager {
+    Q_OBJECT
 public:
     /**
       * Default constructor.
