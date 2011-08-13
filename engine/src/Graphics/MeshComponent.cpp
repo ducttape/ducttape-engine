@@ -76,7 +76,7 @@ std::vector<QString> MeshComponent::GetAvailableAnimations() {
 
     Ogre::AnimationStateIterator iter(mEntity->getAllAnimationStates()->getAnimationStateIterator());
     while(iter.hasMoreElements()) {
-        result.push_back(QString::fromStdString(iter.current()->second->getAnimationName()));
+        result.push_back(QString(iter.current()->second->getAnimationName().c_str()));
         iter.moveNext();
     }
     return result;

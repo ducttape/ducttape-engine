@@ -33,7 +33,7 @@ LogStream::LogStream(const QString& name)
 
 QString LogStream::FormatMessage(Logger* logger, const QString& msg) {
     // return QString(mFormat).arg(logger->GetName()).arg(mName).arg(msg);
-    return QString::fromStdString((boost::format(dt::Utils::ToStdString(mFormat)) % dt::Utils::ToStdString(logger->GetName()) % dt::Utils::ToStdString(mName) % dt::Utils::ToStdString(msg)).str());
+    return QString((boost::format(dt::Utils::ToStdString(mFormat)) % dt::Utils::ToStdString(logger->GetName()) % dt::Utils::ToStdString(mName) % dt::Utils::ToStdString(msg)).str().c_str());
 }
 
 void LogStream::Output(Logger* logger, const QString& msg) {
