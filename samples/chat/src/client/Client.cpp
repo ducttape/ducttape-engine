@@ -65,7 +65,7 @@ void Client::InputThread(void* user_data) {
         std::getline(std::cin, in);
 
         if(in.substr(0, 6) == "/nick ") {
-            QString nick = QString::fromStdString(in.substr(6));
+            QString nick = QString(in.substr(6).c_str());
             client->SetNick(nick);
             std::cout << "** You changed your nick to: " << dt::Utils::ToStdString(nick) << std::endl;
         } else if(in.substr(0,5) == "/ping") {
@@ -75,7 +75,7 @@ void Client::InputThread(void* user_data) {
             dt::StateManager::Get()->Pop();
         } else {
             dt::EventManager::Get()->
-                InjectEvent(std::make_shared<ChatMessageEvent>(QString::fromStdString(in), client->GetNick()));
+                InjectEvent(std::make_shared<ChatMessageEvent>(QString(in.c_str()), client->GetNick()));
         }
     }
 }
