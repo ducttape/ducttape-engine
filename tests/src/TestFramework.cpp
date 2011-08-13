@@ -29,6 +29,7 @@
 #include "StatesTest/StatesTest.hpp"
 #include "TextTest/TextTest.hpp"
 #include "TimerTest/TimerTest.hpp"
+#include "TerrainTest/TerrainTest.hpp"
 #include "Utils/Utils.hpp"
 
 #include <iostream>
@@ -80,6 +81,7 @@ int main(int argc, char** argv) {
     AddTest(new StatesTest::StatesTest);
     AddTest(new TextTest::TextTest);
     AddTest(new TimerTest::TimerTest);
+    AddTest(new TerrainTest::TerrainTest);
 
     if(argc < 2) {
         std::cout << "TestFramework usage: " << std::endl;
