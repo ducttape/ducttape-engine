@@ -8,6 +8,13 @@
 
 #include "ParticlesTest/ParticlesTest.hpp"
 
+#include <Event/BeginFrameEvent.hpp>
+#include <Scene/StateManager.hpp>
+#include <Core/ResourceManager.hpp>
+#include <Graphics/CameraComponent.hpp>
+
+#include <OgreParticleAffector.h>
+
 namespace ParticlesTest {
 
 bool ParticlesTest::Run(int argc, char** argv) {

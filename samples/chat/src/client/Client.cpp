@@ -12,6 +12,10 @@
 
 #include <Core/Root.hpp>
 #include <Utils/Utils.hpp>
+#include <Event/EventManager.hpp>
+#include <Network/NetworkManager.hpp>
+#include <Network/ConnectionsManager.hpp>
+#include <Scene/StateManager.hpp>
 
 Client::Client() {
     mServerIP = sf::IpAddress::LocalHost;

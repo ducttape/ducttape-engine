@@ -12,6 +12,7 @@
 #include "Test.hpp"
 
 #include <Core/Root.hpp>
+#include <Scene/Component.hpp>
 
 #include <QObject>
 

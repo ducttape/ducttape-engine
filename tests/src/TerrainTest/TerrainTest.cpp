@@ -8,8 +8,12 @@
 
 #include "TerrainTest/TerrainTest.hpp"
 
-#include <Logic/SimplePlayerComponent.hpp>
 #include <Utils/Logger.hpp>
+#include <Event/BeginFrameEvent.hpp>
+#include <Scene/StateManager.hpp>
+#include <Core/ResourceManager.hpp>
+#include <Graphics/CameraComponent.hpp>
+#include <Graphics/TerrainManager.hpp>
 
 namespace TerrainTest {
 
@@ -45,8 +49,6 @@ void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
 }
 
 void Main::OnInitialize() {
-    dt::InputManager::Get()->SetJailInput(false);
-
     dt::Scene* scene = AddScene(new dt::Scene("testscene"));
 
     dt::ResourceManager::Get()->AddResourceLocation("sinbad.zip","Zip", true);
@@ -57,7 +59,6 @@ void Main::OnInitialize() {
     camnode->SetPosition(Ogre::Vector3(0, 350, 150));
     dt::CameraComponent* cam = camnode->AddComponent(new dt::CameraComponent("cam"));
     cam->LookAt(Ogre::Vector3(0, 300, 0));
-    //camnode->AddComponent(new dt::SimplePlayerComponent("player"));
 
     dt::Node* lightnode = scene->AddChildNode(new dt::Node("lightnode"));
     dt::LightComponent* light = lightnode->AddComponent(new dt::LightComponent("light"));

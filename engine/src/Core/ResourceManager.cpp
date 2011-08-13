@@ -10,8 +10,12 @@
 
 #include <Core/Root.hpp>
 #include <Utils/Utils.hpp>
+#include <Utils/LogManager.hpp>
+#include <Graphics/DisplayManager.hpp>
 
 #include <QCoreApplication>
+
+#include <Ogre.h>
 
 namespace dt {
 

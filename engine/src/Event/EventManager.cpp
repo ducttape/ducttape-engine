@@ -9,6 +9,7 @@
 #include <Event/EventManager.hpp>
 
 #include <Core/Root.hpp>
+#include <Utils/LogManager.hpp>
 
 namespace dt {
 
