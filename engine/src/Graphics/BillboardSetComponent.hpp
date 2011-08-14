@@ -49,6 +49,7 @@ public:
       * @return A pointer to the ogre BillboardSet.
       */
     Ogre::BillboardSet* GetOgreBillboardSet() const;
+    
     /**
       * Set the texture from a image file.
       * @param file The image file to load.
@@ -59,17 +60,20 @@ public:
       * Set Billboards to always face the camera.
       */
     void SetFaceCamera();
+    
     /**
       * Set BillboardSet to face the camera, rotating
       * around a common vector.
       * @param commonVector The Billboards will rotate around this vector
       */  
     void SetOrientedCommon(const Ogre::Vector3& commonVector);
+    
     /**
       * Set Billboards to face the camera, rotating
       * around their own y axis.
       */  
     void SetOrientedSelf();
+    
     /**
       * Set Billboards perpendicular to commonVector used as Z axis, 
       * and X, Y axis are determined by upVector
@@ -78,6 +82,7 @@ public:
       */  
     void SetPerpendicularCommon(const Ogre::Vector3& commonVector,
                                const Ogre::Vector3& upVector);
+    
       /**
       * Set Billboards perpendicular to their own Z axis, 
       * and X, Y axis are determined by upVector
@@ -91,7 +96,6 @@ protected:
     QString mImageFile; //!< The file of the texture to load and to apply to the billboard
     Ogre::SceneNode* mSceneNode; //!< The pointer to the ogre SceneNode the BillboardSet is attached to.
     Ogre::TextureUnitState* mTextureUnitState; //!< The pointer to the TextureUnitState of the billboard
-
 };
 
 }
