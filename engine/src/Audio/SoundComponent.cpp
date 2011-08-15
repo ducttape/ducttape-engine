@@ -12,13 +12,14 @@
 #include <Core/ResourceManager.hpp>
 #include <Scene/Node.hpp>
 #include <Utils/Logger.hpp>
+#include <Graphics/MeshComponent.hpp>
 
 #include <SFML/Audio/Listener.hpp>
 
 namespace dt {
 
-SoundComponent::SoundComponent(const QString& sound_file, const QString& name)
-    : Component(name),
+SoundComponent::SoundComponent(const QString& sound_file, const QString& name, const QString& mesh_handle)
+    : Invisible(name, "debug-shape-of-SoundComponent-" + name, mesh_handle),
       mSoundFile(sound_file) {
     _LoadSound();
 }
@@ -38,7 +39,9 @@ void SoundComponent::HandleEvent(std::shared_ptr<Event> e) {
     }
 }
 
-void SoundComponent::OnCreate() {}
+void SoundComponent::OnCreate() {
+   Invisible::OnCreate();
+}
 
 void SoundComponent::OnDestroy() {}
 

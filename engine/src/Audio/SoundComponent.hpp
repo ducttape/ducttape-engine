@@ -11,7 +11,7 @@
 
 #include <Config.hpp>
 
-#include <Scene/Component.hpp>
+#include <Scene/Invisible.hpp>
 
 #include <QString>
 
@@ -25,7 +25,7 @@ namespace dt {
   * Component for managing sounds in 3D enviroment.
   * @todo Positions should be calculated relatively to position of player, but there is no method to get those now.
   */
-class DUCTTAPE_API SoundComponent : public Component {
+class DUCTTAPE_API SoundComponent : public Invisible {
     Q_OBJECT
 public:
     /**
@@ -34,7 +34,7 @@ public:
      * @param name The name for this Component.
      * @see Component
      */
-    SoundComponent(const QString& sound_file = "", const QString& name = "");
+    SoundComponent(const QString& sound_file = "", const QString& name = "", const QString& mesh_handle = "sound.mesh");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 
