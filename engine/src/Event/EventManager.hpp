@@ -27,6 +27,7 @@ namespace dt {
   * @see Event
   */
 class DUCTTAPE_API EventManager : public Manager {
+    Q_OBJECT
 public:
     /**
       * Default constructor.

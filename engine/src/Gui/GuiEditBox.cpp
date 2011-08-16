@@ -8,6 +8,8 @@
 
 #include <Gui/GuiEditBox.hpp>
 
+#include <Utils/Utils.hpp>
+
 namespace dt {
 
 GuiEditBox::GuiEditBox(const QString& name)
@@ -19,7 +21,7 @@ MyGUI::Widget* GuiEditBox::GetMyGUIWidget() {
 }
 
 void GuiEditBox::OnCreate() {
-    mEditBox = GetParent()->GetMyGUIWidget()->createWidget<MyGUI::EditBox>("EditBox", 0, 0, 100, 100, MyGUI::Align::Default, GetFullName().toStdString());
+    mEditBox = GetParent()->GetMyGUIWidget()->createWidget<MyGUI::EditBox>("EditBox", 0, 0, 100, 100, MyGUI::Align::Default, dt::Utils::ToStdString(GetFullName()));
 }
 
 }

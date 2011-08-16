@@ -26,6 +26,7 @@ namespace dt {
   * @todo Positions should be calculated relatively to position of player, but there is no method to get those now.
   */
 class DUCTTAPE_API SoundComponent : public Component {
+    Q_OBJECT
 public:
     /**
      * Advanced constructor.

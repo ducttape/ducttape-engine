@@ -25,6 +25,7 @@ namespace dt {
   * mouse.
   */
 class DUCTTAPE_API SimplePlayerComponent : public Component {
+    Q_OBJECT
 public:
     /**
       * Advanced constructor.

@@ -10,13 +10,14 @@
 
 #include <Scene/Node.hpp>
 #include <Scene/Scene.hpp>
+#include <Utils/Utils.hpp>
 
 #include <OgreSceneManager.h>
 #include <OgreBillboardSet.h>
+#include <OgreBillboard.h>
 #include <OgreRectangle.h>
 
 #include <cstdint>
-#include <OgreBillboard.h>
 
 namespace dt {
 
@@ -87,8 +88,8 @@ Ogre::BillboardSet* BillboardSetComponent::GetOgreBillboardSet() const {
 
 void BillboardSetComponent::SetTextureFromFile(const QString& file)
 {
-    Ogre::TextureManager::getSingleton().load(file.toStdString(), "General");
-    mTextureUnitState->setTextureName(file.toStdString());
+    Ogre::TextureManager::getSingleton().load(Utils::ToStdString(file), "General");
+    mTextureUnitState->setTextureName(Utils::ToStdString(file));
 }
 
 void BillboardSetComponent::SetFaceCamera()

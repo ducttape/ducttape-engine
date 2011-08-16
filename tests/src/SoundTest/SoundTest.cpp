@@ -1,4 +1,18 @@
+
+// ----------------------------------------------------------------------------
+// This file is part of the Ducttape Project (http://ducttape-dev.org) and is
+// licensed under the GNU LESSER PUBLIC LICENSE version 3. For the full license
+// text, please see the LICENSE file in the root of this project or at
+// http://www.gnu.org/licenses/lgpl.html
+// ----------------------------------------------------------------------------
+
 #include "SoundTest/SoundTest.hpp"
+
+#include <Utils/Utils.hpp>
+#include <Event/EventManager.hpp>
+
+#include <SFML/Audio.hpp>
+#include <SFML/System.hpp>
 
 namespace SoundTest {
 
@@ -21,7 +35,7 @@ bool SoundTest::Run(int argc, char** argv) {
         exit(1);
     }
 
-    std::cout << "SoundComponent file = " << sound_component->GetSoundFile().toStdString() << std::endl;
+    std::cout << "SoundComponent file = " << dt::Utils::ToStdString(sound_component->GetSoundFile()) << std::endl;
     std::cout << "SoundComponent duration = " << sound_component->GetSound().GetBuffer()->GetDuration() << std::endl;
 
     /* Test 3D sound */
@@ -98,7 +112,7 @@ bool SoundTest::Run(int argc, char** argv) {
         return false;
     }
 
-    std::cout << "SoundComponent file = " << sound_component->GetSoundFile().toStdString() << std::endl;
+    std::cout << "SoundComponent file = " << dt::Utils::ToStdString(sound_component->GetSoundFile()) << std::endl;
     std::cout << "SoundComponent duration = " << sound_component->GetSound().GetBuffer()->GetDuration() << std::endl;
 
     /* Test 3D sound */

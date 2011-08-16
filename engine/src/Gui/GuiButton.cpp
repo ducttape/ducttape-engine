@@ -8,6 +8,8 @@
 
 #include <Gui/GuiButton.hpp>
 
+#include <Utils/Utils.hpp>
+
 namespace dt {
 
 GuiButton::GuiButton(const QString& name)
@@ -19,7 +21,7 @@ MyGUI::Widget* GuiButton::GetMyGUIWidget() {
 }
 
 void GuiButton::OnCreate() {
-    mButton = GetParent()->GetMyGUIWidget()->createWidget<MyGUI::Button>("Button", 0, 0, 100, 100, MyGUI::Align::Default, GetFullName().toStdString());
+    mButton = GetParent()->GetMyGUIWidget()->createWidget<MyGUI::Button>("Button", 0, 0, 100, 100, MyGUI::Align::Default, dt::Utils::ToStdString(GetFullName()));
 }
 
 }

@@ -30,6 +30,7 @@ namespace dt {
   * @see Connection
   */
 class DUCTTAPE_API ConnectionsManager : public Manager, public EventListener {
+    Q_OBJECT
 public:
     /**
       * Type of Connection IDs. Limits the number of maximum connections.

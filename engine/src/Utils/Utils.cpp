@@ -14,6 +14,10 @@ namespace dt {
 
 namespace Utils {
 
+    std::string ToStdString(const QString& qstring) {
+        return std::string(qstring.toLocal8Bit().data());
+    }
+
 } // namespace Utils
 
 } // namespace dt

@@ -1,4 +1,18 @@
+
+// ----------------------------------------------------------------------------
+// This file is part of the Ducttape Project (http://ducttape-dev.org) and is
+// licensed under the GNU LESSER PUBLIC LICENSE version 3. For the full license
+// text, please see the LICENSE file in the root of this project or at
+// http://www.gnu.org/licenses/lgpl.html
+// ----------------------------------------------------------------------------
+
 #include "GuiTest/GuiTest.hpp"
+
+#include <Event/BeginFrameEvent.hpp>
+#include <Scene/StateManager.hpp>
+#include <Core/ResourceManager.hpp>
+#include <Graphics/CameraComponent.hpp>
+#include <Gui/GuiManager.hpp>
 
 namespace GuiTest {
 
@@ -18,7 +32,7 @@ Main::Main()
     : mRuntime(0) {}
 
 void Main::Click(MyGUI::Widget* _sender) {
-    dt::Logger::Get().Debug("Clicked! " + QString::fromStdString(_sender->getName()));
+    dt::Logger::Get().Debug("Clicked! " + QString(_sender->getName().c_str()));
     if(_sender->getName() == "Gui.b1") {
         static_cast<MyGUI::Button*>(_sender)->setCaption("Not implemented!");
     } else if(_sender->getName() == "Gui.b2") {

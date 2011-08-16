@@ -8,6 +8,18 @@
 
 #include <Core/Root.hpp>
 
+#include <Utils/LogManager.hpp>
+#include <Core/StringManager.hpp>
+#include <Event/EventManager.hpp>
+#include <Core/ResourceManager.hpp>
+#include <Input/InputManager.hpp>
+#include <Graphics/DisplayManager.hpp>
+#include <Scene/StateManager.hpp>
+#include <Network/NetworkManager.hpp>
+#include <Physics/PhysicsManager.hpp>
+#include <Graphics/TerrainManager.hpp>
+#include <Logic/ScriptManager.hpp>
+
 namespace dt {
 
 QString Root::_VERSION = DUCTTAPE_VERSION;
@@ -25,12 +37,14 @@ Root::Root()
       mStateManager(new StateManager()),
       mNetworkManager(new NetworkManager()),
       mPhysicsManager(new PhysicsManager()),
+      mTerrainManager(new TerrainManager()),
       mScriptManager(new ScriptManager()) {}
 
 Root::~Root() {
     // Complementary to the constructor, we destroy the managers in reverse
     // order.
     delete mScriptManager;
+    delete mTerrainManager;
     delete mPhysicsManager;
     delete mNetworkManager;
     delete mStateManager;
@@ -62,11 +76,13 @@ void Root::Initialize(int argc, char** argv) {
     mNetworkManager->Initialize();
     mStateManager->Initialize();
     mPhysicsManager->Initialize();
+    mTerrainManager->Initialize();
     mScriptManager->Initialize();
 }
 
 void Root::Deinitialize() {
     mScriptManager->Deinitialize();
+    mTerrainManager->Deinitialize();
     mPhysicsManager->Deinitialize();
     mStateManager->Deinitialize();
     mNetworkManager->Deinitialize();
@@ -122,6 +138,10 @@ PhysicsManager* Root::GetPhysicsManager() {
 
 ScriptManager* Root::GetScriptManager() {
     return mScriptManager;
+}
+
+TerrainManager* Root::GetTerrainManager() {
+    return mTerrainManager;
 }
 
 }

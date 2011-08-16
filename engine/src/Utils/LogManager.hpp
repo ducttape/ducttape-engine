@@ -26,6 +26,7 @@ namespace dt {
   * A manager responsible for holding and providing all Loggers.
   */
 class DUCTTAPE_API LogManager : public Manager, public Ogre::LogListener {
+    Q_OBJECT
 public:
     /**
       * Default constructor.

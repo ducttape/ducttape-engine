@@ -6,48 +6,38 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#ifndef DUCTTAPE_ENGINE_TESTS_BILLBOARDTEST
-#define DUCTTAPE_ENGINE_TESTS_BILLBOARDTEST
+#ifndef DUCTTAPE_ENGINE_TESTS_TERRAINTEST
+#define DUCTTAPE_ENGINE_TESTS_TERRAINTEST
 
 #include "Test.hpp"
 
 #include <Core/Root.hpp>
 #include <Event/EventListener.hpp>
-#include <Event/BeginFrameEvent.hpp>
-#include <Graphics/CameraComponent.hpp>
-#include <Graphics/BillboardSetComponent.hpp>
-#include <Graphics/MeshComponent.hpp>
 #include <Graphics/LightComponent.hpp>
-#include <Logic/FollowPathComponent.hpp>
+#include <Graphics/MeshComponent.hpp>
 #include <Scene/Game.hpp>
 #include <Scene/Node.hpp>
 #include <Scene/Scene.hpp>
-#include <Scene/StateManager.hpp>
-#include <Core/ResourceManager.hpp>
 
-#include <OgreProcedural.h>
+namespace TerrainTest {
 
-namespace BillboardTest {
-
-class BillboardTest : public Test {
+class TerrainTest : public Test {
 public:
     bool Run(int argc, char** argv);
     QString GetTestName();
 };
 
-
-class Main : public dt::State {
+class Main: public dt::State {
 public:
     Main();
     void HandleEvent(std::shared_ptr<dt::Event> e);
     void OnInitialize();
-
 private:
     double mRuntime;
-    dt::Node* mCamNode;
 
+    bool mBuilding;
 };
 
-} // namespace test_billboard
+} // namespace TerrainTest
 
 #endif

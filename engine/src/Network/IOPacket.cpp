@@ -8,6 +8,8 @@
 
 #include <Network/IOPacket.hpp>
 
+#include <Utils/Utils.hpp>
+
 namespace dt {
 
 IOPacket::IOPacket(sf::Packet* packet, Mode mode)
@@ -30,9 +32,9 @@ IOPacket& IOPacket::operator & (QString& s) {
     if(mMode == MODE_RECEIVE) {
         std::string stdstr;
         *mPacket >> stdstr;
-        s.fromStdString(stdstr);
+        s = QString(stdstr.c_str());
     } else {
-        *mPacket << s.toStdString();
+        *mPacket << Utils::ToStdString(s);
     }
     return *this;
 }

@@ -13,6 +13,8 @@
 #include <Network/HandshakeEvent.hpp>
 #include <Network/GoodbyeEvent.hpp>
 #include <Utils/Utils.hpp>
+#include <Utils/LogManager.hpp>
+#include <Core/StringManager.hpp>
 
 namespace dt {
 

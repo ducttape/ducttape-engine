@@ -1,3 +1,11 @@
+
+// ----------------------------------------------------------------------------
+// This file is part of the Ducttape Project (http://ducttape-dev.org) and is
+// licensed under the GNU LESSER PUBLIC LICENSE version 3. For the full license
+// text, please see the LICENSE file in the root of this project or at
+// http://www.gnu.org/licenses/lgpl.html
+// ----------------------------------------------------------------------------
+
 #include "NetworkTest/NetworkTest.hpp"
 
 namespace NetworkTest {
@@ -79,8 +87,8 @@ bool NetworkTest::RunClient() {
 
     bool correct_data = ((int)ccel.mDataReceived == data + DATA_INCREMENT);
     if(!correct_data) {
-        std::cerr << "Client: Received wrong data (" + dt::Utils::ToString(ccel.mDataReceived).toStdString() + " instead of "
-                     + dt::Utils::ToString(data + DATA_INCREMENT).toStdString() + ")" << std::endl;
+        std::cerr << "Client: Received wrong data (" + dt::Utils::ToStdString(dt::Utils::ToString(ccel.mDataReceived)) + " instead of "
+            + dt::Utils::ToStdString(dt::Utils::ToString(data + DATA_INCREMENT)) + ")" << std::endl;
         return false;
     }
     return true;

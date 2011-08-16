@@ -28,6 +28,7 @@ namespace dt {
   * @todo extrude the path stuff to make it usable somewhere else as well
   */
 class DUCTTAPE_API FollowPathComponent : public Component {
+    Q_OBJECT
 public:
     /**
       * The mode which determines what happens when the Node reaches the end of the path.

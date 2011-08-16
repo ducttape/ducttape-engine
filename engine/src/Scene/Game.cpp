@@ -11,6 +11,11 @@
 #include <Core/Root.hpp>
 #include <Event/BeginFrameEvent.hpp>
 #include <Network/GoodbyeEvent.hpp>
+#include <Event/EventManager.hpp>
+#include <Scene/StateManager.hpp>
+#include <Input/InputManager.hpp>
+#include <Network/NetworkManager.hpp>
+#include <Graphics/DisplayManager.hpp>
 
 #include <SFML/System/Sleep.hpp>
 

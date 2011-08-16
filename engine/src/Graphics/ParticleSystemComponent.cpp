@@ -37,7 +37,7 @@ uint32_t ParticleSystemComponent::GetParticleCountLimit() const {
 void ParticleSystemComponent::SetMaterialName(const QString& material_name) {
     mMaterialName = material_name;
     if(IsCreated() && mParticleSystem != nullptr) {
-        mParticleSystem->setMaterialName(mMaterialName.toStdString());
+        mParticleSystem->setMaterialName(Utils::ToStdString(mMaterialName));
     }
 }
 
@@ -46,7 +46,7 @@ const QString& ParticleSystemComponent::GetMaterialName() const {
 }
 
 Ogre::ParticleEmitter* ParticleSystemComponent::AddEmitter(const QString& name, const QString& type) {
-    Ogre::ParticleEmitter* e = mParticleSystem->addEmitter(type.toStdString());
+    Ogre::ParticleEmitter* e = mParticleSystem->addEmitter(Utils::ToStdString(type));
     mParticleEmitters[name] = e;
     return e;
 }
@@ -58,7 +58,7 @@ Ogre::ParticleEmitter* ParticleSystemComponent::GetEmitter(const QString& name) 
 }
 
 Ogre::ParticleAffector* ParticleSystemComponent::AddAffector(const QString& name, const QString& type) {
-    Ogre::ParticleAffector* a = mParticleSystem->addAffector(type.toStdString());
+    Ogre::ParticleAffector* a = mParticleSystem->addAffector(Utils::ToStdString(type));
     mParticleAffectors[name] = a;
     return a;
 }
@@ -71,13 +71,13 @@ Ogre::ParticleAffector* ParticleSystemComponent::GetAffector(const QString& name
 
 Ogre::ParticleAffector* ParticleSystemComponent::AddScalerAffector(const QString& name, float rate) {
     Ogre::ParticleAffector* a = AddAffector(name, "Scaler");
-    a->setParameter("rate", Utils::ToString(rate).toStdString());
+    a->setParameter("rate", Utils::ToStdString(Utils::ToString(rate)));
     return a;
 }
 
 Ogre::ParticleAffector* ParticleSystemComponent::AddLinearForceAffector(const QString& name, Ogre::Vector3 force) {
     Ogre::ParticleAffector* a = AddAffector(name, "LinearForce");
-    a->setParameter("force_vector", Utils::ToString(force.x).toStdString() + " " + Utils::ToString(force.y).toStdString() + " " + Utils::ToString(force.z).toStdString());
+    a->setParameter("force_vector", Utils::ToStdString(Utils::ToString(force.x)) + " " + Utils::ToStdString(Utils::ToString(force.y)) + " " + Utils::ToStdString(Utils::ToString(force.z)));
     return a;
 }
 
@@ -91,10 +91,10 @@ Ogre::ParticleSystem* ParticleSystemComponent::GetOgreParticleSystem() {
 void ParticleSystemComponent::OnCreate() {
     if(mNode != nullptr) {
         Ogre::SceneManager* scene_mgr = mNode->GetScene()->GetSceneManager();
-        mSceneNode = scene_mgr->getRootSceneNode()->createChildSceneNode(mName.toStdString() + "-node");
-        mParticleSystem = scene_mgr->createParticleSystem(mName.toStdString() + "-system", mParticleCountLimit);
+        mSceneNode = scene_mgr->getRootSceneNode()->createChildSceneNode(Utils::ToStdString(mName) + "-node");
+        mParticleSystem = scene_mgr->createParticleSystem(Utils::ToStdString(mName) + "-system", mParticleCountLimit);
         if(mMaterialName != "")
-            mParticleSystem->setMaterialName(mMaterialName.toStdString());
+            mParticleSystem->setMaterialName(Utils::ToStdString(mMaterialName));
         mSceneNode->attachObject(mParticleSystem);
         mParticleSystem->setDefaultDimensions(1, 1);
     } else {

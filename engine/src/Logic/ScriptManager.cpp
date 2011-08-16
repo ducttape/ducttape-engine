@@ -15,6 +15,8 @@
 #include <Utils/Utils.hpp>
 #include <Input/MouseState.hpp>
 #include <Input/KeyboardState.hpp>
+#include <Graphics/DisplayManager.hpp>
+#include <Core/ResourceManager.hpp>
 
 #include <QTextStream>
 

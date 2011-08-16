@@ -11,9 +11,9 @@
 
 #include <Config.hpp>
 
-#include <QString>
-
 #include <Scene/Component.hpp>
+
+#include <QString>
 
 #include <memory>
 
@@ -23,6 +23,7 @@ namespace dt {
   * Plays a music file.
   */
 class DUCTTAPE_API MusicComponent : public Component {
+    Q_OBJECT
 public:
     /**
      * Advanced constructor.

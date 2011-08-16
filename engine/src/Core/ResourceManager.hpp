@@ -34,6 +34,7 @@ namespace dt {
   * @todo This manager should eventually only allow adding of locations which are managed automatically.
   */
 class DUCTTAPE_API ResourceManager : public Manager {
+    Q_OBJECT
 public:
     /**
       * Default constructor.

@@ -10,6 +10,7 @@
 
 #include <Scene/Node.hpp>
 #include <Scene/Scene.hpp>
+#include <Utils/Utils.hpp>
 
 #include <OgreSceneManager.h>
 
@@ -75,7 +76,7 @@ std::vector<QString> MeshComponent::GetAvailableAnimations() {
 
     Ogre::AnimationStateIterator iter(mEntity->getAllAnimationStates()->getAnimationStateIterator());
     while(iter.hasMoreElements()) {
-        result.push_back(QString::fromStdString(iter.current()->second->getAnimationName()));
+        result.push_back(QString(iter.current()->second->getAnimationName().c_str()));
         iter.moveNext();
     }
     return result;
@@ -83,7 +84,7 @@ std::vector<QString> MeshComponent::GetAvailableAnimations() {
 
 void MeshComponent::SetAnimation(const QString& animation_state) {
     if(mEntity != nullptr) {
-        mAnimationState = mEntity->getAnimationState(animation_state.toStdString());
+        mAnimationState = mEntity->getAnimationState(Utils::ToStdString(animation_state));
         mAnimationState->setLoop(mLoopAnimation);
     } else {
         Logger::Get().Error("Cannot set animation of component " + GetName() + ": No entity loaded.");
@@ -129,7 +130,7 @@ bool MeshComponent::GetLoopAnimation() {
 void MeshComponent::SetMaterialName(const QString& material_name) {
     mMaterialName = material_name;
     if(mEntity != nullptr && mMaterialName != "") {
-        mEntity->setMaterialName(material_name.toStdString());
+        mEntity->setMaterialName(Utils::ToStdString(material_name));
     }
 }
 
@@ -161,10 +162,10 @@ void MeshComponent::_LoadMesh() {
     }
 
     Ogre::SceneManager* scene_mgr = GetNode()->GetScene()->GetSceneManager();
-    std::string nodename = GetNode()->GetName().toStdString();
-    mEntity = scene_mgr->createEntity(nodename + "-mesh-entity-" + mName.toStdString(), mMeshHandle.toStdString());
+    std::string nodename = Utils::ToStdString(GetNode()->GetName());
+    mEntity = scene_mgr->createEntity(nodename + "-mesh-entity-" + Utils::ToStdString(mName), Utils::ToStdString(mMeshHandle));
     SetMaterialName(mMaterialName);
-    mSceneNode = scene_mgr->getRootSceneNode()->createChildSceneNode(nodename + "-mesh-scenenode-" + mName.toStdString());
+    mSceneNode = scene_mgr->getRootSceneNode()->createChildSceneNode(nodename + "-mesh-scenenode-" + Utils::ToStdString(mName));
     mSceneNode->attachObject(mEntity);
     SetCastShadows(mCastShadows);
 }

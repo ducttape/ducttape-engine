@@ -1,3 +1,11 @@
+
+// ----------------------------------------------------------------------------
+// This file is part of the Ducttape Project (http://ducttape-dev.org) and is
+// licensed under the GNU LESSER PUBLIC LICENSE version 3. For the full license
+// text, please see the LICENSE file in the root of this project or at
+// http://www.gnu.org/licenses/lgpl.html
+// ----------------------------------------------------------------------------
+
 #include "ConnectionsTest/ConnectionsTest.hpp"
 
 namespace ConnectionsTest {
@@ -14,7 +22,7 @@ bool ConnectionsTest::Run(int argc, char** argv) {
         uint16_t ip = dt::Random::Get(1, 255);
         uint16_t port = dt::Random::Get(1001, 51311);
 
-        auto connection = std::shared_ptr<dt::Connection>(new dt::Connection(sf::IpAddress("127.168.178." + dt::Utils::ToString(ip).toStdString()), port+i));
+        auto connection = std::shared_ptr<dt::Connection>(new dt::Connection(sf::IpAddress("127.168.178." + dt::Utils::ToStdString(dt::Utils::ToString(ip))), port+i));
         uint16_t connection_id = connections_manager.AddConnection(connection.get());
         if(connection_id != 0) {
            connections[connection_id] = std::shared_ptr<dt::Connection>(connection);

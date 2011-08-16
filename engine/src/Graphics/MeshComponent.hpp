@@ -28,6 +28,7 @@ namespace dt {
   * Component to add a mesh to a node. Animations are supported.
   */
 class DUCTTAPE_API MeshComponent : public Component {
+    Q_OBJECT
 public:
     /**
       * Advanced constructor.
