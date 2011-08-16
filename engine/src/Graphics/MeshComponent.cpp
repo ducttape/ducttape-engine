@@ -16,8 +16,8 @@
 
 namespace dt {
 
-MeshComponent::MeshComponent(const QString& mesh_handle, const QString& material_name, const QString& name)
-    : Component(name),
+MeshComponent::MeshComponent(const QString& mesh_handle, const QString& material_name, const QString& name, const QString& mesh_handle_d)
+    : Component(name, mesh_handle_d, "debug-shape-of-MeshComponent-" + name),
       mSceneNode(nullptr),
       mEntity(nullptr),
       mAnimationState(nullptr),

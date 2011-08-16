@@ -40,7 +40,7 @@ public:
       * @see Component
       */
     MeshComponent(const QString& mesh_handle = "",
-                  const QString& material_name = "", const QString& name = "");
+                  const QString& material_name = "", const QString& name = "", const QString& mesh_handle_d = "mesh.mesh");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 

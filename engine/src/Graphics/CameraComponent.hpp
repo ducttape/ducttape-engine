@@ -33,7 +33,7 @@ public:
       * @name The name of the component.
       * @see Component
       */
-    CameraComponent(const QString& name = "");
+    CameraComponent(const QString& name = "", const QString& mesh_handle_d = "camera.mesh");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 

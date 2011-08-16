@@ -39,7 +39,7 @@ public:
       * @see Component
       */
     PhysicsBodyComponent(const QString& mesh_component_name,
-                         const QString& name = "");
+                         const QString& name = "", const QString& mesh_handle_d = "physics_body.mesh");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 

@@ -16,8 +16,8 @@
 
 namespace dt {
 
-MusicComponent::MusicComponent(const QString& music_file, const QString& name, const QString& mesh_handle)
-    : Invisible(name, "debug-shape-of-MusicComponent-" + name, mesh_handle),
+MusicComponent::MusicComponent(const QString& music_file, const QString& name, const QString& mesh_handle_d)
+    : Component(name, mesh_handle_d, "debug-shape-of-MusicComponent-" + name),
       mMusicFile(music_file),
       mFadeFlag(false),
       mElapsedTime(0.0),
@@ -39,9 +39,7 @@ void MusicComponent::HandleEvent(std::shared_ptr<Event> e) {
     }
 }
 
-void MusicComponent::OnCreate() {
-    Invisible::OnCreate();
-}
+void MusicComponent::OnCreate() {}
 
 void MusicComponent::OnDestroy() {
     StopMusic();

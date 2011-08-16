@@ -11,14 +11,13 @@
 #include <Scene/Node.hpp>
 #include <Scene/Scene.hpp>
 #include <Utils/Utils.hpp>
-#include <Graphics/MeshComponent.hpp>
 
 #include <OgreSceneManager.h>
 
 namespace dt {
 
-LightComponent::LightComponent(const QString& name, const QString& mesh_handle)
-    : Invisible(name, "debug-shape-of-LightComponent-" + name, mesh_handle),
+LightComponent::LightComponent(const QString& name, const QString& mesh_handle_d)
+    : Component(name, mesh_handle_d, "debug-shape-of-LightComponent-" + name),
       mLight(nullptr),
       mSceneNode(nullptr),
       mCastShadows(true) {}
@@ -38,8 +37,6 @@ void LightComponent::OnCreate() {
 
     mSceneNode = GetNode()->GetScene()->GetSceneManager()->getRootSceneNode()->createChildSceneNode(Utils::ToStdString(mName) + "-node");
     mSceneNode->attachObject(mLight);
-
-    Invisible::OnCreate();
 }
 
 void LightComponent::OnDestroy() {

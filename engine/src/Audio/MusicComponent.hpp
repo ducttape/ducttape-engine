@@ -11,7 +11,7 @@
 
 #include <Config.hpp>
 
-#include <Scene/Invisible.hpp>
+#include <Scene/Component.hpp>
 
 #include <QString>
 
@@ -22,7 +22,7 @@ namespace dt {
 /**
   * Plays a music file.
   */
-class DUCTTAPE_API MusicComponent : public Invisible {
+class DUCTTAPE_API MusicComponent : public Component {
     Q_OBJECT
 public:
     /**
@@ -31,7 +31,7 @@ public:
      * @param name The name for this component.
      * @see Component
      */
-    MusicComponent(const QString& music_file = "", const QString& name = "", const QString& mesh_handle = "music.mesh");
+    MusicComponent(const QString& music_file = "", const QString& name = "", const QString& mesh_handle_d = "music.mesh");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 

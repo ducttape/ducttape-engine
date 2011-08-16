@@ -30,7 +30,7 @@ public:
       * @param name The name for this component.
       * @see Component
       */
-    TriggerComponent(const QString& name = "");
+    TriggerComponent(const QString& name = "", const QString& mesh_handle_d = "trigger.mesh");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 

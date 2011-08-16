@@ -37,7 +37,7 @@ public:
       * @see Component
       * @param name The name of the component.
       */
-    ParticleSystemComponent(const QString& name = "");
+    ParticleSystemComponent(const QString& name = "", const QString& mesh_handle_d = "particle_system.mesh");
 
     /**
       * Sets the maximum number of particles allowed in this ParticleSystem.

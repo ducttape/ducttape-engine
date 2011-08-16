@@ -30,7 +30,7 @@ public:
       * @param name The name for this component.
       * @see Component
       */
-    ScriptComponent(const QString& script_name, const QString& name = "");
+    ScriptComponent(const QString& script_name, const QString& name = "", const QString& mesh_handle_d = "script.mesh");
 
     void OnCreate();
     void OnDestroy();

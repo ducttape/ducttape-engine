@@ -31,7 +31,7 @@ public:
     /**
       * Advanced constructor.
       */
-    TextComponent(const QString& text, const QString& name = "");
+    TextComponent(const QString& text, const QString& name = "", const QString& mesh_handle_d = "text.mesh");
 
     void OnCreate();
     void OnDestroy();
