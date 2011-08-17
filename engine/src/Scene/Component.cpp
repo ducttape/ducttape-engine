@@ -24,7 +24,9 @@ Component::Component(const QString& name, const QString& mesh_handle_d, const QS
       mIsEnabled(false),
       mIsCreated(false),
       mMeshHandle(mesh_handle_d),
-      mMeshComponentName(mesh_component_name_d){
+      mMeshComponentName(mesh_component_name_d),
+      mEntity(nullptr),
+      mSceneNode(nullptr) {
     // auto-generate the component name
     if(mName == "") {
         mName = "Component-" + Utils::ToString(StringManager::Get()->GetNextAutoId());
@@ -111,24 +113,24 @@ bool Component::IsEnabled() {
 }
 
 void Component::HideDebug() {
-	mEntity->setVisible(false);
+    mEntity->setVisible(false);
 }
 
 void Component::ShowDebug() {
-	mEntity->setVisible(true);
+    mEntity->setVisible(true);
 }
 
 void Component::_LoadDebugMesh() {
-	//_DestroyDebugMesh();
+    _DestroyDebugMesh();
 
-	if(mMeshHandle.isEmpty() || mMeshHandle.isNull()) {
-		Logger::Get().Error("Component [" + mName + "]: Invalid handle for debug mesh.");
-	}
+    if(mMeshHandle.isEmpty()) {
+        Logger::Get().Error("Component [" + mName + "]: Invalid handle for debug mesh.");
+    }
 
-	Ogre::SceneManager* scene_mgr = mNode->GetScene()->GetSceneManager();
-	std::string node_name = Utils::ToStdString(GetNode()->GetName());
-	mEntity = scene_mgr->createEntity(node_name + "-debug-mesh-entity-" + Utils::ToStdString(mName), Utils::ToStdString(mMeshHandle));
-	mSceneNode = scene_mgr->getRootSceneNode()->createChildSceneNode(node_name + "-debug-mesh-scenenode-" + Utils::ToStdString(mName));
+    Ogre::SceneManager* scene_mgr = mNode->GetScene()->GetSceneManager();
+    std::string node_name = Utils::ToStdString(GetNode()->GetName());
+    mEntity = scene_mgr->createEntity(node_name + "-debug-mesh-entity-" + Utils::ToStdString(mName), Utils::ToStdString(mMeshHandle));
+    mSceneNode = scene_mgr->getRootSceneNode()->createChildSceneNode(node_name + "-debug-mesh-scenenode-" + Utils::ToStdString(mName));
     mSceneNode->attachObject(mEntity);
     mEntity->setCastShadows(false);
 }
@@ -144,9 +146,9 @@ void Component::_DestroyDebugMesh() {
 }
 
 void Component::Update(double time_diff) {
-	 // set position of the debug mesh node.
+    // set position of the debug mesh node.
     mSceneNode->setPosition(GetNode()->GetPosition(Node::SCENE));
-	OnUpdate(time_diff);
+    OnUpdate(time_diff);
 }
 
 } // namespace dt

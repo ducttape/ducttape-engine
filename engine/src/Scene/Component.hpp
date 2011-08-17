@@ -49,7 +49,7 @@ public:
       * Constructor with set name and handle.
       * @param name The Component name.
       * @param mesh_component_name The name for this component's debug shape mesh.
-	  * @param mesh_handle The debug shape mesh's handle.
+      * @param mesh_handle The debug shape mesh's handle.
       */
     Component(const QString& name = "", const QString& mesh_handle_d = "", const QString& mesh_component_name_d = "");
 
@@ -92,15 +92,15 @@ public:
       */
     void SetNode(Node* node);
 
-    /*
-	 * Hide the debug shape.
-	 */
-	void HideDebug();
+    /**
+      * Hide the debug shape.
+      */
+    void HideDebug();
 
-	/*
-	 * Show the debug shape.
-	 */
-	void ShowDebug();
+    /**
+      * Show the debug shape.
+      */
+    void ShowDebug();
 
 public slots:
     /**
@@ -153,21 +153,21 @@ public slots:
       */
     void Disable();
 
-	/*
-	 * Updates the component.
-	 */
-	void Update(double time_diff);
+    /**
+      * Updates the component.
+      */
+    void Update(double time_diff);
 
 private:
-	/*
-	 * Loads the debug mesh.
-	 */
-	void _LoadDebugMesh();
+    /**
+      * Loads the debug mesh.
+      */
+    void _LoadDebugMesh();
 
-	/*
-	 * Destroys the debug mesh.
-	 */
-	void _DestroyDebugMesh();
+    /**
+      * Destroys the debug mesh.
+      */
+    void _DestroyDebugMesh();
 
 signals:
     void ComponentCreated();
@@ -181,8 +181,8 @@ protected:
 
     QString mMeshHandle;            //!< The handle of the mesh.
     QString mMeshComponentName;     //!< The name of the mesh component.
-	Ogre::Entity* mEntity;          //!< The actual debug mesh.
-	Ogre::SceneNode* mSceneNode;    //!< The scene Node the debug mesh is being attached to.
+    Ogre::Entity* mEntity;          //!< The actual debug mesh.
+    Ogre::SceneNode* mSceneNode;    //!< The scene Node the debug mesh is being attached to.
 
 private:
     bool mIsEnabled;    //!< Whether the component is enabled or not.
