@@ -14,7 +14,7 @@
 namespace dt {
 
 FollowPathComponent::FollowPathComponent(Mode mode, const QString& name, const QString& mesh_handle_d)
-    : Component(name, mesh_handle_d, "debug-shape-of-FollowPathComponent-" + name),
+    : Component(name, mesh_handle_d),
       mDurationSinceStart(0),
       mTotalDuration(0),
       mSmoothCorners(0),

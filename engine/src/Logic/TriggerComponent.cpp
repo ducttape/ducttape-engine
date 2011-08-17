@@ -11,7 +11,7 @@
 namespace dt {
 
 TriggerComponent::TriggerComponent(const QString& name, const QString& mesh_handle_d)
-    : Component(name, mesh_handle_d, "debug-shape-of-TriggerComponent-" + name) {
+    : Component(name, mesh_handle_d) {
 }
 
 void TriggerComponent::HandleEvent(std::shared_ptr<Event> e) {

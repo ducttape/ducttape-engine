@@ -19,12 +19,11 @@
 
 namespace dt {
 
-Component::Component(const QString& name, const QString& mesh_handle_d, const QString& mesh_component_name_d)
+Component::Component(const QString& name, const QString& mesh_handle_d)
     : mName(name),
       mIsEnabled(false),
       mIsCreated(false),
       mMeshHandle(mesh_handle_d),
-      mMeshComponentName(mesh_component_name_d),
       mEntity(nullptr),
       mSceneNode(nullptr) {
     // auto-generate the component name
@@ -68,8 +67,8 @@ QScriptValue Component::GetScriptNode() {
 void Component::Create() {
     if(!mIsCreated) {
         mIsCreated = true;
-		_LoadDebugMesh();
-		HideDebug();
+        _LoadDebugMesh();
+        HideDebug();
         OnCreate();
         emit ComponentCreated();
         Enable();
@@ -84,7 +83,7 @@ void Component::Destroy() {
         Disable();
         emit ComponentDestroyed();
         OnDestroy();
-		_DestroyDebugMesh();
+        _DestroyDebugMesh();
     }
 }
 

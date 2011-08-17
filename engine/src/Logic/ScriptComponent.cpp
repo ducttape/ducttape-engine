@@ -14,7 +14,7 @@
 namespace dt {
 
 ScriptComponent::ScriptComponent(const QString& script_name, const QString& name, const QString& mesh_handle_d)
-    : Component(name, mesh_handle_d, "debug-shape-of-ScriptComponent-" + name),
+    : Component(name, mesh_handle_d),
       mScriptName(script_name),
       mValid(true) {
     if(!ScriptManager::Get()->HasScript(mScriptName)) {

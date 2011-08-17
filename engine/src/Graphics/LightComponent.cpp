@@ -17,7 +17,7 @@
 namespace dt {
 
 LightComponent::LightComponent(const QString& name, const QString& mesh_handle_d)
-    : Component(name, mesh_handle_d, "debug-shape-of-LightComponent-" + name),
+    : Component(name, mesh_handle_d),
       mLight(nullptr),
       mSceneNode(nullptr),
       mCastShadows(true) {}

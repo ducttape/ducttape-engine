@@ -51,7 +51,7 @@ public:
       * @param mesh_component_name The name for this component's debug shape mesh.
       * @param mesh_handle The debug shape mesh's handle.
       */
-    Component(const QString& name = "", const QString& mesh_handle_d = "", const QString& mesh_component_name_d = "");
+    Component(const QString& name = "", const QString& mesh_handle_d = "");
 
     /**
       * Pure virtual destructor makes this class abstract.
@@ -180,7 +180,6 @@ protected:
     Node* mNode;        //!< The parent Node.
 
     QString mMeshHandle;            //!< The handle of the mesh.
-    QString mMeshComponentName;     //!< The name of the mesh component.
     Ogre::Entity* mEntity;          //!< The actual debug mesh.
     Ogre::SceneNode* mSceneNode;    //!< The scene Node the debug mesh is being attached to.
 

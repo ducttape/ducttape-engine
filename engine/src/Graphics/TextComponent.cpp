@@ -20,7 +20,7 @@
 namespace dt {
 
 TextComponent::TextComponent(const QString& text, const QString& name, const QString& mesh_handle_d)
-    : Component(name, mesh_handle_d, "debug-shape-of-TextComponent-" + name),
+    : Component(name, mesh_handle_d),
       mText(text),
       mOverlay(nullptr),
       mPanel(nullptr),

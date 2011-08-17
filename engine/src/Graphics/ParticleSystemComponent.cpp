@@ -18,7 +18,7 @@
 namespace dt {
 
 ParticleSystemComponent::ParticleSystemComponent(const QString& name, const QString& mesh_handle_d)
-    : Component(name, mesh_handle_d, "debug-shape-of-ParticleSystemComponent-" + name),
+    : Component(name, mesh_handle_d),
       mSceneNode(nullptr),
       mParticleSystem(nullptr),
       mParticleCountLimit(1000) {}
