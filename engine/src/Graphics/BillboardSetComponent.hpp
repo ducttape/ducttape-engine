@@ -77,25 +77,32 @@ public:
     /**
       * Set Billboards perpendicular to commonVector used as Z axis, 
       * and X, Y axis are determined by upVector
-      * @param commonVector The Billboards will be perpendicular to this vector
-      * @param upVector The X and Y axis of the billboards are determined by this vector
+      * @param commonVector The Billboards will be perpendicular to this vector.
+      * @param upVector The X and Y axis of the billboards are determined by this vector.
       */  
     void SetPerpendicularCommon(const Ogre::Vector3& commonVector,
                                const Ogre::Vector3& upVector);
     
-      /**
+    /**
       * Set Billboards perpendicular to their own Z axis, 
-      * and X, Y axis are determined by upVector
-      * @param upVector The X and Y axis of the billboards are determined by this vector
+      * and X, Y axis are determined by upVector.
+      * @param upVector The X and Y axis of the billboards are determined by this vector.
       */  
     void SetPerpendicularSelf(const Ogre::Vector3& upVector);  
     
+    /**
+      * Sets whether or not each Pass renders with depth-buffer checking on or not.
+      * @param enabled whether Pass renders with depth-buffer checking.
+      */  
+    void setDepthCheckEnabled(bool enabled);      
+    
 protected:
-    Ogre::BillboardSet* mBillboardSet; //!< The BillboardSet of this component
+    Ogre::BillboardSet* mBillboardSet; //!< The BillboardSet of this component.
     uint32_t mPoolSize; //!< The number of the billboard in the pool.
-    QString mImageFile; //!< The file of the texture to load and to apply to the billboard
+    QString mImageFile; //!< The file of the texture to load and to apply to the billboard.
+    Ogre::MaterialPtr mMaterialPtr; //!< The pointer to the material used to render billboard.
     Ogre::SceneNode* mSceneNode; //!< The pointer to the ogre SceneNode the BillboardSet is attached to.
-    Ogre::TextureUnitState* mTextureUnitState; //!< The pointer to the TextureUnitState of the billboard
+    Ogre::TextureUnitState* mTextureUnitState; //!< The pointer to the TextureUnitState of the billboard.
 };
 
 }
