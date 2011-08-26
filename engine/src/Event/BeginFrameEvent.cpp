@@ -13,8 +13,8 @@ namespace dt {
 BeginFrameEvent::BeginFrameEvent(double frame_time)
     : mFrameTime(frame_time) {}
 
-const QString BeginFrameEvent::GetType() const {
-    return "DT_BEGINFRAMEEVENT";
+uint32_t BeginFrameEvent::GetType() const {
+    return DT_BEGINFRAMEEVENT;
 }
 
 std::shared_ptr<Event> BeginFrameEvent::Clone() const {

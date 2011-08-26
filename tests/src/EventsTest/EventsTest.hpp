@@ -20,6 +20,16 @@
 
 namespace EventsTest {
 
+#ifdef DUCTTAPE_ENGINE_DEBUG
+EventManager::Get()->RegEventType("cancelEvent", 65536);
+EventManager::Get()->RegEventType("testEvent", 65537)
+#endif
+
+enum testEventTypes : uint32_t {
+    cancelEvent = 65536,
+    testEvent = 65537
+};
+
 class EventsTest : public Test {
 public:
     bool Run(int argc, char** argv);
@@ -30,7 +40,7 @@ public:
 
 class CancelEvent : public dt::Event {
 public:
-    const QString GetType() const;
+    uint32_t GetType() const;
     std::shared_ptr<dt::Event> Clone() const;
 };
 
@@ -55,7 +65,7 @@ public:
 class TestEvent : public dt::Event {
 public:
     TestEvent();
-    const QString GetType() const;
+    uint32_t GetType() const;
     std::shared_ptr<dt::Event> Clone() const;
     std::vector<uint64_t> anti_leak_payload;
 };

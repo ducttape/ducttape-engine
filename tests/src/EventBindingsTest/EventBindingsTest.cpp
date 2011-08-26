@@ -18,13 +18,10 @@ bool EventBindingsTest::Run(int argc, char** argv) {
     dt::Root& root = dt::Root::GetInstance();
     root.Initialize(argc, argv);
 
-    root.GetStringManager()->Add("testtriggerevent");
-    root.GetStringManager()->Add("testboundevent");
-
     TestEventListener listener;
     root.GetEventManager()->AddListener(&listener);
 
-    dt::BindingsManager::Get()->Bind(std::make_shared<dt::SimpleEventBinding>(new TestBoundEvent(42), "testtriggerevent"));
+    dt::BindingsManager::Get()->Bind(std::make_shared<dt::SimpleEventBinding>(new TestBoundEvent(42), testTriggerEvent));
 
     root.GetEventManager()->InjectEvent(std::make_shared<TestTriggerEvent>());
 
@@ -49,8 +46,8 @@ QString EventBindingsTest::GetTestName() {
 
 ////////////////////////////////////////////////////////////////
 
-const QString TestTriggerEvent::GetType() const  {
-    return "testtriggerevent";
+uint32_t TestTriggerEvent::GetType() const  {
+    return testTriggerEvent;
 }
 
 std::shared_ptr<dt::Event> TestTriggerEvent::Clone() const {
@@ -63,8 +60,8 @@ std::shared_ptr<dt::Event> TestTriggerEvent::Clone() const {
 TestBoundEvent::TestBoundEvent(int data)
     : mData(data) {}
 
-const QString TestBoundEvent::GetType() const  {
-    return "testboundevent";
+uint32_t TestBoundEvent::GetType() const  {
+    return testBoundEvent;
 }
 
 std::shared_ptr<dt::Event> TestBoundEvent::Clone() const {
@@ -75,10 +72,12 @@ std::shared_ptr<dt::Event> TestBoundEvent::Clone() const {
 ////////////////////////////////////////////////////////////////
 
 void TestEventListener::HandleEvent(std::shared_ptr<dt::Event> e) {
-    std::cout << "Received: " << dt::Utils::ToStdString(e->GetType()) << std::endl;
-    if(e->GetType() == "testtriggerevent") {
+#ifdef DUCTTAPE_ENGINE_DEBUG
+    std::cout << "Received: " << dt::EventManager::Get->RegEventType(e->GetType()) << std::endl;
+#endif
+    if(e->GetType() == testTriggerEvent) {
         mHasReceivedTriggerEvent = true;
-    } else if(e->GetType() == "testboundevent") {
+    } else if(e->GetType() == testBoundEvent) {
         if(std::dynamic_pointer_cast<TestBoundEvent>(e)->mData == 42) {
             mHasReceivedBoundEvent = true;
         } else {

@@ -29,7 +29,7 @@ public:
       * @param frame_time The time delta of the current frame.
       */
     BeginFrameEvent(double frame_time);
-    const QString GetType() const;
+    uint32_t GetType() const;
     std::shared_ptr<Event> Clone() const;
 
 

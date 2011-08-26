@@ -26,7 +26,7 @@ Main::Main()
     : mRuntime(0) {}
 
 void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
+    if(e->GetType() == dt::DT_BEGINFRAMEEVENT) {
         mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
         if(mRuntime > 3.0) {
             dt::StateManager::Get()->Pop(1);

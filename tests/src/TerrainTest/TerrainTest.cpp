@@ -34,7 +34,7 @@ Main::Main()
       mBuilding(true) {}
 
 void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
+    if(e->GetType() == dt::DT_BEGINFRAMEEVENT) {
         if(!mBuilding) {
             mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
         }

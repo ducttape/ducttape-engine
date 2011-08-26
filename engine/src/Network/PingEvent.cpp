@@ -14,8 +14,8 @@ PingEvent::PingEvent(double timestamp, bool is_reply)
     : mIsReply(is_reply),
       mTimestamp(timestamp) {}
 
-const QString PingEvent::GetType() const {
-    return "DT_PINGEVENT";
+uint32_t PingEvent::GetType() const {
+    return DT_PINGEVENT;
 }
 
 std::shared_ptr<Event> PingEvent::Clone() const {

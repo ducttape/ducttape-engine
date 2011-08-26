@@ -45,7 +45,7 @@ public:
     }
 
     void HandleEvent(std::shared_ptr<dt::Event> e) {
-        if(e->GetType() == "DT_BEGINFRAMEEVENT") {
+        if(e->GetType() == dt::DT_BEGINFRAMEEVENT) {
             double frame_time = std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
 
             mBallSpeed *= 1.0 + (frame_time * 0.05);

@@ -145,14 +145,14 @@ double ConnectionsManager::GetTimeout() {
 }
 
 void ConnectionsManager::HandleEvent(std::shared_ptr<Event> e) {
-    if(e->GetType() == "DT_TIMERTICKEVENT") {
+    if(e->GetType() == DT_TIMERTICKEVENT) {
         std::shared_ptr<TimerTickEvent> t = std::dynamic_pointer_cast<TimerTickEvent>(e);
         if(t->GetMessageText() == "DT_SEND_PING" && t->GetInterval() == mPingInterval) {
             // this is our timer
             _Ping();
             _CheckTimeouts();
         }
-    } else if(e->GetType() == "DT_PINGEVENT") {
+    } else if(e->GetType() == DT_PINGEVENT) {
         std::shared_ptr<PingEvent> p = std::dynamic_pointer_cast<PingEvent>(e);
         if(p->IsLocalEvent()) {
             // yes, we received this from the network

@@ -29,7 +29,7 @@ Timer::Timer(const QString& message, double interval, bool repeat, bool threaded
 void Timer::HandleEvent(std::shared_ptr<Event> e) {
     // for event mode
 
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
+    if(e->GetType() == DT_BEGINFRAMEEVENT) {
         // every frame
         std::shared_ptr<BeginFrameEvent> b = std::dynamic_pointer_cast<BeginFrameEvent>(e);
 

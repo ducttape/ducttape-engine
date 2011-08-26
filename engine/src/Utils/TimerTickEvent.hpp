@@ -31,7 +31,7 @@ public:
       * @param interval The interval of the timer.
       */
     TimerTickEvent(const QString& message, double interval);
-    const QString GetType() const;
+    uint32_t GetType() const;
     std::shared_ptr<Event> Clone() const;
 
     /**

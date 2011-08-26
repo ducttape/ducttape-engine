@@ -14,8 +14,8 @@ TimerTickEvent::TimerTickEvent(const QString& message, double interval)
     : MessageEvent(message),
       mInterval(interval) {}
 
-const QString TimerTickEvent::GetType() const {
-    return "DT_TIMERTICKEVENT";
+uint32_t TimerTickEvent::GetType() const {
+    return DT_TIMERTICKEVENT;
 }
 
 std::shared_ptr<Event> TimerTickEvent::Clone() const {

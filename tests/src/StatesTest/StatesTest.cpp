@@ -29,7 +29,7 @@ QString StatesTest::GetTestName() {
 ////////////////////////////////////////////////////////////////
 
 void SecondState::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
+    if(e->GetType() == dt::DT_BEGINFRAMEEVENT) {
         if(dt::Root::GetInstance().GetTimeSinceInitialize() > 4.0 && !mPopped) {
             dt::StateManager::Get()->Pop();
             mPopped = true;
@@ -68,7 +68,7 @@ FirstState::FirstState()
     : mCreated(false) {}
 
 void FirstState::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
+    if(e->GetType() == dt::DT_BEGINFRAMEEVENT) {
         if(dt::Root::GetInstance().GetTimeSinceInitialize() > 6.0) {
             dt::StateManager::Get()->Pop();
         }

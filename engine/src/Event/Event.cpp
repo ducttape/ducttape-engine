@@ -19,10 +19,6 @@ bool Event::IsNetworkEvent() const {
     return false;
 }
 
-uint32_t Event::GetTypeID() const {
-    return StringManager::Get()->GetId(GetType());
-}
-
 void Event::Cancel() {
     mIsCanceled = true;
 }

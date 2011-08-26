@@ -37,7 +37,7 @@ void Client::OnInitialize() {
 }
 
 void Client::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "CHATMESSAGEEVENT") {
+    if(e->GetType() == chatMessageEvent) {
         std::shared_ptr<ChatMessageEvent> c = std::dynamic_pointer_cast<ChatMessageEvent>(e);
         if(c->IsLocalEvent()) { // we just received this
             std::cout << std::endl << "<" << dt::Utils::ToStdString(c->GetSenderNick()) << "> " << dt::Utils::ToStdString(c->GetMessageText()) << std::endl;

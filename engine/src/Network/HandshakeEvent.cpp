@@ -12,8 +12,8 @@ namespace dt {
 
 HandshakeEvent::HandshakeEvent() {}
 
-const QString HandshakeEvent::GetType() const {
-    return "DT_HANDSHAKEEVENT";
+uint32_t HandshakeEvent::GetType() const {
+    return DT_HANDSHAKEEVENT;
 }
 
 std::shared_ptr<Event> HandshakeEvent::Clone() const {

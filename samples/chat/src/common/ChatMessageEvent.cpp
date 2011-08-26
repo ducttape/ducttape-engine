@@ -13,8 +13,8 @@ ChatMessageEvent::ChatMessageEvent(const QString& message, const QString& sender
     mSenderNick = sender;
 }
 
-const QString ChatMessageEvent::GetType() const {
-    return "CHATMESSAGEEVENT";
+uint32_t ChatMessageEvent::GetType() const {
+    return chatMessageEvent;
 }
 
 std::shared_ptr<dt::Event> ChatMessageEvent::Clone() const {

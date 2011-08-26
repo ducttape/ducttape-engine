@@ -27,7 +27,7 @@ public:
       * @param message The message for this Event.
       */
     MessageEvent(const QString& message);
-    const QString GetType() const;
+    uint32_t GetType() const;
 
     /**
       * Returns the message of this Event.

@@ -81,7 +81,7 @@ void GuiManager::HandleEvent(std::shared_ptr<Event> e) {
         return;
     }
 
-    if(e->GetType() == "DT_MOUSEEVENT") {
+    if(e->GetType() == EventType::DT_MOUSEEVENT) {
         std::shared_ptr<MouseEvent> m = std::dynamic_pointer_cast<MouseEvent>(e);
         if(m->GetAction() ==  MouseEvent::MOVED) {
             mygui_inputmgr->injectMouseMove(m->GetMouseState().X.abs,
@@ -96,7 +96,7 @@ void GuiManager::HandleEvent(std::shared_ptr<Event> e) {
                                                m->GetMouseState().Y.abs,
                                         MyGUI::MouseButton::Enum(m->GetButton()));
         }
-    } else if(e->GetType() == "DT_KEYBOARDEVENT") {
+    } else if(e->GetType() == EventType::DT_KEYBOARDEVENT) {
         std::shared_ptr<KeyboardEvent> k = std::dynamic_pointer_cast<KeyboardEvent>(e);
         if(k->GetAction() == KeyboardEvent::PRESSED) {
             mygui_inputmgr->injectKeyPress(MyGUI::KeyCode::Enum(k->GetCode()),

@@ -13,8 +13,8 @@ namespace dt {
 MessageEvent::MessageEvent(const QString& message)
     : mMessage(message) {}
 
-const QString MessageEvent::GetType() const {
-    return "DT_MESSAGEEVENT";
+uint32_t MessageEvent::GetType() const {
+    return DT_MESSAGEEVENT;
 }
 
 const QString& MessageEvent::GetMessageText() const {

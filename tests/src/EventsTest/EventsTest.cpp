@@ -17,8 +17,6 @@ bool EventsTest::Run(int argc, char** argv) {
     dt::Root& root = dt::Root::GetInstance();
     root.Initialize(argc, argv);
 
-    root.GetStringManager()->Add("testevent");
-
     TestEventListener listener;
 
     root.GetEventManager()->AddListener(&listener);
@@ -55,8 +53,8 @@ QString EventsTest::GetTestName() {
 
 ////////////////////////////////////////////////////////////////
 
-const QString CancelEvent::GetType() const  {
-    return "cancelevent";
+uint32_t CancelEvent::GetType() const  {
+    return cancelEvent;
 }
 
 std::shared_ptr<dt::Event> CancelEvent::Clone() const {
@@ -67,7 +65,7 @@ std::shared_ptr<dt::Event> CancelEvent::Clone() const {
 ////////////////////////////////////////////////////////////////
 
 void CancelListener::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "cancelevent") {
+    if(e->GetType() == cancelEvent) {
         dt::Logger::Get().Info("CancelListener: Canceling event");
         e->Cancel();
     }
@@ -80,7 +78,7 @@ CancelListener::Priority CancelListener::GetEventPriority() const {
 ////////////////////////////////////////////////////////////////
 
 void NonCancelListener::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "cancelevent") {
+    if(e->GetType() == cancelEvent) {
         std::cerr << "Error: NonCancelListener should not receive a CancelEvent." << std::endl;
         exit(1);
     }
@@ -99,8 +97,8 @@ TestEvent::TestEvent() {
     anti_leak_payload.push_back(10);
 }
 
-const QString TestEvent::GetType() const  {
-    return "testevent";
+uint32_t TestEvent::GetType() const  {
+    return testEvent;
 }
 
 std::shared_ptr<dt::Event> TestEvent::Clone() const {
@@ -111,7 +109,7 @@ std::shared_ptr<dt::Event> TestEvent::Clone() const {
 ////////////////////////////////////////////////////////////////
 
 void TestEventListener::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "testevent") {
+    if(e->GetType() == testEvent) {
         mHasReceivedTestEvent = true;
     }
     mHasReceivedAnEvent = true;

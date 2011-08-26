@@ -12,8 +12,8 @@ namespace dt {
 
 WindowClosedEvent::WindowClosedEvent() {}
 
-const QString WindowClosedEvent::GetType() const {
-    return "DT_WINDOWCLOSEDEVENT";
+uint32_t WindowClosedEvent::GetType() const {
+    return DT_WINDOWCLOSEDEVENT;
 }
 
 std::shared_ptr<Event> WindowClosedEvent::Clone() const {

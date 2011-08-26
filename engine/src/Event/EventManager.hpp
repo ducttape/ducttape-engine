@@ -85,6 +85,14 @@ public:
       */
     BindingsManager* GetBindingsManager();
 
+    /**
+      * Registers a new string with a generated Id for use in debug to see which id's are taken.
+      * Id's < 65536 are engine events.
+      * @param name The string to register. id The Id to register.
+      * @returns The new Id.
+      */
+    void RegEventType(const QString& name, uint32_t id);
+
 private:
     /**
       * Locks the list of listener.
@@ -102,6 +110,9 @@ private:
     bool mListenersLocked;                              //!< Whether the list of listener is locked (due to being looped over etc.)
     std::vector<EventListener*> mListenerAddQueue;      //!< The queue of listeners to add when the list is unlocked.
     std::vector<EventListener*> mListenerRemoveQueue;   //!< The queue of listeners to remove when the list is unlocked.
+
+
+    std::map<uint32_t, QString> mEventIds;   //!< The relation map between Event Type Ids/strings.
 };
 
 }

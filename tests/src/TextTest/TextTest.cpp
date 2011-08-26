@@ -30,7 +30,7 @@ Main::Main()
     : mRuntime(0) {}
 
 void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
+    if(e->GetType() == dt::DT_BEGINFRAMEEVENT) {
         double time_diff = std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
         mRuntime += time_diff;
 

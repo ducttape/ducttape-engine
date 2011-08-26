@@ -148,14 +148,14 @@ void NetworkManager::HandleEvent(std::shared_ptr<Event> e) {
         }
     }
 
-    if(e->GetType() == "DT_HANDSHAKEEVENT") {
+    if(e->GetType() == DT_HANDSHAKEEVENT) {
         // new client connected / server replied
         std::shared_ptr<HandshakeEvent> h = \
             std::dynamic_pointer_cast<HandshakeEvent>(e);
         if(h->GetSenderID() != 0) {
 
         }
-    } else if(e->GetType() == "DT_GOODBYEEVENT") {
+    } else if(e->GetType() == DT_GOODBYEEVENT) {
         // client sent a godbye event / server will disconnect the client
         std::shared_ptr<GoodbyeEvent> g = \
             std::dynamic_pointer_cast<GoodbyeEvent>(e);
@@ -171,13 +171,11 @@ EventListener::Priority NetworkManager::GetEventPriority() const {
 
 void NetworkManager::RegisterNetworkEventPrototype(std::shared_ptr<NetworkEvent> event) {
     mNetworkEventPrototypes.push_back(event);
-    // register the ID (if not already happened)
-    StringManager::Get()->Add(event->GetType());
 }
 
 std::shared_ptr<NetworkEvent> NetworkManager::CreatePrototypeInstance(uint32_t type_id) {
     for(auto iter = mNetworkEventPrototypes.begin(); iter != mNetworkEventPrototypes.end(); ++iter) {
-        if((*iter)->GetTypeID() == type_id) {
+        if((*iter)->GetType() == type_id) {
             return std::dynamic_pointer_cast<NetworkEvent>((*iter)->Clone());
         }
     }
@@ -191,7 +189,7 @@ ConnectionsManager* NetworkManager::GetConnectionsManager() {
 void NetworkManager::_SendEvent(std::shared_ptr<NetworkEvent> event) {
     // create packet
     sf::Packet p;
-    p << event->GetTypeID();
+    p << event->GetType();
     IOPacket packet(&p, IOPacket::MODE_SEND);
     event->Serialize(packet);
 

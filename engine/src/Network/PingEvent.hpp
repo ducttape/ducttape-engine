@@ -31,7 +31,7 @@ public:
       * @param is_reply Whether this ping is a reply.
       */
     PingEvent(double timestamp, bool is_reply = false);
-    const QString GetType() const;
+    uint32_t GetType() const;
 
     std::shared_ptr<Event> Clone() const;
     void Serialize(IOPacket& p);

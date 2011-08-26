@@ -26,7 +26,7 @@ Game::Game()
       mIsRunning(false) {}
 
 void Game::HandleEvent(std::shared_ptr<Event> e) {
-    if(e->GetType() == "DT_WINDOWCLOSEDEVENT") {
+    if(e->GetType() == DT_WINDOWCLOSEDEVENT) {
         Logger::Get().Debug("The closed window triggered a game shutdown.");
         RequestShutdown();
     }

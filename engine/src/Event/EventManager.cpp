@@ -102,6 +102,18 @@ BindingsManager* EventManager::GetBindingsManager() {
     return &mBindingsManager;
 }
 
+void EventManager::RegEventType(const QString& name, uint32_t id) {
+    if (id < 35536) {
+        Logger::Get().Warning("Failed registering event " + name + " at " + id + " because those id's are only used in Engine Events found in Event.hpp");
+    }
+    else if (mEventIds[id] != "") {
+        Logger::Get().Warning("Failed registering event " + name + " at " + id + " because that id is already taken by " + mEventIds[id]);
+    }
+    else {
+        mEventIds[id] = name;
+        Logger::Get().Debug("Succeeded in registering event " + name + " at " + id);
+    }
+}
 
 void EventManager::_LockListeners() {
     mListenersLocked = true;

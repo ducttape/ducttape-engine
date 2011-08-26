@@ -15,8 +15,8 @@ MouseEvent::MouseEvent(MouseEvent::Action action, OIS::MouseState state, OIS::Mo
       mAction(action),
       mButton(button) {}
 
-const QString MouseEvent::GetType() const {
-    return "DT_MOUSEEVENT";
+uint32_t MouseEvent::GetType() const {
+    return DT_MOUSEEVENT;
 }
 
 std::shared_ptr<Event> MouseEvent::Clone() const {

@@ -13,8 +13,8 @@ namespace dt {
 GoodbyeEvent::GoodbyeEvent(const QString& reason)
     : mReason(reason) {}
 
-const QString GoodbyeEvent::GetType() const {
-    return "DT_GOODBYEEVENT";
+uint32_t GoodbyeEvent::GetType() const {
+    return DT_GOODBYEEVENT;
 }
 
 std::shared_ptr<Event> GoodbyeEvent::Clone() const {

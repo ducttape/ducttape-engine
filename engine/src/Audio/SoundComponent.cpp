@@ -24,7 +24,7 @@ SoundComponent::SoundComponent(const QString& sound_file, const QString& name)
 }
 
 void SoundComponent::HandleEvent(std::shared_ptr<Event> e) {
-    if(e->GetType() == "DT_SOUNDSCONTROLEVENT") {
+    if(e->GetType() == DT_SOUNDSCONTROLEVENT) {
         std::shared_ptr<SoundsControlEvent> s = \
             std::dynamic_pointer_cast<SoundsControlEvent>(e);
 

@@ -11,12 +11,27 @@
 
 #include <Config.hpp>
 
-#include <QString>
+//#include <QString>
 
 #include <cstdint>
 #include <memory>
 
 namespace dt {
+
+enum EventType : uint32_t{
+    DT_WINDOWCLOSEDEVENT = 0,
+    DT_BEGINFRAMEEVENT = 1,
+    DT_MOUSEEVENT = 2,
+    DT_KEYBOARDEVENT = 3,
+    DT_TIMERTICKEVENT = 4,
+    DT_TRIGGEREVENT = 5,
+    DT_MESSAGEEVENT = 6,
+    DT_SOUNDSCONTROLEVENT = 7,
+    DT_MUSICCONTROLEVENT = 8,
+    DT_PINGEVENT = 9,
+    DT_HANDSHAKEEVENT = 10,
+    DT_GOODBYEEVENT = 11
+};
 
 /**
   * Abstract base class for any Event that is passed through the Event system.
@@ -31,12 +46,6 @@ public:
     Event();
 
     /**
-      * Returns the type string of the Event for serialization / identification for typecasts.
-      * @returns The type string of the Event.
-      */
-    virtual const QString GetType() const = 0;
-
-    /**
       * Returns whether this Event is being sent over network. This is only applicable for Events being inherited from NetworkEvent.
       * @returns Whether this Event is being sent over network. (True for any Event inherited from NetworkEvent.)
       */
@@ -49,12 +58,10 @@ public:
     virtual std::shared_ptr<Event> Clone() const = 0;
 
     /**
-      * Returns the type ID of the Event. The ID is got from the StringManager using the type string returned by GetType().
-      * @see Event::GetType()
-      * @see StringManager
+      * Returns the type ID of the Event as specified in the enumeration in either EventType or project files.
       * @returns The type ID of the Event.
       */
-    uint32_t GetTypeID() const;
+    virtual uint32_t GetType() const = 0;
 
     /**
       * Cancels the execution of the event.

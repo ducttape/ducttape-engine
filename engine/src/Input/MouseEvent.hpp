@@ -42,7 +42,7 @@ public:
       * @param button The mouse button that caused the event. For MOVED, this will always be OIS::MB_Left.
       */
     MouseEvent(Action action, OIS::MouseState state, OIS::MouseButtonID button = OIS::MB_Left);
-    const QString GetType() const;
+    uint32_t GetType() const;
     std::shared_ptr<Event> Clone() const;
 
     /**

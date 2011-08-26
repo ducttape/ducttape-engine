@@ -29,7 +29,7 @@ void Server::HandleEvent(std::shared_ptr<dt::Event> e) {
     // This is quite useful for debugging purposes.
     //dt::Logger::Get().Info("There are " + boost::lexical_cast<QString>(dt::ConnectionsManager::Get()->GetConnectionCount()) + " connections active.");
 
-    if(e->GetType() == "CHATMESSAGEEVENT") {
+    if(e->GetType() == chatMessageEvent) {
         std::shared_ptr<ChatMessageEvent> c = std::dynamic_pointer_cast<ChatMessageEvent>(e);
 
         if(c->IsLocalEvent()) { // we just received this
@@ -47,7 +47,7 @@ void Server::HandleEvent(std::shared_ptr<dt::Event> e) {
                 InjectEvent(std::make_shared<ChatMessageEvent>(c->GetMessageText(), c->GetSenderNick()));
         }
 
-    } else if(e->GetType() == "DT_GOODBYEEVENT") {
+    } else if(e->GetType() == dt::DT_GOODBYEEVENT) {
         dt::Logger::Get().Info("Client disconnected: " + std::dynamic_pointer_cast<dt::GoodbyeEvent>(e)->GetReason());
     }
 }

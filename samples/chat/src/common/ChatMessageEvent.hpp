@@ -12,10 +12,19 @@
 #include <Network/NetworkEvent.hpp>
 #include <Event/MessageEvent.hpp>
 
+#ifdef DUCTTAPE_ENGINE_DEBUG
+#include <Event/EventManager.hpp>
+dt::EventManager::Get()->RegEventType("chatMessageEvent", 65536);
+#endif
+
+enum ChatEventType : uint32_t {
+    chatMessageEvent = 65536
+};
+
 class ChatMessageEvent : public dt::NetworkEvent, public dt::MessageEvent {
 public:
     ChatMessageEvent(const QString& message, const QString& sender);
-    const QString GetType() const;
+    uint32_t GetType() const;
 
     std::shared_ptr<dt::Event> Clone() const;
     void Serialize(dt::IOPacket& p);

@@ -21,6 +21,16 @@
 
 namespace EventBindingsTest {
 
+#ifdef DUCTTAPE_ENGINE_DEBUG
+EventManager::Get()->RegEventType("testTriggerEvent", 65536);
+EventManager::Get()->RegEventType("testBoundEvent", 65537);
+#endif
+
+enum TestEventType : uint32_t {
+    testTriggerEvent = 65536,
+    testBoundEvent = 65537
+};
+
 class EventBindingsTest : public Test {
     bool Run(int argc, char** argv);
     QString GetTestName();
@@ -30,7 +40,7 @@ class EventBindingsTest : public Test {
 
 class TestTriggerEvent : public dt::Event {
 public:
-    const QString GetType() const;
+    uint32_t GetType() const;
     std::shared_ptr<dt::Event> Clone() const;
 };
 
@@ -39,7 +49,7 @@ public:
 class TestBoundEvent : public dt::Event {
 public:
     TestBoundEvent(int data);
-    const QString GetType() const;
+    uint32_t GetType() const;
     std::shared_ptr<dt::Event> Clone() const;
     int mData;
 };

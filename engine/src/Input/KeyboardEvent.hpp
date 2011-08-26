@@ -41,7 +41,7 @@ public:
       * @param text The character the pressed key is assigned to.
       */
     KeyboardEvent(Action action, OIS::KeyCode code, char text);
-    const QString GetType() const;
+    uint32_t GetType() const;
     std::shared_ptr<Event> Clone() const;
 
     /**

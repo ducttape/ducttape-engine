@@ -13,8 +13,8 @@ namespace dt {
 SoundsControlEvent::SoundsControlEvent(SoundsControlEvent::Action action)
     : mAction(action) {}
 
-const QString SoundsControlEvent::GetType() const {
-   return "DT_SOUNDSCONTROLEVENT";
+uint32_t SoundsControlEvent::GetType() const {
+   return DT_SOUNDSCONTROLEVENT;
 }
 
 std::shared_ptr<Event> SoundsControlEvent::Clone() const {

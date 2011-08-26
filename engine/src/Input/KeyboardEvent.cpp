@@ -15,8 +15,8 @@ KeyboardEvent::KeyboardEvent(KeyboardEvent::Action action, OIS::KeyCode code, ch
       mAction(action),
       mText(text) {}
 
-const QString KeyboardEvent::GetType() const {
-    return "DT_KEYBOARDEVENT";
+uint32_t KeyboardEvent::GetType() const {
+    return DT_KEYBOARDEVENT;
 }
 
 std::shared_ptr<Event> KeyboardEvent::Clone() const {

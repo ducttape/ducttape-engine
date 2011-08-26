@@ -29,6 +29,14 @@
 
 namespace NetworkTest {
 
+#ifdef DUCTTAPE_ENGINE_DEBUG
+EventManager::Get()->RegEventType("customNetworkEvent", 65536);
+#endif
+
+enum NetworkTestType {
+    customNetworkEvent = 65536
+};
+
 class NetworkTest : public Test {
     bool Run(int argc, char** argv);
     bool RunServer();
@@ -46,7 +54,7 @@ public:
     };
 
     CustomNetworkEvent(int data, Sender e);
-    const QString GetType() const;
+    uint32_t GetType() const;
     std::shared_ptr<dt::Event> Clone() const;
     void Serialize(dt::IOPacket& p);
 

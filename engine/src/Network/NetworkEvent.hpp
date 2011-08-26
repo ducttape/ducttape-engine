@@ -31,7 +31,7 @@ public:
       * Default constructor.
       */
     NetworkEvent();
-    virtual const QString GetType() const = 0;
+    virtual uint32_t GetType() const = 0;
     bool IsNetworkEvent() const;
 
     /**

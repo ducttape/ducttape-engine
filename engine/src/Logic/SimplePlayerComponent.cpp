@@ -30,7 +30,7 @@ void SimplePlayerComponent::HandleEvent(std::shared_ptr<Event> e) {
     if(!IsEnabled())
         return;
 
-    if(mMouseEnabled && e->GetType() == "DT_MOUSEEVENT") {
+    if(mMouseEnabled && e->GetType() == DT_MOUSEEVENT) {
         std::shared_ptr<MouseEvent> m = std::dynamic_pointer_cast<MouseEvent>(e);
         if(m->GetAction() == MouseEvent::MOVED) {
             float factor = mMouseSensitivity * -0.01;
