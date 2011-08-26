@@ -29,10 +29,6 @@
 
 namespace NetworkTest {
 
-#ifdef DUCTTAPE_ENGINE_DEBUG
-EventManager::Get()->RegEventType("customNetworkEvent", 65536);
-#endif
-
 enum NetworkTestType {
     customNetworkEvent = 65536
 };

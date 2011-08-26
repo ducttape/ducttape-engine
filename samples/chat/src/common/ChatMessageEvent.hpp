@@ -12,11 +12,6 @@
 #include <Network/NetworkEvent.hpp>
 #include <Event/MessageEvent.hpp>
 
-#ifdef DUCTTAPE_ENGINE_DEBUG
-#include <Event/EventManager.hpp>
-dt::EventManager::Get()->RegEventType("chatMessageEvent", 65536);
-#endif
-
 enum ChatEventType : uint32_t {
     chatMessageEvent = 65536
 };

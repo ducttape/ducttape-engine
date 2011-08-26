@@ -26,6 +26,9 @@ bool NetworkTest::Run(int argc, char** argv) {
     std::shared_ptr<dt::NetworkEvent> ptr(new CustomNetworkEvent(0, CustomNetworkEvent::CLIENT));
     root.GetNetworkManager()->RegisterNetworkEventPrototype(ptr);
 
+    // register event types used in enum
+    root.GetEventManager()->RegEventType("customNetworkEvent", 65536);
+
     bool result = false;
     if(arg2.toLower() == "server") {
         result = RunServer();

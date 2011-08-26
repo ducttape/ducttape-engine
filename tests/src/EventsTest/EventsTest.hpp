@@ -20,11 +20,6 @@
 
 namespace EventsTest {
 
-#ifdef DUCTTAPE_ENGINE_DEBUG
-EventManager::Get()->RegEventType("cancelEvent", 65536);
-EventManager::Get()->RegEventType("testEvent", 65537)
-#endif
-
 enum testEventTypes : uint32_t {
     cancelEvent = 65536,
     testEvent = 65537

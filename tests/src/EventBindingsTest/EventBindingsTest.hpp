@@ -21,11 +21,6 @@
 
 namespace EventBindingsTest {
 
-#ifdef DUCTTAPE_ENGINE_DEBUG
-EventManager::Get()->RegEventType("testTriggerEvent", 65536);
-EventManager::Get()->RegEventType("testBoundEvent", 65537);
-#endif
-
 enum TestEventType : uint32_t {
     testTriggerEvent = 65536,
     testBoundEvent = 65537

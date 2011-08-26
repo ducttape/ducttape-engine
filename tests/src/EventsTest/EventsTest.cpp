@@ -19,6 +19,9 @@ bool EventsTest::Run(int argc, char** argv) {
 
     TestEventListener listener;
 
+    root.GetEventManager()->RegEventType("cancelEvent", 65536);
+    root.GetEventManager()->RegEventType("testEvent", 65537);
+
     root.GetEventManager()->AddListener(&listener);
     root.GetEventManager()->InjectEvent(std::make_shared<TestEvent>());
 

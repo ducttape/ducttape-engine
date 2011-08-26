@@ -23,6 +23,7 @@ Client::Client() {
 
 void Client::OnInitialize() {
     dt::EventManager::Get()->AddListener(this);
+    dt::EventManager::Get()->RegEventType("chatMessageEvent", 65536);
     dt::Logger::Get().GetStream("debug")->SetDisabled(true);
     dt::Logger::Get().GetStream("info")->SetDisabled(true);
 

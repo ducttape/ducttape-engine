@@ -19,6 +19,8 @@ bool EventBindingsTest::Run(int argc, char** argv) {
     root.Initialize(argc, argv);
 
     TestEventListener listener;
+    root.GetEventManager()->RegEventType("testTriggerEvent", 65536);
+    root.GetEventManager()->RegEventType("testBoundEvent", 65537);
     root.GetEventManager()->AddListener(&listener);
 
     dt::BindingsManager::Get()->Bind(std::make_shared<dt::SimpleEventBinding>(new TestBoundEvent(42), testTriggerEvent));
@@ -72,9 +74,7 @@ std::shared_ptr<dt::Event> TestBoundEvent::Clone() const {
 ////////////////////////////////////////////////////////////////
 
 void TestEventListener::HandleEvent(std::shared_ptr<dt::Event> e) {
-#ifdef DUCTTAPE_ENGINE_DEBUG
-    std::cout << "Received: " << dt::EventManager::Get->RegEventType(e->GetType()) << std::endl;
-#endif
+    std::cout << "Received: " << e->GetType() << std::endl;
     if(e->GetType() == testTriggerEvent) {
         mHasReceivedTriggerEvent = true;
     } else if(e->GetType() == testBoundEvent) {
