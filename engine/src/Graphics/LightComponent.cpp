@@ -67,7 +67,6 @@ void LightComponent::SetColor(const Ogre::ColourValue color) {
     mLight->setDiffuseColour(color);
     mLight->setSpecularColour(color);
     emit ColorChanged(color);
-    OnColorChanged();
 }
 
 Ogre::Light* LightComponent::GetOgreLight() const {

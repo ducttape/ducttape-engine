@@ -42,8 +42,6 @@ public:
     MeshComponent(const QString& mesh_handle = "",
                   const QString& material_name = "", const QString& name = "");
 
-    virtual void HandleEvent(std::shared_ptr<Event> e);
-
     void OnCreate();
     void OnDestroy();
     void OnEnable();
@@ -75,21 +73,6 @@ public:
       * @see Ogre::AnimationState
       */
     void SetAnimation(const QString& animation_state);
-
-    /**
-      * Plays the current animation.
-      */
-    void PlayAnimation();
-
-    /**
-      * Stops the current animation.
-      */
-    void StopAnimation();
-
-    /**
-      * Pauses the current animation.
-      */
-    void PauseAnimation();
 
     /**
       * Sets whether the animation should be looped or not.
@@ -132,6 +115,28 @@ public:
       * @returns Whether the mesh should cast shadows.
       */
     bool GetCastShadows() const;
+
+public slots:
+    /**
+      * Plays the current animation.
+      */
+    void PlayAnimation();
+
+    /**
+      * Stops the current animation.
+      */
+    void StopAnimation();
+
+    /**
+      * Pauses the current animation.
+      */
+    void PauseAnimation();
+
+signals:
+    void AnimationPlayed();
+    void AnimationStopped();
+    void AnimationPaused();
+
 private:
     /**
       * Private method. Loads the mesh handle.

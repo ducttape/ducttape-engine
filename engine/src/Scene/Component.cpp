@@ -32,8 +32,6 @@ const QString& Component::GetName() const {
     return mName;
 }
 
-void Component::HandleEvent(std::shared_ptr<Event> e) {}
-
 void Component::OnCreate() {}
 
 void Component::OnDestroy() {}

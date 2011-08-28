@@ -29,7 +29,7 @@ namespace dt {
   * @warning Class mockup only. Documentation suspended.
   * @see StateManager
   */
-class DUCTTAPE_API State : public QObject, public EventListener {
+class DUCTTAPE_API State : public QObject {
     Q_OBJECT
 
 public:
@@ -37,8 +37,6 @@ public:
       * Default constructor.
       */
     State();
-
-    void HandleEvent(std::shared_ptr<Event> e);
 
     /**
       * Called when the State is initialized. Create the scene(s) and its contents here.

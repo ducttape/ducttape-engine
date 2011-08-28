@@ -44,17 +44,6 @@ public:
     static EventManager* Get();
 
     /**
-      * Method used to initiate an Event being sent to all EventListeners.
-      * This method is basically the entry point for every event being sent.
-      * The events are then distributed to all listeners. It should be noted
-      * that events are converted into shared_ptrs in this method which is why
-      * this method should be used like this:
-      * @code EventManager::Get()->InjectEvent(std::make_shared<SomeEvent>()); @endcode
-      * @param event The Event to be sent.
-      */
-    void InjectEvent(std::shared_ptr<Event> event);
-
-    /**
       * Checks if the EventListener is in the list.
       * @param listener The EventListener to find.
       * @returns True if the EventListener is registered, otherwise false.

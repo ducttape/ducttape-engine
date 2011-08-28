@@ -53,8 +53,6 @@ public:
       */
     virtual ~Component() = 0;
 
-    virtual void HandleEvent(std::shared_ptr<Event> e);
-
     /**
       * Called when the component is activated. Create all scene objects here.
       */

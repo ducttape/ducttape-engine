@@ -44,12 +44,6 @@ public:
     virtual ~EventListener() = 0;
 
     /**
-      * Event callback.
-      * @param e The Event to handle.
-      */
-    virtual void HandleEvent(std::shared_ptr<Event> e) = 0;
-
-    /**
       * Returns the priority of the listener. Override this to set a non-default priority. (Default: NORMAL).
       * @warning This only affects the event flow when a new Listener is being added. If you want to change the Priority during
       * runtime, you need to call EventManager::UpdatePriorities() after you have changed the outcome of this method.

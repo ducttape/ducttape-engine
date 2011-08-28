@@ -28,27 +28,6 @@ EventManager* EventManager::Get() {
     return Root::GetInstance().GetEventManager();
 }
 
-void EventManager::InjectEvent(std::shared_ptr<Event> event) {
-    _LockListeners();
-    for(auto iter = mListeners.begin(); iter != mListeners.end(); ++iter) {
-        if(*iter == nullptr)
-            Logger::Get().Error("EventManager: Could not inject Event to listener (nullptr).");
-        else {
-            (*iter)->HandleEvent(event);
-            if(event->IsCanceled()) {
-                if((*iter)->GetEventPriority() == EventListener::MONITOR) {
-                    // events cannot be cancelled in Monitor mode
-                    Logger::Get().Warning("EventListener with priority MONITOR cannot cancel events. Use HIGHEST instead. Continuing.");
-                    event->Uncancel();
-                } else {
-                    break;
-                }
-            }
-        }
-    }
-    _UnlockListeners();
-}
-
 bool EventManager::HasListener(EventListener* listener) {
     for(auto iter = mListeners.begin(); iter != mListeners.end(); ++iter) {
         if(*iter == listener)

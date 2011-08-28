@@ -55,14 +55,6 @@ public:
     MyGUI::Gui* GetGuiSystem();
 
     /**
-      * Only for internal use. Sets the visibility of the mouse cursor.
-      * @see void InputManager::SetMouseCursorMode(MouseCursorMode mode);
-      * @param visible Whether the mouse cursor should be visible.
-      * @internal
-      */
-    void SetMouseCursorVisible(bool visible);
-
-    /**
       * Returns a pointer to the Manager instance.
       * @returns A pointer to the Manager instance.
       */
@@ -70,10 +62,22 @@ public:
 
     GuiRootWindow& GetRootWindow();
 
+public slots:
+    /**
+      * Only for internal use. Sets the visibility of the mouse cursor.
+      * @see void InputManager::SetMouseCursorMode(MouseCursorMode mode);
+      * @param visible Whether the mouse cursor should be visible.
+      * @internal
+      */
+    void SetMouseCursorVisible(bool visible);
+
+signals:
+    MouseCursorVisibilityChanged(visible);
+
 private:
-    MyGUI::Gui* mGuiSystem;         //!< MyGUI's GUI system.
-    MyGUI::OgrePlatform* mPlatform; //!< MyGUI's OgrePlatform.
-    bool mMouseCursorVisible;       //!< Whether the GUI mouse cursor is visible.
+    MyGUI::Gui* mGuiSystem;            //!< MyGUI's GUI system.
+    MyGUI::OgrePlatform* mPlatform;    //!< MyGUI's OgrePlatform.
+    bool mMouseCursorVisible;          //!< Whether the GUI mouse cursor is visible.
     GuiRootWindow mRootGuiWindow;      //!< The root window widget.
     Ogre::SceneManager* mSceneManager; //!< The scene manager used for the GUI.
 };

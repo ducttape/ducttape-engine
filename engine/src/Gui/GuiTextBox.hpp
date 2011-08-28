@@ -38,17 +38,20 @@ public:
     virtual ~GuiTextBox() = 0;
 
     /**
-      * Sets the caption of the widget.
-      * @param caption The new caption.
-      */
-    void SetCaption(QString caption);
-
-    /**
       * Gets the caption of the widget.
       * @returns The caption.
       */
     QString GetCaption();
 
+public slots:
+    /**
+      * Sets the caption of the widget.
+      * @param caption The new caption.
+      */
+    void SetCaption(QString caption);
+
+signals:
+    void CaptionChanged(QString caption);
 };
 
 }

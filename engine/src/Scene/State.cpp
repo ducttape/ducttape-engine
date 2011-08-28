@@ -14,8 +14,6 @@ namespace dt {
 
 State::State() {}
 
-void State::HandleEvent(std::shared_ptr<Event> e) {}
-
 void State::OnDeinitialize() {}
 
 void State::Initialize() {

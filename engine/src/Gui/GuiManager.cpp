@@ -71,6 +71,7 @@ void GuiManager::Deinitialize() {
     }
 }
 
+/*
 void GuiManager::HandleEvent(std::shared_ptr<Event> e) {
     if(mGuiSystem == nullptr)
         return;
@@ -105,7 +106,7 @@ void GuiManager::HandleEvent(std::shared_ptr<Event> e) {
             mygui_inputmgr->injectKeyRelease(MyGUI::KeyCode::Enum(k->GetCode()));
         }
     }
-}
+}*/
 
 void GuiManager::SetSceneManager(Ogre::SceneManager* scene_manager) {
     if(mPlatform != nullptr) {
@@ -120,15 +121,16 @@ MyGUI::Gui* GuiManager::GetGuiSystem() {
 }
 
 void GuiManager::SetMouseCursorVisible(bool visible) {
-    mMouseCursorVisible = visible;
     if(mGuiSystem == nullptr && visible) {
         // we have no gui system, but we want to show the cursor
         // so we need to create the GUI system first
         Initialize();
     }
 
-    if(mGuiSystem != nullptr) {
+    if(mGuiSystem != nullptr && mMouseCursorVisible != visible) {
         MyGUI::PointerManager::getInstance().setVisible(visible);
+        mMouseCursorVisible = visible;
+        emit MouseCursorVisibilityChanged(visible);
     }
 }
 

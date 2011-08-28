@@ -45,8 +45,6 @@ public:
     Timer(const QString& message, double interval, bool repeat = true,
           bool threaded = false, bool use_events = true);
 
-    void HandleEvent(std::shared_ptr<Event> e);
-
     /**
       * Triggers the tick event and resets the timer.
       */
@@ -65,17 +63,16 @@ public:
     const QString& GetMessageEvent() const;
 
     /**
-     * Manually triggers a timer tick. This is mainly used for debugging
-     * purposes.
-     */
-    void TriggerTick();
-
-    /**
       * Stops the timer.
       */
     void Stop();
 
 public slots:
+    /**
+     * Manually triggers a timer tick. This is mainly used for debugging
+     * purposes.
+     */
+    void TriggerTick();
 
 signals:
     void TimerTicked(const QString& message);
@@ -93,7 +90,7 @@ private:
     static void _ThreadFunction(void* user_data);
 
     std::shared_ptr<sf::Thread> mThread;    //!< The sf::Thread the timer uses in threaded mode.
-    QString mMessage;                   //!< The message to send with the TimerTickEvent.
+    QString mMessage;                       //!< The message to send with the TimerTickEvent.
     double mInterval;                       //!< The timer interval, in seconds.
     bool mRepeat;                           //!< Whether the timer should proceed to tick after the first tick.
     bool mThreaded;                         //!< Whether the timer runs threaded or not.

@@ -26,8 +26,7 @@ bool SoundTest::Run(int argc, char** argv) {
 
     dt::Scene scene("scene1");
     dt::Node* sound = scene.AddChildNode(new dt::Node("sound"));
-    dt::SoundComponent* sound_component =
-        new dt::SoundComponent("test_music_loop_mono.ogg");
+    dt::SoundComponent* sound_component = new dt::SoundComponent("test_music_loop_mono.ogg");
     sound->AddComponent(sound_component);
     sound_component->PlaySound();
     if(sound_component->GetSound().GetStatus() != sf::Sound::Playing) {
@@ -61,7 +60,6 @@ bool SoundTest::Run(int argc, char** argv) {
 
     sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/50.f);
 
-    // root.GetEventManager()->InjectEvent(&stop_event);
     sound_component->StopSound();
     if(sound_component->GetSound().GetStatus() != sf::Music::Stopped) {
         std::cerr << "[3] The music is currently not stopped." << std::endl;
@@ -73,30 +71,6 @@ bool SoundTest::Run(int argc, char** argv) {
     sound_component->PlaySound();
     if(sound_component->GetSound().GetStatus() != sf::Music::Playing) {
         std::cerr << "[4] The music is currently not playing." << std::endl;
-        return false;
-    }
-
-    /* Test the SoundsControlEvent */
-
-    root.GetEventManager()->InjectEvent(std::make_shared<dt::SoundsControlEvent>(dt::SoundsControlEvent::PAUSE));
-    if(sound_component->GetSound().GetStatus() != sf::Music::Paused) {
-        std::cerr << "[5] The music is currently playing. It should be paused." << std::endl;
-        return false;
-    }
-
-    sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/50.f);
-
-    root.GetEventManager()->InjectEvent(std::make_shared<dt::SoundsControlEvent>(dt::SoundsControlEvent::STOP));
-    if(sound_component->GetSound().GetStatus() != sf::Music::Stopped) {
-        std::cerr << "[6] The music is currently not stopped." << std::endl;
-        return false;
-    }
-
-    sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/50.f);
-
-    root.GetEventManager()->InjectEvent(std::make_shared<dt::SoundsControlEvent>(dt::SoundsControlEvent::PLAY));
-    if(sound_component->GetSound().GetStatus() != sf::Music::Playing) {
-        std::cerr << "[7] The music is currently not playing." << std::endl;
         return false;
     }
 
@@ -139,7 +113,6 @@ bool SoundTest::Run(int argc, char** argv) {
 
     sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/20.f);
 
-    // root.GetEventManager()->InjectEvent(&stop_event);
     sound_component->StopSound();
     if(sound_component->GetSound().GetStatus() != sf::Music::Stopped) {
         std::cerr << "[3] The music is currently not stopped." << std::endl;
@@ -151,30 +124,6 @@ bool SoundTest::Run(int argc, char** argv) {
     sound_component->PlaySound();
     if(sound_component->GetSound().GetStatus() != sf::Music::Playing) {
         std::cerr << "[4] The music is currently not playing." << std::endl;
-        return false;
-    }
-
-    /* Test the SoundsControlEvent */
-
-    root.GetEventManager()->InjectEvent(std::make_shared<dt::SoundsControlEvent>(dt::SoundsControlEvent::PAUSE));
-    if(sound_component->GetSound().GetStatus() != sf::Music::Paused) {
-        std::cerr << "[5] The music is currently playing. It should be paused." << std::endl;
-        return false;
-    }
-
-    sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/20.f);
-
-    root.GetEventManager()->InjectEvent(std::make_shared<dt::SoundsControlEvent>(dt::SoundsControlEvent::STOP));
-    if(sound_component->GetSound().GetStatus() != sf::Music::Stopped) {
-        std::cerr << "[6] The music is currently not stopped." << std::endl;
-        return false;
-    }
-
-    sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/20.f);
-
-    root.GetEventManager()->InjectEvent(std::make_shared<dt::SoundsControlEvent>(dt::SoundsControlEvent::PLAY));
-    if(sound_component->GetSound().GetStatus() != sf::Music::Playing) {
-        std::cerr << "[7] The music is currently not playing." << std::endl;
         return false;
     }
 

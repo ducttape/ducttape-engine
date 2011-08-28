@@ -52,23 +52,38 @@ const QString& GuiWidget::GetName() const {
 }
 
 void GuiWidget::Focus() {
-    MyGUI::InputManager::getInstance().setKeyFocusWidget(GetMyGUIWidget());
+    if(MyGUI::InputManager::getInstance().getKeyFocusWidget() != GetMyGUIWidget()) {
+        MyGUI::InputManager::getInstance().setKeyFocusWidget(GetMyGUIWidget());
+        emit Focused();
+    }
 }
 
 void GuiWidget::SetPosition(float x, float y) {
-    GetMyGUIWidget()->setRealPosition(x, y);
+    if(GetMyGUIWidget()->getAbsoluteLeft() != (int)x || GetMyGUIWidget()->getAbsoluteTop() != (int)y) {
+        GetMyGUIWidget()->setRealPosition(x, y);
+        emit PositionChanged(x, y);
+    }
 }
 
 void GuiWidget::SetPosition(int x, int y) {
-    GetMyGUIWidget()->setPosition(x, y);
+    if(GetMyGUIWidget()->getAbsoluteLeft() != x || GetMyGUIWidget()->getAbsoluteTop() != y) {
+        GetMyGUIWidget()->setPosition(x, y);
+        emit PositionChanged(x, y);
+    }
 }
 
 void GuiWidget::SetSize(float width, float height) {
-    GetMyGUIWidget()->setRealSize(width, height);
+    if(GetMyGUIWidget()->getSize() != (int)width || GetMyGUIWidget()->getSize() != (int)height) {
+        GetMyGUIWidget()->setRealSize(width, height);
+        emit SizeChanged(width, height);
+    }
 }
 
 void GuiWidget::SetSize(int width, int height) {
-    GetMyGUIWidget()->setSize(width, height);
+    if(GetMyGUIWidget()->getSize() != width || GetMyGUIWidget()->getSize() != height) {
+        GetMyGUIWidget()->setSize(width, height);
+        emit SizeChanged(width, height);
+    }
 }
 
 // Parent management
@@ -134,16 +149,21 @@ QScriptValue GuiWidget::GetChild(const QString& name) {
 }
 
 void GuiWidget::Show() {
-    SetVisible(true);
+    if(IsVisible() != true);
+        SetVisible(true);
 }
 
 void GuiWidget::Hide() {
-    SetVisible(false);
+    if(IsVisible() != false);
+        SetVisible(false);
 }
 
 void GuiWidget::SetVisible(bool visible) {
-    mIsVisible = visible;
-    GetMyGUIWidget()->setVisible(visible);
+    if(IsVisible() != visible) {
+        mIsVisible = visible;
+        GetMyGUIWidget()->setVisible(visible);
+        emit VisibilityChanged(visible);
+    }
 }
 
 bool GuiWidget::IsVisible() const {

@@ -131,10 +131,13 @@ void TextComponent::OnUpdate(double time_diff) {
 }
 
 void TextComponent::SetText(const QString& text) {
-    mText = text;
-    if(mLabel != nullptr) {
-        mLabel->setCaption(Utils::ToStdString(mText));
-        mRefresh = true;
+    if(mText != text) {
+        mText = text;
+        if(mLabel != nullptr) {
+            mLabel->setCaption(Utils::ToStdString(mText));
+            mRefresh = true;
+        }
+        emit TextChanged();
     }
 }
 
@@ -154,9 +157,12 @@ const QString& TextComponent::GetFont() const {
 }
 
 void TextComponent::SetColor(Ogre::ColourValue color) {
-    mColor = color;
-    if(mLabel != nullptr) {
-        mLabel->setColour(mColor);
+    if(mColor != color) {
+        mColor = color;
+        if(mLabel != nullptr) {
+            mLabel->setColour(mColor);
+        }
+        emit ColorChanged();
     }
 }
 

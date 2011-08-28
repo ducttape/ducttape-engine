@@ -34,9 +34,7 @@ public:
      * @param name The name for this Component.
      * @see Component
      */
-    SoundComponent(const QString& sound_file = "", const QString& name = "");
-
-    virtual void HandleEvent(std::shared_ptr<Event> e);
+    SoundComponent(const QString& sound_file_name = "", const QString& name = "");
 
     void OnCreate();
     void OnDestroy();
@@ -44,15 +42,15 @@ public:
 
     /**
      * Plays the sound located in mSound.
-     * @param sound_file The name of the sound file to play. To get sound in 3D file should be mono.
+     * @param sound_file The name of the sound file to play. To get sound in 3D, the format should be mono.
      */
-    void SetSoundFile(const QString& sound_file);
+    void SetSoundFileName(const QString& sound_file_name);
 
     /**
      * Returns the name of the sound file.
      * @returns The name of the found file.
      */
-    const QString& GetSoundFile() const;
+    const QString& GetSoundFileName() const;
 
     /**
      * Returns the sf::Sound object for default action access.
@@ -60,6 +58,7 @@ public:
      */
     sf::Sound& GetSound();
 
+public slots:
     /**
      * Tries to play / continue sound located in mSound.
      * @warning The sound will not be played if the component is diabled.
@@ -88,13 +87,20 @@ public:
       */
     static void SetMasterVolume(float volume);
 
+signals:
+    void VolumeChanged(float new_volume);
+    void MasterVolumeChanged(float new_volume);
+    void SoundPlayed();
+    void SoundStopped();
+    void SoundPaused();
+
 private:
     /**
      * Private method. Tries to load sound to buffer and then from buffer to mSound.
      */
     void _LoadSound();
 
-    QString mSoundFile; //!< Name of sound file loaded in component.
+    QString mSoundFileName; //!< Name of sound file loaded in component.
     sf::Sound mSound;       //!< SFML Sound. It is set during _LoadSound().
 
 };
