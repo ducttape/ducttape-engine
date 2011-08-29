@@ -11,8 +11,8 @@
 
 #include <Config.hpp>
 
-#include <Event/Event.hpp>
-#include <Event/EventListener.hpp>
+//#include <Event/Event.hpp>
+//#include <Event/EventListener.hpp>
 #include <Scene/Scene.hpp>
 
 #include <boost/ptr_container/ptr_map.hpp>

@@ -18,7 +18,7 @@ namespace dt {
 
 SoundComponent::SoundComponent(const QString& sound_file_name, const QString& name)
     : Component(name),
-      mSoundFile(sound_file_name) {
+      mSoundFileName(sound_file_name) {
     _LoadSound();
 }
 
@@ -49,7 +49,7 @@ sf::Sound& SoundComponent::GetSound() {
 }
 
 void SoundComponent::PlaySound() {
-    if(mSound.GetStatus() != sf::Sound::Playing) {
+    if(mSound.GetStatus() != sf::Sound::Status::Playing) {
         // play sound if possible and enabled
         if(IsEnabled())
             mSound.Play();
@@ -58,7 +58,7 @@ void SoundComponent::PlaySound() {
 }
 
 void SoundComponent::PauseSound() {
-    if(mSound.GetStatus() != sf::Sound::Pause) {
+    if(mSound.GetStatus() != sf::Sound::Status::Paused) {
         // pause sound if possible
         mSound.Pause();
         emit SoundPaused();
@@ -66,7 +66,7 @@ void SoundComponent::PauseSound() {
 }
 
 void SoundComponent::StopSound() {
-    if(mSound.GetStatus() != sf::Sound::Stopped) {
+    if(mSound.GetStatus() != sf::Sound::Status::Stopped) {
         // stop sound if possible
         mSound.Stop();
         mSound.SetPlayingOffset(0); // rewind
@@ -96,6 +96,7 @@ void SoundComponent::SetMasterVolume(float volume) {
     if(sf::Listener::GetGlobalVolume() != volume) {
         sf::Listener::SetGlobalVolume(volume);
         emit MasterVolumeChanged(volume);
+    }
 }
 
 }

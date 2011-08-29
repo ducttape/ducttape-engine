@@ -116,7 +116,7 @@ void InputManager::windowClosed(Ogre::RenderWindow* window) {
     // Only close for window that created OIS
     if(window == mWindow) {
         Logger::Get().Info("The window was closed");
-        EventManager::Get()->InjectEvent(std::make_shared<WindowClosedEvent>());
+        emit WindowClosed();
     }
 }
 

@@ -8,9 +8,9 @@
 
 #include <Gui/GuiManager.hpp>
 
-#include <Event/EventManager.hpp>
-#include <Input/KeyboardEvent.hpp>
-#include <Input/MouseEvent.hpp>
+//#include <Event/EventManager.hpp>
+//#include <Input/KeyboardEvent.hpp>
+//#include <Input/MouseEvent.hpp>
 #include <Graphics/CameraComponent.hpp>
 #include <Graphics/DisplayManager.hpp>
 #include <Utils/Logger.hpp>
@@ -46,7 +46,7 @@ void GuiManager::Initialize() {
         mGuiSystem = new MyGUI::Gui();
         mGuiSystem->initialise();
 
-        EventManager::Get()->AddListener(this);
+//        EventManager::Get()->AddListener(this);
 
         // Show / hide the mouse cursor.
         SetMouseCursorVisible(mMouseCursorVisible);
@@ -58,7 +58,7 @@ void GuiManager::Initialize() {
 
 void GuiManager::Deinitialize() {
     // make sure to remove the listener anyway!
-    EventManager::Get()->RemoveListener(this);
+//    EventManager::Get()->RemoveListener(this);
 
     if(mGuiSystem != nullptr) {
         mGuiSystem->shutdown();

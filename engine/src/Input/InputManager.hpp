@@ -154,6 +154,8 @@ public:
       */
     MouseCursorMode GetMouseCursorMode() const;
 
+signals:
+    void WindowClosed();
 private:
     /**
       * Resets the input system. Required when the settings change.

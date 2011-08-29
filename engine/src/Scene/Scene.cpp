@@ -18,8 +18,8 @@ namespace dt {
 Scene::Scene(const QString& name)
     : Node(name) {}
 
-EventListener::Priority Scene::GetEventPriority() const {
-    return EventListener::NORMAL;
+int Scene::GetEventPriority() const {
+    return 5;
 }
 
 void Scene::OnInitialize() {
@@ -40,11 +40,13 @@ bool Scene::_IsScene() {
     return true;
 }
 
+/*
 void Scene::HandleEvent(std::shared_ptr<Event> e) {
     if(e->GetType() == "DT_BEGINFRAMEEVENT") {
         OnUpdate((std::dynamic_pointer_cast<BeginFrameEvent>(e))->GetFrameTime());
     }
 }
+*/
 
 PhysicsWorld* Scene::GetPhysicsWorld() {
     PhysicsManager* mgr = PhysicsManager::Get();
