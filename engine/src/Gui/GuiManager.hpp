@@ -13,6 +13,7 @@
 
 #include <Core/Manager.hpp>
 #include <Gui/GuiRootWindow.hpp>
+#include <Input/InputManager.hpp>
 
 #include <MyGUI.h>
 #include <MyGUI_OgrePlatform.h>
@@ -68,6 +69,12 @@ public slots:
       */
     void SetMouseCursorVisible(bool visible);
 
+    void sKeyPressed(OIS::KeyEvent& event);
+    void sKeyReleased(OIS::KeyEvent& event);
+    void sMouseMoved(OIS::MouseEvent& event);
+    void sMousePressed(OIS::MouseEvent& event, OIS::MouseButtonID button);
+    void sMouseReleased(OIS::MouseEvent& event, OIS::MouseButtonID button);
+
 signals:
     void MouseCursorVisibilityChanged(bool visible);
 
@@ -77,6 +84,8 @@ private:
     bool mMouseCursorVisible;          //!< Whether the GUI mouse cursor is visible.
     GuiRootWindow mRootGuiWindow;      //!< The root window widget.
     Ogre::SceneManager* mSceneManager; //!< The scene manager used for the GUI.
+    bool _EventEnabled();              //!< Whether the MyGUI event system is enabled.
+    MyGUI::InputManager* mMyguiInputMgrPtr;
 };
 
 }

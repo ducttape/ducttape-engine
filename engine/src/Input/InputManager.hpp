@@ -156,6 +156,11 @@ public:
 
 signals:
     void WindowClosed();
+    void sKeyPressed(OIS::KeyEvent& event);
+    void sKeyReleased(OIS::KeyEvent& event);
+    void sMouseMoved(OIS::MouseEvent& event);
+    void sMousePressed(OIS::MouseEvent& event, OIS::MouseButtonID button);
+    void sMouseReleased(OIS::MouseEvent& event, OIS::MouseButtonID button);
 private:
     /**
       * Resets the input system. Required when the settings change.
