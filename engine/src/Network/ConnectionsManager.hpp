@@ -12,10 +12,10 @@
 #include <Config.hpp>
 
 #include <Core/Manager.hpp>
-#include <Event/Event.hpp>
-#include <Event/EventListener.hpp>
+//#include <Event/Event.hpp>
+//#include <Event/EventListener.hpp>
 #include <Network/Connection.hpp>
-#include <Network/PingEvent.hpp>
+//#include <Network/PingEvent.hpp>
 #include <Utils/Timer.hpp>
 
 #include <boost/ptr_container/ptr_map.hpp>
@@ -29,7 +29,7 @@ namespace dt {
   * Class for managing all Connections.
   * @see Connection
   */
-class DUCTTAPE_API ConnectionsManager : public Manager, public EventListener {
+class DUCTTAPE_API ConnectionsManager : public Manager {
     Q_OBJECT
 public:
     /**
@@ -147,8 +147,6 @@ public:
       */
     double GetTimeout();
 
-    void HandleEvent(std::shared_ptr<Event> e);
-
     /**
       * Returns the ping of a connection.
       * @param connection The ID of the connection.
@@ -172,7 +170,7 @@ private:
       * Private method. Handles an incoming ping event.
       * @param ping_event The ping event.
       */
-    void _HandlePing(std::shared_ptr<PingEvent> ping_event);
+//    void _HandlePing(std::shared_ptr<PingEvent> ping_event);
 
     /**
       * Private method. Checks all connections for timeouts.

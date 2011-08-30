@@ -85,7 +85,7 @@ public slots:
       * Sets the global master sound/music volume.
       * @param volume The global master sound/music volume. Minimum: 0. Maximum: 100. Default: 100.
       */
-    static void SetMasterVolume(float volume);
+    void SetMasterVolume(float volume);
 
 signals:
     void VolumeChanged(float new_volume);

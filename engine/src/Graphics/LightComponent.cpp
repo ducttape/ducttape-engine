@@ -22,8 +22,6 @@ LightComponent::LightComponent(const QString& name)
       mSceneNode(nullptr),
       mCastShadows(true) {}
 
-void LightComponent::OnColorChanged() {}
-
 void LightComponent::OnCreate() {
     mLight = GetNode()->GetScene()->GetSceneManager()->createLight(Utils::ToStdString(mName));
 

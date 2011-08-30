@@ -144,6 +144,7 @@ double ConnectionsManager::GetTimeout() {
     return mTimeout;
 }
 
+/*
 void ConnectionsManager::HandleEvent(std::shared_ptr<Event> e) {
     if(e->GetType() == "DT_TIMERTICKEVENT") {
         std::shared_ptr<TimerTickEvent> t = std::dynamic_pointer_cast<TimerTickEvent>(e);
@@ -176,6 +177,7 @@ void ConnectionsManager::HandleEvent(std::shared_ptr<Event> e) {
         }
     }
 }
+*/
 
 void ConnectionsManager::_Ping() {
     EventManager::Get()->InjectEvent(std::make_shared<PingEvent>(Root::GetInstance().GetTimeSinceInitialize()));

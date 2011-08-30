@@ -12,8 +12,8 @@
 #include <Config.hpp>
 
 #include <Core/Manager.hpp>
-#include <Event/Event.hpp>
-#include <Event/EventBinding.hpp>
+//#include <Event/Event.hpp>
+//#include <Event/EventBinding.hpp>
 #include <Event/EventListener.hpp>
 
 #include <cstdint>
@@ -28,7 +28,7 @@ namespace dt {
   * @see EventManager
   * @see EventListener
   */
-class DUCTTAPE_API BindingsManager : public Manager, public EventListener {
+class DUCTTAPE_API BindingsManager : public Manager {
     Q_OBJECT
 public:
     /**
@@ -50,7 +50,6 @@ public:
       */
     static BindingsManager* Get();
 
-    void HandleEvent(std::shared_ptr<Event> e);
 
     /**
       * Adds a new EventBinding.
@@ -59,20 +58,20 @@ public:
       * @see EventBinding
       * @see void Unbind(uint32_t binding_id);
       */
-    uint32_t Bind(std::shared_ptr<EventBinding> binding);
+//    uint32_t Bind(std::shared_ptr<EventBinding> binding);
 
     /**
       * Removes an EventBinding.
       * @param binding_id The ID of the binding.
       */
-    void Unbind(uint32_t binding_id);
+ //   void Unbind(uint32_t binding_id);
 private:
     /**
       * Returns a new ID for the next binding.
       */
     uint32_t _GetNewId();
 
-    std::map<uint32_t, std::shared_ptr<EventBinding> > mBindings;   //!< The list of bindings.
+//    std::map<uint32_t, std::shared_ptr<EventBinding> > mBindings;   //!< The list of bindings.
 };
 
 }

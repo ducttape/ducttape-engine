@@ -12,9 +12,8 @@
 #include <Config.hpp>
 
 #include <Core/Manager.hpp>
-#include <Event/Event.hpp>
-#include <Event/EventListener.hpp>
 #include <Gui/GuiRootWindow.hpp>
+#include <Input/InputManager.hpp>
 
 #include <MyGUI.h>
 #include <MyGUI_OgrePlatform.h>
@@ -30,7 +29,7 @@ namespace dt {
   * Manager class for the GUI System.
   * @see http://mygui.info
   */
-class DUCTTAPE_API GuiManager : public Manager, public EventListener {
+class DUCTTAPE_API GuiManager : public Manager {
     Q_OBJECT
 public:
     /**
@@ -40,7 +39,6 @@ public:
 
     void Initialize();
     void Deinitialize();
-    void HandleEvent(std::shared_ptr<Event> e);
 
     /**
       * Sets the scene manager to use for the GUI display.
@@ -71,8 +69,14 @@ public slots:
       */
     void SetMouseCursorVisible(bool visible);
 
+    void sKeyPressed(OIS::KeyEvent& event);
+    void sKeyReleased(OIS::KeyEvent& event);
+    void sMouseMoved(OIS::MouseEvent& event);
+    void sMousePressed(OIS::MouseEvent& event, OIS::MouseButtonID button);
+    void sMouseReleased(OIS::MouseEvent& event, OIS::MouseButtonID button);
+
 signals:
-    MouseCursorVisibilityChanged(visible);
+    void MouseCursorVisibilityChanged(bool visible);
 
 private:
     MyGUI::Gui* mGuiSystem;            //!< MyGUI's GUI system.
@@ -80,6 +84,8 @@ private:
     bool mMouseCursorVisible;          //!< Whether the GUI mouse cursor is visible.
     GuiRootWindow mRootGuiWindow;      //!< The root window widget.
     Ogre::SceneManager* mSceneManager; //!< The scene manager used for the GUI.
+    bool _EventEnabled();              //!< Whether the MyGUI event system is enabled.
+    MyGUI::InputManager* mMyguiInputMgrPtr;
 };
 
 }

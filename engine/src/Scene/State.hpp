@@ -11,8 +11,8 @@
 
 #include <Config.hpp>
 
-#include <Event/Event.hpp>
-#include <Event/EventListener.hpp>
+//#include <Event/Event.hpp>
+//#include <Event/EventListener.hpp>
 #include <Scene/Scene.hpp>
 
 #include <boost/ptr_container/ptr_map.hpp>
@@ -77,7 +77,10 @@ public:
       * @param name The name of the Scene to delete.
       */
     void DeleteScene(const QString& name);
-
+signals:
+    void BeginFrame(double simulation_frame_time);
+public slots:
+    void UpdateFrame(double simulation_frame_time);
 private:
     boost::ptr_map<QString, Scene> mScenes;        //!< List of scenes.
 

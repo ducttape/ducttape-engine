@@ -136,6 +136,7 @@ void NetworkManager::HandleIncomingEvents() {
     }
 }
 
+/*
 void NetworkManager::HandleEvent(std::shared_ptr<Event> e) {
     if(e->IsNetworkEvent()) {
         std::shared_ptr<NetworkEvent> n = \
@@ -164,6 +165,7 @@ void NetworkManager::HandleEvent(std::shared_ptr<Event> e) {
         }
     }
 }
+*/
 
 EventListener::Priority NetworkManager::GetEventPriority() const {
     return EventListener::INTERNAL_HIGHEST;

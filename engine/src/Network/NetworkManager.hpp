@@ -12,10 +12,10 @@
 #include <Network/NetworkManager.hpp>
 
 #include <Core/Manager.hpp>
-#include <Event/Event.hpp>
-#include <Event/EventListener.hpp>
+//#include <Event/Event.hpp>
+//#include <Event/EventListener.hpp>
 #include <Network/ConnectionsManager.hpp>
-#include <Network/NetworkEvent.hpp>
+//#include <Network/NetworkEvent.hpp>
 
 #include <SFML/Network/UdpSocket.hpp>
 
@@ -30,7 +30,7 @@ namespace dt {
   * Manager for serializing events and sending them over network.
   * @see ConnectionsManager - Holds all connections of this manager.
   */
-class DUCTTAPE_API NetworkManager : public Manager, public EventListener {
+class DUCTTAPE_API NetworkManager : public Manager {
     Q_OBJECT
 public:
     /**
@@ -52,8 +52,8 @@ public:
       */
     static NetworkManager* Get();
 
-    void HandleEvent(std::shared_ptr<Event> e);
-    virtual Priority GetEventPriority() const;
+//    void HandleEvent(std::shared_ptr<Event> e);
+    virtual int GetEventPriority() const;
 
     /**
       * Binds the Socket used for the complete networking to the port given.
@@ -91,7 +91,7 @@ public:
       * @see NetworkManager::SendQueuedEvents();
       * @param event The NetworkEvent to be sent.
       */
-    void QueueEvent(std::shared_ptr<NetworkEvent> event);
+//    void QueueEvent(std::shared_ptr<NetworkEvent> event);
 
     /**
       * Receives and handles all events pending at the socket.

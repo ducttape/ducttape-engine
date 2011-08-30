@@ -11,8 +11,6 @@
 
 #include <Config.hpp>
 
-#include <Event/Event.hpp>
-#include <Event/EventListener.hpp>
 #include <Scene/State.hpp>
 
 #include <SFML/System/Clock.hpp>
@@ -24,7 +22,8 @@ namespace dt {
 /**
   * The main instance of a game, running the main loop.
   */
-class DUCTTAPE_API Game : public EventListener {
+class DUCTTAPE_API Game : public QObject {
+    Q_OBJECT
 public:
     /**
       * Default constructor.
@@ -59,7 +58,7 @@ public slots:
     void RequestShutdown();
 
 signals:
-
+    void BeginFrame(double simulation_frame_time);
 protected:
     sf::Clock mClock;           //!< A clock for timing the frames.
     bool mIsShutdownRequested;  //!< Whether a shutdown has been requested.
