@@ -58,8 +58,4 @@ void State::DeleteScene(const QString& name) {
     mScenes.erase(mScenes.find(name));
 }
 
-void State::UpdateFrame(double simulation_frame_time) {
-    emit BeginFrame(simulation_frame_time);
-}
-
 } // namespace dt

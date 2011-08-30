@@ -33,7 +33,7 @@ void Game::Run(State* start_state, int argc, char** argv) {
     connect(root.GetInputManager(), SIGNAL(WindowClosed()), this, SLOT(RequestShutdown()));
     //connect BeginFrames to things that need it, like State/Scenes and the PhysicsManager
     connect(this, SIGNAL(BeginFrame(double)), root.GetStateManager()->GetCurrentState(),
-                SLOT(root.GetStateManager()->GetCurrentState()->UpdateFrame(double)));
+                SIGNAL(root.GetStateManager()->GetCurrentState()->BeginFrame(double)));
     connect(this, SIGNAL(BeginFrame)), root.GetPhysicsManager(), SLOT(root.GetPhysicsManager()->UpdateFrame(double)));
 
     mClock.Reset();
