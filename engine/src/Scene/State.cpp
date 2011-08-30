@@ -38,6 +38,7 @@ Scene* State::AddScene(Scene* scene) {
     QString key(scene->GetName());
     mScenes.insert(key, scene);
     GetScene(key)->Initialize();
+    connect(this, SIGNAL(BeginFrame(double)), GetScene(key), SLOT(GetScene(key)->UpdateFrame(double)));
     return GetScene(key);
 }
 
@@ -55,6 +56,10 @@ void State::DeleteScene(const QString& name) {
 
     GetScene(name)->Deinitialize();
     mScenes.erase(mScenes.find(name));
+}
+
+void State::UpdateFrame(double simulation_frame_time) {
+    emit BeginFrame(simulation_frame_time);
 }
 
 } // namespace dt

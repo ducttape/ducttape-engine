@@ -53,7 +53,8 @@ public:
       * @returns The PhysicsWorld of this Scene.
       */
     PhysicsWorld* GetPhysicsWorld();
-
+public slots:
+    void UpdateFrame(double simulation_frame_time);
 protected:
     bool _IsScene();
 

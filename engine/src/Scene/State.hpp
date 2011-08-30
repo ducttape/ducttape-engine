@@ -77,7 +77,10 @@ public:
       * @param name The name of the Scene to delete.
       */
     void DeleteScene(const QString& name);
-
+public signals:
+    void BeginFrame(double simulation_frame_time);
+slots:
+    void UpdateFrame(double simulation_frame_time);
 private:
     boost::ptr_map<QString, Scene> mScenes;        //!< List of scenes.
 

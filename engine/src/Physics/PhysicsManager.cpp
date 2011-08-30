@@ -28,18 +28,12 @@ void PhysicsManager::Deinitialize() {
     EventManager::Get()->RemoveListener(this);
 }
 
-/*
-void PhysicsManager::HandleEvent(std::shared_ptr<Event> e) {
-   if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-       double time_diff = std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
-
-       // step all worlds
-       for(auto iter = mWorlds.begin(); iter != mWorlds.end(); ++iter) {
-           iter->second->StepSimulation(time_diff);
-       }
-   }
+void PhysicsManager::UpdateFrame(simulation_frame_time) {
+    // step all worlds
+    for(auto iter = mWorlds.begin(); iter != mWorlds.end(); ++iter) {
+        iter->second->StepSimulation(simulation_frame_time);
+    }
 }
-*/
 
 EventListener::Priority PhysicsManager::GetEventPriority() const {
     // Set a high priority to update the physics world before

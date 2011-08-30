@@ -24,12 +24,10 @@ int Scene::GetEventPriority() const {
 
 void Scene::OnInitialize() {
     Logger::Get().Debug("Scene " + mName + " is being initialized.");
-    EventManager::Get()->AddListener(this);
 }
 
 void Scene::OnDeinitialize() {
     Logger::Get().Debug("Scene " + mName + " is being deinitialized.");
-    EventManager::Get()->RemoveListener(this);
 }
 
 Ogre::SceneManager* Scene::GetSceneManager() {
@@ -40,13 +38,9 @@ bool Scene::_IsScene() {
     return true;
 }
 
-/*
-void Scene::HandleEvent(std::shared_ptr<Event> e) {
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-        OnUpdate((std::dynamic_pointer_cast<BeginFrameEvent>(e))->GetFrameTime());
-    }
+void Scene::UpdateFrame(double simulation_frame_time) {
+    OnUpdate(simulation_frame_time);
 }
-*/
 
 PhysicsWorld* Scene::GetPhysicsWorld() {
     PhysicsManager* mgr = PhysicsManager::Get();
