@@ -21,6 +21,7 @@
 
 // Initialise static const members 
 const float JumpTape::JUMP_POWER = 0.01;
+const float JumpTape::G_POWER = 0.005;
 const float JumpTape::MAX_JUMP_HEIGHT = 12;
 const float JumpTape::TILE_X = 4;
 const float JumpTape::TILE_Y = 0.6;
@@ -35,24 +36,25 @@ void JumpTape::HandleEvent(std::shared_ptr<dt::Event> e) {
     if(e->GetType() == "DT_BEGINFRAMEEVENT") {
         mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
         mKeyboard = dt::InputManager::Get()->GetKeyboard();
-        mFieldSpeed = mRuntime/1000; 
+        double field_speed = mRuntime/1000; 
         
         // Move each tile. 
         for(int i=0; i<TILES; i++) {
             Ogre::Billboard* tile = mTiles->getBillboard(i);
-            tile->setPosition(tile->getPosition() - Ogre::Vector3(mFieldSpeed, 0, 0));
+            tile->setPosition(tile->getPosition() - Ogre::Vector3(field_speed, 0, 0));
         }
         
-        // Wheater the tile should be blank or present.
+        // Wheater the next tile should be blank or present.
         bool blank = _GetTileType();
         
         // Move the first tile at the end of the group if it went beyond left margin.
-        static uint8_t i = 0; //  Necessary to select the right tile.
+        static uint8_t i = 0; //  index for selecting the right tile.
         Ogre::Billboard* tile = mTiles->getBillboard(i);
-        if(tile->getPosition().x < -GAME_WITDH/2-4) {
+        if(tile->getPosition().x < (-GAME_WITDH/2)-4) {
             // Get position of the last (precedent) tile.
-            double last_tile_x = mTiles->getBillboard( (i+TILES-1) % TILES)->getPosition().x; 
-            tile->setPosition(last_tile_x+TILE_X, dt::Random::Get(-3, 3), 0); // Append billboard to end.
+            double last_tile_x = mTiles->getBillboard((i+TILES-1) % TILES)->getPosition().x;
+            // Append billboard to end.
+            tile->setPosition(last_tile_x+TILE_X, dt::Random::Get(-3, 3), 0); 
             tile->setTexcoordIndex(blank);
             i++; // Switch to next tile...
             i %= TILES; // ...in a cicle.
@@ -60,7 +62,7 @@ void JumpTape::HandleEvent(std::shared_ptr<dt::Event> e) {
         
         // Move player.
         // Player and tile variables.
-        tile = mTiles->getBillboard((i+2)%TILES); // The tile on which the player is.
+        tile = mTiles->getBillboard((i+2) % TILES); // The tile on which the player is.
         static float jump_height = 0; // The height of each jump.
         static bool jump_allowed = false; // Jump is not allowed when the player is already on air.
         bool blank_tile = tile->getTexcoordIndex(); // Wheater the tile under the player is blank.
@@ -68,25 +70,32 @@ void JumpTape::HandleEvent(std::shared_ptr<dt::Event> e) {
         Ogre::Vector3 tile_pos = tile->getPosition(); // Position of the tile under the player.
         
         // Jump.
-        if(mKeyboard->isKeyDown(OIS::KC_SPACE) && jump_height < MAX_JUMP_HEIGHT && jump_allowed) {
+        if(mKeyboard->isKeyDown(OIS::KC_SPACE) 
+            && (jump_height < MAX_JUMP_HEIGHT) && jump_allowed) {
             player_pos += Ogre::Vector3(0, JUMP_POWER, 0);
             mPlayer->setPosition(player_pos);
             jump_height += JUMP_POWER;
         }
         else 
-            jump_allowed = false; 
+            jump_allowed = false; // Once the player release space he can't go up anymore.
+        
+       
+        float tile_top = tile_pos.y + TILE_Y * 2; // Top of the tile.
+        // Wheater the player is running on the tile.
+        bool on_tile = (player_pos.y <= tile_top+0.1) && (player_pos.y >= tile_top-0.1); 
         
         // Gravity.
-        if((blank_tile || player_pos.y >= tile_pos.y+TILE_Y*2+0.1 || player_pos.y <= tile_pos.y+TILE_Y*2-0.1) && 
-                !jump_allowed) {
-            player_pos -= Ogre::Vector3(0,0.005,0);
+        if((blank_tile || !on_tile) && !jump_allowed) {
+            player_pos -= Ogre::Vector3(0, G_POWER, 0);
             mPlayer->setPosition(player_pos);
         }
+        
         // Evaluate if jump is allowed.
-        if(player_pos.y < tile_pos.y+TILE_Y*2+0.1 && player_pos.y > tile_pos.y+TILE_Y*2-0.1 && !blank_tile) {
+        if(on_tile && !blank_tile) {
             jump_height = 0;
             jump_allowed = true;
-            mPlayer->setTexcoordIndex((int)(mRuntime*10) % PLAYER_FRAME); // Change animation. //TODO
+            // The player is running, change animation.
+            mPlayer->setTexcoordIndex(static_cast<int>(mRuntime*10) % PLAYER_FRAME); 
         }
         
         // Reset game.
@@ -112,7 +121,7 @@ void JumpTape::OnInitialize() {
         dt::Scene* scene = AddScene(new dt::Scene("JumpTape_scene"));
         OgreProcedural::Root::getInstance()->sceneManager = scene->GetSceneManager();
 
-        dt::ResourceManager::Get()->AddResourceLocation("","FileSystem", true);
+        dt::ResourceManager::Get()->AddResourceLocation("", "FileSystem", true);
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
         Ogre::FontManager::getSingleton().load("DejaVuSans", "General");
 
@@ -124,50 +133,53 @@ void JumpTape::OnInitialize() {
         background->SetPosition(Ogre::Vector3(0, 0, -1));
         dt::BillboardSetComponent* background_billboard = background->AddComponent(
             new dt::BillboardSetComponent(
-                "background_billboard",1,"jumptape-background.jpg"));
+                "background_billboard", 1, "jumptape-background.jpg"));
         background_billboard->GetOgreBillboardSet()->setDefaultDimensions(50, 34);
 
         mField = scene->AddChildNode(new dt::Node("field_node"));
-        mField->SetPosition(Ogre::Vector3(0,0,0));
+        mField->SetPosition(Ogre::Vector3(0, 0, 0));
         
         dt::BillboardSetComponent* billboard = mField->AddComponent(
             new dt::BillboardSetComponent("tiles", TILES));
         billboard->SetTextureFromFile("jumptape-tiles.png");
         mTiles = billboard->GetOgreBillboardSet();
-        mTiles->setTextureStacksAndSlices(1,2);
+        mTiles->setTextureStacksAndSlices(1, 2);
         mTiles->setDefaultDimensions(TILE_X, TILE_Y);
         mTiles->setRenderQueueGroup(Ogre::RENDER_QUEUE_OVERLAY); //always visible
         
         for(short i=0; i<TILES; i++) {    
-            // consecutive blank tiles, must be under MAX_BLANK_TILE,
-            // otherwise the player can't reach the other tile
+            // Consecutive blank tiles, must be under MAX_BLANK_TILE,
+            // otherwise the player can't reach the other tile.
             bool blank; 
             
-            if(i<5) // Plain start.
+            if(i<5) { // Plain start.
                blank=false;
-            else 
+            }
+            else {
                blank = _GetTileType();
+            }
             
             mTiles->setBillboardOrigin(Ogre::BBO_CENTER);
-            Ogre::Billboard* tile = mTiles->createBillboard(
-                -GAME_WITDH/2+TILE_X*i,0,0); //4 is billboard width 
+            Ogre::Billboard* tile = mTiles->createBillboard((-GAME_WITDH/2)+(TILE_X*i), 0, 0);
             tile->setTexcoordIndex(blank);
         }
 
         dt::Node* player = scene->AddChildNode(new dt::Node("player"));
         player->SetPosition(Ogre::Vector3(0, 0, 0));
-        Ogre::BillboardSet* player_billboard = player->AddComponent(
-            new dt::BillboardSetComponent("player",1,"jumptape-jumper.png"))->GetOgreBillboardSet();
+        dt::BillboardSetComponent* billboard_component = 
+            player->AddComponent(new dt::BillboardSetComponent("player", 
+                                                               1, "jumptape-jumper.png"));
+        Ogre::BillboardSet* player_billboard = billboard_component->GetOgreBillboardSet(); 
         player_billboard->setRenderQueueGroup(Ogre::RENDER_QUEUE_OVERLAY);
-        player_billboard->setTextureStacksAndSlices(1,12);
-        player_billboard->setDefaultDimensions(2,2);
+        player_billboard->setTextureStacksAndSlices(1, 12);
+        player_billboard->setDefaultDimensions(2, 2);
         mPlayer = player_billboard->getBillboard(0);
-        mPlayer->setPosition(mTiles->getBillboard(2)->getPosition().x-1.6, 
+        mPlayer->setPosition(mTiles->getBillboard(2)->getPosition().x-1.6, // Match edges of image.
                              mTiles->getBillboard(2)->getPosition().y+9, 0);
         
         dt::Node* info_node = scene->AddChildNode(new dt::Node("info"));
-        info_node->SetPosition(Ogre::Vector3(0, -GAME_HEIGHT/2+5, 2));
-        mGameInfo = info_node->AddComponent(new dt::TextComponent("time: "));
+        info_node->SetPosition(Ogre::Vector3(0, (-GAME_HEIGHT/2)+5, 2));
+        mGameInfo = info_node->AddComponent(new dt::TextComponent(""));
         mGameInfo->SetFont("DejaVuSans");
         mGameInfo->SetFontSize(20);
         mGameInfo->SetColor(Ogre::ColourValue::White);
@@ -175,12 +187,12 @@ void JumpTape::OnInitialize() {
 
 bool JumpTape::_GetTileType() {
      bool blank;
-     if(mConsecutiveBlank >= MAX_BLANK_TILE) { // avoid too blank tiles and impossible jump.
-               blank=false;
-               mConsecutiveBlank=-1;
+     if(mConsecutiveBlank >= MAX_BLANK_TILE) { // Avoid too blank tiles and impossible jumps.
+               blank =false;
+               mConsecutiveBlank =- 1;
             } 
      else {
-        blank = (int)dt::Random::Get(0,1);
+        blank = static_cast<int>(dt::Random::Get(0, 1));
      }
      return blank;
 }
