@@ -16,55 +16,58 @@
 #include <OgreBillboardSet.h>
 #include <OgreBillboard.h>
 #include <OgreRectangle.h>
+#include <OgrePass.h>
 
 #include <cstdint>
 
 namespace dt {
 
-BillboardSetComponent::BillboardSetComponent(const QString& name, uint32_t poolSize,
+BillboardSetComponent::BillboardSetComponent(const QString& name, uint32_t pool_size,
         const QString& file)
         : Component(name),
         mBillboardSet(nullptr),
-        mPoolSize(poolSize),
+        mPoolSize(pool_size),
         mImageFile(file),
         mSceneNode(nullptr),
         mTextureUnitState(nullptr) {}
 
 void BillboardSetComponent::OnCreate() {
     mBillboardSet = GetNode()->GetScene()->GetSceneManager()
-                    ->createBillboardSet(mName.toStdString(), mPoolSize);
+                    ->createBillboardSet(Utils::ToStdString(mName), mPoolSize);
 
-    std::string materialName = mName.toStdString() + "_material";
+    std::string material_name = Utils::ToStdString(mName) + "_material"; 
     mMaterialPtr = Ogre::MaterialManager::getSingleton()
-                                    .create(materialName, "General", true);
+                                    .create(material_name, "General", true);
     mBillboardSet->setMaterial(mMaterialPtr);
-    Ogre::Pass* mPass = mMaterialPtr->getTechnique(0)->getPass(0);
-    mTextureUnitState = mPass->createTextureUnitState();
+    Ogre::Pass* pass = mMaterialPtr->getTechnique(0)->getPass(0);
+    mTextureUnitState = pass->createTextureUnitState();
 
     //if a image file is given, create one billboard and use the image as texture
     if(!mImageFile.isEmpty()) {
-        mBillboardSet->createBillboard(GetNode()->GetPosition());
+        mBillboardSet->createBillboard(0, 0, 0);
         SetTextureFromFile(mImageFile);
     }
 
     // commons default settings for a billboard
-    mPass->setCullingMode(Ogre::CULL_NONE);   // No culling (triangles can be seen from both sides)
-    mPass->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA); // Allow transparency from alpha channel
+    pass->setCullingMode(Ogre::CULL_NONE);   // No culling (triangles can be seen from both sides)
+    pass->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA); // Allow transparency from alpha channel
     mMaterialPtr->setLightingEnabled(false);   // Disable lighting
 
     mSceneNode = GetNode()->GetScene()->GetSceneManager()->getRootSceneNode()
-                 ->createChildSceneNode(mName.toStdString() + "_node");
+                 ->createChildSceneNode(Utils::ToStdString(mName) + "_node");
     mSceneNode->attachObject(mBillboardSet);
 }
 
 void BillboardSetComponent::OnDestroy() {
     Ogre::SceneManager* scene_mgr = GetNode()->GetScene()->GetSceneManager();
 
-    if(mBillboardSet != nullptr)
+    if(mBillboardSet != nullptr) {
         scene_mgr->destroyBillboardSet(mBillboardSet);
-
-    if(mSceneNode != nullptr)
+    }
+    
+    if(mSceneNode != nullptr) {
         scene_mgr->destroySceneNode(mSceneNode);
+    }
 }
 
 void BillboardSetComponent::OnEnable() {
@@ -94,24 +97,24 @@ void BillboardSetComponent::SetFaceCamera() {
     mBillboardSet->setBillboardType(Ogre::BBT_POINT);
 }
 
-void BillboardSetComponent::SetOrientedCommon(const Ogre::Vector3& commonVector) {
+void BillboardSetComponent::SetOrientedCommon(const Ogre::Vector3& common_vector) {
     mBillboardSet->setBillboardType(Ogre::BBT_ORIENTED_COMMON);
-    mBillboardSet->setCommonDirection(commonVector);
+    mBillboardSet->setCommonDirection(common_vector);
 }
 
 void BillboardSetComponent::SetOrientedSelf() {
     mBillboardSet->setBillboardType(Ogre::BBT_ORIENTED_SELF);
 }
 
-void BillboardSetComponent::SetPerpendicularCommon(const Ogre::Vector3& commonVector, const Ogre::Vector3& upVector) {
+void BillboardSetComponent::SetPerpendicularCommon(const Ogre::Vector3& common_vector, const Ogre::Vector3& up_vector) {
     mBillboardSet->setBillboardType(Ogre::BBT_PERPENDICULAR_COMMON);
-    mBillboardSet->setCommonDirection(commonVector);
-    mBillboardSet->setCommonUpVector(upVector);
+    mBillboardSet->setCommonDirection(common_vector);
+    mBillboardSet->setCommonUpVector(up_vector);
 }
 
-void BillboardSetComponent::SetPerpendicularSelf(const Ogre::Vector3& upVector) {
+void BillboardSetComponent::SetPerpendicularSelf(const Ogre::Vector3& up_vector) {
     mBillboardSet->setBillboardType(Ogre::BBT_PERPENDICULAR_SELF);
-    mBillboardSet->setCommonUpVector(upVector);
+    mBillboardSet->setCommonUpVector(up_vector);
 }
 
 void BillboardSetComponent::setDepthCheckEnabled(bool enabled) {

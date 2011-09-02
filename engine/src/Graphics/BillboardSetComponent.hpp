@@ -9,16 +9,18 @@
 #ifndef DUCTTAPE_ENGINE_BILLBOARDCOMPONENT_H
 #define DUCTTAPE_ENGINE_BILLBOARDCOMPONENT_H
 
-#include <Scene/Component.hpp>
+#include <Config.hpp>
 
-#include <Qt/qstring.h>
+#include <Scene/Component.hpp>
 
 #include <OgreBillboardSet.h>
 #include <OgreMaterial.h>
-#include <OgrePass.h>
+#include <OgreTextureUnitState.h>
+#include <OgreSceneNode.h>
+
+#include <Qt/qstring.h>
 
 #include <cstdint>
-
 
 namespace dt {
 
@@ -31,11 +33,11 @@ public:
     /**
       * Advanced constructor.
       * @param name The name of the Component.
-      * @param poolSize The number of billboards in the set.
+      * @param pool_size The number of billboards in the set.
       * @param file The image file to load.
       * @see Component
       */
-    BillboardSetComponent(const QString& name = "", uint32_t poolSize=20, 
+    BillboardSetComponent(const QString& name = "", uint32_t pool_size=20, 
                           const QString& file = "");
     
     void OnCreate();
@@ -64,9 +66,9 @@ public:
     /**
       * Set BillboardSet to face the camera, rotating
       * around a common vector.
-      * @param commonVector The Billboards will rotate around this vector
+      * @param common_vector The Billboards will rotate around this vector
       */  
-    void SetOrientedCommon(const Ogre::Vector3& commonVector);
+    void SetOrientedCommon(const Ogre::Vector3& common_vector);
     
     /**
       * Set Billboards to face the camera, rotating
@@ -75,20 +77,20 @@ public:
     void SetOrientedSelf();
     
     /**
-      * Set Billboards perpendicular to commonVector used as Z axis, 
-      * and X, Y axis are determined by upVector
-      * @param commonVector The Billboards will be perpendicular to this vector.
-      * @param upVector The X and Y axis of the billboards are determined by this vector.
+      * Set Billboards perpendicular to common_vector used as Z axis, 
+      * and X, Y axis are determined by up_vector
+      * @param common_vector The Billboards will be perpendicular to this vector.
+      * @param up_vector The X and Y axis of the billboards are determined by this vector.
       */  
-    void SetPerpendicularCommon(const Ogre::Vector3& commonVector,
-                               const Ogre::Vector3& upVector);
+    void SetPerpendicularCommon(const Ogre::Vector3& common_vector,
+                               const Ogre::Vector3& up_vector);
     
     /**
       * Set Billboards perpendicular to their own Z axis, 
-      * and X, Y axis are determined by upVector.
-      * @param upVector The X and Y axis of the billboards are determined by this vector.
+      * and X, Y axis are determined by up_vector.
+      * @param up_vector The X and Y axis of the billboards are determined by this vector.
       */  
-    void SetPerpendicularSelf(const Ogre::Vector3& upVector);  
+    void SetPerpendicularSelf(const Ogre::Vector3& up_vector);  
     
     /**
       * Sets whether or not each Pass renders with depth-buffer checking on or not.
