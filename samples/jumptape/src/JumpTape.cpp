@@ -76,8 +76,9 @@ void JumpTape::HandleEvent(std::shared_ptr<dt::Event> e) {
             mPlayer->setPosition(player_pos);
             jump_height += JUMP_POWER;
         }
-        else 
+        else {
             jump_allowed = false; // Once the player release space he can't go up anymore.
+        }
         
        
         float tile_top = tile_pos.y + TILE_Y * 2; // Top of the tile.
@@ -153,7 +154,7 @@ void JumpTape::OnInitialize() {
             bool blank; 
             
             if(i<5) { // Plain start.
-               blank=false;
+               blank = false;
             }
             else {
                blank = _GetTileType();
@@ -188,9 +189,9 @@ void JumpTape::OnInitialize() {
 bool JumpTape::_GetTileType() {
      bool blank;
      if(mConsecutiveBlank >= MAX_BLANK_TILE) { // Avoid too blank tiles and impossible jumps.
-               blank =false;
+               blank = false;
                mConsecutiveBlank =- 1;
-            } 
+     } 
      else {
         blank = static_cast<int>(dt::Random::Get(0, 1));
      }

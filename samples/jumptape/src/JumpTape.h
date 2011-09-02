@@ -9,8 +9,6 @@
 #ifndef JUMPTAPE_H
 #define JUMPTAPE_H
 
-#include <Config.hpp>
-
 #include <Core/Root.hpp>
 #include <Graphics/TextComponent.hpp>
 #include <Graphics/BillboardSetComponent.hpp>
