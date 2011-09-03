@@ -23,13 +23,13 @@
 namespace dt {
 
 BillboardSetComponent::BillboardSetComponent(const QString& name, uint32_t pool_size,
-        const QString& file)
-        : Component(name),
-        mBillboardSet(nullptr),
-        mPoolSize(pool_size),
-        mImageFile(file),
-        mSceneNode(nullptr),
-        mTextureUnitState(nullptr) {}
+                                             const QString& file) : 
+    Component(name),
+    mBillboardSet(nullptr),
+    mPoolSize(pool_size),
+    mImageFile(file),
+    mSceneNode(nullptr),
+    mTextureUnitState(nullptr) {}
 
 void BillboardSetComponent::OnCreate() {
     mBillboardSet = GetNode()->GetScene()->GetSceneManager()
