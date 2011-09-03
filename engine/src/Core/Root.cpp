@@ -10,7 +10,7 @@
 
 #include <Utils/LogManager.hpp>
 #include <Core/StringManager.hpp>
-#include <Event/EventManager.hpp>
+//#include <Event/EventManager.hpp>
 #include <Core/ResourceManager.hpp>
 #include <Input/InputManager.hpp>
 #include <Graphics/DisplayManager.hpp>
@@ -30,7 +30,7 @@ Root::Root()
     : mCoreApplication(nullptr),
       mLogManager(new LogManager()),
       mStringManager(new StringManager()),
-      mEventManager(new EventManager()),
+      /*mEventManager(new EventManager()), */
       mResourceManager(new ResourceManager()),
       mInputManager(new InputManager()),
       mDisplayManager(new DisplayManager()),
@@ -51,7 +51,7 @@ Root::~Root() {
     delete mDisplayManager;
     delete mInputManager;
     delete mResourceManager;
-    delete mEventManager;
+    /*delete mEventManager;*/
     delete mStringManager;
     delete mLogManager;
 }
@@ -68,7 +68,7 @@ void Root::Initialize(int argc, char** argv) {
 
     mLogManager->Initialize();
     mStringManager->Initialize();
-    mEventManager->Initialize();
+    /*mEventManager->Initialize();*/
     mResourceManager->Initialize();
     mDisplayManager->Initialize();
     // Do not initialize the InputManager.
@@ -89,7 +89,7 @@ void Root::Deinitialize() {
     // Do not deinitialize the InputManager (see above).
     mDisplayManager->Deinitialize();
     mResourceManager->Deinitialize();
-    mEventManager->Deinitialize();
+    /*mEventManager->Deinitialize();*/
     mStringManager->Deinitialize();
     mLogManager->Deinitialize();
 
@@ -112,9 +112,11 @@ StateManager* Root::GetStateManager() {
     return mStateManager;
 }
 
+/*
 EventManager* Root::GetEventManager() {
     return mEventManager;
 }
+*/
 
 NetworkManager* Root::GetNetworkManager() {
     return mNetworkManager;

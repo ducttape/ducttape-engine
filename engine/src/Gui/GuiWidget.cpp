@@ -73,14 +73,14 @@ void GuiWidget::SetPosition(int x, int y) {
 }
 
 void GuiWidget::SetSize(float width, float height) {
-    if(GetMyGUIWidget()->getSize() != (int)width || GetMyGUIWidget()->getSize() != (int)height) {
+    if(GetMyGUIWidget()->getSize().width != (int)width || GetMyGUIWidget()->getSize().height != (int)height) {
         GetMyGUIWidget()->setRealSize(width, height);
         emit SizeChanged(width, height);
     }
 }
 
 void GuiWidget::SetSize(int width, int height) {
-    if(GetMyGUIWidget()->getSize() != width || GetMyGUIWidget()->getSize() != height) {
+    if(GetMyGUIWidget()->getSize().width != width || GetMyGUIWidget()->getSize().height != height) {
         GetMyGUIWidget()->setSize(width, height);
         emit SizeChanged(width, height);
     }
@@ -149,13 +149,15 @@ QScriptValue GuiWidget::GetChild(const QString& name) {
 }
 
 void GuiWidget::Show() {
-    if(IsVisible() != true);
+    if(IsVisible() != true) {
         SetVisible(true);
+    }
 }
 
 void GuiWidget::Hide() {
-    if(IsVisible() != false);
+    if(IsVisible() != false) {
         SetVisible(false);
+    }
 }
 
 void GuiWidget::SetVisible(bool visible) {

@@ -11,7 +11,6 @@
 
 #include <Config.hpp>
 
-#include <Event/Event.hpp>
 
 #include <cstdint>
 #include <memory>

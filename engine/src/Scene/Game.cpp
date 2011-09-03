@@ -25,19 +25,16 @@ Game::Game()
     : mIsShutdownRequested(false),
       mIsRunning(false) {}
 
-void Game::HandleEvent(std::shared_ptr<Event> e) {
-    if(e->GetType() == "DT_WINDOWCLOSEDEVENT") {
-        Logger::Get().Debug("The closed window triggered a game shutdown.");
-        RequestShutdown();
-    }
-}
-
 void Game::Run(State* start_state, int argc, char** argv) {
     Root& root = Root::GetInstance();
 
     root.Initialize(argc, argv);
     root.GetStateManager()->SetNewState(start_state);
-    root.GetEventManager()->AddListener(this);
+    connect(root.GetInputManager(), SIGNAL(WindowClosed()), this, SLOT(RequestShutdown()));
+    //connect BeginFrames to things that need it, like State/Scenes and the PhysicsManager
+    connect(this, SIGNAL(BeginFrame(double)), root.GetStateManager()->GetCurrentState(),
+                SIGNAL(root.GetStateManager()->GetCurrentState()->BeginFrame(double)));
+    connect(this, SIGNAL(BeginFrame)), root.GetPhysicsManager(), SLOT(root.GetPhysicsManager()->UpdateFrame(double)));
 
     mClock.Reset();
     mIsRunning = true;
@@ -66,8 +63,10 @@ void Game::Run(State* start_state, int argc, char** argv) {
         while(accumulator >= simulation_frame_time) {
             anti_spiral_clock.Reset();
             // SIMULATION
-            EventManager::Get()->
-                InjectEvent(std::make_shared<BeginFrameEvent>(simulation_frame_time));
+ //           EventManager::Get()->
+ //               InjectEvent(std::make_shared<BeginFrameEvent>(simulation_frame_time));
+            emit BeginFrame(simulation_frame_time);
+
 
             // NETWORKING
             root.GetNetworkManager()->HandleIncomingEvents();

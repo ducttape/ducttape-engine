@@ -11,11 +11,11 @@
 
 #include <Config.hpp>
 
-#include <Event/BeginFrameEvent.hpp>
-#include <Event/Event.hpp>
-#include <Event/EventManager.hpp>
+//#include <Event/BeginFrameEvent.hpp>
+//#include <Event/Event.hpp>
+//#include <Event/EventManager.hpp>
 
-#include <Utils/TimerTickEvent.hpp>
+//#include <Utils/TimerTickEvent.hpp>
 
 #include <SFML/System/Sleep.hpp>
 #include <SFML/System/Thread.hpp>
@@ -30,7 +30,7 @@ namespace dt {
 /**
   * A timer to send Tick events in regular intervals.
   */
-class DUCTTAPE_API Timer : public QObject, public EventListener {
+class DUCTTAPE_API Timer : public QObject {
     Q_OBJECT
 
 public:

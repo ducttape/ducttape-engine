@@ -12,8 +12,8 @@
 #include <Config.hpp>
 
 #include <Core/Manager.hpp>
-#include <Event/Event.hpp>
-#include <Event/EventListener.hpp>
+//#include <Event/Event.hpp>
+//#include <Event/EventListener.hpp>
 #include <Physics/PhysicsWorld.hpp>
 
 #include <boost/ptr_container/ptr_map.hpp>
@@ -27,8 +27,7 @@ namespace dt {
 /**
   * A manager for keeping the physics world and for taking care of the complicated initialization.
   */
-class DUCTTAPE_API PhysicsManager : public Manager,
-        public EventListener {
+class DUCTTAPE_API PhysicsManager : public Manager {
     Q_OBJECT
 public:
     /**
@@ -38,8 +37,7 @@ public:
 
     void Initialize();
     void Deinitialize();
-    void HandleEvent(std::shared_ptr<Event> e);
-    Priority GetEventPriority() const;
+    int GetEventPriority() const;
 
     /**
       * Returns a pointer to the Manager instance.
@@ -67,7 +65,8 @@ public:
       * @returns A pointer to the PhysicsWorld, or nullptr of none was found.
       */
     PhysicsWorld* GetWorld(const QString& name);
-
+public slots:
+    void UpdateFrame(double simulation_frame_time);
 private:
     boost::ptr_map<QString, PhysicsWorld> mWorlds;  //!< The list of PhysicsWorlds.
 
