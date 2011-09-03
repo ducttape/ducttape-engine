@@ -6,7 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "Graphics/BillboardSetComponent.hpp"
+#include <Graphics/BillboardSetComponent.hpp>
 
 #include <Scene/Node.hpp>
 #include <Scene/Scene.hpp>
@@ -42,16 +42,16 @@ void BillboardSetComponent::OnCreate() {
     Ogre::Pass* pass = mMaterialPtr->getTechnique(0)->getPass(0);
     mTextureUnitState = pass->createTextureUnitState();
 
-    //if a image file is given, create one billboard and use the image as texture
+    // If a image file is given, create one billboard and use the image as texture.
     if(!mImageFile.isEmpty()) {
         mBillboardSet->createBillboard(0, 0, 0);
         SetTextureFromFile(mImageFile);
     }
 
-    // commons default settings for a billboard
-    pass->setCullingMode(Ogre::CULL_NONE);   // No culling (triangles can be seen from both sides)
-    pass->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA); // Allow transparency from alpha channel
-    mMaterialPtr->setLightingEnabled(false);   // Disable lighting
+    // Commons default settings for a billboard.
+    pass->setCullingMode(Ogre::CULL_NONE);   // No culling (triangles can be seen from both sides).
+    pass->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA); // Allow transparency from alpha channel.
+    mMaterialPtr->setLightingEnabled(false);   // Disable lighting.
 
     mSceneNode = GetNode()->GetScene()->GetSceneManager()->getRootSceneNode()
                  ->createChildSceneNode(Utils::ToStdString(mName) + "_node");
