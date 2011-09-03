@@ -27,10 +27,9 @@ const float JumpTape::TILE_X = 4;
 const float JumpTape::TILE_Y = 0.6;
 
 JumpTape::JumpTape() : 
-mGameNode(nullptr),
-mRuntime(0),
-mConsecutiveBlank(0)
-{}
+    mGameNode(nullptr),
+    mRuntime(0),
+    mConsecutiveBlank(0) {}
 
 void JumpTape::HandleEvent(std::shared_ptr<dt::Event> e) {
     if(e->GetType() == "DT_BEGINFRAMEEVENT") {
@@ -39,7 +38,7 @@ void JumpTape::HandleEvent(std::shared_ptr<dt::Event> e) {
         double field_speed = mRuntime/1000; 
         
         // Move each tile. 
-        for(int i=0; i<TILES; i++) {
+        for(uint8_t i=0; i<TILES; ++i) {
             Ogre::Billboard* tile = mTiles->getBillboard(i);
             tile->setPosition(tile->getPosition() - Ogre::Vector3(field_speed, 0, 0));
         }
@@ -96,7 +95,7 @@ void JumpTape::HandleEvent(std::shared_ptr<dt::Event> e) {
             jump_height = 0;
             jump_allowed = true;
             // The player is running, change animation.
-            mPlayer->setTexcoordIndex(static_cast<int>(mRuntime*10) % PLAYER_FRAME); 
+            mPlayer->setTexcoordIndex(static_cast<uint8_t>(mRuntime*10) % PLAYER_FRAME); 
         }
         
         // Reset game.
@@ -112,7 +111,7 @@ void JumpTape::HandleEvent(std::shared_ptr<dt::Event> e) {
             mGameInfo->SetText("You ran for " + time + " seconds, press N for a new game");
         }
         else {
-            time = dt::Utils::ToString((int)mRuntime);
+            time = dt::Utils::ToString(static_cast<uint32_t>(mRuntime));
             mGameInfo->SetText("You ran for " + time + " seconds");
         }
     }
@@ -146,9 +145,9 @@ void JumpTape::OnInitialize() {
         mTiles = billboard->GetOgreBillboardSet();
         mTiles->setTextureStacksAndSlices(1, 2);
         mTiles->setDefaultDimensions(TILE_X, TILE_Y);
-        mTiles->setRenderQueueGroup(Ogre::RENDER_QUEUE_OVERLAY); //always visible
+        mTiles->setRenderQueueGroup(Ogre::RENDER_QUEUE_OVERLAY); // Always visible
         
-        for(short i=0; i<TILES; i++) {    
+        for(uint8_t i=0; i<TILES; ++i) {    
             // Consecutive blank tiles, must be under MAX_BLANK_TILE,
             // otherwise the player can't reach the other tile.
             bool blank; 
@@ -193,7 +192,7 @@ bool JumpTape::_GetTileType() {
                mConsecutiveBlank =- 1;
      } 
      else {
-        blank = static_cast<int>(dt::Random::Get(0, 1));
+        blank = static_cast<uint8_t>(dt::Random::Get(0, 1));
      }
      return blank;
 }
