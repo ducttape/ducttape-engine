@@ -30,7 +30,8 @@ class DUCTTAPE_API CameraComponent : public Component {
 public:
     /**
       * Advanced constructor.
-      * @name The name of the component.
+      * @param name The name of the component.
+      * @param mesh_handle_d The handle for this component's debug mesh. The default one is camera.mesh.
       * @see Component
       */
     CameraComponent(const QString& name = "", const QString& mesh_handle_d = "camera.mesh");

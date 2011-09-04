@@ -35,6 +35,7 @@ public:
       * @param mesh_component_name The name of the MeshComponent this
       * PhysicsBodyComponent will use for its shape.
       * @param name The name of the Component.
+      * @param mesh_handle_d The handle for this component's debug mesh. The default one is physics_body.mesh.
       * @see MeshComponent
       * @see Component
       */

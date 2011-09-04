@@ -37,6 +37,7 @@ public:
       * Empty string to keep the mesh's material name. Default: none.
       * @param mesh_handle The handle the mesh is loaded from. This could be
       * a file path or a generated's mesh name.
+      * @param mesh_handle_d The handle for this component's debug mesh. The default one is mesh.mesh.
       * @see Component
       */
     MeshComponent(const QString& mesh_handle = "",

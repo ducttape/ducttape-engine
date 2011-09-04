@@ -48,8 +48,7 @@ public:
     /**
       * Constructor with set name and handle.
       * @param name The Component name.
-      * @param mesh_component_name The name for this component's debug shape mesh.
-      * @param mesh_handle The debug shape mesh's handle.
+      * @param mesh_handle_d The handle for this component's debug mesh.
       */
     Component(const QString& name = "", const QString& mesh_handle_d = "");
 

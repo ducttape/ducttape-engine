@@ -32,7 +32,7 @@ public:
     /**
       * Advanced constructor.
       * @param name The name for this component.
-      * @param mesh_handle The handle of the LightComponent's debug shape. Default is torch.mesh.
+      * @param mesh_handle_d The handle for this component's debug mesh. The default one is light.mesh.
       * @see Component
       */
     LightComponent(const QString& name = "", const QString& mesh_handle_d = "light.mesh");

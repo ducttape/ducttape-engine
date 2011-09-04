@@ -44,6 +44,7 @@ public:
       * @see Component
       * @param name The name of the component.
       * @param mode The mode.
+      * @param mesh_handle_d The handle for this component's debug mesh. The default one is follow_path.mesh.
       */
     FollowPathComponent(Mode mode = SINGLE, const QString& name = "", const QString& mesh_handle_d = "follow_path.mesh");
 

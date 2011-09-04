@@ -29,6 +29,7 @@ public:
      * Advanced constructor.
      * @param music_file The name of the music resource to play.
      * @param name The name for this component.
+     * @param mesh_handle_d The handle for this component's debug mesh. The default one is music.mesh.
      * @see Component
      */
     MusicComponent(const QString& music_file = "", const QString& name = "", const QString& mesh_handle_d = "music.mesh");
