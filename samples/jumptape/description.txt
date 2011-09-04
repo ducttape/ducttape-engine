@@ -1,0 +1,5 @@
+A simple jump 'N' run game.
+
+controls:
+space = jump
+n     = new game

@@ -25,7 +25,7 @@ foreach(sample ${NETWORKSAMPLES})
         ducttape)
 endforeach(sample)
 
-set(SIMPLESAMPLES simplepong script)
+set(SIMPLESAMPLES simplepong script jumptape)
 
 foreach(sample ${SIMPLESAMPLES})
     aux_source_directory(${sample}/src ${sample}_src)
