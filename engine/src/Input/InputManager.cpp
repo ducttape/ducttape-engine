@@ -10,11 +10,7 @@
 
 #include <Core/Root.hpp>
 #include <Utils/Logger.hpp>
-#include <Input/MouseEvent.hpp>
-#include <Input/KeyboardEvent.hpp>
-#include <Graphics/WindowClosedEvent.hpp>
 #include <Utils/Utils.hpp>
-#include <Event/EventManager.hpp>
 #include <Gui/GuiManager.hpp>
 
 namespace dt {

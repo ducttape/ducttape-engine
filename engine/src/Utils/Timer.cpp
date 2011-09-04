@@ -21,16 +21,13 @@ Timer::Timer(const QString& message, double interval, bool repeat, bool threaded
     if(threaded) {
         _RunThread();
     } else {
-        EventManager::Get()->AddListener(this);
+//        EventManager::Get()->AddListener(this);
         mTimeLeft = mInterval;
     }
 }
 
 void Timer::TriggerTickEvent() {
-    if(mUseEvents)
-        EventManager::Get()->
-            InjectEvent(std::make_shared<TimerTickEvent>(mMessage, mInterval));
-    emit TimerTicked(mMessage);
+    emit TimerTicked(mMessage, mInterval);
 
     if(mRepeat && mThreaded) {
         _RunThread();
@@ -39,7 +36,7 @@ void Timer::TriggerTickEvent() {
     if(!mThreaded) {
         if(!mRepeat) {
             // disable
-            EventManager::Get()->RemoveListener(this);
+  //          EventManager::Get()->RemoveListener(this);
         } else {
             // reset
             mTimeLeft = mInterval;
@@ -71,7 +68,7 @@ void Timer::_ThreadFunction(void* user_data) {
 }
 
 void Timer::TriggerTick() {
-    emit TimerTicked("DEBUG");
+    emit TimerTicked("DEBUG", mInterval);
 }
 
 void Timer::Stop() {

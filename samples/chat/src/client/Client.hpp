@@ -10,6 +10,7 @@
 #define DUCTTAPE_SAMPLE_CHAT_CLIENT_CLIENT
 
 #include <Scene/Game.hpp>
+#include <Network/NetworkEvent.hpp>
 
 #include <SFML/Network/IpAddress.hpp>
 #include <SFML/System/Thread.hpp>
@@ -21,7 +22,6 @@ public:
     Client();
 
     void OnInitialize();
-    void HandleEvent(std::shared_ptr<dt::Event> e);
 
     void SetServerIP(sf::IpAddress server_ip);
     sf::IpAddress GetServerIP() const;
@@ -30,6 +30,8 @@ public:
     const QString& GetNick() const;
 
     static void InputThread(void* user_data);
+public slots:
+    void HandleEvent(std::shared_ptr<dt::NetworkEvent> e)
 private:
     std::shared_ptr<sf::Thread> mInputThread;
     QString mNick;

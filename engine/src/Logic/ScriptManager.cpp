@@ -9,7 +9,6 @@
 #include <Logic/ScriptManager.hpp>
 
 #include <Core/Root.hpp>
-#include <Event/EventManager.hpp>
 #include <Gui/GuiManager.hpp>
 #include <Utils/Logger.hpp>
 #include <Utils/Utils.hpp>

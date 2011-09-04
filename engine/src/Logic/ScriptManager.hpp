@@ -12,7 +12,6 @@
 #include <Config.hpp>
 
 #include <Core/Manager.hpp>
-#include <Event/EventListener.hpp>
 #include <Logic/ScriptComponent.hpp>
 
 #include <QCoreApplication>

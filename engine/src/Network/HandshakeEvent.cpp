@@ -6,16 +6,23 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <Event/SimpleEventBinding.hpp>
+#include <Network/HandshakeEvent.hpp>
 
 namespace dt {
 
-SimpleEventBinding::SimpleEventBinding(Event* target, const QString& trigger_type)
-    : EventBinding(target),
-      mTriggerType(trigger_type) {}
+HandshakeEvent::HandshakeEvent() {}
 
-bool SimpleEventBinding::MatchesEvent(std::shared_ptr<Event> e) {
-    return e->GetType() == mTriggerType;
+const QString HandshakeEvent::GetType() const {
+    return "DT_HANDSHAKEEVENT";
+}
+
+std::shared_ptr<NetworkEvent> HandshakeEvent::Clone() const {
+    std::shared_ptr<NetworkEvent> ptr(new HandshakeEvent());
+    return ptr;
+}
+
+void HandshakeEvent::Serialize(IOPacket& p) {
+    // do nothing, we have no data
 }
 
 }
