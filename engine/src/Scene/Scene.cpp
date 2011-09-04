@@ -8,8 +8,6 @@
 
 #include <Scene/Scene.hpp>
 
-#include <Event/BeginFrameEvent.hpp>
-#include <Event/EventManager.hpp>
 #include <Graphics/DisplayManager.hpp>
 #include <Physics/PhysicsManager.hpp>
 
@@ -17,10 +15,6 @@ namespace dt {
 
 Scene::Scene(const QString& name)
     : Node(name) {}
-
-int Scene::GetEventPriority() const {
-    return 5;
-}
 
 void Scene::OnInitialize() {
     Logger::Get().Debug("Scene " + mName + " is being initialized.");

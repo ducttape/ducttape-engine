@@ -34,8 +34,6 @@ public:
       */
     Scene(const QString& name);
 
-    int GetEventPriority() const;
-
     void OnInitialize();
 
     void OnDeinitialize();
@@ -45,8 +43,6 @@ public:
       * @returns The Ogre::SceneManager of this Scene.
       */
     Ogre::SceneManager* GetSceneManager();
-
-//    void HandleEvent(std::shared_ptr<Event> e);
 
     /**
       * Returns the PhysicsWorld of this Scene. Creates the PhysicsWorld on-demand.
