@@ -78,6 +78,9 @@ void Root::Initialize(int argc, char** argv) {
     mPhysicsManager->Initialize();
     mTerrainManager->Initialize();
     mScriptManager->Initialize();
+
+    //Initialize the default resource location
+    mResourceManager->AddResourceLocation("", "FileSystem", true);
 }
 
 void Root::Deinitialize() {

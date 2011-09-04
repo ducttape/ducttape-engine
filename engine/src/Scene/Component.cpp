@@ -21,11 +21,12 @@ namespace dt {
 
 Component::Component(const QString& name, const QString& mesh_handle_d)
     : mName(name),
-      mIsEnabled(false),
-      mIsCreated(false),
+      mNode(nullptr),
       mMeshHandle(mesh_handle_d),
       mEntity(nullptr),
-      mSceneNode(nullptr) {
+      mSceneNode(nullptr),
+      mIsEnabled(false),
+      mIsCreated(false) {
     // auto-generate the component name
     if(mName == "") {
         mName = "Component-" + Utils::ToString(StringManager::Get()->GetNextAutoId());
