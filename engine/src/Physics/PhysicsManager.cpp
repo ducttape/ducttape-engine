@@ -9,15 +9,12 @@
 #include <Physics/PhysicsManager.hpp>
 
 #include <Core/Root.hpp>
-#include <Event/EventManager.hpp>
-#include <Event/BeginFrameEvent.hpp>
 
 namespace dt {
 
 PhysicsManager::PhysicsManager() {}
 
 void PhysicsManager::Initialize() {
-    EventManager::Get()->AddListener(this);
 }
 
 void PhysicsManager::Deinitialize() {
@@ -25,23 +22,14 @@ void PhysicsManager::Deinitialize() {
         it->second->Deinitialize();
     }
     mWorlds.clear();
-    EventManager::Get()->RemoveListener(this);
 }
 
-void PhysicsManager::UpdateFrame(simulation_frame_time) {
+void PhysicsManager::UpdateFrame(double simulation_frame_time) {
     // step all worlds
     for(auto iter = mWorlds.begin(); iter != mWorlds.end(); ++iter) {
         iter->second->StepSimulation(simulation_frame_time);
     }
 }
-
-EventListener::Priority PhysicsManager::GetEventPriority() const {
-    // Set a high priority to update the physics world before
-    // all the PhysicsBodyComponents are updated, so they do
-    // not lag behind.
-    return EventListener::INTERNAL_HIGHEST;
-}
-
 
 PhysicsManager* PhysicsManager::Get() {
     return Root::GetInstance().GetPhysicsManager();

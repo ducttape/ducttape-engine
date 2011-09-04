@@ -47,7 +47,6 @@ namespace dt {
 
 class LogManager;
 class StringManager;
-class EventManager;
 class ResourceManager;
 class InputManager;
 class DisplayManager;
@@ -114,12 +113,6 @@ public:
     StateManager* GetStateManager();
 
     /**
-      * Returns the EventManager.
-      * @returns the EventManager
-      */
-    EventManager* GetEventManager();
-
-    /**
       * Returns the NetworkManager.
       * @returns the NetworkManager
       */
@@ -172,7 +165,6 @@ private:
 
     LogManager* mLogManager;            //!< Pointer to the LogManager.
     StringManager* mStringManager;      //!< Pointer to the StringManager.
-    EventManager* mEventManager;        //!< Pointer to the EventManager.
     ResourceManager* mResourceManager;  //!< Pointer to the ResourceManager.
     InputManager* mInputManager;        //!< Pointer to the InputManager.
     DisplayManager* mDisplayManager;    //!< Pointer to the DisplayManager.

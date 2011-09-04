@@ -12,10 +12,8 @@
 #include <Network/NetworkManager.hpp>
 
 #include <Core/Manager.hpp>
-//#include <Event/Event.hpp>
-//#include <Event/EventListener.hpp>
 #include <Network/ConnectionsManager.hpp>
-//#include <Network/NetworkEvent.hpp>
+#include <Network/NetworkEvent.hpp>
 
 #include <SFML/Network/UdpSocket.hpp>
 
@@ -91,12 +89,14 @@ public:
       * @see NetworkManager::SendQueuedEvents();
       * @param event The NetworkEvent to be sent.
       */
-//    void QueueEvent(std::shared_ptr<NetworkEvent> event);
+    void QueueEvent(std::shared_ptr<NetworkEvent> event);
 
     /**
       * Receives and handles all events pending at the socket.
       */
     void HandleIncomingEvents();
+
+    void HandleEvent(std::shared_ptr<NetworkEvent> e);
 
     /**
       * Registers a NetworkEvent as prototype for incoming packets.
@@ -114,13 +114,16 @@ public:
       * @param type_id The ID of the type of NetworkEvent to create an instance of.
       * @returns A new instance of the prototype with the type ID given.
       */
-    std::shared_ptr<NetworkEvent> CreatePrototypeInstance(uint32_t type_id);
+    std::shared_ptr<NetworkEvent> CreatePrototypeInstance(uint16_t type);
 
     /**
       * Returns a pointer to the ConnectionsManager.
       * @returns A pointer to the ConnectionsManager.
       */
     ConnectionsManager* GetConnectionsManager();
+
+signals:
+    void NewEvent(std::shared_ptr<NetworkEvent> event);
 
 private:
     /**

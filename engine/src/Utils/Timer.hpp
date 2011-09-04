@@ -75,7 +75,7 @@ public slots:
     void TriggerTick();
 
 signals:
-    void TimerTicked(const QString& message);
+    void TimerTicked(const QString& message, double interval);
 
 private:
     /**

@@ -12,10 +12,8 @@
 #include <Config.hpp>
 
 #include <Core/Manager.hpp>
-//#include <Event/Event.hpp>
-//#include <Event/EventListener.hpp>
 #include <Network/Connection.hpp>
-//#include <Network/PingEvent.hpp>
+#include <Network/PingEvent.hpp>
 #include <Utils/Timer.hpp>
 
 #include <boost/ptr_container/ptr_map.hpp>
@@ -154,6 +152,10 @@ public:
       */
     double GetPing(ID_t connection);
 
+public slots:
+    void HandleEvent(std::shared_ptr<NetworkEvent> e);
+    void TimerTick(QString message, double interval);
+
 private:
     /**
       * Private method. Finds an unused ID to assign to the next Connection.
@@ -170,7 +172,7 @@ private:
       * Private method. Handles an incoming ping event.
       * @param ping_event The ping event.
       */
-//    void _HandlePing(std::shared_ptr<PingEvent> ping_event);
+    void _HandlePing(std::shared_ptr<PingEvent> ping_event);
 
     /**
       * Private method. Checks all connections for timeouts.

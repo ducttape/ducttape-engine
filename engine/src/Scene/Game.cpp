@@ -9,12 +9,10 @@
 #include <Scene/Game.hpp>
 
 #include <Core/Root.hpp>
-#include <Event/BeginFrameEvent.hpp>
-#include <Network/GoodbyeEvent.hpp>
-#include <Event/EventManager.hpp>
 #include <Scene/StateManager.hpp>
 #include <Input/InputManager.hpp>
 #include <Network/NetworkManager.hpp>
+#include <Network/GoodbyeEvent.hpp>
 #include <Graphics/DisplayManager.hpp>
 
 #include <SFML/System/Sleep.hpp>
@@ -34,7 +32,7 @@ void Game::Run(State* start_state, int argc, char** argv) {
     //connect BeginFrames to things that need it, like State/Scenes and the PhysicsManager
     connect(this, SIGNAL(BeginFrame(double)), root.GetStateManager()->GetCurrentState(),
                 SIGNAL(root.GetStateManager()->GetCurrentState()->BeginFrame(double)));
-    connect(this, SIGNAL(BeginFrame)), root.GetPhysicsManager(), SLOT(root.GetPhysicsManager()->UpdateFrame(double)));
+    connect(this, SIGNAL(BeginFrame), (QObject*)root.GetPhysicsManager(), SLOT(root.GetPhysicsManager()->UpdateFrame(double)));
 
     mClock.Reset();
     mIsRunning = true;
@@ -63,13 +61,10 @@ void Game::Run(State* start_state, int argc, char** argv) {
         while(accumulator >= simulation_frame_time) {
             anti_spiral_clock.Reset();
             // SIMULATION
- //           EventManager::Get()->
- //               InjectEvent(std::make_shared<BeginFrameEvent>(simulation_frame_time));
             emit BeginFrame(simulation_frame_time);
 
 
             // NETWORKING
-            root.GetNetworkManager()->HandleIncomingEvents();
             root.GetNetworkManager()->SendQueuedEvents();
 
             double real_simulation_time = anti_spiral_clock.GetElapsedTime() / 1000.0;
@@ -93,12 +88,11 @@ void Game::Run(State* start_state, int argc, char** argv) {
     }
 
     // Send the GoodbyeEvent to close the network connection.
-    root.GetEventManager()->InjectEvent(std::make_shared<GoodbyeEvent>("The client closed the session."));
+    root.GetNetworkManager()->QueueEvent(std::make_shared<GoodbyeEvent>("The client closed the session."));
     root.GetNetworkManager()->SendQueuedEvents();
 
     mIsRunning = false;
 
-    root.GetEventManager()->RemoveListener(this);
     root.Deinitialize();
 }
 

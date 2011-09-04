@@ -8,8 +8,6 @@
 
 #include <Scene/State.hpp>
 
-#include <Event/EventManager.hpp>
-
 namespace dt {
 
 State::State() {}
@@ -18,7 +16,6 @@ void State::OnDeinitialize() {}
 
 void State::Initialize() {
     Logger::Get().Info("Initializing state.");
-    EventManager::Get()->AddListener(this);
     OnInitialize();
 }
 
@@ -29,7 +26,6 @@ void State::Deinitialize() {
     }
 
     OnDeinitialize();
-    EventManager::Get()->RemoveListener(this);
 
     Logger::Get().Info("Deinitialized state.");
 }

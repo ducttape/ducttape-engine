@@ -22,7 +22,8 @@ Client::Client() {
 }
 
 void Client::OnInitialize() {
-    dt::EventManager::Get()->AddListener(this);
+    connect((QObject*)dt::NetworkManager::Get(), SIGNAL(dt::NetworkManager::Get()->NewEvent(std::shared_ptr<dt::NetworkEvent>)),
+            this, SLOT(HandleEvent(std::shared_ptr<dt::NetworkEvent>)));
     dt::Logger::Get().GetStream("debug")->SetDisabled(true);
     dt::Logger::Get().GetStream("info")->SetDisabled(true);
 
@@ -36,7 +37,7 @@ void Client::OnInitialize() {
     mInputThread->Launch();
 }
 
-void Client::HandleEvent(std::shared_ptr<dt::Event> e) {
+void Client::HandleEvent(std::shared_ptr<dt::NetworkEvent> e) {
     if(e->GetType() == "CHATMESSAGEEVENT") {
         std::shared_ptr<ChatMessageEvent> c = std::dynamic_pointer_cast<ChatMessageEvent>(e);
         if(c->IsLocalEvent()) { // we just received this
