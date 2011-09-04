@@ -18,8 +18,8 @@ const QString PingEvent::GetType() const {
     return "DT_PINGEVENT";
 }
 
-std::shared_ptr<Event> PingEvent::Clone() const {
-    std::shared_ptr<Event> ptr(new PingEvent(mTimestamp, mIsReply));
+std::shared_ptr<NetworkEvent> PingEvent::Clone() const {
+    std::shared_ptr<NetworkEvent> ptr(new PingEvent(mTimestamp, mIsReply));
     return ptr;
 }
 

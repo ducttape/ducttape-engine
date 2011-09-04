@@ -9,10 +9,8 @@
 #include <Network/ConnectionsManager.hpp>
 
 #include <Core/Root.hpp>
-#include <Event/EventManager.hpp>
 #include <Network/GoodbyeEvent.hpp>
 #include <Network/NetworkManager.hpp>
-#include <Utils/TimerTickEvent.hpp>
 #include <Utils/Utils.hpp>
 #include <Utils/LogManager.hpp>
 
@@ -26,12 +24,12 @@ ConnectionsManager::ConnectionsManager(ConnectionsManager::ID_t max_connections)
 ConnectionsManager::~ConnectionsManager() {}
 
 void ConnectionsManager::Initialize() {
-    EventManager::Get()->AddListener(this);
+    connect((QObject*)NetworkManager::Get(), SIGNAL(NetworkManager::Get()->NewEvent(std::shared_ptr<NetworkEvent>)),
+            this, SLOT(HandleEvent(std::shared_ptr<NetworkEvent>)));
     SetPingInterval(mPingInterval); // this starts the timer
 }
 
 void ConnectionsManager::Deinitialize() {
-    EventManager::Get()->RemoveListener(this);
 }
 
 ConnectionsManager* ConnectionsManager::Get() {
@@ -129,6 +127,8 @@ void ConnectionsManager::SetPingInterval(double ping_interval) {
     }
     if(mPingInterval != 0) {
         mPingTimer = std::shared_ptr<Timer>(new Timer("DT_SEND_PING", mPingInterval, true, false));
+        connect((QObject*)mPingTimer.get(), SIGNAL(mPingTimer->TimerTicked(QString, double)),
+                this, SLOT(TimerTick(Qstring, double)));
     }
 }
 
@@ -144,15 +144,16 @@ double ConnectionsManager::GetTimeout() {
     return mTimeout;
 }
 
-void ConnectionsManager::HandleEvent(std::shared_ptr<Event> e) {
-    if(e->GetType() == "DT_TIMERTICKEVENT") {
+
+void ConnectionsManager::HandleEvent(std::shared_ptr<NetworkEvent> e) {
+/*    if(e->GetType() == "DT_TIMERTICKEVENT") {
         std::shared_ptr<TimerTickEvent> t = std::dynamic_pointer_cast<TimerTickEvent>(e);
         if(t->GetMessageText() == "DT_SEND_PING" && t->GetInterval() == mPingInterval) {
             // this is our timer
             _Ping();
             _CheckTimeouts();
         }
-    } else if(e->GetType() == "DT_PINGEVENT") {
+    } else */ if(e->GetType() == "DT_PINGEVENT") {
         std::shared_ptr<PingEvent> p = std::dynamic_pointer_cast<PingEvent>(e);
         if(p->IsLocalEvent()) {
             // yes, we received this from the network
@@ -177,8 +178,17 @@ void ConnectionsManager::HandleEvent(std::shared_ptr<Event> e) {
     }
 }
 
+void ConnectionsManager::TimerTick(QString message, double interval) {
+    if(message == "DT_SEND_PING" && interval == mPingInterval) {
+        // this is our timer
+        _Ping();
+        _CheckTimeouts();
+    }
+}
+
+
 void ConnectionsManager::_Ping() {
-    EventManager::Get()->InjectEvent(std::make_shared<PingEvent>(Root::GetInstance().GetTimeSinceInitialize()));
+    NetworkManager::Get()->QueueEvent(std::make_shared<PingEvent>(Root::GetInstance().GetTimeSinceInitialize()));
 }
 
 void ConnectionsManager::_HandlePing(std::shared_ptr<PingEvent> ping_event) {

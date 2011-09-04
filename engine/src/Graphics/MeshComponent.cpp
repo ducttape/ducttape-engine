@@ -27,8 +27,6 @@ MeshComponent::MeshComponent(const QString& mesh_handle, const QString& material
     mMaterialName = material_name;
 }
 
-void MeshComponent::HandleEvent(std::shared_ptr<Event> e) {}
-
 void MeshComponent::OnCreate() {
     _LoadMesh();
 }
@@ -92,25 +90,28 @@ void MeshComponent::SetAnimation(const QString& animation_state) {
 }
 
 void MeshComponent::PlayAnimation() {
-    if(mAnimationState != nullptr) {
+    if(mAnimationState != nullptr && mAnimationState->getEnabled() != true) {
         mAnimationState->setEnabled(true);
+        emit AnimationPlayed();
     } else {
         Logger::Get().Error("Cannot play animation of component " + GetName() + ": No animation set.");
     }
 }
 
 void MeshComponent::StopAnimation() {
-    if(mAnimationState != nullptr) {
+    if(mAnimationState != nullptr && mAnimationState->getEnabled() != false) {
         mAnimationState->setEnabled(false);
         mAnimationState->setTimePosition(0);
+        emit AnimationStopped();
     } else {
         Logger::Get().Error("Cannot stop animation of component " + GetName() + ": No animation set.");
     }
 }
 
 void MeshComponent::PauseAnimation() {
-    if(mAnimationState != nullptr) {
+    if(mAnimationState != nullptr && mAnimationState->getEnabled() != false) {
         mAnimationState->setEnabled(false);
+        emit AnimationPaused();
     } else {
         Logger::Get().Error("Cannot pause animation of component " + GetName() + ": No animation set.");
     }

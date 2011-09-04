@@ -10,11 +10,7 @@
 
 #include <Core/Root.hpp>
 #include <Utils/Logger.hpp>
-#include <Input/MouseEvent.hpp>
-#include <Input/KeyboardEvent.hpp>
-#include <Graphics/WindowClosedEvent.hpp>
 #include <Utils/Utils.hpp>
-#include <Event/EventManager.hpp>
 #include <Gui/GuiManager.hpp>
 
 namespace dt {
@@ -72,32 +68,27 @@ bool InputManager::GetJailInput() const {
 
 
 bool InputManager::keyPressed(const OIS::KeyEvent& event) {
-    EventManager::Get()->
-        InjectEvent(std::make_shared<KeyboardEvent>(KeyboardEvent::PRESSED, event.key, event.text));
+    emit sKeyPressed(event);
     return true;
 }
 
 bool InputManager::keyReleased(const OIS::KeyEvent& event) {
-    EventManager::Get()->
-        InjectEvent(std::make_shared<KeyboardEvent>(KeyboardEvent::RELEASED, event.key, event.text));
+    emit sKeyReleased(event);
     return true;
 }
 
 bool InputManager::mouseMoved(const OIS::MouseEvent& event) {
-    EventManager::Get()->
-        InjectEvent(std::make_shared<MouseEvent>(MouseEvent::MOVED, event.state));
+    emit sMouseMoved(event);
     return true;
 }
 
 bool InputManager::mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
-    EventManager::Get()->
-        InjectEvent(std::make_shared<MouseEvent>(MouseEvent::PRESSED, event.state, button));
+    emit sMousePressed(event, button);
     return true;
 }
 
 bool InputManager::mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
-    EventManager::Get()->
-        InjectEvent(std::make_shared<MouseEvent>(MouseEvent::RELEASED, event.state, button));
+    emit sMouseReleased(event, button);
     return true;
 }
 
@@ -116,7 +107,7 @@ void InputManager::windowClosed(Ogre::RenderWindow* window) {
     // Only close for window that created OIS
     if(window == mWindow) {
         Logger::Get().Info("The window was closed");
-        EventManager::Get()->InjectEvent(std::make_shared<WindowClosedEvent>());
+        emit WindowClosed();
     }
 }
 

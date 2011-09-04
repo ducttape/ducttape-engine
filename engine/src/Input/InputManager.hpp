@@ -154,6 +154,13 @@ public:
       */
     MouseCursorMode GetMouseCursorMode() const;
 
+signals:
+    void WindowClosed();
+    void sKeyPressed(const OIS::KeyEvent& event);
+    void sKeyReleased(const OIS::KeyEvent& event);
+    void sMouseMoved(const OIS::MouseEvent& event);
+    void sMousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID button);
+    void sMouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID button);
 private:
     /**
       * Resets the input system. Required when the settings change.

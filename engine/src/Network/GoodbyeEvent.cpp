@@ -17,8 +17,8 @@ const QString GoodbyeEvent::GetType() const {
     return "DT_GOODBYEEVENT";
 }
 
-std::shared_ptr<Event> GoodbyeEvent::Clone() const {
-    std::shared_ptr<Event> ptr(new GoodbyeEvent(mReason));
+std::shared_ptr<NetworkEvent> GoodbyeEvent::Clone() const {
+    std::shared_ptr<NetworkEvent> ptr(new GoodbyeEvent(mReason));
     return ptr;
 }
 

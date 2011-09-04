@@ -36,11 +36,6 @@ public:
       */
     LightComponent(const QString& name = "");
 
-    /**
-      * Called when the color of the light is changed.
-      */
-    virtual void OnColorChanged();
-
     void OnCreate();
     void OnDestroy();
     void OnEnable();

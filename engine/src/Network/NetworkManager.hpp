@@ -12,8 +12,6 @@
 #include <Network/NetworkManager.hpp>
 
 #include <Core/Manager.hpp>
-#include <Event/Event.hpp>
-#include <Event/EventListener.hpp>
 #include <Network/ConnectionsManager.hpp>
 #include <Network/NetworkEvent.hpp>
 
@@ -30,7 +28,7 @@ namespace dt {
   * Manager for serializing events and sending them over network.
   * @see ConnectionsManager - Holds all connections of this manager.
   */
-class DUCTTAPE_API NetworkManager : public Manager, public EventListener {
+class DUCTTAPE_API NetworkManager : public Manager {
     Q_OBJECT
 public:
     /**
@@ -52,8 +50,8 @@ public:
       */
     static NetworkManager* Get();
 
-    void HandleEvent(std::shared_ptr<Event> e);
-    virtual Priority GetEventPriority() const;
+//    void HandleEvent(std::shared_ptr<Event> e);
+    virtual int GetEventPriority() const;
 
     /**
       * Binds the Socket used for the complete networking to the port given.
@@ -98,6 +96,8 @@ public:
       */
     void HandleIncomingEvents();
 
+    void HandleEvent(std::shared_ptr<NetworkEvent> e);
+
     /**
       * Registers a NetworkEvent as prototype for incoming packets.
       * @see Factory Pattern
@@ -114,13 +114,16 @@ public:
       * @param type_id The ID of the type of NetworkEvent to create an instance of.
       * @returns A new instance of the prototype with the type ID given.
       */
-    std::shared_ptr<NetworkEvent> CreatePrototypeInstance(uint32_t type_id);
+    std::shared_ptr<NetworkEvent> CreatePrototypeInstance(uint16_t type);
 
     /**
       * Returns a pointer to the ConnectionsManager.
       * @returns A pointer to the ConnectionsManager.
       */
     ConnectionsManager* GetConnectionsManager();
+
+signals:
+    void NewEvent(std::shared_ptr<NetworkEvent> event);
 
 private:
     /**

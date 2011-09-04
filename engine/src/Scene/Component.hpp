@@ -11,9 +11,6 @@
 
 #include <Config.hpp>
 
-#include <Event/Event.hpp>
-#include <Event/EventListener.hpp>
-
 #include <boost/noncopyable.hpp>
 #include <boost/ptr_container/ptr_map.hpp>
 
@@ -33,7 +30,6 @@ class Node;
   * such as a mesh or sound.
   */
 class DUCTTAPE_API Component : public QObject,
-                               public EventListener,
                                public boost::noncopyable {
     Q_OBJECT
     Q_PROPERTY(QString name READ GetName CONSTANT FINAL)
@@ -52,8 +48,6 @@ public:
       * Pure virtual destructor makes this class abstract.
       */
     virtual ~Component() = 0;
-
-    virtual void HandleEvent(std::shared_ptr<Event> e);
 
     /**
       * Called when the component is activated. Create all scene objects here.

@@ -11,8 +11,8 @@
 
 #include <Config.hpp>
 
-#include <Event/Event.hpp>
-#include <Event/EventListener.hpp>
+//#include <Event/Event.hpp>
+//#include <Event/EventListener.hpp>
 #include <Scene/Scene.hpp>
 
 #include <boost/ptr_container/ptr_map.hpp>
@@ -29,7 +29,7 @@ namespace dt {
   * @warning Class mockup only. Documentation suspended.
   * @see StateManager
   */
-class DUCTTAPE_API State : public QObject, public EventListener {
+class DUCTTAPE_API State : public QObject {
     Q_OBJECT
 
 public:
@@ -37,8 +37,6 @@ public:
       * Default constructor.
       */
     State();
-
-    void HandleEvent(std::shared_ptr<Event> e);
 
     /**
       * Called when the State is initialized. Create the scene(s) and its contents here.
@@ -79,7 +77,10 @@ public:
       * @param name The name of the Scene to delete.
       */
     void DeleteScene(const QString& name);
-
+signals:
+    void BeginFrame(double simulation_frame_time);
+public slots:
+    void UpdateFrame(double simulation_frame_time);
 private:
     boost::ptr_map<QString, Scene> mScenes;        //!< List of scenes.
 

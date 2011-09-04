@@ -9,7 +9,6 @@
 #include <Scene/Component.hpp>
 
 #include <Core/StringManager.hpp>
-#include <Event/EventManager.hpp>
 #include <Logic/ScriptManager.hpp>
 #include <Scene/Node.hpp>
 #include <Utils/Utils.hpp>
@@ -31,8 +30,6 @@ Component::~Component() {}
 const QString& Component::GetName() const {
     return mName;
 }
-
-void Component::HandleEvent(std::shared_ptr<Event> e) {}
 
 void Component::OnCreate() {}
 
@@ -65,11 +62,9 @@ void Component::Create() {
         emit ComponentCreated();
         Enable();
     }
-    EventManager::Get()->AddListener(this);
 }
 
 void Component::Destroy() {
-    EventManager::Get()->RemoveListener(this);
     if(mIsCreated) {
         mIsCreated = false;
         Disable();

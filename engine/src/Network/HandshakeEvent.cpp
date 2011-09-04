@@ -16,8 +16,8 @@ const QString HandshakeEvent::GetType() const {
     return "DT_HANDSHAKEEVENT";
 }
 
-std::shared_ptr<Event> HandshakeEvent::Clone() const {
-    std::shared_ptr<Event> ptr(new HandshakeEvent());
+std::shared_ptr<NetworkEvent> HandshakeEvent::Clone() const {
+    std::shared_ptr<NetworkEvent> ptr(new HandshakeEvent());
     return ptr;
 }
 
