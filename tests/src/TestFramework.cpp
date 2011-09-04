@@ -39,6 +39,7 @@
 #include "TimerTest/TimerTest.hpp"
 #include "TerrainTest/TerrainTest.hpp"
 #include "Utils/Utils.hpp"
+#include "BillboardTest/BillboardTest.hpp"
 
 #include <iostream>
 
@@ -90,6 +91,7 @@ int main(int argc, char** argv) {
     AddTest(new TextTest::TextTest);
     AddTest(new TimerTest::TimerTest);
     AddTest(new TerrainTest::TerrainTest);
+    AddTest(new BillboardTest::BillboardTest);
 
     if(argc < 2) {
         std::cout << "TestFramework usage: " << std::endl;
