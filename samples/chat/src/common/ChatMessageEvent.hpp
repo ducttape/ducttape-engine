@@ -10,7 +10,7 @@
 #define DUCTTAPE_SAMPLE_CHAT_COMMON_CHATMESSAGEEVENT
 
 #include <Network/NetworkEvent.hpp>
-#include <Event/MessageEvent.hpp>
+//#include <Event/MessageEvent.hpp>
 
 class ChatMessageEvent : public dt::NetworkEvent, public dt::MessageEvent {
 public:

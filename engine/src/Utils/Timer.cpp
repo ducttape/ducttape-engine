@@ -11,12 +11,12 @@
 
 namespace dt {
 
-Timer::Timer(const QString& message, double interval, bool repeat, bool threaded, bool use_events)
+Timer::Timer(const QString& message, double interval, bool repeat, bool threaded/*, bool use_events*/)
     : mMessage(message),
       mInterval(interval),
       mRepeat(repeat),
-      mThreaded(threaded),
-      mUseEvents(use_events) {
+      mThreaded(threaded)
+      /*mUseEvents(use_events)*/ {
     // start the timer
     if(threaded) {
         _RunThread();
@@ -75,7 +75,8 @@ void Timer::Stop() {
     if(mThreaded) {
         mThread->Terminate();
     } else {
-        EventManager::Get()->RemoveListener(this);
+        //EventManager::Get()->RemoveListener(this);
+        emit TimerStoped();
     }
     mTimeLeft = mInterval; // reset
 }

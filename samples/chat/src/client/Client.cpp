@@ -37,14 +37,14 @@ void Client::OnInitialize() {
     mInputThread->Launch();
 }
 
-void Client::HandleEvent(std::shared_ptr<dt::NetworkEvent> e) {
-    if(e->GetType() == "CHATMESSAGEEVENT") {
-        std::shared_ptr<ChatMessageEvent> c = std::dynamic_pointer_cast<ChatMessageEvent>(e);
-        if(c->IsLocalEvent()) { // we just received this
-            std::cout << std::endl << "<" << dt::Utils::ToStdString(c->GetSenderNick()) << "> " << dt::Utils::ToStdString(c->GetMessageText()) << std::endl;
-        }
-    }
-}
+//void Client::HandleEvent(std::shared_ptr<dt::NetworkEvent> e) {
+//    if(e->GetType() == "CHATMESSAGEEVENT") {
+//        std::shared_ptr<ChatMessageEvent> c = std::dynamic_pointer_cast<ChatMessageEvent>(e);
+//        if(c->IsLocalEvent()) { // we just received this
+//            std::cout << std::endl << "<" << dt::Utils::ToStdString(c->GetSenderNick()) << "> " << dt::Utils::ToStdString(c->GetMessageText()) << std::endl;
+//        }
+//    }
+//}
 
 void Client::SetServerIP(sf::IpAddress server_ip) {
     mServerIP = server_ip;

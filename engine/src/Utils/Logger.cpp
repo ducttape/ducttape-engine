@@ -21,9 +21,9 @@ Logger::Logger(const QString& name)
     GetStream("error")->SetFormat(  dt::LogStream::COLOR_RED    + "%2$8s: " + dt::LogStream::COLOR_NONE + "%3$s");
     GetStream("warning")->SetFormat(dt::LogStream::COLOR_YELLOW + "%2$8s: " + dt::LogStream::COLOR_NONE + "%3$s");
 }
-LogStream* stream = GetStream(level.toUpper());
 
 void Logger::Log(const QString& level, const QString& msg) {
+    LogStream* stream = GetStream(level.toUpper());
     stream->Output(this, msg);
 }
 
