@@ -49,7 +49,7 @@ sf::Sound& SoundComponent::GetSound() {
 }
 
 void SoundComponent::PlaySound() {
-    if(mSound.GetStatus() != sf::Sound::Status::Playing) {
+    if(mSound.GetStatus() != sf::Sound::Playing) {
         // play sound if possible and enabled
         if(IsEnabled())
             mSound.Play();
@@ -58,7 +58,7 @@ void SoundComponent::PlaySound() {
 }
 
 void SoundComponent::PauseSound() {
-    if(mSound.GetStatus() != sf::Sound::Status::Paused) {
+    if(mSound.GetStatus() != sf::Sound::Paused) {
         // pause sound if possible
         mSound.Pause();
         emit SoundPaused();
@@ -66,7 +66,7 @@ void SoundComponent::PauseSound() {
 }
 
 void SoundComponent::StopSound() {
-    if(mSound.GetStatus() != sf::Sound::Status::Stopped) {
+    if(mSound.GetStatus() != sf::Sound::Stopped) {
         // stop sound if possible
         mSound.Stop();
         mSound.SetPlayingOffset(0); // rewind

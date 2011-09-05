@@ -31,7 +31,7 @@ public:
 
     static void InputThread(void* user_data);
 public slots:
-    void HandleEvent(std::shared_ptr<dt::NetworkEvent> e)
+    /*void HandleEvent(std::shared_ptr<dt::NetworkEvent> e);*/
 private:
     std::shared_ptr<sf::Thread> mInputThread;
     QString mNick;

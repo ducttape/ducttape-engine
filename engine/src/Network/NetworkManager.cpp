@@ -157,7 +157,7 @@ void NetworkManager::RegisterNetworkEventPrototype(std::shared_ptr<NetworkEvent>
 
 std::shared_ptr<NetworkEvent> NetworkManager::CreatePrototypeInstance(uint16_t type_id) {
     for(auto iter = mNetworkEventPrototypes.begin(); iter != mNetworkEventPrototypes.end(); ++iter) {
-        if((*iter)->GetTypeID() == type_id) {
+        if(StringManager::Get()->GetId((*iter)->GetType()) == type_id) {
             return std::dynamic_pointer_cast<NetworkEvent>((*iter)->Clone());
         }
     }
@@ -171,7 +171,7 @@ ConnectionsManager* NetworkManager::GetConnectionsManager() {
 void NetworkManager::_SendEvent(std::shared_ptr<NetworkEvent> event) {
     // create packet
     sf::Packet p;
-    p << event->GetTypeID();
+    p << StringManager::Get()->GetId(event->GetType());
     IOPacket packet(&p, IOPacket::MODE_SEND);
     event->Serialize(packet);
 

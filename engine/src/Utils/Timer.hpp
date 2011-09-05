@@ -43,7 +43,7 @@ public:
       * @param use_events Whether the timer should create a TimerTickEvent every tick or just call the signal.
       */
     Timer(const QString& message, double interval, bool repeat = true,
-          bool threaded = false, bool use_events = true);
+          bool threaded = false/*, bool use_events = true*/);
 
     /**
       * Triggers the tick event and resets the timer.
@@ -77,6 +77,7 @@ public slots:
 signals:
     void TimerTicked(const QString& message, double interval);
 
+    void TimerStoped();
 private:
     /**
       * Private method. Runs the timer in a thread.
@@ -94,7 +95,7 @@ private:
     double mInterval;                       //!< The timer interval, in seconds.
     bool mRepeat;                           //!< Whether the timer should proceed to tick after the first tick.
     bool mThreaded;                         //!< Whether the timer runs threaded or not.
-    bool mUseEvents;                        //!< Whether the timer should create a TimerTickEvent every tick or just call the signal.
+    /*bool mUseEvents;*/                        //!< Whether the timer should create a TimerTickEvent every tick or just call the signal.
 
     double mTimeLeft; //!< The time left until the next tick. Only used in non-threaded mode.
 };

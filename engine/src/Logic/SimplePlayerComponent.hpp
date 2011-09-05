@@ -11,8 +11,13 @@
 
 #include <Config.hpp>
 
-#include <Event/Event.hpp>
+//#include <Event/Event.hpp>
 #include <Scene/Component.hpp>
+
+#define OIS_DYNAMIC_LIB
+#include <OIS.h>
+
+#include <OgreMatrix3.h>
 
 #include <QString>
 
@@ -34,7 +39,7 @@ public:
       */
     SimplePlayerComponent(const QString& name = "");
 
-    virtual void HandleEvent(std::shared_ptr<Event> e);
+    //virtual void HandleEvent(std::shared_ptr<Event> e);
 
     void OnCreate();
     void OnDestroy();
@@ -112,6 +117,11 @@ public:
       */
     bool GetMouseYInversed() const;
 
+private slots:
+    void _HandleMouseInput(const OIS::MouseEvent& event);
+
+    void _HandleKeyboardInput(const OIS::KeyEvent& event);
+
 private:
     bool mWASDEnabled;          //!< Whether the WASD  keys are enabled for movement or not.
     bool mArrowsEnabled;        //!< Whether the Arrow keys are enabled for movement or not.
@@ -119,6 +129,7 @@ private:
     bool mMouseEnabled;         //!< Whether the Mouse is enabled for looking around or not.
     float mMouseSensitivity;    //!< The sensitivity of the mouse. Default: 1.0.
     bool mMouseYInversed;       //!< True if the mouse's y-axis should be inversed.
+    Ogre::Vector3 mMove;        //!< Record the movement of the node. It will be set to zero after every update of the node.
 
 };
 
