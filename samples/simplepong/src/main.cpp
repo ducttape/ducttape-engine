@@ -15,7 +15,7 @@
 #include <Scene/Node.hpp>
 #include <Scene/Scene.hpp>
 #include <Utils/Utils.hpp>
-#include <Event/BeginFrameEvent.hpp>
+//#include <Event/BeginFrameEvent.hpp>
 #include <Input/InputManager.hpp>
 #include <Core/ResourceManager.hpp>
 
@@ -44,85 +44,85 @@ public:
 
     }
 
-    void HandleEvent(std::shared_ptr<dt::Event> e) {
-        if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-            double frame_time = std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
+    //void HandleEvent(std::shared_ptr<dt::Event> e) {
+    //    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
+    //        double frame_time = std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
 
-            mBallSpeed *= 1.0 + (frame_time * 0.05);
+    //        mBallSpeed *= 1.0 + (frame_time * 0.05);
 
-            // move paddle 1
-            float move1 = 0;
-            if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_W)) {
-                move1 += 1;
-            }
-            if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_S)) {
-                move1 -= 1;
-            }
-            float new_y1 = mPaddle1Node->GetPosition().y + move1 * frame_time * 8;
-            if(new_y1 > FIELD_HEIGHT / 2 - PADDLE_SIZE / 2)
-                new_y1 = FIELD_HEIGHT / 2 - PADDLE_SIZE / 2;
-            else if(new_y1 < - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2)
-                new_y1 = - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2;
+    //        // move paddle 1
+    //        float move1 = 0;
+    //        if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_W)) {
+    //            move1 += 1;
+    //        }
+    //        if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_S)) {
+    //            move1 -= 1;
+    //        }
+    //        float new_y1 = mPaddle1Node->GetPosition().y + move1 * frame_time * 8;
+    //        if(new_y1 > FIELD_HEIGHT / 2 - PADDLE_SIZE / 2)
+    //            new_y1 = FIELD_HEIGHT / 2 - PADDLE_SIZE / 2;
+    //        else if(new_y1 < - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2)
+    //            new_y1 = - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2;
 
-            mPaddle1Node->SetPosition(Ogre::Vector3(
-                                          mPaddle1Node->GetPosition().x,
-                                          new_y1,
-                                          mPaddle1Node->GetPosition().z));
+    //        mPaddle1Node->SetPosition(Ogre::Vector3(
+    //                                      mPaddle1Node->GetPosition().x,
+    //                                      new_y1,
+    //                                      mPaddle1Node->GetPosition().z));
 
-            // move paddle 2
-            float move2 = 0;
-            if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_UP)) {
-                move2 += 1;
-            }
-            if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_DOWN)) {
-                move2 -= 1;
-            }
-            float new_y2 = mPaddle2Node->GetPosition().y + move2 * frame_time * 8;
-            if(new_y2 > FIELD_HEIGHT / 2 - PADDLE_SIZE / 2)
-                new_y2 = FIELD_HEIGHT / 2 - PADDLE_SIZE / 2;
-            else if(new_y2 < - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2)
-                new_y2 = - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2;
+    //        // move paddle 2
+    //        float move2 = 0;
+    //        if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_UP)) {
+    //            move2 += 1;
+    //        }
+    //        if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_DOWN)) {
+    //            move2 -= 1;
+    //        }
+    //        float new_y2 = mPaddle2Node->GetPosition().y + move2 * frame_time * 8;
+    //        if(new_y2 > FIELD_HEIGHT / 2 - PADDLE_SIZE / 2)
+    //            new_y2 = FIELD_HEIGHT / 2 - PADDLE_SIZE / 2;
+    //        else if(new_y2 < - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2)
+    //            new_y2 = - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2;
 
-            mPaddle2Node->SetPosition(Ogre::Vector3(
-                                          mPaddle2Node->GetPosition().x,
-                                          new_y2,
-                                          mPaddle2Node->GetPosition().z));
+    //        mPaddle2Node->SetPosition(Ogre::Vector3(
+    //                                      mPaddle2Node->GetPosition().x,
+    //                                      new_y2,
+    //                                      mPaddle2Node->GetPosition().z));
 
-            // move ball
-            Ogre::Vector3 newpos(mBallNode->GetPosition() + mBallSpeed * frame_time);
-            if(newpos.y >= FIELD_HEIGHT / 2 - 0.5 || newpos.y <= -FIELD_HEIGHT / 2 + 0.5) {
-                mBallSpeed.y *= -1;
-            }
+    //        // move ball
+    //        Ogre::Vector3 newpos(mBallNode->GetPosition() + mBallSpeed * frame_time);
+    //        if(newpos.y >= FIELD_HEIGHT / 2 - 0.5 || newpos.y <= -FIELD_HEIGHT / 2 + 0.5) {
+    //            mBallSpeed.y *= -1;
+    //        }
 
-            if(newpos.x >= FIELD_WIDTH / 2 - 0.5) {
-                float paddle_y = mPaddle2Node->GetPosition().y;
-                if(newpos.y < paddle_y - PADDLE_SIZE / 2 - 0.5 || newpos.y > paddle_y + PADDLE_SIZE / 2 + 0.5) {
-                    dt::Logger::Get().Info("Player lost!");
-                    ++mScore1;
-                    ResetBall();
-                } else {
-                    mBallSpeed.x *= -1;
-                }
-            } else if(newpos.x <= -FIELD_WIDTH / 2 + 0.5) {
-                float paddle_y = mPaddle1Node->GetPosition().y;
-                if(newpos.y < paddle_y - PADDLE_SIZE / 2 - 0.5 || newpos.y > paddle_y + PADDLE_SIZE / 2 + 0.5) {
-                    dt::Logger::Get().Info("Computer lost!");
-                    ++mScore2;
-                    ResetBall();
-                } else {
-                    mBallSpeed.x *= -1;
-                }
-            }
+    //        if(newpos.x >= FIELD_WIDTH / 2 - 0.5) {
+    //            float paddle_y = mPaddle2Node->GetPosition().y;
+    //            if(newpos.y < paddle_y - PADDLE_SIZE / 2 - 0.5 || newpos.y > paddle_y + PADDLE_SIZE / 2 + 0.5) {
+    //                dt::Logger::Get().Info("Player lost!");
+    //                ++mScore1;
+    //                ResetBall();
+    //            } else {
+    //                mBallSpeed.x *= -1;
+    //            }
+    //        } else if(newpos.x <= -FIELD_WIDTH / 2 + 0.5) {
+    //            float paddle_y = mPaddle1Node->GetPosition().y;
+    //            if(newpos.y < paddle_y - PADDLE_SIZE / 2 - 0.5 || newpos.y > paddle_y + PADDLE_SIZE / 2 + 0.5) {
+    //                dt::Logger::Get().Info("Computer lost!");
+    //                ++mScore2;
+    //                ResetBall();
+    //            } else {
+    //                mBallSpeed.x *= -1;
+    //            }
+    //        }
 
-            mBallNode->SetPosition(mBallNode->GetPosition() + mBallSpeed * frame_time);
+    //        mBallNode->SetPosition(mBallNode->GetPosition() + mBallSpeed * frame_time);
 
-            Ogre::Quaternion q;
-            q.FromAngleAxis(Ogre::Radian(Ogre::Math::Cos(Ogre::Radian(dt::Root::GetInstance().GetTimeSinceInitialize() * 0.2))) * 0.1, Ogre::Vector3::UNIT_X);
-            Ogre::Quaternion w;
-            w.FromAngleAxis(Ogre::Radian(Ogre::Math::Sin(Ogre::Radian(dt::Root::GetInstance().GetTimeSinceInitialize() * 0.2))) * 0.1, Ogre::Vector3::UNIT_Y);
-            mGameNode->SetRotation(q * w);
-        }
-    }
+    //        Ogre::Quaternion q;
+    //        q.FromAngleAxis(Ogre::Radian(Ogre::Math::Cos(Ogre::Radian(dt::Root::GetInstance().GetTimeSinceInitialize() * 0.2))) * 0.1, Ogre::Vector3::UNIT_X);
+    //        Ogre::Quaternion w;
+    //        w.FromAngleAxis(Ogre::Radian(Ogre::Math::Sin(Ogre::Radian(dt::Root::GetInstance().GetTimeSinceInitialize() * 0.2))) * 0.1, Ogre::Vector3::UNIT_Y);
+    //        mGameNode->SetRotation(q * w);
+    //    }
+    //}
 
     void OnInitialize() {
         mScore1 = 0;
@@ -185,6 +185,85 @@ public:
         info_text->SetFontSize(20);
 
         ResetBall();
+
+        connect(this, SIGNAL(BeginFrame(double)), this, SLOT(_GameLogic(double)));
+    }
+
+private slots:
+    void _GameLogic(double simulation_frame_time) {
+        mBallSpeed *= 1.0 + (simulation_frame_time * 0.05);
+
+        // move paddle 1
+        float move1 = 0;
+        if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_W)) {
+            move1 += 1;
+        }
+        if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_S)) {
+            move1 -= 1;
+        }
+        float new_y1 = mPaddle1Node->GetPosition().y + move1 * simulation_frame_time * 8;
+        if(new_y1 > FIELD_HEIGHT / 2 - PADDLE_SIZE / 2)
+            new_y1 = FIELD_HEIGHT / 2 - PADDLE_SIZE / 2;
+        else if(new_y1 < - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2)
+            new_y1 = - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2;
+
+        mPaddle1Node->SetPosition(Ogre::Vector3(
+            mPaddle1Node->GetPosition().x,
+            new_y1,
+            mPaddle1Node->GetPosition().z));
+
+        // move paddle 2
+        float move2 = 0;
+        if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_UP)) {
+            move2 += 1;
+        }
+        if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_DOWN)) {
+            move2 -= 1;
+        }
+        float new_y2 = mPaddle2Node->GetPosition().y + move2 * simulation_frame_time * 8;
+        if(new_y2 > FIELD_HEIGHT / 2 - PADDLE_SIZE / 2)
+            new_y2 = FIELD_HEIGHT / 2 - PADDLE_SIZE / 2;
+        else if(new_y2 < - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2)
+            new_y2 = - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2;
+
+        mPaddle2Node->SetPosition(Ogre::Vector3(
+            mPaddle2Node->GetPosition().x,
+            new_y2,
+            mPaddle2Node->GetPosition().z));
+
+        // move ball
+        Ogre::Vector3 newpos(mBallNode->GetPosition() + mBallSpeed * simulation_frame_time);
+        if(newpos.y >= FIELD_HEIGHT / 2 - 0.5 || newpos.y <= -FIELD_HEIGHT / 2 + 0.5) {
+            mBallSpeed.y *= -1;
+        }
+
+        if(newpos.x >= FIELD_WIDTH / 2 - 0.5) {
+            float paddle_y = mPaddle2Node->GetPosition().y;
+            if(newpos.y < paddle_y - PADDLE_SIZE / 2 - 0.5 || newpos.y > paddle_y + PADDLE_SIZE / 2 + 0.5) {
+                dt::Logger::Get().Info("Player lost!");
+                ++mScore1;
+                ResetBall();
+            } else {
+                mBallSpeed.x *= -1;
+            }
+        } else if(newpos.x <= -FIELD_WIDTH / 2 + 0.5) {
+            float paddle_y = mPaddle1Node->GetPosition().y;
+            if(newpos.y < paddle_y - PADDLE_SIZE / 2 - 0.5 || newpos.y > paddle_y + PADDLE_SIZE / 2 + 0.5) {
+                dt::Logger::Get().Info("Computer lost!");
+                ++mScore2;
+                ResetBall();
+            } else {
+                mBallSpeed.x *= -1;
+            }
+        }
+
+        mBallNode->SetPosition(mBallNode->GetPosition() + mBallSpeed * simulation_frame_time);
+
+        Ogre::Quaternion q;
+        q.FromAngleAxis(Ogre::Radian(Ogre::Math::Cos(Ogre::Radian(dt::Root::GetInstance().GetTimeSinceInitialize() * 0.2))) * 0.1, Ogre::Vector3::UNIT_X);
+        Ogre::Quaternion w;
+        w.FromAngleAxis(Ogre::Radian(Ogre::Math::Sin(Ogre::Radian(dt::Root::GetInstance().GetTimeSinceInitialize() * 0.2))) * 0.1, Ogre::Vector3::UNIT_Y);
+        mGameNode->SetRotation(q * w);
     }
 
 private:

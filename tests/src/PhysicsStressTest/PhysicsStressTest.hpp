@@ -12,7 +12,7 @@
 #include "Test.hpp"
 
 #include <Core/Root.hpp>
-#include <Event/EventListener.hpp>
+//#include <Event/EventListener.hpp>
 #include <Graphics/LightComponent.hpp>
 #include <Graphics/MeshComponent.hpp>
 #include <Physics/PhysicsBodyComponent.hpp>
@@ -36,8 +36,12 @@ public:
 class Main : public dt::State {
 public:
     Main();
-    void HandleEvent(std::shared_ptr<dt::Event> e);
+    //void HandleEvent(std::shared_ptr<dt::Event> e);
     void OnInitialize();
+
+private slots:
+    void _HandleEvent(double simulation_frame_time);
+
 private:
     double mRuntime;
 

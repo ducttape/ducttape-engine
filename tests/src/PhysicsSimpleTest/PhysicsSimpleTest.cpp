@@ -8,7 +8,7 @@
 
 #include "PhysicsSimpleTest/PhysicsSimpleTest.hpp"
 
-#include <Event/BeginFrameEvent.hpp>
+//#include <Event/BeginFrameEvent.hpp>
 #include <Scene/StateManager.hpp>
 #include <Core/ResourceManager.hpp>
 #include <Graphics/CameraComponent.hpp>

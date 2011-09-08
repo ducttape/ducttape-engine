@@ -12,7 +12,7 @@
 
 #include <Core/Root.hpp>
 #include <Utils/Utils.hpp>
-#include <Event/EventManager.hpp>
+//#include <Event/EventManager.hpp>
 #include <Network/NetworkManager.hpp>
 #include <Network/ConnectionsManager.hpp>
 #include <Scene/StateManager.hpp>
@@ -79,8 +79,9 @@ void Client::InputThread(void* user_data) {
             // quit this state. the application will terminate
             dt::StateManager::Get()->Pop();
         } else {
-            dt::EventManager::Get()->
-                InjectEvent(std::make_shared<ChatMessageEvent>(QString(in.c_str()), client->GetNick()));
+            /*dt::EventManager::Get()->
+                InjectEvent(std::make_shared<ChatMessageEvent>(QString(in.c_str()), client->GetNick()));*/
+            dt::NetworkManager::Get()->QueueEvent(std::make_shared<ChatMessageEvent>(QString(in.c_str()), client->GetNick()));
         }
     }
 }
