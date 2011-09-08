@@ -9,6 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_TESTS_GUITEST
 #define DUCTTAPE_ENGINE_TESTS_GUITEST
 
+#include <Config.hpp>
+
 #include "Test.hpp"
 
 #include <Core/Root.hpp>

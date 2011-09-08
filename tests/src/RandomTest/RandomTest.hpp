@@ -9,6 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_TESTS_RANDOMTEST
 #define DUCTTAPE_ENGINE_TESTS_RANDOMTEST
 
+#include <Config.hpp>
+
 #include "Test.hpp"
 
 #include <Utils/Random.hpp>

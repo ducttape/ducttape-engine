@@ -108,11 +108,11 @@ void JumpTape::HandleEvent(std::shared_ptr<dt::Event> e) {
         // Show reset game info.
         static QString time;
         if(player_pos.y < -4) {
-            mGameInfo->SetText("You ran for " + time + " seconds, press N for a new game");
+            mGameInfo->SetText("You ran for " % time % " seconds, press N for a new game");
         }
         else {
             time = dt::Utils::ToString(static_cast<uint32_t>(mRuntime));
-            mGameInfo->SetText("You ran for " + time + " seconds");
+            mGameInfo->SetText("You ran for " % time % " seconds");
         }
     }
 }

@@ -9,6 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_TESTS_BILLBOARDTEST
 #define DUCTTAPE_ENGINE_TESTS_BILLBOARDTEST
 
+#include <Config.hpp>
+
 #include "Test.hpp"
 
 #include <Core/Root.hpp>

@@ -9,6 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_TESTS_TESTFRAMEWORK
 #define DUCTTAPE_ENGINE_TESTS_TESTFRAMEWORK
 
+#include <Config.hpp>
+
 #include "Test.hpp"
 
 #include <QString>

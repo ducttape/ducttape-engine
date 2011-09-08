@@ -6,6 +6,8 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
+#include <Config.hpp>
+
 #include <iostream>
 
 #include "Root.hpp"

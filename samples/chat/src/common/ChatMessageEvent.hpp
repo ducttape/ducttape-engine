@@ -9,6 +9,8 @@
 #ifndef DUCTTAPE_SAMPLE_CHAT_COMMON_CHATMESSAGEEVENT
 #define DUCTTAPE_SAMPLE_CHAT_COMMON_CHATMESSAGEEVENT
 
+#include <Config.hpp>
+
 #include <Network/NetworkEvent.hpp>
 #include <Event/MessageEvent.hpp>
 
