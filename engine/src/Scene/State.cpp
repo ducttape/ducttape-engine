@@ -54,4 +54,10 @@ void State::DeleteScene(const QString& name) {
     mScenes.erase(mScenes.find(name));
 }
 
+void State::UpdateFrame(double simulation_frame_time) {
+    for(auto i = mScenes.begin();i != mScenes.end(); i++) {
+        i->second->UpdateFrame(simulation_frame_time);
+    }
+}
+
 } // namespace dt

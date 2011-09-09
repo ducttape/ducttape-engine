@@ -33,10 +33,13 @@ class Main : public dt::State {
 
 public:
     void OnInitialize();
-    void HandleEvent(std::shared_ptr<dt::Event> e);
+    //void HandleEvent(std::shared_ptr<dt::Event> e);
 
 public slots:
     void TimerCallback(const QString& message);
+
+private slots:
+    void _HandleEvent(double simulation_frame_time);
 
 public:
     std::shared_ptr<dt::Timer> mTimer1;
