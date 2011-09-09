@@ -9,6 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_TESTS_MOUSECURSORTEST
 #define DUCTTAPE_ENGINE_TESTS_MOUSECURSORTEST
 
+#include <Config.hpp>
+
 #include "Test.hpp"
 
 #include <Core/Root.hpp>

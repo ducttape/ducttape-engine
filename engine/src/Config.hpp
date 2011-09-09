@@ -9,6 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_CONFIG
 #define DUCTTAPE_ENGINE_CONFIG
 
+#define QT_USE_FAST_CONCATENATION
+
 #define MYGUI_DONT_USE_OBSOLETE
 
 // The following definitions are kindly taken from SFML

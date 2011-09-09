@@ -23,7 +23,7 @@ Node::Node(const QString& name)
 
     // auto-generate name
     if(mName == "") {
-        mName = "Node-" + Utils::ToString(StringManager::Get()->GetNextAutoId());
+        mName = "Node-" % Utils::ToString(StringManager::Get()->GetNextAutoId());
     }
 }
 

@@ -52,11 +52,11 @@ NetworkManager* NetworkManager::Get() {
 
 bool NetworkManager::BindSocket(uint16_t port) {
     if(mSocket.Bind(port) != sf::Socket::Done) {
-        Logger::Get().Error("Binding socket to port " + Utils::ToString(port) + " failed.");
+        Logger::Get().Error("Binding socket to port " % Utils::ToString(port) % " failed.");
         return false;
     }
     mSocket.SetBlocking(false);
-    Logger::Get().Info("Binding socket to port " + Utils::ToString(port) + " successful.");
+    Logger::Get().Info("Binding socket to port " % Utils::ToString(port) % " successful.");
     return true;
 }
 
@@ -98,7 +98,7 @@ void NetworkManager::SendQueuedEvents() {
 }
 
 void NetworkManager::QueueEvent(std::shared_ptr<NetworkEvent> event) {
-    //Logger::Get().Debug("NetworkManager: Queued NetworkEvent [" + Utils::ToString(event->GetTypeID()) + ": " + event->GetType() + "]");
+    //Logger::Get().Debug("NetworkManager: Queued NetworkEvent [" % Utils::ToString(event->GetTypeID()) % ": " % event->GetType() % "]");
     mQueue.push_back(event);
 }
 
@@ -121,15 +121,15 @@ void NetworkManager::HandleIncomingEvents() {
             packet >> type;
             std::shared_ptr<NetworkEvent> event = CreatePrototypeInstance(type);
             if(event != nullptr) {
-                // Logger::Get().Debug("NetworkManager: Received event [" + Utils::ToString(event->GetTypeID()) + ": " +
-                                   // event->GetType() + "] from <" + Utils::ToString(sender_id) + ">. Handling.");
+                // Logger::Get().Debug("NetworkManager: Received event [" % Utils::ToString(event->GetTypeID()) % ": " %
+                                   // event->GetType() % "] from <" % Utils::ToString(sender_id) % ">. Handling.");
                 IOPacket iop(&packet, IOPacket::MODE_RECEIVE);
                 event->Serialize(iop);
                 event->IsLocalEvent(true);
                 event->SetSenderID(sender_id);
                 EventManager::Get()->InjectEvent(event);
             } else {
-                Logger::Get().Error("NetworkManager: Cannot create instance of packet type [" + Utils::ToString(type) + "]. Skipping packet.");
+                Logger::Get().Error("NetworkManager: Cannot create instance of packet type [" % Utils::ToString(type) % "]. Skipping packet.");
                 break;
             }
         }
@@ -198,10 +198,10 @@ void NetworkManager::_SendEvent(std::shared_ptr<NetworkEvent> event) {
     // send packet to all recipients
     const std::vector<uint16_t>& recipients = event->GetRecipients();
     for(auto iter = recipients.begin(); iter != recipients.end(); ++iter) {
-        // Logger::Get().Debug("NetworkManager: Sending Event to " + Utils::ToString(i));
+        // Logger::Get().Debug("NetworkManager: Sending Event to " % Utils::ToString(i));
         Connection* r = mConnectionsManager.GetConnection(*iter);
         if(r == nullptr) {
-            Logger::Get().Error("Cannot send event to " + Utils::ToString(*iter) + ": No connection with this ID");
+            Logger::Get().Error("Cannot send event to " % Utils::ToString(*iter) % ": No connection with this ID");
         } else {
             mSocket.Send(p, r->GetIPAddress(), r->GetPort());
         }

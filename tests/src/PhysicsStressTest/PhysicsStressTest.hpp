@@ -9,6 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_TESTS_PHYSICSSTRESSTEST
 #define DUCTTAPE_ENGINE_TESTS_PHYSICSSTRESSTEST
 
+#include <Config.hpp>
+
 #include "Test.hpp"
 
 #include <Core/Root.hpp>
