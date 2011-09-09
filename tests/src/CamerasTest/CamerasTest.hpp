@@ -9,6 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_TESTS_CAMERASTEST
 #define DUCTTAPE_ENGINE_TESTS_CAMERASTEST
 
+#include <Config.hpp>
+
 #include "Test.hpp"
 
 #include <Event/BeginFrameEvent.hpp>

@@ -6,6 +6,8 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
+#include <Config.hpp>
+
 #include "Client.hpp"
 
 #include <Utils/Utils.hpp>
@@ -20,7 +22,7 @@ int main(int argc, char** argv) {
     if(argc > 1)
         client->SetNick(argv[1]);
     else
-        client->SetNick("chatter-" + dt::Utils::ToString(time(0)));
+        client->SetNick("chatter-" % dt::Utils::ToString(time(0)));
 
     if(argc > 2)
         client->SetServerIP(sf::IpAddress(argv[2]));

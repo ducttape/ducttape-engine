@@ -9,6 +9,8 @@
 #ifndef DUCTTAPE_SAMPLE_CHAT_CLIENT_CLIENT
 #define DUCTTAPE_SAMPLE_CHAT_CLIENT_CLIENT
 
+#include <Config.hpp>
+
 #include <Scene/Game.hpp>
 
 #include <SFML/Network/IpAddress.hpp>

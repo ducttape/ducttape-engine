@@ -9,6 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_TESTS_MUSICFADETEST
 #define DUCTTAPE_ENGINE_TESTS_MUSICFADETEST
 
+#include <Config.hpp>
+
 #include "Test.hpp"
 
 #include <Audio/MusicComponent.hpp>

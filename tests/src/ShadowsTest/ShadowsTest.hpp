@@ -9,6 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_TESTS_SHADOWSTEST
 #define DUCTTAPE_ENGINE_TESTS_SHADOWSTEST
 
+#include <Config.hpp>
+
 #include "Test.hpp"
 
 #include <Core/Root.hpp>

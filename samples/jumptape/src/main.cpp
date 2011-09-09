@@ -6,6 +6,8 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
+#include <Config.hpp>
+
 #include "JumpTape.h"
 
 int main(int argc, char** argv) {
