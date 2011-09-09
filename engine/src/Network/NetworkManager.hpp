@@ -51,7 +51,7 @@ public:
     static NetworkManager* Get();
 
 //    void HandleEvent(std::shared_ptr<Event> e);
-    virtual int GetEventPriority() const;
+   // virtual int GetEventPriority() const;
 
     /**
       * Binds the Socket used for the complete networking to the port given.

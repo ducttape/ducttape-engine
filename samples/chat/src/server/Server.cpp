@@ -11,13 +11,13 @@
 #include <Core/Root.hpp>
 #include <Network/GoodbyeEvent.hpp>
 #include <Utils/Utils.hpp>
-#include <Event/EventManager.hpp>
+//#include <Event/EventManager.hpp>
 #include <Network/NetworkManager.hpp>
 
 #include "ChatMessageEvent.hpp"
 
 void Server::OnInitialize() {
-    dt::EventManager::Get()->AddListener(this);
+    //dt::EventManager::Get()->AddListener(this);
 
     std::shared_ptr<dt::NetworkEvent> ptr(new ChatMessageEvent("",""));
     dt::NetworkManager::Get()->RegisterNetworkEventPrototype(ptr);
