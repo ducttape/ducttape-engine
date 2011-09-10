@@ -8,7 +8,7 @@
 
 #include "InputTest/InputTest.hpp"
 
-#include <Event/BeginFrameEvent.hpp>
+//#include <Event/BeginFrameEvent.hpp>
 #include <Input/InputManager.hpp>
 #include <Core/ResourceManager.hpp>
 #include <Graphics/CameraComponent.hpp>
@@ -31,16 +31,17 @@ QString InputTest::GetTestName() {
 Main::Main()
     : mRuntime(0) {}
 
-void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-        mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
-        if(mRuntime > 2.5) {
-            dt::StateManager::Get()->Pop(1);
-        }
-    }
-}
+//void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
+//    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
+//        mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
+//        if(mRuntime > 2.5) {
+//            dt::StateManager::Get()->Pop(1);
+//        }
+//    }
+//}
 
 void Main::OnInitialize() {
+    connect(this,SIGNAL(BeginFrame(double)),this,SLOT(_HandleEvent(double)));
     dt::Scene* scene = AddScene(new dt::Scene("testscene"));
     dt::InputManager::Get()->SetJailInput(true);
 
@@ -60,5 +61,11 @@ void Main::OnInitialize() {
     mesh->PlayAnimation();
 }
 
+void Main::_HandleEvent(double simulation_frame_time) {
+    mRuntime += simulation_frame_time;
+    if(mRuntime > 2.5) {
+        dt::StateManager::Get()->Pop(1);
+    }
+}
 
 }
