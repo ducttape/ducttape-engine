@@ -12,7 +12,7 @@
 #include "Test.hpp"
 
 #include <Core/Root.hpp>
-#include <Event/EventListener.hpp>
+//#include <Event/EventListener.hpp>
 #include <Graphics/LightComponent.hpp>
 #include <Graphics/MeshComponent.hpp>
 #include <Scene/Game.hpp>
@@ -32,6 +32,7 @@ public:
 ////////////////////////////////////////////////////////////////
 
 class Main : public dt::State {
+    Q_OBJECT
 public:
     Main();
     //void HandleEvent(std::shared_ptr<dt::Event> e);

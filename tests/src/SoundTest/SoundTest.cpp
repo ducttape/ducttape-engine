@@ -9,7 +9,7 @@
 #include "SoundTest/SoundTest.hpp"
 
 #include <Utils/Utils.hpp>
-#include <Event/EventManager.hpp>
+//#include <Event/EventManager.hpp>
 
 #include <SFML/Audio.hpp>
 #include <SFML/System.hpp>
@@ -34,7 +34,7 @@ bool SoundTest::Run(int argc, char** argv) {
         exit(1);
     }
 
-    std::cout << "SoundComponent file = " << dt::Utils::ToStdString(sound_component->GetSoundFile()) << std::endl;
+    std::cout << "SoundComponent file = " << dt::Utils::ToStdString(sound_component->GetSoundFileName()) << std::endl;
     std::cout << "SoundComponent duration = " << sound_component->GetSound().GetBuffer()->GetDuration() << std::endl;
 
     /* Test 3D sound */
@@ -86,7 +86,7 @@ bool SoundTest::Run(int argc, char** argv) {
         return false;
     }
 
-    std::cout << "SoundComponent file = " << dt::Utils::ToStdString(sound_component->GetSoundFile()) << std::endl;
+    std::cout << "SoundComponent file = " << dt::Utils::ToStdString(sound_component->GetSoundFileName()) << std::endl;
     std::cout << "SoundComponent duration = " << sound_component->GetSound().GetBuffer()->GetDuration() << std::endl;
 
     /* Test 3D sound */

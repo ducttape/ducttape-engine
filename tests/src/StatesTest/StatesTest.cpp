@@ -8,7 +8,7 @@
 
 #include "StatesTest/StatesTest.hpp"
 
-#include <Event/BeginFrameEvent.hpp>
+//#include <Event/BeginFrameEvent.hpp>
 #include <Scene/StateManager.hpp>
 #include <Core/ResourceManager.hpp>
 #include <Graphics/CameraComponent.hpp>
@@ -28,12 +28,19 @@ QString StatesTest::GetTestName() {
 
 ////////////////////////////////////////////////////////////////
 
-void SecondState::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-        if(dt::Root::GetInstance().GetTimeSinceInitialize() > 4.0 && !mPopped) {
-            dt::StateManager::Get()->Pop();
-            mPopped = true;
-        }
+//void SecondState::HandleEvent(std::shared_ptr<dt::Event> e) {
+//    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
+//        if(dt::Root::GetInstance().GetTimeSinceInitialize() > 4.0 && !mPopped) {
+//            dt::StateManager::Get()->Pop();
+//            mPopped = true;
+//        }
+//    }
+//}
+
+void SecondState::_HandleEvent(double simulation_frame_time) {
+    if(dt::Root::GetInstance().GetTimeSinceInitialize() > 4.0 && !mPopped) {
+        dt::StateManager::Get()->Pop();
+        mPopped = true;
     }
 }
 
@@ -60,6 +67,8 @@ void SecondState::OnInitialize() {
     dt::TextComponent* text = textnode->AddComponent(new dt::TextComponent("Second State", "text"));
     text->SetFont("DejaVuSans");
     text->SetFontSize(64);
+
+    QObject::connect(this, SIGNAL(BeginFrame(double)), this, SLOT(_HandleEvent(double)));
 }
 
 ////////////////////////////////////////////////////////////////
@@ -67,16 +76,27 @@ void SecondState::OnInitialize() {
 FirstState::FirstState()
     : mCreated(false) {}
 
-void FirstState::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-        if(dt::Root::GetInstance().GetTimeSinceInitialize() > 6.0) {
-            dt::StateManager::Get()->Pop();
-        }
+//void FirstState::HandleEvent(std::shared_ptr<dt::Event> e) {
+//    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
+//        if(dt::Root::GetInstance().GetTimeSinceInitialize() > 6.0) {
+//            dt::StateManager::Get()->Pop();
+//        }
+//
+//        if(dt::Root::GetInstance().GetTimeSinceInitialize() > 2.0 && !mCreated) {
+//            dt::StateManager::Get()->SetNewState(new SecondState());
+//            mCreated = true;
+//        }
+//    }
+//}
 
-        if(dt::Root::GetInstance().GetTimeSinceInitialize() > 2.0 && !mCreated) {
-            dt::StateManager::Get()->SetNewState(new SecondState());
-            mCreated = true;
-        }
+void FirstState::_HandleEvent(double simulation_frame_time) {
+    if(dt::Root::GetInstance().GetTimeSinceInitialize() > 6.0) {
+        dt::StateManager::Get()->Pop();
+    }
+
+    if(dt::Root::GetInstance().GetTimeSinceInitialize() > 2.0 && !mCreated) {
+        dt::StateManager::Get()->SetNewState(new SecondState());
+        mCreated = true;
     }
 }
 
@@ -100,6 +120,8 @@ void FirstState::OnInitialize() {
     dt::TextComponent* text = textnode->AddComponent(new dt::TextComponent("First State", "text"));
     text->SetFont("DejaVuSans");
     text->SetFontSize(64);
+
+    QObject::connect(this, SIGNAL(BeginFrame(double)), this, SLOT(_HandleEvent(double)));
 }
 
 }

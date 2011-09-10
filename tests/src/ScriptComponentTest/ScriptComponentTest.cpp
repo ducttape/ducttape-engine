@@ -8,7 +8,7 @@
 
 #include "ScriptComponentTest/ScriptComponentTest.hpp"
 
-#include <Event/BeginFrameEvent.hpp>
+//#include <Event/BeginFrameEvent.hpp>
 #include <Scene/StateManager.hpp>
 #include <Core/ResourceManager.hpp>
 #include <Logic/ScriptManager.hpp>
@@ -31,12 +31,19 @@ QString ScriptComponentTest::GetTestName() {
 Main::Main()
     : mRuntime(0) {}
 
-void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-        mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
-        if(mRuntime > 2) {
-            dt::StateManager::Get()->Pop(1);
-        }
+//void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
+//    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
+//        mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
+//        if(mRuntime > 2) {
+//            dt::StateManager::Get()->Pop(1);
+//        }
+//    }
+//}
+
+void Main::_HandleEvent(double simulation_frame_time) {
+    mRuntime += simulation_frame_time;
+    if(mRuntime > 2) {
+        dt::StateManager::Get()->Pop(1);
     }
 }
 
@@ -56,6 +63,8 @@ void Main::OnInitialize() {
     dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh");
     meshnode->AddComponent(mesh);
     meshnode->AddComponent(new dt::ScriptComponent("circular_movement.js", "script"));
+
+    QObject::connect(this, SIGNAL(BeginFrame(double)), this, SLOT(_HandleEvent(double)));
 }
 
 

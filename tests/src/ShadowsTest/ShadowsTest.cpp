@@ -8,7 +8,7 @@
 
 #include "ShadowsTest/ShadowsTest.hpp"
 
-#include <Event/BeginFrameEvent.hpp>
+//#include <Event/BeginFrameEvent.hpp>
 #include <Scene/StateManager.hpp>
 #include <Core/ResourceManager.hpp>
 #include <Graphics/CameraComponent.hpp>
@@ -30,12 +30,19 @@ QString ShadowsTest::GetTestName() {
 Main::Main()
     : mRuntime(0) {}
 
-void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-        mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
-        if(mRuntime > 2.5) {
-            dt::StateManager::Get()->Pop(1);
-        }
+//void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
+//    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
+//        mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
+//        if(mRuntime > 2.5) {
+//            dt::StateManager::Get()->Pop(1);
+//        }
+//    }
+//}
+
+void Main::_HandleEvent(double simulation_frame_time) {
+    mRuntime += simulation_frame_time;
+    if(mRuntime > 2.5) {
+        dt::StateManager::Get()->Pop(1);
     }
 }
 
@@ -92,6 +99,8 @@ void Main::OnInitialize() {
     ogl2->setSpotlightOuterAngle(Ogre::Degree(40));
     lightnode2->SetPosition(Ogre::Vector3(5, 20, 0));
     lightnode2->LookAt(Ogre::Vector3(-2,5,0));
+
+    QObject::connect(this, SIGNAL(BeginFrame(double)), this, SLOT(_HandleEvent(double)));
 }
 
 void Main::PutMeshShadow(const QString& meshName, const Ogre::Vector3& position, const QString materialName) {

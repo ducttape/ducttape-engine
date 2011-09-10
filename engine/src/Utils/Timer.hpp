@@ -40,7 +40,6 @@ public:
       * @param interval The interval to wait between 2 ticks.
       * @param repeat Whether the timer should proceed to tick after the first tick.
       * @param threaded Whether the timer should be started in a separate thread or just rely on the BeginFrameEvent.
-      * @param use_events Whether the timer should create a TimerTickEvent every tick or just call the signal.
       */
     Timer(const QString& message, double interval, bool repeat = true,
           bool threaded = false/*, bool use_events = true*/);
