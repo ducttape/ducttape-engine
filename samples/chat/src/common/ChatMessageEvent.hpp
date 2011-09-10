@@ -21,6 +21,7 @@ public:
     void Serialize(dt::IOPacket& p);
 
     const QString& GetSenderNick() const;
+    const QString& GetMessageText() const;
 protected:
     QString mSenderNick;
 

@@ -56,6 +56,7 @@ Main::Main()
 //}
 
 void Main::OnInitialize() {
+    connect(this,SIGNAL(BeginFrame(double)),this,SLOT(_HandleEvent(double)));
     dt::Scene* scene = AddScene(new dt::Scene("testscene"));
 
     dt::ResourceManager::Get()->AddResourceLocation("sinbad.zip","Zip", true);
@@ -90,7 +91,7 @@ void Main::OnInitialize() {
     mStep = 0;
 }
 
-void Main::_TestLogic(double simulation_frame_time) {
+void Main::_HandleEvent(double simulation_frame_time) {
     mRuntime += simulation_frame_time;
     if(mRuntime > 3.0) {
         dt::StateManager::Get()->Pop(1);

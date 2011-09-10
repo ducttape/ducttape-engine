@@ -31,3 +31,7 @@ void ChatMessageEvent::Serialize(dt::IOPacket& p) {
 const QString& ChatMessageEvent::GetSenderNick() const {
     return mSenderNick;
 }
+
+const QString& ChatMessageEvent::GetMessageText() const {
+    return mMessage;
+}

@@ -63,8 +63,8 @@ int main(int argc, char** argv) {
     AddTest(new CamerasTest::CamerasTest);
     AddTest(new ConnectionsTest::ConnectionsTest);
     AddTest(new DisplayTest::DisplayTest);
-    AddTest(new EventBindingsTest::EventBindingsTest);
-    AddTest(new EventsTest::EventsTest);
+    //AddTest(new EventBindingsTest::EventBindingsTest);
+    //AddTest(new EventsTest::EventsTest);
     AddTest(new FollowPathTest::FollowPathTest);
     AddTest(new GuiTest::GuiTest);
     AddTest(new InputTest::InputTest);

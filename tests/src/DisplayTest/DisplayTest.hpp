@@ -28,6 +28,7 @@ public:
 };
 
 class Main: public dt::State {
+    Q_OBJECT
 public:
     Main();
     //void HandleEvent(std::shared_ptr<dt::Event> e);
