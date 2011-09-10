@@ -44,10 +44,10 @@ private slots:
 public:
     std::shared_ptr<dt::Timer> mTimer1;
     std::shared_ptr<dt::Timer> mTimer2;
-    std::shared_ptr<dt::Timer> mTimer3;
+    //std::shared_ptr<dt::Timer> mTimer3;
     int mTimer1Count;
     int mTimer2Count;
-    int mTimer3Count;
+    //int mTimer3Count;
 
     double mTotalTime;
 };

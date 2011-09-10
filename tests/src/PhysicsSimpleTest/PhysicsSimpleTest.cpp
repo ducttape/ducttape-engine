@@ -30,49 +30,87 @@ QString PhysicsSimpleTest::GetTestName() {
 Main::Main()
     : mRuntime(0) {}
 
-Main::Priority Main::GetEventPriority() const {
-    // handle event after the nodes have been updated, so we can
-    // monitor their final state
-    return EventListener::LOWEST;
-}
+//Main::Priority Main::GetEventPriority() const {
+//    // handle event after the nodes have been updated, so we can
+//    // monitor their final state
+//    return EventListener::LOWEST;
+//}
 
-void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-        mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
+//void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
+//    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
+//        mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
+//
+//        dt::Scene* testscene = GetScene("testscene");
+//        dt::PhysicsBodyComponent* sphere1 = testscene->FindChildNode("spherenode")->FindComponent<dt::PhysicsBodyComponent>("sphere-body");
+//        dt::PhysicsBodyComponent* sphere2 = testscene->FindChildNode("spherenode2")->FindComponent<dt::PhysicsBodyComponent>("sphere-body2");
+//
+//        if(sphere2->IsEnabled() && mRuntime > 1.0) {
+//            // disable and save position
+//            sphere2->Disable();
+//            mSphere2DisabledPosition = sphere2->GetNode()->GetPosition();
+//        } else if(!sphere2->IsEnabled()) {
+//            // check if it moved
+//            if(mSphere2DisabledPosition != sphere2->GetNode()->GetPosition()) {
+//                std::cerr << "The second sphere moved, even though it should be disabled." << std::endl;
+//                exit(1);
+//            }
+//        }
+//
+//
+//        if(mRuntime >= 3.0 && testscene->GetPhysicsWorld()->IsEnabled()) {
+//            mSphere1DisabledPosition = sphere1->GetNode()->GetPosition();
+//        }
+//        if(!testscene->GetPhysicsWorld()->IsEnabled()) {
+//            if(mSphere1DisabledPosition != sphere1->GetNode()->GetPosition()) {
+//                std::cerr << "The first sphere moved, even though it should be disabled (the whole physics world should be disabled)." << std::endl;
+//                exit(1);
+//            }
+//        }
+//
+//        testscene->GetPhysicsWorld()->SetShowDebug(mRuntime > 2.0);
+//        testscene->GetPhysicsWorld()->SetEnabled(mRuntime < 3.0);
+//
+//        if(mRuntime > 5.0) {
+//            dt::StateManager::Get()->Pop(1);
+//        }
+//    }
+//}
 
-        dt::Scene* testscene = GetScene("testscene");
-        dt::PhysicsBodyComponent* sphere1 = testscene->FindChildNode("spherenode")->FindComponent<dt::PhysicsBodyComponent>("sphere-body");
-        dt::PhysicsBodyComponent* sphere2 = testscene->FindChildNode("spherenode2")->FindComponent<dt::PhysicsBodyComponent>("sphere-body2");
+void Main::_HandleEvent(double simulation_frame_time) {
+    mRuntime += simulation_frame_time;
 
-        if(sphere2->IsEnabled() && mRuntime > 1.0) {
-            // disable and save position
-            sphere2->Disable();
-            mSphere2DisabledPosition = sphere2->GetNode()->GetPosition();
-        } else if(!sphere2->IsEnabled()) {
-            // check if it moved
-            if(mSphere2DisabledPosition != sphere2->GetNode()->GetPosition()) {
-                std::cerr << "The second sphere moved, even though it should be disabled." << std::endl;
-                exit(1);
-            }
+    dt::Scene* testscene = GetScene("testscene");
+    dt::PhysicsBodyComponent* sphere1 = testscene->FindChildNode("spherenode")->FindComponent<dt::PhysicsBodyComponent>("sphere-body");
+    dt::PhysicsBodyComponent* sphere2 = testscene->FindChildNode("spherenode2")->FindComponent<dt::PhysicsBodyComponent>("sphere-body2");
+
+    if(sphere2->IsEnabled() && mRuntime > 1.0) {
+        // disable and save position
+        sphere2->Disable();
+        mSphere2DisabledPosition = sphere2->GetNode()->GetPosition();
+    } else if(!sphere2->IsEnabled()) {
+        // check if it moved
+        if(mSphere2DisabledPosition != sphere2->GetNode()->GetPosition()) {
+            std::cerr << "The second sphere moved, even though it should be disabled." << std::endl;
+            exit(1);
         }
+    }
 
 
-        if(mRuntime >= 3.0 && testscene->GetPhysicsWorld()->IsEnabled()) {
-            mSphere1DisabledPosition = sphere1->GetNode()->GetPosition();
+    if(mRuntime >= 3.0 && testscene->GetPhysicsWorld()->IsEnabled()) {
+        mSphere1DisabledPosition = sphere1->GetNode()->GetPosition();
+    }
+    if(!testscene->GetPhysicsWorld()->IsEnabled()) {
+        if(mSphere1DisabledPosition != sphere1->GetNode()->GetPosition()) {
+            std::cerr << "The first sphere moved, even though it should be disabled (the whole physics world should be disabled)." << std::endl;
+            exit(1);
         }
-        if(!testscene->GetPhysicsWorld()->IsEnabled()) {
-            if(mSphere1DisabledPosition != sphere1->GetNode()->GetPosition()) {
-                std::cerr << "The first sphere moved, even though it should be disabled (the whole physics world should be disabled)." << std::endl;
-                exit(1);
-            }
-        }
+    }
 
-        testscene->GetPhysicsWorld()->SetShowDebug(mRuntime > 2.0);
-        testscene->GetPhysicsWorld()->SetEnabled(mRuntime < 3.0);
+    testscene->GetPhysicsWorld()->SetShowDebug(mRuntime > 2.0);
+    testscene->GetPhysicsWorld()->SetEnabled(mRuntime < 3.0);
 
-        if(mRuntime > 5.0) {
-            dt::StateManager::Get()->Pop(1);
-        }
+    if(mRuntime > 5.0) {
+        dt::StateManager::Get()->Pop(1);
     }
 }
 
@@ -115,6 +153,8 @@ void Main::OnInitialize() {
     dt::Node* lightnode1 = scene->AddChildNode(new dt::Node("lightnode1"));
     lightnode1->AddComponent(new dt::LightComponent("light1"));
     lightnode1->SetPosition(Ogre::Vector3(15, 5, 15));
+
+    QObject::connect(this, SIGNAL(BeginFrame(double)), this, SLOT(_HandleEvent(double)));
 }
 
 }

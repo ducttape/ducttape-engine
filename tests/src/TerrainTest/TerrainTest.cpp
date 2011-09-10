@@ -9,7 +9,7 @@
 #include "TerrainTest/TerrainTest.hpp"
 
 #include <Utils/Logger.hpp>
-#include <Event/BeginFrameEvent.hpp>
+//#include <Event/BeginFrameEvent.hpp>
 #include <Scene/StateManager.hpp>
 #include <Core/ResourceManager.hpp>
 #include <Graphics/CameraComponent.hpp>
@@ -33,18 +33,31 @@ Main::Main()
     : mRuntime(0),
       mBuilding(true) {}
 
-void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-        if(!mBuilding) {
-            mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
-        }
-        if(mRuntime > 3.0) {
-            dt::StateManager::Get()->Pop(1);
-        }
-        if(mBuilding && !dt::TerrainManager::Get()->GetOgreTerrainGroup()->isDerivedDataUpdateInProgress()) {
-            mBuilding = false;
-            dt::Logger::Get().Info("Building lightmap complete.");
-        }
+//void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
+//    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
+//        if(!mBuilding) {
+//            mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
+//        }
+//        if(mRuntime > 3.0) {
+//            dt::StateManager::Get()->Pop(1);
+//        }
+//        if(mBuilding && !dt::TerrainManager::Get()->GetOgreTerrainGroup()->isDerivedDataUpdateInProgress()) {
+//            mBuilding = false;
+//            dt::Logger::Get().Info("Building lightmap complete.");
+//        }
+//    }
+//}
+
+void Main::_HandleEvent(double simulation_frame_time) {
+    if(!mBuilding) {
+        mRuntime += simulation_frame_time;
+    }
+    if(mRuntime > 3.0) {
+        dt::StateManager::Get()->Pop(1);
+    }
+    if(mBuilding && !dt::TerrainManager::Get()->GetOgreTerrainGroup()->isDerivedDataUpdateInProgress()) {
+        mBuilding = false;
+        dt::Logger::Get().Info("Building lightmap complete.");
     }
 }
 
@@ -87,6 +100,8 @@ void Main::OnInitialize() {
     meshnode->SetPosition(Ogre::Vector3(0, 300, 0));
     dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh");
     meshnode->AddComponent(mesh);
+
+    QObject::connect(this, SIGNAL(BeginFrame(double)), this, SLOT(_HandleEvent(double)));
 }
 
 }
