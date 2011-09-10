@@ -12,7 +12,7 @@
 #include "Test.hpp"
 
 #include <Core/Root.hpp>
-#include <Event/EventListener.hpp>
+//#include <Event/EventListener.hpp>
 #include <Graphics/LightComponent.hpp>
 #include <Graphics/MeshComponent.hpp>
 #include <Physics/PhysicsBodyComponent.hpp>
@@ -33,9 +33,10 @@ public:
 ////////////////////////////////////////////////////////////////
 
 class Main : public dt::State {
+    Q_OBJECT
 public:
     Main();
-    Main::Priority GetEventPriority() const;
+    //Main::Priority GetEventPriority() const;
     //void HandleEvent(std::shared_ptr<dt::Event> e);
     void OnInitialize();
 

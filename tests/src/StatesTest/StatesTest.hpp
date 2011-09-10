@@ -12,7 +12,7 @@
 #include "Test.hpp"
 
 #include <Core/Root.hpp>
-#include <Event/EventListener.hpp>
+//#include <Event/EventListener.hpp>
 #include <Graphics/CameraComponent.hpp>
 #include <Graphics/LightComponent.hpp>
 #include <Graphics/MeshComponent.hpp>
@@ -35,6 +35,7 @@ public:
 ////////////////////////////////////////////////////////////////
 
 class SecondState : public dt::State {
+    Q_OBJECT
 public:
     //void HandleEvent(std::shared_ptr<dt::Event> e);
     void OnInitialize();
@@ -49,6 +50,7 @@ private:
 ////////////////////////////////////////////////////////////////
 
 class FirstState : public dt::State {
+    Q_OBJECT
 public:
     FirstState();
     //void HandleEvent(std::shared_ptr<dt::Event> e);

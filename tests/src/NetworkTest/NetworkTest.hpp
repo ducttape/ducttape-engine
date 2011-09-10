@@ -47,7 +47,7 @@ public:
 
     CustomNetworkEvent(int data, Sender e);
     const QString GetType() const;
-    std::shared_ptr<dt::Event> Clone() const;
+    std::shared_ptr<dt::NetworkEvent> Clone() const;
     void Serialize(dt::IOPacket& p);
 
 public:
