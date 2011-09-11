@@ -30,6 +30,7 @@ public:
 ////////////////////////////////////////////////////////////////
 
 class Main: public dt::State {
+    Q_OBJECT
 public:
     Main();
     void Click(MyGUI::Widget* _sender);
