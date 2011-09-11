@@ -10,11 +10,12 @@
 #define DUCTTAPE_SAMPLE_CHAT_SERVER_SERVER
 
 #include <Scene/Game.hpp>
+#include <Network/NetworkEvent.hpp>
 
 class Server : public dt::State {
 public:
     void OnInitialize();
-    void HandleEvent(std::shared_ptr<dt::Event> e);
+    void HandleEvent(std::shared_ptr<dt::NetworkEvent> e);
 
 };
 
