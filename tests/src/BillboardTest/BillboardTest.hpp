@@ -6,8 +6,8 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#ifndef DUCTTAPE_ENGINE_TESTS_PRIMITIVESTEST
-#define DUCTTAPE_ENGINE_TESTS_PRIMITIVESTEST
+#ifndef DUCTTAPE_ENGINE_TESTS_BILLBOARDTEST
+#define DUCTTAPE_ENGINE_TESTS_BILLBOARDTEST
 
 #include <Config.hpp>
 
@@ -15,35 +15,41 @@
 
 #include <Core/Root.hpp>
 #include <Event/EventListener.hpp>
-#include <Graphics/LightComponent.hpp>
+#include <Event/BeginFrameEvent.hpp>
+#include <Graphics/CameraComponent.hpp>
+#include <Graphics/BillboardSetComponent.hpp>
 #include <Graphics/MeshComponent.hpp>
+#include <Graphics/LightComponent.hpp>
+#include <Logic/FollowPathComponent.hpp>
 #include <Scene/Game.hpp>
 #include <Scene/Node.hpp>
 #include <Scene/Scene.hpp>
+#include <Scene/StateManager.hpp>
+#include <Core/ResourceManager.hpp>
 
 #include <OgreProcedural.h>
 
-namespace PrimitivesTest {
+namespace BillboardTest {
 
-class PrimitivesTest : public Test {
+class BillboardTest : public Test {
 public:
     bool Run(int argc, char** argv);
     QString GetTestName();
 };
 
-////////////////////////////////////////////////////////////////
 
 class Main : public dt::State {
 public:
     Main();
     void HandleEvent(std::shared_ptr<dt::Event> e);
     void OnInitialize();
+
 private:
     double mRuntime;
-    void PutMeshShadow(const QString& meshName, const Ogre::Vector3& position, const QString materialName = "");
+    dt::Node* mCamNode;
 
 };
 
-} // namespace test_primitive_mesh
+} // namespace test_billboard
 
 #endif

@@ -9,6 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_TESTS_RESOURCEMANAGERTEST
 #define DUCTTAPE_ENGINE_TESTS_RESOURCEMANAGERTEST
 
+#include <Config.hpp>
+
 #include "Test.hpp"
 
 #include <Core/Root.hpp>

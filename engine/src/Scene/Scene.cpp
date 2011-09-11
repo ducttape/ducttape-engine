@@ -23,12 +23,12 @@ EventListener::Priority Scene::GetEventPriority() const {
 }
 
 void Scene::OnInitialize() {
-    Logger::Get().Debug("Scene " + mName + " is being initialized.");
+    Logger::Get().Debug("Scene " % mName % " is being initialized.");
     EventManager::Get()->AddListener(this);
 }
 
 void Scene::OnDeinitialize() {
-    Logger::Get().Debug("Scene " + mName + " is being deinitialized.");
+    Logger::Get().Debug("Scene " % mName % " is being deinitialized.");
     EventManager::Get()->RemoveListener(this);
 }
 

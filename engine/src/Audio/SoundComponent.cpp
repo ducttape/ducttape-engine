@@ -86,10 +86,10 @@ void SoundComponent::StopSound() {
 
 void SoundComponent::_LoadSound() {
     if(mSoundFile == "") {
-        Logger::Get().Error("SoundComponent [" + mName + "]: Needs a sound file.");
+        Logger::Get().Error("SoundComponent [" % mName % "]: Needs a sound file.");
     }
     if(!ResourceManager::Get()->AddSoundBuffer(mSoundFile)) {
-        Logger::Get().Error("SoundComponent [" + mName + "]: Wasn't able to load sound file [" + mSoundFile + "].");
+        Logger::Get().Error("SoundComponent [" % mName % "]: Wasn't able to load sound file [" % mSoundFile % "].");
     } else {
         mSound.SetBuffer(* ResourceManager::Get()->GetSoundBuffer(mSoundFile));
     }

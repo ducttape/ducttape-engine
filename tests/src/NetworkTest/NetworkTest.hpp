@@ -13,6 +13,8 @@
 #define CLIENT_PORT 20502
 #define DATA_INCREMENT 42
 
+#include <Config.hpp>
+
 #include "Test.hpp"
 
 #include <Core/Root.hpp>
