@@ -7,6 +7,8 @@
 // ----------------------------------------------------------------------------
 
 #include <Utils/Timer.hpp>
+#include <Scene/StateManager.hpp>
+#include <Core/Root.hpp>
 #include <iostream>
 
 namespace dt {
@@ -23,6 +25,7 @@ Timer::Timer(const QString& message, double interval, bool repeat, bool threaded
     } else {
 //        EventManager::Get()->AddListener(this);
         mTimeLeft = mInterval;
+        connect(Root::GetInstance().GetStateManager()->GetCurrentState(), SIGNAL(BeginFrame(double)), this, SLOT(UpdateTimeLeft(double)));
     }
 }
 
@@ -62,13 +65,20 @@ void Timer::_ThreadFunction(void* user_data) {
 
     // wait for interval, convert to milliseconds for SFML
     sf::Sleep(timer->GetInterval() * 1000);
-
+    
     // done, trigger event
     timer->TriggerTickEvent();
 }
 
 void Timer::TriggerTick() {
     emit TimerTicked("DEBUG", mInterval);
+}
+
+void Timer::UpdateTimeLeft(double frame_time) {
+    mTimeLeft -= frame_time;
+    if(mTimeLeft <= 0) {
+        TriggerTickEvent();
+    }       
 }
 
 void Timer::Stop() {

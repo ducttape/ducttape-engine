@@ -72,6 +72,12 @@ public slots:
      * purposes.
      */
     void TriggerTick();
+    
+    /**
+     * Update the mTimeLeft, Only used in non-threaded mode.
+     * @param frame_time The time of the frame. 
+     */
+    void UpdateTimeLeft(double frame_time);
 
 signals:
     void TimerTicked(const QString& message, double interval);
