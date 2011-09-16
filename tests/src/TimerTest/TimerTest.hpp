@@ -45,8 +45,8 @@ public:
     std::shared_ptr<dt::Timer> mTimer1;
     std::shared_ptr<dt::Timer> mTimer2;
     //std::shared_ptr<dt::Timer> mTimer3;
-    uint8_t mTimer1Count;
-    uint8_t mTimer2Count;
+    uint16_t mTimer1Count;
+    uint16_t mTimer2Count;
     //int mTimer3Count;
 
     double mTotalTime;
