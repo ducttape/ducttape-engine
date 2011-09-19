@@ -18,6 +18,8 @@
 #include <memory>
 
 class Client : public dt::State {
+    Q_OBJECT
+
 public:
     Client();
 
@@ -30,8 +32,8 @@ public:
     const QString& GetNick() const;
 
     static void InputThread(void* user_data);
-public slots:
-    /*void HandleEvent(std::shared_ptr<dt::NetworkEvent> e);*/
+private slots:
+    void _HandleEvent(std::shared_ptr<dt::NetworkEvent> e);
 private:
     std::shared_ptr<sf::Thread> mInputThread;
     QString mNick;

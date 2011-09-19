@@ -139,7 +139,7 @@ void NetworkManager::HandleEvent(std::shared_ptr<NetworkEvent> e) {
 
         }
     } else if(e->GetType() == "DT_GOODBYEEVENT") {
-        // client sent a godbye event / server will disconnect the client
+        // client sent a goodbye event / server will disconnect the client
         std::shared_ptr<GoodbyeEvent> g = \
             std::dynamic_pointer_cast<GoodbyeEvent>(e);
         if(g->GetSenderID() != 0) {
