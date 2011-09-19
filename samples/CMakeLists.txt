@@ -1,3 +1,10 @@
+
+file(GLOB_RECURSE samples_client_HEADERS chat/src/client/*.hpp)
+file(GLOB_RECURSE samples_server_HEADERS chat/src/server/*.hpp)
+
+qt4_wrap_cpp(samples_client_HEADERS_MOC ${samples_client_HEADERS})
+qt4_wrap_cpp(samples_server_HEADERS_MOC ${samples_server_HEADERS})
+
 set(NETWORKSAMPLES chat)
 
 foreach(sample ${NETWORKSAMPLES})
@@ -12,11 +19,13 @@ foreach(sample ${NETWORKSAMPLES})
 
     add_executable(sample_${sample}_client
         ${${sample}_client_src}
-        ${${sample}_common_src})
+        ${${sample}_common_src}
+        ${samples_client_HEADERS_MOC})
 
     add_executable(sample_${sample}_server
         ${${sample}_server_src}
-        ${${sample}_common_src})
+        ${${sample}_common_src}
+        ${samples_server_HEADERS_MOC})
 
     target_link_libraries(sample_${sample}_client
         ducttape)

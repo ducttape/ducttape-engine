@@ -24,8 +24,8 @@ ConnectionsManager::ConnectionsManager(ConnectionsManager::ID_t max_connections)
 ConnectionsManager::~ConnectionsManager() {}
 
 void ConnectionsManager::Initialize() {
-    connect((QObject*)NetworkManager::Get(), SIGNAL(NetworkManager::Get()->NewEvent(std::shared_ptr<NetworkEvent>)),
-            this, SLOT(HandleEvent(std::shared_ptr<NetworkEvent>)));
+    //connect((QObject*)NetworkManager::Get(), SIGNAL(NetworkManager::Get()->NewEvent(std::shared_ptr<NetworkEvent>)),
+    //        this, SLOT(HandleEvent(std::shared_ptr<NetworkEvent>)));
     SetPingInterval(mPingInterval); // this starts the timer
 }
 
@@ -169,13 +169,13 @@ void ConnectionsManager::HandleEvent(std::shared_ptr<NetworkEvent> e) {
         }
     }
 
-    if(e->IsNetworkEvent()) {
-        std::shared_ptr<NetworkEvent> n = std::dynamic_pointer_cast<NetworkEvent>(e);
-        if(n->IsLocalEvent()) {
+    //if(e->IsNetworkEvent()) {
+    //    std::shared_ptr<NetworkEvent> n = std::dynamic_pointer_cast<NetworkEvent>(e);
+        if(e->IsLocalEvent()) {
             // we received a network event
-            mLastActivity[n->GetSenderID()] = Root::GetInstance().GetTimeSinceInitialize();
+            mLastActivity[e->GetSenderID()] = Root::GetInstance().GetTimeSinceInitialize();
         }
-    }
+    //}
 }
 
 void ConnectionsManager::TimerTick(QString message, double interval) {

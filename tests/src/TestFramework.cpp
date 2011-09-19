@@ -11,8 +11,8 @@
 #include "CamerasTest/CamerasTest.hpp"
 #include "ConnectionsTest/ConnectionsTest.hpp"
 #include "DisplayTest/DisplayTest.hpp"
-#include "EventBindingsTest/EventBindingsTest.hpp"
-#include "EventsTest/EventsTest.hpp"
+//#include "EventBindingsTest/EventBindingsTest.hpp"
+//#include "EventsTest/EventsTest.hpp"
 #include "FollowPathTest/FollowPathTest.hpp"
 #include "GuiTest/GuiTest.hpp"
 #include "InputTest/InputTest.hpp"
@@ -88,7 +88,7 @@ int main(int argc, char** argv) {
     AddTest(new SoundTest::SoundTest);
     AddTest(new StatesTest::StatesTest);
     AddTest(new TextTest::TextTest);
-    AddTest(new TimerTest::TimerTest);
+    //AddTest(new TimerTest::TimerTest);
     AddTest(new TerrainTest::TerrainTest);
 
     if(argc < 2) {

@@ -23,7 +23,7 @@ Client::Client() {
 
 void Client::OnInitialize() {
     connect((QObject*)dt::NetworkManager::Get(), SIGNAL(dt::NetworkManager::Get()->NewEvent(std::shared_ptr<dt::NetworkEvent>)),
-            this, SLOT(HandleEvent(std::shared_ptr<dt::NetworkEvent>)));
+            this, SLOT(_HandleEvent(std::shared_ptr<dt::NetworkEvent>)));
     dt::Logger::Get().GetStream("debug")->SetDisabled(true);
     dt::Logger::Get().GetStream("info")->SetDisabled(true);
 
@@ -37,14 +37,14 @@ void Client::OnInitialize() {
     mInputThread->Launch();
 }
 
-//void Client::HandleEvent(std::shared_ptr<dt::NetworkEvent> e) {
-//    if(e->GetType() == "CHATMESSAGEEVENT") {
-//        std::shared_ptr<ChatMessageEvent> c = std::dynamic_pointer_cast<ChatMessageEvent>(e);
-//        if(c->IsLocalEvent()) { // we just received this
-//            std::cout << std::endl << "<" << dt::Utils::ToStdString(c->GetSenderNick()) << "> " << dt::Utils::ToStdString(c->GetMessageText()) << std::endl;
-//        }
-//    }
-//}
+void Client::_HandleEvent(std::shared_ptr<dt::NetworkEvent> e) {
+    if(e->GetType() == "CHATMESSAGEEVENT") {
+        std::shared_ptr<ChatMessageEvent> c = std::dynamic_pointer_cast<ChatMessageEvent>(e);
+        //if(c->IsLocalEvent()) { // we just received this
+            std::cout << std::endl << "<" << dt::Utils::ToStdString(c->GetSenderNick()) << "> " << dt::Utils::ToStdString(c->GetMessageText()) << std::endl;
+        //}
+    }
+}
 
 void Client::SetServerIP(sf::IpAddress server_ip) {
     mServerIP = server_ip;

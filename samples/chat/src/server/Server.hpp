@@ -13,9 +13,11 @@
 #include <Network/NetworkEvent.hpp>
 
 class Server : public dt::State {
+    Q_OBJECT
 public:
     void OnInitialize();
-    void HandleEvent(std::shared_ptr<dt::NetworkEvent> e);
+private slots:
+    void _HandleEvent(std::shared_ptr<dt::NetworkEvent> e);
 
 };
 
