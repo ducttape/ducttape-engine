@@ -88,7 +88,7 @@ int main(int argc, char** argv) {
     AddTest(new SoundTest::SoundTest);
     AddTest(new StatesTest::StatesTest);
     AddTest(new TextTest::TextTest);
-    //AddTest(new TimerTest::TimerTest);
+    AddTest(new TimerTest::TimerTest);
     AddTest(new TerrainTest::TerrainTest);
 
     if(argc < 2) {
