@@ -18,6 +18,9 @@
 
 void Server::OnInitialize() {
     //dt::EventManager::Get()->AddListener(this);
+    connect((QObject*)dt::NetworkManager::Get(), SIGNAL(dt::NetworkManager::Get()->NewEvent(std::shared_ptr<dt::NetworkEvent>)),
+        this, SLOT(_HandleEvent(std::shared_ptr<dt::NetworkEvent>)));
+
 
     std::shared_ptr<dt::NetworkEvent> ptr(new ChatMessageEvent("",""));
     dt::NetworkManager::Get()->RegisterNetworkEventPrototype(ptr);
@@ -25,14 +28,14 @@ void Server::OnInitialize() {
     dt::NetworkManager::Get()->BindSocket(29876);
 }
 
-void Server::HandleEvent(std::shared_ptr<dt::NetworkEvent> e) {
+void Server::_HandleEvent(std::shared_ptr<dt::NetworkEvent> e) {
     // This is quite useful for debugging purposes.
     //dt::Logger::Get().Info("There are " + boost::lexical_cast<QString>(dt::ConnectionsManager::Get()->GetConnectionCount()) + " connections active.");
 
     if(e->GetType() == "CHATMESSAGEEVENT") {
         std::shared_ptr<ChatMessageEvent> c = std::dynamic_pointer_cast<ChatMessageEvent>(e);
 
-        if(c->IsLocalEvent()) { // we just received this
+        //if(c->IsLocalEvent()) { // we just received this
 
             if(c->GetMessageText() == "/help") {
                 QString msg = "\nThe following commands are available:\n\
@@ -50,7 +53,7 @@ void Server::HandleEvent(std::shared_ptr<dt::NetworkEvent> e) {
             dt::NetworkManager::Get()->
                 QueueEvent(std::make_shared<ChatMessageEvent>(c->GetMessageText(), 
                 c->GetSenderNick()));
-        }
+        //}
 
     } else if(e->GetType() == "DT_GOODBYEEVENT") {
         dt::Logger::Get().Info("Client disconnected: " + 
