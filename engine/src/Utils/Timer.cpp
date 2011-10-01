@@ -36,7 +36,7 @@ void Timer::TriggerTickEvent() {
             _RunThread();
         } else {
             mTimeLeft = mInterval;
-            }
+        }
     } else {
         Stop();
     }
