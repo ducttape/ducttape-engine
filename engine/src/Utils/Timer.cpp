@@ -32,7 +32,7 @@ void Timer::TriggerTickEvent() {
     emit TimerTicked(mMessage, mInterval);
 
     if(mRepeat) {
-        if (mThreaded) {
+        if(mThreaded) {
             _RunThread();
         } else {
             mTimeLeft = mInterval;
