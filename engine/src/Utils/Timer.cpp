@@ -17,13 +17,11 @@ Timer::Timer(const QString& message, double interval, bool repeat, bool threaded
     : mMessage(message),
       mInterval(interval),
       mRepeat(repeat),
-      mThreaded(threaded)
-      /*mUseEvents(use_events)*/ {
+      mThreaded(threaded) {
     // start the timer
     if(threaded) {
         _RunThread();
     } else {
-//        EventManager::Get()->AddListener(this);
         mTimeLeft = mInterval;
         connect(Root::GetInstance().GetStateManager(), SIGNAL(BeginFrame(double)), 
                 this, SLOT(UpdateTimeLeft(double)));
@@ -33,20 +31,14 @@ Timer::Timer(const QString& message, double interval, bool repeat, bool threaded
 void Timer::TriggerTickEvent() {
     emit TimerTicked(mMessage, mInterval);
 
-    if(mRepeat && mThreaded) {
-        _RunThread();
-    }
-
-    if(!mThreaded) {
-        if(!mRepeat) {
-            // disable
-  //          EventManager::Get()->RemoveListener(this);
-            disconnect(Root::GetInstance().GetStateManager(), SIGNAL(BeginFrame(double)), 
-                       this, SLOT(UpdateTimeLeft(double)));
+    if(mRepeat) {
+        if(mThreaded) {
+            _RunThread();
         } else {
-            // reset
             mTimeLeft = mInterval;
         }
+    } else {
+        Stop();
     }
 }
 
@@ -88,12 +80,11 @@ void Timer::Stop() {
     if(mThreaded) {
         mThread->Terminate();
     } else {
-        //EventManager::Get()->RemoveListener(this);
         disconnect(Root::GetInstance().GetStateManager(), SIGNAL(BeginFrame(double)), 
                    this, SLOT(UpdateTimeLeft(double)));
-        emit TimerStoped();
+        mTimeLeft = mInterval; // reset
     }
-    mTimeLeft = mInterval; // reset
+    emit TimerStoped();
 }
 
 } // namespace dt
