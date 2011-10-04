@@ -127,8 +127,8 @@ void ConnectionsManager::SetPingInterval(double ping_interval) {
     }
     if(mPingInterval != 0) {
         mPingTimer = std::shared_ptr<Timer>(new Timer("DT_SEND_PING", mPingInterval, true, false));
-        connect((QObject*)mPingTimer.get(), SIGNAL(mPingTimer->TimerTicked(QString, double)),
-                this, SLOT(TimerTick(Qstring, double)));
+        connect((QObject*)mPingTimer.get(), SIGNAL(TimerTicked(QString, double)),
+            this, SLOT(TimerTick(QString, double)), Qt::DirectConnection);
     }
 }
 

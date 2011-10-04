@@ -31,13 +31,13 @@ void GuiManager::Initialize() {
             return;
         }
         InputManager* inputMgrPtr = InputManager::Get();
-        connect(inputMgrPtr, SIGNAL(inputMgrPtr->sKeyPressed(OIS::KeyEvent&)), this, SLOT(sKeyPressed(OIS::KeyEvent&)));
-        connect(inputMgrPtr, SIGNAL(inputMgrPtr->sKeyReleased(OIS::KeyEvent&)), this, SLOT(sKeyReleased(OIS::KeyEvent&)));
-        connect(inputMgrPtr, SIGNAL(inputMgrPtr->sMouseMoved(OIS::MouseEvent&)), this, SLOT(sMouseMoved(OIS::KeyEvent&)));
-        connect(inputMgrPtr, SIGNAL(inputMprPtr->sMousePressed(OIS::MouseEvent&, OIS::MouseButtonID)),
-                this, SLOT(sMousePressed(OIS:MouseEvent&, OIS::MouseButtonID)));
-        connect(inputMgrPtr, SIGNAL(inputMgrPtr->sMouseReleased(OIS::MouseEvent&, OIS::MouseButtonID)),
-                this, SLOT(sMouseReleased(OIS::MousEvent&, OIS::MouseButtonID)));
+        connect(inputMgrPtr, SIGNAL(sKeyPressed(const OIS::KeyEvent&)), this, SLOT(sKeyPressed(const OIS::KeyEvent&)));
+        connect(inputMgrPtr, SIGNAL(sKeyReleased(const OIS::KeyEvent&)), this, SLOT(sKeyReleased(const OIS::KeyEvent&)));
+        connect(inputMgrPtr, SIGNAL(sMouseMoved(const OIS::MouseEvent&)), this, SLOT(sMouseMoved(const OIS::MouseEvent&)));
+        connect(inputMgrPtr, SIGNAL(sMousePressed(const OIS::MouseEvent&, OIS::MouseButtonID)),
+                this, SLOT(sMousePressed(const OIS::MouseEvent&, OIS::MouseButtonID)));
+        connect(inputMgrPtr, SIGNAL(sMouseReleased(const OIS::MouseEvent&, OIS::MouseButtonID)),
+                this, SLOT(sMouseReleased(const OIS::MouseEvent&, OIS::MouseButtonID)));
         Ogre::SceneManager* scene_mgr = c->GetCamera()->getSceneManager();
 
         mPlatform = new MyGUI::OgrePlatform();
@@ -73,31 +73,31 @@ void GuiManager::Deinitialize() {
     }
 }
 
-void GuiManager::sKeyPressed(OIS::KeyEvent& event) {
+void GuiManager::sKeyPressed(const OIS::KeyEvent& event) {
     if (_EventEnabled()) {
         mMyguiInputMgrPtr->injectKeyPress(MyGUI::KeyCode::Enum(event.key), event.text);
     }
 }
 
-void GuiManager::sKeyReleased(OIS::KeyEvent& event) {
+void GuiManager::sKeyReleased(const OIS::KeyEvent& event) {
     if (_EventEnabled()) {
         mMyguiInputMgrPtr->injectKeyRelease(MyGUI::KeyCode::Enum(event.key));
     }
 }
 
-void GuiManager::sMouseMoved(OIS::MouseEvent& event) {
+void GuiManager::sMouseMoved(const OIS::MouseEvent& event) {
     if (_EventEnabled()) {
         mMyguiInputMgrPtr->injectMouseMove(event.state.X.abs, event.state.Y.abs, event.state.Z.abs);
     }
 }
 
-void GuiManager::sMousePressed(OIS::MouseEvent& event, OIS::MouseButtonID button) {
+void GuiManager::sMousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
     if (_EventEnabled()) {
         mMyguiInputMgrPtr->injectMousePress(event.state.X.abs, event.state.Y.abs, MyGUI::MouseButton::Enum(button));
     }
 }
 
-void GuiManager::sMouseReleased(OIS::MouseEvent& event, OIS::MouseButtonID button) {
+void GuiManager::sMouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
     if (_EventEnabled()) {
         mMyguiInputMgrPtr->injectMouseRelease(event.state.X.abs, event.state.Y.abs, MyGUI::MouseButton::Enum(button));
     }

@@ -24,7 +24,7 @@ NetworkManager::~NetworkManager() {}
 void NetworkManager::Initialize() {
     // initialize the connections mananger
     mConnectionsManager.Initialize();
-    connect(this, SIGNAL(NewEvent(std::shared_ptr<NetworkEvent>)), GetConnectionsManager(), SLOT(qConnectionsManager->HandleEvent(std::shared_ptr<NetworkEvent>)));
+    connect(this, SIGNAL(NewEvent(std::shared_ptr<dt::NetworkEvent>)), GetConnectionsManager(), SLOT(HandleEvent(std::shared_ptr<dt::NetworkEvent>)));
 }
 
 void NetworkManager::Deinitialize() {
