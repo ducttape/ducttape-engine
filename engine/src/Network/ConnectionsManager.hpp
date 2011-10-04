@@ -153,7 +153,7 @@ public:
     double GetPing(ID_t connection);
 
 public slots:
-    void HandleEvent(std::shared_ptr<NetworkEvent> e);
+    void HandleEvent(std::shared_ptr<dt::NetworkEvent> e);
     void TimerTick(QString message, double interval);
 
 private:

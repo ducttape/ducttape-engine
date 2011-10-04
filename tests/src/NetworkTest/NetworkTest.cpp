@@ -142,7 +142,7 @@ void CustomServerEventListener::_HandleEvent(std::shared_ptr<dt::NetworkEvent> e
 }
 
 void CustomServerEventListener::_Initialize() {
-    QObject::connect(dt::NetworkManager::Get(), SIGNAL(dt::NetworkManager::Get()->NewEvent(std::shared_ptr<dt::NetworkEvent>)),
+    QObject::connect(dt::NetworkManager::Get(), SIGNAL(NewEvent(std::shared_ptr<dt::NetworkEvent>)),
         this, SLOT(_HandleEvent(std::shared_ptr<dt::NetworkEvent>)));
 }
 
@@ -165,7 +165,7 @@ void CustomClientEventListener::_HandleEvent(std::shared_ptr<dt::NetworkEvent> e
 }
 
 void CustomClientEventListener::_Initialize() {
-    QObject::connect(dt::NetworkManager::Get(), SIGNAL(dt::NetworkManager::Get()->NewEvent(std::shared_ptr<dt::NetworkEvent>)),
+    QObject::connect(dt::NetworkManager::Get(), SIGNAL(NewEvent(std::shared_ptr<dt::NetworkEvent>)),
         this, SLOT(_HandleEvent(std::shared_ptr<dt::NetworkEvent>)));
 }
 

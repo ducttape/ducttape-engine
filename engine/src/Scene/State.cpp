@@ -34,7 +34,7 @@ Scene* State::AddScene(Scene* scene) {
     QString key(scene->GetName());
     mScenes.insert(key, scene);
     GetScene(key)->Initialize();
-    connect(this, SIGNAL(BeginFrame(double)), GetScene(key), SLOT(GetScene(key)->UpdateFrame(double)));
+    connect(this, SIGNAL(BeginFrame(double)), GetScene(key), SLOT(UpdateFrame(double)));
     return GetScene(key);
 }
 

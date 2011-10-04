@@ -123,7 +123,7 @@ public:
     ConnectionsManager* GetConnectionsManager();
 
 signals:
-    void NewEvent(std::shared_ptr<NetworkEvent> event);
+    void NewEvent(std::shared_ptr<dt::NetworkEvent> event);
 
 private:
     /**
