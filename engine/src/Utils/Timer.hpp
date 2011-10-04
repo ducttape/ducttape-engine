@@ -74,7 +74,7 @@ public slots:
     void TriggerTick();
     
     /**
-     * Update the mTimeLeft, Only used in non-threaded mode.
+     * Update the time left, only used in non-threaded mode.
      * @param frame_time The duration of the frame. 
      */
     void UpdateTimeLeft(const double& frame_time);
@@ -82,7 +82,7 @@ public slots:
 signals:
     void TimerTicked(const QString& message, double interval);
 
-    void TimerStoped(); // TODO: It is still needed?.
+    void TimerStoped();
 private:
     /**
       * Private method. Runs the timer in a thread.
