@@ -34,7 +34,7 @@ Scene* State::AddScene(Scene* scene) {
     QString key(scene->GetName());
     mScenes.insert(key, scene);
     GetScene(key)->Initialize();
-    connect(this, SIGNAL(BeginFrame(double)), GetScene(key), SLOT(UpdateFrame(double)));
+    //connect(this, SIGNAL(BeginFrame(double)), GetScene(key), SLOT(UpdateFrame(double)));
     return GetScene(key);
 }
 
@@ -55,6 +55,11 @@ void State::DeleteScene(const QString& name) {
 }
 
 void State::UpdateFrame(double simulation_frame_time) {
+    UpdateSceneFrame(simulation_frame_time);
+    UpdateStateFrame(simulation_frame_time);
+}
+
+void State::UpdateSceneFrame(double simulation_frame_time) {
     for(auto i = mScenes.begin();i != mScenes.end(); i++) {
         i->second->UpdateFrame(simulation_frame_time);
     }
