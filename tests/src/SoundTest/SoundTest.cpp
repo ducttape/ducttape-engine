@@ -28,6 +28,7 @@ bool SoundTest::Run(int argc, char** argv) {
     dt::Node* sound = scene.AddChildNode(new dt::Node("sound"));
     dt::SoundComponent* sound_component = new dt::SoundComponent("test_music_loop_mono.ogg");
     sound->AddComponent(sound_component);
+    sound_component->SetMasterVolume(100.0f);
     sound_component->PlaySound();
     if(sound_component->GetSound().GetStatus() != sf::Sound::Playing) {
         std::cerr << "The sound is currently not playing." << std::endl;
@@ -41,7 +42,7 @@ bool SoundTest::Run(int argc, char** argv) {
 
     for(int i = 15; i > 0; --i) {
         // don't move it "through" the camera
-        sound->SetPosition(Ogre::Vector3(i, 10, 0));
+        sound->SetPosition(Ogre::Vector3(i, 0, 0));
         sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/50.f);
     }
 
@@ -78,8 +79,8 @@ bool SoundTest::Run(int argc, char** argv) {
 
     sound->RemoveComponent(sound_component->GetName());
     sound_component = new dt::SoundComponent("sad-trombone.wav");
-    sound_component->SetVolume(5.f);
     sound->AddComponent(sound_component);
+    sound_component->SetMasterVolume(30.0f);
     sound_component->PlaySound();
     if(sound_component->GetSound().GetStatus() != sf::Sound::Playing) {
         std::cerr << "The sound is currently not playing." << std::endl;

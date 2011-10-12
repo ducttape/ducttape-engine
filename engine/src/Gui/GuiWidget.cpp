@@ -73,10 +73,11 @@ void GuiWidget::SetPosition(int x, int y) {
 }
 
 void GuiWidget::SetSize(float width, float height) {
-    if(GetMyGUIWidget()->getSize().width != (int)width || GetMyGUIWidget()->getSize().height != (int)height) {
+    //DO NOT ADD THE TEST BELOW! OR YOU WILL NEVER SEE THE GUI!
+    //if(GetMyGUIWidget()->getSize().width != width || GetMyGUIWidget()->getSize().height != height) {
         GetMyGUIWidget()->setRealSize(width, height);
         emit SizeChanged(width, height);
-    }
+    //}
 }
 
 void GuiWidget::SetSize(int width, int height) {
