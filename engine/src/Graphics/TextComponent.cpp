@@ -45,20 +45,11 @@ void TextComponent::OnCreate() {
 
     mLabel->setMetricsMode(Ogre::GMM_PIXELS);
     mLabel->setPosition(0, 0);
-    //SetColor(mColor);                      //If you use SetColor(mColor) to set the default color, you will never see it...
-    if(mLabel != nullptr) {
-        mLabel->setColour(mColor);
-    }
-    emit ColorChanged();                     //Should we emit this signal here for setting the default color?
+    SetColor(mColor);                     
     SetFontSize(mFontSize);
     SetFont(mFont);
     SetBackgroundMaterial(mBackgroundMaterial);
-    //SetText(mText);                        //If you use SetText(mText) to set the default text, you will never see it...
-    if(mLabel != nullptr) {
-        mLabel->setCaption(Utils::ToStdString(mText));
-        mRefresh = true;
-    }
-    emit TextChanged();                      //Should we emit this signal here for setting the default text?
+    SetText(mText);                        
     mRefresh = true;
 
     mOverlay->add2D(mPanel);
@@ -140,14 +131,12 @@ void TextComponent::OnUpdate(double time_diff) {
 }
 
 void TextComponent::SetText(const QString& text) {
-    if(mText != text) {
         mText = text;
         if(mLabel != nullptr) {
             mLabel->setCaption(Utils::ToStdString(mText));
             mRefresh = true;
         }
         emit TextChanged();
-    }
 }
 
 const QString& TextComponent::GetText() const {
@@ -166,13 +155,11 @@ const QString& TextComponent::GetFont() const {
 }
 
 void TextComponent::SetColor(Ogre::ColourValue color) {
-    if(mColor != color) {
         mColor = color;
         if(mLabel != nullptr) {
             mLabel->setColour(mColor);
         }
         emit ColorChanged();
-    }
 }
 
 Ogre::ColourValue TextComponent::GetColor() const {
