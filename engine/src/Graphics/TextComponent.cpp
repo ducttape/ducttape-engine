@@ -45,11 +45,20 @@ void TextComponent::OnCreate() {
 
     mLabel->setMetricsMode(Ogre::GMM_PIXELS);
     mLabel->setPosition(0, 0);
-    SetColor(mColor);
+    //SetColor(mColor);                      //If you use SetColor(mColor) to set the default color, you will never see it...
+    if(mLabel != nullptr) {
+        mLabel->setColour(mColor);
+    }
+    emit ColorChanged();                     //Should we emit this signal here for setting the default color?
     SetFontSize(mFontSize);
     SetFont(mFont);
     SetBackgroundMaterial(mBackgroundMaterial);
-    SetText(mText);
+    //SetText(mText);                        //If you use SetText(mText) to set the default text, you will never see it...
+    if(mLabel != nullptr) {
+        mLabel->setCaption(Utils::ToStdString(mText));
+        mRefresh = true;
+    }
+    emit TextChanged();                      //Should we emit this signal here for setting the default text?
     mRefresh = true;
 
     mOverlay->add2D(mPanel);
