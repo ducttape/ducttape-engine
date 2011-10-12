@@ -57,7 +57,7 @@ bool StateManager::ShiftStates() {
         }
         mStates.push_back(mNewState);
         GetCurrentState()->Initialize();
-        connect(this, SIGNAL(BeginFrame(double)), GetCurrentState(), SIGNAL(BeginFrame(double)));
+        connect(this, SIGNAL(BeginFrame(double)), GetCurrentState(), SLOT(UpdateFrame(double)));
         mHasNewState = false;
     }
 

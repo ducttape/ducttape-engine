@@ -37,6 +37,9 @@ void Client::OnInitialize() {
     mInputThread->Launch();
 }
 
+void Client::UpdateStateFrame(double simulation_frame_time) {
+}
+
 void Client::_HandleEvent(std::shared_ptr<dt::NetworkEvent> e) {
     if(e->GetType() == "CHATMESSAGEEVENT") {
         std::shared_ptr<ChatMessageEvent> c = std::dynamic_pointer_cast<ChatMessageEvent>(e);

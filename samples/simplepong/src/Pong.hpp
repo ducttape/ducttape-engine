@@ -10,9 +10,7 @@ public:
     void ResetBall();
 
     void OnInitialize();
-
-    private slots:
-        void _GameLogic(double simulation_frame_time);
+    void UpdateStateFrame(double simulation_frame_time);
 
 private:
     dt::Node* mGameNode;
