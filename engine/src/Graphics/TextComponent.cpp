@@ -45,11 +45,11 @@ void TextComponent::OnCreate() {
 
     mLabel->setMetricsMode(Ogre::GMM_PIXELS);
     mLabel->setPosition(0, 0);
-    SetColor(mColor);                     
+    SetColor(mColor);
     SetFontSize(mFontSize);
     SetFont(mFont);
     SetBackgroundMaterial(mBackgroundMaterial);
-    SetText(mText);                        
+    SetText(mText);
     mRefresh = true;
 
     mOverlay->add2D(mPanel);
