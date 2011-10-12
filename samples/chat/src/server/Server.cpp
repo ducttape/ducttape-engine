@@ -28,6 +28,9 @@ void Server::OnInitialize() {
     dt::NetworkManager::Get()->BindSocket(29876);
 }
 
+void Server::UpdateStateFrame(double simulation_frame_time) {
+}
+
 void Server::_HandleEvent(std::shared_ptr<dt::NetworkEvent> e) {
     // This is quite useful for debugging purposes.
     //dt::Logger::Get().Info("There are " + boost::lexical_cast<QString>(dt::ConnectionsManager::Get()->GetConnectionCount()) + " connections active.");

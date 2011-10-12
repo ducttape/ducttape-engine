@@ -16,6 +16,7 @@ class Server : public dt::State {
     Q_OBJECT
 public:
     void OnInitialize();
+    void UpdateStateFrame(double simulation_frame_time);
 private slots:
     void _HandleEvent(std::shared_ptr<dt::NetworkEvent> e);
 
