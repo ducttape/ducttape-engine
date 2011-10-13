@@ -32,9 +32,10 @@ public:
      * Advanced constructor.
      * @param sound_file The name of the sound resource to play.
      * @param name The name for this Component.
+     * @param mesh_handle_d The handle for this component's debug mesh. The default one is sound.mesh.
      * @see Component
      */
-    SoundComponent(const QString& sound_file = "", const QString& name = "");
+    SoundComponent(const QString& sound_file = "", const QString& name = "", const QString& mesh_handle_d = "sound.mesh");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 

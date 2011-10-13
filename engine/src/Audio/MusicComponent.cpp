@@ -16,8 +16,8 @@
 
 namespace dt {
 
-MusicComponent::MusicComponent(const QString& music_file, const QString& name)
-    : Component(name),
+MusicComponent::MusicComponent(const QString& music_file, const QString& name, const QString& mesh_handle_d)
+    : Component(name, mesh_handle_d),
       mMusicFile(music_file),
       mFadeFlag(false),
       mElapsedTime(0.0),

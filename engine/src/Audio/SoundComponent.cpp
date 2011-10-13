@@ -17,8 +17,8 @@
 
 namespace dt {
 
-SoundComponent::SoundComponent(const QString& sound_file, const QString& name)
-    : Component(name),
+SoundComponent::SoundComponent(const QString& sound_file, const QString& name, const QString& mesh_handle_d)
+    : Component(name, mesh_handle_d),
       mSoundFile(sound_file) {
     _LoadSound();
 }

@@ -30,9 +30,10 @@ public:
     /**
       * Advanced constructor.
       * @param name The name of the Component.
+      * @param mesh_handle_d The handle for this component's debug mesh. The default one is simple_player.mesh.
       * @see Component
       */
-    SimplePlayerComponent(const QString& name = "");
+    SimplePlayerComponent(const QString& name = "", const QString& mesh_handle_d = "simple_player.mesh");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 

@@ -17,8 +17,8 @@
 namespace dt {
 
 PhysicsBodyComponent::PhysicsBodyComponent(const QString& mesh_component_name,
-                                           const QString& name)
-    : Component(name),
+                                           const QString& name, const QString& mesh_handle_d)
+    : Component(name, mesh_handle_d),
       mMeshComponentName(mesh_component_name),
       mCollisionShape(nullptr),
       mBody(nullptr),

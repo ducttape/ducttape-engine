@@ -37,10 +37,11 @@ public:
       * Empty string to keep the mesh's material name. Default: none.
       * @param mesh_handle The handle the mesh is loaded from. This could be
       * a file path or a generated's mesh name.
+      * @param mesh_handle_d The handle for this component's debug mesh. The default one is mesh.mesh.
       * @see Component
       */
     MeshComponent(const QString& mesh_handle = "",
-                  const QString& material_name = "", const QString& name = "");
+                  const QString& material_name = "", const QString& name = "", const QString& mesh_handle_d = "mesh.mesh");
 
     virtual void HandleEvent(std::shared_ptr<Event> e);
 

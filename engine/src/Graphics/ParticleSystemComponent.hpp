@@ -36,8 +36,9 @@ public:
       * Advanced constructor.
       * @see Component
       * @param name The name of the component.
+      * @param mesh_handle_d The handle for this component's debug mesh. The default one is camera.mesh.
       */
-    ParticleSystemComponent(const QString& name = "");
+    ParticleSystemComponent(const QString& name = "", const QString& mesh_handle_d = "particle_system.mesh");
 
     /**
       * Sets the maximum number of particles allowed in this ParticleSystem.

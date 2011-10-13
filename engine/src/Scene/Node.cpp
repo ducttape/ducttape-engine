@@ -223,7 +223,7 @@ void Node::_UpdateAllComponents(double time_diff) {
 
     for(auto iter = mComponents.begin(); iter != mComponents.end(); ++iter) {
         if(iter->second->IsEnabled()) {
-            iter->second->OnUpdate(time_diff);
+            iter->second->Update(time_diff);
         }
     }
 

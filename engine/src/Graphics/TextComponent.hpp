@@ -30,8 +30,11 @@ class DUCTTAPE_API TextComponent : public Component {
 public:
     /**
       * Advanced constructor.
+      * @param text The text content this component displays.
+      * @param name The name for this Component.
+      * @param mesh_handle_d The handle for this component's debug mesh. The default one is physics_body.mesh.
       */
-    TextComponent(const QString& text, const QString& name = "");
+    TextComponent(const QString& text, const QString& name = "", const QString& mesh_handle_d = "text.mesh");
 
     void OnCreate();
     void OnDestroy();

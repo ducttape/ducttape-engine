@@ -28,9 +28,10 @@ public:
     /**
       * Advanced constructor.
       * @param name The name for this component.
+      * @param mesh_handle_d The handle for this component's debug mesh. The default one is script.mesh.
       * @see Component
       */
-    ScriptComponent(const QString& script_name, const QString& name = "");
+    ScriptComponent(const QString& script_name, const QString& name = "", const QString& mesh_handle_d = "script.mesh");
 
     void OnCreate();
     void OnDestroy();

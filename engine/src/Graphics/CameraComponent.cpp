@@ -17,8 +17,8 @@
 
 namespace dt {
 
-CameraComponent::CameraComponent(const QString& name)
-   : Component(name) {}
+CameraComponent::CameraComponent(const QString& name, const QString& mesh_handle_d)
+   : Component(name, mesh_handle_d) {}
 
 void CameraComponent::HandleEvent(std::shared_ptr<Event> e) {
 }

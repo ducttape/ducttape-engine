@@ -16,8 +16,8 @@
 
 namespace dt {
 
-SimplePlayerComponent::SimplePlayerComponent(const QString& name)
-    : Component(name),
+SimplePlayerComponent::SimplePlayerComponent(const QString& name, const QString& mesh_handle_d)
+    : Component(name, mesh_handle_d),
       mWASDEnabled(true),
       mArrowsEnabled(true),
       mMoveSpeed(10.0),

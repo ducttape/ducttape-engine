@@ -12,12 +12,19 @@
 #include <Event/EventManager.hpp>
 #include <Logic/ScriptManager.hpp>
 #include <Scene/Node.hpp>
+#include <Scene/Scene.hpp>
 #include <Utils/Utils.hpp>
+
+#include <OgreSceneManager.h>
 
 namespace dt {
 
-Component::Component(const QString& name)
+Component::Component(const QString& name, const QString& mesh_handle_d)
     : mName(name),
+      mNode(nullptr),
+      mMeshHandle(mesh_handle_d),
+      mEntity(nullptr),
+      mSceneNode(nullptr),
       mIsEnabled(false),
       mIsCreated(false) {
     // auto-generate the component name
@@ -61,6 +68,8 @@ QScriptValue Component::GetScriptNode() {
 void Component::Create() {
     if(!mIsCreated) {
         mIsCreated = true;
+        _LoadDebugMesh();
+        HideDebug();
         OnCreate();
         emit ComponentCreated();
         Enable();
@@ -75,6 +84,7 @@ void Component::Destroy() {
         Disable();
         emit ComponentDestroyed();
         OnDestroy();
+        _DestroyDebugMesh();
     }
 }
 
@@ -100,6 +110,45 @@ bool Component::IsCreated() {
 
 bool Component::IsEnabled() {
     return mIsEnabled;
+}
+
+void Component::HideDebug() {
+    mEntity->setVisible(false);
+}
+
+void Component::ShowDebug() {
+    mEntity->setVisible(true);
+}
+
+void Component::_LoadDebugMesh() {
+    _DestroyDebugMesh();
+
+    if(mMeshHandle.isEmpty()) {
+        Logger::Get().Error("Component [" + mName + "]: Invalid handle for debug mesh.");
+    }
+
+    Ogre::SceneManager* scene_mgr = mNode->GetScene()->GetSceneManager();
+    std::string node_name = Utils::ToStdString(GetNode()->GetName());
+    mEntity = scene_mgr->createEntity(node_name + "-debug-mesh-entity-" + Utils::ToStdString(mName), Utils::ToStdString(mMeshHandle));
+    mSceneNode = scene_mgr->getRootSceneNode()->createChildSceneNode(node_name + "-debug-mesh-scenenode-" + Utils::ToStdString(mName));
+    mSceneNode->attachObject(mEntity);
+    mEntity->setCastShadows(false);
+}
+
+void Component::_DestroyDebugMesh() {
+    Ogre::SceneManager* scene_mgr = mNode->GetScene()->GetSceneManager();
+
+    if(mEntity != nullptr)
+        scene_mgr->destroyEntity(mEntity);
+
+    if(mSceneNode != nullptr)
+        scene_mgr->destroySceneNode(mSceneNode);
+}
+
+void Component::Update(double time_diff) {
+    // set position of the debug mesh node.
+    mSceneNode->setPosition(GetNode()->GetPosition(Node::SCENE));
+    OnUpdate(time_diff);
 }
 
 } // namespace dt
