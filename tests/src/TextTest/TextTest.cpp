@@ -33,7 +33,7 @@ void Main::UpdateStateFrame(double simulation_frame_time) {
 
     dt::Scene* scene = GetScene("testscene");
     dt::Node* node2 = scene->FindChildNode("node2");
-    node2->SetPosition(node2->GetPosition() + (Ogre::Vector3(-8, -8, 0) * simulation_frame_time));
+    node2->SetPosition(node2->GetPosition() + (Ogre::Vector3(1, 1, 0) * simulation_frame_time));   //Move too fast before so I decrease the speed.
 
     if(mRuntime > 2.5) {
         dt::StateManager::Get()->Pop(1);
@@ -61,7 +61,7 @@ void Main::OnInitialize() {
 
 
     dt::Node* node2 = scene->AddChildNode(new dt::Node("node2"));
-    node2->SetPosition(Ogre::Vector3(10, 10, 0));
+    node2->SetPosition(Ogre::Vector3(0, 0, 0));                       //Out of screen before...
     dt::TextComponent* text2 = node2->AddComponent(new dt::TextComponent("Hi there", "text2"));
     text2->SetColor(Ogre::ColourValue(0.5, 0.0, 1.0));
     text2->SetFont("DejaVuSans");
