@@ -14,9 +14,16 @@ namespace dt {
 
 namespace Utils {
 
-    std::string ToStdString(const QString& qstring) {
-        return std::string(qstring.toLocal8Bit().data());
-    }
+std::string ToStdString(const QString& qstring) {
+    return std::string(qstring.toLocal8Bit().data());
+}
+
+uint32_t mAutoId = 0;
+
+uint32_t AutoId() {
+    mAutoId++;
+    return mAutoId;
+}
 
 } // namespace Utils
 

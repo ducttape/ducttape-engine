@@ -8,7 +8,6 @@
 
 #include <Scene/Component.hpp>
 
-#include <Core/StringManager.hpp>
 #include <Logic/ScriptManager.hpp>
 #include <Scene/Node.hpp>
 #include <Utils/Utils.hpp>
@@ -21,7 +20,7 @@ Component::Component(const QString& name)
       mIsCreated(false) {
     // auto-generate the component name
     if(mName == "") {
-        mName = "Component-" + Utils::ToString(StringManager::Get()->GetNextAutoId());
+        mName = "Component-" + Utils::ToString(Utils::AutoId());
     }
 }
 

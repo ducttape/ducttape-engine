@@ -78,12 +78,21 @@ public:
       */
     void DeleteScene(const QString& name);
 
+    /**
+      * Manually updates every scene
+      * @param simulation_frame_time time since last update
+      */
     void UpdateSceneFrame(double simulation_frame_time);
+
+    /**
+      * State update function to be defined in children
+      * @param simulation_frame_time time since last update
+      */
     virtual void UpdateStateFrame(double simulation_frame_time) = 0;
-//signals:
-//    void BeginFrame(double simulation_frame_time);
+
 public slots:
     void UpdateFrame(double simulation_frame_time);
+
 private:
     boost::ptr_map<QString, Scene> mScenes;        //!< List of scenes.
 

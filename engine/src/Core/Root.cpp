@@ -9,7 +9,6 @@
 #include <Core/Root.hpp>
 
 #include <Utils/LogManager.hpp>
-#include <Core/StringManager.hpp>
 #include <Core/ResourceManager.hpp>
 #include <Input/InputManager.hpp>
 #include <Graphics/DisplayManager.hpp>
@@ -28,7 +27,6 @@ QString Root::_VERSION = DUCTTAPE_VERSION;
 Root::Root()
     : mCoreApplication(nullptr),
       mLogManager(new LogManager()),
-      mStringManager(new StringManager()),
       mResourceManager(new ResourceManager()),
       mInputManager(new InputManager()),
       mDisplayManager(new DisplayManager()),
@@ -49,7 +47,6 @@ Root::~Root() {
     delete mDisplayManager;
     delete mInputManager;
     delete mResourceManager;
-    delete mStringManager;
     delete mLogManager;
 }
 
@@ -64,7 +61,6 @@ void Root::Initialize(int argc, char** argv) {
     mSfClock.Reset();
 
     mLogManager->Initialize();
-    mStringManager->Initialize();
     mResourceManager->Initialize();
     mDisplayManager->Initialize();
     // Do not initialize the InputManager.
@@ -85,7 +81,6 @@ void Root::Deinitialize() {
     // Do not deinitialize the InputManager (see above).
     mDisplayManager->Deinitialize();
     mResourceManager->Deinitialize();
-    mStringManager->Deinitialize();
     mLogManager->Deinitialize();
 
     delete mCoreApplication;
@@ -93,10 +88,6 @@ void Root::Deinitialize() {
 
 double Root::GetTimeSinceInitialize() const {
     return mSfClock.GetElapsedTime() / 1000.0;
-}
-
-StringManager* Root::GetStringManager() {
-    return mStringManager;
 }
 
 LogManager* Root::GetLogManager() {

@@ -122,6 +122,47 @@ public:
       */
     ConnectionsManager* GetConnectionsManager();
 
+    /**
+      * Registers a new string with a generated Id.
+      * @param name The string to register.
+      * @returns The new Id.
+      */
+    uint32_t RegisterEvent(const QString& name);
+
+    /**
+      * Checks whether a string is already registered.
+      * @param name The string to be checked.
+      * @returns true If the string is already registered, otherwise false.
+      */
+    bool EventRegistered(const QString& name);
+
+    /**
+      * Checks whether an Id is already used.
+      * @param id The Id to be checked.
+      * @returns true If the Id is already used, otherwise false.
+      */
+    bool EventRegistered(uint32_t id);
+
+    /**
+      * Returns the Id for a string.
+      * @param string The string to find.
+      * @returns The Id for the string.
+      */
+    uint32_t GetEventId(const QString& string);
+
+    /**
+      * Returns the string for an Id.
+      * @param id The Id to find.
+      * @returns The string for the Id.
+      */
+    const QString& GetEventString(uint32_t id);
+
+    /**
+      * Returns next Id for automatic name generation that is available.
+      * @returns The uint32_t with next available Id for automatic name generation.
+      */
+//    uint32_t AutoEventId();
+
 signals:
     void NewEvent(std::shared_ptr<dt::NetworkEvent> event);
 
@@ -136,6 +177,9 @@ private:
     std::deque<std::shared_ptr<NetworkEvent>> mQueue;           //!< The queue of Events to be send. @see NetworkManager::QueueEvent(NetworkEvent* event);
     std::vector<std::shared_ptr<NetworkEvent>> mNetworkEventPrototypes;    //!< The list of prototypes known to mankind :P
     sf::UdpSocket mSocket;                                      //!< The socket used for data transmissions over network.
+
+    uint32_t mLastEventId;                                      //!< The Id used to register the last string with.
+    std::map<uint32_t, QString> mEventIds;                      //!< The relation map between Ids/strings.
 };
 
 }
