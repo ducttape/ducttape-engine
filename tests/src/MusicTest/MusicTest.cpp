@@ -9,7 +9,6 @@
 #include "MusicTest/MusicTest.hpp"
 
 #include <Core/ResourceManager.hpp>
-//#include <Event/EventManager.hpp>
 
 #include <SFML/System.hpp>
 
@@ -28,7 +27,7 @@ bool MusicTest::Run(int argc, char** argv) {
     dt::Node* music_node = scene.AddChildNode(new dt::Node("music"));
     dt::MusicComponent* music_component = music_node->AddComponent(new dt::MusicComponent(music_file));
 
-    music_component->SetVolume(2);
+    music_component->SetVolume(40);
 
     auto resmgr = root.GetResourceManager();
 

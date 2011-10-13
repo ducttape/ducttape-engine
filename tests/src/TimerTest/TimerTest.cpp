@@ -51,7 +51,6 @@ void Main::OnInitialize() {
     std::cout << "TIMER: Starting 2 timers:" << std::endl;
     std::cout << "  1 - Event mode  - 100ms" << std::endl;
     std::cout << "  2 - Thread mode - 200ms" << std::endl;
-    std::cout << "  3 - Thread mode - 100ms - Callback, no events" << std::endl;
 
     mTimer1 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 1 (event mode)", 0.1, true, false));
     mTimer2 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 2 (thread mode)", 0.2, true, true));

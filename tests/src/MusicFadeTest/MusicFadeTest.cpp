@@ -40,11 +40,11 @@ void Main::OnInitialize() {
     QString music1 = "test_music_intro.ogg";
     QString music2 = "test_music_loop.ogg";
 
-    float origin_vol = 9.f;
+    float origin_vol = 20.f;
     dt::MusicComponent* music_component1 = new dt::MusicComponent(music1);
     music_component1->SetVolume(origin_vol);
     dt::MusicComponent* music_component2 = new dt::MusicComponent(music2);
-    music_component2->SetVolume(origin_vol);
+    music_component2->SetVolume(0.0f);
 
     auto node = scene->AddChildNode(new dt::Node("music_node"));
     node->AddComponent(music_component1);
