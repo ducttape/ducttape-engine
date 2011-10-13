@@ -77,8 +77,11 @@ public:
       * @param name The name of the Scene to delete.
       */
     void DeleteScene(const QString& name);
-signals:
-    void BeginFrame(double simulation_frame_time);
+
+    void UpdateSceneFrame(double simulation_frame_time);
+    virtual void UpdateStateFrame(double simulation_frame_time) = 0;
+//signals:
+//    void BeginFrame(double simulation_frame_time);
 public slots:
     void UpdateFrame(double simulation_frame_time);
 private:

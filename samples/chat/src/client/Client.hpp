@@ -24,6 +24,7 @@ public:
     Client();
 
     void OnInitialize();
+    void UpdateStateFrame(double simulation_frame_time);
 
     void SetServerIP(sf::IpAddress server_ip);
     sf::IpAddress GetServerIP() const;

@@ -91,12 +91,9 @@ void Main::OnInitialize() {
     info_text->SetFontSize(20);
 
     ResetBall();
-
-    connect(this, SIGNAL(BeginFrame(double)),
-            this, SLOT(_GameLogic(double)));
 }
 
-void Main::_GameLogic(double simulation_frame_time) {
+void Main::UpdateStateFrame(double simulation_frame_time) {
     mBallSpeed *= 1.0 + (simulation_frame_time * 0.05);
 
     // move paddle 1

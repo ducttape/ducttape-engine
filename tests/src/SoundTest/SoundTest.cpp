@@ -9,7 +9,6 @@
 #include "SoundTest/SoundTest.hpp"
 
 #include <Utils/Utils.hpp>
-//#include <Event/EventManager.hpp>
 
 #include <SFML/Audio.hpp>
 #include <SFML/System.hpp>
