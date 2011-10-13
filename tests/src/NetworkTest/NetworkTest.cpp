@@ -45,7 +45,6 @@ bool NetworkTest::RunServer() {
     std::cout << "-- Running server" << std::endl;
 
     CustomServerEventListener csel;
-    //root.GetEventManager()->AddListener(&csel);
 
     dt::NetworkManager* nm = root.GetNetworkManager();
     nm->BindSocket(SERVER_PORT);
@@ -72,8 +71,6 @@ bool NetworkTest::RunClient() {
     int data = 1337;
 
     CustomClientEventListener ccel;
-    //root.GetEventManager()->AddListener(&ccel);
-    //root.GetEventManager()->InjectEvent(std::make_shared<CustomNetworkEvent>(data, CustomNetworkEvent::CLIENT));
     root.GetNetworkManager()->QueueEvent(std::make_shared<CustomNetworkEvent>(data, CustomNetworkEvent::CLIENT));
 
     while(ccel.mDataReceived == 0) {
@@ -132,9 +129,7 @@ void CustomServerEventListener::_HandleEvent(std::shared_ptr<dt::NetworkEvent> e
         if(c->mEnum == CustomNetworkEvent::CLIENT) {
             std::cout << "Server: received CustomNetworkEvent" << std::endl;
             // send it back, adding 1 to the data
-            //dt::EventManager::Get()->
-            //    InjectEvent(std::make_shared<CustomNetworkEvent>(c->mData + DATA_INCREMENT, CustomNetworkEvent::SERVER));
-            dt::NetworkManager::Get()->
+           dt::NetworkManager::Get()->
                 QueueEvent(std::make_shared<CustomNetworkEvent>(c->mData + DATA_INCREMENT, CustomNetworkEvent::SERVER));
             mDataReceived = c->mData;
         }
@@ -147,10 +142,13 @@ void CustomServerEventListener::_Initialize() {
 }
 
 
+
 ////////////////////////////////////////////////////////////////
 
 CustomClientEventListener::CustomClientEventListener()
     : mDataReceived(0) {
+        QObject::connect(dt::NetworkManager::Get(), SIGNAL(NewEvent(std::shared_ptr<dt::NetworkEvent>)),
+            this, SLOT(_HandleEvent(std::shared_ptr<dt::NetworkEvent>)));
         _Initialize();
 }
 

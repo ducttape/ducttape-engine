@@ -61,7 +61,6 @@ class CustomServerEventListener/* : public dt::EventListener*/ : public QObject 
     Q_OBJECT
 public:
     CustomServerEventListener();
-    //void HandleEvent(std::shared_ptr<dt::Event> e);
 
 private slots:
     void _HandleEvent(std::shared_ptr<dt::NetworkEvent> e);
@@ -74,12 +73,11 @@ public:
 
 ////////////////////////////////////////////////////////////////
 
-class CustomClientEventListener/* : public dt::EventListener*/ : public QObject {
+class CustomClientEventListener : public QObject {
     Q_OBJECT
 public:
     CustomClientEventListener();
-    //void HandleEvent(std::shared_ptr<dt::Event> e);
-    
+
 private slots:
     void _HandleEvent(std::shared_ptr<dt::NetworkEvent> e);
 

@@ -46,7 +46,6 @@
 namespace dt {
 
 class LogManager;
-class StringManager;
 class ResourceManager;
 class InputManager;
 class DisplayManager;
@@ -93,12 +92,6 @@ public:
       * @returns The time in seconds since calling Initialize()
       */
     double GetTimeSinceInitialize() const;
-
-    /**
-      * Returns the StringManager.
-      * @returns the StringManager
-      */
-    StringManager* GetStringManager();
 
     /**
       * Returns the LogManager.
@@ -164,7 +157,6 @@ private:
     QCoreApplication* mCoreApplication; //!< Pointer to the Qt Core Application (required for QScriptEngine and command line parameter parsing).
 
     LogManager* mLogManager;            //!< Pointer to the LogManager.
-    StringManager* mStringManager;      //!< Pointer to the StringManager.
     ResourceManager* mResourceManager;  //!< Pointer to the ResourceManager.
     InputManager* mInputManager;        //!< Pointer to the InputManager.
     DisplayManager* mDisplayManager;    //!< Pointer to the DisplayManager.
