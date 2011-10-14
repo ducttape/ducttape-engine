@@ -115,7 +115,7 @@ void NetworkManager::HandleIncomingEvents() {
         }
 
         while(!packet.EndOfPacket()) {
-            uint32_t type;
+            uint16_t type;
             packet >> type;
             std::shared_ptr<NetworkEvent> event = CreatePrototypeInstance(type);
             if(event != nullptr) {
@@ -179,7 +179,7 @@ ConnectionsManager* NetworkManager::GetConnectionsManager() {
     return &mConnectionsManager;
 }
 
-uint32_t NetworkManager::RegisterEvent(const QString& name) {
+uint16_t NetworkManager::RegisterEvent(const QString& name) {
     if(!EventRegistered(name)) {
         mLastEventId++;
         mEventIds[mLastEventId] = name;
@@ -197,11 +197,11 @@ bool NetworkManager::EventRegistered(const QString& name) {
     return false;
 }
 
-bool NetworkManager::EventRegistered(uint32_t id) {
+bool NetworkManager::EventRegistered(uint16_t id) {
     return mEventIds.count(id) > 0 && mEventIds[id] != "";
 }
 
-uint32_t NetworkManager::GetEventId(const QString& name) {
+uint16_t NetworkManager::GetEventId(const QString& name) {
     for(auto iter = mEventIds.begin(); iter != mEventIds.end(); ++iter) {
         if(iter->second == name)
             return iter->first;
@@ -209,7 +209,7 @@ uint32_t NetworkManager::GetEventId(const QString& name) {
     return 0;
 }
 
-const QString& NetworkManager::GetEventString(uint32_t id) {
+const QString& NetworkManager::GetEventString(uint16_t id) {
     return mEventIds[id];
 }
 

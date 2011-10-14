@@ -25,7 +25,7 @@ NetworkEvent::NetworkEvent()
     }
 }
 
-uint32_t NetworkEvent::GetTypeId() const{
+uint16_t NetworkEvent::GetTypeId() const{
     return NetworkManager::Get()->GetEventId(GetType());
 }
 
