@@ -2,10 +2,12 @@
 file(GLOB_RECURSE samples_client_HEADERS chat/src/client/*.hpp)
 file(GLOB_RECURSE samples_server_HEADERS chat/src/server/*.hpp)
 file(GLOB_RECURSE simplepong_HEADERS simplepong/src/*.hpp)
+file(GLOB_RECURSE jumptape_HEADERS jumptape/src/*.hpp)
 
 qt4_wrap_cpp(samples_client_HEADERS_MOC ${samples_client_HEADERS})
 qt4_wrap_cpp(samples_server_HEADERS_MOC ${samples_server_HEADERS})
 qt4_wrap_cpp(simplepong_HEADERS_MOC ${simplepong_HEADERS})
+qt4_wrap_cpp(jumptape_HEADERS_MOC ${jumptape_HEADERS})
 
 set(NETWORKSAMPLES chat)
 
@@ -37,7 +39,7 @@ foreach(sample ${NETWORKSAMPLES})
         ducttape)
 endforeach(sample)
 
-set(SIMPLESAMPLES simplepong script)
+set(SIMPLESAMPLES simplepong script jumptape)
 
 foreach(sample ${SIMPLESAMPLES})
     aux_source_directory(${sample}/src ${sample}_src)
