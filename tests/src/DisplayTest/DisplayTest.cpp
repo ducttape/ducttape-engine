@@ -8,7 +8,6 @@
 
 #include "DisplayTest/DisplayTest.hpp"
 
-#include <Event/BeginFrameEvent.hpp>
 #include <Scene/StateManager.hpp>
 #include <Core/ResourceManager.hpp>
 #include <Graphics/CameraComponent.hpp>
@@ -29,15 +28,6 @@ QString DisplayTest::GetTestName() {
 
 Main::Main()
     : mRuntime(0) {}
-
-void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-        mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
-        if(mRuntime > 2.5) {
-            dt::StateManager::Get()->Pop(1);
-        }
-    }
-}
 
 void Main::OnInitialize() {
     dt::Scene* scene = AddScene(new dt::Scene("testscene"));
@@ -64,6 +54,13 @@ void Main::OnInitialize() {
     dt::Node* lightnode2 = scene->AddChildNode(new dt::Node("lightnode2"));
     lightnode2->AddComponent(new dt::LightComponent("light2"));
     lightnode2->SetPosition(Ogre::Vector3(0, -10, 0));
+}
+
+void Main::UpdateStateFrame(double simulation_frame_time) {
+    mRuntime += simulation_frame_time;
+    if(mRuntime > 2.5) {
+        dt::StateManager::Get()->Pop(1);
+    }
 }
 
 }

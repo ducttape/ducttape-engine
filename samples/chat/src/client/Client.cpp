@@ -12,7 +12,6 @@
 
 #include <Core/Root.hpp>
 #include <Utils/Utils.hpp>
-#include <Event/EventManager.hpp>
 #include <Network/NetworkManager.hpp>
 #include <Network/ConnectionsManager.hpp>
 #include <Scene/StateManager.hpp>
@@ -22,7 +21,8 @@ Client::Client() {
 }
 
 void Client::OnInitialize() {
-    dt::EventManager::Get()->AddListener(this);
+    connect((QObject*)dt::NetworkManager::Get(), SIGNAL(NewEvent(std::shared_ptr<dt::NetworkEvent>)),
+            this, SLOT(_HandleEvent(std::shared_ptr<dt::NetworkEvent>)));
     dt::Logger::Get().GetStream("debug")->SetDisabled(true);
     dt::Logger::Get().GetStream("info")->SetDisabled(true);
 
@@ -36,12 +36,17 @@ void Client::OnInitialize() {
     mInputThread->Launch();
 }
 
-void Client::HandleEvent(std::shared_ptr<dt::Event> e) {
+void Client::UpdateStateFrame(double simulation_frame_time) {
+    dt::NetworkManager::Get()->HandleIncomingEvents();
+    dt::NetworkManager::Get()->SendQueuedEvents();
+}
+
+void Client::_HandleEvent(std::shared_ptr<dt::NetworkEvent> e) {
     if(e->GetType() == "CHATMESSAGEEVENT") {
         std::shared_ptr<ChatMessageEvent> c = std::dynamic_pointer_cast<ChatMessageEvent>(e);
-        if(c->IsLocalEvent()) { // we just received this
+        //if(c->IsLocalEvent()) { // we just received this
             std::cout << std::endl << "<" << dt::Utils::ToStdString(c->GetSenderNick()) << "> " << dt::Utils::ToStdString(c->GetMessageText()) << std::endl;
-        }
+        //}
     }
 }
 
@@ -78,8 +83,7 @@ void Client::InputThread(void* user_data) {
             // quit this state. the application will terminate
             dt::StateManager::Get()->Pop();
         } else {
-            dt::EventManager::Get()->
-                InjectEvent(std::make_shared<ChatMessageEvent>(QString(in.c_str()), client->GetNick()));
+            dt::NetworkManager::Get()->QueueEvent(std::make_shared<ChatMessageEvent>(QString(in.c_str()), client->GetNick()));
         }
     }
 }

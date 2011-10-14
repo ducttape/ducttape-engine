@@ -58,6 +58,7 @@ add_test(NAME Gui COMMAND test_framework Gui)
 add_test(NAME MouseCursor COMMAND test_framework MouseCursor)
 add_test(NAME Primitives COMMAND test_framework Primitives)
 add_test(NAME Shadows COMMAND test_framework Shadows)
+# add_test(NAME Terrain COMMAND test_framework Terrain)
 add_test(NAME Billboard COMMAND test_framework Billboard)
 
 # physics

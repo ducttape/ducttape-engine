@@ -13,7 +13,6 @@
 
 #include "Test.hpp"
 
-#include <Event/BeginFrameEvent.hpp>
 #include <Graphics/CameraComponent.hpp>
 #include <Graphics/LightComponent.hpp>
 #include <Graphics/MeshComponent.hpp>
@@ -32,10 +31,11 @@ public:
 };
 
 class Main : public dt::State {
+    Q_OBJECT
 public:
     Main();
-    void HandleEvent(std::shared_ptr<dt::Event> e);
     void OnInitialize();
+    void UpdateStateFrame(double simulation_frame_time);
 
 private:
     double mRuntime;

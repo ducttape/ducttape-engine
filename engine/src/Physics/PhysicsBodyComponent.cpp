@@ -24,8 +24,6 @@ PhysicsBodyComponent::PhysicsBodyComponent(const QString& mesh_component_name,
       mBody(nullptr),
       mMotionState(nullptr) {}
 
-void PhysicsBodyComponent::HandleEvent(std::shared_ptr<Event> e) {}
-
 void PhysicsBodyComponent::OnCreate() {
     if(! mNode->HasComponent(mMeshComponentName)) {
         Logger::Get().Error("Node "%mNode->GetName()%" has no Component named "%

@@ -8,7 +8,6 @@
 
 #include <Audio/SoundComponent.hpp>
 
-#include <Audio/SoundsControlEvent.hpp>
 #include <Core/ResourceManager.hpp>
 #include <Scene/Node.hpp>
 #include <Utils/Logger.hpp>
@@ -17,25 +16,10 @@
 
 namespace dt {
 
-SoundComponent::SoundComponent(const QString& sound_file, const QString& name)
+SoundComponent::SoundComponent(const QString& sound_file_name, const QString& name)
     : Component(name),
-      mSoundFile(sound_file) {
+      mSoundFileName(sound_file_name) {
     _LoadSound();
-}
-
-void SoundComponent::HandleEvent(std::shared_ptr<Event> e) {
-    if(e->GetType() == "DT_SOUNDSCONTROLEVENT") {
-        std::shared_ptr<SoundsControlEvent> s = \
-            std::dynamic_pointer_cast<SoundsControlEvent>(e);
-
-        if(s->GetAction() == SoundsControlEvent::PLAY) {
-            PlaySound();
-        } else if(s->GetAction() == SoundsControlEvent::PAUSE) {
-            PauseSound();
-        } else if(s->GetAction() == SoundsControlEvent::STOP) {
-            StopSound();
-        }
-    }
 }
 
 void SoundComponent::OnCreate() {}
@@ -48,16 +32,16 @@ void SoundComponent::OnUpdate(double time_diff) {
                        mNode->GetPosition(Node::SCENE).z);
 }
 
-void SoundComponent::SetSoundFile(const QString& sound_file) {
-    if(sound_file != mSoundFile && IsCreated()) {
+void SoundComponent::SetSoundFileName(const QString& sound_file_name) {
+    if(sound_file_name != mSoundFileName && IsCreated()) {
         // we got a new sound; load it
         _LoadSound();
     }
-    mSoundFile = sound_file;
+    mSoundFileName = sound_file_name;
 }
 
-const QString& SoundComponent::GetSoundFile() const {
-    return mSoundFile;
+const QString& SoundComponent::GetSoundFileName() const {
+    return mSoundFileName;
 }
 
 sf::Sound& SoundComponent::GetSound() {
@@ -65,39 +49,54 @@ sf::Sound& SoundComponent::GetSound() {
 }
 
 void SoundComponent::PlaySound() {
-    // play sound if possible and enabled
-    if(IsEnabled())
-        mSound.Play();
+    if(mSound.GetStatus() != sf::Sound::Playing) {
+        // play sound if possible and enabled
+        if(IsEnabled())
+            mSound.Play();
+        emit SoundPlayed();
+    }
 }
 
 void SoundComponent::PauseSound() {
-    // pause sound if possible
-    mSound.Pause();
+    if(mSound.GetStatus() != sf::Sound::Paused) {
+        // pause sound if possible
+        mSound.Pause();
+        emit SoundPaused();
+    }
 }
 
 void SoundComponent::StopSound() {
-    // stop sound if possible
-    mSound.Stop();
-    mSound.SetPlayingOffset(0); // rewind
+    if(mSound.GetStatus() != sf::Sound::Stopped) {
+        // stop sound if possible
+        mSound.Stop();
+        mSound.SetPlayingOffset(0); // rewind
+        emit SoundStopped();
+    }
 }
 
 void SoundComponent::_LoadSound() {
-    if(mSoundFile == "") {
+    if(mSoundFileName == "") {
         Logger::Get().Error("SoundComponent [" % mName % "]: Needs a sound file.");
     }
-    if(!ResourceManager::Get()->AddSoundBuffer(mSoundFile)) {
-        Logger::Get().Error("SoundComponent [" % mName % "]: Wasn't able to load sound file [" % mSoundFile % "].");
+    if(!ResourceManager::Get()->AddSoundBuffer(mSoundFileName)) {
+        Logger::Get().Error("SoundComponent [" % mName % "]: Wasn't able to load sound file [" % mSoundFileName % "].");
     } else {
-        mSound.SetBuffer(* ResourceManager::Get()->GetSoundBuffer(mSoundFile));
+        mSound.SetBuffer(*ResourceManager::Get()->GetSoundBuffer(mSoundFileName));
     }
 }
 
 void SoundComponent::SetVolume(float volume) {
-    mSound.SetVolume(volume);
+    if(mSound.GetVolume() != volume) {
+        mSound.SetVolume(volume);
+        emit VolumeChanged(volume);
+    }
 }
 
 void SoundComponent::SetMasterVolume(float volume) {
-    sf::Listener::SetGlobalVolume(volume);
+    if(sf::Listener::GetGlobalVolume() != volume) {
+        sf::Listener::SetGlobalVolume(volume);
+        emit MasterVolumeChanged(volume);
+    }
 }
 
 }

@@ -7,60 +7,38 @@
 // ----------------------------------------------------------------------------
 
 #include <Utils/Timer.hpp>
+#include <Scene/StateManager.hpp>
+#include <Core/Root.hpp>
 #include <iostream>
 
 namespace dt {
 
-Timer::Timer(const QString& message, double interval, bool repeat, bool threaded, bool use_events)
+Timer::Timer(const QString& message, double interval, bool repeat, bool threaded/*, bool use_events*/)
     : mMessage(message),
       mInterval(interval),
       mRepeat(repeat),
-      mThreaded(threaded),
-      mUseEvents(use_events) {
+      mThreaded(threaded) {
     // start the timer
     if(threaded) {
         _RunThread();
     } else {
-        EventManager::Get()->AddListener(this);
         mTimeLeft = mInterval;
-    }
-}
-
-void Timer::HandleEvent(std::shared_ptr<Event> e) {
-    // for event mode
-
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-        // every frame
-        std::shared_ptr<BeginFrameEvent> b = std::dynamic_pointer_cast<BeginFrameEvent>(e);
-
-        if(mTimeLeft > b->GetFrameTime()) {
-            mTimeLeft -= b->GetFrameTime();
-        } else {
-            // ignore if we have some delay (actually, this is the downside of event mode)
-            mTimeLeft = 0;
-            TriggerTickEvent();
-        }
+        connect(Root::GetInstance().GetStateManager(), SIGNAL(BeginFrame(double)), 
+                this, SLOT(UpdateTimeLeft(double)));
     }
 }
 
 void Timer::TriggerTickEvent() {
-    if(mUseEvents)
-        EventManager::Get()->
-            InjectEvent(std::make_shared<TimerTickEvent>(mMessage, mInterval));
-    emit TimerTicked(mMessage);
+    emit TimerTicked(mMessage, mInterval);
 
-    if(mRepeat && mThreaded) {
-        _RunThread();
-    }
-
-    if(!mThreaded) {
-        if(!mRepeat) {
-            // disable
-            EventManager::Get()->RemoveListener(this);
+    if(mRepeat) {
+        if(mThreaded) {
+            _RunThread();
         } else {
-            // reset
             mTimeLeft = mInterval;
         }
+    } else {
+        Stop();
     }
 }
 
@@ -82,22 +60,31 @@ void Timer::_ThreadFunction(void* user_data) {
 
     // wait for interval, convert to milliseconds for SFML
     sf::Sleep(timer->GetInterval() * 1000);
-
+    
     // done, trigger event
     timer->TriggerTickEvent();
 }
 
 void Timer::TriggerTick() {
-    emit TimerTicked("DEBUG");
+    emit TimerTicked("DEBUG", mInterval);
+}
+
+void Timer::UpdateTimeLeft(const double& frame_time) {
+    mTimeLeft -= frame_time;
+    if(mTimeLeft <= 0) {
+        TriggerTickEvent();
+    }       
 }
 
 void Timer::Stop() {
     if(mThreaded) {
         mThread->Terminate();
     } else {
-        EventManager::Get()->RemoveListener(this);
+        disconnect(Root::GetInstance().GetStateManager(), SIGNAL(BeginFrame(double)), 
+                   this, SLOT(UpdateTimeLeft(double)));
+        mTimeLeft = mInterval; // reset
     }
-    mTimeLeft = mInterval; // reset
+    emit TimerStoped();
 }
 
 } // namespace dt

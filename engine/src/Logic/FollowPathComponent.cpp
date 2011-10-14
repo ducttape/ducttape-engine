@@ -23,7 +23,7 @@ FollowPathComponent::FollowPathComponent(Mode mode, const QString& name)
       mReversed(false),
       mMode(mode) {}
 
-void FollowPathComponent::HandleEvent(std::shared_ptr<Event> e) {}
+//void FollowPathComponent::HandleEvent(std::shared_ptr<Event> e) {}
 
 void FollowPathComponent::OnCreate() {
     mLastPoint = mNode->GetPosition();

@@ -49,7 +49,7 @@ public:
 
     CustomNetworkEvent(int data, Sender e);
     const QString GetType() const;
-    std::shared_ptr<dt::Event> Clone() const;
+    std::shared_ptr<dt::NetworkEvent> Clone() const;
     void Serialize(dt::IOPacket& p);
 
 public:
@@ -59,20 +59,32 @@ public:
 
 ////////////////////////////////////////////////////////////////
 
-class CustomServerEventListener : public dt::EventListener {
+class CustomServerEventListener/* : public dt::EventListener*/ : public QObject {
+    Q_OBJECT
 public:
     CustomServerEventListener();
-    void HandleEvent(std::shared_ptr<dt::Event> e);
+
+private slots:
+    void _HandleEvent(std::shared_ptr<dt::NetworkEvent> e);
+
+    void _Initialize();
+
 public:
     uint32_t mDataReceived;
 };
 
 ////////////////////////////////////////////////////////////////
 
-class CustomClientEventListener : public dt::EventListener {
+class CustomClientEventListener : public QObject {
+    Q_OBJECT
 public:
     CustomClientEventListener();
-    void HandleEvent(std::shared_ptr<dt::Event> e);
+
+private slots:
+    void _HandleEvent(std::shared_ptr<dt::NetworkEvent> e);
+
+    void _Initialize();
+
 public:
     uint32_t mDataReceived;
 };

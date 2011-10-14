@@ -64,7 +64,10 @@ public:
       * @returns The current state.
       */
     State* GetCurrentState();
-
+    
+signals:
+    void BeginFrame(double simulation_frame_time);
+    
 private:
     std::shared_ptr<State> mNewState;   //!< The newly created game state to be pushed onto the stack in the next step.
     bool mHasNewState;  //!< Whether a new state has been assigned.

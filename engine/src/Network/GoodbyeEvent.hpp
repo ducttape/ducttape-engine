@@ -32,7 +32,7 @@ public:
     GoodbyeEvent(const QString& reason = "");
 
     const QString GetType() const;
-    std::shared_ptr<Event> Clone() const;
+    std::shared_ptr<NetworkEvent> Clone() const;
     void Serialize(IOPacket& p);
 
     /**

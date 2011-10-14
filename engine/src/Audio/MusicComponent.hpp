@@ -27,13 +27,11 @@ class DUCTTAPE_API MusicComponent : public Component {
 public:
     /**
      * Advanced constructor.
-     * @param music_file The name of the music resource to play.
+     * @param music_file_name The name of the music resource to play.
      * @param name The name for this component.
      * @see Component
      */
-    MusicComponent(const QString& music_file = "", const QString& name = "");
-
-    virtual void HandleEvent(std::shared_ptr<Event> e);
+    MusicComponent(const QString& music_file_name = "", const QString& name = "");
 
     void OnCreate();
     void OnDestroy();
@@ -43,16 +41,17 @@ public:
 
     /**
       * Sets the file to load music from.
-      * @param music_file The file to load the music from.
+      * @param music_file_name The file to load the music from.
       */
-    void SetMusicFile(const QString& music_file);
+    void SetMusicFileName(const QString& music_file_name);
 
     /**
       * Returns the file the music was loaded from.
       * @returns The file the music was loaded from.
       */
-    const QString& GetMusicFile() const;
+    const QString& GetMusicFileName() const;
 
+public slots:
     /**
       * Sets the music volume.
       * @param volume The music volume. Minimum: 0. Maximum: 100. Default: 100.
@@ -63,7 +62,7 @@ public:
       * Sets the global master sound/music volume.
       * @param volume The global master sound/music volume. Minimum: 0. Maximum: 100. Default: 100.
       */
-    static void SetMasterVolume(float volume);
+    void SetMasterVolume(float volume);
 
     /**
       * Make the music start to fade.
@@ -89,13 +88,20 @@ public:
       */
     void PauseMusic();
 
+signals:
+    void VolumeChanged(float new_volume);
+    void MasterVolumeChanged(float new_volume);
+    void MusicPlayed();
+    void MusicStopped();
+    void MusicPaused();
+
 private:
     /**
       * Private method. Prepares the music stream.
       */
     void _LoadMusic();
 
-    QString mMusicFile;     //!< The file the music was loaded from.
+    QString mMusicFileName;     //!< The file the music was loaded from.
     bool mFadeFlag;             //!< The fading flag.
     double mElapsedTime;        //!< The elapsed time during the fading.
     double mFadeTime;           //!< The fading duration time.

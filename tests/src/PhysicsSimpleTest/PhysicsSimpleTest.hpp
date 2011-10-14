@@ -14,7 +14,6 @@
 #include "Test.hpp"
 
 #include <Core/Root.hpp>
-#include <Event/EventListener.hpp>
 #include <Graphics/LightComponent.hpp>
 #include <Graphics/MeshComponent.hpp>
 #include <Physics/PhysicsBodyComponent.hpp>
@@ -35,11 +34,13 @@ public:
 ////////////////////////////////////////////////////////////////
 
 class Main : public dt::State {
+    Q_OBJECT
 public:
     Main();
-    Main::Priority GetEventPriority() const;
-    void HandleEvent(std::shared_ptr<dt::Event> e);
+    //Main::Priority GetEventPriority() const;
     void OnInitialize();
+    void UpdateStateFrame(double simulation_frame_time);
+
 private:
     double mRuntime;
     Ogre::Vector3 mSphere1DisabledPosition;

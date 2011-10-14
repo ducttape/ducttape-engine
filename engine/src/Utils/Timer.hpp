@@ -11,11 +11,11 @@
 
 #include <Config.hpp>
 
-#include <Event/BeginFrameEvent.hpp>
-#include <Event/Event.hpp>
-#include <Event/EventManager.hpp>
+//#include <Event/BeginFrameEvent.hpp>
+//#include <Event/Event.hpp>
+//#include <Event/EventManager.hpp>
 
-#include <Utils/TimerTickEvent.hpp>
+//#include <Utils/TimerTickEvent.hpp>
 
 #include <SFML/System/Sleep.hpp>
 #include <SFML/System/Thread.hpp>
@@ -30,7 +30,7 @@ namespace dt {
 /**
   * A timer to send Tick events in regular intervals.
   */
-class DUCTTAPE_API Timer : public QObject, public EventListener {
+class DUCTTAPE_API Timer : public QObject {
     Q_OBJECT
 
 public:
@@ -40,12 +40,9 @@ public:
       * @param interval The interval to wait between 2 ticks.
       * @param repeat Whether the timer should proceed to tick after the first tick.
       * @param threaded Whether the timer should be started in a separate thread or just rely on the BeginFrameEvent.
-      * @param use_events Whether the timer should create a TimerTickEvent every tick or just call the signal.
       */
     Timer(const QString& message, double interval, bool repeat = true,
-          bool threaded = false, bool use_events = true);
-
-    void HandleEvent(std::shared_ptr<Event> e);
+          bool threaded = false/*, bool use_events = true*/);
 
     /**
       * Triggers the tick event and resets the timer.
@@ -65,21 +62,27 @@ public:
     const QString& GetMessageEvent() const;
 
     /**
-     * Manually triggers a timer tick. This is mainly used for debugging
-     * purposes.
-     */
-    void TriggerTick();
-
-    /**
       * Stops the timer.
       */
     void Stop();
 
 public slots:
+    /**
+     * Manually triggers a timer tick. This is mainly used for debugging
+     * purposes.
+     */
+    void TriggerTick();
+    
+    /**
+     * Update the time left, only used in non-threaded mode.
+     * @param frame_time The duration of the frame. 
+     */
+    void UpdateTimeLeft(const double& frame_time);
 
 signals:
-    void TimerTicked(const QString& message);
+    void TimerTicked(const QString& message, double interval);
 
+    void TimerStoped();
 private:
     /**
       * Private method. Runs the timer in a thread.
@@ -93,11 +96,11 @@ private:
     static void _ThreadFunction(void* user_data);
 
     std::shared_ptr<sf::Thread> mThread;    //!< The sf::Thread the timer uses in threaded mode.
-    QString mMessage;                   //!< The message to send with the TimerTickEvent.
+    QString mMessage;                       //!< The message to send with the TimerTickEvent.
     double mInterval;                       //!< The timer interval, in seconds.
     bool mRepeat;                           //!< Whether the timer should proceed to tick after the first tick.
     bool mThreaded;                         //!< Whether the timer runs threaded or not.
-    bool mUseEvents;                        //!< Whether the timer should create a TimerTickEvent every tick or just call the signal.
+    /*bool mUseEvents;*/                        //!< Whether the timer should create a TimerTickEvent every tick or just call the signal.
 
     double mTimeLeft; //!< The time left until the next tick. Only used in non-threaded mode.
 };

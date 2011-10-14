@@ -20,6 +20,8 @@
 
 #include <QObject>
 
+#include <cstdint>
+
 namespace TimerTest {
 
 class TimerTest : public Test {
@@ -35,18 +37,18 @@ class Main : public dt::State {
 
 public:
     void OnInitialize();
-    void HandleEvent(std::shared_ptr<dt::Event> e);
+    void UpdateStateFrame(double simulation_frame_time);
 
-public slots:
-    void TimerCallback(const QString& message);
+private slots:
+    void _TimerCallback(const QString& message);
 
 public:
     std::shared_ptr<dt::Timer> mTimer1;
     std::shared_ptr<dt::Timer> mTimer2;
-    std::shared_ptr<dt::Timer> mTimer3;
-    int mTimer1Count;
-    int mTimer2Count;
-    int mTimer3Count;
+    //std::shared_ptr<dt::Timer> mTimer3;
+    uint16_t mTimer1Count;
+    uint16_t mTimer2Count;
+    //int mTimer3Count;
 
     double mTotalTime;
 };

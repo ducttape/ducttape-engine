@@ -62,14 +62,6 @@ public:
       */
     const QString& GetName() const;
 
-    void Focus();
-
-    void SetPosition(float x, float y);
-    void SetPosition(int x, int y);
-
-    void SetSize(float width, float height);
-    void SetSize(int width, int height);
-
     void SetParent(GuiWidget* parent);
     GuiWidget* GetParent();
     QScriptValue GetScriptParent();
@@ -105,6 +97,14 @@ public:
     QString GetFullName();
 
 public slots:
+    void Focus();
+
+    void SetPosition(float x, float y);
+    void SetPosition(int x, int y);
+
+    void SetSize(float width, float height);
+    void SetSize(int width, int height);
+
     /**
       * Returns a child widget, for scripting access.
       * @param name The name of the child widget.
@@ -116,6 +116,16 @@ public slots:
     void Hide();
     void SetVisible(bool visible);
     bool IsVisible() const;
+
+signals:
+    void Focused();
+    void PositionChanged(float x, float y);
+    void PositionChanged(int x, int y);
+    void SizeChanged(float width, float height);
+    void SizeChanged(int width, int height);
+    void Shown();
+    void Hidden();
+    void VisibilityChanged(bool visible);
 
 private:
     /**

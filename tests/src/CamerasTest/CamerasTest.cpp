@@ -25,36 +25,6 @@ QString CamerasTest::GetTestName() {
 Main::Main()
     : mRuntime(0) {}
 
-void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-        mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
-        if(mRuntime > 3.0) {
-            dt::StateManager::Get()->Pop(1);
-        }
-        if(mRuntime > 2.5 && mStep == 4) {
-            mCamera2->Disable();
-            ++mStep;
-        }
-        if(mRuntime > 2.0 && mStep == 3) {
-            mCamera1->Enable();
-            mCamera1->SetupViewport(0.3, 0.1, 0.4, 0.4);
-            ++mStep;
-        }
-        if(mRuntime > 1.5 && mStep == 2) {
-            mCamera1->Disable();
-            ++mStep;
-        }
-        if(mRuntime > 1.0 && mStep == 1) {
-            mCamera2->Enable();
-            ++mStep;
-        }
-        if(mRuntime > 0.5 && mStep == 0) {
-            mCamera1->Enable();
-            ++mStep;
-        }
-    }
-}
-
 void Main::OnInitialize() {
     dt::Scene* scene = AddScene(new dt::Scene("testscene"));
 
@@ -88,6 +58,34 @@ void Main::OnInitialize() {
     lightnode2->SetPosition(Ogre::Vector3(0, -10, 0));
 
     mStep = 0;
+}
+
+void Main::UpdateStateFrame(double simulation_frame_time) {
+    mRuntime += simulation_frame_time;
+    if(mRuntime > 3.0) {
+        dt::StateManager::Get()->Pop(1);
+    }
+    if(mRuntime > 2.5 && mStep == 4) {
+        mCamera2->Disable();
+        ++mStep;
+    }
+    if(mRuntime > 2.0 && mStep == 3) {
+        mCamera1->Enable();
+        mCamera1->SetupViewport(0.3, 0.1, 0.4, 0.4);
+        ++mStep;
+    }
+    if(mRuntime > 1.5 && mStep == 2) {
+        mCamera1->Disable();
+        ++mStep;
+    }
+    if(mRuntime > 1.0 && mStep == 1) {
+        mCamera2->Enable();
+        ++mStep;
+    }
+    if(mRuntime > 0.5 && mStep == 0) {
+        mCamera1->Enable();
+        ++mStep;
+    }
 }
 
 } // namespace CamerasTest

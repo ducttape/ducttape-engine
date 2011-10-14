@@ -12,8 +12,6 @@
 #include <Config.hpp>
 
 #include <Core/Manager.hpp>
-#include <Event/Event.hpp>
-#include <Event/EventListener.hpp>
 #include <Network/Connection.hpp>
 #include <Network/PingEvent.hpp>
 #include <Utils/Timer.hpp>
@@ -29,7 +27,7 @@ namespace dt {
   * Class for managing all Connections.
   * @see Connection
   */
-class DUCTTAPE_API ConnectionsManager : public Manager, public EventListener {
+class DUCTTAPE_API ConnectionsManager : public Manager {
     Q_OBJECT
 public:
     /**
@@ -147,14 +145,16 @@ public:
       */
     double GetTimeout();
 
-    void HandleEvent(std::shared_ptr<Event> e);
-
     /**
       * Returns the ping of a connection.
       * @param connection The ID of the connection.
       * @returns The ping of the connection.
       */
     double GetPing(ID_t connection);
+
+public slots:
+    void HandleEvent(std::shared_ptr<dt::NetworkEvent> e);
+    void TimerTick(QString message, double interval);
 
 private:
     /**

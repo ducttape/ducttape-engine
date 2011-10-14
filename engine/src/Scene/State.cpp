@@ -8,19 +8,14 @@
 
 #include <Scene/State.hpp>
 
-#include <Event/EventManager.hpp>
-
 namespace dt {
 
 State::State() {}
-
-void State::HandleEvent(std::shared_ptr<Event> e) {}
 
 void State::OnDeinitialize() {}
 
 void State::Initialize() {
     Logger::Get().Info("Initializing state.");
-    EventManager::Get()->AddListener(this);
     OnInitialize();
 }
 
@@ -31,7 +26,6 @@ void State::Deinitialize() {
     }
 
     OnDeinitialize();
-    EventManager::Get()->RemoveListener(this);
 
     Logger::Get().Info("Deinitialized state.");
 }
@@ -40,6 +34,7 @@ Scene* State::AddScene(Scene* scene) {
     QString key(scene->GetName());
     mScenes.insert(key, scene);
     GetScene(key)->Initialize();
+    //connect(this, SIGNAL(BeginFrame(double)), GetScene(key), SLOT(UpdateFrame(double)));
     return GetScene(key);
 }
 
@@ -57,6 +52,17 @@ void State::DeleteScene(const QString& name) {
 
     GetScene(name)->Deinitialize();
     mScenes.erase(mScenes.find(name));
+}
+
+void State::UpdateFrame(double simulation_frame_time) {
+    UpdateSceneFrame(simulation_frame_time);
+    UpdateStateFrame(simulation_frame_time);
+}
+
+void State::UpdateSceneFrame(double simulation_frame_time) {
+    for(auto i = mScenes.begin();i != mScenes.end(); i++) {
+        i->second->UpdateFrame(simulation_frame_time);
+    }
 }
 
 } // namespace dt

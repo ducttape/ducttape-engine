@@ -11,8 +11,8 @@
 
 #include <Config.hpp>
 
-#include <Event/Event.hpp>
-#include <Event/EventListener.hpp>
+//#include <Event/Event.hpp>
+//#include <Event/EventListener.hpp>
 #include <Physics/PhysicsWorld.hpp>
 #include <Scene/Node.hpp>
 
@@ -26,15 +26,13 @@ namespace dt {
 /**
   * A class to represent a whole scene of the game world.
   */
-class DUCTTAPE_API Scene : public Node, public EventListener {
+class DUCTTAPE_API Scene : public Node {
     Q_OBJECT
 public:
     /**
       * Default constructor.
       */
     Scene(const QString& name);
-
-    Priority GetEventPriority() const;
 
     void OnInitialize();
 
@@ -46,14 +44,13 @@ public:
       */
     Ogre::SceneManager* GetSceneManager();
 
-    void HandleEvent(std::shared_ptr<Event> e);
-
     /**
       * Returns the PhysicsWorld of this Scene. Creates the PhysicsWorld on-demand.
       * @returns The PhysicsWorld of this Scene.
       */
     PhysicsWorld* GetPhysicsWorld();
-
+public slots:
+    void UpdateFrame(double simulation_frame_time);
 protected:
     bool _IsScene();
 

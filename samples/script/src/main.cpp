@@ -216,6 +216,8 @@ public:
 
         InfoFunction(nullptr, dt::ScriptManager::Get()->GetScriptEngine());
     }
+    void UpdateStateFrame(double simulation_frame_time) {
+    }
 
 private:
     dt::GuiButton* mButton;
