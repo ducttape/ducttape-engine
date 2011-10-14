@@ -33,6 +33,13 @@ template <typename Source> QString ToString(const Source& source) {
   */
 DUCTTAPE_API std::string ToStdString(const QString& qstring);
 
+extern uint32_t mAutoId;
+
+/**
+  * A tool for assigning Id's
+  * @returns the new id
+  */
+uint32_t AutoId();
 } // namespace Utils
 
 } // namespace dt

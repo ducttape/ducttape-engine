@@ -10,6 +10,7 @@
 
 #include <Network/Connection.hpp>
 #include <Network/ConnectionsManager.hpp>
+#include <Network/NetworkManager.hpp>
 
 namespace dt {
 
@@ -22,6 +23,10 @@ NetworkEvent::NetworkEvent()
     for(auto iter = connections.begin(); iter != connections.end(); ++iter) {
         AddRecipient(ConnectionsManager::Get()->GetConnectionID(**iter));
     }
+}
+
+uint16_t NetworkEvent::GetTypeId() const{
+    return NetworkManager::Get()->GetEventId(GetType());
 }
 
 bool NetworkEvent::IsNetworkEvent() const {

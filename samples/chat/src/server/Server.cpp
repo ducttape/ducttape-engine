@@ -11,14 +11,12 @@
 #include <Core/Root.hpp>
 #include <Network/GoodbyeEvent.hpp>
 #include <Utils/Utils.hpp>
-//#include <Event/EventManager.hpp>
 #include <Network/NetworkManager.hpp>
 
 #include "ChatMessageEvent.hpp"
 
 void Server::OnInitialize() {
-    //dt::EventManager::Get()->AddListener(this);
-    connect((QObject*)dt::NetworkManager::Get(), SIGNAL(dt::NetworkManager::Get()->NewEvent(std::shared_ptr<dt::NetworkEvent>)),
+    connect((QObject*)dt::NetworkManager::Get(), SIGNAL(NewEvent(std::shared_ptr<dt::NetworkEvent>)),
         this, SLOT(_HandleEvent(std::shared_ptr<dt::NetworkEvent>)));
 
 
@@ -29,6 +27,8 @@ void Server::OnInitialize() {
 }
 
 void Server::UpdateStateFrame(double simulation_frame_time) {
+    dt::NetworkManager::Get()->HandleIncomingEvents();
+    dt::NetworkManager::Get()->SendQueuedEvents();
 }
 
 void Server::_HandleEvent(std::shared_ptr<dt::NetworkEvent> e) {
@@ -48,18 +48,18 @@ void Server::_HandleEvent(std::shared_ptr<dt::NetworkEvent> e) {
                 dt::NetworkManager::Get()->
                     QueueEvent(std::make_shared<ChatMessageEvent>(msg, c->GetSenderNick()));
             } else {
-                std::cout << std::endl << dt::Utils::ToStdString(c->GetSenderNick()) << ": " 
+                std::cout << std::endl << dt::Utils::ToStdString(c->GetSenderNick()) << ": "
                     << dt::Utils::ToStdString(c->GetMessageText()) << std::endl;
             }
 
             // send back to everyone else
             dt::NetworkManager::Get()->
-                QueueEvent(std::make_shared<ChatMessageEvent>(c->GetMessageText(), 
+                QueueEvent(std::make_shared<ChatMessageEvent>(c->GetMessageText(),
                 c->GetSenderNick()));
         //}
 
     } else if(e->GetType() == "DT_GOODBYEEVENT") {
-        dt::Logger::Get().Info("Client disconnected: " + 
+        dt::Logger::Get().Info("Client disconnected: " +
             std::dynamic_pointer_cast<dt::GoodbyeEvent>(e)->GetReason());
     }
 }
