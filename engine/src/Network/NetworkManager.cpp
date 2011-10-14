@@ -185,7 +185,28 @@ uint16_t NetworkManager::RegisterEvent(const QString& name) {
         mEventIds[mLastEventId] = name;
         return mLastEventId;
     } else {
+        Logger::Get().Debug("Event " + name + " already registered with id " + Utils::ToString(GetEventId(name)) + ".");
         return GetEventId(name);
+    }
+}
+
+bool NetworkManager::RegisterEvent(const QString& name, uint16_t id) {
+    if (!(EventRegistered(name) || EventRegistered(id))) {
+        mEventIds[id] = name;
+        return true;
+    } else {
+        Logger::Get().Debug("That Event has already been registered or that id has already been taken.");
+        return false;
+    }
+}
+
+bool NetworkManager::UnregisterEvent(const QString& name) {
+    if(EventRegistered(name)) {
+        mEventIds[GetEventId(name)] = "";
+        return true;
+    } else {
+        Logger::Get().Debug("Event " + name + " was never registered.");
+        return false;
     }
 }
 

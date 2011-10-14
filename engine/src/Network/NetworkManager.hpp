@@ -130,6 +130,21 @@ public:
     uint16_t RegisterEvent(const QString& name);
 
     /**
+      * Attempts to register a string with a specific id
+      * @param name The string to register.
+      * @param id The id to register it to.
+      * @returns true if neither string nor id have already been registered.
+      */
+    bool RegisterEvent(const QString& name, uint16_t id);
+
+    /**
+      * Unregisters string with id
+      * @param name The string to unregister.
+      * @returns true If successful.
+      */
+    bool UnregisterEvent(const QString& name);
+
+    /**
       * Checks whether a string is already registered.
       * @param name The string to be checked.
       * @returns true If the string is already registered, otherwise false.
@@ -156,12 +171,6 @@ public:
       * @returns The string for the Id.
       */
     const QString& GetEventString(uint16_t id);
-
-    /**
-      * Returns next Id for automatic name generation that is available.
-      * @returns The uint32_t with next available Id for automatic name generation.
-      */
-//    uint32_t AutoEventId();
 
 signals:
     void NewEvent(std::shared_ptr<dt::NetworkEvent> event);
