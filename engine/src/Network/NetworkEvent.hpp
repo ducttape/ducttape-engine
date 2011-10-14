@@ -32,6 +32,7 @@ public:
     NetworkEvent();
     virtual const QString GetType() const = 0;
     bool IsNetworkEvent() const;
+    uint16_t GetTypeId() const;
 
     /**
       * Creates a new instance of the same Event type.

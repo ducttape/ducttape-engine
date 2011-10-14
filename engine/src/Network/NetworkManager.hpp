@@ -122,6 +122,56 @@ public:
       */
     ConnectionsManager* GetConnectionsManager();
 
+    /**
+      * Registers a new string with a generated Id.
+      * @param name The string to register.
+      * @returns The new Id.
+      */
+    uint16_t RegisterEvent(const QString& name);
+
+    /**
+      * Attempts to register a string with a specific id
+      * @param name The string to register.
+      * @param id The id to register it to.
+      * @returns true if neither string nor id have already been registered.
+      */
+    bool RegisterEvent(const QString& name, uint16_t id);
+
+    /**
+      * Unregisters string with id
+      * @param name The string to unregister.
+      * @returns true If successful.
+      */
+    bool UnregisterEvent(const QString& name);
+
+    /**
+      * Checks whether a string is already registered.
+      * @param name The string to be checked.
+      * @returns true If the string is already registered, otherwise false.
+      */
+    bool EventRegistered(const QString& name);
+
+    /**
+      * Checks whether an Id is already used.
+      * @param id The Id to be checked.
+      * @returns true If the Id is already used, otherwise false.
+      */
+    bool EventRegistered(uint16_t id);
+
+    /**
+      * Returns the Id for a string.
+      * @param string The string to find.
+      * @returns The Id for the string.
+      */
+    uint16_t GetEventId(const QString& string);
+
+    /**
+      * Returns the string for an Id.
+      * @param id The Id to find.
+      * @returns The string for the Id.
+      */
+    const QString& GetEventString(uint16_t id);
+
 signals:
     void NewEvent(std::shared_ptr<dt::NetworkEvent> event);
 
@@ -136,6 +186,9 @@ private:
     std::deque<std::shared_ptr<NetworkEvent>> mQueue;           //!< The queue of Events to be send. @see NetworkManager::QueueEvent(NetworkEvent* event);
     std::vector<std::shared_ptr<NetworkEvent>> mNetworkEventPrototypes;    //!< The list of prototypes known to mankind :P
     sf::UdpSocket mSocket;                                      //!< The socket used for data transmissions over network.
+
+    uint16_t mLastEventId;                                      //!< The Id used to register the last string with.
+    std::map<uint16_t, QString> mEventIds;                      //!< The relation map between Ids/strings.
 };
 
 }
