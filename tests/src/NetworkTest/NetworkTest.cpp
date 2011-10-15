@@ -8,6 +8,8 @@
 
 #include "NetworkTest/NetworkTest.hpp"
 
+#include <iostream>
+
 namespace NetworkTest {
 
 bool NetworkTest::Run(int argc, char** argv) {

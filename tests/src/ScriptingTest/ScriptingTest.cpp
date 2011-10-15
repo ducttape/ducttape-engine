@@ -12,6 +12,8 @@
 
 #include <SFML/System.hpp>
 
+#include <iostream>
+
 namespace ScriptingTest {
 
 bool ScriptingTest::Run(int argc, char** argv) {

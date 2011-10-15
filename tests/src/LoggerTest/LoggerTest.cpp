@@ -8,6 +8,8 @@
 
 #include "LoggerTest/LoggerTest.hpp"
 
+#include <iostream>
+
 namespace LoggerTest {
 
 bool LoggerTest::Run(int argc, char** argv) {
