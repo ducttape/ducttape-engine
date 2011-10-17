@@ -58,7 +58,6 @@ class ScriptManager;
 /**
   * Engine Root class holding various Manager instances. This class is designed to be the only singleton in the whole engine,
   * so the creation order can be controlled.
-  * @see StringManager
   * @see LogManager
   * @see StateManager
   */
