@@ -8,6 +8,8 @@
 
 #include "QObjectTest/QObjectTest.hpp"
 
+#include <iostream>
+
 namespace QObjectTest {
 
 bool QObjectTest::Run(int argc, char** argv) {

@@ -10,6 +10,8 @@
 
 #include <Core/ResourceManager.hpp>
 
+#include <iostream>
+
 namespace ResourceManagerTest {
 
 bool ResourceManagerTest::Run(int argc, char** argv) {
