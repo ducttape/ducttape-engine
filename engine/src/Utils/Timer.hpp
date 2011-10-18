@@ -11,12 +11,6 @@
 
 #include <Config.hpp>
 
-//#include <Event/BeginFrameEvent.hpp>
-//#include <Event/Event.hpp>
-//#include <Event/EventManager.hpp>
-
-//#include <Utils/TimerTickEvent.hpp>
-
 #include <SFML/System/Sleep.hpp>
 #include <SFML/System/Thread.hpp>
 
@@ -42,7 +36,7 @@ public:
       * @param threaded Whether the timer should be started in a separate thread or just rely on the BeginFrameEvent.
       */
     Timer(const QString& message, double interval, bool repeat = true,
-          bool threaded = false/*, bool use_events = true*/);
+          bool threaded = false);
 
     /**
       * Triggers the tick event and resets the timer.
@@ -100,7 +94,6 @@ private:
     double mInterval;                       //!< The timer interval, in seconds.
     bool mRepeat;                           //!< Whether the timer should proceed to tick after the first tick.
     bool mThreaded;                         //!< Whether the timer runs threaded or not.
-    /*bool mUseEvents;*/                        //!< Whether the timer should create a TimerTickEvent every tick or just call the signal.
 
     double mTimeLeft; //!< The time left until the next tick. Only used in non-threaded mode.
 };
