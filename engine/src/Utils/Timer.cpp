@@ -13,7 +13,7 @@
 
 namespace dt {
 
-Timer::Timer(const QString& message, double interval, bool repeat, bool threaded/*, bool use_events*/)
+Timer::Timer(const QString& message, double interval, bool repeat, bool threaded)
     : mMessage(message),
       mInterval(interval),
       mRepeat(repeat),
@@ -33,7 +33,10 @@ void Timer::TriggerTickEvent() {
 
     if(mRepeat) {
         if(mThreaded) {
-            _RunThread();
+            while(mRepeat) {
+                sf::Sleep(GetInterval() * 1000);
+                emit TimerTicked(mMessage, mInterval);
+            }
         } else {
             mTimeLeft = mInterval;
         }
