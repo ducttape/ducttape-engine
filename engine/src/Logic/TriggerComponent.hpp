@@ -11,7 +11,7 @@
 
 #include <Config.hpp>
 
-#include <Event/Event.hpp>
+//#include <Event/Event.hpp>
 #include <Scene/Component.hpp>
 
 #include <QString>
@@ -32,7 +32,7 @@ public:
       */
     TriggerComponent(const QString& name = "");
 
-    virtual void HandleEvent(std::shared_ptr<Event> e);
+    /*virtual void HandleEvent(std::shared_ptr<Event> e);*/
 
     void OnCreate();
     void OnDestroy();

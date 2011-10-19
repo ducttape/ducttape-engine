@@ -12,19 +12,22 @@
 #include <Config.hpp>
 
 #include <Network/NetworkEvent.hpp>
-#include <Event/MessageEvent.hpp>
+//#include <Event/MessageEvent.hpp>
 
-class ChatMessageEvent : public dt::NetworkEvent, public dt::MessageEvent {
+class ChatMessageEvent : public dt::NetworkEvent/*, public dt::MessageEvent*/ {
 public:
     ChatMessageEvent(const QString& message, const QString& sender);
     const QString GetType() const;
 
-    std::shared_ptr<dt::Event> Clone() const;
+    std::shared_ptr<dt::NetworkEvent> Clone() const;
     void Serialize(dt::IOPacket& p);
 
     const QString& GetSenderNick() const;
+    const QString& GetMessageText() const;
 protected:
     QString mSenderNick;
+
+    QString mMessage;
 };
 
 #endif

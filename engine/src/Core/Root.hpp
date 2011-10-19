@@ -46,8 +46,6 @@
 namespace dt {
 
 class LogManager;
-class StringManager;
-class EventManager;
 class ResourceManager;
 class InputManager;
 class DisplayManager;
@@ -60,7 +58,6 @@ class ScriptManager;
 /**
   * Engine Root class holding various Manager instances. This class is designed to be the only singleton in the whole engine,
   * so the creation order can be controlled.
-  * @see StringManager
   * @see LogManager
   * @see StateManager
   */
@@ -96,12 +93,6 @@ public:
     double GetTimeSinceInitialize() const;
 
     /**
-      * Returns the StringManager.
-      * @returns the StringManager
-      */
-    StringManager* GetStringManager();
-
-    /**
       * Returns the LogManager.
       * @returns the LogManager
       */
@@ -112,12 +103,6 @@ public:
       * @returns the StateManager
       */
     StateManager* GetStateManager();
-
-    /**
-      * Returns the EventManager.
-      * @returns the EventManager
-      */
-    EventManager* GetEventManager();
 
     /**
       * Returns the NetworkManager.
@@ -171,8 +156,6 @@ private:
     QCoreApplication* mCoreApplication; //!< Pointer to the Qt Core Application (required for QScriptEngine and command line parameter parsing).
 
     LogManager* mLogManager;            //!< Pointer to the LogManager.
-    StringManager* mStringManager;      //!< Pointer to the StringManager.
-    EventManager* mEventManager;        //!< Pointer to the EventManager.
     ResourceManager* mResourceManager;  //!< Pointer to the ResourceManager.
     InputManager* mInputManager;        //!< Pointer to the InputManager.
     DisplayManager* mDisplayManager;    //!< Pointer to the DisplayManager.

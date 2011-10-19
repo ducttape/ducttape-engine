@@ -37,11 +37,6 @@ public:
       */
     LightComponent(const QString& name = "", const QString& mesh_handle = "light.mesh");
 
-    /**
-      * Called when the color of the light is changed.
-      */
-    virtual void OnColorChanged();
-
     void OnCreate();
     void OnDestroy();
     void OnEnable();

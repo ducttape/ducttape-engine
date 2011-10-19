@@ -18,7 +18,10 @@ GuiTextBox::GuiTextBox(QString name)
 GuiTextBox::~GuiTextBox() {}
 
 void GuiTextBox::SetCaption(QString caption) {
-    dynamic_cast<MyGUI::TextBox*>(GetMyGUIWidget())->setCaption(dt::Utils::ToStdString(caption));
+    if(GetCaption() != caption) {
+        dynamic_cast<MyGUI::TextBox*>(GetMyGUIWidget())->setCaption(dt::Utils::ToStdString(caption));
+        emit CaptionChanged(caption);
+    }
 }
 
 QString GuiTextBox::GetCaption() {

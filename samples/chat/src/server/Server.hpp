@@ -12,11 +12,15 @@
 #include <Config.hpp>
 
 #include <Scene/Game.hpp>
+#include <Network/NetworkEvent.hpp>
 
 class Server : public dt::State {
+    Q_OBJECT
 public:
     void OnInitialize();
-    void HandleEvent(std::shared_ptr<dt::Event> e);
+    void UpdateStateFrame(double simulation_frame_time);
+private slots:
+    void _HandleEvent(std::shared_ptr<dt::NetworkEvent> e);
 
 };
 

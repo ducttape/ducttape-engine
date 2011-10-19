@@ -7,14 +7,12 @@
 // ----------------------------------------------------------------------------
 
 #include <Network/NetworkManager.hpp>
-
-#include <Core/Root.hpp>
-#include <Event/EventManager.hpp>
 #include <Network/HandshakeEvent.hpp>
 #include <Network/GoodbyeEvent.hpp>
+
+#include <Core/Root.hpp>
 #include <Utils/Utils.hpp>
 #include <Utils/LogManager.hpp>
-#include <Core/StringManager.hpp>
 
 namespace dt {
 
@@ -23,7 +21,10 @@ NetworkManager::NetworkManager() {}
 NetworkManager::~NetworkManager() {}
 
 void NetworkManager::Initialize() {
-    EventManager::Get()->AddListener(this);
+    // initialize the connections mananger
+    mConnectionsManager.Initialize();
+    connect(this, SIGNAL(NewEvent(std::shared_ptr<dt::NetworkEvent>)),
+            GetConnectionsManager(), SLOT(HandleEvent(std::shared_ptr<dt::NetworkEvent>)));
 
     // add all default events as prototypes
     std::shared_ptr<NetworkEvent> ptr;
@@ -36,14 +37,10 @@ void NetworkManager::Initialize() {
 
     ptr = std::shared_ptr<NetworkEvent>(new PingEvent(0));
     RegisterNetworkEventPrototype(ptr);
-
-    // initialize the connections mananger
-    mConnectionsManager.Initialize();
 }
 
 void NetworkManager::Deinitialize() {
     mConnectionsManager.Deinitialize();
-    EventManager::Get()->RemoveListener(this);
 }
 
 NetworkManager* NetworkManager::Get() {
@@ -61,6 +58,7 @@ bool NetworkManager::BindSocket(uint16_t port) {
 }
 
 void NetworkManager::Connect(Connection target) {
+    //Logger::Get().Info("New Connection : " + QString::fromStdString(target.GetIPAddress().ToString()));
     // remember target
     uint16_t id = mConnectionsManager.AddConnection(&target);
     // Connection* c = mConnectionsManager.GetConnection(id);
@@ -70,6 +68,7 @@ void NetworkManager::Connect(Connection target) {
     h->ClearRecipients();
     h->AddRecipient(id);
     QueueEvent(h);
+
 }
 
 void NetworkManager::Disconnect(Connection target) {
@@ -98,7 +97,7 @@ void NetworkManager::SendQueuedEvents() {
 }
 
 void NetworkManager::QueueEvent(std::shared_ptr<NetworkEvent> event) {
-    //Logger::Get().Debug("NetworkManager: Queued NetworkEvent [" % Utils::ToString(event->GetTypeID()) % ": " % event->GetType() % "]");
+    //Logger::Get().Debug("NetworkManager: Queued NetworkEvent [" % Utils::ToString(event->GetTypeId()) % ": " % event->GetType() % "]");
     mQueue.push_back(event);
 }
 
@@ -117,17 +116,17 @@ void NetworkManager::HandleIncomingEvents() {
         }
 
         while(!packet.EndOfPacket()) {
-            uint32_t type;
+            uint16_t type;
             packet >> type;
             std::shared_ptr<NetworkEvent> event = CreatePrototypeInstance(type);
             if(event != nullptr) {
-                // Logger::Get().Debug("NetworkManager: Received event [" % Utils::ToString(event->GetTypeID()) % ": " %
+                // Logger::Get().Debug("NetworkManager: Received event [" % Utils::ToString(event->GetTypeId()) % ": " %
                                    // event->GetType() % "] from <" % Utils::ToString(sender_id) % ">. Handling.");
                 IOPacket iop(&packet, IOPacket::MODE_RECEIVE);
                 event->Serialize(iop);
                 event->IsLocalEvent(true);
                 event->SetSenderID(sender_id);
-                EventManager::Get()->InjectEvent(event);
+                HandleEvent(event);
             } else {
                 Logger::Get().Error("NetworkManager: Cannot create instance of packet type [" % Utils::ToString(type) % "]. Skipping packet.");
                 break;
@@ -136,16 +135,12 @@ void NetworkManager::HandleIncomingEvents() {
     }
 }
 
-void NetworkManager::HandleEvent(std::shared_ptr<Event> e) {
-    if(e->IsNetworkEvent()) {
-        std::shared_ptr<NetworkEvent> n = \
-            std::dynamic_pointer_cast<NetworkEvent>(e);
-        if(!n->IsLocalEvent()) {
-            QueueEvent(n);
-            // this event was supposed to be queued and should not be handled any further
-            e->Cancel();
-            return;
-        }
+
+void NetworkManager::HandleEvent(std::shared_ptr<NetworkEvent> e) {
+    if(!e->IsLocalEvent()) {
+        QueueEvent(e);
+        // this event was supposed to be queued and should not be handled any further
+        return;
     }
 
     if(e->GetType() == "DT_HANDSHAKEEVENT") {
@@ -156,28 +151,25 @@ void NetworkManager::HandleEvent(std::shared_ptr<Event> e) {
 
         }
     } else if(e->GetType() == "DT_GOODBYEEVENT") {
-        // client sent a godbye event / server will disconnect the client
+        // client sent a goodbye event / server will disconnect the client
         std::shared_ptr<GoodbyeEvent> g = \
             std::dynamic_pointer_cast<GoodbyeEvent>(e);
         if(g->GetSenderID() != 0) {
             mConnectionsManager.RemoveConnection(g->GetSenderID());
         }
     }
-}
-
-EventListener::Priority NetworkManager::GetEventPriority() const {
-    return EventListener::INTERNAL_HIGHEST;
+    emit NewEvent(e);
 }
 
 void NetworkManager::RegisterNetworkEventPrototype(std::shared_ptr<NetworkEvent> event) {
     mNetworkEventPrototypes.push_back(event);
     // register the ID (if not already happened)
-    StringManager::Get()->Add(event->GetType());
+    RegisterEvent(event->GetType());
 }
 
-std::shared_ptr<NetworkEvent> NetworkManager::CreatePrototypeInstance(uint32_t type_id) {
+std::shared_ptr<NetworkEvent> NetworkManager::CreatePrototypeInstance(uint16_t type_id) {
     for(auto iter = mNetworkEventPrototypes.begin(); iter != mNetworkEventPrototypes.end(); ++iter) {
-        if((*iter)->GetTypeID() == type_id) {
+        if(GetEventId((*iter)->GetType()) == type_id) {
             return std::dynamic_pointer_cast<NetworkEvent>((*iter)->Clone());
         }
     }
@@ -188,18 +180,73 @@ ConnectionsManager* NetworkManager::GetConnectionsManager() {
     return &mConnectionsManager;
 }
 
+uint16_t NetworkManager::RegisterEvent(const QString& name) {
+    if(!EventRegistered(name)) {
+        mLastEventId++;
+        mEventIds[mLastEventId] = name;
+        return mLastEventId;
+    } else {
+        Logger::Get().Debug("Event " % name % " already registered with id " % Utils::ToString(GetEventId(name)) % ".");
+        return GetEventId(name);
+    }
+}
+
+bool NetworkManager::RegisterEvent(const QString& name, uint16_t id) {
+    if (!(EventRegistered(name) || EventRegistered(id))) {
+        mEventIds[id] = name;
+        return true;
+    } else {
+        Logger::Get().Debug("That Event has already been registered or that id has already been taken.");
+        return false;
+    }
+}
+
+bool NetworkManager::UnregisterEvent(const QString& name) {
+    if(EventRegistered(name)) {
+        mEventIds[GetEventId(name)] = "";
+        return true;
+    } else {
+        Logger::Get().Debug("Event " % name % " was never registered.");
+        return false;
+    }
+}
+
+bool NetworkManager::EventRegistered(const QString& name) {
+    for(auto iter = mEventIds.begin(); iter != mEventIds.end(); ++iter) {
+        if(iter->second == name)
+            return true;
+    }
+    return false;
+}
+
+bool NetworkManager::EventRegistered(uint16_t id) {
+    return mEventIds.count(id) > 0 && mEventIds[id] != "";
+}
+
+uint16_t NetworkManager::GetEventId(const QString& name) {
+    for(auto iter = mEventIds.begin(); iter != mEventIds.end(); ++iter) {
+        if(iter->second == name)
+            return iter->first;
+    }
+    return 0;
+}
+
+const QString& NetworkManager::GetEventString(uint16_t id) {
+    return mEventIds[id];
+}
+
 void NetworkManager::_SendEvent(std::shared_ptr<NetworkEvent> event) {
     // create packet
     sf::Packet p;
-    p << event->GetTypeID();
+    p << GetEventId(event->GetType());
     IOPacket packet(&p, IOPacket::MODE_SEND);
     event->Serialize(packet);
 
     // send packet to all recipients
     const std::vector<uint16_t>& recipients = event->GetRecipients();
     for(auto iter = recipients.begin(); iter != recipients.end(); ++iter) {
-        // Logger::Get().Debug("NetworkManager: Sending Event to " % Utils::ToString(i));
         Connection* r = mConnectionsManager.GetConnection(*iter);
+        //Logger::Get().Debug("NetworkManager: Sending Event to " + Utils::ToString(*iter) + " : " + QString::fromStdString(r->GetIPAddress().ToString()));
         if(r == nullptr) {
             Logger::Get().Error("Cannot send event to " % Utils::ToString(*iter) % ": No connection with this ID");
         } else {

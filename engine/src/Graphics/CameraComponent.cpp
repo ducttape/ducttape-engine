@@ -20,9 +20,6 @@ namespace dt {
 CameraComponent::CameraComponent(const QString& name)
    : Component(name) {}
 
-void CameraComponent::HandleEvent(std::shared_ptr<Event> e) {
-}
-
 void CameraComponent::OnCreate() {
     // create the ogre context if not present
     DisplayManager::Get()->CreateOgreRoot();

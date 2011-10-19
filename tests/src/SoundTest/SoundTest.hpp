@@ -14,7 +14,6 @@
 #include "Test.hpp"
 
 #include <Audio/SoundComponent.hpp>
-#include <Audio/SoundsControlEvent.hpp>
 #include <Core/Root.hpp>
 #include <Scene/Node.hpp>
 #include <Scene/Scene.hpp>

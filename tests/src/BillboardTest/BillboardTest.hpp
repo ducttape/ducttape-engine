@@ -14,8 +14,6 @@
 #include "Test.hpp"
 
 #include <Core/Root.hpp>
-#include <Event/EventListener.hpp>
-#include <Event/BeginFrameEvent.hpp>
 #include <Graphics/CameraComponent.hpp>
 #include <Graphics/BillboardSetComponent.hpp>
 #include <Graphics/MeshComponent.hpp>
@@ -41,8 +39,8 @@ public:
 class Main : public dt::State {
 public:
     Main();
-    void HandleEvent(std::shared_ptr<dt::Event> e);
     void OnInitialize();
+    void UpdateStateFrame(double simulation_frame_time);
 
 private:
     double mRuntime;

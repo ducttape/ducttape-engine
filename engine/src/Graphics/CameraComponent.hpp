@@ -35,8 +35,6 @@ public:
       */
     CameraComponent(const QString& name = "");
 
-    virtual void HandleEvent(std::shared_ptr<Event> e);
-
     void OnCreate();
     void OnDestroy();
     void OnEnable();

@@ -252,6 +252,9 @@ public slots:
       */
     void SetPosition(float x, float y, float z, RelativeTo rel = PARENT);
 
+signals:
+    void PositionChanged();
+
 protected:
     /**
       * Returns whether this Node is a Scene.

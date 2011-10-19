@@ -8,7 +8,6 @@
 
 #include "GuiTest/GuiTest.hpp"
 
-#include <Event/BeginFrameEvent.hpp>
 #include <Scene/StateManager.hpp>
 #include <Core/ResourceManager.hpp>
 #include <Graphics/CameraComponent.hpp>
@@ -41,15 +40,6 @@ void Main::Click(MyGUI::Widget* _sender) {
         static_cast<MyGUI::Button*>(_sender)->setCaption("Not implemented!");
     } else if(_sender->getName() == "Gui.b4") {
         dt::StateManager::Get()->Pop(1);
-    }
-}
-
-void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-        mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
-        if(mRuntime > 3.0) {
-            dt::StateManager::Get()->Pop(1);
-        }
     }
 }
 
@@ -97,6 +87,13 @@ void Main::OnInitialize() {
     button4->SetPosition(10, 130);
     button4->SetSize(200, 30);
     dynamic_cast<MyGUI::Button*>(button4->GetMyGUIWidget())->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
+}
+
+void Main::UpdateStateFrame(double simulation_frame_time) {
+    mRuntime += simulation_frame_time;
+    if(mRuntime > 3.0) {
+        dt::StateManager::Get()->Pop(1);
+    }
 }
 
 }

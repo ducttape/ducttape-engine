@@ -9,7 +9,6 @@
 #include "MusicTest/MusicTest.hpp"
 
 #include <Core/ResourceManager.hpp>
-#include <Event/EventManager.hpp>
 
 #include <SFML/System.hpp>
 
@@ -21,12 +20,14 @@ bool MusicTest::Run(int argc, char** argv) {
     QString music_file = "test_music_loop.ogg";
 
     // set global volume
-    dt::MusicComponent::SetMasterVolume(2);
+    //dt::MusicComponent::SetMasterVolume(2);
 
     dt::Scene scene("scene1");
 
-    dt::Node* music = scene.AddChildNode(new dt::Node("music"));
-    music->AddComponent(new dt::MusicComponent(music_file));
+    dt::Node* music_node = scene.AddChildNode(new dt::Node("music"));
+    dt::MusicComponent* music_component = music_node->AddComponent(new dt::MusicComponent(music_file));
+
+    music_component->SetVolume(40);
 
     auto resmgr = root.GetResourceManager();
 
@@ -37,7 +38,8 @@ bool MusicTest::Run(int argc, char** argv) {
     }
 
     sf::Sleep(500);
-    dt::MusicComponent::SetMasterVolume(1);
+    //dt::MusicComponent::SetMasterVolume(1);
+    music_component->SetVolume(1);
     sf::Sleep(500);
 
     if(resmgr->GetMusicFile(music_file)->GetPlayingOffset() < 100) {
@@ -46,7 +48,7 @@ bool MusicTest::Run(int argc, char** argv) {
         return false;
     }
 
-    root.GetEventManager()->InjectEvent(std::make_shared<dt::MusicControlEvent>(dt::MusicControlEvent::PAUSE));
+    music_component->PauseMusic();
     if(resmgr->GetMusicFile(music_file)->GetStatus() != sf::Music::Paused) {
         std::cerr << "The music is currently playing. It should be paused." << std::endl;
         resmgr->GetMusicFile(music_file)->Stop();
@@ -55,7 +57,7 @@ bool MusicTest::Run(int argc, char** argv) {
 
     sf::Sleep(200);
 
-    root.GetEventManager()->InjectEvent(std::make_shared<dt::MusicControlEvent>(dt::MusicControlEvent::STOP));
+    music_component->StopMusic();
     if(resmgr->GetMusicFile(music_file)->GetStatus() != sf::Music::Stopped) {
         std::cerr << "The music is currently not stopped." << std::endl;
         resmgr->GetMusicFile(music_file)->Stop();
@@ -64,7 +66,7 @@ bool MusicTest::Run(int argc, char** argv) {
 
     sf::Sleep(200);
 
-    root.GetEventManager()->InjectEvent(std::make_shared<dt::MusicControlEvent>(dt::MusicControlEvent::PLAY));
+    music_component->PlayMusic();
     if(resmgr->GetMusicFile(music_file)->GetStatus() != sf::Music::Playing) {
         std::cerr << "The music is currently not playing." << std::endl;
         resmgr->GetMusicFile(music_file)->Stop();

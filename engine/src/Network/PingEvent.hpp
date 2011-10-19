@@ -11,7 +11,6 @@
 
 #include <Config.hpp>
 
-#include <Event/Event.hpp>
 #include <Network/NetworkEvent.hpp>
 
 #include <QString>
@@ -33,7 +32,7 @@ public:
     PingEvent(double timestamp, bool is_reply = false);
     const QString GetType() const;
 
-    std::shared_ptr<Event> Clone() const;
+    std::shared_ptr<NetworkEvent> Clone() const;
     void Serialize(IOPacket& p);
 
     /**

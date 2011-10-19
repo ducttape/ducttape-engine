@@ -12,9 +12,8 @@
 #include <Config.hpp>
 
 #include <Core/Manager.hpp>
-#include <Event/Event.hpp>
-#include <Event/EventListener.hpp>
 #include <Gui/GuiRootWindow.hpp>
+#include <Input/InputManager.hpp>
 
 #include <MyGUI.h>
 #include <MyGUI_OgrePlatform.h>
@@ -30,7 +29,7 @@ namespace dt {
   * Manager class for the GUI System.
   * @see http://mygui.info
   */
-class DUCTTAPE_API GuiManager : public Manager, public EventListener {
+class DUCTTAPE_API GuiManager : public Manager {
     Q_OBJECT
 public:
     /**
@@ -40,7 +39,6 @@ public:
 
     void Initialize();
     void Deinitialize();
-    void HandleEvent(std::shared_ptr<Event> e);
 
     /**
       * Sets the scene manager to use for the GUI display.
@@ -55,14 +53,6 @@ public:
     MyGUI::Gui* GetGuiSystem();
 
     /**
-      * Only for internal use. Sets the visibility of the mouse cursor.
-      * @see void InputManager::SetMouseCursorMode(MouseCursorMode mode);
-      * @param visible Whether the mouse cursor should be visible.
-      * @internal
-      */
-    void SetMouseCursorVisible(bool visible);
-
-    /**
       * Returns a pointer to the Manager instance.
       * @returns A pointer to the Manager instance.
       */
@@ -70,12 +60,32 @@ public:
 
     GuiRootWindow& GetRootWindow();
 
+public slots:
+    /**
+      * Only for internal use. Sets the visibility of the mouse cursor.
+      * @see void InputManager::SetMouseCursorMode(MouseCursorMode mode);
+      * @param visible Whether the mouse cursor should be visible.
+      * @internal
+      */
+    void SetMouseCursorVisible(bool visible);
+
+    void sKeyPressed(const OIS::KeyEvent& event);
+    void sKeyReleased(const OIS::KeyEvent& event);
+    void sMouseMoved(const OIS::MouseEvent& event);
+    void sMousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID button);
+    void sMouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID button);
+
+signals:
+    void MouseCursorVisibilityChanged(bool visible);
+
 private:
-    MyGUI::Gui* mGuiSystem;         //!< MyGUI's GUI system.
-    MyGUI::OgrePlatform* mPlatform; //!< MyGUI's OgrePlatform.
-    bool mMouseCursorVisible;       //!< Whether the GUI mouse cursor is visible.
+    MyGUI::Gui* mGuiSystem;            //!< MyGUI's GUI system.
+    MyGUI::OgrePlatform* mPlatform;    //!< MyGUI's OgrePlatform.
+    bool mMouseCursorVisible;          //!< Whether the GUI mouse cursor is visible.
     GuiRootWindow mRootGuiWindow;      //!< The root window widget.
     Ogre::SceneManager* mSceneManager; //!< The scene manager used for the GUI.
+    bool _EventEnabled();              //!< Whether the MyGUI event system is enabled.
+    MyGUI::InputManager* mMyguiInputMgrPtr;
 };
 
 }

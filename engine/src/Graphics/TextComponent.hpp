@@ -40,12 +40,6 @@ public:
     void OnUpdate(double time_diff);
 
     /**
-      * Sets the text of the TextComponent.
-      * @param text The new text.
-      */
-    void SetText(const QString& text);
-
-    /**
       * Gets the text displayed.
       * @returns The text displayed.
       */
@@ -63,12 +57,6 @@ public:
       * @returns The name of the font resource.
       */
     const QString& GetFont() const;
-
-    /**
-      * Sets the font color.
-      * @param color The font color.
-      */
-    void SetColor(Ogre::ColourValue color);
 
     /**
       * Returns the font color.
@@ -111,6 +99,23 @@ public:
       * @returns The padding, in pixels.
       */
     Ogre::Vector2 GetPadding() const;
+
+public slots:
+    /**
+      * Sets the text of the TextComponent.
+      * @param text The new text.
+      */
+    void SetText(const QString& text);
+
+    /**
+      * Sets the font color.
+      * @param color The font color.
+      */
+    void SetColor(Ogre::ColourValue color);
+
+signals:
+    void TextChanged();
+    void ColorChanged();
 
 private:
     QString mText;          //!< The text to display.

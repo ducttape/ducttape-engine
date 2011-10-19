@@ -8,7 +8,6 @@
 
 #include <Scene/Node.hpp>
 
-#include <Core/StringManager.hpp>
 #include <Utils/Utils.hpp>
 #include <Scene/Scene.hpp>
 
@@ -23,7 +22,7 @@ Node::Node(const QString& name)
 
     // auto-generate name
     if(mName == "") {
-        mName = "Node-" % Utils::ToString(StringManager::Get()->GetNextAutoId());
+        mName = "Node-" % Utils::ToString(Utils::AutoId());
     }
 }
 

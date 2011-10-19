@@ -8,7 +8,6 @@
 
 #include "StatesTest/StatesTest.hpp"
 
-#include <Event/BeginFrameEvent.hpp>
 #include <Scene/StateManager.hpp>
 #include <Core/ResourceManager.hpp>
 #include <Graphics/CameraComponent.hpp>
@@ -28,12 +27,10 @@ QString StatesTest::GetTestName() {
 
 ////////////////////////////////////////////////////////////////
 
-void SecondState::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-        if(dt::Root::GetInstance().GetTimeSinceInitialize() > 4.0 && !mPopped) {
-            dt::StateManager::Get()->Pop();
-            mPopped = true;
-        }
+void SecondState::UpdateStateFrame(double simulation_frame_time) {
+    if(dt::Root::GetInstance().GetTimeSinceInitialize() > 4.0 && !mPopped) {
+        dt::StateManager::Get()->Pop();
+        mPopped = true;
     }
 }
 
@@ -67,16 +64,14 @@ void SecondState::OnInitialize() {
 FirstState::FirstState()
     : mCreated(false) {}
 
-void FirstState::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-        if(dt::Root::GetInstance().GetTimeSinceInitialize() > 6.0) {
-            dt::StateManager::Get()->Pop();
-        }
+void FirstState::UpdateStateFrame(double simulation_frame_time) {
+    if(dt::Root::GetInstance().GetTimeSinceInitialize() > 6.0) {
+        dt::StateManager::Get()->Pop();
+    }
 
-        if(dt::Root::GetInstance().GetTimeSinceInitialize() > 2.0 && !mCreated) {
-            dt::StateManager::Get()->SetNewState(new SecondState());
-            mCreated = true;
-        }
+    if(dt::Root::GetInstance().GetTimeSinceInitialize() > 2.0 && !mCreated) {
+        dt::StateManager::Get()->SetNewState(new SecondState());
+        mCreated = true;
     }
 }
 

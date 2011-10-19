@@ -11,7 +11,6 @@
 
 #include <Config.hpp>
 
-#include <Event/Event.hpp>
 #include <Network/IOPacket.hpp>
 
 #include <QString>
@@ -25,7 +24,7 @@ namespace dt {
 /**
   * Abstract base class for all Events supposed to be sent via network.
   */
-class DUCTTAPE_API NetworkEvent : public virtual Event {
+class DUCTTAPE_API NetworkEvent {
 public:
     /**
       * Default constructor.
@@ -33,13 +32,14 @@ public:
     NetworkEvent();
     virtual const QString GetType() const = 0;
     bool IsNetworkEvent() const;
+    uint16_t GetTypeId() const;
 
     /**
       * Creates a new instance of the same Event type.
       * @see Factory Pattern
       * @returns A new instance of the same Event type.
       */
-    virtual std::shared_ptr<Event> Clone() const = 0;
+    virtual std::shared_ptr<NetworkEvent> Clone() const = 0;
 
     /**
       * Serializes the event into/from an sf::Packet using the wrapper IOPacket.

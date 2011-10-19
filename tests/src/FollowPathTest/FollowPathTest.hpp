@@ -14,7 +14,6 @@
 #include "Test.hpp"
 
 #include <Core/Root.hpp>
-#include <Event/EventListener.hpp>
 #include <Graphics/LightComponent.hpp>
 #include <Graphics/MeshComponent.hpp>
 #include <Logic/FollowPathComponent.hpp>
@@ -35,10 +34,12 @@ public:
 ////////////////////////////////////////////////////////////////
 
 class Main : public dt::State {
+    Q_OBJECT
 public:
     Main();
-    void HandleEvent(std::shared_ptr<dt::Event> e);
     void OnInitialize();
+    void UpdateStateFrame(double simulation_frame_time);
+
 private:
     double mRuntime;
 };

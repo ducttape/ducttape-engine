@@ -11,7 +11,6 @@
 
 #include <Config.hpp>
 
-#include <Event/Event.hpp>
 #include <Scene/Component.hpp>
 
 #include <btBulletCollisionCommon.h>
@@ -40,8 +39,6 @@ public:
       */
     PhysicsBodyComponent(const QString& mesh_component_name,
                          const QString& name = "");
-
-    virtual void HandleEvent(std::shared_ptr<Event> e);
 
     void OnCreate();
     void OnDestroy();

@@ -12,6 +12,7 @@
 #include <Config.hpp>
 
 #include <Scene/Game.hpp>
+#include <Network/NetworkEvent.hpp>
 
 #include <SFML/Network/IpAddress.hpp>
 #include <SFML/System/Thread.hpp>
@@ -19,11 +20,13 @@
 #include <memory>
 
 class Client : public dt::State {
+    Q_OBJECT
+
 public:
     Client();
 
     void OnInitialize();
-    void HandleEvent(std::shared_ptr<dt::Event> e);
+    void UpdateStateFrame(double simulation_frame_time);
 
     void SetServerIP(sf::IpAddress server_ip);
     sf::IpAddress GetServerIP() const;
@@ -32,6 +35,8 @@ public:
     const QString& GetNick() const;
 
     static void InputThread(void* user_data);
+private slots:
+    void _HandleEvent(std::shared_ptr<dt::NetworkEvent> e);
 private:
     std::shared_ptr<sf::Thread> mInputThread;
     QString mNick;

@@ -8,7 +8,6 @@
 
 #include "MusicFadeTest/MusicFadeTest.hpp"
 
-#include <Event/BeginFrameEvent.hpp>
 #include <Scene/StateManager.hpp>
 
 namespace MusicFadeTest {
@@ -28,12 +27,10 @@ QString MusicFadeTest::GetTestName() {
 Main::Main()
     : mRuntime(0) {}
 
-void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-        mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
-        if(mRuntime > 2.0) {
-            dt::StateManager::Get()->Pop(1);
-        }
+void Main::UpdateStateFrame(double simulation_frame_time) {
+    mRuntime += simulation_frame_time;
+    if(mRuntime > 2.0) {
+        dt::StateManager::Get()->Pop(1);
     }
 }
 
@@ -43,11 +40,11 @@ void Main::OnInitialize() {
     QString music1 = "test_music_intro.ogg";
     QString music2 = "test_music_loop.ogg";
 
-    float origin_vol = 9.f;
+    float origin_vol = 20.f;
     dt::MusicComponent* music_component1 = new dt::MusicComponent(music1);
     music_component1->SetVolume(origin_vol);
     dt::MusicComponent* music_component2 = new dt::MusicComponent(music2);
-    music_component2->SetVolume(origin_vol);
+    music_component2->SetVolume(0.0f);
 
     auto node = scene->AddChildNode(new dt::Node("music_node"));
     node->AddComponent(music_component1);

@@ -25,13 +25,11 @@ QString BillboardTest::GetTestName() {
 Main::Main()
     : mRuntime(0) {}
 
-void Main::HandleEvent(std::shared_ptr<dt::Event> e) {
-    if(e->GetType() == "DT_BEGINFRAMEEVENT") {
-        mRuntime += std::dynamic_pointer_cast<dt::BeginFrameEvent>(e)->GetFrameTime();
-        mCamNode->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 1, 0));
-        if(mRuntime > 5.0) {
-            dt::StateManager::Get()->Pop(1);
-        }
+void Main::UpdateStateFrame(double simulation_frame_time) {
+    mRuntime += simulation_frame_time;
+    mCamNode->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 1, 0));
+    if(mRuntime > 5.0) {
+        dt::StateManager::Get()->Pop(1);
     }
 }
 
