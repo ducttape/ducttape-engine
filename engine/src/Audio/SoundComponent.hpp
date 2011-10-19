@@ -11,7 +11,7 @@
 
 #include <Config.hpp>
 
-#include <Scene/Invisible.hpp>
+#include <Scene/Component.hpp>
 
 #include <QString>
 
@@ -25,7 +25,7 @@ namespace dt {
   * Component for managing sounds in 3D enviroment.
   * @todo Positions should be calculated relatively to position of player, but there is no method to get those now.
   */
-class DUCTTAPE_API SoundComponent : public Invisible {
+class DUCTTAPE_API SoundComponent : public Component {
     Q_OBJECT
 public:
     /**

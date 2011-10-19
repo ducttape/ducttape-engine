@@ -11,7 +11,6 @@
 #include <Core/ResourceManager.hpp>
 #include <Scene/Node.hpp>
 #include <Utils/Logger.hpp>
-#include <Graphics/MeshComponent.hpp>
 
 #include <SFML/Audio/Listener.hpp>
 

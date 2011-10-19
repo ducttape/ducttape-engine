@@ -11,7 +11,7 @@
 
 #include <Config.hpp>
 
-#include <Scene/Invisible.hpp>
+#include <Scene/Component.hpp>
 
 #include <QString>
 
@@ -22,7 +22,7 @@ namespace dt {
 /**
   * Plays a music file.
   */
-class DUCTTAPE_API MusicComponent : public Invisible {
+class DUCTTAPE_API MusicComponent : public Component {
     Q_OBJECT
 public:
     /**

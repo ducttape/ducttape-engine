@@ -25,6 +25,16 @@ uint32_t AutoId() {
     return mAutoId;
 }
 
+boost::uuids::uuid GenerateUUIDRandom() {
+    boost::uuids::random_generator gen;
+    return gen();
+}
+
+boost::uuids::uuid GenerateUUIDFromString(const QString& qstring) {
+    boost::uuids::string_generator gen;
+    return gen(ToStdString(qstring));
+}
+
 } // namespace Utils
 
 } // namespace dt

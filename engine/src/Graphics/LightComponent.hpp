@@ -11,7 +11,7 @@
 
 #include <Config.hpp>
 
-#include <Scene/Invisible.hpp>
+#include <Scene/Component.hpp>
 
 #include <OgreColourValue.h>
 #include <OgreLight.h>
@@ -26,16 +26,15 @@ namespace dt {
   * The light component.
   * @see Component
   */
-class DUCTTAPE_API LightComponent : public Invisible {
+class DUCTTAPE_API LightComponent : public Component {
     Q_OBJECT
 public:
     /**
       * Advanced constructor.
       * @param name The name for this component.
-      * @param mesh_handle The handle of the LightComponent's debug shape. Default is torch.mesh.
       * @see Component
       */
-    LightComponent(const QString& name = "", const QString& mesh_handle = "light.mesh");
+    LightComponent(const QString& name = "");
 
     void OnCreate();
     void OnDestroy();
