@@ -12,6 +12,8 @@
 #include <Config.hpp>
 
 #include <boost/lexical_cast.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
 
 #include <QString>
 
@@ -40,6 +42,18 @@ extern uint32_t mAutoId;
   * @returns the new id
   */
 uint32_t AutoId();
+
+/**
+  * Generate a random uuid.
+  * @returns the new uuid.
+  */
+DUCTTAPE_API boost::uuids::uuid GenerateUUIDRandom();
+
+/**
+  * Generate a uuid from a given string.
+  * @returns the new uuid.
+  */
+DUCTTAPE_API boost::uuids::uuid GenerateUUIDFromString(const QString& qstring);
 } // namespace Utils
 
 } // namespace dt
