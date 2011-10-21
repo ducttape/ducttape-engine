@@ -51,34 +51,26 @@
 
 
 // Define portable import / export macros
-#if !defined(DUCTTAPE_STATIC)
+#if defined(DUCTTAPE_SYSTEM_WINDOWS) && !defined(DUCTTAPE_STATIC)
 
-    #if defined(SFML_SYSTEM_WINDOWS)
-
-        #ifdef ducttape_EXPORTS // Automatic definition by CMake when building dlls.
-            // From DLL side, we must export
-            #define DUCTTAPE_API __declspec(dllexport)
-        #else
-            // From client application side, we must import
-            #define DUCTTAPE_API __declspec(dllimport)
-        #endif
-
-        // For Visual C++ compilers, we also need to turn off this annoying C4251 warning.
-        // You can read lots ot different things about it, but the point is the code will
-        // just work fine, and so the simplest way to get rid of this warning is to disable it.
-        #ifdef _MSC_VER
-            #pragma warning(disable : 4251)
-        #endif
-
+    #ifdef ducttape_EXPORTS // Automatic definition by CMake when building dlls.
+        // From DLL side, we must export
+        #define DUCTTAPE_API __declspec(dllexport)
     #else
+        // From client application side, we must import
+        #define DUCTTAPE_API __declspec(dllimport)
+    #endif
 
-        #define DUCTTAPE_API __attribute__ ((visibility ("default")))
-
+    // For Visual C++ compilers, we also need to turn off this annoying C4251 warning.
+    // You can read lots ot different things about it, but the point is the code will
+    // just work fine, and so the simplest way to get rid of this warning is to disable it.
+    #ifdef _MSC_VER
+        #pragma warning(disable : 4251)
     #endif
 
 #else
 
-    // Static build doesn't need these export macros
+    // Other platforms and static build don't need these export macros
     #define DUCTTAPE_API
 
 #endif
