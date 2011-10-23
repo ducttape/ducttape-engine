@@ -27,6 +27,9 @@ Node::Node(const QString& name)
 }
 
 void Node::Initialize() {
+    //Generate an uuid for this node.
+    mId = Utils::GenerateUUIDRandom();
+
     OnInitialize();
 }
 

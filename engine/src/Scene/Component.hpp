@@ -145,6 +145,7 @@ protected:
 private:
     bool mIsEnabled;    //!< Whether the component is enabled or not.
     bool mIsCreated;    //!< Whether the component has been created or not.
+    boost::uuids::uuid mId;    //!< The id for the component.
 };
 
 } // namespace dt
