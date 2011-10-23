@@ -13,6 +13,10 @@
 
 #define MYGUI_DONT_USE_OBSOLETE
 
+#define STR_HELPER(x) #x
+#define STR(x) STR_HELPER(x)
+#define DUCTTAPE_VERSION STR(DUCTTAPE_VERSION_MAJOR) "." STR(DUCTTAPE_VERSION_MINOR) "." STR(DUCTTAPE_VERSION_PATCH)
+
 // The following definitions are kindly taken from SFML
 
 // Identify the operating system
