@@ -11,6 +11,8 @@
 
 #include <Config.hpp>
 
+#include <Utils/Utils.hpp>
+
 #include <boost/noncopyable.hpp>
 #include <boost/ptr_container/ptr_map.hpp>
 
