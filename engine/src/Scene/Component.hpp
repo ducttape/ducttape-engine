@@ -11,6 +11,8 @@
 
 #include <Config.hpp>
 
+#include <Utils/Utils.hpp>
+
 #include <boost/noncopyable.hpp>
 #include <boost/ptr_container/ptr_map.hpp>
 
@@ -145,6 +147,7 @@ protected:
 private:
     bool mIsEnabled;    //!< Whether the component is enabled or not.
     bool mIsCreated;    //!< Whether the component has been created or not.
+    boost::uuids::uuid mId;    //!< The id for the component.
 };
 
 } // namespace dt

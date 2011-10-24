@@ -57,6 +57,7 @@ QScriptValue Component::GetScriptNode() {
 void Component::Create() {
     if(!mIsCreated) {
         mIsCreated = true;
+        mId = Utils::GenerateUUIDRandom();
         OnCreate();
         emit ComponentCreated();
         Enable();
