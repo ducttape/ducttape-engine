@@ -98,7 +98,7 @@ void ParticleSystemComponent::OnCreate() {
         mSceneNode->attachObject(mParticleSystem);
         mParticleSystem->setDefaultDimensions(1, 1);
     } else {
-        Logger::Get().Warning("Cannot create ParticleSystemComponent " % mName % ": not attached to a Node.");
+        Logger::Get().Warning("Cannot create ParticleSystemComponent " + mName + ": not attached to a Node.");
     }
 }
 

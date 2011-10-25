@@ -104,7 +104,7 @@ public:
 
             _UpdateAllComponents(0);
         } else {
-            Logger::Get().Error("Cannot add component " % cname % ": a component with this name already exists.");
+            Logger::Get().Error("Cannot add component " + cname + ": a component with this name already exists.");
         }
         return FindComponent<ComponentType>(cname);
     }

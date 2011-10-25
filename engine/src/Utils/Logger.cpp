@@ -16,10 +16,10 @@ namespace dt {
 
 Logger::Logger(const QString& name)
     : mName(name) {
-    GetStream("debug")->SetFormat(  dt::LogStream::COLOR_CYAN   % "%2$8s: " % dt::LogStream::COLOR_NONE % "%3$s");
-    GetStream("info")->SetFormat(   dt::LogStream::COLOR_BLUE   % "%2$8s: " % dt::LogStream::COLOR_NONE % "%3$s");
-    GetStream("error")->SetFormat(  dt::LogStream::COLOR_RED    % "%2$8s: " % dt::LogStream::COLOR_NONE % "%3$s");
-    GetStream("warning")->SetFormat(dt::LogStream::COLOR_YELLOW % "%2$8s: " % dt::LogStream::COLOR_NONE % "%3$s");
+    GetStream("debug")->SetFormat(  dt::LogStream::COLOR_CYAN   + "%2$8s: " + dt::LogStream::COLOR_NONE + "%3$s");
+    GetStream("info")->SetFormat(   dt::LogStream::COLOR_BLUE   + "%2$8s: " + dt::LogStream::COLOR_NONE + "%3$s");
+    GetStream("error")->SetFormat(  dt::LogStream::COLOR_RED    + "%2$8s: " + dt::LogStream::COLOR_NONE + "%3$s");
+    GetStream("warning")->SetFormat(dt::LogStream::COLOR_YELLOW + "%2$8s: " + dt::LogStream::COLOR_NONE + "%3$s");
 }
 
 void Logger::Log(const QString& level, const QString& msg) {

@@ -31,7 +31,7 @@ Main::Main()
     : mRuntime(0) {}
 
 void Main::Click(MyGUI::Widget* _sender) {
-    dt::Logger::Get().Debug("Clicked! " % QString(_sender->getName().c_str()));
+    dt::Logger::Get().Debug("Clicked! " + QString(_sender->getName().c_str()));
     if(_sender->getName() == "Gui.b1") {
         static_cast<MyGUI::Button*>(_sender)->setCaption("Not implemented!");
     } else if(_sender->getName() == "Gui.b2") {

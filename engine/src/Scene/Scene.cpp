@@ -17,11 +17,11 @@ Scene::Scene(const QString& name)
     : Node(name) {}
 
 void Scene::OnInitialize() {
-    Logger::Get().Debug("Scene " % mName % " is being initialized.");
+    Logger::Get().Debug("Scene " + mName + " is being initialized.");
 }
 
 void Scene::OnDeinitialize() {
-    Logger::Get().Debug("Scene " % mName % " is being deinitialized.");
+    Logger::Get().Debug("Scene " + mName + " is being deinitialized.");
 }
 
 Ogre::SceneManager* Scene::GetSceneManager() {

@@ -18,7 +18,7 @@ ScriptComponent::ScriptComponent(const QString& script_name, const QString& name
       mScriptName(script_name),
       mValid(true) {
     if(!ScriptManager::Get()->HasScript(mScriptName)) {
-        Logger::Get().Error("Cannot create ScriptComponent for script \"" % mScriptName % "\": script not loaded.");
+        Logger::Get().Error("Cannot create ScriptComponent for script \"" + mScriptName + "\": script not loaded.");
         mValid = false;
     }
 }
@@ -54,18 +54,18 @@ QScriptValue ScriptComponent::_CallScriptFunction(QString name, QScriptValueList
     QScriptValue function = mScriptObject.property(name);
     if(!function.isValid()) {
         // no such function, do not force.
-        // Logger::Get().Error("Cannot call function \"" % name % "\" in script \"" % mScriptName % "\": no such function.");
+        // Logger::Get().Error("Cannot call function \"" + name + "\" in script \"" + mScriptName + "\": no such function.");
         return QScriptValue::UndefinedValue;
     }
 
     if(!function.isFunction()) {
-        Logger::Get().Error("Cannot call function \"" % name % "\" in script \"" % mScriptName % "\": not a function.");
+        Logger::Get().Error("Cannot call function \"" + name + "\" in script \"" + mScriptName + "\": not a function.");
         return QScriptValue::UndefinedValue;
     }
 
     QScriptValue value = function.call(mScriptObject, params);
     if(!ScriptManager::Get()->HandleErrors(mScriptName)) {
-        Logger::Get().Warning("Error while calling script function. Disabling ScriptComponent \"" % mName % "\".");
+        Logger::Get().Warning("Error while calling script function. Disabling ScriptComponent \"" + mName + "\".");
         Disable();
     }
     return value;

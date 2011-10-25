@@ -69,9 +69,9 @@ void Main::OnInitialize() {
         for(int y = -n; y <= n; ++y) {
             for(int i = 0; i < n*2 + 1; ++i) {
                 dt::Node* node = scene->AddChildNode(new dt::Node("node"
-                            "x-" % dt::Utils::ToString(x) % "-" %
-                            "y-" % dt::Utils::ToString(y) % "-" %
-                            "z-" % dt::Utils::ToString(i) ));
+                            "x-" + dt::Utils::ToString(x) + "-" +
+                            "y-" + dt::Utils::ToString(y) + "-" +
+                            "z-" + dt::Utils::ToString(i) ));
                 node->SetPosition(Ogre::Vector3(x * 2.5, i * 2.5 + 5, y * 2.5));
                 node->AddComponent(new dt::MeshComponent("Crate01.mesh", "", "mesh"));
                 node->AddComponent(new dt::PhysicsBodyComponent("mesh", "body"));

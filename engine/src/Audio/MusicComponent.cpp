@@ -80,10 +80,10 @@ void MusicComponent::SetMasterVolume(float volume) {
 
 void MusicComponent::_LoadMusic() {
     if(mMusicFileName == "") {
-        Logger::Get().Error("MusicComponent [" % mName % "]: Needs a music file.");
+        Logger::Get().Error("MusicComponent [" + mName + "]: Needs a music file.");
     }
     if(!ResourceManager::Get()->AddMusicFile(mMusicFileName)) {
-        Logger::Get().Error("MusicComponent [" % mName % "]: Wasn't able to load music file [" % mMusicFileName % "].");
+        Logger::Get().Error("MusicComponent [" + mName + "]: Wasn't able to load music file [" + mMusicFileName + "].");
     }
 }
 

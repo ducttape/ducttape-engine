@@ -94,7 +94,7 @@ void Main::OnInitialize() {
 
 void Main::PutMeshShadow(const QString& meshName, const Ogre::Vector3& position, const QString materialName) {
     dt::Scene* scene = dt::StateManager::Get()->GetCurrentState()->GetScene("testscene");
-    dt::Node* node = scene->AddChildNode(new dt::Node("" % meshName % "node"));
+    dt::Node* node = scene->AddChildNode(new dt::Node("" + meshName + "node"));
     dt::MeshComponent* mesh = new dt::MeshComponent(meshName, materialName, meshName);
     node->AddComponent(mesh);
     node->SetPosition(position);

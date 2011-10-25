@@ -25,7 +25,7 @@ PhysicsWorld::PhysicsWorld(const QString& name, Scene* scene)
       mIsEnabled(true) {}
 
 void PhysicsWorld::Initialize() {
-    Logger::Get().Info("Initializing phyics world: " % mName);
+    Logger::Get().Info("Initializing phyics world: " + mName);
 
     // Manually create and manage memory for the Bullet stuff -- the Bullet way.
     mBroadphase = new btDbvtBroadphase();

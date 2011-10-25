@@ -58,19 +58,19 @@ bool ScriptManager::AddScript(QString script, QString name) {
     }
 
     if(HasScript(name)) {
-        Logger::Get().Error("Cannot add script \"" % name % "\": a script with this name already exists.");
+        Logger::Get().Error("Cannot add script \"" + name + "\": a script with this name already exists.");
         return false;
     }
 
     // check the syntax
     QScriptSyntaxCheckResult syntax = mScriptEngine->checkSyntax(script);
     if(syntax.state() != QScriptSyntaxCheckResult::Valid) {
-        Logger::Get().Error("Syntax error in script \"" % name % "\" at line "
-                            % Utils::ToString(syntax.errorLineNumber()) % " column "
-                            % Utils::ToString(syntax.errorColumnNumber()) % ":");
-        Logger::Get().Error("    " %  syntax.errorMessage());
+        Logger::Get().Error("Syntax error in script \"" + name + "\" at line "
+                            + Utils::ToString(syntax.errorLineNumber()) + " column "
+                            + Utils::ToString(syntax.errorColumnNumber()) + ":");
+        Logger::Get().Error("    " +  syntax.errorMessage());
     } else {
-        Logger::Get().Debug("Adding script \"" % name % "\".");
+        Logger::Get().Debug("Adding script \"" + name + "\".");
         mScripts[name] = QScriptProgram(script, name);
     }
     return true;
@@ -85,7 +85,7 @@ bool ScriptManager::LoadScript(QString path, QString name) {
 
     // check if file is open or open it
     if(!(file.isOpen() || file.open(QIODevice::ReadOnly | QIODevice::Text))) {
-        Logger::Get().Error("Cannot open file <" % path % ">: " % file.errorString());
+        Logger::Get().Error("Cannot open file <" + path + ">: " + file.errorString());
         return false;
     }
 
@@ -118,7 +118,7 @@ void ScriptManager::UpdateContext(QScriptValue object) {
 
 bool ScriptManager::ExecuteScript(QString name) {
     if(name == "" || !HasScript(name)) {
-        Logger::Get().Error("Cannot execute script \"" % name % "\": script not found.");
+        Logger::Get().Error("Cannot execute script \"" + name + "\": script not found.");
         return false;
     }
 
@@ -154,9 +154,9 @@ QScriptValue ScriptManager::GetScriptObject(QString name, ScriptComponent* compo
     QScriptValue componentObject = mScriptEngine->newQObject(component);
     QScriptValue prop = obj.property("component");
     if(prop.isValid()) {
-        Logger::Get().Warning("Overriding member \"component\" in script \"" % name % "\" with ScriptComponent \"" % component->GetName() % "\".");
-        Logger::Get().Info(" > Previous Value: " % prop.toString());
-        Logger::Get().Info(" > Previous  Type: " % QString(prop.toVariant().typeName()) );
+        Logger::Get().Warning("Overriding member \"component\" in script \"" + name + "\" with ScriptComponent \"" + component->GetName() + "\".");
+        Logger::Get().Info(" > Previous Value: " + prop.toString());
+        Logger::Get().Info(" > Previous  Type: " + QString(prop.toVariant().typeName()) );
     }
     obj.setProperty("component", componentObject);
 
@@ -184,7 +184,7 @@ QScriptValue ScriptManager::ScriptPrintFunction(QScriptContext* context, QScript
         // append the argument, converted to string
         line.append(context->argument(i).toString());
     }
-    Logger::Get().Info("Script output: " % line);
+    Logger::Get().Info("Script output: " + line);
     return engine->undefinedValue();
 }
 

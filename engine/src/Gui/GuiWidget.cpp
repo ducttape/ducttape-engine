@@ -22,9 +22,9 @@ GuiWidget::GuiWidget(const QString& name)
       mIsVisible(true) {
 
     if(mName.contains('.')) {
-        Logger::Get().Warning("GuiWidget name cannot contain '.': \"" % mName % "\". All occurrences will be stripped.");
+        Logger::Get().Warning("GuiWidget name cannot contain '.': \"" + mName + "\". All occurrences will be stripped.");
         mName = mName.replace('.', "");
-        Logger::Get().Info("New widget name: \"" % mName % "\".");
+        Logger::Get().Info("New widget name: \"" + mName + "\".");
     }
 }
 
@@ -106,7 +106,7 @@ void GuiWidget::SetParent(GuiWidget* parent) {
 GuiWidget* GuiWidget::GetParent() {
     if(mParent == nullptr) {
         // uh oh!
-        Logger::Get().Error("Parent of widget " % GetFullName() % " is nullptr.");
+        Logger::Get().Error("Parent of widget " + GetFullName() + " is nullptr.");
     }
     return mParent;
 }
@@ -189,7 +189,7 @@ bool GuiWidget::_AddChild(GuiWidget* widget) {
 
     if(FindChild(name) != nullptr) {
         // widget already exists
-        Logger::Get().Error("Cannot add widget \"" % widget->GetName() % "\" to \"" % GetFullName() % "\": widget with this name already exists.");
+        Logger::Get().Error("Cannot add widget \"" + widget->GetName() + "\" to \"" + GetFullName() + "\": widget with this name already exists.");
         return false;
     }
 
@@ -202,7 +202,7 @@ QString GuiWidget::GetFullName() {
     if(mParent == nullptr)
         return mName;
     else
-        return mParent->GetFullName() % "." % mName;
+        return mParent->GetFullName() + "." + mName;
 }
 
 }

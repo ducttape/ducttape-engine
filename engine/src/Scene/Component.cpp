@@ -20,7 +20,7 @@ Component::Component(const QString& name)
       mIsCreated(false) {
     // auto-generate the component name
     if(mName == "") {
-        mName = "Component-" % Utils::ToString(Utils::AutoId());
+        mName = "Component-" + Utils::ToString(Utils::AutoId());
     }
 }
 

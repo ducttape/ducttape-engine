@@ -26,9 +26,9 @@ PhysicsBodyComponent::PhysicsBodyComponent(const QString& mesh_component_name,
 
 void PhysicsBodyComponent::OnCreate() {
     if(! mNode->HasComponent(mMeshComponentName)) {
-        Logger::Get().Error("Node "%mNode->GetName()%" has no Component named "%
-                            mMeshComponentName%" which is required to create the"%
-                            " PhysicsBodyComponent "%mName);
+        Logger::Get().Error("Node "+mNode->GetName()+" has no Component named "+
+                            mMeshComponentName+" which is required to create the"+
+                            " PhysicsBodyComponent "+mName);
         exit(1);
     }
 

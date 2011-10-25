@@ -35,7 +35,7 @@ TextComponent::TextComponent(const QString& text, const QString& name)
 
 void TextComponent::OnCreate() {
     // overlay
-    QString oname = GetNode()->GetName() % "-" % mName;
+    QString oname = GetNode()->GetName() + "-" + mName;
     mOverlay = Ogre::OverlayManager::getSingleton().create(Utils::ToStdString(oname) + "-overlay");
 
     mPanel = static_cast<Ogre::OverlayContainer*>(Ogre::OverlayManager::getSingleton().createOverlayElement("Panel", Utils::ToStdString(oname) + "-panel"));
@@ -82,7 +82,7 @@ void TextComponent::OnUpdate(double time_diff) {
         mTextWidth = 0;
         Ogre::Font* font = dynamic_cast<Ogre::Font*>(Ogre::FontManager::getSingleton().getByName(Utils::ToStdString(mFont)).getPointer());
         if(font == nullptr) {
-            Logger::Get().Warning("Cannot find font: \"" % mFont % "\".");
+            Logger::Get().Warning("Cannot find font: \"" + mFont + "\".");
         } else {
             std::string str = Utils::ToStdString(mText);
             for(Ogre::String::iterator iter = str.begin(); iter < str.end(); ++iter) {
@@ -100,7 +100,7 @@ void TextComponent::OnUpdate(double time_diff) {
     // set the position
 
     if(DisplayManager::Get()->GetMainCamera() == nullptr) {
-        Logger::Get().Error("Cannot get main camera for text component: no main camera set. Disabling text component " % mName % ".");
+        Logger::Get().Error("Cannot get main camera for text component: no main camera set. Disabling text component " + mName + ".");
         Disable();
         return;
     }

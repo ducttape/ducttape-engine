@@ -70,13 +70,13 @@ SimplePlayerComponent::SimplePlayerComponent(const QString& name)
 void SimplePlayerComponent::OnCreate() {
     if(!QObject::connect(InputManager::Get(), SIGNAL(sKeyPressed(const OIS::KeyEvent&)), 
         this, SLOT(_HandleKeyboardInput(const OIS::KeyEvent&)))) {
-            Logger::Get().Error("Cannot connect the key pressed signal with " % GetName()
-                % "'s keyboard input handling slot.");
+            Logger::Get().Error("Cannot connect the key pressed signal with " + GetName()
+                + "'s keyboard input handling slot.");
     }
     if(!QObject::connect(InputManager::Get(), SIGNAL(sMouseMoved(const OIS::MouseEvent&)), 
         this, SLOT(_HandleMouseInput(const OIS::MouseEvent&)))) {
-            Logger::Get().Error("Cannot connect the mouse moved signal with " % GetName()
-                % "'s mouse input handling slot.");
+            Logger::Get().Error("Cannot connect the mouse moved signal with " + GetName()
+                + "'s mouse input handling slot.");
     }
 }
 

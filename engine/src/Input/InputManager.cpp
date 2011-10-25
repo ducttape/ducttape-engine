@@ -181,7 +181,7 @@ void InputManager::_CreateInputSystem() {
     params.insert(std::make_pair(std::string("x11_mouse_hide"), std::string(mMouseCursorMode == InputManager::SYSTEM ? "false" : "true")));
 #endif
 
-    Logger::Get().Info("Initializing input system (Window: " % Utils::ToString(window_handle) % ")");
+    Logger::Get().Info("Initializing input system (Window: " + Utils::ToString(window_handle) + ")");
     mInputSystem = OIS::InputManager::createInputSystem(params);
 
     mKeyboard = static_cast<OIS::Keyboard*>(mInputSystem->createInputObject(OIS::OISKeyboard, true));

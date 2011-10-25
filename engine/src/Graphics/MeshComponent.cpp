@@ -85,7 +85,7 @@ void MeshComponent::SetAnimation(const QString& animation_state) {
         mAnimationState = mEntity->getAnimationState(Utils::ToStdString(animation_state));
         mAnimationState->setLoop(mLoopAnimation);
     } else {
-        Logger::Get().Error("Cannot set animation of component " % GetName() % ": No entity loaded.");
+        Logger::Get().Error("Cannot set animation of component " + GetName() + ": No entity loaded.");
     }
 }
 
@@ -94,7 +94,7 @@ void MeshComponent::PlayAnimation() {
         mAnimationState->setEnabled(true);
         emit AnimationPlayed();
     } else {
-        Logger::Get().Error("Cannot play animation of component " % GetName() % ": No animation set.");
+        Logger::Get().Error("Cannot play animation of component " + GetName() + ": No animation set.");
     }
 }
 
@@ -104,7 +104,7 @@ void MeshComponent::StopAnimation() {
         mAnimationState->setTimePosition(0);
         emit AnimationStopped();
     } else {
-        Logger::Get().Error("Cannot stop animation of component " % GetName() % ": No animation set.");
+        Logger::Get().Error("Cannot stop animation of component " + GetName() + ": No animation set.");
     }
 }
 
@@ -113,7 +113,7 @@ void MeshComponent::PauseAnimation() {
         mAnimationState->setEnabled(false);
         emit AnimationPaused();
     } else {
-        Logger::Get().Error("Cannot pause animation of component " % GetName() % ": No animation set.");
+        Logger::Get().Error("Cannot pause animation of component " + GetName() + ": No animation set.");
     }
 }
 
@@ -159,7 +159,7 @@ void MeshComponent::_LoadMesh() {
     _DestroyMesh();
 
     if(mMeshHandle == "") {
-        Logger::Get().Error("MeshComponent ["% mName % "]: Needs a mesh handle.");
+        Logger::Get().Error("MeshComponent ["+ mName + "]: Needs a mesh handle.");
     }
 
     Ogre::SceneManager* scene_mgr = GetNode()->GetScene()->GetSceneManager();

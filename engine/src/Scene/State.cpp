@@ -46,7 +46,7 @@ Scene* State::GetScene(const QString& name) {
 
 void State::DeleteScene(const QString& name) {
     if(GetScene(name) == nullptr) {
-        Logger::Get().Warning("Cannot delete scene " % name % ": There is no such scene.");
+        Logger::Get().Warning("Cannot delete scene " + name + ": There is no such scene.");
         return;
     }
 
