@@ -92,7 +92,7 @@ void JumpTape::UpdateStateFrame(double simulation_frame_time) {
         jump_height = 0;
         jump_allowed = true;
         // The player is running, change animation.
-        mPlayer->setTexcoordIndex(static_cast<uint8_t>(mRuntime*10) % PLAYER_FRAME); 
+        mPlayer->setTexcoordIndex(static_cast<uint8_t>(mRuntime*10) % PLAYER_FRAME);
     }
     
     // Reset game.
@@ -105,11 +105,11 @@ void JumpTape::UpdateStateFrame(double simulation_frame_time) {
     // Show reset game info.
     static QString time;
     if(player_pos.y < -4) {
-        mGameInfo->SetText("You ran for " % time % " seconds, press N for a new game");
+        mGameInfo->SetText("You ran for " + time + " seconds, press N for a new game");
     }
     else {
         time = dt::Utils::ToString(static_cast<uint32_t>(mRuntime));
-        mGameInfo->SetText("You ran for " % time % " seconds");
+        mGameInfo->SetText("You ran for " + time + " seconds");
     }
 }
 

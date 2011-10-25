@@ -90,9 +90,9 @@ public:
         mHistoryIndex = mHistory.size();
         mCurrentCommand = "";
 
-        Write("> " % script, INPUT_COLOR);
+        Write("> " + script, INPUT_COLOR);
 
-        if(dt::ScriptManager::Get()->Evaluate(script, "command-" % dt::Utils::ToString(mCommandNumber))) {
+        if(dt::ScriptManager::Get()->Evaluate(script, "command-" + dt::Utils::ToString(mCommandNumber))) {
             // success, print result
             QScriptValue result = dt::ScriptManager::Get()->GetLastReturnValue();
             if(!result.isUndefined()) {
@@ -105,7 +105,7 @@ public:
     }
 
     void Write(QString text, QString color = "#FFFFFF") {
-        mOutput->SetCaption(mOutput->GetCaption() % "\n" % color % text);
+        mOutput->SetCaption(mOutput->GetCaption() + "\n" + color + text);
     }
 
     void Clear() {
@@ -128,27 +128,27 @@ public:
             // append the argument, converted to string
             line.append(context->argument(i).toString());
         }
-        dt::Logger::Get().Info("Script output: " % line);
+        dt::Logger::Get().Info("Script output: " + line);
         return engine->undefinedValue();
     }
 
     static QScriptValue InfoFunction(QScriptContext *context, QScriptEngine *engine) {
         THE_MAIN->Write("This is a scripting console example. "
                         "Start by typing a script command into the textfield.\n"
-                        "For more info, enter "%CMD_COLOR%"help();"%INFO_COLOR%" below.", INFO_COLOR);
+                        "For more info, enter "+CMD_COLOR+"help();"+INFO_COLOR+" below.", INFO_COLOR);
         return engine->undefinedValue();
     }
 
     static QScriptValue HelpFunction(QScriptContext *context, QScriptEngine *engine) {
         THE_MAIN->Write("Enter a line of script to execute. The result value (if any) will be displayed.", HELP_COLOR);
         THE_MAIN->Write("Available functions:", HELP_COLOR);
-        THE_MAIN->Write("    "%CMD_COLOR%"help();"%INFO_COLOR%"      -- displays this help", HELP_COLOR);
-        THE_MAIN->Write("    "%CMD_COLOR%"info();"%INFO_COLOR%"      -- displays general information", HELP_COLOR);
-        THE_MAIN->Write("    "%CMD_COLOR%"clear();"%INFO_COLOR%"     -- clear the output", HELP_COLOR);
-        THE_MAIN->Write("    "%CMD_COLOR%"print(x);"%INFO_COLOR%"    -- prints the variable", HELP_COLOR);
-        THE_MAIN->Write("    "%CMD_COLOR%"cout(x);"%INFO_COLOR%"     -- prints the variable to std::cout", HELP_COLOR);
-        THE_MAIN->Write("    "%CMD_COLOR%"quit();"%INFO_COLOR%"      -- terminates the application", HELP_COLOR);
-        THE_MAIN->Write("Use the "%CMD_COLOR%"Up/Down Arrow Keys"%INFO_COLOR%" to scroll your command history.", HELP_COLOR);
+        THE_MAIN->Write("    "+CMD_COLOR+"help();"+INFO_COLOR+"      -- displays this help", HELP_COLOR);
+        THE_MAIN->Write("    "+CMD_COLOR+"info();"+INFO_COLOR+"      -- displays general information", HELP_COLOR);
+        THE_MAIN->Write("    "+CMD_COLOR+"clear();"+INFO_COLOR+"     -- clear the output", HELP_COLOR);
+        THE_MAIN->Write("    "+CMD_COLOR+"print(x);"+INFO_COLOR+"    -- prints the variable", HELP_COLOR);
+        THE_MAIN->Write("    "+CMD_COLOR+"cout(x);"+INFO_COLOR+"     -- prints the variable to std::cout", HELP_COLOR);
+        THE_MAIN->Write("    "+CMD_COLOR+"quit();"+INFO_COLOR+"      -- terminates the application", HELP_COLOR);
+        THE_MAIN->Write("Use the "+CMD_COLOR+"Up/Down Arrow Keys"+INFO_COLOR+" to scroll your command history.", HELP_COLOR);
         return engine->undefinedValue();
     }
 

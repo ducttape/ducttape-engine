@@ -23,7 +23,7 @@ void Main::ResetBall() {
     } else {
         mBallSpeed = Ogre::Vector3::ZERO;
         QString p(mScore1 == 10 ? "left" : "right");
-        GetScene("testscene")->FindChildNode("info")->FindComponent<dt::TextComponent>("text")->SetText("The " % p % " player wins the game.");
+        GetScene("testscene")->FindChildNode("info")->FindComponent<dt::TextComponent>("text")->SetText("The " + p + " player wins the game.");
     }
     mBallNode->SetPosition(Ogre::Vector3(0,0,0));
     mScore1Text->SetText(dt::Utils::ToString(mScore1));
