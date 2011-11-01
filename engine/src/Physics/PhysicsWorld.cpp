@@ -11,6 +11,8 @@
 #include <Scene/Scene.hpp>
 #include <Utils/Logger.hpp>
 
+#include <BulletCollision/CollisionDispatch/btGhostObject.h>
+
 #include <OgreSceneManager.h>
 
 namespace dt {
@@ -44,6 +46,8 @@ void PhysicsWorld::Initialize() {
     mDebugDrawer = new BtOgre::DebugDrawer(mScene->GetSceneManager()->getRootSceneNode(), mDynamicsWorld);
     mDebugDrawer->setDebugMode(mShowDebug);
     mDynamicsWorld->setDebugDrawer(mDebugDrawer);
+
+    mDynamicsWorld->getPairCache()->setInternalGhostPairCallback(new btGhostPairCallback());
 }
 
 void PhysicsWorld::Deinitialize() {

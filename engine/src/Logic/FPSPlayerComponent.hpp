@@ -130,12 +130,28 @@ public:
       */
     bool GetJumpEnabled() const;
 
+    /**
+      * Sets the GunComponent's name.
+      * @param name The name of the GunComponent to set.
+      */
+    void SetGunComponentName(const QString& name);
+
+    /**
+      * Gets the GunComponent's name.
+      * @returns The name of the GunComponent.
+      */
+    QString GetGunComponentName() const;
+
 private slots:
-    void _HandleKeyPressed(const OIS::KeyEvent& event);
+    void _HandleKeyDown(const OIS::KeyEvent& event);
 
-    void _HandleMouseInput(const OIS::MouseEvent& event);
+    void _HandleMouseMove(const OIS::MouseEvent& event);
 
-    void _HandleKeyReleased(const OIS::KeyEvent& event);
+    void _HandleKeyUp(const OIS::KeyEvent& event);
+
+    void _HandleMouseDown(const OIS::MouseEvent& event, OIS::MouseButtonID button);
+
+    void _HandleMouseUp(const OIS::MouseEvent& event, OIS::MouseButtonID button);
 
 private:
     btKinematicCharacterController* mBtController;       //!< The bullet's built-in character controller.
@@ -148,6 +164,7 @@ private:
     bool mWASDEnabled;          //!< Whether the WASD  keys are enabled for movement or not.
     bool mArrowsEnabled;        //!< Whether the Arrow keys are enabled for movement or not.
     bool mJumpEnabled;          //!< Whether the character can jump or not.
+    QString mGunComponentName;  //!< The name of the gun component to deal with the interaction with other objects.
 };
 }
 

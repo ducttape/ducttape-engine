@@ -11,13 +11,15 @@
 #include <Scene/Node.hpp>
 #include <Scene/Scene.hpp>
 #include <Input/InputManager.hpp>
+#include <Logic/GunComponent.hpp>
 
 #include <BtOgreGP.h>
 
 namespace dt {
 
 FPSPlayerComponent::FPSPlayerComponent(const QString& name)
-    : mBtController(nullptr),
+    : Component(name),
+      mBtController(nullptr),
       mBtGhostObject(nullptr),
       mMouseEnabled(true),
       mMouseSensitivity(1.0),
@@ -42,26 +44,34 @@ void FPSPlayerComponent::OnCreate() {
     mBtGhostObject->setWorldTransform(start_trans);
     mBtGhostObject->setCollisionShape(capsule);
     mBtGhostObject->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
-    btGhostPairCallback* ghost_pair_callback = new btGhostPairCallback();
     mBtGhostObject->setUserPointer((void *)this);
 
     mBtController = new btKinematicCharacterController(mBtGhostObject, capsule, 0);
     GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addCollisionObject(mBtGhostObject,btBroadphaseProxy::CharacterFilter, btBroadphaseProxy::StaticFilter | btBroadphaseProxy::DefaultFilter);
     GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addAction(mBtController);
-    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->getPairCache()->setInternalGhostPairCallback(ghost_pair_callback);
 
     if(!QObject::connect(InputManager::Get(), SIGNAL(sKeyPressed(const OIS::KeyEvent&)), 
-        this, SLOT(_HandleKeyPressed(const OIS::KeyEvent&)))) {
+        this, SLOT(_HandleKeyDown(const OIS::KeyEvent&)))) {
             Logger::Get().Error("Cannot connect the key pressed signal with " + GetName()
                 + "'s keyboard input handling slot.");
     }
     if(!QObject::connect(InputManager::Get(), SIGNAL(sKeyReleased(const OIS::KeyEvent&)), 
-        this, SLOT(_HandleKeyReleased(const OIS::KeyEvent&)))) {
+        this, SLOT(_HandleKeyUp(const OIS::KeyEvent&)))) {
             Logger::Get().Error("Cannot connect the key released signal with " + GetName()
                 + "'s keyboard input handling slot.");
     }
     if(!QObject::connect(InputManager::Get(), SIGNAL(sMouseMoved(const OIS::MouseEvent&)), 
-        this, SLOT(_HandleMouseInput(const OIS::MouseEvent&)))) {
+        this, SLOT(_HandleMouseMove(const OIS::MouseEvent&)))) {
+            Logger::Get().Error("Cannot connect the mouse moved signal with " + GetName()
+                + "'s mouse input handling slot.");
+    }
+    if(!QObject::connect(InputManager::Get(), SIGNAL(sMousePressed(const OIS::MouseEvent&, OIS::MouseButtonID)), 
+        this, SLOT(_HandleMouseDown(const OIS::MouseEvent&, OIS::MouseButtonID)))) {
+            Logger::Get().Error("Cannot connect the mouse moved signal with " + GetName()
+                + "'s mouse input handling slot.");
+    }
+    if(!QObject::connect(InputManager::Get(), SIGNAL(sMouseReleased(const OIS::MouseEvent&, OIS::MouseButtonID)), 
+        this, SLOT(_HandleMouseUp(const OIS::MouseEvent&, OIS::MouseButtonID)))) {
             Logger::Get().Error("Cannot connect the mouse moved signal with " + GetName()
                 + "'s mouse input handling slot.");
     }
@@ -156,7 +166,7 @@ bool FPSPlayerComponent::GetJumpEnabled() const{
     return mJumpEnabled;
 }
 
-void FPSPlayerComponent::_HandleKeyPressed(const OIS::KeyEvent& event) {
+void FPSPlayerComponent::_HandleKeyDown(const OIS::KeyEvent& event) {
     if(mWASDEnabled || mArrowsEnabled) {
         if((event.key == OIS::KC_W && mWASDEnabled) || (event.key == OIS::KC_UP && mArrowsEnabled)) {
             mMove.setZ(mMove.getZ() - 1.0f);
@@ -176,7 +186,7 @@ void FPSPlayerComponent::_HandleKeyPressed(const OIS::KeyEvent& event) {
     }
 }
 
-void FPSPlayerComponent::_HandleMouseInput(const OIS::MouseEvent& event) {
+void FPSPlayerComponent::_HandleMouseMove(const OIS::MouseEvent& event) {
     if(mMouseEnabled) {
         float factor = mMouseSensitivity * -0.01;
 
@@ -211,7 +221,7 @@ void FPSPlayerComponent::_HandleMouseInput(const OIS::MouseEvent& event) {
     }
 }
 
-void FPSPlayerComponent::_HandleKeyReleased(const OIS::KeyEvent& event) {
+void FPSPlayerComponent::_HandleKeyUp(const OIS::KeyEvent& event) {
     if(mWASDEnabled || mArrowsEnabled) {
         if((event.key == OIS::KC_W && mWASDEnabled) || (event.key == OIS::KC_UP && mArrowsEnabled)) {
             mMove.setZ(mMove.getZ() + 1.0f);
@@ -226,6 +236,28 @@ void FPSPlayerComponent::_HandleKeyReleased(const OIS::KeyEvent& event) {
             mMove.setX(mMove.getX() - 1.0f);
         }
     }
+}
+
+void FPSPlayerComponent::_HandleMouseDown(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
+    if(mMouseEnabled) {
+        if(button == OIS::MB_Left) {
+            Node* hit_node = GetNode()->FindComponent<GunComponent>(mGunComponentName)->Use();
+            if(hit_node != nullptr) {
+                //Processing Logic... Not yet decide how to do it. 
+                //Emit a signal? Use a callback which can be overrided by the user? Or just place the processing code here?
+            }
+        }
+    }
+}
+
+void FPSPlayerComponent::_HandleMouseUp(const OIS::MouseEvent& event, OIS::MouseButtonID button) {}
+
+void FPSPlayerComponent::SetGunComponentName(const QString& name) {
+    mGunComponentName = name;
+}
+
+QString FPSPlayerComponent::GetGunComponentName() const {
+    return mGunComponentName;
 }
 
 }
