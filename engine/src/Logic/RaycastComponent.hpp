@@ -13,6 +13,7 @@
 
 #include <Scene/Component.hpp>
 #include <Scene/Node.hpp>
+#include <Logic/InteractionComponent.hpp>
 
 #include <BulletCollision/CollisionDispatch/btCollisionWorld.h>
 
@@ -23,7 +24,7 @@ namespace dt {
 /**
   * A component for interacting with other objects in the scene.
   */
-class DUCTTAPE_API GunComponent : public Component {
+class DUCTTAPE_API RaycastComponent : public InteractionComponent {
     Q_OBJECT
 public:
     /**
@@ -31,22 +32,34 @@ public:
       * @param name The name of the Component.
       * @see Component
       */
-    GunComponent(const QString& name = "");
+    RaycastComponent(const QString& name = "");
 
-    void OnCreate();
-    void OnDestroy();
+    virtual void OnCreate();
+    virtual void OnDestroy();
 
     /**
-      * Get the nodes hit.
-      * @returns The hit nodes.
+      * Called when the ray hits an object. It will emit a hit signal. You can just connect it with a slot or just override it.
+      * @param hit The hit object.
       */
-    Node* Use();
+    virtual void OnHit(Node* hit);
+
+    /*
+     * Called when Check() is called. It will emit a hit signal. You can just connect it with a slot or just override it.
+     */
+    virtual void OnCheck();
+
+    /**
+      * Check if there's any objects hit by the ray.
+      * @see InteractionComponent
+      */
+    void Check();
+
+signals:
+    void sHit(Node* hit);
+    void sCheck(Ogre::Vector3 start, Ogre::Vector3 end);
 
 private:
-    btCollisionWorld::ClosestRayResultCallback * mRaycastCallback;    //<! The raycast callback.
-    Ogre::Vector3 mStart;          //<! The start position of the ray relative to the node.
-    Ogre::Vector3 mEnd;            //<! The end position of the ray relative to the node.
-    bool mUseRaycast;          //<! Whether raycast is used or not.
+    btCollisionWorld::ClosestRayResultCallback* mRaycastCallback;    //<! The raycast callback.
 };
 
 }
