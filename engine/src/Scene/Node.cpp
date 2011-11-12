@@ -10,6 +10,7 @@
 
 #include <Utils/Utils.hpp>
 #include <Scene/Scene.hpp>
+#include <Scene/Serializer.hpp>
 
 namespace dt {
 
@@ -239,7 +240,23 @@ void Node::Serialize(IOPacket& packet) {
     } else {
         // deserialize
 
-        // oh my gawd fucking shit this will be hard
+        // components
+        packet & count;
+        for(uint16_t i = 0; i < count; ++i) {
+            std::string type;
+            packet & type;
+            Component* c = Serializer::CreateComponent(type);
+            c->Serialize(packet);
+            AddComponent(c);
+        }
+
+        // children
+        packet & count;
+        for(uint16_t i = 0; i < count; ++i) {
+            Node* n = new Node;
+            n->Serialize(packet);
+            AddChildNode(n);
+        }
     }
 }
 

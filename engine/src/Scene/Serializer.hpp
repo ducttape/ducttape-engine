@@ -16,17 +16,22 @@
 #include <Utils/Utils.hpp>
 
 #include <QMetaType>
-
 /**
   * Macro definition for simple creation of "fake copy-constructor".
   * @param class_name The name of the current class
   */
-#define DT_SERIALIZABLE(class_name) \
-    class_name(const class_name& other) { \
-        static_assert(false, "This copy-constructor should never be called. (class_name)"); \
+#define DT_SERIALIZABLE(class_name) DT_SERIALIZABLE_INHERITED(class_name, Component)
+
+#define DT_SERIALIZABLE_INHERITED(class_name, base_class_name) \
+    class_name(const class_name& other) : base_class_name() { \
+        assert(false && "This copy-constructor should never be called. (class_name)"); \
     }
 
 namespace dt {
+
+// forward declaration
+class Component;
+class Node;
 
 /**
   * Basic scene object class.
@@ -49,7 +54,7 @@ public:
 
     template <typename T>
     static void RegisterComponent(const std::string& name) {
-        qRegisterMetaType<T>(name);
+        qRegisterMetaType<T>(name.c_str());
     }
 
     static Component* CreateComponent(const std::string& name);

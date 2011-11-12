@@ -8,10 +8,14 @@
 
 #include <Scene/Serializer.hpp>
 
+#include <Logic/TriggerComponent.hpp>
+#include <Scene/Node.hpp>
+#include <Scene/Component.hpp>
+
 namespace dt {
 
 void Serializer::Initialize() {
-
+    RegisterComponent<TriggerComponent>("dt::TriggerComponent");
 }
 
 void Serializer::Deinitialize() {
@@ -21,6 +25,10 @@ void Serializer::Deinitialize() {
 Component* Serializer::CreateComponent(const std::string& name) {
     int id = QMetaType::type(name.c_str());
     Logger::Get().Debug("Component type ID: " + QString::number(id));
+    if(id == 0) {
+        Logger::Get().Error("Invalid component type: " + Utils::ToString(name) + ". Did you forget to declare it? Watch out for namespaces!");
+        exit(1);
+    }
     Component* component = static_cast<Component*>(QMetaType::construct(id));
     return component;
 }

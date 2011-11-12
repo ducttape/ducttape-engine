@@ -13,6 +13,7 @@
 #include <Input/InputManager.hpp>
 #include <Graphics/DisplayManager.hpp>
 #include <Scene/StateManager.hpp>
+#include <Scene/Serializer.hpp>
 #include <Network/NetworkManager.hpp>
 #include <Physics/PhysicsManager.hpp>
 #include <Graphics/TerrainManager.hpp>
@@ -57,6 +58,7 @@ Root& Root::GetInstance() {
 
 void Root::Initialize(int argc, char** argv) {
     mCoreApplication = new QCoreApplication(argc, argv);
+    Serializer::Initialize();
 
     mSfClock.Reset();
 
@@ -83,6 +85,7 @@ void Root::Deinitialize() {
     mResourceManager->Deinitialize();
     mLogManager->Deinitialize();
 
+    Serializer::Deinitialize();
     delete mCoreApplication;
 }
 

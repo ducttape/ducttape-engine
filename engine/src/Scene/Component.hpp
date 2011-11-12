@@ -13,6 +13,7 @@
 
 #include <Utils/Utils.hpp>
 #include <Network/IOPacket.hpp>
+#include <Scene/Serializer.hpp>
 
 #include <boost/noncopyable.hpp>
 #include <boost/ptr_container/ptr_map.hpp>
