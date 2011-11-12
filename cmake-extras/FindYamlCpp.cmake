@@ -17,18 +17,18 @@ if(YAMLCPP_STATIC_LIBRARY)
 endif()
 
 # find the yaml-cpp include directory
-find_path(YAMLCPP_INCLUDE_DIR yaml.h
+find_path(YAMLCPP_INCLUDE_DIR yaml-cpp/yaml.h
           PATH_SUFFIXES include
           PATHS
-          ~/Library/Frameworks/yaml-cpp/
-          /Library/Frameworks/yaml-cpp/
-          /usr/local/yaml-cpp/
-          /usr/include/yaml-cpp/
+          ~/Library/Frameworks/yaml-cpp/include/
+          /Library/Frameworks/yaml-cpp/include/
+          /usr/local/include/
+          /usr/include/
           /sw/yaml-cpp/         # Fink
           /opt/local/yaml-cpp/  # DarwinPorts
           /opt/csw/yaml-cpp/    # Blastwave
           /opt/yaml-cpp/
-          ${YAMLCPP_DIR}/include/yaml-cpp/
+          ${YAMLCPP_DIR}/include/
           NO_DEFAULT_PATHS
           NO_SYSTEM_ENVIRONMENT_PATH
           NO_CMAKE_SYSTEM_PATH)
