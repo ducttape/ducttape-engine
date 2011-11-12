@@ -11,9 +11,9 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build (Debug or Release)" FORCE)
 endif()
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
 set(BUILD_STATIC FALSE CACHE BOOL "TRUE to build static libraries (mind LGPL3 implications), FALSE to build shared libraries (preferred)")
 set(BUILD_SAMPLES TRUE CACHE BOOL "TRUE to build the samples, FALSE to ignore them")
@@ -40,18 +40,18 @@ set(ENV{QTDIR} "" CACHE PATH "Path to Qt4")
 set(MYGUI_ROOT "" CACHE PATH "Path to MYGUI dir")
 set(OgreProcedural_HOME "" CACHE PATH "Path to Ogre Procedural dir")
 
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake-extras/")
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake-extras/")
 
-if(EXISTS "${CMAKE_SOURCE_DIR}/dependencies")
-    set(BULLET_ROOT "${CMAKE_SOURCE_DIR}/dependencies/bullet")
-    set(BOOST_ROOT "${CMAKE_SOURCE_DIR}/dependencies/boost")
-    set(OGRE_HOME "${CMAKE_SOURCE_DIR}/dependencies/ogre")
-    set(SFMLDIR "${CMAKE_SOURCE_DIR}/dependencies/sfml")
-    set(ENV{QTDIR} "${CMAKE_SOURCE_DIR}/dependencies/qt4")
-    file(WRITE "${CMAKE_SOURCE_DIR}/dependencies/qt4/bin/qt.conf" "[Paths]\nPrefix = ${CMAKE_SOURCE_DIR}/dependencies/qt4")
-    set(MYGUI_ROOT "${CMAKE_SOURCE_DIR}/dependencies/mygui")
-    set(OgreProcedural_HOME "${CMAKE_SOURCE_DIR}/dependencies/ogre-procedural")
-    file(GLOB_RECURSE DLLS_LIST ${CMAKE_SOURCE_DIR}/dependencies/*.dll)
+if(EXISTS "${PROJECT_SOURCE_DIR}/dependencies")
+    set(BULLET_ROOT "${PROJECT_SOURCE_DIR}/dependencies/bullet")
+    set(BOOST_ROOT "${PROJECT_SOURCE_DIR}/dependencies/boost")
+    set(OGRE_HOME "${PROJECT_SOURCE_DIR}/dependencies/ogre")
+    set(SFMLDIR "${PROJECT_SOURCE_DIR}/dependencies/sfml")
+    set(ENV{QTDIR} "${PROJECT_SOURCE_DIR}/dependencies/qt4")
+    file(WRITE "${PROJECT_SOURCE_DIR}/dependencies/qt4/bin/qt.conf" "[Paths]\nPrefix = ${PROJECT_SOURCE_DIR}/dependencies/qt4")
+    set(MYGUI_ROOT "${PROJECT_SOURCE_DIR}/dependencies/mygui")
+    set(OgreProcedural_HOME "${PROJECT_SOURCE_DIR}/dependencies/ogre-procedural")
+    file(GLOB_RECURSE DLLS_LIST ${PROJECT_SOURCE_DIR}/dependencies/*.dll)
     file(MAKE_DIRECTORY "${EXECUTABLE_OUTPUT_DIRECTORY}/${CMAKE_BUILD_TYPE}")
     file(COPY ${DLLS_LIST} DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug")
     file(COPY ${DLLS_LIST} DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release")
@@ -83,7 +83,7 @@ else() # GCC/Mingw
 endif()
 
 include_directories(
-    ${CMAKE_SOURCE_DIR}/engine/src/
+    ${PROJECT_SOURCE_DIR}/engine/src/
     ${Boost_INCLUDE_DIRS}
     ${SFML_INCLUDE_DIR}
     ${OGRE_INCLUDE_DIRS}
@@ -93,40 +93,40 @@ include_directories(
     ${MYGUI_PLATFORM_INCLUDE_DIR}
     ${BULLET_INCLUDE_DIRS}
     ${OIS_INCLUDE_DIRS}
-    ${CMAKE_SOURCE_DIR}/externals/btogre/include
-    ${CMAKE_SOURCE_DIR}/externals/ogre-procedural/library/include
-    ${CMAKE_SOURCE_DIR}/externals/ogre-paged/library/include
+    ${PROJECT_SOURCE_DIR}/externals/btogre/include
+    ${PROJECT_SOURCE_DIR}/externals/ogre-procedural/library/include
+    ${PROJECT_SOURCE_DIR}/externals/ogre-paged/library/include
 )
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/externals)
+add_subdirectory(${PROJECT_SOURCE_DIR}/externals)
 
-add_subdirectory("${CMAKE_SOURCE_DIR}/engine/")
+add_subdirectory("${PROJECT_SOURCE_DIR}/engine/")
 
 if(BUILD_EDITOR)
-    add_subdirectory("${CMAKE_SOURCE_DIR}/editor/")
+    add_subdirectory("${PROJECT_SOURCE_DIR}/editor/")
 endif()
 
 if(BUILD_SAMPLES)
-    add_subdirectory("${CMAKE_SOURCE_DIR}/samples/")
+    add_subdirectory("${PROJECT_SOURCE_DIR}/samples/")
 endif()
 
 if(BUILD_TESTS)
     #include(CTest)
     enable_testing()
-    add_subdirectory("${CMAKE_SOURCE_DIR}/tests/")
+    add_subdirectory("${PROJECT_SOURCE_DIR}/tests/")
 endif()
 
 if(BUILD_DOC)
-    add_subdirectory("${CMAKE_SOURCE_DIR}/docs/")
+    add_subdirectory("${PROJECT_SOURCE_DIR}/docs/")
 endif()
 
 # Installation stuff.
-install(DIRECTORY "${CMAKE_SOURCE_DIR}/engine/src/"
+install(DIRECTORY "${PROJECT_SOURCE_DIR}/engine/src/"
         DESTINATION include/ducttape
         FILES_MATCHING PATTERN "*.hpp")
 
-install(FILES "${CMAKE_SOURCE_DIR}/cmake-extras/FindDucttape.cmake"
+install(FILES "${PROJECT_SOURCE_DIR}/cmake-extras/FindDucttape.cmake"
         DESTINATION ${CMAKE_ROOT}/Modules)
 
-install(FILES "${CMAKE_SOURCE_DIR}/LICENSE"
+install(FILES "${PROJECT_SOURCE_DIR}/LICENSE"
         DESTINATION share/ducttape)
