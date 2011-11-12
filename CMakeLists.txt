@@ -39,6 +39,7 @@ set(SFMLDIR "" CACHE PATH "Path to SFML dir")
 set(ENV{QTDIR} "" CACHE PATH "Path to Qt4")
 set(MYGUI_ROOT "" CACHE PATH "Path to MYGUI dir")
 set(OgreProcedural_HOME "" CACHE PATH "Path to Ogre Procedural dir")
+set(YAMLCPP_DIR "" CACHE PATH "Path to yaml-cpp dir")
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake-extras/")
 
@@ -51,6 +52,7 @@ if(EXISTS "${PROJECT_SOURCE_DIR}/dependencies")
     file(WRITE "${PROJECT_SOURCE_DIR}/dependencies/qt4/bin/qt.conf" "[Paths]\nPrefix = ${PROJECT_SOURCE_DIR}/dependencies/qt4")
     set(MYGUI_ROOT "${PROJECT_SOURCE_DIR}/dependencies/mygui")
     set(OgreProcedural_HOME "${PROJECT_SOURCE_DIR}/dependencies/ogre-procedural")
+    set(yaml-cpp "${PROJECT_SOURCE_DIR}/dependencies/yaml-cpp")
     file(GLOB_RECURSE DLLS_LIST ${PROJECT_SOURCE_DIR}/dependencies/*.dll)
     file(MAKE_DIRECTORY "${EXECUTABLE_OUTPUT_DIRECTORY}/${CMAKE_BUILD_TYPE}")
     file(COPY ${DLLS_LIST} DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug")
@@ -64,6 +66,7 @@ find_package(OIS REQUIRED)
 find_package(OGRE REQUIRED)
 find_package(MyGUI REQUIRED)
 find_package(MyGUI_PLATFORM REQUIRED)
+find_package(YamlCpp REQUIRED)
 
 # Qt4 stuff
 set(QT_USE_QTSCRIPT TRUE)
@@ -93,6 +96,7 @@ include_directories(
     ${MYGUI_PLATFORM_INCLUDE_DIR}
     ${BULLET_INCLUDE_DIRS}
     ${OIS_INCLUDE_DIRS}
+    ${YAMLCPP_INCLUDE_DIR}
     ${PROJECT_SOURCE_DIR}/externals/btogre/include
     ${PROJECT_SOURCE_DIR}/externals/ogre-procedural/library/include
     ${PROJECT_SOURCE_DIR}/externals/ogre-paged/library/include

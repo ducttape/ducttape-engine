@@ -17,17 +17,17 @@ if(DUCTTAPE_STATIC_LIBRARY)
 endif()
 
 # find the Ducttape include directory
-find_path(DUCTTAPE_INCLUDE_DIR ducttape/Root.hpp
+find_path(DUCTTAPE_INCLUDE_DIR Root.hpp
           PATH_SUFFIXES include
           PATHS
-          ~/Library/Frameworks
-          /Library/Frameworks
-          /usr/local/
-          /usr/
-          /sw          # Fink
-          /opt/local/  # DarwinPorts
-          /opt/csw/    # Blastwave
-          /opt/
+          ~/Library/Frameworks/ducttape/
+          /Library/Frameworks/ducttape/
+          /usr/local/ducttape/
+          /usr/ducttape/
+          /sw/ducttape/         # Fink
+          /opt/local/ducttape/  # DarwinPorts
+          /opt/csw/ducttape/    # Blastwave
+          /opt/ducttape/
           ${DUCTTAPE_DIR})
 
 # find the Ducttape library
@@ -45,7 +45,6 @@ find_library(DUCTTAPE_LIBRARY
                     ${DUCTTAPE_DIR})
 
 # handle the QUIETLY and REQUIRED arguments and set DUCTTAPE_FOUND to TRUE if all listed variables are TRUE
-    include(FindPackageHandleStandardArgs)
-    FIND_PACKAGE_HANDLE_STANDARD_ARGS(DUCTTAPE DEFAULT_MSG DUCTTAPE_INCLUDE_DIR DUCTTAPE_LIBRARY)
-    mark_as_advanced(DUCTTAPE_INCLUDE_DIR DUCTTAPE_LIBRARY)
-endif()
+include(FindPackageHandleStandardArgs)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(DUCTTAPE DEFAULT_MSG DUCTTAPE_INCLUDE_DIR DUCTTAPE_LIBRARY)
+mark_as_advanced(DUCTTAPE_INCLUDE_DIR DUCTTAPE_LIBRARY)
