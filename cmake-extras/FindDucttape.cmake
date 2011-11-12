@@ -28,7 +28,7 @@ find_path(DUCTTAPE_INCLUDE_DIR Root.hpp
           /opt/local/ducttape/  # DarwinPorts
           /opt/csw/ducttape/    # Blastwave
           /opt/ducttape/
-          ${DUCTTAPE_DIR})
+          ${DUCTTAPE_DIR}/src/)
 
 # find the Ducttape library
 find_library(DUCTTAPE_LIBRARY
@@ -42,7 +42,7 @@ find_library(DUCTTAPE_LIBRARY
                     /opt/local
                     /opt/csw
                     /opt
-                    ${DUCTTAPE_DIR})
+                    ${DUCTTAPE_DIR}/lib)
 
 # handle the QUIETLY and REQUIRED arguments and set DUCTTAPE_FOUND to TRUE if all listed variables are TRUE
 include(FindPackageHandleStandardArgs)
