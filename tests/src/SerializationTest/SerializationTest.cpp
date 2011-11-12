@@ -59,7 +59,22 @@ bool SerializationTest::Run(int argc, char** argv) {
     file2.write(packet2.GetData(), packet2.GetDataSize());
     file2.close();
 
+    if(!file1.open(QIODevice::ReadOnly)) {
+        dt::Logger::Get().Error("Cannot open file for writing.");
+        return false;
+    }
+    if(!file2.open(QIODevice::ReadOnly)) {
+        dt::Logger::Get().Error("Cannot open file for writing.");
+        return false;
+    }
+
+    if(file1.readAll() != file2.readAll())
+        return false;
+
+    file1.close();
+    file2.close();
     dt::Root::GetInstance().Deinitialize();
+
     return true;
 }
 
