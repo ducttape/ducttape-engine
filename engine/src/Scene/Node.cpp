@@ -25,11 +25,12 @@ Node::Node(const QString& name)
     if(mName == "") {
         mName = "Node-" + Utils::ToString(Utils::AutoId());
     }
+
+    // Generate an uuid for this node.
+    mId = Utils::GenerateUUIDRandom();
 }
 
 void Node::Initialize() {
-    //Generate an uuid for this node.
-    mId = Utils::GenerateUUIDRandom();
 
     OnInitialize();
 }

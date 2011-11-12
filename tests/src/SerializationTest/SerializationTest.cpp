@@ -21,26 +21,26 @@ namespace SerializationTest {
 bool SerializationTest::Run(int argc, char** argv) {
     dt::Root::GetInstance().Initialize(argc, argv);
 
-    dt::Node node("testnode1");
-    node.AddComponent(new dt::TriggerComponent("triggercomponent1"));
-    dt::Node* child = node.AddChildNode(new dt::Node("childnode1"));
+    dt::Node node1("testnode1");
+    node1.AddComponent(new dt::TriggerComponent("triggercomponent1"));
+    dt::Node* child = node1.AddChildNode(new dt::Node("childnode1"));
     child->AddComponent(new dt::TriggerComponent("triggercomponent1.1"));;
 
-    sf::Packet packet;
-    dt::IOPacket p(&packet, dt::IOPacket::MODE_SEND);
-    node.Serialize(p);
+    sf::Packet packet1;
+    dt::IOPacket p1(&packet1, dt::IOPacket::MODE_SEND);
+    node1.Serialize(p1);
 
-    QFile file("serialization_test.dat");
-    if(!file.open(QIODevice::WriteOnly)) {
+    QFile file1("serialization_test1.dat");
+    if(!file1.open(QIODevice::WriteOnly)) {
         dt::Logger::Get().Error("Cannot open file for writing.");
         return false;
     }
-    file.write(packet.GetData(), packet.GetDataSize());
-    file.close();
+    file1.write(packet1.GetData(), packet1.GetDataSize());
+    file1.close();
 
-    dt::Logger::Get().Debug("Data length: " + dt::Utils::ToString(packet.GetDataSize()));
+    dt::Logger::Get().Debug("Data length: " + dt::Utils::ToString(packet1.GetDataSize()));
 
-    dt::IOPacket p2(&packet, dt::IOPacket::MODE_RECEIVE);
+    dt::IOPacket p2(&packet1, dt::IOPacket::MODE_RECEIVE);
     dt::Node node2("receiver");
     node2.Serialize(p2);
 

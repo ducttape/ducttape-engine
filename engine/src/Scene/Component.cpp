@@ -22,6 +22,9 @@ Component::Component(const QString& name)
     if(mName == "") {
         mName = "Component-" + Utils::ToString(Utils::AutoId());
     }
+
+    // Generate an uuid for this node.
+    mId = Utils::GenerateUUIDRandom();
 }
 
 Component::~Component() {}
@@ -73,7 +76,6 @@ QScriptValue Component::GetScriptNode() {
 void Component::Create() {
     if(!mIsCreated) {
         mIsCreated = true;
-        mId = Utils::GenerateUUIDRandom();
         OnCreate();
         emit ComponentCreated();
         Enable();
