@@ -211,6 +211,40 @@ void Node::OnUpdate(double time_diff) {
     _UpdateAllComponents(time_diff);
 }
 
+void Node::Serialize(IOPacket& packet) {
+    packet & mId;
+    packet & mName;
+    packet & mPosition;
+    packet & mScale;
+    packet & mRotation;
+    OnSerialize(packet);
+
+    uint16_t count = 0;
+    if(packet.GetMode() == IOPacket::MODE_SEND) {
+        // serialize
+
+        // components
+        count = mComponents.size();
+        packet & count;
+        for(auto iter = mComponents.begin(); iter != mComponents.end(); ++iter) {
+            iter->second->Serialize(packet);
+        }
+
+        // children
+        count = mChildren.size();
+        packet & count;
+        for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
+            iter->second->Serialize(packet);
+        }
+    } else {
+        // deserialize
+
+        // oh my gawd fucking shit this will be hard
+    }
+}
+
+void Node::OnSerialize(IOPacket &packet) {}
+
 void Node::SetPosition(float x, float y, float z, RelativeTo rel) {
     SetPosition(Ogre::Vector3(x,y,z), rel);
 }

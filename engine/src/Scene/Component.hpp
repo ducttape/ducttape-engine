@@ -12,6 +12,7 @@
 #include <Config.hpp>
 
 #include <Utils/Utils.hpp>
+#include <Network/IOPacket.hpp>
 
 #include <boost/noncopyable.hpp>
 #include <boost/ptr_container/ptr_map.hpp>
@@ -82,6 +83,10 @@ public:
       * @param node The node to be set.
       */
     void SetNode(Node* node);
+
+    void Serialize(IOPacket& packet);
+
+    virtual void OnSerialize(IOPacket& packet);
 
 public slots:
     /**

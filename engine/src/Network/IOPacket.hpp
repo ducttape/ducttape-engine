@@ -17,6 +17,11 @@
 
 #include <SFML/Network/Packet.hpp>
 
+#include <boost/uuid/uuid.hpp>
+
+#include <OgreVector3.h>
+#include <OgreQuaternion.h>
+
 namespace dt {
 
 /**
@@ -89,6 +94,30 @@ public:
       * @returns This IOPacket itself to combine multiple stream instruction in one statement.
       */
     IOPacket& operator & (QString& s);
+
+    /**
+      * Operator& used to stream a boost::uuids::uuid.
+      * @see template \<typename T> IOPacket& operator & (T& t);
+      * @param id The uuid object.
+      * @returns This IOPacket itself to combine multiple stream instructions in one statement.
+      */
+    IOPacket& operator & (boost::uuids::uuid& id);
+
+    /**
+      * Operator& used to stream an Ogre::Vector3.
+      * @see template \<typename T> IOPacket& operator & (T& t);
+      * @param vector The Vector3 object.
+      * @returns This IOPacket itself to combine multiple stream instructions in one statement.
+      */
+    IOPacket& operator & (Ogre::Vector3& vector);
+
+    /**
+      * Operator& used to stream an Ogre::Quaternion.
+      * @see template \<typename T> IOPacket& operator & (T& t);
+      * @param quaternion The Quaternion object.
+      * @returns This IOPacket itself to combine multiple stream instructions in one statement.
+      */
+    IOPacket& operator & (Ogre::Quaternion& quaternion);
 
 private:
     sf::Packet* mPacket;    //!< A pointer to the packet to stream data from/into.

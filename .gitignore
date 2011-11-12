@@ -1,3 +1,4 @@
+*.dat
 *.bin
 bin/
 build/
