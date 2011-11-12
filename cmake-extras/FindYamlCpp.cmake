@@ -28,10 +28,7 @@ find_path(YAMLCPP_INCLUDE_DIR yaml-cpp/yaml.h
           /opt/local/yaml-cpp/  # DarwinPorts
           /opt/csw/yaml-cpp/    # Blastwave
           /opt/yaml-cpp/
-          ${YAMLCPP_DIR}/include/
-          NO_DEFAULT_PATHS
-          NO_SYSTEM_ENVIRONMENT_PATH
-          NO_CMAKE_SYSTEM_PATH)
+          ${YAMLCPP_DIR}/include/)
 
 # find the yaml-cpp library
 find_library(YAMLCPP_LIBRARY
