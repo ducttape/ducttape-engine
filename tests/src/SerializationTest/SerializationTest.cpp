@@ -49,7 +49,7 @@ bool SerializationTest::Run(int argc, char** argv) {
         dt::Logger::Get().Error("The node name was not transfered.");
         return false;
     }
-    if(node2.FindComponent("triggercomponent1") == nullptr) {
+    if(node2.FindComponent<dt::TriggerComponent>("triggercomponent1") == nullptr) {
         dt::Logger::Get().Error("The node's component was not transfered.");
         return false;
     }
@@ -57,12 +57,10 @@ bool SerializationTest::Run(int argc, char** argv) {
         dt::Logger::Get().Error("The child node was not transfered.");
         return false;
     }
-    if(node2.FindChildNode("childnode1")->FindComponent("triggercomponent1.1") == nullptr) {
+    if(node2.FindChildNode("childnode1")->FindComponent<dt::TriggerComponent>("triggercomponent1.1") == nullptr) {
         dt::Logger::Get().Error("The child node's component was not transfered.");
         return false;
     }
-
-
 
     sf::Packet packet2;
 

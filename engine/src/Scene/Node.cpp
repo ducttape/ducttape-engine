@@ -247,7 +247,7 @@ void Node::Serialize(IOPacket& packet) {
     // Children
     count = packet.BeginList(mChildren.size(), "children");
 
-    if(packet.GetDirection() == IOPacket::DESERIALIZE) {
+    if(packet.GetDirection() == IOPacket::SERIALIZE) {
         for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
             packet.BeginObject();
             iter->second->Serialize(packet);
