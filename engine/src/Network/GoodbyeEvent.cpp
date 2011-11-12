@@ -23,7 +23,7 @@ std::shared_ptr<NetworkEvent> GoodbyeEvent::Clone() const {
 }
 
 void GoodbyeEvent::Serialize(IOPacket& p) {
-    p & mReason;
+    p.Stream(mReason, "reason", "");
 }
 
 const QString& GoodbyeEvent::GetReason() const {

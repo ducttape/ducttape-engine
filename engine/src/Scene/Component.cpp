@@ -49,14 +49,14 @@ void Component::SetNode(Node* node) {
 
 void Component::Serialize(IOPacket& packet) {
     // only write type when serializing, it will be read by the Node on deserialization
-    if(packet.GetMode() == IOPacket::MODE_SEND) {
+    if(packet.GetDirection() == IOPacket::SERIALIZE) {
         std::string type(metaObject()->className());
-        packet & type;
+        packet.Stream(type, "type");
     }
 
-    packet & mId;
-    packet & mName;
-    packet & mIsEnabled;
+    packet.Stream(mId, "uuid");
+    packet.Stream(mName, "name");
+    packet.Stream(mIsEnabled, "enabled", true);
 
     OnSerialize(packet);
 }

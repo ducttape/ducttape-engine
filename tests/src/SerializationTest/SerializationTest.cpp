@@ -27,7 +27,7 @@ bool SerializationTest::Run(int argc, char** argv) {
     child->AddComponent(new dt::TriggerComponent("triggercomponent1.1"));;
 
     sf::Packet packet1;
-    dt::IOPacket p1(&packet1, dt::IOPacket::MODE_SEND);
+    dt::IOPacket p1(&packet1, dt::IOPacket::SERIALIZE);
     node1.Serialize(p1);
 
     QFile file1("serialization_test1.dat");
@@ -40,15 +40,33 @@ bool SerializationTest::Run(int argc, char** argv) {
 
     dt::Logger::Get().Debug("Data length: " + dt::Utils::ToString(packet1.GetDataSize()));
 
-    dt::IOPacket p2(&packet1, dt::IOPacket::MODE_RECEIVE);
+    dt::IOPacket p2(&packet1, dt::IOPacket::DESERIALIZE);
     dt::Node node2("receiver");
     node2.Serialize(p2);
 
     dt::Logger::Get().Info("Node name: " + node2.GetName());
+    if(node2.GetName() != "testnode1") {
+        dt::Logger::Get().Error("The node name was not transfered.");
+        return false;
+    }
+    if(node2.FindComponent("triggercomponent1") == nullptr) {
+        dt::Logger::Get().Error("The node's component was not transfered.");
+        return false;
+    }
+    if(node2.FindChildNode("childnode1") == nullptr) {
+        dt::Logger::Get().Error("The child node was not transfered.");
+        return false;
+    }
+    if(node2.FindChildNode("childnode1")->FindComponent("triggercomponent1.1") == nullptr) {
+        dt::Logger::Get().Error("The child node's component was not transfered.");
+        return false;
+    }
+
+
 
     sf::Packet packet2;
 
-    dt::IOPacket p3(&packet2, dt::IOPacket::MODE_SEND);
+    dt::IOPacket p3(&packet2, dt::IOPacket::SERIALIZE);
     node2.Serialize(p3);
 
     QFile file2("serialization_test2.dat");
@@ -68,8 +86,10 @@ bool SerializationTest::Run(int argc, char** argv) {
         return false;
     }
 
-    if(file1.readAll() != file2.readAll())
+    if(file1.readAll() != file2.readAll()) {
+        dt::Logger::Get().Error("The binary files differ.");
         return false;
+    }
 
     file1.close();
     file2.close();

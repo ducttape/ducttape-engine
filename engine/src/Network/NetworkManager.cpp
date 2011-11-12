@@ -122,7 +122,7 @@ void NetworkManager::HandleIncomingEvents() {
             if(event != nullptr) {
                 // Logger::Get().Debug("NetworkManager: Received event [" + Utils::ToString(event->GetTypeId()) + ": " +
                                    // event->GetType() + "] from <" + Utils::ToString(sender_id) + ">. Handling.");
-                IOPacket iop(&packet, IOPacket::MODE_RECEIVE);
+                IOPacket iop(&packet, IOPacket::DESERIALIZE);
                 event->Serialize(iop);
                 event->IsLocalEvent(true);
                 event->SetSenderID(sender_id);
@@ -239,7 +239,7 @@ void NetworkManager::_SendEvent(std::shared_ptr<NetworkEvent> event) {
     // create packet
     sf::Packet p;
     p << GetEventId(event->GetType());
-    IOPacket packet(&p, IOPacket::MODE_SEND);
+    IOPacket packet(&p, IOPacket::SERIALIZE);
     event->Serialize(packet);
 
     // send packet to all recipients

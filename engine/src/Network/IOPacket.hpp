@@ -19,44 +19,43 @@
 
 #include <boost/uuid/uuid.hpp>
 
+#include <yaml-cpp/yaml.h>
+
 #include <OgreVector3.h>
 #include <OgreQuaternion.h>
 
 namespace dt {
 
 /**
-  * Class for simplifying the code needed for serialization and deserialization of Objects into/from sf::Packets. This uses
-  * the \b operator& to combine both serialization and deserialization in the same method. The data will be streamed based
-  * on the context the IOPacket was created in.
-  * @see sf::Packet
+  * Class for simplifying the code needed for serialization and deserialization of Objects. This uses
+  * the method \b Stream to combine both serialization and deserialization in the same method. The data will
+  * be read or written based on the context the IOPacket was created in.
   * @see EnumHelper
   * @code
-  * sf::Packet packet;
-  * IOPacket iop(&packet, IOPacket::MODE_SEND); // for serialization or
-  * // IOPacket iop(&packet, IOPacket::MODE_RECEIVE); // for deserialization
-  * iop & some_variable;
-  * iop & EnumHelper(my_enum); // see EnumHelper
-  * // send the packet
+  * iopacket.Stream(some_variable, "key", default_value);
+  * iopacket.Stream(EnumHelper(my_enum), "key", (uint32_t)MyEnum::DEFAULT_VALUE); // see EnumHelper
   * @endcode
-  * @note Credit for the idea of using the operator& for context based streaming goes to the authors of
+  * @note Credit for the idea of context based streaming goes to the authors of
   * boost serialization (boost::archive).
   */
 class DUCTTAPE_API IOPacket {
 public:
     /**
-      * Mode for streaming data.
+      * Direction for streaming data.
       */
-    enum Mode {
-        MODE_RECEIVE,   //!< Deserialization (operator>>)
-        MODE_SEND       //!< Serialization (operator<<)
+    enum Direction {
+        DESERIALIZE,    //!< Deserialization (operator>>)
+        SERIALIZE       //!< Serialization (operator<<)
     };
 
-    /**
-      * Advanced Constructor.
-      * @param packet A pointer to the sf::Packet to stream into/from.
-      * @param mode Mode for streaming data (see IOPacket::Mode).
-      */
-    IOPacket(sf::Packet* packet = new sf::Packet(), Mode mode = MODE_RECEIVE);
+    enum Mode {
+        BINARY, //!< sf::Packet
+        TEXT    //!< Yaml
+    };
+
+    IOPacket(sf::Packet* packet, Direction direction = DESERIALIZE);
+    IOPacket(YAML::Node* node);
+    IOPacket(YAML::Emitter* emitter);
 
     /**
       * Returns the mode set for this IOPacket.
@@ -65,63 +64,63 @@ public:
     Mode GetMode() const;
 
     /**
-      * Operator& used to either stream the data into the packet or out of it. Applicable to all data types supported by
-      * sf::Packet stream operators.
-      * @param t Variable to stream into / from.
-      * @returns This IOPacket itself to combine multiple stream instruction in one statement.
+      * Returns the mode set for this IOPacket.
+      * @returns The mode set for this IOPacket.
       */
-    template <typename T> IOPacket& operator & (T& t) {
-        if(mMode == MODE_RECEIVE)
-            *mPacket >> t;
-        else
-            *mPacket << t;
+    Direction GetDirection() const;
+
+    template <typename T>
+    IOPacket& Stream(T& t, QString key, T def = T()) {
+        if(mMode == BINARY) {
+            if(mDirection == DESERIALIZE)
+                *mPacket >> t;
+            else
+                *mPacket << t;
+        } else {
+            if(mDirection == DESERIALIZE) {
+                try {
+                    (*mNode)[key.toStdString()] >> t;
+                } catch(YAML::ParserException& e) {
+                    t = def;
+                }
+            } else {
+                *mEmitter << YAML::Key << key.toStdString() << YAML::Value << t;
+            }
+        }
         return *this;
     }
 
-    /**
-      * Operator& used to stream an enum using the EnumHelper class.
-      * @see EnumHelper
-      * @see template \<typename T> IOPacket& operator & (T& t);
-      * @param h The EnumHelper instance to use for streaming.
-      * @returns This IOPacket itself to combine multiple stream instruction in one statement.
-      */
-    IOPacket& operator & (EnumHelper h);
+    // TODO: try template specialization
 
-    /**
-      * Operator& used to stream a QString.
-      * @see template \<typename T> IOPacket& operator & (T& t);
-      * @param s The QString object.
-      * @returns This IOPacket itself to combine multiple stream instruction in one statement.
-      */
-    IOPacket& operator & (QString& s);
+    virtual IOPacket& Stream(EnumHelper h, QString key = "", uint32_t def = 0);
 
-    /**
-      * Operator& used to stream a boost::uuids::uuid.
-      * @see template \<typename T> IOPacket& operator & (T& t);
-      * @param id The uuid object.
-      * @returns This IOPacket itself to combine multiple stream instructions in one statement.
-      */
-    IOPacket& operator & (boost::uuids::uuid& id);
+    virtual IOPacket& Stream(QString& s, QString key = "", QString def = "");
 
-    /**
-      * Operator& used to stream an Ogre::Vector3.
-      * @see template \<typename T> IOPacket& operator & (T& t);
-      * @param vector The Vector3 object.
-      * @returns This IOPacket itself to combine multiple stream instructions in one statement.
-      */
-    IOPacket& operator & (Ogre::Vector3& vector);
+    virtual IOPacket& Stream(boost::uuids::uuid& id, QString key = "", boost::uuids::uuid def = boost::uuids::uuid());
 
-    /**
-      * Operator& used to stream an Ogre::Quaternion.
-      * @see template \<typename T> IOPacket& operator & (T& t);
-      * @param quaternion The Quaternion object.
-      * @returns This IOPacket itself to combine multiple stream instructions in one statement.
-      */
-    IOPacket& operator & (Ogre::Quaternion& quaternion);
+    virtual IOPacket& Stream(Ogre::Vector3& vector, QString key = "", Ogre::Vector3 def = Ogre::Vector3::ZERO);
 
-private:
-    sf::Packet* mPacket;    //!< A pointer to the packet to stream data from/into.
-    Mode mMode;             //!< The streaming mode.
+    virtual IOPacket& Stream(Ogre::Quaternion& quaternion, QString key = "", Ogre::Quaternion def = Ogre::Quaternion::IDENTITY);
+
+    uint32_t BeginList(uint32_t count, QString key);
+
+    void EndList();
+
+    void BeginObject();
+
+    void EndObject();
+
+protected:
+    Direction mDirection;   //!< The streaming direction.
+    Mode mMode;             //!< The data mode.
+
+    sf::Packet* mPacket;
+    const YAML::Node* mNode;
+    std::vector<const YAML::Node*> mNodeStack;
+    int mIndexInSequence;
+    std::vector<int> mIndexInSequenceStack;
+    YAML::Emitter* mEmitter;
+
 };
 
 }
