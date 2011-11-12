@@ -6,7 +6,7 @@
 #include <Logic/SimplePlayerComponent.hpp>
 #include <Physics/PhysicsBodyComponent.hpp>
 #include <Logic/FPSPlayerComponent.hpp>
-#include <Logic/GunComponent.hpp>
+#include <FastWeaponComponent.hpp>
 
 #include <OgreProcedural.h>
 
@@ -21,9 +21,9 @@ void Main::OnInitialize() {
 
     player_node->AddComponent(new dt::CameraComponent("camera"))->LookAt(Ogre::Vector3(0, 0, -10));
 
-    player_node->AddComponent(new dt::GunComponent("gun"));
+    player_node->AddComponent(new FastWeaponComponent("gun"));
 
-    player_node->AddComponent(new dt::FPSPlayerComponent("controller"))->SetGunComponentName("gun");
+    player_node->AddComponent(new dt::FPSPlayerComponent("controller"))->SetInteractionComponentName("gun");
 
     dt::Node* light_node = scene->AddChildNode(new dt::Node("lightnode"));
     light_node->SetPosition(Ogre::Vector3(-2000, 2000, 1000));

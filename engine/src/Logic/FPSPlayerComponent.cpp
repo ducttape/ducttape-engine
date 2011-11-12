@@ -11,7 +11,7 @@
 #include <Scene/Node.hpp>
 #include <Scene/Scene.hpp>
 #include <Input/InputManager.hpp>
-#include <Logic/GunComponent.hpp>
+#include <Logic/InteractionComponent.hpp>
 
 #include <BtOgreGP.h>
 
@@ -28,7 +28,8 @@ FPSPlayerComponent::FPSPlayerComponent(const QString& name)
       mMoveSpeed(5.0f),
       mWASDEnabled(true),
       mArrowsEnabled(true),
-      mJumpEnabled(true) {}
+      mJumpEnabled(true),
+      mInteractionComponentName("") {}
 
 void FPSPlayerComponent::OnCreate() {
     btTransform  start_trans;
@@ -240,11 +241,11 @@ void FPSPlayerComponent::_HandleKeyUp(const OIS::KeyEvent& event) {
 
 void FPSPlayerComponent::_HandleMouseDown(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
     if(mMouseEnabled) {
-        if(button == OIS::MB_Left) {
-            Node* hit_node = GetNode()->FindComponent<GunComponent>(mGunComponentName)->Use();
-            if(hit_node != nullptr) {
-                //Processing Logic... Not yet decide how to do it. 
-                //Emit a signal? Use a callback which can be overrided by the user? Or just place the processing code here?
+        if(button == OIS::MB_Left && mInteractionComponentName != QString("")) {
+            InteractionComponent* interaction_component = GetNode()->FindComponent<InteractionComponent>(mInteractionComponentName);
+            
+            if(interaction_component != nullptr) {
+                interaction_component->Check();
             }
         }
     }
@@ -252,12 +253,12 @@ void FPSPlayerComponent::_HandleMouseDown(const OIS::MouseEvent& event, OIS::Mou
 
 void FPSPlayerComponent::_HandleMouseUp(const OIS::MouseEvent& event, OIS::MouseButtonID button) {}
 
-void FPSPlayerComponent::SetGunComponentName(const QString& name) {
-    mGunComponentName = name;
+void FPSPlayerComponent::SetInteractionComponentName(const QString& name) {
+    mInteractionComponentName = name;
 }
 
-QString FPSPlayerComponent::GetGunComponentName() const {
-    return mGunComponentName;
+QString FPSPlayerComponent::GetInteractionComponentName() const {
+    return mInteractionComponentName;
 }
 
 }

@@ -131,16 +131,16 @@ public:
     bool GetJumpEnabled() const;
 
     /**
-      * Sets the GunComponent's name.
-      * @param name The name of the GunComponent to set.
+      * Sets the InteractionComponent's name.
+      * @param name The name of the InteractionComponent to set.
       */
-    void SetGunComponentName(const QString& name);
+    void SetInteractionComponentName(const QString& name);
 
     /**
-      * Gets the GunComponent's name.
-      * @returns The name of the GunComponent.
+      * Gets the InteractionComponent's name.
+      * @returns The name of the InteractionComponent.
       */
-    QString GetGunComponentName() const;
+    QString GetInteractionComponentName() const;
 
 private slots:
     void _HandleKeyDown(const OIS::KeyEvent& event);
@@ -164,7 +164,7 @@ private:
     bool mWASDEnabled;          //!< Whether the WASD  keys are enabled for movement or not.
     bool mArrowsEnabled;        //!< Whether the Arrow keys are enabled for movement or not.
     bool mJumpEnabled;          //!< Whether the character can jump or not.
-    QString mGunComponentName;  //!< The name of the gun component to deal with the interaction with other objects.
+    QString mInteractionComponentName;  //!< The name of the InteractionComponent to deal with the interaction with other objects.
 };
 }
 

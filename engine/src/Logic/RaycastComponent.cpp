@@ -36,7 +36,7 @@ void RaycastComponent::Check() {
     start = BtOgre::Convert::toBullet(GetNode()->GetRotation() * mStart + GetNode()->GetPosition());
     end = BtOgre::Convert::toBullet(GetNode()->GetRotation() * mEnd + GetNode()->GetPosition());
 
-    emit sCheck(BtOgre::Convert::toOgre(start), BtOgre::Convert::toOgre(end));
+    OnCheck(BtOgre::Convert::toOgre(start), BtOgre::Convert::toOgre(end));
 
     GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->rayTest(start, end, *mRaycastCallback);
 
@@ -46,6 +46,10 @@ void RaycastComponent::Check() {
         
         OnHit(hit_object->GetNode());
     }
+}
+
+void RaycastComponent::OnCheck(Ogre::Vector3 start, Ogre::Vector3 end) {
+    emit sCheck(start, end);
 }
 
 void RaycastComponent::OnHit(Node* hit) {

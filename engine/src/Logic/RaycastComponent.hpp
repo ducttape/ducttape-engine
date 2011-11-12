@@ -22,7 +22,7 @@
 namespace dt {
 
 /**
-  * A component for interacting with other objects in the scene.
+  * A component using raycast for interacting with other objects in the scene.
   */
 class DUCTTAPE_API RaycastComponent : public InteractionComponent {
     Q_OBJECT
@@ -46,7 +46,7 @@ public:
     /*
      * Called when Check() is called. It will emit a hit signal. You can just connect it with a slot or just override it.
      */
-    virtual void OnCheck();
+    virtual void OnCheck(Ogre::Vector3 start, Ogre::Vector3 end);
 
     /**
       * Check if there's any objects hit by the ray.
