@@ -6,7 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "SerializationTest/SerializationTest.hpp"
+#include "SerializationBinaryTest/SerializationBinaryTest.hpp"
 
 #include <Scene/Serializer.hpp>
 #include <Scene/Node.hpp>
@@ -16,9 +16,9 @@
 
 #include <QFile>
 
-namespace SerializationTest {
+namespace SerializationBinaryTest {
 
-bool SerializationTest::Run(int argc, char** argv) {
+bool SerializationBinaryTest::Run(int argc, char** argv) {
     dt::Root::GetInstance().Initialize(argc, argv);
 
     dt::Node node1("testnode1");
@@ -96,8 +96,8 @@ bool SerializationTest::Run(int argc, char** argv) {
     return true;
 }
 
-QString SerializationTest::GetTestName() {
-    return "Serialization";
+QString SerializationBinaryTest::GetTestName() {
+    return "SerializationBinary";
 }
 
 }

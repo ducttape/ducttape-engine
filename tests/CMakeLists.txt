@@ -44,7 +44,8 @@ add_test(NAME Scripting COMMAND test_framework Scripting)
 add_test(NAME ScriptComponent COMMAND test_framework ScriptComponent)
 # disabled for Windows compatibility
 # add_test(NAME Network COMMAND ${PROJECT_SOURCE_DIR}/bin/Network.sh)
-add_test(NAME Serialization COMMAND test_framework Serialization)
+add_test(NAME SerializationBinary COMMAND test_framework SerializationBinary)
+add_test(NAME SerializationYaml COMMAND test_framework SerializationYaml)
 
 # graphics
 add_test(NAME Display COMMAND test_framework Display)

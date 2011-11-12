@@ -76,17 +76,17 @@ IOPacket& IOPacket::Stream(boost::uuids::uuid& id, QString key, boost::uuids::uu
 }
 
 IOPacket& IOPacket::Stream(Ogre::Vector3& vector, QString key, Ogre::Vector3 def) {
-    Stream(vector.x, key, def.x);
-    Stream(vector.y, key, def.y);
-    Stream(vector.z, key, def.z);
+    Stream(vector.x, key + ".x", def.x);
+    Stream(vector.y, key + ".y", def.y);
+    Stream(vector.z, key + ".z", def.z);
     return *this;
 }
 
 IOPacket& IOPacket::Stream(Ogre::Quaternion& quaternion, QString key, Ogre::Quaternion def) {
-    Stream(quaternion.w, key, def.w);
-    Stream(quaternion.x, key, def.x);
-    Stream(quaternion.y, key, def.y);
-    Stream(quaternion.z, key, def.z);
+    Stream(quaternion.w, key + ".w", def.w);
+    Stream(quaternion.x, key + ".x", def.x);
+    Stream(quaternion.y, key + ".y", def.y);
+    Stream(quaternion.z, key + ".z", def.z);
     return *this;
 }
 
@@ -98,12 +98,12 @@ uint32_t IOPacket::BeginList(uint32_t count, QString key) {
         mIndexInSequence = 0;
         if(mDirection == SERIALIZE) {
             *mEmitter << YAML::Key << key.toStdString();
-            *mEmitter << YAML::BeginSeq;
+            *mEmitter << YAML::Value << YAML::BeginSeq;
         } else {
             mNodeStack.push_back(mNode);
             mNode = &((*mNode)[key.toStdString()]);
+            return mNode->size();
         }
-        return mNode->size();
     }
     return count;
 }
@@ -131,7 +131,8 @@ void IOPacket::BeginObject() {
         if(mDirection == SERIALIZE) {
             *mEmitter << YAML::BeginMap;
         } else {
-            mNode = &(mNode[mIndexInSequence]);
+            mNodeStack.push_back(mNode);
+            mNode = &((*mNode)[mIndexInSequence]);
         }
     }
 }

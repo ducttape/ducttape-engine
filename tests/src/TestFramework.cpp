@@ -27,7 +27,8 @@
 #include "QObjectTest/QObjectTest.hpp"
 #include "RandomTest/RandomTest.hpp"
 #include "ResourceManagerTest/ResourceManagerTest.hpp"
-#include "SerializationTest/SerializationTest.hpp"
+#include "SerializationBinaryTest/SerializationBinaryTest.hpp"
+#include "SerializationYamlTest/SerializationYamlTest.hpp"
 #include "ScriptComponentTest/ScriptComponentTest.hpp"
 #include "ScriptingTest/ScriptingTest.hpp"
 #include "ShadowsTest/ShadowsTest.hpp"
@@ -79,7 +80,8 @@ int main(int argc, char** argv) {
     AddTest(new QObjectTest::QObjectTest);
     AddTest(new RandomTest::RandomTest);
     AddTest(new ResourceManagerTest::ResourceManagerTest);
-    AddTest(new SerializationTest::SerializationTest);
+    AddTest(new SerializationBinaryTest::SerializationBinaryTest);
+    AddTest(new SerializationYamlTest::SerializationYamlTest);
     AddTest(new ScriptComponentTest::ScriptComponentTest);
     AddTest(new ScriptingTest::ScriptingTest);
     AddTest(new ShadowsTest::ShadowsTest);

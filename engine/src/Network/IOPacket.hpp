@@ -80,11 +80,11 @@ public:
             if(mDirection == DESERIALIZE) {
                 try {
                     (*mNode)[key.toStdString()] >> t;
-                } catch(YAML::ParserException& e) {
+                } catch(YAML::TypedKeyNotFound<std::string>& e) {
                     t = def;
                 }
             } else {
-                *mEmitter << YAML::Key << key.toStdString() << YAML::Value << t;
+                *mEmitter << YAML::Key << key.toStdString() << YAML::Value << YAML::DoubleQuoted << t << YAML::Auto;
             }
         }
         return *this;

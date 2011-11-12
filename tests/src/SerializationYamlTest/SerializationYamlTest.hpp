@@ -6,8 +6,8 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#ifndef DUCTTAPE_ENGINE_TESTS_SERIALIZATIONTEST
-#define DUCTTAPE_ENGINE_TESTS_SERIALIZATIONTEST
+#ifndef DUCTTAPE_ENGINE_TESTS_SERIALIZATIONYAMLTEST
+#define DUCTTAPE_ENGINE_TESTS_SERIALIZATIONYAMLTEST
 
 #include <Config.hpp>
 
@@ -16,9 +16,9 @@
 #include <Core/Root.hpp>
 #include <Utils/Logger.hpp>
 
-namespace SerializationTest {
+namespace SerializationYamlTest {
 
-class SerializationTest : public Test {
+class SerializationYamlTest : public Test {
 public:
     bool Run(int argc, char** argv);
     QString GetTestName();

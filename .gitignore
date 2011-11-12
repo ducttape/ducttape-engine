@@ -1,4 +1,4 @@
-*.dat
+serialization_test*
 *.bin
 bin/
 build/
