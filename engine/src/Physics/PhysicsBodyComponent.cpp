@@ -24,7 +24,10 @@ PhysicsBodyComponent::PhysicsBodyComponent(const QString& mesh_component_name,
       mBody(nullptr),
       mMotionState(nullptr),
       mCentralForce(btVector3(0, 0, 0)),
-      mTorque(btVector3(0, 0, 0)) {}
+      mTorque(btVector3(0, 0, 0)),
+      mCollisionMask(0),
+      mCollisionGroup(0),
+      mCollisionMaskInUse(false) {}
 
 void PhysicsBodyComponent::OnCreate() {
     if(! mNode->HasComponent(mMeshComponentName)) {
@@ -72,6 +75,26 @@ void PhysicsBodyComponent::SetTorque(const btVector3& torque)
     mTorque = torque;
 }
 
+void PhysicsBodyComponent::SetCollisionMask(uint16_t collision_mask) {
+    mCollisionMask = collision_mask;
+    mCollisionMaskInUse = true;
+
+    if(IsEnabled()) {
+        Disable();
+        Enable();
+    }
+}
+
+void PhysicsBodyComponent::SetCollisionGroup(uint16_t collision_group) {
+    mCollisionGroup = collision_group;
+    mCollisionMaskInUse = true;
+
+    if(IsEnabled()) {
+        Disable();
+        Enable();
+    }
+}
+
 void PhysicsBodyComponent::OnDestroy() {
     delete mBody->getMotionState();
     delete mBody;
@@ -79,7 +102,10 @@ void PhysicsBodyComponent::OnDestroy() {
 }
 
 void PhysicsBodyComponent::OnEnable() {
-    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addRigidBody(mBody);
+    if(mCollisionMaskInUse) // Special treatment due to Bullet internals
+        GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addRigidBody(mBody, mCollisionGroup, mCollisionMask);
+    else
+        GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addRigidBody(mBody);
 }
 
 void PhysicsBodyComponent::OnDisable() {
@@ -98,6 +124,7 @@ void PhysicsBodyComponent::SetGravity(const btVector3& gravity) {
     mBody->setGravity(gravity);
 }
 
+// TODO: The following method is ranks 80 on the absurdity scale, change it.
 void PhysicsBodyComponent::SetTwoDimensional(bool twod) {
     if(twod)
     {
@@ -132,6 +159,10 @@ void PhysicsBodyComponent::OnUpdate(double time_diff) {
 
     GetNode()->SetPosition(BtOgre::Convert::toOgre(trans.getOrigin()), Node::SCENE);
     GetNode()->SetRotation(BtOgre::Convert::toOgre(trans.getRotation()), Node::SCENE);
+}
+
+const btRigidBody* PhysicsBodyComponent::GetRigidBody() const {
+    return mBody;
 }
 
 void PhysicsBodyComponent::SetMass(btScalar mass) {

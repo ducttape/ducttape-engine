@@ -46,9 +46,12 @@ public:
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);
+    const btRigidBody* GetRigidBody() const;
     void ApplyCentralImpulse(const btVector3& impulse);
     void SetCentralForce(const btVector3& force);
     void SetTorque(const btVector3& torque);
+    void SetCollisionMask(uint16_t collision_mask);
+    void SetCollisionGroup(uint16_t collision_group);
     const btVector3 GetCentralForce() const;
     const btVector3 GetTorque() const;
     void SetTwoDimensional(bool twod);
@@ -69,6 +72,9 @@ private:
     BtOgre::RigidBodyState* mMotionState;   //!< The motion state of the physics body.
     btVector3 mCentralForce;
     btVector3 mTorque;
+    uint16_t mCollisionMask;
+    uint16_t mCollisionGroup;
+    bool mCollisionMaskInUse;
 };
 
 }

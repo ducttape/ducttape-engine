@@ -8,6 +8,7 @@
 
 #include <Physics/PhysicsWorld.hpp>
 
+#include <Physics/PhysicsBodyComponent.hpp>
 #include <Scene/Scene.hpp>
 #include <Utils/Logger.hpp>
 
@@ -68,6 +69,35 @@ btDiscreteDynamicsWorld* PhysicsWorld::GetBulletWorld() {
 }
 
 void PhysicsWorld::OnTick(btScalar time_diff) {
+    uint32_t num_manifolds = mDynamicsWorld->getDispatcher()->getNumManifolds();
+    for(uint32_t i = 0; i < num_manifolds; ++i) {
+        btPersistentManifold* contact_manifold =  mDynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
+        btCollisionObject* ob_a = static_cast<btCollisionObject*>(contact_manifold->getBody0());
+        btCollisionObject* ob_b = static_cast<btCollisionObject*>(contact_manifold->getBody1());
+
+        uint32_t num_contacts = contact_manifold->getNumContacts();
+        for(uint32_t j = 0; j < num_contacts; ++j) {
+            btManifoldPoint& pt = contact_manifold->getContactPoint(j);
+
+            if(pt.getDistance() < 0.f) {
+                //const btVector3& pt_a = pt.getPositionWorldOnA();
+                //const btVector3& pt_b = pt.getPositionWorldOnB();
+                //const btVector3& normal_on_b = pt.m_normalWorldOnB;
+
+                if(ob_a->getUserPointer() != nullptr &&
+                   ob_b->getUserPointer() != nullptr) {
+                    PhysicsBodyComponent* physbody_a = (PhysicsBodyComponent*)ob_a->getUserPointer();
+                    PhysicsBodyComponent* physbody_b = (PhysicsBodyComponent*)ob_b->getUserPointer();
+                    Node* node_a = physbody_a->GetNode();
+                    Node* node_b = physbody_b->GetNode();
+
+                    //emit BodiesCollided()
+                    std::cout << "node_a: " << node_a->GetName().toStdString() << " pos: " << node_a->GetPosition().x << ", " << node_a->GetPosition().y << ", " << node_a->GetPosition().z << std::endl;
+                    std::cout << "node_b: " << node_b->GetName().toStdString() << " pos: " << node_b->GetPosition().x << ", " << node_b->GetPosition().y << ", " << node_b->GetPosition().z << std::endl;
+                }
+            }
+        }
+    }
 }
 
 void PhysicsWorld::SetGravity(Ogre::Vector3 gravity) {
