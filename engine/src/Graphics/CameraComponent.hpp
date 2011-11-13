@@ -40,7 +40,7 @@ public:
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);
-
+    Ogre::Ray GetCameraToViewportRay(float x, float y);
     void LookAt(Ogre::Vector3 target_point);
 
     // sets the viewport size

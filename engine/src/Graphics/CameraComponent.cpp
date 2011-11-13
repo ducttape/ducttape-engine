@@ -58,6 +58,10 @@ void CameraComponent::OnUpdate(double time_diff) {
     mCamera->setOrientation(mNode->GetRotation(Node::SCENE));
 }
 
+Ogre::Ray CameraComponent::GetCameraToViewportRay(float x, float y) {
+    return mCamera->getCameraToViewportRay(x, y);
+}
+
 void CameraComponent::LookAt(Ogre::Vector3 target_point) {
     mCamera->lookAt(target_point);
     mNode->SetRotation(mCamera->getOrientation());
