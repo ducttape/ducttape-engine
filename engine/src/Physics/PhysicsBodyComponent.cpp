@@ -59,6 +59,10 @@ void PhysicsBodyComponent::OnCreate() {
     mBody->setUserPointer((void *)(this));
 }
 
+void PhysicsBodyComponent::ApplyCentralImpulse(const btVector3& impulse) {
+    mBody->applyCentralImpulse(impulse);
+}
+
 void PhysicsBodyComponent::SetCentralForce(const btVector3& force) {
     mCentralForce = force;
 }
