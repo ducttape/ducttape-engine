@@ -46,7 +46,7 @@ public:
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);
-    const btRigidBody* GetRigidBody() const;
+    btRigidBody* GetRigidBody();
     void ApplyCentralImpulse(const btVector3& impulse);
     void SetCentralForce(const btVector3& force);
     void SetTorque(const btVector3& torque);

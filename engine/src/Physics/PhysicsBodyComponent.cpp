@@ -161,7 +161,7 @@ void PhysicsBodyComponent::OnUpdate(double time_diff) {
     GetNode()->SetRotation(BtOgre::Convert::toOgre(trans.getRotation()), Node::SCENE);
 }
 
-const btRigidBody* PhysicsBodyComponent::GetRigidBody() const {
+btRigidBody* PhysicsBodyComponent::GetRigidBody() {
     return mBody;
 }
 
