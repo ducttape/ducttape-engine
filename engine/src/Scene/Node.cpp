@@ -101,6 +101,13 @@ const QString& Node::GetName() const {
     return mName;
 }
 
+QString Node::GetFullName() const {
+    if(mParent == nullptr)
+        return GetName();
+    else
+        return mParent->GetFullName() + "/" + GetName();
+}
+
 Ogre::Vector3 Node::GetPosition(Node::RelativeTo rel) const {
     if(rel == PARENT || mParent == nullptr) {
         return mPosition;

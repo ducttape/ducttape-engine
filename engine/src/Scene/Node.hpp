@@ -237,6 +237,12 @@ public slots:
     const QString& GetName() const;
 
     /**
+      * Returns the name of the Node, including all parent names.
+      * @returns The name of the Node, including all parent names.
+      */
+    QString GetFullName() const;
+
+    /**
       * Returns a pointer to the parent Node.
       * @returns A pointer to the parent Node.
       */
