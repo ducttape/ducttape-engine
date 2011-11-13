@@ -21,6 +21,7 @@ PhysicsBodyComponent::PhysicsBodyComponent(const QString& mesh_component_name,
     : Component(name),
       mMeshComponentName(mesh_component_name),
       mCollisionShape(nullptr),
+      mCollisionShapeType(CONVEX),
       mBody(nullptr),
       mMotionState(nullptr),
       mCentralForce(btVector3(0, 0, 0)),
@@ -45,7 +46,17 @@ void PhysicsBodyComponent::OnCreate() {
     // TODO: CollisionShapes should likely be stored at a central place.
     // Perhaps the PhysicsManager is a good place. It would save a lot of memory
     // for many bodies with the same CollisionShape.
-    mCollisionShape = converter.createConvex();
+    if(mCollisionShapeType == BOX)
+        mCollisionShape = converter.createBox();
+    else if(mCollisionShapeType == CONVEX)
+        mCollisionShape = converter.createConvex();
+    else if(mCollisionShapeType == SPHERE)
+        mCollisionShape = converter.createSphere();
+    else if(mCollisionShapeType == CYLINDER)
+        mCollisionShape = converter.createCylinder();
+    else if(mCollisionShapeType == TRIMESH)
+        mCollisionShape = converter.createTrimesh();
+
 
     btScalar mass = 5;
     btVector3 inertia;
@@ -169,6 +180,10 @@ void PhysicsBodyComponent::SetMass(btScalar mass) {
     btVector3 inertia;
     mCollisionShape->calculateLocalInertia(mass, inertia);
     mBody->setMassProps(mass, inertia);
+}
+
+void PhysicsBodyComponent::SetCollisionShapeType(CollisionShapeType type) {
+    mCollisionShapeType = type;
 }
 
 }

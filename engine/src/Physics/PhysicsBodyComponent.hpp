@@ -31,6 +31,17 @@ class DUCTTAPE_API PhysicsBodyComponent : public Component {
     Q_OBJECT
 public:
     /**
+      * The type of collision shape that is constructed from the mesh.
+      */
+    enum CollisionShapeType {
+        BOX,        //!< A box
+        CONVEX,     //!< A convec shape
+        SPHERE,     //!< A sphere
+        CYLINDER,   //!< A cylinder
+        TRIMESH     //!< The exact triangles of the mesh as collision shape
+    };
+
+    /**
       * Advanced constructor.
       * @param mesh_component_name The name of the MeshComponent this
       * PhysicsBodyComponent will use for its shape.
@@ -58,6 +69,7 @@ public:
     void SetGravity(const btVector3& gravity);
     void DisableDeactivation(bool disabled);
     void SetDampingAmount(btScalar linear_damping, btScalar angular_damping);
+    void SetCollisionShapeType(CollisionShapeType type);
 
     /**
       * Sets the mass of the physics body.
@@ -68,6 +80,7 @@ public:
 private:
     QString mMeshComponentName;         //!< The name of the mesh component to create the collision shape from.
     btCollisionShape* mCollisionShape;      //!< The bullet collision shape.
+    CollisionShapeType mCollisionShapeType; //!< The type of collision shape.
     btRigidBody* mBody;                     //!< The bullet rigid body.
     BtOgre::RigidBodyState* mMotionState;   //!< The motion state of the physics body.
     btVector3 mCentralForce;
@@ -75,6 +88,7 @@ private:
     uint16_t mCollisionMask;
     uint16_t mCollisionGroup;
     bool mCollisionMaskInUse;
+
 };
 
 }
