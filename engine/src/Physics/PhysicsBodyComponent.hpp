@@ -54,9 +54,35 @@ public:
     void SetCollisionGroup(uint16_t collision_group);
     const btVector3 GetCentralForce() const;
     const btVector3 GetTorque() const;
-    void SetTwoDimensional(bool twod);
+
+    /**
+      * Sets movement restriction. This can be used to restrict a body's movement to 1 or 2 dimensions.
+      * @param restriction The restriction in x, y, z vector format where x, y, z are either 0
+      * to disallow movement on that plane or 1 to allow it.
+      */
+    void SetRestrictMovement(const btVector3& restriction);
+
+    /**
+      * Sets rotation restriction. This can be used to restrict a body's rotation to 1 or 2 dimensions.
+      * @param restriction The restriction in x, y, z vector format where x, y, z are either 0
+      * to disallow movement on that plane or 1 to allow it.
+      */
+    void SetRestrictRotation(const btVector3& restriction);
+
+    /**
+      * Sets the gravity of the physics body.
+      * @param gravity The new gravity.
+      */
     void SetGravity(const btVector3& gravity);
-    void DisableDeactivation(bool disabled);
+    
+    /**
+      * Prevents a body from sleeping when it rests. This decreases performance
+      * if a large numbers of bodies are active at the same time. Normally, a body
+      * would go to sleep if it doesn't move.
+      * @param disabled Whether to disable sleep
+      */
+    void DisableSleep(bool disabled);
+
     void SetDampingAmount(btScalar linear_damping, btScalar angular_damping);
 
     /**
@@ -66,7 +92,7 @@ public:
     void SetMass(btScalar mass);
 
 private:
-    QString mMeshComponentName;         //!< The name of the mesh component to create the collision shape from.
+    QString mMeshComponentName;             //!< The name of the mesh component to create the collision shape from.
     btCollisionShape* mCollisionShape;      //!< The bullet collision shape.
     btRigidBody* mBody;                     //!< The bullet rigid body.
     BtOgre::RigidBodyState* mMotionState;   //!< The motion state of the physics body.
