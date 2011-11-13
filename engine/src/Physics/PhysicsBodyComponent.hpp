@@ -105,7 +105,7 @@ public:
     void SetMass(btScalar mass);
 
 signals:
-    void Collided(PhysicsBodyComponent* other_body);
+    void Collided(dt::PhysicsBodyComponent* other_body);
 
 private:
     QString mMeshComponentName;             //!< The name of the mesh component to create the collision shape from.
