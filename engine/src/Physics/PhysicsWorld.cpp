@@ -83,13 +83,12 @@ void PhysicsWorld::OnTick(btScalar time_diff) {
                 //const btVector3& pt_b = pt.getPositionWorldOnB();
                 //const btVector3& normal_on_b = pt.m_normalWorldOnB;
 
-                if(ob_a->getUserPointer() != nullptr &&
-                   ob_b->getUserPointer() != nullptr) {
+                if(ob_a->getUserPointer() != nullptr && ob_b->getUserPointer() != nullptr) {
                     PhysicsBodyComponent* physics_body_a = (PhysicsBodyComponent*)ob_a->getUserPointer();
                     PhysicsBodyComponent* physics_body_b = (PhysicsBodyComponent*)ob_b->getUserPointer();
 
-                    emit BodyCollided(physics_body_a);
-                    emit BodyCollided(physics_body_b);
+                    physics_body_a->OnCollide(physics_body_b);
+                    physics_body_b->OnCollide(physics_body_a);
                 }
             }
         }

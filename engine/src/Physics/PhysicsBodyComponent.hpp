@@ -46,6 +46,7 @@ public:
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);
+    void OnCollide(PhysicsBodyComponent* other_body);
     btRigidBody* GetRigidBody();
     void ApplyCentralImpulse(const btVector3& impulse);
     void SetCentralForce(const btVector3& force);
@@ -90,6 +91,9 @@ public:
       * @param mass The new mass.
       */
     void SetMass(btScalar mass);
+
+signals:
+    void Collided(PhysicsBodyComponent* other_body);
 
 private:
     QString mMeshComponentName;             //!< The name of the mesh component to create the collision shape from.

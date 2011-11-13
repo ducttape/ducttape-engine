@@ -106,9 +106,6 @@ public:
       */
     static void BulletTickCallback(btDynamicsWorld* world, btScalar time_diff);
 
-signals:
-    void BodyCollided(PhysicsBodyComponent* physics_body);
-
 private:
     // bullet stuff
     btDbvtBroadphase* mBroadphase;                              //!< The Bullet broadphase.

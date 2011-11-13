@@ -79,6 +79,10 @@ void PhysicsBodyComponent::OnDisable() {
     GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->removeRigidBody(mBody);
 }
 
+void PhysicsBodyComponent::OnCollide(PhysicsBodyComponent* other_body) {
+    emit Collided(other_body);
+}
+
 btRigidBody* PhysicsBodyComponent::GetRigidBody() {
     return mBody;
 }
