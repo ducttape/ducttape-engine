@@ -8,7 +8,6 @@
 
 #include <Physics/PhysicsWorld.hpp>
 
-#include <Physics/PhysicsBodyComponent.hpp>
 #include <Scene/Scene.hpp>
 #include <Utils/Logger.hpp>
 
@@ -86,14 +85,11 @@ void PhysicsWorld::OnTick(btScalar time_diff) {
 
                 if(ob_a->getUserPointer() != nullptr &&
                    ob_b->getUserPointer() != nullptr) {
-                    PhysicsBodyComponent* physbody_a = (PhysicsBodyComponent*)ob_a->getUserPointer();
-                    PhysicsBodyComponent* physbody_b = (PhysicsBodyComponent*)ob_b->getUserPointer();
-                    Node* node_a = physbody_a->GetNode();
-                    Node* node_b = physbody_b->GetNode();
+                    PhysicsBodyComponent* physics_body_a = (PhysicsBodyComponent*)ob_a->getUserPointer();
+                    PhysicsBodyComponent* physics_body_b = (PhysicsBodyComponent*)ob_b->getUserPointer();
 
-                    //emit BodiesCollided()
-                    std::cout << "node_a: " << node_a->GetName().toStdString() << " pos: " << node_a->GetPosition().x << ", " << node_a->GetPosition().y << ", " << node_a->GetPosition().z << std::endl;
-                    std::cout << "node_b: " << node_b->GetName().toStdString() << " pos: " << node_b->GetPosition().x << ", " << node_b->GetPosition().y << ", " << node_b->GetPosition().z << std::endl;
+                    emit BodyCollided(physics_body_a);
+                    emit BodyCollided(physics_body_b);
                 }
             }
         }
