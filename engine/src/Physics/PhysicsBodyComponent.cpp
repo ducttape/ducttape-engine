@@ -73,6 +73,27 @@ void PhysicsBodyComponent::OnCreate() {
     mBody->setUserPointer((void *)(this));
 }
 
+void PhysicsBodyComponent::OnDestroy() {
+    delete mBody->getMotionState();
+    delete mBody;
+    delete mCollisionShape;
+}
+
+void PhysicsBodyComponent::OnEnable() {
+    if(mCollisionMaskInUse) // Special treatment due to Bullet internals
+        GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addRigidBody(mBody, mCollisionGroup, mCollisionMask);
+    else
+        GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addRigidBody(mBody);
+}
+
+void PhysicsBodyComponent::OnDisable() {
+    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->removeRigidBody(mBody);
+}
+
+btRigidBody* PhysicsBodyComponent::GetRigidBody() {
+    return mBody;
+}
+
 void PhysicsBodyComponent::ApplyCentralImpulse(const btVector3& impulse) {
     mBody->applyCentralImpulse(impulse);
 }
@@ -106,23 +127,6 @@ void PhysicsBodyComponent::SetCollisionGroup(uint16_t collision_group) {
     }
 }
 
-void PhysicsBodyComponent::OnDestroy() {
-    delete mBody->getMotionState();
-    delete mBody;
-    delete mCollisionShape;
-}
-
-void PhysicsBodyComponent::OnEnable() {
-    if(mCollisionMaskInUse) // Special treatment due to Bullet internals
-        GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addRigidBody(mBody, mCollisionGroup, mCollisionMask);
-    else
-        GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addRigidBody(mBody);
-}
-
-void PhysicsBodyComponent::OnDisable() {
-    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->removeRigidBody(mBody);
-}
-
 const btVector3 PhysicsBodyComponent::GetCentralForce() const {
     return mCentralForce;
 }
@@ -131,20 +135,19 @@ const btVector3 PhysicsBodyComponent::GetTorque() const {
     return mTorque;
 }
 
+void PhysicsBodyComponent::SetRestrictMovement(const btVector3& restriction) {
+    mBody->setLinearFactor(restriction);
+}
+
+void PhysicsBodyComponent::SetRestrictRotation(const btVector3& restriction) {
+    mBody->setAngularFactor(restriction);
+}
+
 void PhysicsBodyComponent::SetGravity(const btVector3& gravity) {
     mBody->setGravity(gravity);
 }
 
-// TODO: The following method is ranks 80 on the absurdity scale, change it.
-void PhysicsBodyComponent::SetTwoDimensional(bool twod) {
-    if(twod)
-    {
-        mBody->setLinearFactor(btVector3(1, 1, 0));
-        mBody->setAngularFactor(btVector3(0, 0, 1));
-    }
-}
-
-void PhysicsBodyComponent::DisableDeactivation(bool disabled) {
+void PhysicsBodyComponent::DisableSleep(bool disabled) {
     if(disabled) {
         mBody->setActivationState(DISABLE_DEACTIVATION);
     }
@@ -170,10 +173,6 @@ void PhysicsBodyComponent::OnUpdate(double time_diff) {
 
     GetNode()->SetPosition(BtOgre::Convert::toOgre(trans.getOrigin()), Node::SCENE);
     GetNode()->SetRotation(BtOgre::Convert::toOgre(trans.getRotation()), Node::SCENE);
-}
-
-btRigidBody* PhysicsBodyComponent::GetRigidBody() {
-    return mBody;
 }
 
 void PhysicsBodyComponent::SetMass(btScalar mass) {
