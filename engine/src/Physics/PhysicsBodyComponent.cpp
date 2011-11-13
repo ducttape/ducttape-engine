@@ -12,6 +12,8 @@
 #include <Scene/Node.hpp>
 #include <Scene/Scene.hpp>
 
+#include <OgreVector3.h>
+
 #include <BtOgreGP.h>
 
 namespace dt {
@@ -31,6 +33,10 @@ void PhysicsBodyComponent::OnCreate() {
                             " PhysicsBodyComponent "+mName);
         exit(1);
     }
+    hasTorque = false;
+    hasForce = false;
+    Force = btVector3(0, 0, 0);
+    Torque = btVector3(0, 0, 0);
 
     MeshComponent* mesh_component =
         mNode->FindComponent<MeshComponent>(mMeshComponentName);
@@ -57,6 +63,29 @@ void PhysicsBodyComponent::OnCreate() {
     mBody->setUserPointer((void *)(this));
 }
 
+void PhysicsBodyComponent::SetForce(const btVector3& force)
+{
+    Force = force;
+}
+
+void PhysicsBodyComponent::SetTorque(const btVector3& torque)
+{
+    Torque = torque;
+}
+void PhysicsBodyComponent::SetAngle(const btVector3& angle)
+{
+    Angle = angle;
+}
+void PhysicsBodyComponent::HasForce(bool hasforce)
+{
+    hasForce = hasforce;
+}
+
+void PhysicsBodyComponent::HasTorque(bool hastorque)
+{
+    hasTorque = hastorque;
+}
+
 void PhysicsBodyComponent::OnDestroy() {
     delete mBody->getMotionState();
     delete mBody;
@@ -71,11 +100,49 @@ void PhysicsBodyComponent::OnDisable() {
     GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->removeRigidBody(mBody);
 }
 
+void PhysicsBodyComponent::GetForce() {
+
+}
+
+void PhysicsBodyComponent::GetTorque() {
+}
+
+void PhysicsBodyComponent::SetGravity(const btVector3& gravity) {
+    mBody->setGravity(gravity);
+}
+
+void PhysicsBodyComponent::SetTwoDimensional(bool twod) {
+    if(twod)
+    {
+        mBody->setLinearFactor(btVector3(1, 1, 0));
+        mBody->setAngularFactor(btVector3(0, 0, 1));
+    }
+}
+
+void PhysicsBodyComponent::DisableDeactivation(bool disabled) {
+    if(disabled) {
+        mBody->setActivationState(DISABLE_DEACTIVATION);
+    }
+}
+
+void PhysicsBodyComponent::SetDampingAmount(btScalar lindamping, btScalar angdamping)
+{
+    mBody->setDamping(lindamping, angdamping);
+}
 void PhysicsBodyComponent::OnUpdate(double time_diff) {
     btTransform trans;
     mBody->getMotionState()->getWorldTransform(trans);
     /*std::cout << "x: " << trans.getOrigin().getX() << " y: "
         << trans.getOrigin().getY() << " z: " << trans.getOrigin().getZ() << std::endl;*/
+    if(hasForce)
+    {
+        mBody->applyCentralForce(Force);
+    }
+    if(hasTorque)
+    {
+        mBody->applyTorque(Torque);
+    }
+
 
     GetNode()->SetPosition(BtOgre::Convert::toOgre(trans.getOrigin()), Node::SCENE);
     GetNode()->SetRotation(BtOgre::Convert::toOgre(trans.getRotation()), Node::SCENE);

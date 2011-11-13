@@ -12,9 +12,9 @@
 #include <Config.hpp>
 
 #include <Scene/Component.hpp>
-
+#include <btBulletDynamicsCommon.h>
 #include <btBulletCollisionCommon.h>
-
+#include <OgreVector3.h>
 #include <BtOgrePG.h>
 
 #include <QString>
@@ -45,7 +45,18 @@ public:
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);
-
+    void SetForce(const btVector3& force);
+    void SetTorque(const btVector3& torque);
+    void HasForce(bool hasforce);
+    void HasTorque(bool hastorque);
+    void GetForce();
+    void GetTorque();
+    void SetTwoDimensional(bool twod);
+    void SetAngle(const btVector3& angle);
+    void SetGravity(const btVector3& gravity);
+    void DisableDeactivation(bool disabled);
+    void SetDampingAmount(btScalar lindamping, btScalar angdamping);
+    
     /**
       * Sets the mass of the physics body.
       * @param mass The new mass.
@@ -57,6 +68,13 @@ private:
     btCollisionShape* mCollisionShape;      //!< The bullet collision shape.
     btRigidBody* mBody;                     //!< The bullet rigid body.
     BtOgre::RigidBodyState* mMotionState;   //!< The motion state of the physics body.
+    btVector3 Force;
+    btVector3 Torque;
+    btVector3 Angle;
+    bool hasTorque;
+    bool hasForce;
+    btScalar lindamping;
+    btScalar angdamping;
 };
 
 }
