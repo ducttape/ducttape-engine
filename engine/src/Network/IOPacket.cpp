@@ -75,21 +75,6 @@ IOPacket& IOPacket::Stream(boost::uuids::uuid& id, QString key, boost::uuids::uu
     return *this;
 }
 
-IOPacket& IOPacket::Stream(Ogre::Vector3& vector, QString key, Ogre::Vector3 def) {
-    Stream(vector.x, key + ".x", def.x);
-    Stream(vector.y, key + ".y", def.y);
-    Stream(vector.z, key + ".z", def.z);
-    return *this;
-}
-
-IOPacket& IOPacket::Stream(Ogre::Quaternion& quaternion, QString key, Ogre::Quaternion def) {
-    Stream(quaternion.w, key + ".w", def.w);
-    Stream(quaternion.x, key + ".x", def.x);
-    Stream(quaternion.y, key + ".y", def.y);
-    Stream(quaternion.z, key + ".z", def.z);
-    return *this;
-}
-
 uint32_t IOPacket::BeginList(uint32_t count, QString key) {
     if(mMode == BINARY) {
         Stream(count, "count"); // Notice: key does not matter in binary mode
@@ -149,4 +134,52 @@ void IOPacket::EndObject() {
     }
 }
 
+
+sf::Packet& operator >> (sf::Packet& packet, Ogre::Vector3& v) {
+    packet >> v.x >> v.y >> v.z;
+    return packet;
+}
+
+sf::Packet& operator << (sf::Packet& packet, Ogre::Vector3& v) {
+    packet << v.x << v.y << v.z;
+    return packet;
+}
+
+sf::Packet& operator >> (sf::Packet& packet, Ogre::Quaternion& q) {
+    packet >> q.w >> q.x >> q.y >> q.z;
+    return packet;
+}
+
+sf::Packet& operator << (sf::Packet& packet, Ogre::Quaternion& q) {
+    packet << q.w << q.x << q.y << q.z;
+    return packet;
+}
+
+} // namespace dt
+
+namespace YAML {
+    const Node& operator >> (const Node& node, Ogre::Vector3& v) {
+        node[0] >> v.x;
+        node[1] >> v.y;
+        node[2] >> v.z;
+        return node;
+    }
+
+    Emitter& operator << (Emitter& emitter, Ogre::Vector3& v) {
+        emitter << Flow << BeginSeq << v.x << v.y << v.z << EndSeq;
+        return emitter;
+    }
+
+    const Node& operator >> (const Node& node, Ogre::Quaternion& q) {
+        node[0] >> q.w;
+        node[1] >> q.x;
+        node[2] >> q.y;
+        node[3] >> q.z;
+        return node;
+    }
+
+    Emitter& operator << (Emitter& emitter, Ogre::Quaternion& q) {
+        emitter << Flow << BeginSeq << q.w << q.x << q.y << q.z << EndSeq;
+        return emitter;
+    }
 }

@@ -24,7 +24,25 @@
 #include <OgreVector3.h>
 #include <OgreQuaternion.h>
 
+// first, declare some streaming operators
+
+namespace YAML {
+
+const Node& operator >> (const Node& node, Ogre::Vector3& v);
+Emitter& operator << (Emitter& emitter, Ogre::Vector3& v);
+
+const Node& operator >> (const Node& node, Ogre::Quaternion& q);
+Emitter& operator << (Emitter& emitter, Ogre::Quaternion& q);
+
+} // namespace YAML
+
 namespace dt {
+
+sf::Packet& operator >> (sf::Packet& packet, Ogre::Vector3& v);
+sf::Packet& operator << (sf::Packet& packet, Ogre::Vector3& v);
+
+sf::Packet& operator >> (sf::Packet& packet, Ogre::Quaternion& q);
+sf::Packet& operator << (sf::Packet& packet, Ogre::Quaternion& q);
 
 /**
   * Class for simplifying the code needed for serialization and deserialization of Objects. This uses
@@ -97,10 +115,6 @@ public:
     virtual IOPacket& Stream(QString& s, QString key = "", QString def = "");
 
     virtual IOPacket& Stream(boost::uuids::uuid& id, QString key = "", boost::uuids::uuid def = boost::uuids::uuid());
-
-    virtual IOPacket& Stream(Ogre::Vector3& vector, QString key = "", Ogre::Vector3 def = Ogre::Vector3::ZERO);
-
-    virtual IOPacket& Stream(Ogre::Quaternion& quaternion, QString key = "", Ogre::Quaternion def = Ogre::Quaternion::IDENTITY);
 
     uint32_t BeginList(uint32_t count, QString key);
 
