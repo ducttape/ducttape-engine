@@ -97,6 +97,12 @@ public slots:
     const QString& GetName() const;
 
     /**
+      * Returns the name of the Component, including all parent names.
+      * @returns The name of the Component, including all parent names.
+      */
+    QString GetFullName() const;
+
+    /**
       * Returns the Node of this component.
       * @returns The Node of this component.
       */

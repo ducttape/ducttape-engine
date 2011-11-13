@@ -33,6 +33,10 @@ const QString& Component::GetName() const {
     return mName;
 }
 
+QString Component::GetFullName() const {
+    return mNode->GetFullName() + "/" + GetName();
+}
+
 void Component::OnCreate() {}
 
 void Component::OnDestroy() {}
