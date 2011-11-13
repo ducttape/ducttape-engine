@@ -13,6 +13,8 @@
 
 #include <Core/Manager.hpp>
 
+#include <Physics/PhysicsBodyComponent.hpp>
+
 #include <btBulletCollisionCommon.h>
 
 #include <BtOgreExtras.h>
@@ -28,6 +30,7 @@ class Scene;
   * Holds and manages a complete world of bullet objects and all associated instances.
   */
 class DUCTTAPE_API PhysicsWorld : public Manager {
+    Q_OBJECT
 public:
     /**
       * Default constructor.
@@ -102,6 +105,9 @@ public:
       * @param time_diff The time the world was stepped with.
       */
     static void BulletTickCallback(btDynamicsWorld* world, btScalar time_diff);
+
+signals:
+    void BodyCollided(PhysicsBodyComponent* physics_body);
 
 private:
     // bullet stuff
