@@ -24,8 +24,8 @@ std::shared_ptr<NetworkEvent> PingEvent::Clone() const {
 }
 
 void PingEvent::Serialize(IOPacket& p) {
-    p & mTimestamp;
-    p & mIsReply;
+    p.Stream(mTimestamp, "timestamp", 0.0);
+    p.Stream(mIsReply, "is_reply", false);
 }
 
 bool PingEvent::IsReply() const {

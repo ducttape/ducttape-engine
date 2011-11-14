@@ -20,7 +20,7 @@ target_link_libraries(test_framework
 file(GLOB SCRIPTS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} scripts/*)
 foreach(test_script ${SCRIPTS})
     string(REPLACE "scripts/" "" script ${test_script})
-    configure_file(${test_script} ${CMAKE_SOURCE_DIR}/bin/${script} COPYONLY)
+    configure_file(${test_script} ${PROJECT_SOURCE_DIR}/bin/${script} COPYONLY)
 endforeach()
 
 # We need to add test manually here instead of doing it in the loop because
@@ -43,7 +43,9 @@ add_test(NAME QObject COMMAND test_framework QObject)
 add_test(NAME Scripting COMMAND test_framework Scripting)
 add_test(NAME ScriptComponent COMMAND test_framework ScriptComponent)
 # disabled for Windows compatibility
-# add_test(NAME Network COMMAND ${CMAKE_SOURCE_DIR}/bin/Network.sh)
+# add_test(NAME Network COMMAND ${PROJECT_SOURCE_DIR}/bin/Network.sh)
+add_test(NAME SerializationBinary COMMAND test_framework SerializationBinary)
+add_test(NAME SerializationYaml COMMAND test_framework SerializationYaml)
 
 # graphics
 add_test(NAME Display COMMAND test_framework Display)

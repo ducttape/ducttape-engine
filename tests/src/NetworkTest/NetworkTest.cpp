@@ -114,8 +114,8 @@ std::shared_ptr<dt::NetworkEvent> CustomNetworkEvent::Clone() const {
 }
 
 void CustomNetworkEvent::Serialize(dt::IOPacket& p) {
-    p & mData;
-    p & dt::EnumHelper(&mEnum);
+    p.Stream(mData, "data");
+    p.Stream(dt::EnumHelper(&mEnum), "enum");
 }
 
 ////////////////////////////////////////////////////////////////

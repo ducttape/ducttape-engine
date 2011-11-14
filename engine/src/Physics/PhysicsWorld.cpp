@@ -72,6 +72,31 @@ btDiscreteDynamicsWorld* PhysicsWorld::GetBulletWorld() {
 }
 
 void PhysicsWorld::OnTick(btScalar time_diff) {
+    uint32_t num_manifolds = mDynamicsWorld->getDispatcher()->getNumManifolds();
+    for(uint32_t i = 0; i < num_manifolds; ++i) {
+        btPersistentManifold* contact_manifold =  mDynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
+        btCollisionObject* ob_a = static_cast<btCollisionObject*>(contact_manifold->getBody0());
+        btCollisionObject* ob_b = static_cast<btCollisionObject*>(contact_manifold->getBody1());
+
+        uint32_t num_contacts = contact_manifold->getNumContacts();
+        for(uint32_t j = 0; j < num_contacts; ++j) {
+            btManifoldPoint& pt = contact_manifold->getContactPoint(j);
+
+            if(pt.getDistance() < 0.f) {
+                //const btVector3& pt_a = pt.getPositionWorldOnA();
+                //const btVector3& pt_b = pt.getPositionWorldOnB();
+                //const btVector3& normal_on_b = pt.m_normalWorldOnB;
+
+                if(ob_a->getUserPointer() != nullptr && ob_b->getUserPointer() != nullptr) {
+                    PhysicsBodyComponent* physics_body_a = (PhysicsBodyComponent*)ob_a->getUserPointer();
+                    PhysicsBodyComponent* physics_body_b = (PhysicsBodyComponent*)ob_b->getUserPointer();
+
+                    physics_body_a->OnCollide(physics_body_b);
+                    physics_body_b->OnCollide(physics_body_a);
+                }
+            }
+        }
+    }
 }
 
 void PhysicsWorld::SetGravity(Ogre::Vector3 gravity) {

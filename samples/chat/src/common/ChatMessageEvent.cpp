@@ -24,8 +24,8 @@ std::shared_ptr<dt::NetworkEvent> ChatMessageEvent::Clone() const {
 }
 
 void ChatMessageEvent::Serialize(dt::IOPacket& p) {
-    p & mMessage;
-    p & mSenderNick;
+    p.Stream(mMessage, "message");
+    p.Stream(mSenderNick, "sender_nick");
 }
 
 const QString& ChatMessageEvent::GetSenderNick() const {

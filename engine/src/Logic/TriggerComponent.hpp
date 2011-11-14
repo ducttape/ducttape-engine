@@ -11,7 +11,6 @@
 
 #include <Config.hpp>
 
-//#include <Event/Event.hpp>
 #include <Scene/Component.hpp>
 
 #include <QString>
@@ -25,6 +24,8 @@ namespace dt {
 class DUCTTAPE_API TriggerComponent : public Component {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE(TriggerComponent)
+
     /**
       * Advanced constructor.
       * @param name The name for this component.

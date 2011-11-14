@@ -12,6 +12,8 @@
 #include <Config.hpp>
 
 #include <Utils/Utils.hpp>
+#include <Network/IOPacket.hpp>
+#include <Scene/Serializer.hpp>
 
 #include <boost/noncopyable.hpp>
 #include <boost/ptr_container/ptr_map.hpp>
@@ -83,12 +85,22 @@ public:
       */
     void SetNode(Node* node);
 
+    void Serialize(IOPacket& packet);
+
+    virtual void OnSerialize(IOPacket& packet);
+
 public slots:
     /**
       * Returns the name of the Component.
       * @returns The name of the Component.
       */
     const QString& GetName() const;
+
+    /**
+      * Returns the name of the Component, including all parent names.
+      * @returns The name of the Component, including all parent names.
+      */
+    QString GetFullName() const;
 
     /**
       * Returns the Node of this component.

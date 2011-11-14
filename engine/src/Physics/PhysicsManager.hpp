@@ -65,11 +65,12 @@ public:
       * @returns A pointer to the PhysicsWorld, or nullptr of none was found.
       */
     PhysicsWorld* GetWorld(const QString& name);
+
 public slots:
     void UpdateFrame(double simulation_frame_time);
+
 private:
     boost::ptr_map<QString, PhysicsWorld> mWorlds;  //!< The list of PhysicsWorlds.
-
 };
 
 }

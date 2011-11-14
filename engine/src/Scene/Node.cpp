@@ -10,6 +10,7 @@
 
 #include <Utils/Utils.hpp>
 #include <Scene/Scene.hpp>
+#include <Scene/Serializer.hpp>
 
 namespace dt {
 
@@ -24,11 +25,12 @@ Node::Node(const QString& name)
     if(mName == "") {
         mName = "Node-" + Utils::ToString(Utils::AutoId());
     }
+
+    // Generate an uuid for this node.
+    mId = Utils::GenerateUUIDRandom();
 }
 
 void Node::Initialize() {
-    //Generate an uuid for this node.
-    mId = Utils::GenerateUUIDRandom();
 
     OnInitialize();
 }
@@ -97,6 +99,13 @@ void Node::RemoveComponent(const QString& name) {
 
 const QString& Node::GetName() const {
     return mName;
+}
+
+QString Node::GetFullName() const {
+    if(mParent == nullptr)
+        return GetName();
+    else
+        return mParent->GetFullName() + "/" + GetName();
 }
 
 Ogre::Vector3 Node::GetPosition(Node::RelativeTo rel) const {
@@ -210,6 +219,60 @@ void Node::OnUpdate(double time_diff) {
     _UpdateAllChildren(time_diff);
     _UpdateAllComponents(time_diff);
 }
+
+void Node::Serialize(IOPacket& packet) {
+    packet.Stream(mId, "uuid");
+    packet.Stream(mName, "name", mName);
+    packet.Stream(mPosition, "position");
+    packet.Stream(mScale, "scale", Ogre::Vector3(1,1,1));
+    packet.Stream(mRotation, "rotation");
+    OnSerialize(packet);
+
+    // Components
+    uint32_t count = packet.BeginList(mComponents.size(), "components");
+
+    if(packet.GetDirection() == IOPacket::SERIALIZE) {
+        // serialize
+        for(auto iter = mComponents.begin(); iter != mComponents.end(); ++iter) {
+            packet.BeginObject();
+            iter->second->Serialize(packet);
+            packet.EndObject();
+        }
+    } else {
+        for(uint32_t i = 0; i < count; ++i) {
+            packet.BeginObject();
+            std::string type;
+            packet.Stream(type, "type", std::string(""));
+            Component* c = Serializer::CreateComponent(type);
+            c->Serialize(packet);
+            AddComponent(c);
+            packet.EndObject();
+        }
+    }
+    packet.EndList();
+
+    // Children
+    count = packet.BeginList(mChildren.size(), "children");
+
+    if(packet.GetDirection() == IOPacket::SERIALIZE) {
+        for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
+            packet.BeginObject();
+            iter->second->Serialize(packet);
+            packet.EndObject();
+        }
+    } else {
+        for(uint32_t i = 0; i < count; ++i) {
+            packet.BeginObject();
+            Node* n = new Node;
+            n->Serialize(packet);
+            AddChildNode(n);
+            packet.EndObject();
+        }
+    }
+    packet.EndList();
+}
+
+void Node::OnSerialize(IOPacket &packet) {}
 
 void Node::SetPosition(float x, float y, float z, RelativeTo rel) {
     SetPosition(Ogre::Vector3(x,y,z), rel);

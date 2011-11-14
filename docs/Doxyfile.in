@@ -44,14 +44,14 @@ PROJECT_BRIEF          = "A universal game engine"
 # exceed 55 pixels and the maximum width should not exceed 200 pixels.
 # Doxygen will copy the logo to the output directory.
 
-PROJECT_LOGO           = "@CMAKE_BINARY_DIR@/docs/logo.png"
+PROJECT_LOGO           = "@PROJECT_BINARY_DIR@/docs/logo.png"
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute)
 # base path where the generated documentation will be put.
 # If a relative path is entered, it will be relative to the location
 # where doxygen was started. If left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       = "@CMAKE_BINARY_DIR@/docs/doxygen"
+OUTPUT_DIRECTORY       = "@PROJECT_BINARY_DIR@/docs/doxygen"
 
 # If the CREATE_SUBDIRS tag is set to YES, then doxygen will create
 # 4096 sub-directories (in 2 levels) under the output directory of each output
@@ -610,8 +610,8 @@ WARN_LOGFILE           = doxygen-warnings.log
 # directories like "/usr/src/myproject". Separate the files or directories
 # with spaces.
 
-INPUT                  = "@CMAKE_SOURCE_DIR@/engine" \
-                         "@CMAKE_SOURCE_DIR@/docs/pages"
+INPUT                  = "@PROJECT_SOURCE_DIR@/engine" \
+                         "@PROJECT_SOURCE_DIR@/docs/pages"
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding, which is

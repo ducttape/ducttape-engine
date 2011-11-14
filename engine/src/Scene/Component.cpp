@@ -22,12 +22,19 @@ Component::Component(const QString& name)
     if(mName == "") {
         mName = "Component-" + Utils::ToString(Utils::AutoId());
     }
+
+    // Generate an uuid for this node.
+    mId = Utils::GenerateUUIDRandom();
 }
 
 Component::~Component() {}
 
 const QString& Component::GetName() const {
     return mName;
+}
+
+QString Component::GetFullName() const {
+    return mNode->GetFullName() + "/" + GetName();
 }
 
 void Component::OnCreate() {}
@@ -44,6 +51,22 @@ void Component::SetNode(Node* node) {
     mNode = node;
 }
 
+void Component::Serialize(IOPacket& packet) {
+    // only write type when serializing, it will be read by the Node on deserialization
+    if(packet.GetDirection() == IOPacket::SERIALIZE) {
+        std::string type(metaObject()->className());
+        packet.Stream(type, "type");
+    }
+
+    packet.Stream(mId, "uuid");
+    packet.Stream(mName, "name");
+    packet.Stream(mIsEnabled, "enabled", true);
+
+    OnSerialize(packet);
+}
+
+void Component::OnSerialize(IOPacket& packet) {}
+
 Node* Component::GetNode() {
     return mNode;
 }
@@ -57,7 +80,6 @@ QScriptValue Component::GetScriptNode() {
 void Component::Create() {
     if(!mIsCreated) {
         mIsCreated = true;
-        mId = Utils::GenerateUUIDRandom();
         OnCreate();
         emit ComponentCreated();
         Enable();

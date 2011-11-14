@@ -14,6 +14,7 @@
 #include <Scene/Component.hpp>
 #include <Utils/Logger.hpp>
 #include <Utils/Utils.hpp>
+#include <Network/IOPacket.hpp>
 
 #include <boost/ptr_container/ptr_map.hpp>
 
@@ -212,7 +213,6 @@ public:
       */
     void LookAt(Ogre::Vector3 target, Ogre::Vector3 front_vector = Ogre::Vector3::UNIT_Z, RelativeTo rel = PARENT);
 
-
     /**
       * Sets the parent Node pointer.
       * @param parent The parent Node pointer.
@@ -225,12 +225,22 @@ public:
       */
     virtual void OnUpdate(double time_diff);
 
+    void Serialize(IOPacket& packet);
+
+    virtual void OnSerialize(IOPacket& packet);
+
 public slots:
     /**
       * Returns the name of the Node.
       * @returns The name of the Node.
       */
     const QString& GetName() const;
+
+    /**
+      * Returns the name of the Node, including all parent names.
+      * @returns The name of the Node, including all parent names.
+      */
+    QString GetFullName() const;
 
     /**
       * Returns a pointer to the parent Node.
