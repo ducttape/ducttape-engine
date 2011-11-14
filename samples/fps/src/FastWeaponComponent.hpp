@@ -1,7 +1,7 @@
 #include <Config.hpp>
 
 #include <Logic/RaycastComponent.hpp>
-#include <Scene/Node.hpp>
+#include <Physics/PhysicsBodyComponent.hpp>
 
 #include <QString.h>
 
@@ -22,10 +22,25 @@ public:
       * Called when the bullet(ray) hits an object.
       * @param hit The hit object.
       */
-    void OnHit(dt::Node* hit);
+    void OnHit(dt::PhysicsBodyComponent* hit);
 
-    /*
-     * Called when Check() is called.
-     */
-    void OnCheck();
+    /**
+      * Called when Check() is called.
+      */
+    void OnCheck(Ogre::Vector3 start, Ogre::Vector3 end);
+
+    /**
+      * Sets the weapon's power.
+      * @param power The power to set.
+      */
+    void SetPower(float power);
+
+    /**
+      * Gets the weapon's power.
+      * @returns The weapon's power.
+      */
+    float GetPower();
+
+private:
+    float mPower;
 };

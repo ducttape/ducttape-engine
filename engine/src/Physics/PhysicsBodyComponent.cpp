@@ -91,7 +91,7 @@ void PhysicsBodyComponent::OnDisable() {
 }
 
 void PhysicsBodyComponent::OnCollide(PhysicsBodyComponent* other_body) {
-    emit Collided(other_body);
+    emit Collided(other_body, this);
 }
 
 btRigidBody* PhysicsBodyComponent::GetRigidBody() {

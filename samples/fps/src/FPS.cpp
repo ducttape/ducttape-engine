@@ -21,7 +21,9 @@ void Main::OnInitialize() {
 
     player_node->AddComponent(new dt::CameraComponent("camera"))->LookAt(Ogre::Vector3(0, 0, -10));
 
-    player_node->AddComponent(new FastWeaponComponent("gun"));
+    FastWeaponComponent* fast_weapon = player_node->AddComponent(new FastWeaponComponent("gun"));
+    fast_weapon->SetRange(10.0f);
+    fast_weapon->SetPower(70.0f);
 
     player_node->AddComponent(new dt::FPSPlayerComponent("controller"))->SetInteractionComponentName("gun");
 
@@ -38,7 +40,9 @@ void Main::OnInitialize() {
     test_object->SetPosition(Ogre::Vector3(5, 10, 0));
     test_object->AddComponent(new dt::MeshComponent("Sphere", "", "test-mesh"));
 
-    test_object->AddComponent(new dt::PhysicsBodyComponent("test-mesh", "ball-body"))->SetMass(1.0f);
+    dt::PhysicsBodyComponent* ball = test_object->AddComponent(new dt::PhysicsBodyComponent("test-mesh", "ball-body"));
+    ball->SetMass(10.0f);
+    ball->DisableSleep(true);
 }
 
 void Main::UpdateStateFrame(double simulation_frame_time) {

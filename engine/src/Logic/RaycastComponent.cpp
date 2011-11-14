@@ -16,35 +16,24 @@
 namespace dt {
 
 RaycastComponent::RaycastComponent(const QString& name)
-    : InteractionComponent(name),
-      mRaycastCallback(nullptr) {}
-
-void RaycastComponent::OnCreate() {
-    btVector3 start, end;
-    start = BtOgre::Convert::toBullet(GetNode()->GetRotation() * mStart);
-    end = BtOgre::Convert::toBullet(GetNode()->GetRotation() * mEnd);
-
-    mRaycastCallback = new btCollisionWorld::ClosestRayResultCallback(start, end);
-}
-
-void RaycastComponent::OnDestroy() {
-    delete mRaycastCallback;
-}
+    : InteractionComponent(name) {}
 
 void RaycastComponent::Check() {
     btVector3 start, end;
-    start = BtOgre::Convert::toBullet(GetNode()->GetRotation() * mStart + GetNode()->GetPosition());
-    end = BtOgre::Convert::toBullet(GetNode()->GetRotation() * mEnd + GetNode()->GetPosition());
+    start = BtOgre::Convert::toBullet(GetNode()->GetRotation() * Ogre::Vector3(0.0, 0.0, - mOffset) + GetNode()->GetPosition());
+    end = BtOgre::Convert::toBullet(GetNode()->GetRotation() * Ogre::Vector3(0.0, 0.0, - mRange) + GetNode()->GetPosition());
 
     OnCheck(BtOgre::Convert::toOgre(start), BtOgre::Convert::toOgre(end));
 
-    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->rayTest(start, end, *mRaycastCallback);
+    btCollisionWorld::ClosestRayResultCallback raycast_callback(start, end);
 
-    if(mRaycastCallback->hasHit()) {
-        btCollisionObject* collision_object = mRaycastCallback->m_collisionObject;
+    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->rayTest(start, end, raycast_callback);
+
+    if(raycast_callback.hasHit()) {
+        btCollisionObject* collision_object = raycast_callback.m_collisionObject;
         PhysicsBodyComponent* hit_object = static_cast<PhysicsBodyComponent*>(collision_object->getUserPointer());
         
-        OnHit(hit_object->GetNode());
+        OnHit(hit_object);
     }
 }
 
@@ -52,7 +41,7 @@ void RaycastComponent::OnCheck(Ogre::Vector3 start, Ogre::Vector3 end) {
     emit sCheck(start, end);
 }
 
-void RaycastComponent::OnHit(Node* hit) {
+void RaycastComponent::OnHit(PhysicsBodyComponent* hit) {
     emit sHit(hit);
 }
 

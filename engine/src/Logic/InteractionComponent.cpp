@@ -11,6 +11,22 @@
 namespace dt {
     InteractionComponent::InteractionComponent(const QString& name)
         : Component(name),
-          mStart(Ogre::Vector3(0.0f, 0.0f, 0.0f)),
-          mEnd(Ogre::Vector3(0.0f, 0.0f, 0.0f)) {}
+          mRange(0.0f),
+          mOffset(0.0f) {}
+
+    void InteractionComponent::SetRange(float range) {
+        mRange = range;
+    }
+
+    void InteractionComponent::SetOffset(float offset) {
+        mOffset = offset;
+    }
+
+    float InteractionComponent::GetRange() {
+        return mRange;
+    }
+
+    float InteractionComponent::GetOffset() {
+        return mOffset;
+    }
 }

@@ -6,13 +6,13 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#ifndef DUCTTAPE_ENGINE_COMPONENT_GUNCOMPONENT
-#define DUCTTAPE_ENGINE_COMPONENT_GUNCOMPONENT
+#ifndef DUCTTAPE_ENGINE_COMPONENT_RAYCASTCOMPONENT
+#define DUCTTAPE_ENGINE_COMPONENT_RAYCASTCOMPONENT
 
 #include <Config.hpp>
 
 #include <Scene/Component.hpp>
-#include <Scene/Node.hpp>
+#include <Physics/PhysicsBodyComponent.hpp>
 #include <Logic/InteractionComponent.hpp>
 
 #include <BulletCollision/CollisionDispatch/btCollisionWorld.h>
@@ -34,14 +34,11 @@ public:
       */
     RaycastComponent(const QString& name = "");
 
-    virtual void OnCreate();
-    virtual void OnDestroy();
-
     /**
       * Called when the ray hits an object. It will emit a hit signal. You can just connect it with a slot or just override it.
       * @param hit The hit object.
       */
-    virtual void OnHit(Node* hit);
+    virtual void OnHit(PhysicsBodyComponent* hit);
 
     /*
      * Called when Check() is called. It will emit a hit signal. You can just connect it with a slot or just override it.
@@ -55,11 +52,8 @@ public:
     void Check();
 
 signals:
-    void sHit(Node* hit);
+    void sHit(PhysicsBodyComponent* hit);
     void sCheck(Ogre::Vector3 start, Ogre::Vector3 end);
-
-private:
-    btCollisionWorld::ClosestRayResultCallback* mRaycastCallback;    //<! The raycast callback.
 };
 
 }

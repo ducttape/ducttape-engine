@@ -36,9 +36,33 @@ public:
       */
     virtual void Check() = 0;
 
+    /**
+      * Sets the range.
+      * @param range The range to set.
+      */
+    void SetRange(float range);
+
+    /**
+      * Sets the offset.
+      * @param offset The offset to set.
+      */
+    void SetOffset(float offset);
+
+    /**
+      * Gets the range.
+      * @returns The range.
+      */
+    float GetRange();
+
+    /**
+      * Gets the offset.
+      * @returns The offset.
+      */
+    float GetOffset();
+
 protected:
-    Ogre::Vector3 mStart;          //<! The start position of the InteractionComponent's range relative to its position.
-    Ogre::Vector3 mEnd;            //<! The end position of the InteractionComponent's range relative to its position.
+    float mRange;          //<! The start position of the InteractionComponent's range relative to its position.
+    float mOffset;         //<! The end position of the InteractionComponent's range relative to its position.
 };
 
 }

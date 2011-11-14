@@ -57,14 +57,59 @@ public:
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);
+
+    /**
+      * Called when the PhysicsBodyComponent collides with another one.
+      * @param other_body The pointer to another PhysicsBodyComponent which this PhysicsBodyComponent collided with
+      */
     void OnCollide(PhysicsBodyComponent* other_body);
+
+    /**
+      * Returns Bullet's RigidBody for this PhysicsBodyComponent.
+      * @returns Bullet's RigidBody for this PhysicsBodyComponent.
+      */
     btRigidBody* GetRigidBody();
+
+    /**
+      * Applies an impulse(a short-term force) to the center.
+      * @param impulse The impulse to apply.
+      */
     void ApplyCentralImpulse(const btVector3& impulse);
+
+    /**
+      * Gives the center a force.
+      * @param force The force to give.
+      */
     void SetCentralForce(const btVector3& force);
+
+    /**
+      * Gives the PhysicsBodyComponent a torque to make it rotate.
+      * @param torque The torque to give.
+      */
     void SetTorque(const btVector3& torque);
+
+    /**
+      * Sets the collision mask.
+      * @param collision_mask The collision mask to set.
+      */
     void SetCollisionMask(uint16_t collision_mask);
+
+    /**
+      * Sets the collision group.
+      * @param collision_group The collision group to set.
+      */
     void SetCollisionGroup(uint16_t collision_group);
+
+    /**
+      * Gets the force given to the center.
+      * @returns The force given to the center.
+      */
     const btVector3 GetCentralForce() const;
+
+    /**
+      * Gets the torque given to the PhysicsBodyComponent.
+      * @returns The torque given to the PhysicsBodyComponent.
+      */
     const btVector3 GetTorque() const;
 
     /**
@@ -105,7 +150,7 @@ public:
     void SetMass(btScalar mass);
 
 signals:
-    void Collided(dt::PhysicsBodyComponent* other_body);
+    void Collided(dt::PhysicsBodyComponent* other_body, dt::PhysicsBodyComponent* this_body);
 
 private:
     QString mMeshComponentName;             //!< The name of the mesh component to create the collision shape from.
