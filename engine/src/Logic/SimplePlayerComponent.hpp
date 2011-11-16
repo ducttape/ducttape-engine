@@ -1,4 +1,3 @@
-
 // ----------------------------------------------------------------------------
 // This file is part of the Ducttape Project (http://ducttape-dev.org) and is
 // licensed under the GNU LESSER PUBLIC LICENSE version 3. For the full license
@@ -112,51 +111,23 @@ public:
     void SetMouseYInversed(bool mouse_y_inversed);
 
     /**
-      * Sets whether the node will move freely or just stay on the ground.
-      * @param free_mode Whether the node will move freely or just stay on the ground.
-      */
-    void SetFreeMode(bool free_mode);
-
-    /**
       * Gets whether the mouse y-axis should be inversed.
       * @returns Whether the mouse y-axis should be inversed.
       */
     bool GetMouseYInversed() const;
-    
-    /**
-      * Sets whether the node will move until the key is released.
-      * @param pressed Whether the node will move until the key is released.
-      */
-    void SetConstant(bool constant);
-    
-    /**
-      * Gets whether the node will move until the key is released.
-      * @returns consta Whether the node will move until the key is released.
-      */
-    bool GetConstant() const;
-
-    /**
-      * Gets whether the node will move freely or just stay on the ground.
-      * @returns Whether the node will move freely or just stay on the ground.
-      */
-    bool GetFreeMode() const;
 
 private slots:
     void _HandleMouseInput(const OIS::MouseEvent& event);
 
-    void _HandleKeyPressed(const OIS::KeyEvent& event);
-    void _HandleKeyReleased(const OIS::KeyEvent& event);
+    void _HandleKeyboardInput(const OIS::KeyEvent& event);
 
 private:
-    bool mFreeMode;             //!< Whether allow to move freely or stay on the ground.
     bool mWASDEnabled;          //!< Whether the WASD  keys are enabled for movement or not.
     bool mArrowsEnabled;        //!< Whether the Arrow keys are enabled for movement or not.
     float mMoveSpeed;           //!< The speed to move at. Default: 5.0. In units per second.
     bool mMouseEnabled;         //!< Whether the Mouse is enabled for looking around or not.
     float mMouseSensitivity;    //!< The sensitivity of the mouse. Default: 1.0.
     bool mMouseYInversed;       //!< True if the mouse's y-axis should be inversed.
-    bool mCostant;              //!< If true, the node will move until the key is released.
-    bool mInputStateChanged;    //!< True if one key is pressed, released or the mouse is moved.
     Ogre::Vector3 mMove;        //!< Record the movement of the node. It will be set to zero after every update of the node.
 
 };
