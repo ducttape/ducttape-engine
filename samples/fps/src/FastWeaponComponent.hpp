@@ -3,7 +3,7 @@
 #include <Logic/RaycastComponent.hpp>
 #include <Physics/PhysicsBodyComponent.hpp>
 
-#include <QString.h>
+#include <QString>
 
 /**
   * A component representing the fast weapon.
