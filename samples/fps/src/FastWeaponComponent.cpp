@@ -1,4 +1,4 @@
-#include <FastWeaponComponent.hpp>
+#include "FastWeaponComponent.hpp"
 
 FastWeaponComponent::FastWeaponComponent(const QString& name)
     : RaycastComponent(name),

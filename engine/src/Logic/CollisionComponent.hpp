@@ -22,7 +22,7 @@
 namespace dt {
 
 /**
-  * A component using collision for interacting with other objects in the scene.
+  * A component using collision detection by shooting bullets for interacting with other objects in the scene.
   */
 class DUCTTAPE_API CollisionComponent : public InteractionComponent {
     Q_OBJECT
@@ -75,15 +75,15 @@ public slots:
       * Called when the thrown physics body hits an object. It will emit a hit signal. You can just connect it with a slot or just override it.
       * @param hit The hit object.
       */
-    virtual void OnHit(PhysicsBodyComponent* hit, PhysicsBodyComponent* bullet);
+    virtual void OnHit(dt::PhysicsBodyComponent* hit, dt::PhysicsBodyComponent* bullet);
 
 signals:
     void sHit(PhysicsBodyComponent* hit);
     void sCheck(Ogre::Vector3 start, Ogre::Vector3 end);
 
 private:
-    QString mBulletMeshHandle;
-    float mInitialPower;
+    QString mBulletMeshHandle;                              //!< The handle to the bullet's mesh.
+    float mInitialPower;                                    //!< The initial power of the bullet which determines the bullet's initial speed.
 };
 
 }

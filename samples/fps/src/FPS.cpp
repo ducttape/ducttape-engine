@@ -1,4 +1,6 @@
 #include "FPS.hpp"
+#include "FastWeaponComponent.hpp"
+#include "SlowWeaponComponent.hpp"
 
 #include <Graphics/CameraComponent.hpp>
 #include <Graphics/LightComponent.hpp>
@@ -6,7 +8,6 @@
 #include <Logic/SimplePlayerComponent.hpp>
 #include <Physics/PhysicsBodyComponent.hpp>
 #include <Logic/FPSPlayerComponent.hpp>
-#include <FastWeaponComponent.hpp>
 
 #include <OgreProcedural.h>
 
@@ -21,9 +22,16 @@ void Main::OnInitialize() {
 
     player_node->AddComponent(new dt::CameraComponent("camera"))->LookAt(Ogre::Vector3(0, 0, -10));
 
-    FastWeaponComponent* fast_weapon = player_node->AddComponent(new FastWeaponComponent("gun"));
+    ////////////////////////////////////Select a weapon///////////////////////////////////////////////
+    /*FastWeaponComponent* fast_weapon = player_node->AddComponent(new FastWeaponComponent("gun"));
     fast_weapon->SetRange(10.0f);
-    fast_weapon->SetPower(70.0f);
+    fast_weapon->SetPower(70.0f);*/
+    SlowWeaponComponent* slow_weapon = player_node->AddComponent(new SlowWeaponComponent("Sphere", "gun"));
+    slow_weapon->SetRange(10.0f);
+    slow_weapon->SetOffset(2.1f);          //For not colliding with the player.
+    slow_weapon->SetInitialPower(10.0f);
+    slow_weapon->SetPower(70.0f);
+    /////////////////////////////////////////////////////////////////////////////////////////////////
 
     player_node->AddComponent(new dt::FPSPlayerComponent("controller"))->SetInteractionComponentName("gun");
 

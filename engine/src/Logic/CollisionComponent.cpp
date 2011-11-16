@@ -9,6 +9,8 @@
 #include <Logic/CollisionComponent.hpp>
 #include <Graphics/MeshComponent.hpp>
 #include <Scene/Node.hpp>
+#include <Scene/Scene.hpp>
+#include <Utils/Utils.hpp>
 
 namespace dt {
 
@@ -26,13 +28,15 @@ void CollisionComponent::Check() {
 
     OnCheck(BtOgre::Convert::toOgre(start), BtOgre::Convert::toOgre(end));
 
-    Node* bullet = new Node("bullet_node");
+    Node* bullet = GetNode()->GetScene()->AddChildNode(new Node(QString(Utils::AutoId())));
 
     bullet->AddComponent<MeshComponent>(new MeshComponent(mBulletMeshHandle, "", "bullet"));
+    bullet->SetPosition(BtOgre::Convert::toOgre(start), Node::SCENE);
     PhysicsBodyComponent* bullet_body = bullet->AddComponent<PhysicsBodyComponent>(new PhysicsBodyComponent("bullet", "bullet_body"));
+    bullet_body->SetMass(1.0);
 
     if(!QObject::connect(bullet_body, SIGNAL(Collided(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)), 
-        this, SLOT(OnHit(PhysicsBodyComponent*, PhysicsBodyComponent*)))) {
+        this, SLOT(OnHit(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)))) {
             Logger::Get().Error("Cannot connect the bullet's collided signal with the OnHit slot.");
     }
 
@@ -53,8 +57,8 @@ void CollisionComponent::OnCheck(Ogre::Vector3 start, Ogre::Vector3 end) {
 
 void CollisionComponent::OnHit(PhysicsBodyComponent* hit, PhysicsBodyComponent* bullet) {
     Node* node = bullet->GetNode();
-    node->Deinitialize();
-    delete node;
+    QString name = node->GetName();
+    node->GetScene()->RemoveChildNode(name);
 
     emit sHit(hit);
 }
