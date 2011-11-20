@@ -263,6 +263,11 @@ public slots:
       */
     void SetPosition(float x, float y, float z, RelativeTo rel = PARENT);
 
+    /**
+      * Sets the death mark to true. Then the node will be kill when it updates.
+      */
+    void Kill();
+
 signals:
     void PositionChanged();
 
@@ -299,7 +304,7 @@ private:
     Node* mParent;                  //!< A pointer to the parent Node.
     bool mIsUpdatingAfterChange;    //!< Whether the node is just in the process of updating all components after a change occurred. This is to prevent infinite stack loops.
     boost::uuids::uuid mId;         //!< The node's uuid.
-
+    bool mDeathMark;                //!< Whether the node is marked to be killed. If it's true, the node will be killed when it updates.
 };
 
 } // namespace dt

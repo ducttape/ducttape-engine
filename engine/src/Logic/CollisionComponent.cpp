@@ -36,7 +36,7 @@ void CollisionComponent::Check() {
     bullet_body->SetMass(1.0);
 
     if(!QObject::connect(bullet_body, SIGNAL(Collided(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)), 
-        this, SLOT(OnHit(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)))) {
+        this, SLOT(OnHit(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)), Qt::DirectConnection)) {
             Logger::Get().Error("Cannot connect the bullet's collided signal with the OnHit slot.");
     }
 
@@ -57,8 +57,7 @@ void CollisionComponent::OnCheck(Ogre::Vector3 start, Ogre::Vector3 end) {
 
 void CollisionComponent::OnHit(PhysicsBodyComponent* hit, PhysicsBodyComponent* bullet) {
     Node* node = bullet->GetNode();
-    QString name = node->GetName();
-    node->GetScene()->RemoveChildNode(name);
+    node->Kill();
 
     emit sHit(hit);
 }

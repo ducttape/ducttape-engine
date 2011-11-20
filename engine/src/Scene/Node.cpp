@@ -19,7 +19,8 @@ Node::Node(const QString& name)
       mPosition(Ogre::Vector3::ZERO),
       mScale(Ogre::Vector3(1,1,1)),
       mRotation(Ogre::Quaternion::IDENTITY),
-      mParent(nullptr) {
+      mParent(nullptr),
+      mDeathMark(false) {
 
     // auto-generate name
     if(mName == "") {
@@ -299,10 +300,23 @@ void Node::_UpdateAllChildren(double time_diff) {
     mIsUpdatingAfterChange = (time_diff == 0);
 
     for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
-        iter->second->OnUpdate(time_diff);
+        if(iter->second->mDeathMark) {
+            //Kill it if the death mark is set.
+            Node* node = iter->second;
+            iter--;
+            QString name = node->GetName();
+            RemoveChildNode(name);
+        }
+        else {
+            iter->second->OnUpdate(time_diff);
+        }
     }
 
     mIsUpdatingAfterChange = false;
+}
+
+void Node::Kill() {
+    mDeathMark = true;
 }
 
 } // namespace dt
