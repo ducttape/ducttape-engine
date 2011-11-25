@@ -58,6 +58,7 @@ public:
       * @param point The new point to add.
       */
     void AddPoint(Ogre::Vector3 point);
+    void AddPoint(float x, float y, float z);
 
     /**
       * Sets the speed with which the Node should travel along the path.

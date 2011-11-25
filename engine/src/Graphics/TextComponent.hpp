@@ -93,6 +93,7 @@ public:
       * @param padding The padding (spacing between text and panel border), in pixels.
       */
     void SetPadding(Ogre::Vector2 padding);
+    void SetPadding(float x, float y);
 
     /**
       * Returns the padding for the text box.
@@ -112,6 +113,7 @@ public slots:
       * @param color The font color.
       */
     void SetColor(Ogre::ColourValue color);
+    void SetColor(float r, float g, float b, float a = 1);
 
 signals:
     void TextChanged();

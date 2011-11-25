@@ -102,6 +102,10 @@ void BillboardSetComponent::SetOrientedCommon(const Ogre::Vector3& common_vector
     mBillboardSet->setCommonDirection(common_vector);
 }
 
+void BillboardSetComponent::SetOrientedCommon(float x, float y, float z) {
+    SetOrientedCommon(Ogre::Vector3(x, y, z));
+}
+
 void BillboardSetComponent::SetOrientedSelf() {
     mBillboardSet->setBillboardType(Ogre::BBT_ORIENTED_SELF);
 }
@@ -115,6 +119,10 @@ void BillboardSetComponent::SetPerpendicularCommon(const Ogre::Vector3& common_v
 void BillboardSetComponent::SetPerpendicularSelf(const Ogre::Vector3& up_vector) {
     mBillboardSet->setBillboardType(Ogre::BBT_PERPENDICULAR_SELF);
     mBillboardSet->setCommonUpVector(up_vector);
+}
+
+void BillboardSetComponent::SetPerpendicularSelf(float x, float y, float z) {
+    SetPerpendicularSelf(Ogre::Vector3(x, y, z));
 }
 
 void BillboardSetComponent::setDepthCheckEnabled(bool enabled) {

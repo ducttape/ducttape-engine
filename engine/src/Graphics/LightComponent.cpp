@@ -67,6 +67,10 @@ void LightComponent::SetColor(const Ogre::ColourValue color) {
     emit ColorChanged(color);
 }
 
+void LightComponent::SetColor(float r, float g, float b, float a) {
+    SetColor(Ogre::ColourValue(r, g, b, a));
+}
+
 Ogre::Light* LightComponent::GetOgreLight() const {
     return mLight;
 }
