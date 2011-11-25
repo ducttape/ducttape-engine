@@ -28,6 +28,7 @@ namespace dt {
 class DUCTTAPE_API CameraComponent : public Component {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE(CameraComponent)
     /**
       * Advanced constructor.
       * @name The name of the component.

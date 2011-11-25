@@ -30,6 +30,7 @@ namespace dt {
 class DUCTTAPE_API PhysicsBodyComponent : public Component {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE(PhysicsBodyComponent)
     /**
       * The type of collision shape that is constructed from the mesh.
       */

@@ -28,6 +28,7 @@ namespace dt {
 class DUCTTAPE_API TextComponent : public Component {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE(TextComponent)
     /**
       * Advanced constructor.
       */

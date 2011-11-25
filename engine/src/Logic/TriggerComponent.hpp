@@ -33,8 +33,6 @@ public:
       */
     TriggerComponent(const QString& name = "");
 
-    /*virtual void HandleEvent(std::shared_ptr<Event> e);*/
-
     void OnCreate();
     void OnDestroy();
     void OnUpdate(double time_diff);

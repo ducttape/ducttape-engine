@@ -30,6 +30,7 @@ namespace dt {
 class DUCTTAPE_API BillboardSetComponent : public Component {
 //    Q_OBJECT
 public:
+    DT_SERIALIZABLE(BillboardSetComponent)
     /**
       * Advanced constructor.
       * @param name The name of the Component.

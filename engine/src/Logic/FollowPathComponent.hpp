@@ -30,6 +30,7 @@ namespace dt {
 class DUCTTAPE_API FollowPathComponent : public Component {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE(FollowPathComponent)
     /**
       * The mode which determines what happens when the Node reaches the end of the path.
       */
@@ -46,8 +47,6 @@ public:
       * @param mode The mode.
       */
     FollowPathComponent(Mode mode = SINGLE, const QString& name = "");
-
-    //virtual void HandleEvent(std::shared_ptr<Event> e);
 
     void OnCreate();
     void OnDestroy();

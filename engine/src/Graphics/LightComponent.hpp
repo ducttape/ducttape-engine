@@ -29,6 +29,7 @@ namespace dt {
 class DUCTTAPE_API LightComponent : public Component {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE(LightComponent)
     /**
       * Advanced constructor.
       * @param name The name for this component.

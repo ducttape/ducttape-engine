@@ -30,6 +30,7 @@ namespace dt {
 class DUCTTAPE_API MeshComponent : public Component {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE(MeshComponent)
     /**
       * Advanced constructor.
       * @param name The name of the Component.

@@ -25,6 +25,7 @@ namespace dt {
 class DUCTTAPE_API ScriptComponent : public Component {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE(ScriptComponent)
     /**
       * Advanced constructor.
       * @param name The name for this component.
