@@ -28,7 +28,12 @@ void Main::ResetBall() {
         QString p(mScore1 == 10 ? "left" : "right");
         GetScene("testscene")->FindChildNode("info")->FindComponent<dt::TextComponent>("text")->SetText("The " + p + " player wins the game.");
     }
+	
+	btTransform transform;
+	transform.setOrigin(btVector3(0,0,10));
+
     mBallNode->SetPosition(Ogre::Vector3(0,0,0));
+	//mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setWorldTransform(transform);
     mScore1Text->SetText(dt::Utils::ToString(mScore1));
     mScore2Text->SetText(dt::Utils::ToString(mScore2));
 }
@@ -100,8 +105,11 @@ void Main::OnInitialize() {
 	mFieldWallY2Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictRotation(btVector3(0,0,0));
 
     mBallNode = mGameNode->AddChildNode(new dt::Node("ball"));
-    mBallNode->SetPosition(Ogre::Vector3(0, 0, 0));
+    mBallNode->SetPosition(Ogre::Vector3(0, 0, 0.1f));
     mBallNode->AddComponent(new dt::MeshComponent("Ball", "SimplePongBall", "mesh"));
+	mBallNode->AddComponent(new dt::PhysicsBodyComponent("mesh", "body"))->DisableSleep(true);
+	mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictMovement(btVector3(1,1,0));
+	mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictRotation(btVector3(0,0,1));
 
     mPaddle1Node = mGameNode->AddChildNode(new dt::Node("paddle1"));
     mPaddle1Node->SetPosition(Ogre::Vector3(- FIELD_WIDTH / 2 + 1.1f, 0, 5.f));
@@ -147,79 +155,25 @@ void Main::UpdateStateFrame(double simulation_frame_time) {
     }
 
     // move paddle 1
-    float move1 = 0;
     if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_W)) {
-        move1 += 1;
 		mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->ApplyCentralImpulse(btVector3(0,0.1f,0));
     }
     if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_S)) {
-        move1 -= 1;
 		mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->ApplyCentralImpulse(btVector3(0,-0.1f,0));
     }
-    float new_y1 = mPaddle1Node->GetPosition().y + move1 * simulation_frame_time * 8;
-    if(new_y1 > FIELD_HEIGHT / 2 - PADDLE_SIZE / 2)
-        new_y1 = FIELD_HEIGHT / 2 - PADDLE_SIZE / 2;
-    else if(new_y1 < - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2)
-        new_y1 = - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2;
-
-    /*mPaddle1Node->SetPosition(Ogre::Vector3(
-                mPaddle1Node->GetPosition().x,
-                new_y1,
-                mPaddle1Node->GetPosition().z));*/
-	//mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->ApplyCentralImpulse(btVector3(0,1,0));
 
     // move paddle 2
     float move2 = 0;
     if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_UP)) {
         move2 += 1;
+		mPaddle2Node->FindComponent<dt::PhysicsBodyComponent>("body")->ApplyCentralImpulse(btVector3(0,0.1f,0));
     }
 
     if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_DOWN)) {
         move2 -= 1;
+		mPaddle2Node->FindComponent<dt::PhysicsBodyComponent>("body")->ApplyCentralImpulse(btVector3(0,-0.1f,0));
     }
-
-    float new_y2 = mPaddle2Node->GetPosition().y + move2 * simulation_frame_time * 8;
-    if(new_y2 > FIELD_HEIGHT / 2 - PADDLE_SIZE / 2)
-        new_y2 = FIELD_HEIGHT / 2 - PADDLE_SIZE / 2;
-    else if(new_y2 < - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2)
-        new_y2 = - FIELD_HEIGHT / 2  + PADDLE_SIZE / 2;
-
-    /*mPaddle2Node->SetPosition(Ogre::Vector3(
-                mPaddle2Node->GetPosition().x,
-                new_y2,
-                mPaddle2Node->GetPosition().z));*/
 
     // move ball
-    Ogre::Vector3 newpos(mBallNode->GetPosition() + mBallSpeed * simulation_frame_time);
-    if(newpos.y >= FIELD_HEIGHT / 2 - 0.5 || newpos.y <= -FIELD_HEIGHT / 2 + 0.5) {
-        mBallSpeed.y *= -1;
-    }
-
-    if(newpos.x >= FIELD_WIDTH / 2 - 0.5) {
-        float paddle_y = mPaddle2Node->GetPosition().y;
-        if(newpos.y < paddle_y - PADDLE_SIZE / 2 - 0.5 || newpos.y > paddle_y + PADDLE_SIZE / 2 + 0.5) {
-            dt::Logger::Get().Info("Player lost!");
-            ++mScore1;
-            ResetBall();
-        } else {
-            mBallSpeed.x *= -1;
-        }
-    } else if(newpos.x <= -FIELD_WIDTH / 2 + 0.5) {
-        float paddle_y = mPaddle1Node->GetPosition().y;
-        if(newpos.y < paddle_y - PADDLE_SIZE / 2 - 0.5 || newpos.y > paddle_y + PADDLE_SIZE / 2 + 0.5) {
-            dt::Logger::Get().Info("Computer lost!");
-            ++mScore2;
-            ResetBall();
-        } else {
-            mBallSpeed.x *= -1;
-        }
-    }
-
-    mBallNode->SetPosition(mBallNode->GetPosition() + mBallSpeed * simulation_frame_time);
-
-    /*Ogre::Quaternion q;
-    q.FromAngleAxis(Ogre::Radian(Ogre::Math::Cos(Ogre::Radian(dt::Root::GetInstance().GetTimeSinceInitialize() * 0.2))) * 0.1, Ogre::Vector3::UNIT_X);
-    Ogre::Quaternion w;
-    w.FromAngleAxis(Ogre::Radian(Ogre::Math::Sin(Ogre::Radian(dt::Root::GetInstance().GetTimeSinceInitialize() * 0.2))) * 0.1, Ogre::Vector3::UNIT_Y);
-    mGameNode->SetRotation(q * w);*/
+	mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->ApplyCentralImpulse(btVector3(0.1f,0,0));
 }
