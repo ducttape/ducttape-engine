@@ -12,6 +12,9 @@ public:
     void OnInitialize();
     void UpdateStateFrame(double simulation_frame_time);
 
+public slots:
+	void BallCollided(dt::PhysicsBodyComponent* collider);
+
 private:
     dt::Node* mGameNode;
     dt::Node* mFieldNode;
