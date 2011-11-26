@@ -15,6 +15,10 @@ public:
 private:
     dt::Node* mGameNode;
     dt::Node* mFieldNode;
+	dt::Node* mFieldWallX1Node;
+	dt::Node* mFieldWallX2Node;
+	dt::Node* mFieldWallY1Node;
+	dt::Node* mFieldWallY2Node;
     dt::Node* mBallNode;
     dt::Node* mPaddle1Node;
     dt::Node* mPaddle2Node;
