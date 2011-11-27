@@ -148,6 +148,7 @@ material AdvancedPongPaddle2
         pass
         {
             scene_blend alpha_blend
+            emissive 1 1 1 1
             
  
             texture_unit

@@ -19,22 +19,30 @@
 float FIELD_WIDTH = 24;
 float FIELD_HEIGHT = 16;
 float PADDLE_SIZE = 3.0;
+int WINNING_SCORE = 21;
 
 void Main::ResetBall() {
-    if(mScore1 < 10 && mScore2 < 10) {
-        mBallSpeed = Ogre::Vector3(-0.01f, 0, 0);
+    if(mScore1 < WINNING_SCORE && mScore2 < WINNING_SCORE) {
+		mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setLinearVelocity(btVector3(20.f, 0, 0));
     } else {
-        mBallSpeed = Ogre::Vector3::ZERO;
-        QString p(mScore1 == 10 ? "left" : "right");
+        QString p(mScore1 == WINNING_SCORE ? "left" : "right");
         GetScene("testscene")->FindChildNode("info")->FindComponent<dt::TextComponent>("text")->SetText("The " + p + " player wins the game.");
     }
 	
 	btTransform transform;
 	transform.setIdentity();
-	transform.setOrigin(btVector3(btScalar(0),btScalar(0),btScalar(0.1f)));
+	transform.setOrigin(btVector3(btScalar(0),btScalar(0),btScalar(0)));
 
-    mBallNode->SetPosition(Ogre::Vector3(0,0,0.1f));
+	//reset the ball position
+    mBallNode->SetPosition(Ogre::Vector3(0,0,0));
 	mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setWorldTransform(transform);
+
+	//reset the paddles
+	transform.setOrigin(btVector3(btScalar(- FIELD_WIDTH / 2 + 1.1f),btScalar(0),btScalar(0)));
+	mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setWorldTransform(transform);
+	transform.setOrigin(btVector3(btScalar(FIELD_WIDTH / 2 - 1.1f),btScalar(0),btScalar(0)));
+	mPaddle2Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setWorldTransform(transform);
+
     mScore1Text->SetText(dt::Utils::ToString(mScore1));
     mScore2Text->SetText(dt::Utils::ToString(mScore2));
 }
@@ -84,7 +92,7 @@ void Main::OnInitialize() {
 	mFieldWallX1Node->AddComponent(new dt::PhysicsBodyComponent("mesh", "body"))->SetMass(10.f);
 	mFieldWallX1Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictMovement(btVector3(0,0,0));
 	mFieldWallX1Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictRotation(btVector3(0,0,0));
-	mFieldWallX1Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setRestitution(0.9f);
+	mFieldWallX1Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setRestitution(0.5f);
 	mFieldWallX1Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetCollisionShapeType(dt::PhysicsBodyComponent::BOX);
 
 	mFieldWallX2Node = mFieldNode->AddChildNode(new dt::Node("fieldwallx2"));
@@ -93,7 +101,7 @@ void Main::OnInitialize() {
 	mFieldWallX2Node->AddComponent(new dt::PhysicsBodyComponent("mesh", "body"))->SetMass(10.f);
 	mFieldWallX2Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictMovement(btVector3(0,0,0));
 	mFieldWallX2Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictRotation(btVector3(0,0,0));
-	mFieldWallX2Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setRestitution(0.9f);
+	mFieldWallX2Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setRestitution(0.5f);
 	mFieldWallX2Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetCollisionShapeType(dt::PhysicsBodyComponent::BOX);
 
 	mFieldWallY1Node = mFieldNode->AddChildNode(new dt::Node("fieldwally1"));
@@ -102,7 +110,7 @@ void Main::OnInitialize() {
 	mFieldWallY1Node->AddComponent(new dt::PhysicsBodyComponent("mesh", "body"))->SetMass(10.f);
 	mFieldWallY1Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictMovement(btVector3(0,0,0));
 	mFieldWallY1Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictRotation(btVector3(0,0,0));
-	mFieldWallY1Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setRestitution(0.9f);
+	mFieldWallY1Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setRestitution(0.5f);
 	mFieldWallY1Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetCollisionShapeType(dt::PhysicsBodyComponent::BOX);
 
 	mFieldWallY2Node = mFieldNode->AddChildNode(new dt::Node("fieldwally2"));
@@ -111,7 +119,7 @@ void Main::OnInitialize() {
 	mFieldWallY2Node->AddComponent(new dt::PhysicsBodyComponent("mesh", "body"))->SetMass(10.f);
 	mFieldWallY2Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictMovement(btVector3(0,0,0));
 	mFieldWallY2Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictRotation(btVector3(0,0,0));
-	mFieldWallY2Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setRestitution(0.9f);
+	mFieldWallY2Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setRestitution(0.5f);
 	mFieldWallY2Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetCollisionShapeType(dt::PhysicsBodyComponent::BOX);
 
     mBallNode = mGameNode->AddChildNode(new dt::Node("ball"));
@@ -121,7 +129,7 @@ void Main::OnInitialize() {
 	mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->SetMass(1.f);
 	mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictMovement(btVector3(1,1,1));
 	mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictRotation(btVector3(0,1,0));
-	mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setRestitution(0.9f);
+	mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setRestitution(1.0f);
 	mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->SetCollisionShapeType(dt::PhysicsBodyComponent::BOX);
 
 	connect(mBallNode->FindComponent<dt::PhysicsBodyComponent>("body"), SIGNAL(Collided(dt::PhysicsBodyComponent*)), this,
@@ -134,7 +142,7 @@ void Main::OnInitialize() {
 	mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetMass(5.f);
 	mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictMovement(btVector3(0,1,1));
 	mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictRotation(btVector3(0,0,0));
-	mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setRestitution(0.9f);
+	mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setRestitution(3.0f); //for a blast off the paddle
 	mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetCollisionShapeType(dt::PhysicsBodyComponent::BOX);
 
     mPaddle2Node = mGameNode->AddChildNode(new dt::Node("paddle2"));
@@ -144,7 +152,7 @@ void Main::OnInitialize() {
 	mPaddle2Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetMass(5.f);
 	mPaddle2Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictMovement(btVector3(0,1,1));
 	mPaddle2Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictRotation(btVector3(0,0,0));
-	mPaddle2Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setRestitution(0.9f);
+	mPaddle2Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setRestitution(3.0f); //for a blast off the paddle
 	mPaddle2Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetCollisionShapeType(dt::PhysicsBodyComponent::BOX);
 
     dt::Node* score1_node = mGameNode->AddChildNode(new dt::Node("score1"));
@@ -178,11 +186,11 @@ void Main::UpdateStateFrame(double simulation_frame_time) {
     // move paddle 1
     if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_W)) {
 		//mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->ApplyCentralImpulse(btVector3(0,0,-0.1f));
-		mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setLinearVelocity(btVector3(0,0,-10.0f));
+		mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setLinearVelocity(btVector3(0,0,-20.0f));
     }
     else if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_S)) {
 		//mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->ApplyCentralImpulse(btVector3(0,0,0.1f));
-		mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setLinearVelocity(btVector3(0,0,10.0f));
+		mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setLinearVelocity(btVector3(0,0,20.0f));
     }
 	else {
 		mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setLinearVelocity(btVector3(0,0,0));
@@ -191,18 +199,26 @@ void Main::UpdateStateFrame(double simulation_frame_time) {
     // move paddle 2
     if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_UP)) {
 		//mPaddle2Node->FindComponent<dt::PhysicsBodyComponent>("body")->ApplyCentralImpulse(btVector3(0,0,-0.1f));
-		mPaddle2Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setLinearVelocity(btVector3(0,0,-10.0f));
+		mPaddle2Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setLinearVelocity(btVector3(0,0,-20.0f));
     }
     else if(dt::InputManager::Get()->GetKeyboard()->isKeyDown(OIS::KC_DOWN)) {
 		//mPaddle2Node->FindComponent<dt::PhysicsBodyComponent>("body")->ApplyCentralImpulse(btVector3(0,0,0.1f));
-		mPaddle2Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setLinearVelocity(btVector3(0,0,10.0f));
+		mPaddle2Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setLinearVelocity(btVector3(0,0,20.0f));
     }
 	else {
 		mPaddle2Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setLinearVelocity(btVector3(0,0,0));
 	}
 
-    // move ball
-	mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->ApplyCentralImpulse(btVector3(mBallSpeed.x,mBallSpeed.y,mBallSpeed.z));
+    // handle ball stuff
+	if (mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->getLinearVelocity().length() < 1.f || //the ball is moving too slow or is out of bounds, reset it
+		mBallNode->GetPosition().x > FIELD_WIDTH / 2 || mBallNode->GetPosition().x < - FIELD_WIDTH / 2 || mBallNode->GetPosition().z > FIELD_HEIGHT / 2 || mBallNode->GetPosition().z < - FIELD_HEIGHT / 2) {
+		ResetBall();
+	}
+	if (mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->getLinearVelocity().length() > 35.f) { //keep the ball moving at a sane rate
+		//ball can't travel faster than 35 units! (per second I assume)
+		mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setLinearVelocity((35 / mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->getLinearVelocity().length()) *
+			mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->getLinearVelocity());
+	}
 }
 
 void Main::BallCollided(dt::PhysicsBodyComponent* collider)
@@ -215,11 +231,11 @@ void Main::BallCollided(dt::PhysicsBodyComponent* collider)
 		mScore2++;
 		ResetBall();
 	}
-
+	
 	else if (collider->GetNode()->GetName() == "paddle1") {
-		mBallSpeed *= -1;
+		//TODO: Graphical blast-off blow
 	}
 	else if (collider->GetNode()->GetName() == "paddle2") {
-		mBallSpeed *= -1;
+		//TODO: Graphical blast-off blow
 	}
 }

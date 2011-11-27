@@ -29,6 +29,4 @@ private:
     dt::TextComponent* mScore2Text;
     int mScore1;
     int mScore2;
-
-    Ogre::Vector3 mBallSpeed;
 };
