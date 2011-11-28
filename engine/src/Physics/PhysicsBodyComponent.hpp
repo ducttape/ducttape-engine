@@ -50,7 +50,7 @@ public:
       * @see Component
       */
     PhysicsBodyComponent(const QString& mesh_component_name,
-                         const QString& name = "");
+                         const QString& name = "", CollisionShapeType collision_shape_type = CONVEX);
 
     void OnCreate();
     void OnDestroy();
@@ -141,13 +141,15 @@ public:
     void DisableSleep(bool disabled);
 
     void SetDampingAmount(btScalar linear_damping, btScalar angular_damping);
-    void SetCollisionShapeType(CollisionShapeType type);
+    //void SetCollisionShapeType(CollisionShapeType type);
 
     /**
       * Sets the mass of the physics body.
       * @param mass The new mass.
       */
     void SetMass(btScalar mass);
+
+    void Activate();
 
 signals:
     void Collided(dt::PhysicsBodyComponent* other_body, dt::PhysicsBodyComponent* this_body);

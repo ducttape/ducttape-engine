@@ -47,7 +47,7 @@ void PhysicsWorld::Initialize() {
     mDebugDrawer->setDebugMode(mShowDebug);
     mDynamicsWorld->setDebugDrawer(mDebugDrawer);
 
-    mDynamicsWorld->getPairCache()->setInternalGhostPairCallback(new btGhostPairCallback());
+    mDynamicsWorld->getBroadphase()->getOverlappingPairCache()->setInternalGhostPairCallback(new btGhostPairCallback());
 }
 
 void PhysicsWorld::Deinitialize() {

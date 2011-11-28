@@ -1,13 +1,15 @@
 #include "FPS.hpp"
 #include "FastWeaponComponent.hpp"
 #include "SlowWeaponComponent.hpp"
+#include "FPSPlayerComponent.hpp"
 
 #include <Graphics/CameraComponent.hpp>
 #include <Graphics/LightComponent.hpp>
 #include <Graphics/MeshComponent.hpp>
 #include <Logic/SimplePlayerComponent.hpp>
 #include <Physics/PhysicsBodyComponent.hpp>
-#include <Logic/FPSPlayerComponent.hpp>
+#include <Logic/AdvancePlayerComponent.hpp>
+#include <Physics/PhysicsManager.hpp>
 
 #include <OgreProcedural.h>
 
@@ -18,39 +20,29 @@ void Main::OnInitialize() {
     OgreProcedural::SphereGenerator().setRadius(1.f).setUTile(.5f).realizeMesh("Sphere");
 
     dt::Node* player_node = scene->AddChildNode(new dt::Node("playernode"));
-    player_node->SetPosition(Ogre::Vector3(0, 10, 0));
+    player_node->SetPosition(Ogre::Vector3(0, 10, 5));
 
     player_node->AddComponent(new dt::CameraComponent("camera"))->LookAt(Ogre::Vector3(0, 0, -10));
 
-    ////////////////////////////////////Select a weapon///////////////////////////////////////////////
-    /*FastWeaponComponent* fast_weapon = player_node->AddComponent(new FastWeaponComponent("gun"));
-    fast_weapon->SetRange(10.0f);
-    fast_weapon->SetPower(70.0f);*/
-    SlowWeaponComponent* slow_weapon = player_node->AddComponent(new SlowWeaponComponent("Sphere", "gun"));
-    slow_weapon->SetRange(10.0f);
-    slow_weapon->SetOffset(2.1f);          //For not colliding with the player.
-    slow_weapon->SetInitialPower(10.0f);
-    slow_weapon->SetPower(70.0f);
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-
-    player_node->AddComponent(new dt::FPSPlayerComponent("controller"))->SetInteractionComponentName("gun");
+    player_node->AddComponent(new FPSPlayerComponent("controller"));
 
     dt::Node* light_node = scene->AddChildNode(new dt::Node("lightnode"));
     light_node->SetPosition(Ogre::Vector3(-2000, 2000, 1000));
     light_node->AddComponent(new dt::LightComponent("light"));
 
-    OgreProcedural::PlaneGenerator().setSizeX(200.0f).setSizeY(200.0f).realizeMesh("Plane");
+    OgreProcedural::PlaneGenerator().setSizeX(100.0f).setSizeY(100.0f).setUTile(10.0).setVTile(10.0).realizeMesh("Plane");
     dt::Node* plane_node = scene->AddChildNode(new dt::Node("planenode"));
-    plane_node->AddComponent(new dt::MeshComponent("Plane", "", "plane-mesh"));
-    plane_node->AddComponent(new dt::PhysicsBodyComponent("plane-mesh", "plane-body"))->SetMass(0.0);
+    plane_node->AddComponent(new dt::MeshComponent("Plane", "PrimitivesTest/Pebbles", "plane-mesh"));
+    plane_node->AddComponent(new dt::PhysicsBodyComponent("plane-mesh", "plane-body"))->SetMass(0.0f);
 
     dt::Node* test_object = scene->AddChildNode(new dt::Node("testobject"));
-    test_object->SetPosition(Ogre::Vector3(5, 10, 0));
+    test_object->SetPosition(Ogre::Vector3(0, 1, -5));
     test_object->AddComponent(new dt::MeshComponent("Sphere", "", "test-mesh"));
 
-    dt::PhysicsBodyComponent* ball = test_object->AddComponent(new dt::PhysicsBodyComponent("test-mesh", "ball-body"));
-    ball->SetMass(10.0f);
-    ball->DisableSleep(true);
+    dt::PhysicsBodyComponent* ball = test_object->AddComponent(new dt::PhysicsBodyComponent("test-mesh", "ball-body", dt::PhysicsBodyComponent::SPHERE));
+    ball->SetMass(1.0f);
+
+    scene->GetPhysicsWorld()->SetShowDebug(true);
 }
 
 void Main::UpdateStateFrame(double simulation_frame_time) {

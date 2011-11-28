@@ -6,7 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <Logic/FPSPlayerComponent.hpp>
+#include <Logic/AdvancePlayerComponent.hpp>
 
 #include <Scene/Node.hpp>
 #include <Scene/Scene.hpp>
@@ -17,7 +17,7 @@
 
 namespace dt {
 
-FPSPlayerComponent::FPSPlayerComponent(const QString& name)
+AdvancePlayerComponent::AdvancePlayerComponent(const QString& name)
     : Component(name),
       mBtController(nullptr),
       mBtGhostObject(nullptr),
@@ -31,7 +31,7 @@ FPSPlayerComponent::FPSPlayerComponent(const QString& name)
       mJumpEnabled(true),
       mInteractionComponentName("") {}
 
-void FPSPlayerComponent::OnCreate() {
+void AdvancePlayerComponent::OnCreate() {
     btTransform  start_trans;
     start_trans.setIdentity();
     start_trans.setOrigin(BtOgre::Convert::toBullet(GetNode()->GetPosition(Node::SCENE)));
@@ -48,7 +48,7 @@ void FPSPlayerComponent::OnCreate() {
     mBtGhostObject->setUserPointer((void *)this);
 
     mBtController = new btKinematicCharacterController(mBtGhostObject, capsule, 0);
-    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addCollisionObject(mBtGhostObject,btBroadphaseProxy::CharacterFilter, btBroadphaseProxy::StaticFilter | btBroadphaseProxy::DefaultFilter);
+    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addCollisionObject(mBtGhostObject);
     GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addAction(mBtController);
 
     if(!QObject::connect(InputManager::Get(), SIGNAL(sKeyPressed(const OIS::KeyEvent&)), 
@@ -78,26 +78,26 @@ void FPSPlayerComponent::OnCreate() {
     }
 }
 
-void FPSPlayerComponent::OnDestroy() {
+void AdvancePlayerComponent::OnDestroy() {
     if(mBtController)
         delete mBtController;
     if(mBtGhostObject)
         delete mBtGhostObject;
 }
 
-void FPSPlayerComponent::OnEnable() {
+void AdvancePlayerComponent::OnEnable() {
     SetWASDEnabled(true);
     SetArrowsEnabled(true);
     SetJumpEnabled(true);
 }
 
-void FPSPlayerComponent::OnDisable() {
+void AdvancePlayerComponent::OnDisable() {
     SetWASDEnabled(false);
     SetArrowsEnabled(false);
     SetJumpEnabled(false);
 }
 
-void FPSPlayerComponent::OnUpdate(double time_diff) {
+void AdvancePlayerComponent::OnUpdate(double time_diff) {
     static Ogre::Vector3 move;
     static Ogre::Quaternion quaternion;
     static btTransform trans;
@@ -111,63 +111,63 @@ void FPSPlayerComponent::OnUpdate(double time_diff) {
     GetNode()->SetPosition(BtOgre::Convert::toOgre(trans.getOrigin()), Node::SCENE);
 }
 
-void FPSPlayerComponent::SetWASDEnabled(bool wasd_enabled) {
+void AdvancePlayerComponent::SetWASDEnabled(bool wasd_enabled) {
     mWASDEnabled = wasd_enabled;
 }
 
-bool FPSPlayerComponent::GetWASDEnabled() const {
+bool AdvancePlayerComponent::GetWASDEnabled() const {
     return mWASDEnabled;
 }
 
-void FPSPlayerComponent::SetArrowsEnabled(bool arrows_enabled) {
+void AdvancePlayerComponent::SetArrowsEnabled(bool arrows_enabled) {
     mArrowsEnabled = arrows_enabled;
 }
 
-bool FPSPlayerComponent::GetArrowsEnabled() const {
+bool AdvancePlayerComponent::GetArrowsEnabled() const {
     return mArrowsEnabled;
 }
 
-void FPSPlayerComponent::SetMoveSpeed(float move_speed) {
+void AdvancePlayerComponent::SetMoveSpeed(float move_speed) {
     mMoveSpeed = move_speed;
 }
 
-float FPSPlayerComponent::GetMoveSpeed() const {
+float AdvancePlayerComponent::GetMoveSpeed() const {
     return mMoveSpeed;
 }
 
-void FPSPlayerComponent::SetMouseEnabled(bool mouse_enabled) {
+void AdvancePlayerComponent::SetMouseEnabled(bool mouse_enabled) {
     mMouseEnabled = mouse_enabled;
 }
 
-bool FPSPlayerComponent::GetMouseEnabled() const {
+bool AdvancePlayerComponent::GetMouseEnabled() const {
     return mMouseEnabled;
 }
 
-void FPSPlayerComponent::SetMouseSensitivity(float mouse_sensitivity) {
+void AdvancePlayerComponent::SetMouseSensitivity(float mouse_sensitivity) {
     mMouseSensitivity = mouse_sensitivity;
 }
 
-float FPSPlayerComponent::GetMouseSensitivity() const {
+float AdvancePlayerComponent::GetMouseSensitivity() const {
     return mMouseSensitivity;
 }
 
-void FPSPlayerComponent::SetMouseYInversed(bool mouse_y_inversed) {
+void AdvancePlayerComponent::SetMouseYInversed(bool mouse_y_inversed) {
     mMouseYInversed = mouse_y_inversed;
 }
 
-bool FPSPlayerComponent::GetMouseYInversed() const {
+bool AdvancePlayerComponent::GetMouseYInversed() const {
     return mMouseYInversed;
 }
 
-void FPSPlayerComponent::SetJumpEnabled(bool jump_enabled) {
+void AdvancePlayerComponent::SetJumpEnabled(bool jump_enabled) {
     mJumpEnabled = jump_enabled;
 }
 
-bool FPSPlayerComponent::GetJumpEnabled() const{
+bool AdvancePlayerComponent::GetJumpEnabled() const{
     return mJumpEnabled;
 }
 
-void FPSPlayerComponent::_HandleKeyDown(const OIS::KeyEvent& event) {
+void AdvancePlayerComponent::_HandleKeyDown(const OIS::KeyEvent& event) {
     if(mWASDEnabled || mArrowsEnabled) {
         if((event.key == OIS::KC_W && mWASDEnabled) || (event.key == OIS::KC_UP && mArrowsEnabled)) {
             mMove.setZ(mMove.getZ() - 1.0f);
@@ -187,7 +187,7 @@ void FPSPlayerComponent::_HandleKeyDown(const OIS::KeyEvent& event) {
     }
 }
 
-void FPSPlayerComponent::_HandleMouseMove(const OIS::MouseEvent& event) {
+void AdvancePlayerComponent::_HandleMouseMove(const OIS::MouseEvent& event) {
     if(mMouseEnabled) {
         float factor = mMouseSensitivity * -0.01;
 
@@ -222,7 +222,7 @@ void FPSPlayerComponent::_HandleMouseMove(const OIS::MouseEvent& event) {
     }
 }
 
-void FPSPlayerComponent::_HandleKeyUp(const OIS::KeyEvent& event) {
+void AdvancePlayerComponent::_HandleKeyUp(const OIS::KeyEvent& event) {
     if(mWASDEnabled || mArrowsEnabled) {
         if((event.key == OIS::KC_W && mWASDEnabled) || (event.key == OIS::KC_UP && mArrowsEnabled)) {
             mMove.setZ(mMove.getZ() + 1.0f);
@@ -239,7 +239,7 @@ void FPSPlayerComponent::_HandleKeyUp(const OIS::KeyEvent& event) {
     }
 }
 
-void FPSPlayerComponent::_HandleMouseDown(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
+void AdvancePlayerComponent::_HandleMouseDown(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
     if(mMouseEnabled) {
         if(button == OIS::MB_Left && mInteractionComponentName != QString("")) {
             InteractionComponent* interaction_component = GetNode()->FindComponent<InteractionComponent>(mInteractionComponentName);
@@ -251,13 +251,13 @@ void FPSPlayerComponent::_HandleMouseDown(const OIS::MouseEvent& event, OIS::Mou
     }
 }
 
-void FPSPlayerComponent::_HandleMouseUp(const OIS::MouseEvent& event, OIS::MouseButtonID button) {}
+void AdvancePlayerComponent::_HandleMouseUp(const OIS::MouseEvent& event, OIS::MouseButtonID button) {}
 
-void FPSPlayerComponent::SetInteractionComponentName(const QString& name) {
+void AdvancePlayerComponent::SetInteractionComponentName(const QString& name) {
     mInteractionComponentName = name;
 }
 
-QString FPSPlayerComponent::GetInteractionComponentName() const {
+QString AdvancePlayerComponent::GetInteractionComponentName() const {
     return mInteractionComponentName;
 }
 

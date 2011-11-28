@@ -9,6 +9,7 @@ void FastWeaponComponent::OnCheck(Ogre::Vector3 start, Ogre::Vector3 end) {}
 void FastWeaponComponent::OnHit(dt::PhysicsBodyComponent* hit) {
     btVector3 impulse = BtOgre::Convert::toBullet(hit->GetNode()->GetPosition() - GetNode()->GetPosition());
     impulse.normalize();
+    hit->Activate();
     
     hit->ApplyCentralImpulse(impulse * mPower);
 }

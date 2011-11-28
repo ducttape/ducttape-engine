@@ -6,8 +6,8 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#ifndef DUCTTAPE_ENGINE_COMPONENT_FPSPLAYERCOMPONENT
-#define DUCTTAPE_ENGINE_COMPONENT_FPSPLAYERCOMPONENT
+#ifndef DUCTTAPE_ENGINE_COMPONENT_ADVANCEPLAYERCOMPONENT
+#define DUCTTAPE_ENGINE_COMPONENT_ADVANCEPLAYERCOMPONENT
 
 #include <Config.hpp>
 
@@ -30,7 +30,7 @@ namespace dt {
 /**
   * A component to deal with the input using bullet's built-in character controller.
   */
-class DUCTTAPE_API FPSPlayerComponent : public Component {
+class DUCTTAPE_API AdvancePlayerComponent : public Component {
     Q_OBJECT
 public:
     /**
@@ -38,7 +38,7 @@ public:
       * @param name The name of the Component.
       * @see Component
       */
-    FPSPlayerComponent(const QString& name = "");
+    AdvancePlayerComponent(const QString& name = "");
 
     void OnCreate();
     void OnDestroy();

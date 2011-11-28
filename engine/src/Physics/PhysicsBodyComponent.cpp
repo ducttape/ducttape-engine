@@ -14,14 +14,16 @@
 
 #include <BtOgreGP.h>
 
+#include <BulletCollision/CollisionShapes/btBoxShape.h>
+
 namespace dt {
 
 PhysicsBodyComponent::PhysicsBodyComponent(const QString& mesh_component_name,
-                                           const QString& name)
+                                           const QString& name, CollisionShapeType collision_shape_type)
     : Component(name),
       mMeshComponentName(mesh_component_name),
       mCollisionShape(nullptr),
-      mCollisionShapeType(CONVEX),
+      mCollisionShapeType(collision_shape_type),
       mBody(nullptr),
       mMotionState(nullptr),
       mCentralForce(btVector3(0, 0, 0)),
@@ -42,34 +44,42 @@ void PhysicsBodyComponent::OnCreate() {
         mNode->FindComponent<MeshComponent>(mMeshComponentName);
 
     BtOgre::StaticMeshToShapeConverter converter(mesh_component->GetOgreEntity());
-
+    
     // TODO: CollisionShapes should likely be stored at a central place.
     // Perhaps the PhysicsManager is a good place. It would save a lot of memory
     // for many bodies with the same CollisionShape.
-    if(mCollisionShapeType == BOX)
-        mCollisionShape = converter.createBox();
+    if(mCollisionShapeType == BOX) {
+        Ogre::Vector3 size = mesh_component->GetOgreEntity()->getBoundingBox().getSize();
+        size /= 2.0;
+        mCollisionShape = new btBoxShape(BtOgre::Convert::toBullet(size));
+        //mCollisionShape = converter.createBox();
+    }
     else if(mCollisionShapeType == CONVEX)
         mCollisionShape = converter.createConvex();
-    else if(mCollisionShapeType == SPHERE)
-        mCollisionShape = converter.createSphere();
-    else if(mCollisionShapeType == CYLINDER)
-        mCollisionShape = converter.createCylinder();
+    else if(mCollisionShapeType == SPHERE) {
+        mCollisionShape = new btSphereShape(mesh_component->GetOgreEntity()->getBoundingRadius());
+    }
+    else if(mCollisionShapeType == CYLINDER) {
+        Ogre::Vector3 size = mesh_component->GetOgreEntity()->getBoundingBox().getSize();
+        size /= 2.0;
+        mCollisionShape = new btCylinderShape(BtOgre::Convert::toBullet(size));
+    }
     else if(mCollisionShapeType == TRIMESH)
         mCollisionShape = converter.createTrimesh();
 
-
-    btScalar mass = 5;
+    btScalar mass = 5.0f;
     btVector3 inertia;
-    mCollisionShape->calculateLocalInertia(mass, inertia);
+    mCollisionShape->calculateLocalInertia(0.0f, inertia);
 
     btDefaultMotionState* state = new btDefaultMotionState(
         btTransform(BtOgre::Convert::toBullet(GetNode()->GetRotation(Node::SCENE)),
-                    BtOgre::Convert::toBullet(GetNode()->GetPosition(Node::SCENE))));
+        BtOgre::Convert::toBullet(GetNode()->GetPosition(Node::SCENE))));
 
     mBody = new btRigidBody(mass, state, mCollisionShape, inertia);
 
     // Store pointer to this PhysicsBodyComponent for later retrieval (for
     // collisions, for instance)
+    mBody->setFriction(1.0);
     mBody->setUserPointer((void *)(this));
 }
 
@@ -184,9 +194,13 @@ void PhysicsBodyComponent::SetMass(btScalar mass) {
     mCollisionShape->calculateLocalInertia(mass, inertia);
     mBody->setMassProps(mass, inertia);
 }
-
+/*
 void PhysicsBodyComponent::SetCollisionShapeType(CollisionShapeType type) {
     mCollisionShapeType = type;
 }
+*/
 
+void PhysicsBodyComponent::Activate() {
+    mBody->activate();
+}
 }
