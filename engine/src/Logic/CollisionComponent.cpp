@@ -19,14 +19,14 @@ CollisionComponent::CollisionComponent(const QString& bullet_handle, const QStri
       mBulletMeshHandle(bullet_handle),
       mInitialPower(0.0f) {}
 
-void CollisionComponent::Check() {
+void CollisionComponent::OnCheck() {
     btVector3 start, end, impulse;
     start = BtOgre::Convert::toBullet(GetNode()->GetRotation() * Ogre::Vector3(0.0, 0.0, - mOffset) + GetNode()->GetPosition());
     end = BtOgre::Convert::toBullet(GetNode()->GetRotation() * Ogre::Vector3(0.0, 0.0, - mRange) + GetNode()->GetPosition());
     impulse = end - start;
     impulse.normalize();
 
-    OnCheck(BtOgre::Convert::toOgre(start), BtOgre::Convert::toOgre(end));
+    emit sCheck(BtOgre::Convert::toOgre(start), BtOgre::Convert::toOgre(end));
 
     Node* bullet = GetNode()->GetScene()->AddChildNode(new Node(QString(Utils::AutoId())));
 
@@ -49,10 +49,6 @@ float CollisionComponent::GetInitialPower() {
 
 void CollisionComponent::SetInitialPower(float power) {
     mInitialPower = power;
-}
-
-void CollisionComponent::OnCheck(Ogre::Vector3 start, Ogre::Vector3 end) {
-    emit sCheck(start, end);
 }
 
 void CollisionComponent::OnHit(PhysicsBodyComponent* hit, PhysicsBodyComponent* bullet) {

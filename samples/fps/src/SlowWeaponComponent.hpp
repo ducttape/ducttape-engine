@@ -19,17 +19,6 @@ public:
     SlowWeaponComponent(const QString& bullet_handle, const QString& name = "");
 
     /**
-      * Called when the bullet(ray) hits an object.
-      * @param hit The hit object.
-      */
-    void OnHit(dt::PhysicsBodyComponent* hit);
-
-    /**
-      * Called when Check() is called.
-      */
-    void OnCheck(Ogre::Vector3 start, Ogre::Vector3 end);
-
-    /**
       * Sets the weapon's power.
       * @param power The power to set.
       */

@@ -142,6 +142,18 @@ public:
       */
     QString GetInteractionComponentName() const;
 
+    /**
+      * Gets whether the mouse's key pressing effect is one-shot or not.
+      * @returns Whether the mouse's key pressing effect is one-shot or not.
+      */
+    bool GetIsOneShot() const;
+
+    /**
+      * Sets whether the mouse's key pressing effect is one-shot or not.
+      * @param is_one_shot Whether the mouse's key pressing effect is one-shot or not.
+      */
+    void SetIsOneShot(bool is_one_shot);
+
 private slots:
     void _HandleKeyDown(const OIS::KeyEvent& event);
 
@@ -165,6 +177,8 @@ private:
     bool mArrowsEnabled;        //!< Whether the Arrow keys are enabled for movement or not.
     bool mJumpEnabled;          //!< Whether the character can jump or not.
     QString mInteractionComponentName;  //!< The name of the InteractionComponent to deal with the interaction with other objects.
+    bool mIsMouseLeftDown;     //!< Whether the mouse's left key is pressed or not.
+    bool mIsOneShot;            //!< Whether the mouse's key pressing effect is one-shot or not.
 };
 }
 

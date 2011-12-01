@@ -35,24 +35,13 @@ public:
     RaycastComponent(const QString& name = "");
 
     /**
-      * Called when the ray hits an object. It will emit a hit signal. You can just connect it with a slot or just override it.
-      * @param hit The hit object.
-      */
-    virtual void OnHit(PhysicsBodyComponent* hit);
-
-    /*
-     * Called when Check() is called. It will emit a hit signal. You can just connect it with a slot or just override it.
-     */
-    virtual void OnCheck(Ogre::Vector3 start, Ogre::Vector3 end);
-
-    /**
-      * Check if there's any objects hit by the ray.
+      * Called when Check() is called. It will emit a sCheck signal when it's called and a sHit signal if it hits something.
       * @see InteractionComponent
       */
-    void Check();
+    void OnCheck();
 
 signals:
-    void sHit(PhysicsBodyComponent* hit);
+    void sHit(dt::PhysicsBodyComponent* hit);
     void sCheck(Ogre::Vector3 start, Ogre::Vector3 end);
 };
 

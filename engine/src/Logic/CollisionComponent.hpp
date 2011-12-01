@@ -35,17 +35,6 @@ public:
       */
     CollisionComponent(const QString& bullet_handle, const QString& name = "");
 
-    /*
-     * Called when Check() is called. It will emit a hit signal. You can just connect it with a slot or just override it.
-     */
-    virtual void OnCheck(Ogre::Vector3 start, Ogre::Vector3 end);
-
-    /**
-      * Check if there's any objects hit by the ray.
-      * @see InteractionComponent
-      */
-    void Check();
-
     /**
       * Sets the handle of the bullet's mesh.
       * @param bullet_handle The handle to set.
@@ -70,15 +59,23 @@ public:
       */
     float GetInitialPower();
 
-public slots:
+protected:
+    /*
+     * Called when Check() is called. It will emit a sCheck signal.
+     * @see InteractionComponent
+     */
+    void OnCheck();
+
+protected slots:
      /**
-      * Called when the thrown physics body hits an object. It will emit a hit signal. You can just connect it with a slot or just override it.
+      * Called when the thrown physics body hits an object. It will emit a sHit signal.
       * @param hit The hit object.
+      * @param bullet The bullet object.
       */
-    virtual void OnHit(dt::PhysicsBodyComponent* hit, dt::PhysicsBodyComponent* bullet);
+    void OnHit(dt::PhysicsBodyComponent* hit, dt::PhysicsBodyComponent* bullet);
 
 signals:
-    void sHit(PhysicsBodyComponent* hit);
+    void sHit(dt::PhysicsBodyComponent* hit);
     void sCheck(Ogre::Vector3 start, Ogre::Vector3 end);
 
 private:

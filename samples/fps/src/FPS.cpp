@@ -24,7 +24,7 @@ void Main::OnInitialize() {
 
     player_node->AddComponent(new dt::CameraComponent("camera"))->LookAt(Ogre::Vector3(0, 0, -10));
 
-    player_node->AddComponent(new FPSPlayerComponent("controller"));
+    player_node->AddComponent(new FPSPlayerComponent("controller"))->SetIsOneShot(false);
 
     dt::Node* light_node = scene->AddChildNode(new dt::Node("lightnode"));
     light_node->SetPosition(Ogre::Vector3(-2000, 2000, 1000));

@@ -29,7 +29,9 @@ AdvancePlayerComponent::AdvancePlayerComponent(const QString& name)
       mWASDEnabled(true),
       mArrowsEnabled(true),
       mJumpEnabled(true),
-      mInteractionComponentName("") {}
+      mInteractionComponentName(""),
+      mIsMouseLeftDown(false),
+      mIsOneShot(true) {}
 
 void AdvancePlayerComponent::OnCreate() {
     btTransform  start_trans;
@@ -109,6 +111,18 @@ void AdvancePlayerComponent::OnUpdate(double time_diff) {
     trans = mBtGhostObject->getWorldTransform();
 
     GetNode()->SetPosition(BtOgre::Convert::toOgre(trans.getOrigin()), Node::SCENE);
+
+    if(mIsMouseLeftDown && mInteractionComponentName != "") {
+        InteractionComponent* interaction_component = GetNode()->FindComponent<InteractionComponent>(mInteractionComponentName);
+        if(interaction_component != nullptr) {
+            interaction_component->Check();
+        }
+
+        if(mIsOneShot) {
+            mIsMouseLeftDown = false;
+        }
+    }
+
 }
 
 void AdvancePlayerComponent::SetWASDEnabled(bool wasd_enabled) {
@@ -241,17 +255,19 @@ void AdvancePlayerComponent::_HandleKeyUp(const OIS::KeyEvent& event) {
 
 void AdvancePlayerComponent::_HandleMouseDown(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
     if(mMouseEnabled) {
-        if(button == OIS::MB_Left && mInteractionComponentName != QString("")) {
-            InteractionComponent* interaction_component = GetNode()->FindComponent<InteractionComponent>(mInteractionComponentName);
-            
-            if(interaction_component != nullptr) {
-                interaction_component->Check();
-            }
+        if(button == OIS::MB_Left) {
+            mIsMouseLeftDown = true;
         }
     }
 }
 
-void AdvancePlayerComponent::_HandleMouseUp(const OIS::MouseEvent& event, OIS::MouseButtonID button) {}
+void AdvancePlayerComponent::_HandleMouseUp(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
+    if(mMouseEnabled) {
+        if(button == OIS::MB_Left) {
+            mIsMouseLeftDown = false;
+        }
+    }
+}
 
 void AdvancePlayerComponent::SetInteractionComponentName(const QString& name) {
     mInteractionComponentName = name;
@@ -259,6 +275,14 @@ void AdvancePlayerComponent::SetInteractionComponentName(const QString& name) {
 
 QString AdvancePlayerComponent::GetInteractionComponentName() const {
     return mInteractionComponentName;
+}
+
+bool AdvancePlayerComponent::GetIsOneShot() const {
+    return mIsOneShot;
+}
+
+void AdvancePlayerComponent::SetIsOneShot(bool is_one_shot) {
+    mIsOneShot = is_one_shot;
 }
 
 }

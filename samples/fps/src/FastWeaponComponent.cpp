@@ -1,10 +1,17 @@
 #include "FastWeaponComponent.hpp"
 
+#include <Utils/Logger.hpp>
+
 FastWeaponComponent::FastWeaponComponent(const QString& name)
     : RaycastComponent(name),
       mPower(0.0f) {}
 
-void FastWeaponComponent::OnCheck(Ogre::Vector3 start, Ogre::Vector3 end) {}
+void FastWeaponComponent::OnCreate() {
+    if(!QObject::connect(this, SIGNAL(sHit(dt::PhysicsBodyComponent*)), 
+        this, SLOT(OnHit(dt::PhysicsBodyComponent*)))) {
+            dt::Logger::Get().Error("Cannot connect the sHit signal with the OnHit slot.");
+    }
+}
 
 void FastWeaponComponent::OnHit(dt::PhysicsBodyComponent* hit) {
     btVector3 impulse = BtOgre::Convert::toBullet(hit->GetNode()->GetPosition() - GetNode()->GetPosition());

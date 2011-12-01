@@ -18,12 +18,12 @@ namespace dt {
 RaycastComponent::RaycastComponent(const QString& name)
     : InteractionComponent(name) {}
 
-void RaycastComponent::Check() {
+void RaycastComponent::OnCheck() {
     btVector3 start, end;
     start = BtOgre::Convert::toBullet(GetNode()->GetRotation() * Ogre::Vector3(0.0, 0.0, - mOffset) + GetNode()->GetPosition());
     end = BtOgre::Convert::toBullet(GetNode()->GetRotation() * Ogre::Vector3(0.0, 0.0, - mRange) + GetNode()->GetPosition());
 
-    OnCheck(BtOgre::Convert::toOgre(start), BtOgre::Convert::toOgre(end));
+    emit sCheck(BtOgre::Convert::toOgre(start), BtOgre::Convert::toOgre(end));
 
     btCollisionWorld::ClosestRayResultCallback raycast_callback(start, end);
 
@@ -33,16 +33,8 @@ void RaycastComponent::Check() {
         btCollisionObject* collision_object = raycast_callback.m_collisionObject;
         PhysicsBodyComponent* hit_object = static_cast<PhysicsBodyComponent*>(collision_object->getUserPointer());
         
-        OnHit(hit_object);
+        emit sHit(hit_object);
     }
-}
-
-void RaycastComponent::OnCheck(Ogre::Vector3 start, Ogre::Vector3 end) {
-    emit sCheck(start, end);
-}
-
-void RaycastComponent::OnHit(PhysicsBodyComponent* hit) {
-    emit sHit(hit);
 }
 
 }

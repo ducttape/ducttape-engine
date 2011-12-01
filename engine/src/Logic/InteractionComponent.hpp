@@ -34,7 +34,7 @@ public:
     /**
       * Check if there's any objects in the InteractionComponent's range.
       */
-    virtual void Check() = 0;
+   void Check();
 
     /**
       * Sets the range.
@@ -52,17 +52,51 @@ public:
       * Gets the range.
       * @returns The range.
       */
-    float GetRange();
+    float GetRange() const;
 
     /**
       * Gets the offset.
       * @returns The offset.
       */
-    float GetOffset();
+    float GetOffset() const;
+
+    /**
+      * Gets the interval between two interactions.
+      * @returns The interval time.
+      */
+    float GetIntervalTime() const;
+
+    /**
+      * Sets the interval between two interactions.
+      * @param interval_time The interval time to set.
+      */
+    void SetIntervalTime(float interval_time);
+
+    /**
+      * Gets the remain time before the next interaction can be performed.
+      * @returns The remain time.
+      */
+    float GetRemainTime() const;
+
+    /**
+      * Sets the remain time manually.
+      * @param remain_time The remain time to set.
+      */
+    void SetRemainTime(float remain_time);
+
+    void OnUpdate(double time_diff);
+
+protected:
+    /**
+      * Called when Check() is called.
+      */
+    virtual void OnCheck() = 0;
 
 protected:
     float mRange;          //<! The start position of the InteractionComponent's range relative to its position.
     float mOffset;         //<! The end position of the InteractionComponent's range relative to its position.
+    float mInterval;       //<! The interval between two interaction.
+    float mRemainTime;     //<! The ramain waitting time before the next interaction can be performed.
 };
 
 }
