@@ -54,8 +54,13 @@ public:
       * @param level The log level.
       * @param mask_debug If the Ogre log is set up to print to the console.
       * @param log_name The name of the ogre logger.
+      * @param skip_message Skip message logs.
       */
+#if OGRE_VERSION_MAJOR >= 1 && OGRE_VERSION_MINOR >= 8
+    void messageLogged(const Ogre::String& message, Ogre::LogMessageLevel level, bool mask_debug, const Ogre::String& log_name, bool& skip_message);
+#else
     void messageLogged(const Ogre::String& message, Ogre::LogMessageLevel level, bool mask_debug, const Ogre::String& log_name);
+#endif
 
     /**
       * Returns the logger with a given name.
