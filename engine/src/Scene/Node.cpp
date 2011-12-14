@@ -20,7 +20,8 @@ Node::Node(const QString& name)
       mScale(Ogre::Vector3(1,1,1)),
       mRotation(Ogre::Quaternion::IDENTITY),
       mParent(nullptr),
-      mDeathMark(false) {
+      mDeathMark(false),
+      mIsEnabled(true) {
 
     // auto-generate name
     if(mName == "") {
@@ -55,11 +56,20 @@ void Node::OnInitialize() {}
 void Node::OnDeinitialize() {}
 
 Node* Node::AddChildNode(Node* child) {
-    QString key(child->GetName());
-    mChildren.insert(key, child);
-    mChildren[key].SetParent(this);
-    mChildren[key].Initialize();
-    return FindChildNode(key, false);
+    if(child != nullptr) {
+        QString key(child->GetName());
+        mChildren.insert(key, child);
+        mChildren[key].SetParent(this);
+        mChildren[key].Initialize();
+
+        if(!mIsEnabled)
+            child->Disable();
+
+        return FindChildNode(key, false);
+    }
+    else {
+        return nullptr;
+    }
 }
 
 Node* Node::FindChildNode(const QString& name, bool recursive) {
@@ -118,7 +128,7 @@ Ogre::Vector3 Node::GetPosition(Node::RelativeTo rel) const {
 }
 
 void Node::SetPosition(Ogre::Vector3 position, Node::RelativeTo rel) {
-    if(mIsUpdatingAfterChange)
+    if(mIsUpdatingAfterChange || !mIsEnabled)
         return;
 
     if(rel == PARENT || mParent == nullptr) {
@@ -139,7 +149,7 @@ Ogre::Vector3 Node::GetScale(Node::RelativeTo rel) const {
 }
 
 void Node::SetScale(Ogre::Vector3 scale, Node::RelativeTo rel) {
-    if(mIsUpdatingAfterChange)
+    if(mIsUpdatingAfterChange || !mIsEnabled)
         return;
 
     if(rel == PARENT || mParent == nullptr) {
@@ -164,7 +174,7 @@ Ogre::Quaternion Node::GetRotation(Node::RelativeTo rel) const {
 }
 
 void Node::SetRotation(Ogre::Quaternion rotation, Node::RelativeTo rel) {
-    if(mIsUpdatingAfterChange)
+    if(mIsUpdatingAfterChange || !mIsEnabled)
         return;
 
     if(rel == PARENT || mParent == nullptr) {
@@ -217,8 +227,10 @@ Scene* Node::GetScene() {
 }
 
 void Node::OnUpdate(double time_diff) {
-    _UpdateAllChildren(time_diff);
-    _UpdateAllComponents(time_diff);
+    if(mIsEnabled) {
+        _UpdateAllChildren(time_diff);
+        _UpdateAllComponents(time_diff);
+    }
 }
 
 void Node::Serialize(IOPacket& packet) {
@@ -227,6 +239,7 @@ void Node::Serialize(IOPacket& packet) {
     packet.Stream(mPosition, "position");
     packet.Stream(mScale, "scale", Ogre::Vector3(1,1,1));
     packet.Stream(mRotation, "rotation");
+    packet.Stream(mIsEnabled, "enabled");
     OnSerialize(packet);
 
     // Components
@@ -316,7 +329,46 @@ void Node::_UpdateAllChildren(double time_diff) {
 }
 
 void Node::Kill() {
-    mDeathMark = true;
+    if(mIsEnabled)
+        mDeathMark = true;
 }
+
+bool Node::IsEnabled() {
+    return mIsEnabled;
+}
+
+void Node::Enable() {
+    if(mParent == nullptr || mParent->IsEnabled()) {
+        mIsEnabled = true;
+        
+        for each(auto iter in mComponents) {
+            iter.second->Enable();
+        }
+        for(auto iter = mChildren.begin() ; iter != mChildren.end() ; iter++) {
+            iter->second->Enable();
+        }
+
+        OnEnable();
+    }
+}
+
+void Node::Disable() {
+    if(mIsEnabled) {
+        mIsEnabled = false;
+
+        for each(auto iter in mComponents) {
+            iter.second->Disable();
+        }
+        for(auto iter = mChildren.begin() ; iter != mChildren.end() ; iter++) {
+            iter->second->Disable();
+        }
+
+        OnDisable();
+    }
+}
+
+void Node::OnEnable() {}
+
+void Node::OnDisable() {}
 
 } // namespace dt

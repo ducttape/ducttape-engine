@@ -24,7 +24,20 @@ void Main::OnInitialize() {
 
     player_node->AddComponent(new dt::CameraComponent("camera"))->LookAt(Ogre::Vector3(0, 0, -10));
 
-    player_node->AddComponent(new FPSPlayerComponent("controller"))->SetIsOneShot(false);
+    FPSPlayerComponent* controller = player_node->AddComponent(new FPSPlayerComponent(2, "controller"));
+
+    OgreProcedural::SphereGenerator().setRadius(0.5f).setUTile(.5f).realizeMesh("Bullet");
+    FastWeaponComponent* fast_weapon = new FastWeaponComponent("fast_weapon");
+    fast_weapon->SetRange(10.0f);
+    fast_weapon->SetPower(1.0f);
+    SlowWeaponComponent* slow_weapon = new SlowWeaponComponent("slow_weapon");
+    slow_weapon->SetRange(10.0f);
+    slow_weapon->SetOffset(2.1f);          //For not colliding with the player.
+    slow_weapon->SetInitialPower(10.0f);
+    slow_weapon->SetPower(70.0f);
+
+    /*controller->AddWeapon(fast_weapon);
+    controller->AddWeapon(slow_weapon);*/
 
     dt::Node* light_node = scene->AddChildNode(new dt::Node("lightnode"));
     light_node->SetPosition(Ogre::Vector3(-2000, 2000, 1000));

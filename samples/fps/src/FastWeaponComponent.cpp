@@ -1,4 +1,5 @@
 #include "FastWeaponComponent.hpp"
+#include "StatusComponent.hpp"
 
 #include <Utils/Logger.hpp>
 
@@ -17,8 +18,12 @@ void FastWeaponComponent::OnHit(dt::PhysicsBodyComponent* hit) {
     btVector3 impulse = BtOgre::Convert::toBullet(hit->GetNode()->GetPosition() - GetNode()->GetPosition());
     impulse.normalize();
     hit->Activate();
-    
     hit->ApplyCentralImpulse(impulse * mPower);
+
+    StatusComponent* status = hit->GetNode()->FindComponent<StatusComponent>(StatusComponent::NAME);
+    if(status != nullptr) {
+        status->SetHealth(status->GetHealth() - mPower);
+    }
 }
 
 void FastWeaponComponent::SetPower(float power) {
@@ -27,4 +32,8 @@ void FastWeaponComponent::SetPower(float power) {
 
 float FastWeaponComponent::GetPower() {
     return mPower;
+}
+
+int FastWeaponComponent::GetWeaponType() {
+    return 1;
 }

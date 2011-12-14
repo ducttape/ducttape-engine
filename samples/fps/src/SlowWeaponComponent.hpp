@@ -1,5 +1,7 @@
 #include <Config.hpp>
 
+#include "IWeapon.hpp"
+
 #include <Logic/CollisionComponent.hpp>
 #include <Physics/PhysicsBodyComponent.hpp>
 
@@ -8,7 +10,7 @@
 /**
   * A component representing the fast weapon.
   */
-class SlowWeaponComponent : public dt::CollisionComponent {
+class SlowWeaponComponent : public dt::CollisionComponent, public IWeapon {
     Q_OBJECT
 public:
     /**
@@ -29,6 +31,18 @@ public:
       * @returns The weapon's power.
       */
     float GetPower();
+
+    /**
+      * Gets the type of the weapon.
+      * @returns The type of the weapon.
+      * @see IWeapon
+      */
+    int GetWeaponType();
+
+    void OnCreate();
+
+private slots:
+    void OnHit(dt::PhysicsBodyComponent* hit);
 
 private:
     float mPower;

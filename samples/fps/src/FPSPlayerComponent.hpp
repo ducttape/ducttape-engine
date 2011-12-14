@@ -2,6 +2,8 @@
 
 #include <Logic/AdvancePlayerComponent.hpp>
 
+#include <boost/ptr_container/ptr_map.hpp>
+
 #include <QString>
 
 /**
@@ -16,7 +18,11 @@ public:
       * @param weapon_number The number of the weapons.
       * @see Component
       */
-    FPSPlayerComponent(const QString& name = "");
+    FPSPlayerComponent(int weapon_num, const QString& name = "");
+
+    //void AddWeapon(IWeapon* weapon);
+
+    void RemoveWeapon(int type);
 
     void OnCreate();
 
@@ -26,4 +32,5 @@ public slots:
     void ChangeWeapon(const OIS::KeyEvent& event);
 private:
     QString *mWeapons;
+    int mWeaponNum;
 };

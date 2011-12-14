@@ -1,5 +1,7 @@
 #include <Config.hpp>
 
+#include "IWeapon.hpp"
+
 #include <Logic/RaycastComponent.hpp>
 #include <Physics/PhysicsBodyComponent.hpp>
 
@@ -8,7 +10,7 @@
 /**
   * A component representing the fast weapon.
   */
-class FastWeaponComponent : public dt::RaycastComponent {
+class FastWeaponComponent : public dt::RaycastComponent, public IWeapon {
     Q_OBJECT
 public:
     /**
@@ -31,6 +33,13 @@ public:
     float GetPower();
 
     void OnCreate();
+
+    /**
+      * Gets the type of the weapon.
+      * @returns The type of the weapon.
+      * @see IWeapon
+      */
+    int GetWeaponType();
 
 private slots:
     /**

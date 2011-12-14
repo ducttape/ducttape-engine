@@ -118,7 +118,10 @@ void AdvancePlayerComponent::OnUpdate(double time_diff) {
             interaction_component->Check();
         }
 
-        if(mIsOneShot) {
+        if(interaction_component == nullptr || mIsOneShot) {
+            if(interaction_component == nullptr) {
+                mInteractionComponentName = "";
+            }
             mIsMouseLeftDown = false;
         }
     }
@@ -270,7 +273,8 @@ void AdvancePlayerComponent::_HandleMouseUp(const OIS::MouseEvent& event, OIS::M
 }
 
 void AdvancePlayerComponent::SetInteractionComponentName(const QString& name) {
-    mInteractionComponentName = name;
+    if(this->GetNode()->HasComponent(name) || name == "")
+        mInteractionComponentName = name;
 }
 
 QString AdvancePlayerComponent::GetInteractionComponentName() const {
