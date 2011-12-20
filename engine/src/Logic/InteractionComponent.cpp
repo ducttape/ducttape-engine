@@ -49,7 +49,7 @@ namespace dt {
     }
 
     void InteractionComponent::Check() {
-        if(mRemainTime <= 0.0f) {
+        if(mRemainTime <= 0.0f && this->IsEnabled()) {
             mRemainTime = mInterval;
             OnCheck();
         }

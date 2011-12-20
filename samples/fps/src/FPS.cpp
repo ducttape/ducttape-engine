@@ -1,11 +1,10 @@
 #include "FPS.hpp"
-#include "FastWeaponComponent.hpp"
-#include "SlowWeaponComponent.hpp"
 #include "FPSPlayerComponent.hpp"
 
 #include <Graphics/CameraComponent.hpp>
 #include <Graphics/LightComponent.hpp>
 #include <Graphics/MeshComponent.hpp>
+#include <Logic/CollisionComponent.hpp>
 #include <Logic/SimplePlayerComponent.hpp>
 #include <Physics/PhysicsBodyComponent.hpp>
 #include <Logic/AdvancePlayerComponent.hpp>
@@ -27,17 +26,12 @@ void Main::OnInitialize() {
     FPSPlayerComponent* controller = player_node->AddComponent(new FPSPlayerComponent(2, "controller"));
 
     OgreProcedural::SphereGenerator().setRadius(0.5f).setUTile(.5f).realizeMesh("Bullet");
-    FastWeaponComponent* fast_weapon = new FastWeaponComponent("fast_weapon");
-    fast_weapon->SetRange(10.0f);
-    fast_weapon->SetPower(1.0f);
-    SlowWeaponComponent* slow_weapon = new SlowWeaponComponent("slow_weapon");
-    slow_weapon->SetRange(10.0f);
-    slow_weapon->SetOffset(2.1f);          //For not colliding with the player.
-    slow_weapon->SetInitialPower(10.0f);
-    slow_weapon->SetPower(70.0f);
-
-    /*controller->AddWeapon(fast_weapon);
-    controller->AddWeapon(slow_weapon);*/
+    OgreProcedural::BoxGenerator().setSize(Ogre::Vector3(2.0f, 2.0f, 2.5f)).realizeMesh("Gun");
+    dt::CollisionComponent* interactor = new dt::CollisionComponent("Bullet", "interactor");
+    Weapon* weapon = (Weapon*)scene->AddChildNode(new Weapon("test_gun", interactor, 20, 5, 60, 2.0f, 0, "Sphere"));
+    weapon->EnablePhysicsBody(false);
+    weapon->SetPosition(5, 2, 5);
+    weapon->EnablePhysicsBody(true);
 
     dt::Node* light_node = scene->AddChildNode(new dt::Node("lightnode"));
     light_node->SetPosition(Ogre::Vector3(-2000, 2000, 1000));
@@ -52,7 +46,7 @@ void Main::OnInitialize() {
     test_object->SetPosition(Ogre::Vector3(0, 1, -5));
     test_object->AddComponent(new dt::MeshComponent("Sphere", "", "test-mesh"));
 
-    dt::PhysicsBodyComponent* ball = test_object->AddComponent(new dt::PhysicsBodyComponent("test-mesh", "ball-body", dt::PhysicsBodyComponent::SPHERE));
+    dt::PhysicsBodyComponent* ball = test_object->AddComponent(new dt::PhysicsBodyComponent("test-mesh", "ball-body", dt::PhysicsBodyComponent::BOX));
     ball->SetMass(1.0f);
 
     scene->GetPhysicsWorld()->SetShowDebug(true);

@@ -29,9 +29,10 @@ AdvancePlayerComponent::AdvancePlayerComponent(const QString& name)
       mWASDEnabled(true),
       mArrowsEnabled(true),
       mJumpEnabled(true),
-      mInteractionComponentName(""),
-      mIsMouseLeftDown(false),
-      mIsOneShot(true) {}
+      mIsLeftOneShot(true),
+      mIsRightOneShot(true),
+      mIsLeftMouseDown(false),
+      mIsRightMouseDown(false) {}
 
 void AdvancePlayerComponent::OnCreate() {
     btTransform  start_trans;
@@ -112,17 +113,14 @@ void AdvancePlayerComponent::OnUpdate(double time_diff) {
 
     GetNode()->SetPosition(BtOgre::Convert::toOgre(trans.getOrigin()), Node::SCENE);
 
-    if(mIsMouseLeftDown && mInteractionComponentName != "") {
-        InteractionComponent* interaction_component = GetNode()->FindComponent<InteractionComponent>(mInteractionComponentName);
-        if(interaction_component != nullptr) {
-            interaction_component->Check();
-        }
+    if(mIsLeftMouseDown || mIsRightMouseDown) {
+        _OnMousePressed();
 
-        if(interaction_component == nullptr || mIsOneShot) {
-            if(interaction_component == nullptr) {
-                mInteractionComponentName = "";
-            }
-            mIsMouseLeftDown = false;
+        if(mIsLeftOneShot) {
+            mIsLeftMouseDown = false;
+        }
+        if(mIsRightOneShot) {
+            mIsRightMouseDown = false;
         }
     }
 
@@ -259,34 +257,44 @@ void AdvancePlayerComponent::_HandleKeyUp(const OIS::KeyEvent& event) {
 void AdvancePlayerComponent::_HandleMouseDown(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
     if(mMouseEnabled) {
         if(button == OIS::MB_Left) {
-            mIsMouseLeftDown = true;
+            mIsLeftMouseDown = true;
+        }
+        else if(button == OIS::MB_Right) {
+            mIsRightMouseDown = true;
+
         }
     }
 }
+
+void AdvancePlayerComponent::_OnMousePressed() {}
 
 void AdvancePlayerComponent::_HandleMouseUp(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
     if(mMouseEnabled) {
         if(button == OIS::MB_Left) {
-            mIsMouseLeftDown = false;
+            mIsLeftMouseDown = false;
+        }
+        else if(button == OIS::MB_Right) {
+            mIsRightMouseDown = false;
         }
     }
 }
 
-void AdvancePlayerComponent::SetInteractionComponentName(const QString& name) {
-    if(this->GetNode()->HasComponent(name) || name == "")
-        mInteractionComponentName = name;
+bool AdvancePlayerComponent::GetIsOneShot(OIS::MouseButtonID mouse_button) const {
+    if(mouse_button == OIS::MB_Left) {
+        return mIsLeftOneShot;
+    }
+    else {
+        return mIsRightOneShot;
+    }
 }
 
-QString AdvancePlayerComponent::GetInteractionComponentName() const {
-    return mInteractionComponentName;
-}
-
-bool AdvancePlayerComponent::GetIsOneShot() const {
-    return mIsOneShot;
-}
-
-void AdvancePlayerComponent::SetIsOneShot(bool is_one_shot) {
-    mIsOneShot = is_one_shot;
+void AdvancePlayerComponent::SetIsOneShot(bool is_one_shot, OIS::MouseButtonID mouse_button) {
+    if(mouse_button == OIS::MB_Left) {
+        mIsLeftOneShot = is_one_shot;
+    }
+    else {
+        mIsRightOneShot = is_one_shot;
+    }
 }
 
 }

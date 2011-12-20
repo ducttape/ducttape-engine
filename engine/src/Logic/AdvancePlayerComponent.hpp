@@ -131,28 +131,26 @@ public:
     bool GetJumpEnabled() const;
 
     /**
-      * Sets the InteractionComponent's name.
-      * @param name The name of the InteractionComponent to set.
-      */
-    void SetInteractionComponentName(const QString& name);
-
-    /**
-      * Gets the InteractionComponent's name.
-      * @returns The name of the InteractionComponent.
-      */
-    QString GetInteractionComponentName() const;
-
-    /**
       * Gets whether the mouse's key pressing effect is one-shot or not.
+      * @param mouse_button Specify which mouse button. Only accept MB_Left and MB_Right. 
+      * If none of them is given, it will treat it as MB_Right.
       * @returns Whether the mouse's key pressing effect is one-shot or not.
       */
-    bool GetIsOneShot() const;
+    bool GetIsOneShot(OIS::MouseButtonID mouse_button) const;
 
     /**
       * Sets whether the mouse's key pressing effect is one-shot or not.
       * @param is_one_shot Whether the mouse's key pressing effect is one-shot or not.
+      * @param mouse_button Specify which mouse button. Only accept MB_Left and MB_Right.
+      * * If none of them is given, it will treat it as MB_Right.
       */
-    void SetIsOneShot(bool is_one_shot);
+    void SetIsOneShot(bool is_one_shot, OIS::MouseButtonID mouse_button);
+
+protected:
+    /**
+      * Called every frame if the mouse event is triggered. Override it to use your own handling logic.
+      */
+    virtual void _OnMousePressed();
 
 private slots:
     void _HandleKeyDown(const OIS::KeyEvent& event);
@@ -176,9 +174,12 @@ private:
     bool mWASDEnabled;          //!< Whether the WASD  keys are enabled for movement or not.
     bool mArrowsEnabled;        //!< Whether the Arrow keys are enabled for movement or not.
     bool mJumpEnabled;          //!< Whether the character can jump or not.
-    QString mInteractionComponentName;  //!< The name of the InteractionComponent to deal with the interaction with other objects.
-    bool mIsMouseLeftDown;     //!< Whether the mouse's left key is pressed or not.
-    bool mIsOneShot;            //!< Whether the mouse's key pressing effect is one-shot or not.
+    bool mIsLeftOneShot;        //!< Whether the mouse's left button pressing effect is one-shot or not.
+    bool mIsRightOneShot;       //!< Whether the mouse's right button pressing effect is one-shot or not.
+
+protected:
+    bool mIsLeftMouseDown;      //!< Whether the mouse's left button is down or not.
+    bool mIsRightMouseDown;     //!< Whether the mouse's right button is down or not.
 };
 }
 

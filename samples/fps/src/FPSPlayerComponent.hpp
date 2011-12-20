@@ -1,8 +1,11 @@
+#include "Weapon.hpp"
+
 #include <Config.hpp>
 
 #include <Logic/AdvancePlayerComponent.hpp>
+#include <Logic/RaycastComponent.hpp>
 
-#include <boost/ptr_container/ptr_map.hpp>
+#include <vector>
 
 #include <QString>
 
@@ -12,25 +15,36 @@
 class FPSPlayerComponent : public dt::AdvancePlayerComponent {
     Q_OBJECT
 public:
-    /**
-      * Advanced constructor.
-      * @param name The name of the Component.
-      * @param weapon_number The number of the weapons.
-      * @see Component
-      */
     FPSPlayerComponent(int weapon_num, const QString& name = "");
-
-    //void AddWeapon(IWeapon* weapon);
-
-    void RemoveWeapon(int type);
 
     void OnCreate();
 
     void OnDestroy();
 
-public slots:
-    void ChangeWeapon(const OIS::KeyEvent& event);
+    unsigned GetWeaponNumber() const;
+
+    const Weapon* GetWeapon(unsigned weapon_type) const;
+
+    const std::vector<Weapon*>& GetAllWeapons() const;
+
+public:
+    void AddWeapon(Weapon* weapon);
+
+    void ChangeWeapon(unsigned weapon_type);
+
+    void RemoveWeapon(unsigned weapon_type);
+
 private:
-    QString *mWeapons;
+    void _OnMousePressed();
+
+private slots:
+    void _OnKeyPressed(const OIS::KeyEvent& event);
+
+    void _PickUpWeapon(dt::PhysicsBodyComponent* object);
+
+private:
     int mWeaponNum;
+    Weapon* mWeaponInUse;
+    std::vector<Weapon*> mWeapons;
+    dt::RaycastComponent* mGrabber;
 };

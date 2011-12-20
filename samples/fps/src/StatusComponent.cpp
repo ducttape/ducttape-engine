@@ -12,18 +12,18 @@ int StatusComponent::GetHealth() {
 }
 
 void StatusComponent::SetHealth(int health) {
-    if(health <= 0) {
-        mHealth = 0;
-        QString name = this->GetNode()->GetName();
-        this->GetNode()->Kill();
-        
-        emit sDeath(name);
-    }
-    else if(health >= mMaxHealth) {
-        mHealth = mMaxHealth;
-    }
-    else {
-        mHealth = health;
+    if(this->IsEnabled()) {
+        if(health <= 0) {
+            mHealth = 0;
+
+            emit sDeath(this->GetNode()->GetName());
+        }
+        else if(health >= mMaxHealth) {
+            mHealth = mMaxHealth;
+        }
+        else {
+            mHealth = health;
+        }
     }
 }
 
@@ -32,7 +32,8 @@ int StatusComponent::GetMaxHealth() {
 }
 
 void StatusComponent::SetMaxHealth(int max_health) {
-    mMaxHealth = max_health;
+    if(this->IsEnabled())
+        mMaxHealth = max_health;
 }
 
 const QString StatusComponent::NAME = "status";
