@@ -94,6 +94,12 @@ void PhysicsBodyComponent::OnEnable() {
         GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addRigidBody(mBody, mCollisionGroup, mCollisionMask);
     else
         GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addRigidBody(mBody);
+
+    //Re-sychronize the PhysicsBodyComponent with the node.
+    btDefaultMotionState* state = new btDefaultMotionState(
+        btTransform(BtOgre::Convert::toBullet(GetNode()->GetRotation(Node::SCENE)),
+        BtOgre::Convert::toBullet(GetNode()->GetPosition(Node::SCENE))));
+    mBody->setMotionState(state);
 }
 
 void PhysicsBodyComponent::OnDisable() {

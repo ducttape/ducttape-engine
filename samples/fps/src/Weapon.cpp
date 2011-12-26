@@ -19,6 +19,7 @@ Weapon::Weapon(const QString& name, dt::InteractionComponent* interactor, int po
 
 void Weapon::OnInitialize() {
     this->AddComponent(mInteractor);
+
     this->AddComponent(new dt::MeshComponent(mMeshHandle, "", "weapon-mesh"));
     mPhysicsBody = this->AddComponent(new dt::PhysicsBodyComponent("weapon-mesh", "weapon-body",
         dt::PhysicsBodyComponent::BOX));
