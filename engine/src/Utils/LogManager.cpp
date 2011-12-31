@@ -30,6 +30,17 @@ LogManager* LogManager::Get() {
     return Root::GetInstance().GetLogManager();
 }
 
+#if OGRE_VERSION_MAJOR >= 1 && OGRE_VERSION_MINOR >= 8
+void LogManager::messageLogged(const Ogre::String& message, Ogre::LogMessageLevel level, bool mask_debug, const Ogre::String& log_name, bool& skip_message) {
+    if(level == Ogre::LML_CRITICAL) {
+        GetLogger(QString(log_name.c_str())).Error(QString(message.c_str()));
+    } else if(level == Ogre::LML_NORMAL) {
+        GetLogger(QString(log_name.c_str())).Info(QString(message.c_str()));
+    } else if(level == Ogre::LML_TRIVIAL) {
+        GetLogger(QString(log_name.c_str())).Debug(QString(message.c_str()));
+    }
+}
+#else
 void LogManager::messageLogged(const Ogre::String& message, Ogre::LogMessageLevel level, bool mask_debug, const Ogre::String& log_name) {
     if(level == Ogre::LML_CRITICAL) {
         GetLogger(QString(log_name.c_str())).Error(QString(message.c_str()));
@@ -39,6 +50,7 @@ void LogManager::messageLogged(const Ogre::String& message, Ogre::LogMessageLeve
         GetLogger(QString(log_name.c_str())).Debug(QString(message.c_str()));
     }
 }
+#endif
 
 Logger& LogManager::GetLogger() {
     return GetLogger("default");
