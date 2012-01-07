@@ -21,8 +21,10 @@ CollisionComponent::CollisionComponent(const QString& bullet_handle, const QStri
 
 void CollisionComponent::OnCheck() {
     btVector3 start, end, impulse;
-    start = BtOgre::Convert::toBullet(GetNode()->GetRotation() * Ogre::Vector3(0.0, 0.0, - mOffset) + GetNode()->GetPosition());
-    end = BtOgre::Convert::toBullet(GetNode()->GetRotation() * Ogre::Vector3(0.0, 0.0, - mRange) + GetNode()->GetPosition());
+    start = BtOgre::Convert::toBullet(GetNode()->GetRotation(Node::SCENE) * Ogre::Vector3(0.0, 0.0, - mOffset)
+        + GetNode()->GetPosition(Node::SCENE));
+    end = BtOgre::Convert::toBullet(GetNode()->GetRotation(Node::SCENE) * Ogre::Vector3(0.0, 0.0, - mRange)
+        + GetNode()->GetPosition(Node::SCENE));
     impulse = end - start;
     impulse.normalize();
 

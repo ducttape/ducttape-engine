@@ -28,6 +28,9 @@ void Main::OnInitialize() {
     OgreProcedural::SphereGenerator().setRadius(0.5f).setUTile(.5f).realizeMesh("Bullet");
     OgreProcedural::BoxGenerator().setSize(Ogre::Vector3(2.0f, 2.0f, 2.5f)).realizeMesh("Gun");
     dt::CollisionComponent* interactor = new dt::CollisionComponent("Bullet", "interactor");
+    interactor->SetOffset(3.0f);
+    interactor->SetRange(20.0f);
+    interactor->SetInitialPower(30.0f);
     Weapon* weapon = (Weapon*)scene->AddChildNode(new Weapon("test_gun", interactor, 20, 5, 60, 2.0f, 0, "Sphere"));
     weapon->EnablePhysicsBody(false);
     weapon->SetPosition(5, 2, 5);
@@ -48,6 +51,8 @@ void Main::OnInitialize() {
 
     dt::PhysicsBodyComponent* ball = test_object->AddComponent(new dt::PhysicsBodyComponent("test-mesh", "ball-body", dt::PhysicsBodyComponent::BOX));
     ball->SetMass(1.0f);
+
+    //parent->SetPosition(0, 1, 0);
 
     scene->GetPhysicsWorld()->SetShowDebug(true);
 }

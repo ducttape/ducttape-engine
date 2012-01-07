@@ -100,6 +100,9 @@ void PhysicsBodyComponent::OnEnable() {
         btTransform(BtOgre::Convert::toBullet(GetNode()->GetRotation(Node::SCENE)),
         BtOgre::Convert::toBullet(GetNode()->GetPosition(Node::SCENE))));
     mBody->setMotionState(state);
+
+    //Activate it.
+    this->Activate();
 }
 
 void PhysicsBodyComponent::OnDisable() {

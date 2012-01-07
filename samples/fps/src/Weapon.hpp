@@ -10,9 +10,6 @@
 
 #include <QString>
 
-/**
-  * An interface for weapon.
-  */
 class Weapon : public dt::Node {
     Q_OBJECT
 public:
@@ -21,6 +18,8 @@ public:
         const QString& mesh_handle);
 
     void OnInitialize();
+
+    void OnDeinitialize();
 
     int GetPower() const;
 

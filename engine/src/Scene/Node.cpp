@@ -197,7 +197,15 @@ void Node::LookAt(Ogre::Vector3 target, Ogre::Vector3 front_vector, RelativeTo r
 void Node::SetParent(Node* parent) {
     if(parent != nullptr) {
         if(parent->FindChildNode(mName, false) == nullptr) { // we are not already a child of the new parent
-            parent->AddChildNode(this);
+            if(mParent != nullptr) {                         // Remove it from its original parent.
+                auto iter = mParent->mChildren.find(mName);
+                parent->mChildren.insert(mName, mParent->mChildren.release(iter).release());
+                mParent = parent;
+                //parent->mChildren.transfer(parent->mChildren.begin(), iter, mParent->mChildren);
+            }
+            else {
+                parent->AddChildNode(this);
+            }
             return;
         }
     }

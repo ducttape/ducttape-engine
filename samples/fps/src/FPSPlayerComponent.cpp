@@ -48,10 +48,9 @@ void FPSPlayerComponent::AddWeapon(Weapon* weapon) {
             this->RemoveWeapon(index);
 
         weapon->EnablePhysicsBody(false);
-        this->GetNode()->GetScene()->RemoveChildNode(weapon->GetName());
-        this->GetNode()->AddChildNode(weapon);
-        weapon->SetRotation(this->GetNode()->GetRotation(dt::Node::SCENE), dt::Node::SCENE);
-        weapon->SetPosition(2.0f, 0.0f, 2.0f);
+        weapon->SetParent(this->GetNode());
+        weapon->SetRotation(Ogre::Quaternion::IDENTITY);
+        weapon->SetPosition(0.0f, 0.0f, 0.0f);
         mWeapons[index] = weapon;
 
         if(mWeaponInUse == nullptr) {
@@ -135,8 +134,9 @@ void FPSPlayerComponent::RemoveWeapon(unsigned weapon_type) {
             mWeaponInUse = nullptr;
 
         mWeapons[weapon_type]->SetPosition(0.0f, 0.0f, -3.0f);
-        this->GetNode()->RemoveChildNode(mWeapons[weapon_type]->GetName());
-        this->GetNode()->GetScene()->AddChildNode(mWeapons[weapon_type]);
+        Ogre::Vector3 pos = mWeapons[weapon_type]->GetPosition(dt::Node::SCENE);
+        mWeapons[weapon_type]->SetParent(this->GetNode()->GetScene());
+        mWeapons[weapon_type]->SetPosition(pos, dt::Node::SCENE);
         mWeapons[weapon_type]->EnablePhysicsBody(true);
         mWeapons[weapon_type]->Enable();
         mWeapons[weapon_type] = nullptr;

@@ -1,6 +1,8 @@
 #include "Weapon.hpp"
 #include "StatusComponent.hpp"
 
+#include "Utils/Utils.hpp"
+
 Weapon::Weapon(const QString& name, dt::InteractionComponent* interactor, int power, unsigned max_clip, 
     unsigned ammo_per_clip, float reload_time, unsigned type, const QString& mesh_handle)
     : Node(name),
@@ -118,7 +120,6 @@ const dt::InteractionComponent* Weapon::GetInteractor() const {
 }
 
 void Weapon::_OnHit(dt::PhysicsBodyComponent* hit) {
-
 }
 
 void Weapon::_OnReloadCompleted() {
@@ -155,4 +156,9 @@ bool Weapon::IsPhysicsBodyEnabled() const {
 void Weapon::OnEnable() {
     if(!mIsPhysicsBodyEnabled)
         mPhysicsBody->Disable();
+}
+
+void Weapon::OnDeinitialize() {
+    mReloadTimer->Stop();
+    delete mReloadTimer;
 }
