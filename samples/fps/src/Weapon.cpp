@@ -1,5 +1,6 @@
 #include "Weapon.hpp"
 #include "StatusComponent.hpp"
+#include "Hittable.hpp"
 
 #include "Utils/Utils.hpp"
 
@@ -45,7 +46,7 @@ void Weapon::SetPower(int power) {
 void Weapon::Fire() {
     if(mCurrentAmmo > 0) {
         this->mInteractor->Check();
-        mCurrentAmmo--;
+        SetCurrentAmmo(mCurrentAmmo - 1);
     }
     else {
         this->Reload();
@@ -68,13 +69,15 @@ void Weapon::SetCurrentAmmo(unsigned current_ammo) {
         mCurrentAmmo = current_ammo;
     else
         mCurrentAmmo = mAmmoPerClip;
+
+    emit sAmmoChanged(mCurrentAmmo);
 }
 
 void Weapon::SetAmmoPerClip(unsigned ammo_per_clip) {
     mAmmoPerClip = ammo_per_clip;
 
     if(mCurrentAmmo > mAmmoPerClip)
-        mCurrentAmmo = mAmmoPerClip;
+        this->SetCurrentAmmo(mAmmoPerClip);
 }
 
 void Weapon::SetCurrentClip(unsigned current_clip) {
@@ -82,13 +85,15 @@ void Weapon::SetCurrentClip(unsigned current_clip) {
         mCurrentClip = current_clip;
     else
         mCurrentClip = mMaxClip;
+
+    emit sClipChanged(mCurrentClip);
 }
 
 void Weapon::SetMaxClip(unsigned max_clip) {
     mMaxClip = max_clip;
 
     if(mCurrentClip > mMaxClip)
-        mCurrentClip = mMaxClip;
+        this->SetCurrentClip(mMaxClip);
 }
 
 unsigned Weapon::GetAmmoPerClip() const {
@@ -120,6 +125,10 @@ const dt::InteractionComponent* Weapon::GetInteractor() const {
 }
 
 void Weapon::_OnHit(dt::PhysicsBodyComponent* hit) {
+    Hittable* obj = dynamic_cast<Hittable*>(hit->GetNode());
+
+    if(obj != nullptr)
+        obj->OnHit(this->GetPower());
 }
 
 void Weapon::_OnReloadCompleted() {
@@ -127,8 +136,8 @@ void Weapon::_OnReloadCompleted() {
         delete mReloadTimer;
         mReloadTimer = nullptr;
 
-        mCurrentClip--;
-        mCurrentAmmo = mAmmoPerClip;
+        this->SetCurrentClip(mCurrentClip - 1);
+        this->SetCurrentAmmo(mAmmoPerClip);
     }
 }
 
@@ -156,9 +165,11 @@ bool Weapon::IsPhysicsBodyEnabled() const {
 void Weapon::OnEnable() {
     if(!mIsPhysicsBodyEnabled)
         mPhysicsBody->Disable();
+
+    emit sAmmoChanged(mCurrentAmmo);
+    emit sClipChanged(mCurrentClip);
 }
 
 void Weapon::OnDeinitialize() {
-    mReloadTimer->Stop();
     delete mReloadTimer;
 }

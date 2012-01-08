@@ -1,3 +1,5 @@
+#ifndef STATUSCOMPONENT_H
+#define STATUSCOMPONENT_H
 #pragma once
 
 #include <Config.hpp>
@@ -12,23 +14,27 @@
 class StatusComponent : public dt::Component {
     Q_OBJECT
 public:
-    StatusComponent(int initial_health, int max_health);
+    StatusComponent(unsigned initial_health, unsigned max_health);
 
-    int GetHealth();
+    unsigned GetHealth();
 
-    void SetHealth(int health);
+    void SetHealth(unsigned health);
 
-    int GetMaxHealth();
+    unsigned GetMaxHealth();
 
-    void SetMaxHealth(int max_health);
+    void SetMaxHealth(unsigned max_health);
 
 signals:
     void sDeath(const QString name);
+
+    void sHealthChanged(unsigned previous_health, unsigned current_health);
 
 public:
     static const QString NAME;
 
 private:
-    int mHealth;
-    int mMaxHealth;
+    unsigned mHealth;
+    unsigned mMaxHealth;
 };
+
+#endif

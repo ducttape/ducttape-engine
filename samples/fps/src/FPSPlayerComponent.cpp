@@ -54,8 +54,7 @@ void FPSPlayerComponent::AddWeapon(Weapon* weapon) {
         mWeapons[index] = weapon;
 
         if(mWeaponInUse == nullptr) {
-            mWeaponInUse = weapon;
-            mWeaponInUse->Enable();
+            this->ChangeWeapon(index);
         }
         else {
             weapon->Disable();
@@ -70,6 +69,8 @@ void FPSPlayerComponent::ChangeWeapon(unsigned weapon_type) {
 
         mWeaponInUse = mWeapons[weapon_type];
         mWeaponInUse->Enable();
+
+        emit sWeaponChanged(mWeaponInUse);
     }      
 }
 
@@ -154,4 +155,8 @@ void FPSPlayerComponent::_PickUpWeapon(dt::PhysicsBodyComponent* object) {
     if(weapon != nullptr) {
         AddWeapon(weapon);
     }
+}
+
+const Weapon* FPSPlayerComponent::GetWeaponInUse() const {
+    return mWeaponInUse;
 }

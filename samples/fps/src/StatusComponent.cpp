@@ -2,36 +2,38 @@
 
 #include <Scene/Node.hpp>
 
-StatusComponent::StatusComponent(int initial_health, int max_health)
+StatusComponent::StatusComponent(unsigned initial_health, unsigned max_health)
     : Component(NAME),
       mHealth(initial_health),
       mMaxHealth(max_health) {}
 
-int StatusComponent::GetHealth() {
+unsigned StatusComponent::GetHealth() {
     return mHealth;
 }
 
-void StatusComponent::SetHealth(int health) {
-    if(this->IsEnabled()) {
-        if(health <= 0) {
-            mHealth = 0;
-
+void StatusComponent::SetHealth(unsigned health) {
+    if(this->IsEnabled() && mHealth != health) {
+        if(health >= mMaxHealth) {
+            health = mMaxHealth;
+        }
+        
+        //Exchange the two values.
+        mHealth ^= health;
+        health ^= mHealth;
+        mHealth ^= health;
+        
+        emit sHealthChanged(health, mHealth);
+        
+        if(mHealth == 0)
             emit sDeath(this->GetNode()->GetName());
-        }
-        else if(health >= mMaxHealth) {
-            mHealth = mMaxHealth;
-        }
-        else {
-            mHealth = health;
-        }
     }
 }
 
-int StatusComponent::GetMaxHealth() {
+unsigned StatusComponent::GetMaxHealth() {
     return mMaxHealth;
 }
 
-void StatusComponent::SetMaxHealth(int max_health) {
+void StatusComponent::SetMaxHealth(unsigned max_health) {
     if(this->IsEnabled())
         mMaxHealth = max_health;
 }

@@ -61,6 +61,11 @@ public:
 
     void OnEnable();
 
+signals:
+    void sAmmoChanged(unsigned current_ammo);
+
+    void sClipChanged(unsigned current_clip);
+
 private slots:
     void _OnHit(dt::PhysicsBodyComponent* hit);
 

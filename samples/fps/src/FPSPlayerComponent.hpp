@@ -25,6 +25,8 @@ public:
 
     const Weapon* GetWeapon(unsigned weapon_type) const;
 
+    const Weapon* GetWeaponInUse() const;
+
     const std::vector<Weapon*>& GetAllWeapons() const;
 
 public:
@@ -33,6 +35,9 @@ public:
     void ChangeWeapon(unsigned weapon_type);
 
     void RemoveWeapon(unsigned weapon_type);
+
+signals:
+    void sWeaponChanged(const Weapon* current_weapon);
 
 private:
     void _OnMousePressed();
