@@ -1,3 +1,7 @@
+#ifndef FPSPLAYERCOMPONENT_H
+#define FPSPLAYERCOMPONENT_H
+#pragma once
+
 #include "Weapon.hpp"
 
 #include <Config.hpp>
@@ -53,3 +57,5 @@ private:
     std::vector<Weapon*> mWeapons;
     dt::RaycastComponent* mGrabber;
 };
+
+#endif

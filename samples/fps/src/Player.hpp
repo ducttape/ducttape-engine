@@ -19,6 +19,12 @@ public:
 
     void OnInitialize();
 
+    void SetControllable(bool is_controllable);
+
+    bool IsControllable() const;
+
+    void OnEnable();
+
 private slots:
     void _RefreshHealth(unsigned previous_health, unsigned current_health);
 
@@ -43,6 +49,7 @@ private:
     dt::CameraComponent* mCamera;
     StatusComponent* mStatus;
     dt::MeshComponent* mMesh;
+    bool mIsControllable;
 };
 
 #endif

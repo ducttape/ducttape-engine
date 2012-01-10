@@ -1,5 +1,6 @@
 #include "FPS.hpp"
 #include "FPSPlayerComponent.hpp"
+#include "Player.hpp"
 
 #include <Graphics/CameraComponent.hpp>
 #include <Graphics/LightComponent.hpp>
@@ -17,13 +18,15 @@ void Main::OnInitialize() {
     OgreProcedural::Root::getInstance()->sceneManager = scene->GetSceneManager();
 
     OgreProcedural::SphereGenerator().setRadius(1.f).setUTile(.5f).realizeMesh("Sphere");
+    OgreProcedural::CapsuleGenerator().setHeight(1.77).setRadius(0.44).realizeMesh("player");
 
-    dt::Node* player_node = scene->AddChildNode(new dt::Node("playernode"));
+    Player* player_node = (Player*)scene->AddChildNode(new Player("playernode"));
     player_node->SetPosition(Ogre::Vector3(0, 10, 5));
+    player_node->SetControllable(true);
 
-    player_node->AddComponent(new dt::CameraComponent("camera"))->LookAt(Ogre::Vector3(0, 0, -10));
+    /*player_node->AddComponent(new dt::CameraComponent("camera"))->LookAt(Ogre::Vector3(0, 0, -10));
 
-    FPSPlayerComponent* controller = player_node->AddComponent(new FPSPlayerComponent(2, "controller"));
+    FPSPlayerComponent* controller = player_node->AddComponent(new FPSPlayerComponent(2, "controller"));*/
 
     OgreProcedural::SphereGenerator().setRadius(0.5f).setUTile(.5f).realizeMesh("Bullet");
     OgreProcedural::BoxGenerator().setSize(Ogre::Vector3(2.0f, 2.0f, 2.5f)).realizeMesh("Gun");
