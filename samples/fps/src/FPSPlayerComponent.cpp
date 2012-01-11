@@ -50,7 +50,7 @@ void FPSPlayerComponent::AddWeapon(Weapon* weapon) {
         weapon->EnablePhysicsBody(false);
         weapon->SetParent(this->GetNode());
         weapon->SetRotation(Ogre::Quaternion::IDENTITY);
-        weapon->SetPosition(0.0f, 0.0f, 0.0f);
+        weapon->SetPosition(0.5f, -0.5f, -1.0f);
         mWeapons[index] = weapon;
 
         if(mWeaponInUse == nullptr) {

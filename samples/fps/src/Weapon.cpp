@@ -5,7 +5,8 @@
 #include "Utils/Utils.hpp"
 
 Weapon::Weapon(const QString& name, dt::InteractionComponent* interactor, int power, unsigned max_clip, 
-    unsigned ammo_per_clip, float reload_time, unsigned type, const QString& mesh_handle)
+    unsigned ammo_per_clip, float reload_time, unsigned type, const QString& sound_handle, 
+    const QString& mesh_handle, const QString& material_handle)
     : Node(name),
       mInteractor(interactor),
       mPower(power),
@@ -18,12 +19,15 @@ Weapon::Weapon(const QString& name, dt::InteractionComponent* interactor, int po
       mType(type),
       mMeshHandle(mesh_handle),
       mPhysicsBody(nullptr),
-      mIsPhysicsBodyEnabled(false) {}
+      mIsPhysicsBodyEnabled(false),
+      mMaterialHandle(material_handle),
+      mSoundHandle(sound_handle),
+      mSound(nullptr) {}
 
 void Weapon::OnInitialize() {
     this->AddComponent(mInteractor);
 
-    this->AddComponent(new dt::MeshComponent(mMeshHandle, "", "weapon-mesh"));
+    this->AddComponent(new dt::MeshComponent(mMeshHandle, mMaterialHandle, "weapon-mesh"));
     mPhysicsBody = this->AddComponent(new dt::PhysicsBodyComponent("weapon-mesh", "weapon-body",
         dt::PhysicsBodyComponent::BOX));
 
@@ -33,6 +37,9 @@ void Weapon::OnInitialize() {
         this, SLOT(_OnHit(dt::PhysicsBodyComponent*)))) {
             dt::Logger::Get().Error("Cannot connect the sHit signal with the OnHit slot.");
     }
+
+    mSound = (dt::SoundComponent*)this->AddComponent(new dt::SoundComponent(mSoundHandle, this->GetName() + "_fire_sound"));
+    mSound->SetVolume(100.0f);
 }
 
 int Weapon::GetPower() const {
@@ -45,6 +52,9 @@ void Weapon::SetPower(int power) {
 
 void Weapon::Fire() {
     if(mCurrentAmmo > 0) {
+        mSound->StopSound();
+        mSound->PlaySound();
+
         this->mInteractor->Check();
         SetCurrentAmmo(mCurrentAmmo - 1);
     }

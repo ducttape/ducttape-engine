@@ -42,17 +42,15 @@ void AdvancePlayerComponent::OnCreate() {
 
     btScalar character_height = 1.75;
     btScalar character_width = 0.44;
-    btConvexShape* capsule = new btBoxShape(btVector3(character_width, character_height, character_width));
+    btConvexShape* capsule = new btCapsuleShape(character_width, character_height);
 
     mBtGhostObject = new btPairCachingGhostObject();
     mBtGhostObject->setWorldTransform(start_trans);
     mBtGhostObject->setCollisionShape(capsule);
     mBtGhostObject->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
     mBtGhostObject->setUserPointer((void *)this);
-    mBtGhostObject->setCcdMotionThreshold(1);
-    mBtGhostObject->setCcdSweptSphereRadius(0.2);
 
-    mBtController = new btKinematicCharacterController(mBtGhostObject, capsule, 0);
+    mBtController = new btKinematicCharacterController(mBtGhostObject, capsule, 1);
     GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addCollisionObject(mBtGhostObject);
     GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addAction(mBtController);
 

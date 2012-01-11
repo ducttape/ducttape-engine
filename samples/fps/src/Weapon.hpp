@@ -7,6 +7,7 @@
 #include <Graphics/MeshComponent.hpp>
 #include <Physics/PhysicsBodyComponent.hpp>
 #include <Utils/Timer.hpp>
+#include <Audio/SoundComponent.hpp>
 
 #include <QString>
 
@@ -15,7 +16,7 @@ class Weapon : public dt::Node {
 public:
     Weapon(const QString& name, dt::InteractionComponent* interactor, int power, 
         unsigned max_clip, unsigned ammo_per_clip, float reload_time, unsigned type,
-        const QString& mesh_handle);
+        const QString& sound_handle, const QString& mesh_handle, const QString& material_handle = "");
 
     void OnInitialize();
 
@@ -84,4 +85,7 @@ private:
     QString mMeshHandle;
     dt::PhysicsBodyComponent* mPhysicsBody;
     bool mIsPhysicsBodyEnabled;
+    QString mMaterialHandle;
+    QString mSoundHandle;
+    dt::SoundComponent* mSound;
 };

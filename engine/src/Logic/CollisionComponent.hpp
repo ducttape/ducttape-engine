@@ -59,6 +59,8 @@ public:
       */
     float GetInitialPower();
 
+    void OnCreate();
+
 protected:
     /*
      * Called when Check() is called. It will emit a sCheck signal.
