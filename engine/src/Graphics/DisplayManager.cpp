@@ -11,8 +11,10 @@
 #include <Core/Root.hpp>
 #include <Utils/LogManager.hpp>
 #include <Input/InputManager.hpp>
+#include <Scene/Node.hpp>
 
 #include <SFML/Window/VideoMode.hpp>
+#include <SFML/Audio/Listener.hpp>
 
 namespace dt {
 
@@ -64,6 +66,13 @@ void DisplayManager::Render() {
     if(mOgreRoot != nullptr && mOgreRoot->isInitialised()) {
         mOgreRoot->renderOneFrame();
         Ogre::WindowEventUtilities::messagePump();
+
+        if(mMainCamera) {
+            auto pos = mMainCamera->GetNode()->GetPosition();
+            auto dir = mMainCamera->GetCamera()->getDirection();
+            sf::Listener::SetPosition(pos.x, pos.y, pos.z);
+            sf::Listener::SetDirection(dir.x, dir.y, dir.z);
+        }
     }
 }
 
