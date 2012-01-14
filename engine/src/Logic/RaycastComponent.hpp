@@ -36,13 +36,11 @@ public:
 
     /**
       * Called when Check() is called. It will emit a sCheck signal when it's called and a sHit signal if it hits something.
+      * @param start The absolute starting position for the check.
+      * @param end The absolute ending position for the check.
       * @see InteractionComponent
       */
-    void OnCheck();
-
-signals:
-    void sHit(dt::PhysicsBodyComponent* hit);
-    void sCheck(Ogre::Vector3 start, Ogre::Vector3 end);
+    void OnCheck(const btVector3& start, const btVector3& end);
 };
 
 }

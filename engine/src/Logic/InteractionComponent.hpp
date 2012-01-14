@@ -11,6 +11,7 @@
 
 #include <Config.hpp>
 
+#include <Physics/PhysicsBodyComponent.hpp>
 #include <Scene/Component.hpp>
 #include <Scene/Node.hpp>
 
@@ -32,7 +33,8 @@ public:
     InteractionComponent(const QString& name = "");
 
     /**
-      * Check if there's any objects in the InteractionComponent's range.
+      * Check if there's any objects in the InteractionComponent's range. 
+      * It will emit a sCheck signal when the check starts successfully.
       */
    void Check();
 
@@ -86,11 +88,33 @@ public:
 
     void OnUpdate(double time_diff);
 
+    /**
+      * Gets whether it's ready to perform the next interaction.
+      * @returns Whether it's ready to perform the next interaction.
+      */
+    bool IsReady() const;
+
 protected:
     /**
       * Called when Check() is called.
+      * @param start The absolute starting position for the check.
+      * @param end The absolute ending position for the check.
       */
-    virtual void OnCheck() = 0;
+    virtual void OnCheck(const btVector3& start, const btVector3& end) = 0;
+
+signals:
+    /**
+      * Emits this signal when the check completes and captures an object.
+      * @param hit The captured object.
+      */
+    void sHit(dt::PhysicsBodyComponent* hit);
+
+    /**
+      * A signal which will be emitted when the check starts.
+      * @param start The absolute starting position for the check.
+      * @param end The absolute ending position for the check.
+      */
+    void sCheck(Ogre::Vector3 start, Ogre::Vector3 end);
 
 protected:
     float mRange;          //<! The start position of the InteractionComponent's range relative to its position.

@@ -25,6 +25,16 @@ public:
 
     void OnEnable();
 
+    FPSPlayerComponent* GetController() const;
+
+    dt::CameraComponent* GetCamera() const;
+
+    StatusComponent* GetStatus() const;
+
+    dt::MeshComponent* GetMesh() const;
+
+    void OnHit(int damage);
+
 private slots:
     void _RefreshHealth(unsigned previous_health, unsigned current_health);
 
@@ -34,15 +44,9 @@ private slots:
 
     void _OnWeaponChanged(const Weapon* current_weapon);
 
-    const FPSPlayerComponent* GetController() const;
+    void _OnWalk();
 
-    const dt::CameraComponent* GetCamera() const;
-
-    const StatusComponent* GetStatus() const;
-
-    const dt::MeshComponent* GetMesh() const;
-
-    void OnHit(int damage);
+    void _OnStop();
 
 private:
     FPSPlayerComponent* mController;
@@ -50,6 +54,7 @@ private:
     StatusComponent* mStatus;
     dt::MeshComponent* mMesh;
     bool mIsControllable;
+    dt::SoundComponent* mWalkingSound;
 };
 
 #endif

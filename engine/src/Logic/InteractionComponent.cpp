@@ -8,6 +8,8 @@
 
 #include <Logic/InteractionComponent.hpp>
 
+#include <BtOgreGP.h>
+
 namespace dt {
     InteractionComponent::InteractionComponent(const QString& name)
         : Component(name),
@@ -49,15 +51,27 @@ namespace dt {
     }
 
     void InteractionComponent::Check() {
-        if(mRemainTime <= 0.0f && this->IsEnabled()) {
+        if(IsReady() && this->IsEnabled()) {
             mRemainTime = mInterval;
-            OnCheck();
+            Ogre::Vector3 start, end;
+            start = GetNode()->GetRotation(Node::SCENE) * Ogre::Vector3(0.0, 0.0, - mOffset)
+                + GetNode()->GetPosition(Node::SCENE);
+            end = GetNode()->GetRotation(Node::SCENE) * Ogre::Vector3(0.0, 0.0, - mRange)
+                + GetNode()->GetPosition(Node::SCENE);
+
+
+            emit sCheck(start, end);
+            OnCheck(BtOgre::Convert::toBullet(start), BtOgre::Convert::toBullet(end));
         }
     }
 
     void InteractionComponent::OnUpdate(double time_diff) {
-        if(mRemainTime > 0.0f) {
+        if(!IsReady()) {
             mRemainTime -= time_diff;
         }
+    }
+
+    bool InteractionComponent::IsReady() const {
+        return mRemainTime <= 0.0f;
     }
 }

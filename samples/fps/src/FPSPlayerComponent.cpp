@@ -8,13 +8,13 @@
 #include <OgreProcedural.h>
 
 FPSPlayerComponent::FPSPlayerComponent(int weapon_num, const QString& name)
-    : AdvancePlayerComponent(name),
+    : AdvancedPlayerComponent(name),
       mWeaponNum(weapon_num),
       mWeaponInUse(nullptr),
       mGrabber(nullptr) {}
 
 void FPSPlayerComponent::OnCreate() {
-    AdvancePlayerComponent::OnCreate();
+    AdvancedPlayerComponent::OnCreate();
 
     for(int i = 0 ; i < mWeaponNum ; i++) {
         mWeapons.push_back(nullptr);
@@ -37,7 +37,7 @@ void FPSPlayerComponent::OnCreate() {
 }
 
 void FPSPlayerComponent::OnDestroy() {
-    AdvancePlayerComponent::OnDestroy();
+    AdvancedPlayerComponent::OnDestroy();
 }
 
 void FPSPlayerComponent::AddWeapon(Weapon* weapon) {

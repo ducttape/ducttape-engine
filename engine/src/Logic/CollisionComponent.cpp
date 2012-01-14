@@ -16,19 +16,12 @@ namespace dt {
 
 CollisionComponent::CollisionComponent(const QString& bullet_handle, const QString& name)
     : InteractionComponent(name),
-      mBulletMeshHandle(bullet_handle),
-      mInitialPower(0.0f) {}
+      mBulletMeshHandle(bullet_handle) {}
 
-void CollisionComponent::OnCheck() {
-    btVector3 start, end, impulse;
-    start = BtOgre::Convert::toBullet(GetNode()->GetRotation(Node::SCENE) * Ogre::Vector3(0.0, 0.0, - mOffset)
-        + GetNode()->GetPosition(Node::SCENE));
-    end = BtOgre::Convert::toBullet(GetNode()->GetRotation(Node::SCENE) * Ogre::Vector3(0.0, 0.0, - mRange)
-        + GetNode()->GetPosition(Node::SCENE));
+void CollisionComponent::OnCheck(const btVector3& start, const btVector3& end) {
+    btVector3 impulse;
     impulse = end - start;
     impulse.normalize();
-
-    emit sCheck(BtOgre::Convert::toOgre(start), BtOgre::Convert::toOgre(end));
 
     Node* bullet = GetNode()->GetScene()->AddChildNode(new Node(QString(Utils::AutoId())));
 
@@ -42,15 +35,7 @@ void CollisionComponent::OnCheck() {
             Logger::Get().Error("Cannot connect the bullet's collided signal with the OnHit slot.");
     }
 
-    bullet_body->ApplyCentralImpulse(impulse * mInitialPower);
-}
-
-float CollisionComponent::GetInitialPower() {
-    return mInitialPower;
-}
-
-void CollisionComponent::SetInitialPower(float power) {
-    mInitialPower = power;
+    bullet_body->ApplyCentralImpulse(impulse * mRange);
 }
 
 void CollisionComponent::OnHit(PhysicsBodyComponent* hit, PhysicsBodyComponent* bullet) {

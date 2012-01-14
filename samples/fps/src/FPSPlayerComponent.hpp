@@ -6,7 +6,7 @@
 
 #include <Config.hpp>
 
-#include <Logic/AdvancePlayerComponent.hpp>
+#include <Logic/AdvancedPlayerComponent.hpp>
 #include <Logic/RaycastComponent.hpp>
 
 #include <vector>
@@ -16,7 +16,7 @@
 /**
   * A sample fps controller.
   */
-class FPSPlayerComponent : public dt::AdvancePlayerComponent {
+class FPSPlayerComponent : public dt::AdvancedPlayerComponent {
     Q_OBJECT
 public:
     FPSPlayerComponent(int weapon_num, const QString& name = "");

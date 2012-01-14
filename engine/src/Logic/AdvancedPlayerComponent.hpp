@@ -6,8 +6,8 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#ifndef DUCTTAPE_ENGINE_COMPONENT_ADVANCEPLAYERCOMPONENT
-#define DUCTTAPE_ENGINE_COMPONENT_ADVANCEPLAYERCOMPONENT
+#ifndef DUCTTAPE_ENGINE_COMPONENT_AdvancedPlayerComponent
+#define DUCTTAPE_ENGINE_COMPONENT_AdvancedPlayerComponent
 
 #include <Config.hpp>
 
@@ -30,7 +30,7 @@ namespace dt {
 /**
   * A component to deal with the input using bullet's built-in character controller.
   */
-class DUCTTAPE_API AdvancePlayerComponent : public Component {
+class DUCTTAPE_API AdvancedPlayerComponent : public Component {
     Q_OBJECT
 public:
     /**
@@ -38,7 +38,7 @@ public:
       * @param name The name of the Component.
       * @see Component
       */
-    AdvancePlayerComponent(const QString& name = "");
+    AdvancedPlayerComponent(const QString& name = "");
 
     void OnCreate();
     void OnDestroy();
@@ -153,15 +153,51 @@ protected:
     virtual void _OnMousePressed();
 
 private slots:
+    /**
+      * Handles the events triggered by pressing a key.
+      * @param event The key-pressing event.
+      */
     void _HandleKeyDown(const OIS::KeyEvent& event);
 
+    /**
+      * Handles the events triggered by moving the mouse.
+      * @param event The mouse-moving event.
+      */
     void _HandleMouseMove(const OIS::MouseEvent& event);
 
+    /**
+      * Handles the events triggered by releasing a key.
+      * @param event The key-releasing event.
+      */
     void _HandleKeyUp(const OIS::KeyEvent& event);
 
+    /**
+      * Handles the events triggered by pressing the mouse buttons.
+      * @param event The mouse button-pressing event.
+      */
     void _HandleMouseDown(const OIS::MouseEvent& event, OIS::MouseButtonID button);
 
+    /**
+      * Handles the events triggered by releasing the mouse buttons.
+      * @param event The mouse button-releasing event.
+      */
     void _HandleMouseUp(const OIS::MouseEvent& event, OIS::MouseButtonID button);
+
+signals:
+    /**
+      * A signal which will be emitted when the player starts to move when he's stopping or has done jumping.
+      */
+    void sMove();
+
+    /**
+      * A signal which will be emitted when the player starts to stop or jump when he's walking.
+      */
+    void sStop();
+
+    /**
+      * A signal which will be emitted when the player jumps.
+      */
+    void sJump();
 
 private:
     btKinematicCharacterController* mBtController;       //!< The bullet's built-in character controller.
@@ -176,6 +212,7 @@ private:
     bool mJumpEnabled;          //!< Whether the character can jump or not.
     bool mIsLeftOneShot;        //!< Whether the mouse's left button pressing effect is one-shot or not.
     bool mIsRightOneShot;       //!< Whether the mouse's right button pressing effect is one-shot or not.
+    bool mIsMoving;             //!< Whether the player is moving or not.
 
 protected:
     bool mIsLeftMouseDown;      //!< Whether the mouse's left button is down or not.

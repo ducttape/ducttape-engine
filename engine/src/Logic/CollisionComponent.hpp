@@ -47,26 +47,16 @@ public:
       */
     const QString& GetBulletMeshHandle();
 
-    /**
-      * Sets the initial bullet power.
-      * @param power The power to set.
-      */
-    void SetInitialPower(float power);
-
-    /**
-      * Gets the initial bullet power.
-      * @returns The initial bullet power.
-      */
-    float GetInitialPower();
-
     void OnCreate();
 
 protected:
     /*
      * Called when Check() is called. It will emit a sCheck signal.
+     * @param start The absolute starting position for the check.
+     * @param end The absolute ending position for the check.
      * @see InteractionComponent
      */
-    void OnCheck();
+    void OnCheck(const btVector3& start, const btVector3& end);
 
 protected slots:
      /**
@@ -76,13 +66,8 @@ protected slots:
       */
     void OnHit(dt::PhysicsBodyComponent* hit, dt::PhysicsBodyComponent* bullet);
 
-signals:
-    void sHit(dt::PhysicsBodyComponent* hit);
-    void sCheck(Ogre::Vector3 start, Ogre::Vector3 end);
-
 private:
     QString mBulletMeshHandle;                              //!< The handle to the bullet's mesh.
-    float mInitialPower;                                    //!< The initial power of the bullet which determines the bullet's initial speed.
 };
 
 }

@@ -38,8 +38,10 @@ void Weapon::OnInitialize() {
             dt::Logger::Get().Error("Cannot connect the sHit signal with the OnHit slot.");
     }
 
-    mSound = (dt::SoundComponent*)this->AddComponent(new dt::SoundComponent(mSoundHandle, this->GetName() + "_fire_sound"));
-    mSound->SetVolume(100.0f);
+    if(mSoundHandle != "") {
+        mSound = (dt::SoundComponent*)this->AddComponent(new dt::SoundComponent(mSoundHandle, this->GetName() + "_fire_sound"));
+        mSound->SetVolume(100.0f);
+    }
 }
 
 int Weapon::GetPower() const {
@@ -51,9 +53,11 @@ void Weapon::SetPower(int power) {
 }
 
 void Weapon::Fire() {
-    if(mCurrentAmmo > 0) {
-        mSound->StopSound();
-        mSound->PlaySound();
+    if(mCurrentAmmo > 0 && mInteractor->IsReady()) {
+        if(mSound != nullptr) {
+            mSound->StopSound();
+            mSound->PlaySound();
+        }
 
         this->mInteractor->Check();
         SetCurrentAmmo(mCurrentAmmo - 1);
@@ -181,5 +185,10 @@ void Weapon::OnEnable() {
 }
 
 void Weapon::OnDeinitialize() {
+    if(mSound != nullptr) {
+        mSound->StopSound();
+        QString name = mSound->GetName();
+        this->RemoveComponent(mSound->GetName());
+    }
     delete mReloadTimer;
 }

@@ -6,7 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include <Logic/AdvancePlayerComponent.hpp>
+#include <Logic/AdvancedPlayerComponent.hpp>
 
 #include <Scene/Node.hpp>
 #include <Scene/Scene.hpp>
@@ -17,7 +17,7 @@
 
 namespace dt {
 
-AdvancePlayerComponent::AdvancePlayerComponent(const QString& name)
+AdvancedPlayerComponent::AdvancedPlayerComponent(const QString& name)
     : Component(name),
       mBtController(nullptr),
       mBtGhostObject(nullptr),
@@ -31,10 +31,11 @@ AdvancePlayerComponent::AdvancePlayerComponent(const QString& name)
       mJumpEnabled(true),
       mIsLeftOneShot(true),
       mIsRightOneShot(true),
+      mIsMoving(false),
       mIsLeftMouseDown(false),
       mIsRightMouseDown(false) {}
 
-void AdvancePlayerComponent::OnCreate() {
+void AdvancedPlayerComponent::OnCreate() {
     btTransform  start_trans;
     start_trans.setIdentity();
     start_trans.setOrigin(BtOgre::Convert::toBullet(GetNode()->GetPosition(Node::SCENE)));
@@ -48,8 +49,11 @@ void AdvancePlayerComponent::OnCreate() {
     mBtGhostObject->setWorldTransform(start_trans);
     mBtGhostObject->setCollisionShape(capsule);
     mBtGhostObject->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
-    mBtGhostObject->setUserPointer((void *)this);
-
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    //TODO: Make a better way to distinguish between AdvancedPlayerComponent and PhysicsBodyComponent.
+    //For now, it's just a null pointer check to do this.
+    mBtGhostObject->setUserPointer(nullptr);
+    /////////////////////////////////////////////////////////////////////////////////////////////////
     mBtController = new btKinematicCharacterController(mBtGhostObject, capsule, 1);
     GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addCollisionObject(mBtGhostObject);
     GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addAction(mBtController);
@@ -81,14 +85,14 @@ void AdvancePlayerComponent::OnCreate() {
     }
 }
 
-void AdvancePlayerComponent::OnDestroy() {
+void AdvancedPlayerComponent::OnDestroy() {
     if(mBtController)
         delete mBtController;
     if(mBtGhostObject)
         delete mBtGhostObject;
 }
 
-void AdvancePlayerComponent::OnEnable() {
+void AdvancedPlayerComponent::OnEnable() {
     SetWASDEnabled(true);
     SetArrowsEnabled(true);
     SetJumpEnabled(true);
@@ -101,19 +105,19 @@ void AdvancePlayerComponent::OnEnable() {
 
     mBtGhostObject->setWorldTransform(transform);
     GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addCollisionObject(mBtGhostObject);
-    //GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addAction(mBtController);
 }
 
-void AdvancePlayerComponent::OnDisable() {
+void AdvancedPlayerComponent::OnDisable() {
     SetWASDEnabled(false);
     SetArrowsEnabled(false);
     SetJumpEnabled(false);
 
-    //GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->removeAction(mBtController);
+    mMove.setZero();
+
     GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->removeCollisionObject(mBtGhostObject);
 }
 
-void AdvancePlayerComponent::OnUpdate(double time_diff) {
+void AdvancedPlayerComponent::OnUpdate(double time_diff) {
     static Ogre::Vector3 move;
     static Ogre::Quaternion quaternion;
     static btTransform trans;
@@ -125,6 +129,18 @@ void AdvancePlayerComponent::OnUpdate(double time_diff) {
     trans = mBtGhostObject->getWorldTransform();
 
     GetNode()->SetPosition(BtOgre::Convert::toOgre(trans.getOrigin()), Node::SCENE);
+
+    if(!move.isZeroLength() && mBtController->onGround() && !mIsMoving) {
+        //Emit sMove when the player starts to move when he's stopping or has done jumpping.
+        emit sMove();
+        mIsMoving = true;
+    }
+    else if((move.isZeroLength() || !mBtController->onGround()) && mIsMoving) {
+        //Emit sStop when the player starts to stop or jump while he's moving.
+        emit sStop();
+        mIsMoving = false;
+    }
+
     if(mIsLeftMouseDown || mIsRightMouseDown) {
         _OnMousePressed();
 
@@ -138,63 +154,65 @@ void AdvancePlayerComponent::OnUpdate(double time_diff) {
 
 }
 
-void AdvancePlayerComponent::SetWASDEnabled(bool wasd_enabled) {
+void AdvancedPlayerComponent::SetWASDEnabled(bool wasd_enabled) {
     mWASDEnabled = wasd_enabled;
 }
 
-bool AdvancePlayerComponent::GetWASDEnabled() const {
+bool AdvancedPlayerComponent::GetWASDEnabled() const {
     return mWASDEnabled;
 }
 
-void AdvancePlayerComponent::SetArrowsEnabled(bool arrows_enabled) {
+void AdvancedPlayerComponent::SetArrowsEnabled(bool arrows_enabled) {
     mArrowsEnabled = arrows_enabled;
 }
 
-bool AdvancePlayerComponent::GetArrowsEnabled() const {
+bool AdvancedPlayerComponent::GetArrowsEnabled() const {
     return mArrowsEnabled;
 }
 
-void AdvancePlayerComponent::SetMoveSpeed(float move_speed) {
+void AdvancedPlayerComponent::SetMoveSpeed(float move_speed) {
     mMoveSpeed = move_speed;
 }
 
-float AdvancePlayerComponent::GetMoveSpeed() const {
+float AdvancedPlayerComponent::GetMoveSpeed() const {
     return mMoveSpeed;
 }
 
-void AdvancePlayerComponent::SetMouseEnabled(bool mouse_enabled) {
+void AdvancedPlayerComponent::SetMouseEnabled(bool mouse_enabled) {
     mMouseEnabled = mouse_enabled;
 }
 
-bool AdvancePlayerComponent::GetMouseEnabled() const {
+bool AdvancedPlayerComponent::GetMouseEnabled() const {
     return mMouseEnabled;
 }
 
-void AdvancePlayerComponent::SetMouseSensitivity(float mouse_sensitivity) {
+void AdvancedPlayerComponent::SetMouseSensitivity(float mouse_sensitivity) {
     mMouseSensitivity = mouse_sensitivity;
 }
 
-float AdvancePlayerComponent::GetMouseSensitivity() const {
+float AdvancedPlayerComponent::GetMouseSensitivity() const {
     return mMouseSensitivity;
 }
 
-void AdvancePlayerComponent::SetMouseYInversed(bool mouse_y_inversed) {
+void AdvancedPlayerComponent::SetMouseYInversed(bool mouse_y_inversed) {
     mMouseYInversed = mouse_y_inversed;
 }
 
-bool AdvancePlayerComponent::GetMouseYInversed() const {
+bool AdvancedPlayerComponent::GetMouseYInversed() const {
     return mMouseYInversed;
 }
 
-void AdvancePlayerComponent::SetJumpEnabled(bool jump_enabled) {
+void AdvancedPlayerComponent::SetJumpEnabled(bool jump_enabled) {
     mJumpEnabled = jump_enabled;
 }
 
-bool AdvancePlayerComponent::GetJumpEnabled() const{
+bool AdvancedPlayerComponent::GetJumpEnabled() const{
     return mJumpEnabled;
 }
 
-void AdvancePlayerComponent::_HandleKeyDown(const OIS::KeyEvent& event) {
+void AdvancedPlayerComponent::_HandleKeyDown(const OIS::KeyEvent& event) {
+    bool stopped = mMove.isZero();
+
     if(mWASDEnabled || mArrowsEnabled) {
         if((event.key == OIS::KC_W && mWASDEnabled) || (event.key == OIS::KC_UP && mArrowsEnabled)) {
             mMove.setZ(mMove.getZ() - 1.0f);
@@ -209,12 +227,20 @@ void AdvancePlayerComponent::_HandleKeyDown(const OIS::KeyEvent& event) {
             mMove.setX(mMove.getX() + 1.0f);
         }
     }
+
+    /*if(stopped && !mMove.isZero() && mBtController->onGround()) {
+        emit sMove();
+    }*/
+
     if(mJumpEnabled && event.key == OIS::KC_SPACE) {
         mBtController->jump();
+
+        emit sStop();
+        emit sJump();
     }
 }
 
-void AdvancePlayerComponent::_HandleMouseMove(const OIS::MouseEvent& event) {
+void AdvancedPlayerComponent::_HandleMouseMove(const OIS::MouseEvent& event) {
     if(mMouseEnabled) {
         float factor = mMouseSensitivity * -0.01;
 
@@ -249,7 +275,9 @@ void AdvancePlayerComponent::_HandleMouseMove(const OIS::MouseEvent& event) {
     }
 }
 
-void AdvancePlayerComponent::_HandleKeyUp(const OIS::KeyEvent& event) {
+void AdvancedPlayerComponent::_HandleKeyUp(const OIS::KeyEvent& event) {
+    bool stopped = mMove.isZero();
+
     if(mWASDEnabled || mArrowsEnabled) {
         if((event.key == OIS::KC_W && mWASDEnabled) || (event.key == OIS::KC_UP && mArrowsEnabled)) {
             mMove.setZ(mMove.getZ() + 1.0f);
@@ -264,9 +292,12 @@ void AdvancePlayerComponent::_HandleKeyUp(const OIS::KeyEvent& event) {
             mMove.setX(mMove.getX() - 1.0f);
         }
     }
+
+    /*if(!stopped && mMove.isZero())
+        emit sStop();*/
 }
 
-void AdvancePlayerComponent::_HandleMouseDown(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
+void AdvancedPlayerComponent::_HandleMouseDown(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
     if(mMouseEnabled) {
         if(button == OIS::MB_Left) {
             mIsLeftMouseDown = true;
@@ -278,9 +309,9 @@ void AdvancePlayerComponent::_HandleMouseDown(const OIS::MouseEvent& event, OIS:
     }
 }
 
-void AdvancePlayerComponent::_OnMousePressed() {}
+void AdvancedPlayerComponent::_OnMousePressed() {}
 
-void AdvancePlayerComponent::_HandleMouseUp(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
+void AdvancedPlayerComponent::_HandleMouseUp(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
     if(mMouseEnabled) {
         if(button == OIS::MB_Left) {
             mIsLeftMouseDown = false;
@@ -291,7 +322,7 @@ void AdvancePlayerComponent::_HandleMouseUp(const OIS::MouseEvent& event, OIS::M
     }
 }
 
-bool AdvancePlayerComponent::GetIsOneShot(OIS::MouseButtonID mouse_button) const {
+bool AdvancedPlayerComponent::GetIsOneShot(OIS::MouseButtonID mouse_button) const {
     if(mouse_button == OIS::MB_Left) {
         return mIsLeftOneShot;
     }
@@ -300,7 +331,7 @@ bool AdvancePlayerComponent::GetIsOneShot(OIS::MouseButtonID mouse_button) const
     }
 }
 
-void AdvancePlayerComponent::SetIsOneShot(bool is_one_shot, OIS::MouseButtonID mouse_button) {
+void AdvancedPlayerComponent::SetIsOneShot(bool is_one_shot, OIS::MouseButtonID mouse_button) {
     if(mouse_button == OIS::MB_Left) {
         mIsLeftOneShot = is_one_shot;
     }
