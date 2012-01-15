@@ -16,7 +16,8 @@ class Weapon : public dt::Node {
 public:
     Weapon(const QString& name, dt::InteractionComponent* interactor, int power, 
         unsigned max_clip, unsigned ammo_per_clip, float reload_time, unsigned type,
-        const QString& sound_handle, const QString& mesh_handle, const QString& material_handle = "");
+        const QString& sound_handle, const QString& reloading_begin_sound_handle, 
+        const QString& reloading_done_sound_handle, const QString& mesh_handle, const QString& material_handle = "");
 
     void OnInitialize();
 
@@ -86,6 +87,10 @@ private:
     dt::PhysicsBodyComponent* mPhysicsBody;
     bool mIsPhysicsBodyEnabled;
     QString mMaterialHandle;
-    QString mSoundHandle;
-    dt::SoundComponent* mSound;
+    QString mFiringSoundHandle;
+    QString mReloadingBeginSoundHandle;
+    QString mReloadingDoneSoundHandle;
+    dt::SoundComponent* mFiringSound;
+    dt::SoundComponent* mReloadingBeginSound;
+    dt::SoundComponent* mReloadingDoneSound;
 };

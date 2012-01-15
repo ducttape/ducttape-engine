@@ -232,7 +232,7 @@ void AdvancedPlayerComponent::_HandleKeyDown(const OIS::KeyEvent& event) {
         emit sMove();
     }*/
 
-    if(mJumpEnabled && event.key == OIS::KC_SPACE) {
+    if(mJumpEnabled && event.key == OIS::KC_SPACE && mBtController->onGround()) {
         mBtController->jump();
 
         emit sStop();

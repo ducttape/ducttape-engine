@@ -11,6 +11,7 @@
 #include "Graphics/MeshComponent.hpp"
 #include "Graphics/TextComponent.hpp"
 #include "Graphics/CameraComponent.hpp"
+#include "Gui/GuiButton.hpp"
 
 class Player : public Hittable {
     Q_OBJECT
@@ -48,6 +49,8 @@ private slots:
 
     void _OnStop();
 
+    void _OnJump();
+
 private:
     FPSPlayerComponent* mController;
     dt::CameraComponent* mCamera;
@@ -55,6 +58,10 @@ private:
     dt::MeshComponent* mMesh;
     bool mIsControllable;
     dt::SoundComponent* mWalkingSound;
+    dt::GuiButton* mHUDAmmo;
+    dt::GuiButton* mHUDHealth;
+    dt::GuiButton* mHUDClip;
+    dt::SoundComponent* mJumpingSound;
 };
 
 #endif

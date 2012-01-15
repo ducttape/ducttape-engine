@@ -19,7 +19,7 @@ namespace dt {
 GuiManager::GuiManager()
     : mGuiSystem(nullptr),
       mPlatform(nullptr),
-      mMouseCursorVisible(false),
+      mMouseCursorVisible(true),
       mRootGuiWindow("Gui") {}
 
 void GuiManager::Initialize() {

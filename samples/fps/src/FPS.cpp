@@ -15,6 +15,7 @@
 #include <OgreProcedural.h>
 
 void Main::OnInitialize() {
+    dt::ResourceManager::Get()->AddResourceLocation("gui","FileSystem", true);
     dt::ResourceManager::Get()->AddResourceLocation("","FileSystem");
     dt::ResourceManager::Get()->AddResourceLocation("crate", "FileSystem");
     dt::ResourceManager::Get()->AddResourceLocation("GranadeLauncher", "FileSystem");
@@ -36,7 +37,7 @@ void Main::OnInitialize() {
     interactor->SetOffset(1.0f);
     interactor->SetRange(20.0f);
     Weapon* weapon = (Weapon*)scene->AddChildNode(new Weapon("test_gun", interactor, 20, 5, 60, 
-        2.0f, 0, "Randomize.wav", "GranadeLauncher.mesh"));
+        2.0f, 0, "fire.wav", "reload_start.wav", "reload_done.wav", "GranadeLauncher.mesh"));
     weapon->EnablePhysicsBody(false);
     weapon->SetPosition(5, 2, 5);
     weapon->EnablePhysicsBody(true);

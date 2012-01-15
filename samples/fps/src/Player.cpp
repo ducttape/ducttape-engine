@@ -1,6 +1,8 @@
 #include "Player.hpp"
-//#include <QSignalSpy>
+
 #include "Utils/Logger.hpp"
+#include "Gui/GuiManager.hpp"
+#include "Gui/GuiRootWindow.hpp"
 
 Player::Player(const QString& name)
     : Hittable(name),
@@ -9,7 +11,11 @@ Player::Player(const QString& name)
       mStatus(nullptr),
       mMesh(nullptr),
       mIsControllable(false),
-      mWalkingSound(nullptr) {}
+      mWalkingSound(nullptr),
+      mHUDAmmo(nullptr),
+      mHUDHealth(nullptr),
+      mHUDClip(nullptr),
+      mJumpingSound(nullptr) {}
 
 void Player::OnInitialize() {
     mController = new FPSPlayerComponent(2, "controller");
@@ -17,7 +23,8 @@ void Player::OnInitialize() {
     mStatus = new StatusComponent(100, 100);
     mCamera = new dt::CameraComponent("main_camera");
     mWalkingSound = new dt::SoundComponent("walk.wav", "player_walking_sound");
-    
+    mJumpingSound = new dt::SoundComponent("jump.wav", "player_jump_sound");
+
     const Weapon* weapon = mController->GetWeaponInUse();
 
     //this->AddComponent(mMesh);
@@ -25,12 +32,31 @@ void Player::OnInitialize() {
     this->AddComponent(mCamera)->LookAt(Ogre::Vector3(0, 0, -10));
     this->AddComponent(mController);
     this->AddComponent(mWalkingSound);
+    this->AddComponent(mJumpingSound);
+
+    dt::GuiRootWindow& win = dt::GuiManager::Get()->GetRootWindow();
+    mHUDAmmo = win.CreateChild<dt::GuiButton>("HUD_ammo");
+    mHUDHealth = win.CreateChild<dt::GuiButton>("HUD_health");
+    mHUDClip = win.CreateChild<dt::GuiButton>("HUD_clip");
+    auto screen_rect = win.GetMyGUIWidget()->getAbsoluteRect();
+
+    mHUDHealth->SetSize(100, 30);
+    mHUDAmmo->SetSize(100, 30);
+    mHUDClip->SetSize(100, 30);
+
+    mHUDHealth->SetPosition(10, screen_rect.height() - 50);
+    mHUDAmmo->SetPosition(screen_rect.width() - 110, screen_rect.height() - 90);
+    mHUDClip->SetPosition(screen_rect.width() - 110, screen_rect.height() - 50);
+
+    dt::GuiManager::Get()->SetMouseCursorVisible(false);
+
     if(mIsControllable)
         mController->Enable();
     else
         mController->Disable();
 
     mWalkingSound->GetSound().SetLoop(true);
+    mJumpingSound->SetVolume(20);
 
     _RefreshHealth(0, 100);
     if(weapon != nullptr) {
@@ -50,15 +76,22 @@ void Player::OnInitialize() {
     if(!QObject::connect(mController, SIGNAL(sStop()), this, SLOT(_OnStop()), Qt::DirectConnection)) {
         dt::Logger::Get().Debug(QString("Failed to connect the controller's sStop with the player's _OnStop()"));
     }
+
+    if(!QObject::connect(mController, SIGNAL(sJump()), this, SLOT(_OnJump()), Qt::DirectConnection)) {
+        dt::Logger::Get().Debug(QString("Failed to connect the controller's sStop with the player's _OnStop()"));
+    }
 }
 
 void Player::_RefreshAmmo(unsigned current_ammo) {
+    mHUDAmmo->SetCaption(QString("Ammo: ") + dt::Utils::ToString(current_ammo));
 }
 
 void Player::_RefreshClip(unsigned current_clip) {
+    mHUDClip->SetCaption(QString("Clip: ") + dt::Utils::ToString(current_clip));
 }
 
 void Player::_RefreshHealth(unsigned previous_health, unsigned current_health) {
+    mHUDHealth->SetCaption(QString("Health: ") + dt::Utils::ToString(current_health));
 }
 
 void Player::_OnWeaponChanged(const Weapon* current_weapon) {
@@ -128,4 +161,8 @@ void Player::_OnWalk() {
 
 void Player::_OnStop() {
     mWalkingSound->StopSound();
+}
+
+void Player::_OnJump() {
+    mJumpingSound->PlaySound();
 }
