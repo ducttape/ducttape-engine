@@ -52,7 +52,7 @@ private slots:
     void _PickUpWeapon(dt::PhysicsBodyComponent* object);
 
 private:
-    int mWeaponNum;
+    unsigned mWeaponNum;
     Weapon* mWeaponInUse;
     std::vector<Weapon*> mWeapons;
     dt::RaycastComponent* mGrabber;

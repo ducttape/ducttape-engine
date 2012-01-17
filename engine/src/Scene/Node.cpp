@@ -349,10 +349,7 @@ void Node::Enable() {
     if(mParent == nullptr || mParent->IsEnabled()) {
         mIsEnabled = true;
         
-        for each(auto iter in mComponents) {
-            iter.second->Enable();
-        }
-        for(auto iter = mChildren.begin() ; iter != mChildren.end() ; iter++) {
+        for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
             iter->second->Enable();
         }
 
@@ -364,10 +361,7 @@ void Node::Disable() {
     if(mIsEnabled) {
         mIsEnabled = false;
 
-        for each(auto iter in mComponents) {
-            iter.second->Disable();
-        }
-        for(auto iter = mChildren.begin() ; iter != mChildren.end() ; iter++) {
+        for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
             iter->second->Disable();
         }
 
