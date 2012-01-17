@@ -1,0 +1,53 @@
+
+material _missing_material_ 
+{
+    receive_shadows off
+    technique
+    {
+        pass
+        {
+            ambient 0.1 0.1 0.1 1.0
+            diffuse 0.8 0.0 0.0 1.0
+            specular 0.5 0.5 0.5 1.0 12.5
+            emissive 0.3 0.3 0.3 1.0
+        }
+    }
+}
+
+material Material 
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			ambient 1.0 1.0 1.0 1.0
+			diffuse 0.800000011920929 0.800000011920929 0.800000011920929 1.0
+			specular 0.44032415747642517 0.44032415747642517 0.44032415747642517 1.0 12.5
+			emissive 0.0 0.0 0.0 1.0
+			scene_blend one zero
+			texture_unit
+			{
+				texture basketball2.jpg
+				tex_address_mode wrap
+				scale 0.2 0.2
+				colour_op_ex blend_manual src_current src_texture 0.0
+			}
+			texture_unit
+			{
+				texture Basketball-NormalMap.png
+				tex_address_mode wrap
+				scale 1.0 1.0
+				colour_op_ex blend_manual src_current src_texture 0.0
+			}
+			texture_unit
+			{
+				texture Basketball-ColorMap.png
+				tex_address_mode wrap
+				scale 1.0 1.0
+				colour_op_ex blend_manual src_current src_texture 0.0
+			}
+		}
+	}
+}
