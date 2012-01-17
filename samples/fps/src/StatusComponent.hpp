@@ -14,27 +14,27 @@
 class StatusComponent : public dt::Component {
     Q_OBJECT
 public:
-    StatusComponent(unsigned initial_health, unsigned max_health);
+    StatusComponent(uint16_t initial_health, uint16_t max_health);
 
-    unsigned GetHealth();
+    uint16_t GetHealth();
 
-    void SetHealth(unsigned health);
+    void SetHealth(uint16_t health);
 
-    unsigned GetMaxHealth();
+    uint16_t GetMaxHealth();
 
-    void SetMaxHealth(unsigned max_health);
+    void SetMaxHealth(uint16_t max_health);
 
 signals:
     void sDeath(const QString name);
 
-    void sHealthChanged(unsigned previous_health, unsigned current_health);
+    void sHealthChanged(uint16_t previous_health, uint16_t current_health);
 
 public:
     static const QString NAME;
 
 private:
-    unsigned mHealth;
-    unsigned mMaxHealth;
+    uint16_t mHealth;
+    uint16_t mMaxHealth;
 };
 
 #endif

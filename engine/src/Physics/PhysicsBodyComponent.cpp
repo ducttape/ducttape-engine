@@ -18,8 +18,8 @@
 
 namespace dt {
 
-PhysicsBodyComponent::PhysicsBodyComponent(const QString& mesh_component_name,
-                                           const QString& name, CollisionShapeType collision_shape_type)
+PhysicsBodyComponent::PhysicsBodyComponent(const QString& mesh_component_name, 
+                                           const QString& name, CollisionShapeType collision_shape_type, btScalar mass)
     : Component(name),
       mMeshComponentName(mesh_component_name),
       mCollisionShape(nullptr),
@@ -30,7 +30,8 @@ PhysicsBodyComponent::PhysicsBodyComponent(const QString& mesh_component_name,
       mTorque(btVector3(0, 0, 0)),
       mCollisionMask(0),
       mCollisionGroup(0),
-      mCollisionMaskInUse(false) {}
+      mCollisionMaskInUse(false),
+      mMass(mass) {}
 
 void PhysicsBodyComponent::OnCreate() {
     if(! mNode->HasComponent(mMeshComponentName)) {
@@ -67,15 +68,19 @@ void PhysicsBodyComponent::OnCreate() {
     else if(mCollisionShapeType == TRIMESH)
         mCollisionShape = converter.createTrimesh();
 
-    btScalar mass = 5.0f;
-    btVector3 inertia;
-    mCollisionShape->calculateLocalInertia(0.0f, inertia);
+    btVector3 inertia(0, 0, 0);
+    //Only the rigidbody's mass doesn't equal to zero is dynamic or some odd phenomenon may appear.
+    if(mMass != 0.0f)
+        mCollisionShape->calculateLocalInertia(mMass, inertia);
 
     btDefaultMotionState* state = new btDefaultMotionState(
         btTransform(BtOgre::Convert::toBullet(GetNode()->GetRotation(Node::SCENE)),
         BtOgre::Convert::toBullet(GetNode()->GetPosition(Node::SCENE))));
 
-    mBody = new btRigidBody(mass, state, mCollisionShape, inertia);
+    //Here's the most tricky part. You need to give it 5.0 as its temporary mass.
+    //Or you will find your player character keeps falling down no matter there's a ground.
+    //Its real mass will be set in OnEnable().
+    mBody = new btRigidBody(5.0, state, mCollisionShape, inertia);
 
     // Store pointer to this PhysicsBodyComponent for later retrieval (for
     // collisions, for instance)
@@ -100,6 +105,8 @@ void PhysicsBodyComponent::OnEnable() {
         btTransform(BtOgre::Convert::toBullet(GetNode()->GetRotation(Node::SCENE)),
         BtOgre::Convert::toBullet(GetNode()->GetPosition(Node::SCENE))));
     mBody->setMotionState(state);
+
+    SetMass(mMass);
 
     //Activate it.
     this->Activate();
@@ -199,9 +206,11 @@ void PhysicsBodyComponent::OnUpdate(double time_diff) {
 }
 
 void PhysicsBodyComponent::SetMass(btScalar mass) {
-    btVector3 inertia;
-    mCollisionShape->calculateLocalInertia(mass, inertia);
+    btVector3 inertia(0, 0, 0);
+    if(mass != 0.0f)
+        mCollisionShape->calculateLocalInertia(mass, inertia);
     mBody->setMassProps(mass, inertia);
+    mMass = mass;
 }
 /*
 void PhysicsBodyComponent::SetCollisionShapeType(CollisionShapeType type) {

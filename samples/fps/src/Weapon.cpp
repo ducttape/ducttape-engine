@@ -4,8 +4,8 @@
 
 #include "Utils/Utils.hpp"
 
-Weapon::Weapon(const QString& name, dt::InteractionComponent* interactor, int power, unsigned max_clip, 
-    unsigned ammo_per_clip, float reload_time, unsigned type, const QString& firing_sound_handle, 
+Weapon::Weapon(const QString& name, dt::InteractionComponent* interactor, int32_t power, uint16_t max_clip, 
+    uint16_t ammo_per_clip, float reload_time, uint16_t type, const QString& firing_sound_handle, 
     const QString& reloading_begin_sound_handle, const QString& reloading_done_sound_handle, 
     const QString& mesh_handle, const QString& material_handle)
     : Node(name),
@@ -62,7 +62,7 @@ void Weapon::OnInitialize() {
     }
 }
 
-int Weapon::GetPower() const {
+int32_t Weapon::GetPower() const {
     return mPower;
 }
 
@@ -99,7 +99,7 @@ void Weapon::Reload() {
     }
 }
 
-void Weapon::SetCurrentAmmo(unsigned current_ammo) {
+void Weapon::SetCurrentAmmo(uint16_t current_ammo) {
     if(current_ammo <= mAmmoPerClip)
         mCurrentAmmo = current_ammo;
     else
@@ -108,14 +108,14 @@ void Weapon::SetCurrentAmmo(unsigned current_ammo) {
     emit sAmmoChanged(mCurrentAmmo);
 }
 
-void Weapon::SetAmmoPerClip(unsigned ammo_per_clip) {
+void Weapon::SetAmmoPerClip(uint16_t ammo_per_clip) {
     mAmmoPerClip = ammo_per_clip;
 
     if(mCurrentAmmo > mAmmoPerClip)
         this->SetCurrentAmmo(mAmmoPerClip);
 }
 
-void Weapon::SetCurrentClip(unsigned current_clip) {
+void Weapon::SetCurrentClip(uint16_t current_clip) {
     if(current_clip <= mMaxClip)
         mCurrentClip = current_clip;
     else
@@ -124,26 +124,26 @@ void Weapon::SetCurrentClip(unsigned current_clip) {
     emit sClipChanged(mCurrentClip);
 }
 
-void Weapon::SetMaxClip(unsigned max_clip) {
+void Weapon::SetMaxClip(uint16_t max_clip) {
     mMaxClip = max_clip;
 
     if(mCurrentClip > mMaxClip)
         this->SetCurrentClip(mMaxClip);
 }
 
-unsigned Weapon::GetAmmoPerClip() const {
+uint16_t Weapon::GetAmmoPerClip() const {
     return mAmmoPerClip;
 }
 
-unsigned Weapon::GetCurrentAmmo() const {
+uint16_t Weapon::GetCurrentAmmo() const {
     return mCurrentAmmo;
 }
 
-unsigned Weapon::GetCurrentClip() const {
+uint16_t Weapon::GetCurrentClip() const {
     return mCurrentClip;
 }
 
-unsigned Weapon::GetMaxClip() const {
+uint16_t Weapon::GetMaxClip() const {
     return mMaxClip;
 }
 
@@ -177,11 +177,11 @@ void Weapon::_OnReloadCompleted() {
     }
 }
 
-unsigned Weapon::GetType() const {
+uint16_t Weapon::GetType() const {
     return mType;
 }
 
-void Weapon::SetType(unsigned type) {
+void Weapon::SetType(uint16_t type) {
     mType = type;
 }
 

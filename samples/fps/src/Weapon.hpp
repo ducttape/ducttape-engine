@@ -11,11 +11,13 @@
 
 #include <QString>
 
+#include <cstdint>
+
 class Weapon : public dt::Node {
     Q_OBJECT
 public:
-    Weapon(const QString& name, dt::InteractionComponent* interactor, int power, 
-        unsigned max_clip, unsigned ammo_per_clip, float reload_time, unsigned type,
+    Weapon(const QString& name, dt::InteractionComponent* interactor, int32_t power, 
+        uint16_t max_clip, uint16_t ammo_per_clip, float reload_time, uint16_t type,
         const QString& sound_handle, const QString& reloading_begin_sound_handle, 
         const QString& reloading_done_sound_handle, const QString& mesh_handle, const QString& material_handle = "");
 
@@ -23,29 +25,29 @@ public:
 
     void OnDeinitialize();
 
-    int GetPower() const;
+    int32_t GetPower() const;
 
-    void SetPower(int power);
+    void SetPower(int32_t power);
     
     void Fire();
 
     void Reload();
 
-    void SetCurrentAmmo(unsigned current_ammo);
+    void SetCurrentAmmo(uint16_t current_ammo);
 
-    void SetCurrentClip(unsigned current_clip);
+    void SetCurrentClip(uint16_t current_clip);
 
-    void SetMaxClip(unsigned max_clip);
+    void SetMaxClip(uint16_t max_clip);
 
-    void SetAmmoPerClip(unsigned ammo_per_clip);
+    void SetAmmoPerClip(uint16_t ammo_per_clip);
 
-    unsigned GetCurrentAmmo() const;
+    uint16_t GetCurrentAmmo() const;
     
-    unsigned GetCurrentClip() const;
+    uint16_t GetCurrentClip() const;
 
-    unsigned GetMaxClip() const;
+    uint16_t GetMaxClip() const;
 
-    unsigned GetAmmoPerClip() const;
+    uint16_t GetAmmoPerClip() const;
 
     float GetReloadTime() const;
 
@@ -53,9 +55,9 @@ public:
 
     const dt::InteractionComponent* GetInteractor() const;
 
-    unsigned GetType() const;
+    uint16_t GetType() const;
 
-    void SetType(unsigned type);
+    void SetType(uint16_t type);
 
     void EnablePhysicsBody(bool is_enabled);
 
@@ -64,9 +66,9 @@ public:
     void OnEnable();
 
 signals:
-    void sAmmoChanged(unsigned current_ammo);
+    void sAmmoChanged(uint16_t current_ammo);
 
-    void sClipChanged(unsigned current_clip);
+    void sClipChanged(uint16_t current_clip);
 
 private slots:
     void _OnHit(dt::PhysicsBodyComponent* hit);
@@ -75,14 +77,14 @@ private slots:
 
 private:
     dt::InteractionComponent* mInteractor;
-    int mPower;
-    unsigned mCurrentAmmo;
-    unsigned mCurrentClip;
-    unsigned mMaxClip;
-    unsigned mAmmoPerClip;
+    int32_t mPower;
+    uint16_t mCurrentAmmo;
+    uint16_t mCurrentClip;
+    uint16_t mMaxClip;
+    uint16_t mAmmoPerClip;
     float mReloadTime;
     dt::Timer* mReloadTimer;
-    unsigned mType;
+    uint16_t mType;
     QString mMeshHandle;
     dt::PhysicsBodyComponent* mPhysicsBody;
     bool mIsPhysicsBodyEnabled;

@@ -15,6 +15,7 @@
 #include <OgreProcedural.h>
 
 void Main::OnInitialize() {
+    dt::ResourceManager::Get()->AddDataPath(QDir("fps/data"));
     dt::ResourceManager::Get()->AddResourceLocation("gui","FileSystem", true);
     dt::ResourceManager::Get()->AddResourceLocation("","FileSystem");
     dt::ResourceManager::Get()->AddResourceLocation("crate", "FileSystem");
@@ -25,7 +26,7 @@ void Main::OnInitialize() {
     OgreProcedural::Root::getInstance()->sceneManager = scene->GetSceneManager();
 
     OgreProcedural::SphereGenerator().setRadius(1.f).setUTile(.5f).realizeMesh("Sphere");
-    OgreProcedural::CapsuleGenerator().setHeight(1.77).setRadius(0.44).realizeMesh("player");
+    OgreProcedural::CapsuleGenerator().setHeight(1.77f).setRadius(0.44f).realizeMesh("player");
 
     Player* player_node = (Player*)scene->AddChildNode(new Player("playernode"));
     player_node->SetPosition(Ogre::Vector3(0, 1.75, 5));
@@ -49,7 +50,8 @@ void Main::OnInitialize() {
     OgreProcedural::PlaneGenerator().setSizeX(100.0f).setSizeY(100.0f).setUTile(10.0).setVTile(10.0).realizeMesh("Plane");
     dt::Node* plane_node = scene->AddChildNode(new dt::Node("planenode"));
     plane_node->AddComponent(new dt::MeshComponent("Plane", "PrimitivesTest/Pebbles", "plane-mesh"));
-    plane_node->AddComponent(new dt::PhysicsBodyComponent("plane-mesh", "plane-body"))->SetMass(0.0f);
+    plane_node->AddComponent(new dt::PhysicsBodyComponent("plane-mesh", "plane-body",
+        dt::PhysicsBodyComponent::CONVEX, 0.0f));
 
     dt::Node* test_object = scene->AddChildNode(new dt::Node("testobject"));
     test_object->SetPosition(Ogre::Vector3(0, 1, -5));

@@ -19,15 +19,15 @@
 class FPSPlayerComponent : public dt::AdvancedPlayerComponent {
     Q_OBJECT
 public:
-    FPSPlayerComponent(int weapon_num, const QString& name = "");
+    FPSPlayerComponent(uint16_t weapon_num, const QString& name = "");
 
     void OnCreate();
 
     void OnDestroy();
 
-    unsigned GetWeaponNumber() const;
+    uint16_t GetWeaponNumber() const;
 
-    const Weapon* GetWeapon(unsigned weapon_type) const;
+    const Weapon* GetWeapon(uint16_t weapon_type) const;
 
     const Weapon* GetWeaponInUse() const;
 
@@ -36,9 +36,9 @@ public:
 public:
     void AddWeapon(Weapon* weapon);
 
-    void ChangeWeapon(unsigned weapon_type);
+    void ChangeWeapon(uint16_t weapon_type);
 
-    void RemoveWeapon(unsigned weapon_type);
+    void RemoveWeapon(uint16_t weapon_type);
 
 signals:
     void sWeaponChanged(const Weapon* current_weapon);
@@ -52,7 +52,7 @@ private slots:
     void _PickUpWeapon(dt::PhysicsBodyComponent* object);
 
 private:
-    int mWeaponNum;
+    uint16_t mWeaponNum;
     Weapon* mWeaponInUse;
     std::vector<Weapon*> mWeapons;
     dt::RaycastComponent* mGrabber;

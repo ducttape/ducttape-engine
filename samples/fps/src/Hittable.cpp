@@ -3,4 +3,4 @@
 Hittable::Hittable(const QString& name)
     : dt::Node(name) {}
 
-void Hittable::OnHit(int damage) {}
+void Hittable::OnHit(int32_t damage) {}
