@@ -57,7 +57,12 @@ Root& Root::GetInstance() {
 }
 
 void Root::Initialize(int argc, char** argv) {
-    mCoreApplication = new QCoreApplication(argc, argv);
+    if(qApp){
+        mCoreApplication = qApp;
+    } else {
+        mCoreApplication = new QCoreApplication(argc, argv);
+    }
+
     Serializer::Initialize();
 
     mSfClock.Reset();

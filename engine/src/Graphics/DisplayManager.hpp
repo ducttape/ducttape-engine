@@ -67,6 +67,12 @@ public:
     Ogre::SceneManager* GetSceneManager(const QString& scene);
 
     /**
+      * Sets the ogre window parameters, needs to be called before Initialize() or CreateOgreRoot()
+      * @param params the parameters for the ogre window
+      */
+    void SetRenderWindowParams(Ogre::NameValuePairList* params);
+
+    /**
       * Initializes the Ogre Render System.
       */
     void CreateOgreRoot();
@@ -133,6 +139,7 @@ private:
     Ogre::Root* mOgreRoot;      //!< The Ogre::Root instance.
     Ogre::RenderSystem* mOgreRenderSystem;  //!< The Ogre::RenderSystem instance.
     Ogre::RenderWindow* mOgreRenderWindow;  //!< The render window.
+    Ogre::NameValuePairList* mOgreRenderParams; //!< The parameters for the render window.
 
     GuiManager mGuiManager;     //!< The GuiManager.
 
