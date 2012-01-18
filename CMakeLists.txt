@@ -85,7 +85,7 @@ else() # GCC/Mingw
     set(CMAKE_CXX_FLAGS_DEBUG "-g")
 endif()
 
-include_directories(
+include_directories(SYSTEM
     ${PROJECT_SOURCE_DIR}/engine/src/
     ${Boost_INCLUDE_DIRS}
     ${SFML_INCLUDE_DIR}
