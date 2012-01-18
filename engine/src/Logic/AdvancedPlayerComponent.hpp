@@ -41,34 +41,21 @@ public:
     AdvancedPlayerComponent(const QString& name = "");
 
     void OnCreate();
-    void OnDestroy();
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);
 
     /**
-      * Sets whether the WASD keys are enabled for movement.
-      * @param wasd_enabled Whether the WASD keys are enabled for movement.
+      * Sets whether the keyboard is enabled or not.
+      * @param is_keyboard_enabled Whether the keyboard is enabled or not.
       */
-    void SetWASDEnabled(bool wasd_enabled);
+    void SetKeyboardEnabled(bool is_keyboard_enabled);
 
     /**
-      * Gets whether the WASD keys are enabled for movement.
-      * @returns Whether the WASD keys are enabled for movement.
+      * Gets whether the keyboard is enabled or not.
+      * @returns Whether the keyboard is enabled or not.
       */
-    bool GetWASDEnabled() const;
-
-    /**
-      * Sets whether the arrow keys are enabled for movement.
-      * @param arrows_enabled Whether the arrow keys are enabled for movement.
-      */
-    void SetArrowsEnabled(bool arrows_enabled);
-
-    /**
-      * Gets whether the arrow keys are enabled for movement.
-      * @returns Whether the arrow keys are enabled for movement.
-      */
-    bool GetArrowsEnabled() const;
+    bool GetKeyboardEnabled() const;
 
     /**
       * Sets the speed the player moves at.
@@ -200,15 +187,14 @@ signals:
     void sJump();
 
 private:
-    btKinematicCharacterController* mBtController;       //!< The bullet's built-in character controller.
-    btPairCachingGhostObject* mBtGhostObject;            //!< The bullet's ghost object.;
+    std::shared_ptr<btKinematicCharacterController> mBtController;       //!< The bullet's built-in character controller.
+    std::shared_ptr<btPairCachingGhostObject> mBtGhostObject;            //!< The bullet's ghost object.;
     bool mMouseEnabled;         //!< Whether the Mouse is enabled for looking around or not.
     float mMouseSensitivity;    //!< The sensitivity of the mouse. Default: 1.0.
     bool mMouseYInversed;       //!< True if the mouse's y-axis should be inversed.
     btVector3 mMove;            //!< Used to keep track of the movement.
     float mMoveSpeed;           //!< The speed to move at. Default: 5.0. In units per second.
-    bool mWASDEnabled;          //!< Whether the WASD  keys are enabled for movement or not.
-    bool mArrowsEnabled;        //!< Whether the Arrow keys are enabled for movement or not.
+    bool mKeyboardEnabled;      //!< Whether the keyboard is enabled or not.
     bool mJumpEnabled;          //!< Whether the character can jump or not.
     bool mIsLeftOneShot;        //!< Whether the mouse's left button pressing effect is one-shot or not.
     bool mIsRightOneShot;       //!< Whether the mouse's right button pressing effect is one-shot or not.

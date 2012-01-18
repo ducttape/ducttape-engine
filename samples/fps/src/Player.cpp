@@ -105,10 +105,10 @@ void Player::_OnWeaponChanged(const Weapon* current_weapon) {
         _RefreshAmmo(0);
     }
     else {
-        if(!QObject::connect(current_weapon, SIGNAL(sAmmoChanged(unsigned)),
+        if(!QObject::connect(current_weapon, SIGNAL(sAmmoChanged(uint16_t)),
             this, SLOT(_RefreshAmmo(uint16_t))))
             dt::Logger::Get().Debug("Failed to connect the new weapon's sAmmoChanged signal!");
-        if(!QObject::connect(current_weapon, SIGNAL(sClipChanged(unsigned)),
+        if(!QObject::connect(current_weapon, SIGNAL(sClipChanged(uint16_t)),
             this, SLOT(_RefreshClip(uint16_t))))
             dt::Logger::Get().Debug("Failed to connect the new weapon's sClipChanged signal!");
        
