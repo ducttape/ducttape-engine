@@ -69,6 +69,7 @@ void SoundComponent::StopSound() {
     if(mSound.GetStatus() != sf::Sound::Stopped) {
         // stop sound if possible
         mSound.Stop();
+        //mSound.SetPlayingOffset(0); // rewind (No need to rewind it manually. See sfml's docs.)
         emit SoundStopped();
     }
 }

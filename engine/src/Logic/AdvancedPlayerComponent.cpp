@@ -211,6 +211,8 @@ bool AdvancedPlayerComponent::GetJumpEnabled() const{
 }
 
 void AdvancedPlayerComponent::_HandleKeyDown(const OIS::KeyEvent& event) {
+    bool stopped = mMove.isZero();
+
     if(mWASDEnabled || mArrowsEnabled) {
         if((event.key == OIS::KC_W && mWASDEnabled) || (event.key == OIS::KC_UP && mArrowsEnabled)) {
             mMove.setZ(mMove.getZ() - 1.0f);
@@ -225,6 +227,10 @@ void AdvancedPlayerComponent::_HandleKeyDown(const OIS::KeyEvent& event) {
             mMove.setX(mMove.getX() + 1.0f);
         }
     }
+
+    /*if(stopped && !mMove.isZero() && mBtController->onGround()) {
+        emit sMove();
+    }*/
 
     if(mJumpEnabled && event.key == OIS::KC_SPACE && mBtController->onGround()) {
         mBtController->jump();
@@ -270,6 +276,8 @@ void AdvancedPlayerComponent::_HandleMouseMove(const OIS::MouseEvent& event) {
 }
 
 void AdvancedPlayerComponent::_HandleKeyUp(const OIS::KeyEvent& event) {
+    bool stopped = mMove.isZero();
+
     if(mWASDEnabled || mArrowsEnabled) {
         if((event.key == OIS::KC_W && mWASDEnabled) || (event.key == OIS::KC_UP && mArrowsEnabled)) {
             mMove.setZ(mMove.getZ() + 1.0f);
@@ -284,6 +292,9 @@ void AdvancedPlayerComponent::_HandleKeyUp(const OIS::KeyEvent& event) {
             mMove.setX(mMove.getX() - 1.0f);
         }
     }
+
+    /*if(!stopped && mMove.isZero())
+        emit sStop();*/
 }
 
 void AdvancedPlayerComponent::_HandleMouseDown(const OIS::MouseEvent& event, OIS::MouseButtonID button) {

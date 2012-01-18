@@ -138,9 +138,8 @@ void Player::OnHit(int damage) {
 }
 
 void Player::SetControllable(bool is_controllable) {
-    if(mIsControllable != is_controllable) {
-        mIsControllable = is_controllable;
-        if(mIsControllable)
+    if(is_controllable != mIsControllable) {
+        if(mIsControllable = is_controllable)
             mController->Enable();
         else
             mController->Disable();
