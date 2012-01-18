@@ -34,7 +34,7 @@ void Main::OnInitialize() {
 
     OgreProcedural::SphereGenerator().setRadius(0.5f).setUTile(.5f).realizeMesh("Bullet");
     OgreProcedural::BoxGenerator().setSize(Ogre::Vector3(2.0f, 2.0f, 2.5f)).realizeMesh("Gun");
-    dt::CollisionComponent* interactor = new dt::CollisionComponent("Basketball.mesh", "interactor");
+    dt::CollisionComponent* interactor = new dt::CollisionComponent("basketball.mesh", "interactor");
     interactor->SetOffset(1.0f);
     interactor->SetRange(20.0f);
     Weapon* weapon = (Weapon*)scene->AddChildNode(new Weapon("test_gun", interactor, 20, 5, 60, 
