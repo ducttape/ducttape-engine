@@ -126,6 +126,8 @@ void FPSPlayerComponent::_OnKeyPressed(const OIS::KeyEvent& event) {
     case OIS::KC_E:
         mGrabber->Check();
         break;
+    default:
+        return;
     }
 }
 
