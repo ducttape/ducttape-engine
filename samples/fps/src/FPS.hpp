@@ -9,8 +9,6 @@ class Main : public dt::State {
 public:
     void OnInitialize();
     void UpdateStateFrame(double simulation_frame_time);
-
-private:
 };
 
 #endif

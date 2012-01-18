@@ -7,7 +7,7 @@
 
 #include <OgreProcedural.h>
 
-FPSPlayerComponent::FPSPlayerComponent(int weapon_num, const QString& name)
+FPSPlayerComponent::FPSPlayerComponent(uint16_t weapon_num, const QString& name)
     : AdvancedPlayerComponent(name),
       mWeaponNum(weapon_num),
       mWeaponInUse(nullptr),
@@ -16,7 +16,7 @@ FPSPlayerComponent::FPSPlayerComponent(int weapon_num, const QString& name)
 void FPSPlayerComponent::OnCreate() {
     AdvancedPlayerComponent::OnCreate();
 
-    for(int i = 0 ; i < mWeaponNum ; i++) {
+    for(uint16_t i = 0 ; i < mWeaponNum ; i++) {
         mWeapons.push_back(nullptr);
     }
 
@@ -62,7 +62,7 @@ void FPSPlayerComponent::AddWeapon(Weapon* weapon) {
     }
 }
 
-void FPSPlayerComponent::ChangeWeapon(unsigned weapon_type) {
+void FPSPlayerComponent::ChangeWeapon(uint16_t weapon_type) {
     if(mWeaponNum > weapon_type && mWeapons[weapon_type] != nullptr && mWeaponInUse != mWeapons[weapon_type]) {
         if(mWeaponInUse != nullptr)
             mWeaponInUse->Disable();
@@ -74,11 +74,11 @@ void FPSPlayerComponent::ChangeWeapon(unsigned weapon_type) {
     }      
 }
 
-unsigned FPSPlayerComponent::GetWeaponNumber() const {
+uint16_t FPSPlayerComponent::GetWeaponNumber() const {
     return mWeaponNum;
 }
 
-const Weapon* FPSPlayerComponent::GetWeapon(unsigned weapon_type) const {
+const Weapon* FPSPlayerComponent::GetWeapon(uint16_t weapon_type) const {
     return mWeapons[weapon_type];
 }
 
@@ -129,7 +129,7 @@ void FPSPlayerComponent::_OnKeyPressed(const OIS::KeyEvent& event) {
     }
 }
 
-void FPSPlayerComponent::RemoveWeapon(unsigned weapon_type) {
+void FPSPlayerComponent::RemoveWeapon(uint16_t weapon_type) {
     if(mWeaponNum >= weapon_type && mWeapons[weapon_type] != nullptr) {
         if(mWeaponInUse == mWeapons[weapon_type])
             mWeaponInUse = nullptr;

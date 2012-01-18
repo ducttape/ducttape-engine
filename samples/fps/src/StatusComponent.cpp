@@ -2,16 +2,16 @@
 
 #include <Scene/Node.hpp>
 
-StatusComponent::StatusComponent(unsigned initial_health, unsigned max_health)
+StatusComponent::StatusComponent(uint16_t initial_health, uint16_t max_health)
     : Component(NAME),
       mHealth(initial_health),
       mMaxHealth(max_health) {}
 
-unsigned StatusComponent::GetHealth() {
+uint16_t StatusComponent::GetHealth() {
     return mHealth;
 }
 
-void StatusComponent::SetHealth(unsigned health) {
+void StatusComponent::SetHealth(uint16_t health) {
     if(this->IsEnabled() && mHealth != health) {
         if(health >= mMaxHealth) {
             health = mMaxHealth;
@@ -29,11 +29,11 @@ void StatusComponent::SetHealth(unsigned health) {
     }
 }
 
-unsigned StatusComponent::GetMaxHealth() {
+uint16_t StatusComponent::GetMaxHealth() {
     return mMaxHealth;
 }
 
-void StatusComponent::SetMaxHealth(unsigned max_health) {
+void StatusComponent::SetMaxHealth(uint16_t max_health) {
     if(this->IsEnabled())
         mMaxHealth = max_health;
 }

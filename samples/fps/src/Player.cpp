@@ -82,22 +82,22 @@ void Player::OnInitialize() {
     }
 }
 
-void Player::_RefreshAmmo(unsigned current_ammo) {
+void Player::_RefreshAmmo(uint16_t current_ammo) {
     mHUDAmmo->SetCaption(QString("Ammo: ") + dt::Utils::ToString(current_ammo));
 }
 
-void Player::_RefreshClip(unsigned current_clip) {
+void Player::_RefreshClip(uint16_t current_clip) {
     mHUDClip->SetCaption(QString("Clip: ") + dt::Utils::ToString(current_clip));
 }
 
-void Player::_RefreshHealth(unsigned previous_health, unsigned current_health) {
+void Player::_RefreshHealth(uint16_t previous_health, uint16_t current_health) {
     mHUDHealth->SetCaption(QString("Health: ") + dt::Utils::ToString(current_health));
 }
 
 void Player::_OnWeaponChanged(const Weapon* current_weapon) {
-    if(!QObject::disconnect(this, SLOT(_RefreshAmmo(unsigned))))
+    if(!QObject::disconnect(this, SLOT(_RefreshAmmo(uint16_t))))
         dt::Logger::Get().Debug("Failed to disconnect the player's _RefreshAmmo slot!");
-    if(!QObject::disconnect(this, SLOT(_RefreshClip(unsigned))))
+    if(!QObject::disconnect(this, SLOT(_RefreshClip(uint16_t))))
         dt::Logger::Get().Debug("Failed to disconnect the player's _RefreshClip slot!");
 
     if(current_weapon == nullptr) {
@@ -106,10 +106,10 @@ void Player::_OnWeaponChanged(const Weapon* current_weapon) {
     }
     else {
         if(!QObject::connect(current_weapon, SIGNAL(sAmmoChanged(unsigned)),
-            this, SLOT(_RefreshAmmo(unsigned))))
+            this, SLOT(_RefreshAmmo(uint16_t))))
             dt::Logger::Get().Debug("Failed to connect the new weapon's sAmmoChanged signal!");
         if(!QObject::connect(current_weapon, SIGNAL(sClipChanged(unsigned)),
-            this, SLOT(_RefreshClip(unsigned))))
+            this, SLOT(_RefreshClip(uint16_t))))
             dt::Logger::Get().Debug("Failed to connect the new weapon's sClipChanged signal!");
        
         _RefreshClip(current_weapon->GetCurrentClip());
@@ -133,13 +133,14 @@ dt::MeshComponent* Player::GetMesh() const {
     return mMesh;
 }
 
-void Player::OnHit(int damage) {
+void Player::OnHit(int32_t damage) {
     mStatus->SetHealth(mStatus->GetHealth() - damage);
 }
 
 void Player::SetControllable(bool is_controllable) {
-    if(is_controllable != mIsControllable) {
-        if(mIsControllable = is_controllable)
+    if(mIsControllable != is_controllable) {
+        mIsControllable = is_controllable;
+        if(mIsControllable)
             mController->Enable();
         else
             mController->Disable();

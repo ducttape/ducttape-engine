@@ -34,14 +34,14 @@ public:
 
     dt::MeshComponent* GetMesh() const;
 
-    void OnHit(int damage);
+    void OnHit(int32_t damage);
 
 private slots:
-    void _RefreshHealth(unsigned previous_health, unsigned current_health);
+    void _RefreshHealth(uint16_t previous_health, uint16_t current_health);
 
-    void _RefreshAmmo(unsigned current_ammo);
+    void _RefreshAmmo(uint16_t current_ammo);
 
-    void _RefreshClip(unsigned current_clip);
+    void _RefreshClip(uint16_t current_clip);
 
     void _OnWeaponChanged(const Weapon* current_weapon);
 

@@ -10,7 +10,7 @@ class Hittable : public dt::Node {
 public:
     Hittable(const QString& name = "");
 
-    virtual void OnHit(int damage);
+    virtual void OnHit(int32_t damage);
 };
 
 #endif
