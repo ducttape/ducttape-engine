@@ -20,12 +20,6 @@ void FPSPlayerComponent::OnCreate() {
         mWeapons.push_back(nullptr);
     }
 
-    if(!QObject::connect(dt::InputManager::Get(), SIGNAL(sKeyPressed(const OIS::KeyEvent&)), 
-        this, SLOT(_OnKeyPressed(const OIS::KeyEvent&)))) {
-            dt::Logger::Get().Error("Cannot connect the key pressed signal with " + GetName()
-                + "'s keyboard input handling slot.");
-    }
-
     mGrabber = this->GetNode()->AddComponent<dt::RaycastComponent>(new dt::RaycastComponent("grabber"));
     mGrabber->SetRange(3.0f);
     
@@ -86,7 +80,7 @@ const std::vector<Weapon*>& FPSPlayerComponent::GetAllWeapons() const {
     return mWeapons;
 }
 
-void FPSPlayerComponent::_OnKeyPressed(const OIS::KeyEvent& event) {
+void FPSPlayerComponent::_OnKeyDown(const OIS::KeyEvent& event) {
     switch(event.key) {
     case OIS::KC_1:
         ChangeWeapon(0);
@@ -146,7 +140,7 @@ void FPSPlayerComponent::RemoveWeapon(uint16_t weapon_type) {
     }
 }
 
-void FPSPlayerComponent::_OnMousePressed() {
+void FPSPlayerComponent::_OnMouseTriggered() {
     if(mIsLeftMouseDown && mWeaponInUse != nullptr)
         mWeaponInUse->Fire();
 }

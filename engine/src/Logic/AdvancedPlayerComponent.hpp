@@ -136,8 +136,40 @@ public:
 protected:
     /**
       * Called every frame if the mouse event is triggered. Override it to use your own handling logic.
+      * A mouse event is triggered once when you push down the mouse button under the one-shot mode.
+      * Otherwise, it is triggered every frame if you've pushed down the mouse button and havn't released it yet.
       */
-    virtual void _OnMousePressed();
+    virtual void _OnMouseTriggered() {}
+
+    /**
+      * Called by void _HandleKeyDown(const OIS::KeyEvent& event). Override it to add your handling logic.
+      * @param event The key-pressing event.
+      */
+    virtual void _OnKeyDown(const OIS::KeyEvent& event) {}
+
+    /**
+      * Called by void _HandleMouseMove(const OIS::MouseEvent& event). Override it to add your handling logic.
+      * @param event The mouse-moving event.
+      */
+    virtual void _OnMouseMove(const OIS::MouseEvent& event) {}
+
+    /**
+      * Called by void _HandleKeyUp(const OIS::KeyEvent& event). Override it to add your handling logic.
+      * @param event The key-releasing event.
+      */
+    virtual void _OnKeyUp(const OIS::KeyEvent& event) {}
+
+    /**
+      * Called by void _HandleMouseDown(const OIS::MouseEvent& event). Override it to add your handling logic.
+      * @param event The mouse button-pressing event.
+      */
+    virtual void _OnMouseDown(const OIS::MouseEvent& event, OIS::MouseButtonID button) {}
+
+    /**
+      * Called by void _HandleMouseUp(const OIS::MouseEvent& event). Override it to add your handling logic.
+      * @param event The mouse button-releasing event.
+      */
+    virtual void _OnMouseUp(const OIS::MouseEvent& event, OIS::MouseButtonID button) {}
 
 private slots:
     /**
@@ -161,12 +193,14 @@ private slots:
     /**
       * Handles the events triggered by pressing the mouse buttons.
       * @param event The mouse button-pressing event.
+      * @param button The pushed mouse button.
       */
     void _HandleMouseDown(const OIS::MouseEvent& event, OIS::MouseButtonID button);
 
     /**
       * Handles the events triggered by releasing the mouse buttons.
       * @param event The mouse button-releasing event.
+      * @param button The released mouse button. 
       */
     void _HandleMouseUp(const OIS::MouseEvent& event, OIS::MouseButtonID button);
 

@@ -131,7 +131,7 @@ void AdvancedPlayerComponent::OnUpdate(double time_diff) {
     }
 
     if(mIsLeftMouseDown || mIsRightMouseDown) {
-        _OnMousePressed();
+        _OnMouseTriggered();
 
         if(mIsLeftOneShot) {
             mIsLeftMouseDown = false;
@@ -220,6 +220,8 @@ void AdvancedPlayerComponent::_HandleKeyDown(const OIS::KeyEvent& event) {
             emit sStop();
             emit sJump();
         }
+
+        _OnKeyDown(event);
     }
 }
 
@@ -255,6 +257,8 @@ void AdvancedPlayerComponent::_HandleMouseMove(const OIS::MouseEvent& event) {
             rot.FromRotationMatrix(orientMatrix);
             GetNode()->SetRotation(rot);
         }
+
+        _OnMouseMove(event);
     }
 }
 
@@ -272,6 +276,8 @@ void AdvancedPlayerComponent::_HandleKeyUp(const OIS::KeyEvent& event) {
         if(event.key == OIS::KC_D || event.key == OIS::KC_RIGHT) {
             mMove.setX(mMove.getX() - 1.0f);
         }
+
+        _OnKeyUp(event);
     }
 }
 
@@ -282,12 +288,11 @@ void AdvancedPlayerComponent::_HandleMouseDown(const OIS::MouseEvent& event, OIS
         }
         else if(button == OIS::MB_Right) {
             mIsRightMouseDown = true;
-
         }
+
+        _OnMouseDown(event, button);
     }
 }
-
-void AdvancedPlayerComponent::_OnMousePressed() {}
 
 void AdvancedPlayerComponent::_HandleMouseUp(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
     if(mMouseEnabled) {
@@ -297,6 +302,8 @@ void AdvancedPlayerComponent::_HandleMouseUp(const OIS::MouseEvent& event, OIS::
         else if(button == OIS::MB_Right) {
             mIsRightMouseDown = false;
         }
+
+        _OnMouseUp(event, button);
     }
 }
 

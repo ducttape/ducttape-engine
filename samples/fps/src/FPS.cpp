@@ -11,11 +11,12 @@
 #include <Logic/AdvancedPlayerComponent.hpp>
 #include <Physics/PhysicsManager.hpp>
 #include <Core/ResourceManager.hpp>
+#include <Input/InputManager.hpp>
 
 #include <OgreProcedural.h>
 
 void Main::OnInitialize() {
-    dt::ResourceManager::Get()->AddDataPath(QDir("fps/data"));
+    dt::ResourceManager::Get()->AddDataPath(QDir("./fps/data"));
     dt::ResourceManager::Get()->AddResourceLocation("gui","FileSystem", true);
     dt::ResourceManager::Get()->AddResourceLocation("","FileSystem");
     dt::ResourceManager::Get()->AddResourceLocation("crate", "FileSystem");
@@ -24,6 +25,8 @@ void Main::OnInitialize() {
 
     dt::Scene* scene = AddScene(new dt::Scene("fpsscene"));
     OgreProcedural::Root::getInstance()->sceneManager = scene->GetSceneManager();
+
+    dt::InputManager::Get()->SetJailInput(true);
 
     OgreProcedural::SphereGenerator().setRadius(1.f).setUTile(.5f).realizeMesh("Sphere");
     OgreProcedural::CapsuleGenerator().setHeight(1.77f).setRadius(0.44f).realizeMesh("player");

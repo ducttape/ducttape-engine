@@ -44,10 +44,10 @@ signals:
     void sWeaponChanged(const Weapon* current_weapon);
 
 private:
-    void _OnMousePressed();
+    void _OnMouseTriggered();
 
 private slots:
-    void _OnKeyPressed(const OIS::KeyEvent& event);
+    void _OnKeyDown(const OIS::KeyEvent& event);
 
     void _PickUpWeapon(dt::PhysicsBodyComponent* object);
 
