@@ -26,8 +26,7 @@ AdvancedPlayerComponent::AdvancedPlayerComponent(const QString& name)
       mMouseYInversed(false),
       mMove(0.0, 0.0, 0.0),
       mMoveSpeed(5.0f),
-      mWASDEnabled(true),
-      mArrowsEnabled(true),
+      mKeyboardEnabled(true),
       mJumpEnabled(true),
       mIsLeftOneShot(true),
       mIsRightOneShot(true),
@@ -45,7 +44,7 @@ void AdvancedPlayerComponent::OnCreate() {
     btScalar character_width = 0.44;
     btConvexShape* capsule = new btCapsuleShape(character_width, character_height);
 
-    mBtGhostObject = new btPairCachingGhostObject();
+    mBtGhostObject = std::shared_ptr<btPairCachingGhostObject>(new btPairCachingGhostObject());
     mBtGhostObject->setWorldTransform(start_trans);
     mBtGhostObject->setCollisionShape(capsule);
     mBtGhostObject->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
@@ -54,9 +53,10 @@ void AdvancedPlayerComponent::OnCreate() {
     //For now, it's just a null pointer check to do this.
     mBtGhostObject->setUserPointer(nullptr);
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    mBtController = new btKinematicCharacterController(mBtGhostObject, capsule, 1);
-    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addCollisionObject(mBtGhostObject);
-    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addAction(mBtController);
+    mBtController = std::shared_ptr<btKinematicCharacterController>
+        (new btKinematicCharacterController(mBtGhostObject.get(), capsule, 1));
+    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addCollisionObject(mBtGhostObject.get());
+    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addAction(mBtController.get());
 
     if(!QObject::connect(InputManager::Get(), SIGNAL(sKeyPressed(const OIS::KeyEvent&)), 
         this, SLOT(_HandleKeyDown(const OIS::KeyEvent&)))) {
@@ -85,17 +85,9 @@ void AdvancedPlayerComponent::OnCreate() {
     }
 }
 
-void AdvancedPlayerComponent::OnDestroy() {
-    if(mBtController)
-        delete mBtController;
-    if(mBtGhostObject)
-        delete mBtGhostObject;
-}
-
 void AdvancedPlayerComponent::OnEnable() {
-    SetWASDEnabled(true);
-    SetArrowsEnabled(true);
-    SetJumpEnabled(true);
+    SetKeyboardEnabled(true);
+    SetMouseEnabled(true);
 
     //Re-sychronize it.
     btTransform transform;
@@ -104,17 +96,14 @@ void AdvancedPlayerComponent::OnEnable() {
     transform.setRotation(BtOgre::Convert::toBullet(GetNode()->GetRotation(Node::SCENE)));
 
     mBtGhostObject->setWorldTransform(transform);
-    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addCollisionObject(mBtGhostObject);
+    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addCollisionObject(mBtGhostObject.get());
 }
 
 void AdvancedPlayerComponent::OnDisable() {
-    SetWASDEnabled(false);
-    SetArrowsEnabled(false);
-    SetJumpEnabled(false);
+    SetKeyboardEnabled(false);
+    SetMouseEnabled(false);
 
-    mMove.setZero();
-
-    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->removeCollisionObject(mBtGhostObject);
+    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->removeCollisionObject(mBtGhostObject.get());
 }
 
 void AdvancedPlayerComponent::OnUpdate(double time_diff) {
@@ -142,7 +131,7 @@ void AdvancedPlayerComponent::OnUpdate(double time_diff) {
     }
 
     if(mIsLeftMouseDown || mIsRightMouseDown) {
-        _OnMousePressed();
+        _OnMouseTriggered();
 
         if(mIsLeftOneShot) {
             mIsLeftMouseDown = false;
@@ -154,20 +143,15 @@ void AdvancedPlayerComponent::OnUpdate(double time_diff) {
 
 }
 
-void AdvancedPlayerComponent::SetWASDEnabled(bool wasd_enabled) {
-    mWASDEnabled = wasd_enabled;
+void AdvancedPlayerComponent::SetKeyboardEnabled(bool is_keyboard_enabled) {
+    mKeyboardEnabled = is_keyboard_enabled;
+
+    if(!mKeyboardEnabled)
+        mMove.setZero();
 }
 
-bool AdvancedPlayerComponent::GetWASDEnabled() const {
-    return mWASDEnabled;
-}
-
-void AdvancedPlayerComponent::SetArrowsEnabled(bool arrows_enabled) {
-    mArrowsEnabled = arrows_enabled;
-}
-
-bool AdvancedPlayerComponent::GetArrowsEnabled() const {
-    return mArrowsEnabled;
+bool AdvancedPlayerComponent::GetKeyboardEnabled() const {
+    return mKeyboardEnabled;
 }
 
 void AdvancedPlayerComponent::SetMoveSpeed(float move_speed) {
@@ -180,6 +164,11 @@ float AdvancedPlayerComponent::GetMoveSpeed() const {
 
 void AdvancedPlayerComponent::SetMouseEnabled(bool mouse_enabled) {
     mMouseEnabled = mouse_enabled;
+
+    if(!mMouseEnabled) {
+        mIsLeftMouseDown = false;
+        mIsRightMouseDown = false;
+    }
 }
 
 bool AdvancedPlayerComponent::GetMouseEnabled() const {
@@ -211,26 +200,28 @@ bool AdvancedPlayerComponent::GetJumpEnabled() const{
 }
 
 void AdvancedPlayerComponent::_HandleKeyDown(const OIS::KeyEvent& event) {
-    if(mWASDEnabled || mArrowsEnabled) {
-        if((event.key == OIS::KC_W && mWASDEnabled) || (event.key == OIS::KC_UP && mArrowsEnabled)) {
+    if(mKeyboardEnabled) {
+        if(event.key == OIS::KC_W || event.key == OIS::KC_UP) {
             mMove.setZ(mMove.getZ() - 1.0f);
         }
-        if((event.key == OIS::KC_S && mWASDEnabled) || (event.key == OIS::KC_DOWN && mArrowsEnabled)) {
+        if(event.key == OIS::KC_S || event.key == OIS::KC_DOWN) {
             mMove.setZ(mMove.getZ() + 1.0f);
         }
-        if((event.key == OIS::KC_A && mWASDEnabled) || (event.key == OIS::KC_LEFT && mArrowsEnabled)) {
+        if(event.key == OIS::KC_A || event.key == OIS::KC_LEFT) {
             mMove.setX(mMove.getX() - 1.0f);
         }
-        if((event.key == OIS::KC_D && mWASDEnabled) || (event.key == OIS::KC_RIGHT && mArrowsEnabled)) {
+        if(event.key == OIS::KC_D || event.key == OIS::KC_RIGHT) {
             mMove.setX(mMove.getX() + 1.0f);
         }
-    }
 
-    if(mJumpEnabled && event.key == OIS::KC_SPACE && mBtController->onGround()) {
-        mBtController->jump();
+        if(mJumpEnabled && event.key == OIS::KC_SPACE && mBtController->onGround()) {
+            mBtController->jump();
 
-        emit sStop();
-        emit sJump();
+            emit sStop();
+            emit sJump();
+        }
+
+        _OnKeyDown(event);
     }
 }
 
@@ -266,23 +257,27 @@ void AdvancedPlayerComponent::_HandleMouseMove(const OIS::MouseEvent& event) {
             rot.FromRotationMatrix(orientMatrix);
             GetNode()->SetRotation(rot);
         }
+
+        _OnMouseMove(event);
     }
 }
 
 void AdvancedPlayerComponent::_HandleKeyUp(const OIS::KeyEvent& event) {
-    if(mWASDEnabled || mArrowsEnabled) {
-        if((event.key == OIS::KC_W && mWASDEnabled) || (event.key == OIS::KC_UP && mArrowsEnabled)) {
+    if(mKeyboardEnabled) {
+        if(event.key == OIS::KC_W || event.key == OIS::KC_UP) {
             mMove.setZ(mMove.getZ() + 1.0f);
         }
-        if((event.key == OIS::KC_S && mWASDEnabled) || (event.key == OIS::KC_DOWN && mArrowsEnabled)) {
+        if(event.key == OIS::KC_S || event.key == OIS::KC_DOWN) {
             mMove.setZ(mMove.getZ() - 1.0f);
         }
-        if((event.key == OIS::KC_A && mWASDEnabled) || (event.key == OIS::KC_LEFT && mArrowsEnabled)) {
+        if(event.key == OIS::KC_A || event.key == OIS::KC_LEFT) {
             mMove.setX(mMove.getX() + 1.0f);
         }
-        if((event.key == OIS::KC_D && mWASDEnabled) || (event.key == OIS::KC_RIGHT && mArrowsEnabled)) {
+        if(event.key == OIS::KC_D || event.key == OIS::KC_RIGHT) {
             mMove.setX(mMove.getX() - 1.0f);
         }
+
+        _OnKeyUp(event);
     }
 }
 
@@ -293,12 +288,11 @@ void AdvancedPlayerComponent::_HandleMouseDown(const OIS::MouseEvent& event, OIS
         }
         else if(button == OIS::MB_Right) {
             mIsRightMouseDown = true;
-
         }
+
+        _OnMouseDown(event, button);
     }
 }
-
-void AdvancedPlayerComponent::_OnMousePressed() {}
 
 void AdvancedPlayerComponent::_HandleMouseUp(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
     if(mMouseEnabled) {
@@ -308,6 +302,8 @@ void AdvancedPlayerComponent::_HandleMouseUp(const OIS::MouseEvent& event, OIS::
         else if(button == OIS::MB_Right) {
             mIsRightMouseDown = false;
         }
+
+        _OnMouseUp(event, button);
     }
 }
 

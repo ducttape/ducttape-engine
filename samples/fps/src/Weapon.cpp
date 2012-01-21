@@ -207,5 +207,6 @@ void Weapon::OnEnable() {
 }
 
 void Weapon::OnDeinitialize() {
-    delete mReloadTimer;
+    if(mReloadTimer != nullptr)
+        delete mReloadTimer;
 }
