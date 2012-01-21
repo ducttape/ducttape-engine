@@ -201,7 +201,6 @@ void Node::SetParent(Node* parent) {
                 auto iter = mParent->mChildren.find(mName);
                 parent->mChildren.insert(mName, mParent->mChildren.release(iter).release());
                 mParent = parent;
-                //parent->mChildren.transfer(parent->mChildren.begin(), iter, mParent->mChildren);
             }
             else {
                 parent->AddChildNode(this);

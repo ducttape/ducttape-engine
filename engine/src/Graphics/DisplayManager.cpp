@@ -11,7 +11,6 @@
 #include <Core/Root.hpp>
 #include <Utils/LogManager.hpp>
 #include <Input/InputManager.hpp>
-#include <Scene/Node.hpp>
 
 #include <SFML/Window/VideoMode.hpp>
 
