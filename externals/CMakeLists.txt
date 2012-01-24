@@ -15,3 +15,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/ogre-paged/include)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/ogre-paged/source ogre-paged_SOURCES)
 add_library(ogre-paged STATIC ${ogre-paged_SOURCES})
 #set_target_properties(ogre-paged PROPERTIES COMPILE_FLAGS "-DOgreProcedural_STATIC")
+
+# Make Recast
+include_directories(${Recast_INCLUDE_DIRS})
+add_library(Recast STATIC ${Recast_LIBRARIES})

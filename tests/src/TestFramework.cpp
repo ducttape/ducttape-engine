@@ -20,6 +20,7 @@
 #include "MusicTest/MusicTest.hpp"
 #include "NamesTest/NamesTest.hpp"
 #include "NetworkTest/NetworkTest.hpp"
+#include "NavigationTest/NavigationTest.hpp"
 #include "ParticlesTest/ParticlesTest.hpp"
 #include "PhysicsSimpleTest/PhysicsSimpleTest.hpp"
 #include "PhysicsStressTest/PhysicsStressTest.hpp"
@@ -73,6 +74,7 @@ int main(int argc, char** argv) {
     AddTest(new MusicTest::MusicTest);
     AddTest(new NamesTest::NamesTest);
     AddTest(new NetworkTest::NetworkTest);
+    AddTest(new NavigationTest::NavigationTest);
     AddTest(new ParticlesTest::ParticlesTest);
     AddTest(new PhysicsSimpleTest::PhysicsSimpleTest);
     AddTest(new PhysicsStressTest::PhysicsStressTest);

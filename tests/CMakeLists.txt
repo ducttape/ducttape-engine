@@ -46,6 +46,7 @@ add_test(NAME ScriptComponent COMMAND test_framework ScriptComponent)
 # add_test(NAME Network COMMAND ${PROJECT_SOURCE_DIR}/bin/Network.sh)
 add_test(NAME SerializationBinary COMMAND test_framework SerializationBinary)
 add_test(NAME SerializationYaml COMMAND test_framework SerializationYaml)
+add_test(NAME Navigation COMMAND test_framework Navigation)
 
 # graphics
 add_test(NAME Display COMMAND test_framework Display)
