@@ -15,6 +15,7 @@
 
 namespace NavigationTest {
 
+
 bool NavigationTest::Run(int argc, char** argv) {
     dt::Game game;
     game.Run(new Main(), argc, argv);
@@ -29,6 +30,10 @@ QString NavigationTest::GetTestName() {
 
 Main::Main()
     : mRuntime(0) {}
+    
+Main::~Main() {
+    delete mNavManager;    
+    }
 
 void Main::UpdateStateFrame(double simulation_frame_time) {
     mRuntime += simulation_frame_time;
@@ -41,6 +46,8 @@ void Main::UpdateStateFrame(double simulation_frame_time) {
         dt::StateManager::Get()->Pop(1);
     }
 }
+
+
 
 void Main::OnInitialize() {
     dt::Scene* scene = AddScene(new dt::Scene("testscene"));
@@ -58,7 +65,7 @@ void Main::OnInitialize() {
 
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-        mNavManager = new dt::NavigationManager(scene->GetSceneManager());
+    mNavManager = new dt::NavigationManager(scene->GetSceneManager());
     
     dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
     camnode->SetPosition(Ogre::Vector3(0, 35, 0));
@@ -120,6 +127,7 @@ void Main::OnInitialize() {
     path->SetDuration(1.5);
     dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh", "", "lolmesh");
     meshnode->AddComponent(mesh);
+
 }
 
 }

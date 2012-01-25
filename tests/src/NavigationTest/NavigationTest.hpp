@@ -27,6 +27,7 @@
 namespace NavigationTest {
 
 class NavigationTest : public Test {
+    
 public:
     bool Run(int argc, char** argv);
     QString GetTestName();
@@ -38,6 +39,7 @@ class Main : public dt::State {
     Q_OBJECT
 public:
     Main();
+    ~Main();
     //Main::Priority GetEventPriority() const;
     void OnInitialize();
     void UpdateStateFrame(double simulation_frame_time);

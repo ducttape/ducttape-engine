@@ -12,12 +12,8 @@
 #include <Config.hpp>
 
 #include <Core/Manager.hpp>
-// #include <Logic/NavigationComponent.hpp>
 
-#include <QCoreApplication>
-#include <QFile>
-
-#include "OgreProceduralBoxGenerator.h"
+// #include "OgreProceduralBoxGenerator.h"
 
 #include "Recast.h"
 #include "DebugDraw.h"
@@ -25,6 +21,9 @@
 #include "DetourNavMeshBuilder.h"
 #include "DetourDebugDraw.h"
 #include "DetourCommon.h"
+
+#include <QCoreApplication>
+#include <QFile>
 
 #include "BtOgreExtras.h"
 
@@ -49,11 +48,19 @@ enum SamplePolyFlags
         SAMPLE_POLYFLAGS_ALL            = 0xffff        // All abilities.
 };
 
-/// OpenGL debug draw implementation.
-class DebugDrawGL : public duDebugDraw
+/** 
+ * Ogre Manual Object debug draw implementation.
+ * This class will draw on the screen maps or paths.
+ */
+class DebugDraw : public duDebugDraw
 {
 public:
-        DebugDrawGL(Ogre::SceneManager* scene_mgr);
+    /**
+     * This class will draw on the screen maps or paths.
+     * @param scene_mgr The scene manager where the data will be drawn.
+     */
+        DebugDraw(Ogre::SceneManager* scene_mgr);
+        
         virtual void depthMask(bool state);
         virtual void texture(bool state);
         virtual void begin(duDebugDrawPrimitives prim, float size = 1.0f);
@@ -63,46 +70,56 @@ public:
         virtual void vertex(const float x, const float y, const float z, unsigned int color, const float u, const float v);
         virtual void end();
         
-//     btIDebugDraw mDebugDraw;
 private:
-    Ogre::ManualObject* mManualObject;
+    Ogre::ManualObject* mManualObject; //!< Manual object that draw lines and triangles.
 };
 
 /**
-  * Manager class for the Navigationing Engine.
+  * Manager class for the Navigation Engine.
+  * In order to use the engine:
+  * 1. Add the mesh to analyze with AddMesh().
+  * 2. Build the navigation map with BuildMap().
+  * 3. Request path with FindPath().
   */
 class DUCTTAPE_API NavigationManager : public Manager {
     Q_OBJECT
+    
 public:
     /**
-      * Default constructor.
+      * Manager class for the Navigation Engine.
       */
     NavigationManager(Ogre::SceneManager* scene_mgr);
+    ~NavigationManager();
 
     void Initialize();
     void Deinitialize();
     static NavigationManager* Get();
 
-    bool AddNavigation(QString script, QString name);
+//     bool AddNavigation(QString script, QString name);
     
     /**
      * Add a mesh to the navigation map.
+     * @param mesh the mesh to add.
+     * @param position the position of the mesh.
+     * @param orient the orientation of the mesh.
+     * @param scale the scale of the mesh.
      */
     void AddMesh(Ogre::Mesh& mesh, const Ogre::Vector3 &position,
                  const Ogre::Quaternion &orient, const Ogre::Vector3 &scale );
     
     /**
      * Find the straight path from point Begin to point End.
-     * @return a deque of vector (points).
+     * @return a deque of vector (points of the path).
      */
     std::deque<Ogre::Vector3> FindPath(const Ogre::Vector3& Begin, const Ogre::Vector3& End);
     
     /**
      * Build the navigation map.
-     * Call this after the mesh where added.
+     * Call this after the mesh are added.
      * @return true if the map was builded successfully.
      */
     bool BuildMap();
+    
     /**
      * Reset the parameter to the default configuration
      */
@@ -113,20 +130,20 @@ public:
      */
     bool UpdateNavQuery();
     
-    bool m_keepInterResults;
-    float m_totalBuildTimeMs;
+    bool mKeepTempResult;
+    float mTotalBuildTime;
 
-    unsigned char* m_triareas;
-    rcHeightfield* m_solid;
-    rcCompactHeightfield* m_chf;
-    rcContourSet* m_cset;
-    rcPolyMesh* m_pmesh;
-    rcConfig m_cfg; 
-    rcPolyMeshDetail* m_dmesh;
-    rcContext m_ctx; //TODO Inherit another class from rcContext
-    class dtNavMesh* m_navMesh;
-    class dtNavMeshQuery* m_navQuery;
-    class dtCrowd* m_crowd;
+    unsigned char* mTriareas;
+    rcHeightfield* mSolid;
+    rcCompactHeightfield* mCHF;
+    rcContourSet* mCSet;
+    rcPolyMesh* mPMesh;
+    rcConfig mCFG; 
+    rcPolyMeshDetail* mDMesh;
+    rcContext mCTX; //TODO Inherit another class from rcContext
+    class dtNavMesh* mNavMesh;
+    class dtNavMeshQuery* mNavQuery;
+    class dtCrowd* mCrowd;
     
     // Filter for walkable area.
     dtQueryFilter mFilter; 
@@ -136,21 +153,25 @@ public:
     dtPolyRef mEndRef;
     
     // The number of points in the straight path
-    int m_nstraightPath;
-    int m_npolys;
+    int mNStraightPath;
+    int mNPolys;
 
-        float m_hitPos[3];
-        float m_hitNormal[3];
-                dtPolyRef m_polys[10000];
-    unsigned char m_straightPathFlags[10000];
+    float mHitPos[3];
+    float mHitNormal[3];
+    dtPolyRef mPolys[10000];
+    unsigned char mStraightPathFlags[10000];
     
     
 private:
     /**
+     * @param mesh the mesh to add.
      * @param vertex_count The number of the vertex.
      * @param vertices The vertices data (x, y, z) * vertex_count.
      * @param index_count The number of the indices.
      * @param indices The indices data, (index a, index b, index c) * triangle_count.
+     * @param position the position of the mesh.
+     * @param orient the orientation of the mesh.
+     * @param scale the scale of the mesh.
      */
    void _GetMeshVertices(const Ogre::Mesh* const mesh,
                         size_t &vertex_count,
@@ -160,9 +181,52 @@ private:
                         const Ogre::Vector3 &position,
                         const Ogre::Quaternion &orient,
                         const Ogre::Vector3 &scale);
-   void _RastetizeMesh();
+   /**
+    * Rastetize the navigation mesh.
+    */
+   bool _RastetizeMesh();
    
+   /**
+    * Filter the walkable surface.
+    */
+   bool _FilterWalkableSurface();
+   
+   /**
+    *  Partition walkable surface to simple regions.
+    */
+   bool _PartitionSurfaceToRegions();
+   
+   /**
+    *  Trace and simplify region contours.
+    */
+   bool _TraceAndSimplifyRegion();
+   
+   /**
+    * Build polygons mesh from contours.
+    */
+   bool _BuildPolygonsMesh();
+   
+   /**
+    * Create detail mesh which allows to access approximate height on each polygon.
+    */
+   bool _BuildDetailMesh();
+   
+   /**
+    * Create Detour data from Recast poly mesh.
+    */
+   bool _CreateDetourData();
+   
+   /**
+    * Convert an array of 3 floats to a Ogre::Vector3
+    * @param vector an array of 3 floats.
+    * @return an ogre vector.
+    */
    Ogre::Vector3 _FloatsToOgreVector3(float* vector);
+    /**
+    * Convert an Ogre::Vector3 to an array of 3 floats.
+    * @param ogre_vector an ogre vector.
+    * @param float_vector an array of 3 floats. warning: the float memory must be writable.
+    */
    void _OgreVector3ToFloats(const Ogre::Vector3& ogre_vector, float* float_vector);
    
    uint64_t mVerticesNumber; //!< number of the vertices of the meshes to be rastetized.
@@ -170,17 +234,17 @@ private:
    float* mVertices; //!< array to vertices of the meshes to be rastetized.
    int32_t* mIndices; //!< array to indices of the meshes to be rastetized.
    
-   Ogre::Vector3 mBeginPosition;
-   Ogre::Vector3 mEndPosition;
-   float mSearchDistance[3]; 
+   Ogre::Vector3 mBeginPosition; //!< The start position of the path.
+   Ogre::Vector3 mEndPosition; //!< The end position of the path.
    
-        static const int MAX_POLYS = 256;
-        
-    float mStraightPath[9000];
-     dtPolyRef mStraightPathPolys[10000];
+   float mSearchDistance[3]; 
+   static const int MAX_POLYS = 256;
+   float mStraightPath[9000];
+   dtPolyRef mStraightPathPolys[10000];
      
-     DebugDrawGL* mDebugDraw;
-    
+   DebugDraw* mDebugDraw; //!< The drawer for debbuging purpose.
+   std::ofstream log; //!< output stream for printing Detour debug data.
+   
 };
 
 }
