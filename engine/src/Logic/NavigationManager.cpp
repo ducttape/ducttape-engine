@@ -57,6 +57,9 @@ mIndices(nullptr)
     mNavQuery = dtAllocNavMeshQuery();
     
     mDebugDraw = new DebugDraw(scene_mgr);
+    mDebugDraw->SetVisible(false);
+    
+    mCFG = CreateDefaultConfig();
     
 //     log.clear();
     log.open("navigation-manager-log.txt", std::ios::out);
@@ -76,21 +79,48 @@ NavigationManager::~NavigationManager()
 void NavigationManager::Initialize() {}
 
 void NavigationManager::ResetCommonSetting() {
-    // Init build configuration from GUI
-    memset(&mCFG, 0, sizeof(mCFG));
-    mCFG.cs = 0.3f;
-    mCFG.ch = 0.2f;
-    mCFG.walkableSlopeAngle = 45.0f;
-    mCFG.walkableHeight = (int)ceilf(2.0f / mCFG.ch);
-    mCFG.walkableClimb = (int)floorf(0.9f / mCFG.ch);
-    mCFG.walkableRadius =  (int)ceilf(0.6f / mCFG.cs);
-    mCFG.maxEdgeLen = (int)(12.0f / 0.3f); 12;
-    mCFG.maxSimplificationError = 1.3f;
-    mCFG.minRegionArea = (int)rcSqr(8);   
-    mCFG.mergeRegionArea = (int)rcSqr(20);
-    mCFG.maxVertsPerPoly = (int)6.0f;
-    mCFG.detailSampleDist = 6.0f < 0.9f ? 0 : 0.3f *  6.0f;
-    mCFG.detailSampleMaxError = 0.2f * 1.0f;
+   mCFG = CreateDefaultConfig();
+}
+
+rcConfig NavigationManager::CreateDefaultConfig()
+{
+    rcConfig config;
+    memset(&config, 0, sizeof(config));
+    config.cs = 0.3f;
+    config.ch = 0.2f;
+    config.walkableSlopeAngle = 45.0f;
+    config.walkableHeight = (int)ceilf(2.0f / config.ch);
+    config.walkableClimb = (int)floorf(0.9f / config.ch);
+    config.walkableRadius =  (int)ceilf(0.6f / config.cs);
+    config.maxEdgeLen = (int)(12.0f / 0.3f); 12;
+    config.maxSimplificationError = 1.3f;
+    config.minRegionArea = (int)rcSqr(8);   
+    config.mergeRegionArea = (int)rcSqr(20);
+    config.maxVertsPerPoly = (int)6.0f;
+    config.detailSampleDist = 6.0f < 0.9f ? 0 : 0.3f *  6.0f;
+    config.detailSampleMaxError = 0.2f * 1.0f;
+    return config;
+}
+
+void NavigationManager::SetConfig(const rcConfig& config) {
+    mCFG = config;
+    
+    // Some data must be modified, the original provided by the user
+    // is stored in this class private data.
+    mAgentHeight = mCFG.walkableHeight;
+    mCFG.walkableHeight = (int)ceilf(mAgentHeight / config.ch);
+    mAgentMaxClimb = mCFG.walkableClimb;
+    mCFG.walkableClimb = (int)floorf(mAgentMaxClimb / config.ch);
+    mAgentRadius = mCFG.walkableRadius;
+    mCFG.walkableRadius = (int)ceilf(mAgentRadius / config.cs);
+}
+
+rcConfig NavigationManager::GetConfig() {
+    return mCFG;
+}
+
+void NavigationManager::ShowDebug(bool show) {
+    mDebugDraw->SetVisible(show);
 }
 
 bool NavigationManager::_RastetizeMesh() {
@@ -127,12 +157,12 @@ bool NavigationManager::_RastetizeMesh() {
         
     // Allocate voxel heightfield where we rasterize our input data to.
     mSolid = rcAllocHeightfield();
-    if (!mSolid)
+    if(!mSolid)
     {
             dt::Logger::Get().Debug( "Cannot alloc an height field");
             return false;
     }
-    if (!rcCreateHeightfield(&mCTX, *mSolid, mCFG.width, mCFG.height, mCFG.bmin, mCFG.bmax, mCFG.cs, mCFG.ch))
+    if(!rcCreateHeightfield(&mCTX, *mSolid, mCFG.width, mCFG.height, mCFG.bmin, mCFG.bmax, mCFG.cs, mCFG.ch))
     {
             dt::Logger::Get().Debug( "Cannot create an height field ");
             return false;
@@ -143,21 +173,17 @@ bool NavigationManager::_RastetizeMesh() {
     // and array which can hold the max number of triangles you need to process.
 
     mTriareas = new unsigned char[ntris];
-    if (!mTriareas)
+    if(!mTriareas)
     {
             dt::Logger::Get().Debug( "Cannot alloc array for triangle areas");
             return false;
     }
     
-//TODO: delete this debug code
-for (int i = 0;i<(int)mIndicesNumber; ++i) {
-     log << "vertex of triangle n. " << i/3 << " x= " << mVertices[mIndices[i]] << 
-                                               " y= " << mVertices[mIndices[i]+1] << 
-                                               " z= " << mVertices[mIndices[i]+2] << std::endl;
-                                               
-    return true;
-    
-}
+    for(int i = 0;i<(int)mIndicesNumber; ++i) {
+        log << "vertex of triangle n. " << i/3 << " x= " << mVertices[mIndices[i]] << 
+                                                " y= " << mVertices[mIndices[i]+1] << 
+                                                " z= " << mVertices[mIndices[i]+2] << std::endl;
+    }
 
     int32_t numTris = mIndicesNumber / 3;
     
@@ -168,12 +194,12 @@ for (int i = 0;i<(int)mIndicesNumber; ++i) {
     rcMarkWalkableTriangles(&mCTX, mCFG.walkableSlopeAngle, mVertices, mVerticesNumber, mIndices, numTris, mTriareas);
     rcRasterizeTriangles(&mCTX, mVertices, mVerticesNumber, mIndices, mTriareas, numTris, *mSolid, mCFG.walkableClimb);
 
-    if (!mKeepTempResult)
-        {
-                delete [] mTriareas;
-                mTriareas = 0;
-        }
+    if(!mKeepTempResult) {
+        delete [] mTriareas;
+        mTriareas = 0;
+    }
         
+    return true;
 }
 
 bool NavigationManager::_FilterWalkableSurface()
@@ -198,25 +224,25 @@ bool NavigationManager::_PartitionSurfaceToRegions()
     // This will result more cache coherent data as well as the neighbours
     // between walkable cells will be calculated.
     mCHF = rcAllocCompactHeightfield();
-    if (!mCHF)
+    if(!mCHF)
     {
         dt::Logger::Get().Debug( "Cannot alloc a compact heightfield");
         return false;
     }
-    if (!rcBuildCompactHeightfield(&mCTX, mCFG.walkableHeight, mCFG.walkableClimb, *mSolid, *mCHF))
+    if(!rcBuildCompactHeightfield(&mCTX, mCFG.walkableHeight, mCFG.walkableClimb, *mSolid, *mCHF))
     {
         dt::Logger::Get().Debug( "Cannot build a compact heightfield");
         return false;
     }
     
-//         if (!m_keepInterResults)
+//         if(!m_keepInterResults)
 //         {
 //                 rcFreeHeightField(m_solid);
 //                 m_solid = 0;
 //         }
             
     // Erode the walkable area by agent radius.
-    if (!rcErodeWalkableArea(&mCTX, mCFG.walkableRadius, *mCHF)) //TODO copy this function from demo
+    if(!rcErodeWalkableArea(&mCTX, mCFG.walkableRadius, *mCHF)) //TODO copy this function from demo
     {
         dt::Logger::Get().Debug( "ErodeWalkableArea() failed");
         return false;
@@ -225,16 +251,16 @@ bool NavigationManager::_PartitionSurfaceToRegions()
     
     // (Optional) Mark areas. TODO: commented here
 //         const ConvexVolume* vols = m_geom->getConvexVolumes();
-//         for (int i  = 0; i < m_geom->getConvexVolumeCount(); ++i)
+//         for(int i  = 0; i < m_geom->getConvexVolumeCount(); ++i)
 //                 rcMarkConvexPolyArea(&m_ctx, vols[i].verts, vols[i].nverts, vols[i].hmin, vols[i].hmax, (unsigned char)vols[i].area, *m_chf);
     
     bool m_monotonePartitioning = true;
     
-    if (m_monotonePartitioning)
+    if(m_monotonePartitioning)
     {
             // Partition the walkable surface into simple regions without holes.
             // Monotone partitioning does not need distancefield.
-            if (!rcBuildRegionsMonotone(&mCTX, *mCHF, 0, mCFG.minRegionArea, mCFG.mergeRegionArea))
+            if(!rcBuildRegionsMonotone(&mCTX, *mCHF, 0, mCFG.minRegionArea, mCFG.mergeRegionArea))
             {
                     dt::Logger::Get().Debug("Could not build regions.");
                     return false;
@@ -243,14 +269,14 @@ bool NavigationManager::_PartitionSurfaceToRegions()
     else
     {
             // Prepare for region partitioning, by calculating distance field along the walkable surface.
-            if (!rcBuildDistanceField(&mCTX, *mCHF))
+            if(!rcBuildDistanceField(&mCTX, *mCHF))
             {
                     dt::Logger::Get().Debug("Could not build distance field.");
                     return false;
             }
 
             // Partition the walkable surface into simple regions without holes.
-            if (!rcBuildRegions(&mCTX, *mCHF, 0, mCFG.minRegionArea, mCFG.mergeRegionArea))
+            if(!rcBuildRegions(&mCTX, *mCHF, 0, mCFG.minRegionArea, mCFG.mergeRegionArea))
             {
                     dt::Logger::Get().Debug("Could not build regions.");
                     return false;
@@ -262,12 +288,12 @@ bool NavigationManager::_TraceAndSimplifyRegion()
 {
     // Create contours.
     mCSet = rcAllocContourSet();
-    if (!mCSet)
+    if(!mCSet)
     {
             dt::Logger::Get().Debug("Cannot alloc a contour set.");
             return false;
     }
-    if (!rcBuildContours(&mCTX, *mCHF, mCFG.maxSimplificationError, mCFG.maxEdgeLen, *mCSet))
+    if(!rcBuildContours(&mCTX, *mCHF, mCFG.maxSimplificationError, mCFG.maxEdgeLen, *mCSet))
     {
         dt::Logger::Get().Debug("Could not build the contour set.");
             return false;
@@ -277,12 +303,12 @@ bool NavigationManager::_TraceAndSimplifyRegion()
 bool NavigationManager::_BuildPolygonsMesh() {
     // Build polygon navmesh from the contours.
     mPMesh = rcAllocPolyMesh();
-    if (!mPMesh)
+    if(!mPMesh)
     {
             dt::Logger::Get().Debug("Cannot alloc a poly mesh");
             return false;
     }
-    if (!rcBuildPolyMesh(&mCTX, *mCSet, mCFG.maxVertsPerPoly, *mPMesh))
+    if(!rcBuildPolyMesh(&mCTX, *mCSet, mCFG.maxVertsPerPoly, *mPMesh))
     {
             dt::Logger::Get().Debug("Could not build the poly mesh");
             return false;
@@ -292,25 +318,25 @@ bool NavigationManager::_BuildPolygonsMesh() {
 
 bool NavigationManager::_BuildDetailMesh() {
     mDMesh = rcAllocPolyMeshDetail();
-    if (!mDMesh)
+    if(!mDMesh)
     {
             mCTX.log(RC_LOG_ERROR, "buildNavigation: Out of memory 'pmdtl'.");
             return false;
     }
 
-    if (!rcBuildPolyMeshDetail(&mCTX, *mPMesh, *mCHF, mCFG.detailSampleDist, mCFG.detailSampleMaxError, *mDMesh))
+    if(!rcBuildPolyMeshDetail(&mCTX, *mPMesh, *mCHF, mCFG.detailSampleDist, mCFG.detailSampleMaxError, *mDMesh))
     {
             mCTX.log(RC_LOG_ERROR, "buildNavigation: Could not build detail mesh.");
             return false;
     }
 
-    if (!mKeepTempResult)
-    {
-            rcFreeCompactHeightfield(mCHF);
-            mCHF = 0;
-            rcFreeContourSet(mCSet);
-            mCSet = 0;
-    }
+//     if(!mKeepTempResult)
+//     {
+//             rcFreeCompactHeightfield(mCHF);
+//             mCHF = 0;
+//             rcFreeContourSet(mCSet);
+//             mCSet = 0;
+//     }
 
     // At this point the navigation mesh data is ready, you can access it from m_pmesh.
     // See duDebugDrawPolyMesh or dtCreateNavMeshData as examples how to access the data.
@@ -319,28 +345,28 @@ bool NavigationManager::_BuildDetailMesh() {
 bool NavigationManager::_CreateDetourData() {
     // The GUI may allow more max points per polygon than Detour can handle.
     // Only build the detour navmesh if we do not exceed the limit.
-    if (mCFG.maxVertsPerPoly <= DT_VERTS_PER_POLYGON)
+    if(mCFG.maxVertsPerPoly <= DT_VERTS_PER_POLYGON)
     {
             unsigned char* navData = 0;
             int navDataSize = 0;
 
             // Update poly flags from areas.
-            for (int i = 0; i < mPMesh->npolys; ++i)
+            for(int i = 0; i < mPMesh->npolys; ++i)
             {
-                    if (mPMesh->areas[i] == RC_WALKABLE_AREA)
+                    if(mPMesh->areas[i] == RC_WALKABLE_AREA)
                             mPMesh->areas[i] = SAMPLE_POLYAREA_GROUND;
                             
-                    if (mPMesh->areas[i] == SAMPLE_POLYAREA_GROUND ||
+                    if(mPMesh->areas[i] == SAMPLE_POLYAREA_GROUND ||
                             mPMesh->areas[i] == SAMPLE_POLYAREA_GRASS ||
                             mPMesh->areas[i] == SAMPLE_POLYAREA_ROAD)
                     {
                             mPMesh->flags[i] = SAMPLE_POLYFLAGS_WALK;
                     }
-                    else if (mPMesh->areas[i] == SAMPLE_POLYAREA_WATER)
+                    else if(mPMesh->areas[i] == SAMPLE_POLYAREA_WATER)
                     {
                             mPMesh->flags[i] = SAMPLE_POLYFLAGS_SWIM;
                     }
-                    else if (mPMesh->areas[i] == SAMPLE_POLYAREA_DOOR)
+                    else if(mPMesh->areas[i] == SAMPLE_POLYAREA_DOOR)
                     {
                             mPMesh->flags[i] = SAMPLE_POLYFLAGS_WALK | SAMPLE_POLYFLAGS_DOOR;
                     }
@@ -368,23 +394,23 @@ bool NavigationManager::_CreateDetourData() {
 //                 params.offMeshConFlags = m_geom->getOffMeshConnectionFlags();
 //                 params.offMeshConUserID = m_geom->getOffMeshConnectionId();
             params.offMeshConCount = 0;
-            params.walkableHeight = 2.0f;
-            params.walkableRadius = 0.6f;
-            params.walkableClimb = 0.9f;
+            params.walkableHeight = mAgentHeight;
+            params.walkableRadius = mAgentRadius;
+            params.walkableClimb = mAgentMaxClimb;
             rcVcopy(params.bmin, mPMesh->bmin);
             rcVcopy(params.bmax, mPMesh->bmax);
             params.cs = mCFG.cs;
             params.ch = mCFG.ch;
             params.buildBvTree = true;
             
-            if (!dtCreateNavMeshData(&params, &navData, &navDataSize))
+            if(!dtCreateNavMeshData(&params, &navData, &navDataSize))
             {
                 dt::Logger::Get().Debug("Could not create Detour navmesh data.");
                 return false;
             }
             
             mNavMesh = dtAllocNavMesh();
-            if (!mNavMesh)
+            if(!mNavMesh)
             {
                 dtFree(navData);
                 dt::Logger::Get().Debug("Could not create Detour navmesh");
@@ -394,7 +420,7 @@ bool NavigationManager::_CreateDetourData() {
             dtStatus status;
             
             status = mNavMesh->init(navData, navDataSize, DT_TILE_FREE_DATA);
-            if (dtStatusFailed(status))
+            if(dtStatusFailed(status))
             {
                     dtFree(navData);
                 dt::Logger::Get().Debug("Could not init Detour navmesh");
@@ -402,7 +428,7 @@ bool NavigationManager::_CreateDetourData() {
             }
             
             status = mNavQuery->init(mNavMesh, 2048);
-            if (dtStatusFailed(status))
+            if(dtStatusFailed(status))
             {
                 dt::Logger::Get().Debug("Could not init Detour navmesh query");
                 return false;
@@ -416,19 +442,8 @@ bool NavigationManager::_CreateDetourData() {
     dt::Logger::Get().Debug("Polymesh: " + dt::Utils::ToString(mVerticesNumber) + " vertices and " + dt::Utils::ToString(mIndicesNumber/3) + " triangles");
     
     mTotalBuildTime = mCTX.getAccumulatedTime(RC_TIMER_TOTAL)/1000.0f;
-#define DRAWMESH 
-#ifdef DRAWMESH
-//        duDebugDrawNavMeshPolysWithFlags(&dd, *m_navMesh, SAMPLE_POLYFLAGS_DISABLED, duRGBA(0,0,0,128));
-#endif
-//         UpdateNavQuery();
     
-    duDebugDrawNavMeshPolysWithFlags(mDebugDraw, *mNavMesh, SAMPLE_POLYFLAGS_DISABLED, duRGBA(0,0,0,128));
-    mDebugDraw->begin(DU_DRAW_QUADS,1);
-    mDebugDraw->vertex(1,1,1,1);
-    mDebugDraw->vertex(1,1,-1,1);
-    mDebugDraw->vertex(-1,1,1,1);
-    mDebugDraw->vertex(-1,1,-1,1);
-    mDebugDraw->end();
+    duDebugDrawNavMeshPolysWithFlags(mDebugDraw, *mNavMesh, SAMPLE_POLYFLAGS_ALL, duRGBA(0,0,0,128));
 }
 
 
@@ -498,16 +513,19 @@ void NavigationManager::AddMesh(Ogre::Mesh& mesh, const Ogre::Vector3& position,
     memcpy(&vertices[mVerticesNumber*3], new_vertices, sizeof(float) * new_vertex_count * 3); //TODO: check limit
     delete[] mVertices;
     delete[] new_vertices;
-    mVertices = vertices;
-    mVerticesNumber += new_vertex_count;
-    
-    // Copy all indices, new and old in a new array, erase the old array.
+
+    // Copy all indices, new and old in a new array, add offset, erase the old array.
     int32_t* indices = new int32_t[static_cast<size_t>(mIndicesNumber) + new_index_count];
     memcpy(indices, mIndices, sizeof(int32_t) * mIndicesNumber);
-    memcpy(&indices[mIndicesNumber], new_indices, sizeof(int32_t) * new_index_count);
+    for(uint32_t i = 0; i<new_index_count; ++i) {
+        // Copy the new indices, but add an offset because there are the old vertices too.
+        indices[mIndicesNumber+i] = mVerticesNumber + new_indices[i];
+    }
     delete[] mIndices;
     delete[] new_indices;
 
+    mVertices = vertices;
+    mVerticesNumber += new_vertex_count;
     mIndices = indices;
     mIndicesNumber += new_index_count;    
     
@@ -538,12 +556,12 @@ bool NavigationManager::UpdateNavQuery()
         dt::Logger::Get().Debug("findpath() failed, invalid param or other problem");
     }
     mNStraightPath = 0;
-    if (mNPolys)
+    if(mNPolys)
     {
             // In case of partial path, make sure the end point is clamped to the last polygon.
             float epos[3];
             dtVcopy(epos, end_pos);
-            if (mPolys[mNPolys-1] != mEndRef)
+            if(mPolys[mNPolys-1] != mEndRef)
                     mNavQuery->closestPointOnPoly(mPolys[mNPolys-1], end_pos, epos);
             
             mNavQuery->findStraightPath(start_pos, epos, mPolys, mNPolys,
@@ -560,22 +578,31 @@ std::deque< Ogre::Vector3 > NavigationManager::FindPath(const Ogre::Vector3& beg
     
     UpdateNavQuery();
     
-    Ogre::Vector3 point;
+//     Ogre::Vector3 point;
     std::deque<Ogre::Vector3> path;
     // Float triplets to Ogre vector3.
     for(uint32_t i = 0; i < 9000 && i < mNStraightPath; ++i) {
-        point.x = mStraightPath[i*3];
-        point.y = mStraightPath[i*3+1];
-        point.z = mStraightPath[i*3+2];
-        dt::Logger::Get().Debug( 
-                        "PATH: x=" +  dt::Utils::ToString(point.x) + 
-                        " y=" +  dt::Utils::ToString(point.y) + 
-                        " z=" +  dt::Utils::ToString(point.z));
+//         point.x = mStraightPath[i*3];
+//         point.y = mStraightPath[i*3+1];
+//         point.z = mStraightPath[i*3+2];
         path.push_back(_FloatsToOgreVector3(&mStraightPath[i*3]));
     }
     
     return path;
 }
+
+void NavigationManager::AddPathToComponent(const Ogre::Vector3& begin, const Ogre::Vector3& end, FollowPathComponent& path) {
+    mBeginPosition = begin;
+    mEndPosition = end;
+    
+    UpdateNavQuery();
+    
+    // Float triplets to Ogre vector3.
+    for(uint32_t i = 0; i < 9000 && i < mNStraightPath; ++i) {
+        path.AddPoint(_FloatsToOgreVector3(&mStraightPath[i*3]));
+    }
+}
+
 
 Ogre::Vector3 NavigationManager::_FloatsToOgreVector3(float* float_vector) { 
     Ogre::Vector3 ogre_vector;
@@ -610,7 +637,7 @@ void NavigationManager::_GetMeshVertices(const Ogre::Mesh* const mesh, uint64_t&
     // index_count is the number of the index values i.d. (index a, index b, index c) * triangles. TODO: correct  here
     
     // Calculate how many vertices and indices we're going to need
-    for ( unsigned short i = 0; i < mesh->getNumSubMeshes(); ++i)
+    for( unsigned short i = 0; i < mesh->getNumSubMeshes(); ++i)
     {
         Ogre::SubMesh* submesh = mesh->getSubMesh(i);
         // We only need to add the shared vertices once
@@ -637,13 +664,13 @@ void NavigationManager::_GetMeshVertices(const Ogre::Mesh* const mesh, uint64_t&
     added_shared = false;
  
     // Run through the submeshes again, adding the data into the arrays
-    for (unsigned short i = 0; i < mesh->getNumSubMeshes(); ++i)
+    for(unsigned short i = 0; i < mesh->getNumSubMeshes(); ++i)
     {
         Ogre::SubMesh* submesh = mesh->getSubMesh(i);
  
         Ogre::VertexData* vertex_data = submesh->useSharedVertices ? mesh->sharedVertexData : submesh->vertexData;
  
-        if ((!submesh->useSharedVertices) || (submesh->useSharedVertices && !added_shared))
+        if((!submesh->useSharedVertices) || (submesh->useSharedVertices && !added_shared))
         {
             if(submesh->useSharedVertices)
             {
@@ -691,16 +718,16 @@ void NavigationManager::_GetMeshVertices(const Ogre::Mesh* const mesh, uint64_t&
  
         size_t offset = (submesh->useSharedVertices)? shared_offset : current_offset;
  
-        if ( use32bitindexes )
+        if( use32bitindexes )
         {
-            for ( size_t k = 0; k < numTris*3; ++k)
+            for( size_t k = 0; k < numTris*3; ++k)
             {
                 indices[index_offset++] = static_cast<int32_t>(pLong[k]) + static_cast<int32_t>(offset);
             }
         }
         else
         {
-            for ( size_t k = 0; k < numTris*3; ++k)
+            for( size_t k = 0; k < numTris*3; ++k)
             {
                 indices[index_offset++] = static_cast<int32_t>(pShort[k]) +
                                           static_cast<int32_t>(offset);
@@ -710,6 +737,7 @@ void NavigationManager::_GetMeshVertices(const Ogre::Mesh* const mesh, uint64_t&
         ibuf->unlock();
         current_offset = next_offset;
     }
+    
 }
 
 // DEBUG DRAW
@@ -760,32 +788,43 @@ void DebugDraw::begin(duDebugDrawPrimitives prim, float size)
         };
 }
 
-void DebugDraw::vertex(const float* pos, unsigned int color)
-{
+void DebugDraw::vertex(const float* pos, unsigned int color) {
     //TODO IMPLEMENT
-    mManualObject->position(pos[0], pos[1]+1, pos[2]);
+    mManualObject->position(pos[0], pos[1], pos[2]);
+    Ogre::ColourValue color_value;
+    color_value.setAsRGBA(color);
+    mManualObject->colour(color_value);
 }
 
-void DebugDraw::vertex(const float x, const float y, const float z, unsigned int color)
-{
+void DebugDraw::vertex(const float x, const float y, const float z, unsigned int color) {
     //TODO IMPLEMENT
-    mManualObject->position(x, y+1, z);
+    mManualObject->position(x, y, z);
+    Ogre::ColourValue color_value;
+    color_value.setAsRGBA(color);
+    mManualObject->colour(color_value);
 }
 
-void DebugDraw::vertex(const float* pos, unsigned int color, const float* uv)
-{
+void DebugDraw::vertex(const float* pos, unsigned int color, const float* uv) {
     //TODO IMPLEMENT
-    mManualObject->position(pos[0], pos[1]+1, pos[2]);
+    mManualObject->position(pos[0], pos[1], pos[2]);
+    Ogre::ColourValue color_value;
+    color_value.setAsRGBA(color);
+    mManualObject->colour(color_value);
 }
 
-void DebugDraw::vertex(const float x, const float y, const float z, unsigned int color, const float u, const float v)
-{
-    mManualObject->position(x, y+1, z);
+void DebugDraw::vertex(const float x, const float y, const float z, unsigned int color, const float u, const float v) {
+    mManualObject->position(x, y, z);
+    Ogre::ColourValue color_value;
+    color_value.setAsRGBA(color);
+    mManualObject->colour(color_value);
 }
 
-void DebugDraw::end()
-{
+void DebugDraw::end() {
     mManualObject->end();
+}
+
+void DebugDraw::SetVisible(bool visible) {
+    mManualObject->setVisible(visible);
 }
 
 }

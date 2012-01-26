@@ -12,8 +12,7 @@
 #include <Config.hpp>
 
 #include <Core/Manager.hpp>
-
-// #include "OgreProceduralBoxGenerator.h"
+#include <Logic/FollowPathComponent.hpp>
 
 #include "Recast.h"
 #include "DebugDraw.h"
@@ -59,16 +58,21 @@ public:
      * This class will draw on the screen maps or paths.
      * @param scene_mgr The scene manager where the data will be drawn.
      */
-        DebugDraw(Ogre::SceneManager* scene_mgr);
-        
-        virtual void depthMask(bool state);
-        virtual void texture(bool state);
-        virtual void begin(duDebugDrawPrimitives prim, float size = 1.0f);
-        virtual void vertex(const float* pos, unsigned int color);
-        virtual void vertex(const float x, const float y, const float z, unsigned int color);
-        virtual void vertex(const float* pos, unsigned int color, const float* uv);
-        virtual void vertex(const float x, const float y, const float z, unsigned int color, const float u, const float v);
-        virtual void end();
+    DebugDraw(Ogre::SceneManager* scene_mgr);
+    
+    virtual void depthMask(bool state);
+    virtual void texture(bool state);
+    virtual void begin(duDebugDrawPrimitives prim, float size = 1.0f);
+    virtual void vertex(const float* pos, unsigned int color);
+    virtual void vertex(const float x, const float y, const float z, unsigned int color);
+    virtual void vertex(const float* pos, unsigned int color, const float* uv);
+    virtual void vertex(const float x, const float y, const float z, unsigned int color, const float u, const float v);
+    virtual void end();
+    
+    /**
+     * Show the debug map.
+     */
+    void SetVisible(bool visible);
         
 private:
     Ogre::ManualObject* mManualObject; //!< Manual object that draw lines and triangles.
@@ -109,9 +113,20 @@ public:
     
     /**
      * Find the straight path from point Begin to point End.
+     * @param Begin the begin point of the path.
+     * @param End the end point of the path. 
      * @return a deque of vector (points of the path).
      */
     std::deque<Ogre::Vector3> FindPath(const Ogre::Vector3& Begin, const Ogre::Vector3& End);
+    
+    /** TODO rename method
+     * Find the shortest path and append it to a 
+     * FollowPath component.
+     * @param Begin the begin point of the path.
+     * @param End the end point of the path.
+     * @param path the follow path to be modified.
+     */
+    void AddPathToComponent(const Ogre::Vector3& Begin, const Ogre::Vector3& End, dt::FollowPathComponent& path);
     
     /**
      * Build the navigation map.
@@ -130,6 +145,97 @@ public:
      */
     bool UpdateNavQuery();
     
+    /**
+     * Create a default configuration.
+     * @return a default configuration.
+     */
+    rcConfig CreateDefaultConfig();
+    
+    /**
+     * Set a configuration.
+     * @param config a configuration.
+     */
+    void SetConfig(const rcConfig& config);
+    
+    /**
+     * Get the configuration in use.
+     * @return the configuration in use.
+     */
+    rcConfig GetConfig();
+    
+    /**
+     * Show the debug map.
+     */
+    void ShowDebug(bool show);
+    
+private:
+    /**
+     * @param mesh the mesh to add.
+     * @param vertex_count The number of the vertex.
+     * @param vertices The vertices data (x, y, z) * vertex_count.
+     * @param index_count The number of the indices.
+     * @param indices The indices data, (index a, index b, index c) * triangle_count.
+     * @param position the position of the mesh.
+     * @param orient the orientation of the mesh.
+     * @param scale the scale of the mesh.
+     */
+    void _GetMeshVertices(const Ogre::Mesh* const mesh,
+                            size_t &vertex_count,
+                            float*& vertices,
+                            size_t &index_count,
+                            int32_t* &indices,
+                            const Ogre::Vector3 &position,
+                            const Ogre::Quaternion &orient,
+                            const Ogre::Vector3 &scale);
+    /**
+     * Rastetize the navigation mesh.
+     */
+    bool _RastetizeMesh();
+   
+    /**
+     * Filter the walkable surface.
+     */
+    bool _FilterWalkableSurface();
+   
+    /**
+     *  Partition walkable surface to simple regions.
+     */
+    bool _PartitionSurfaceToRegions();
+   
+    /**
+     *  Trace and simplify region contours.
+     */
+    bool _TraceAndSimplifyRegion();
+   
+    /**
+     * Build polygons mesh from contours.
+     */
+    bool _BuildPolygonsMesh();
+   
+    /**
+     * Create detail mesh which allows to access approximate height on each polygon.
+     */
+    bool _BuildDetailMesh();
+   
+    /**
+     * Create Detour data from Recast poly mesh.
+     */
+    bool _CreateDetourData();
+   
+    /**
+     * Convert an array of 3 floats to a Ogre::Vector3
+     * @param vector an array of 3 floats.
+     * @return an ogre vector.
+     */
+    Ogre::Vector3 _FloatsToOgreVector3(float* vector);
+    
+    /**
+     * Convert an Ogre::Vector3 to an array of 3 floats.
+     * @param ogre_vector an ogre vector.
+     * @param float_vector an array of 3 floats. warning: the float memory must be writable.
+     */
+    void _OgreVector3ToFloats(const Ogre::Vector3& ogre_vector, float* float_vector);
+   
     bool mKeepTempResult;
     float mTotalBuildTime;
 
@@ -160,90 +266,27 @@ public:
     float mHitNormal[3];
     dtPolyRef mPolys[10000];
     unsigned char mStraightPathFlags[10000];
+   
+    uint64_t mVerticesNumber; //!< number of the vertices of the meshes to be rastetized.
+    uint64_t mIndicesNumber; //!< number of the indices of the meshes to be rastetized.
+    float* mVertices; //!< array to vertices of the meshes to be rastetized.
+    int32_t* mIndices; //!< array to indices of the meshes to be rastetized.
+
+    Ogre::Vector3 mBeginPosition; //!< The start position of the path.
+    Ogre::Vector3 mEndPosition; //!< The end position of the path.
+
+    float mSearchDistance[3]; 
+    static const int MAX_POLYS = 256;
+    float mStraightPath[9000];
+    dtPolyRef mStraightPathPolys[10000];
+        
+    DebugDraw* mDebugDraw; //!< The drawer for debbuging purpose.
+    std::ofstream log; //!< output stream for printing Detour debug data.
     
-    
-private:
-    /**
-     * @param mesh the mesh to add.
-     * @param vertex_count The number of the vertex.
-     * @param vertices The vertices data (x, y, z) * vertex_count.
-     * @param index_count The number of the indices.
-     * @param indices The indices data, (index a, index b, index c) * triangle_count.
-     * @param position the position of the mesh.
-     * @param orient the orientation of the mesh.
-     * @param scale the scale of the mesh.
-     */
-   void _GetMeshVertices(const Ogre::Mesh* const mesh,
-                        size_t &vertex_count,
-                        float*& vertices,
-                        size_t &index_count,
-                        int32_t* &indices,
-                        const Ogre::Vector3 &position,
-                        const Ogre::Quaternion &orient,
-                        const Ogre::Vector3 &scale);
-   /**
-    * Rastetize the navigation mesh.
-    */
-   bool _RastetizeMesh();
-   
-   /**
-    * Filter the walkable surface.
-    */
-   bool _FilterWalkableSurface();
-   
-   /**
-    *  Partition walkable surface to simple regions.
-    */
-   bool _PartitionSurfaceToRegions();
-   
-   /**
-    *  Trace and simplify region contours.
-    */
-   bool _TraceAndSimplifyRegion();
-   
-   /**
-    * Build polygons mesh from contours.
-    */
-   bool _BuildPolygonsMesh();
-   
-   /**
-    * Create detail mesh which allows to access approximate height on each polygon.
-    */
-   bool _BuildDetailMesh();
-   
-   /**
-    * Create Detour data from Recast poly mesh.
-    */
-   bool _CreateDetourData();
-   
-   /**
-    * Convert an array of 3 floats to a Ogre::Vector3
-    * @param vector an array of 3 floats.
-    * @return an ogre vector.
-    */
-   Ogre::Vector3 _FloatsToOgreVector3(float* vector);
-    /**
-    * Convert an Ogre::Vector3 to an array of 3 floats.
-    * @param ogre_vector an ogre vector.
-    * @param float_vector an array of 3 floats. warning: the float memory must be writable.
-    */
-   void _OgreVector3ToFloats(const Ogre::Vector3& ogre_vector, float* float_vector);
-   
-   uint64_t mVerticesNumber; //!< number of the vertices of the meshes to be rastetized.
-   uint64_t mIndicesNumber; //!< number of the indices of the meshes to be rastetized.
-   float* mVertices; //!< array to vertices of the meshes to be rastetized.
-   int32_t* mIndices; //!< array to indices of the meshes to be rastetized.
-   
-   Ogre::Vector3 mBeginPosition; //!< The start position of the path.
-   Ogre::Vector3 mEndPosition; //!< The end position of the path.
-   
-   float mSearchDistance[3]; 
-   static const int MAX_POLYS = 256;
-   float mStraightPath[9000];
-   dtPolyRef mStraightPathPolys[10000];
-     
-   DebugDraw* mDebugDraw; //!< The drawer for debbuging purpose.
-   std::ofstream log; //!< output stream for printing Detour debug data.
+    //! Agent
+    float mAgentHeight;
+    float mAgentMaxClimb;
+    float mAgentRadius;
    
 };
 
