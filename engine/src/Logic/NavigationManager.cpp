@@ -7,7 +7,6 @@
 // ----------------------------------------------------------------------------
 
 #include <Logic/NavigationManager.hpp>
-
 #include <Core/Root.hpp>
 #include <Gui/GuiManager.hpp>
 #include <Utils/Logger.hpp>
@@ -38,12 +37,21 @@ struct ConvexVolume
 
 namespace dt {
 
-NavigationManager::NavigationManager(Ogre::SceneManager* scene_mgr) : 
+NavigationManager::NavigationManager() : 
 mVerticesNumber(0),
 mIndicesNumber(0),
 mVertices(nullptr),
-mIndices(nullptr)
+mIndices(nullptr),
+mDebugDraw(nullptr) {}
+
+NavigationManager::~NavigationManager()
 {
+    log.flush();
+    log.close();
+}
+
+
+void NavigationManager::Initialize() {
     mFilter.setIncludeFlags(SAMPLE_POLYFLAGS_ALL ^ SAMPLE_POLYFLAGS_DISABLED);
     mFilter.setExcludeFlags(0);
     
@@ -56,27 +64,14 @@ mIndices(nullptr)
     
     mNavQuery = dtAllocNavMeshQuery();
     
-    mDebugDraw = new DebugDraw(scene_mgr);
-    mDebugDraw->SetVisible(false);
-    
     mCFG = CreateDefaultConfig();
     
-//     log.clear();
     log.open("navigation-manager-log.txt", std::ios::out);
     if(!log.good()) {
         dt::Logger::Get().Debug("unable to write a log for navigation manager");
     }
     log << "# Navigation Manager Log.\n";
 }
-
-NavigationManager::~NavigationManager()
-{
-    log.flush();
-    log.close();
-}
-
-
-void NavigationManager::Initialize() {}
 
 void NavigationManager::ResetCommonSetting() {
    mCFG = CreateDefaultConfig();
@@ -119,9 +114,33 @@ rcConfig NavigationManager::GetConfig() {
     return mCFG;
 }
 
-void NavigationManager::ShowDebug(bool show) {
-    mDebugDraw->SetVisible(show);
+void NavigationManager::CreateDebugDrawer(Ogre::SceneManager* scene_mgr) {
+     mDebugDraw = new DebugDraw(scene_mgr);
+     mDebugDraw->SetVisible(true);
 }
+
+
+void NavigationManager::ShowDebug(bool show) {
+    if(mDebugDraw) { 
+        mDebugDraw->SetVisible(show);
+    } else {
+        dt::Logger::Get().Error("No navigation debug drawer created, create it with CreateDebugDrawer()");
+    }
+}
+
+Crowd* NavigationManager::CreateCrowd() {
+    Crowd* crowd = new Crowd(mNavMesh);
+    mCrowdList.push_back(crowd);
+    return crowd;
+}
+
+void NavigationManager::UpdateFrame(double simulation_frame_time) {
+    for(std::deque<Crowd*>::iterator it = mCrowdList.begin(); it < mCrowdList.end(); ++it) {
+        (*it)->UpdateFrame(simulation_frame_time);
+    }
+}
+
+
 
 bool NavigationManager::_RastetizeMesh() {
     
@@ -480,7 +499,7 @@ bool NavigationManager::BuildMap() {
 void NavigationManager::Deinitialize() {}
 
 NavigationManager* NavigationManager::Get() {
-    return /*mIstance;*/ nullptr; //TODO: 
+    return Root::GetInstance().GetNavigationManager();
 }
 
 // bool NavigationManager::AddNavigation(QString script, QString name) {
@@ -543,11 +562,11 @@ bool NavigationManager::UpdateNavQuery()
     mSearchDistance[2] = 2;
     
     float start_pos[3];
-    _OgreVector3ToFloats(mBeginPosition, start_pos);
+    dt::Utils::OgreVector3ToFloats(mBeginPosition, start_pos);
     mNavQuery->findNearestPoly(start_pos, mSearchDistance, &mFilter, &mStartRef, 0);
     
     float end_pos[3];
-    _OgreVector3ToFloats(mEndPosition, end_pos);
+    dt::Utils::OgreVector3ToFloats(mEndPosition, end_pos);
     mNavQuery->findNearestPoly(end_pos, mSearchDistance, &mFilter, &mEndRef, 0);
     
     
@@ -571,7 +590,7 @@ bool NavigationManager::UpdateNavQuery()
             
 }
 
-std::deque< Ogre::Vector3 > NavigationManager::FindPath(const Ogre::Vector3& begin, const Ogre::Vector3& end) {
+std::deque<Ogre::Vector3> NavigationManager::FindPath(const Ogre::Vector3& begin, const Ogre::Vector3& end) {
     
     mBeginPosition = begin;
     mEndPosition = end;
@@ -585,7 +604,7 @@ std::deque< Ogre::Vector3 > NavigationManager::FindPath(const Ogre::Vector3& beg
 //         point.x = mStraightPath[i*3];
 //         point.y = mStraightPath[i*3+1];
 //         point.z = mStraightPath[i*3+2];
-        path.push_back(_FloatsToOgreVector3(&mStraightPath[i*3]));
+        path.push_back(dt::Utils::FloatsToOgreVector3(&mStraightPath[i*3]));
     }
     
     return path;
@@ -599,27 +618,9 @@ void NavigationManager::AddPathToComponent(const Ogre::Vector3& begin, const Ogr
     
     // Float triplets to Ogre vector3.
     for(uint32_t i = 0; i < 9000 && i < mNStraightPath; ++i) {
-        path.AddPoint(_FloatsToOgreVector3(&mStraightPath[i*3]));
+        path.AddPoint(dt::Utils::FloatsToOgreVector3(&mStraightPath[i*3]));
     }
 }
-
-
-Ogre::Vector3 NavigationManager::_FloatsToOgreVector3(float* float_vector) { 
-    Ogre::Vector3 ogre_vector;
-    ogre_vector.x = float_vector[0];
-    ogre_vector.y = float_vector[1];
-    ogre_vector.z = float_vector[2];
-    return ogre_vector;
-}
-
-void NavigationManager::_OgreVector3ToFloats(const Ogre::Vector3& ogre_vector, float* float_vector) {
-    float_vector[0] = ogre_vector.x;
-    float_vector[1] = ogre_vector.y;
-    float_vector[2] = ogre_vector.z;
-}
-
-
-
 
 void NavigationManager::_GetMeshVertices(const Ogre::Mesh* const mesh, uint64_t& vertex_count, 
                                     float*& vertices, uint64_t& index_count, 
@@ -827,6 +828,227 @@ void DebugDraw::SetVisible(bool visible) {
     mManualObject->setVisible(visible);
 }
 
+Crowd::Crowd(dtNavMesh* nav_mesh) :
+//     m_sample(0),
+    m_oldFlags(0),
+    m_targetRef(0),
+    m_expandSelectedDebugDraw(true),
+    m_showCorners(false),
+    m_showCollisionSegments(false),
+    m_showPath(false),
+    m_showVO(false),
+    m_showOpt(false),
+    m_showNeis(false),
+    m_expandDebugDraw(false),
+    m_showLabels(false),
+    m_showGrid(false),
+    m_showNodes(false),
+    m_showPerfGraph(false),
+    m_expandOptions(true),
+    m_anticipateTurns(true),
+    m_optimizeVis(true),
+    m_optimizeTopo(true),
+    m_obstacleAvoidance(true),
+    m_obstacleAvoidanceType(3.0f),
+    m_separation(false),
+    m_separationWeight(2.0f),
+    m_run(true),
+    m_mode(TOOLMODE_CREATE),
+    mNavMesh(nav_mesh){
+    memset(m_trails, 0, sizeof(m_trails));
+    
+    m_vod = dtAllocObstacleAvoidanceDebugData();
+    m_vod->init(2048);
+    
+    memset(&m_agentDebug, 0, sizeof(m_agentDebug));
+    m_agentDebug.idx = -1;
+    m_agentDebug.vod = m_vod;
+    
+//         if (m_sample != sample)
+//         {
+//                 m_sample = sample;
+//                 m_oldFlags = m_sample->getNavMeshDrawFlags();
+//                 m_sample->setNavMeshDrawFlags(m_oldFlags & ~DU_DRAWNAVMESH_CLOSEDLIST);
+//         }
+                
+//         dtNavMesh* nav = m_sample->getNavMesh();
+//         dtCrowd* mCrowd = m_sample->getCrowd();
+        if (mNavMesh)
+        {
+                mCrowd.init(MAX_AGENTS, MAX_AGENT_RADIUS, mNavMesh);
+
+                // Make polygons with 'disabled' flag invalid.
+                mCrowd.getEditableFilter()->setExcludeFlags(SAMPLE_POLYFLAGS_DISABLED);
+                
+                // Setup local avoidance params to different qualities.
+                dtObstacleAvoidanceParams params;
+                // Use mostly default settings, copy from dtCrowd.
+                memcpy(&params, mCrowd.getObstacleAvoidanceParams(0), sizeof(dtObstacleAvoidanceParams));
+                
+                // Low (11)
+                params.velBias = 0.5f;
+                params.adaptiveDivs = 5;
+                params.adaptiveRings = 2;
+                params.adaptiveDepth = 1;
+                mCrowd.setObstacleAvoidanceParams(0, &params);
+
+                // Medium (22)
+                params.velBias = 0.5f;
+                params.adaptiveDivs = 5;
+                params.adaptiveRings = 2;
+                params.adaptiveDepth = 2;
+                mCrowd.setObstacleAvoidanceParams(1, &params);
+                
+                // Good (45)
+                params.velBias = 0.5f;
+                params.adaptiveDivs = 7;
+                params.adaptiveRings = 2;
+                params.adaptiveDepth = 3;
+                mCrowd.setObstacleAvoidanceParams(2, &params);
+                
+                // High (66)
+                params.velBias = 0.5f;
+                params.adaptiveDivs = 7;
+                params.adaptiveRings = 3;
+                params.adaptiveDepth = 3;
+                
+                mCrowd.setObstacleAvoidanceParams(3, &params);
+        }
+}
+
+Crowd::~Crowd() {
+//     if (m_sample)
+//     {
+//             m_sample->setNavMeshDrawFlags(m_oldFlags);
+//     }
+    
+    dtFreeObstacleAvoidanceDebugData(m_vod);
+}
+
+void Crowd::Initialize() {
+
+}
+
+void Crowd::Deinitialize() {
+
+}
+
+// void Crowd::handleUpdate(const float dt) {
+// 
+// }
+// 
+// void Crowd::updateTick(const float dt) {
+// 
+// }
+
+
+
+AgentComponent* Crowd::CreateAgentComponent(const Ogre::Vector3& position, const dtCrowdAgentParams& ap, const QString& name) {
+    float pos[3];
+    dt::Utils::OgreVector3ToFloats(position, pos);
+    
+    int index = mCrowd.addAgent(pos, &ap);
+    if (index != -1)
+    {
+            if (m_targetRef)
+                    mCrowd.requestMoveTarget(index, m_targetRef, m_targetPos);
+
+//             // Init trail
+//             AgentTrail* trail = &m_trails[index];
+//             for (int i = 0; i < AGENT_MAX_TRAIL; ++i)
+//                     dtVcopy(&trail->trail[i*3], p);
+//             trail->htrail = 0;
+    }
+
+    AgentComponent* agent_component = new AgentComponent(this, index, name);
+    return agent_component;
+}
+
+dtCrowdAgentParams Crowd::CreateDefaultConfig() {
+    dtCrowdAgentParams ap;
+    memset(&ap, 0, sizeof(ap));
+    ap.radius = 1;
+    ap.height = 1;
+    ap.maxAcceleration = 10.0f;
+    ap.maxSpeed = 4.5f;
+    ap.collisionQueryRange = ap.radius * 12.0f;
+    ap.pathOptimizationRange = ap.radius * 30.0f;
+    ap.updateFlags = 0; 
+    ap.updateFlags |= DT_CROWD_ANTICIPATE_TURNS;
+    ap.updateFlags |= DT_CROWD_OPTIMIZE_VIS;
+    ap.updateFlags |= DT_CROWD_OPTIMIZE_TOPO;
+    ap.updateFlags |= DT_CROWD_OBSTACLE_AVOIDANCE;
+    ap.updateFlags |= DT_CROWD_SEPARATION;
+    ap.obstacleAvoidanceType = 3;
+    ap.separationWeight = 2.0f;
+    return ap;
+}
+
+void Crowd::updateAgentParams() {
+//         dtCrowd* mCrowd = m_sample->getCrowd();
+//         if (!mCrowd) return;
+
+        unsigned char updateFlags = 0;
+        unsigned char obstacleAvoidanceType = 0;
+        
+        if (m_anticipateTurns)
+                updateFlags |= DT_CROWD_ANTICIPATE_TURNS;
+        if (m_optimizeVis)
+                updateFlags |= DT_CROWD_OPTIMIZE_VIS;
+        if (m_optimizeTopo)
+                updateFlags |= DT_CROWD_OPTIMIZE_TOPO;
+        if (m_obstacleAvoidance)
+                updateFlags |= DT_CROWD_OBSTACLE_AVOIDANCE;
+        if (m_obstacleAvoidance)
+                updateFlags |= DT_CROWD_OBSTACLE_AVOIDANCE;
+        if (m_separation)
+                updateFlags |= DT_CROWD_SEPARATION;
+        
+        obstacleAvoidanceType = (unsigned char)m_obstacleAvoidanceType;
+
+        dtCrowdAgentParams params;
+        
+        for (int i = 0; i < mCrowd.getAgentCount(); ++i)
+        {
+                const dtCrowdAgent* ag = mCrowd.getAgent(i);
+                if (!ag->active) continue;
+                memcpy(&params, &ag->params, sizeof(dtCrowdAgentParams));
+                params.updateFlags = updateFlags;
+                params.obstacleAvoidanceType = obstacleAvoidanceType;
+                params.separationWeight = m_separationWeight;
+                mCrowd.updateAgentParameters(i, &params);
+        }       
+}
+
+void Crowd::UpdateFrame(double simulation_frame_time) {
+        if(!mNavMesh) { 
+            return;
+        }
+
+//         TimeVal startTime = getPerfTime();
+        
+        mCrowd.update(simulation_frame_time, &m_agentDebug); //TODO
+        
+        
+//         TimeVal endTime = getPerfTime();
+        
+        // Update agent trails
+//         for (int i = 0; i < mCrowd.getAgentCount(); ++i)
+//         {
+//                 const dtCrowdAgent* ag = mCrowd.getAgent(i);
+//                 AgentTrail* trail = &m_trails[i];
+//                 if (!ag->active)
+//                         continue;
+//                 // Update agent movement trail.
+//                 trail->htrail = (trail->htrail + 1) % AGENT_MAX_TRAIL;
+//                 dtVcopy(&trail->trail[trail->htrail*3], ag->npos);
+//         }
+        
+//         m_agentDebug.vod->normalizeSamples();
+//         
+//         m_mCrowdSampleCount.addSample((float)mCrowd.getVelocitySampleCount());
+//         m_mCrowdTotalTime.addSample(getPerfDeltaTimeUsec(startTime, endTime) / 1000.0f);
 }
 
 
+}

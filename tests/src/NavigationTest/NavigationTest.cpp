@@ -12,6 +12,8 @@
 #include <Core/ResourceManager.hpp>
 #include <Graphics/CameraComponent.hpp>
 #include <Logic/FollowPathComponent.hpp>
+#include <Logic/NavigationManager.hpp>
+#include <Logic/AgentComponent.h>
 
 namespace NavigationTest {
 
@@ -64,7 +66,7 @@ void Main::OnInitialize() {
 
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    mNavManager = new dt::NavigationManager(scene->GetSceneManager());
+    mNavManager = dt::NavigationManager::Get();
     
     dt::Node* camnode = scene->AddChildNode(new dt::Node("cam-node"));
     camnode->SetPosition(Ogre::Vector3(2, 30, 2));
@@ -115,6 +117,28 @@ void Main::OnInitialize() {
     path->SetSmoothCorners(false);
     mNavManager->AddPathToComponent(meshnode->GetPosition(), Ogre::Vector3(8, 0, 0), *path);
     path->SetDuration(1.5);
+    
+    // Create a crowd.
+    dt::Crowd* crowd = mNavManager->CreateCrowd();
+    dtCrowdAgentParams params = crowd->CreateDefaultConfig();
+    // Create 2 crowd agent.
+    dt::Node* agentA = scene->AddChildNode(new dt::Node("agentAnode"));
+    agentA->SetPosition(-8, 0, 5);
+    agentA->SetScale(0.3);
+    dt::MeshComponent* agentA_mesh = new dt::MeshComponent("Sinbad.mesh", "", "sinbad-A");
+    agentA->AddComponent(agentA_mesh);
+    dt::AgentComponent* agentA_comp = crowd->CreateAgentComponent(agentA->GetPosition(), params, "agent-A");
+    agentA->AddComponent(agentA_comp);
+    agentA_comp->MoveTo(Ogre::Vector3(8, 0, 5));
+    dt::Node* agentB = scene->AddChildNode(new dt::Node("agentBnode"));
+    agentB->SetPosition(8, 0, 5);
+    agentB->SetScale(0.3);
+    dt::MeshComponent* agentB_mesh = new dt::MeshComponent("Sinbad.mesh", "", "sinbad-B");
+    agentB->AddComponent(agentB_mesh);
+    dt::AgentComponent* agentB_comp = crowd->CreateAgentComponent(agentB->GetPosition(), params, "agent-B");
+    agentB->AddComponent(agentB_comp);
+    agentB_comp->MoveTo(Ogre::Vector3(-8, 0, 5));
+    
 }
 
 }

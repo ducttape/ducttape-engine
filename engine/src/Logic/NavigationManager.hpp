@@ -13,6 +13,7 @@
 
 #include <Core/Manager.hpp>
 #include <Logic/FollowPathComponent.hpp>
+#include <Logic/AgentComponent.h>
 
 #include "Recast.h"
 #include "DebugDraw.h"
@@ -20,13 +21,134 @@
 #include "DetourNavMeshBuilder.h"
 #include "DetourDebugDraw.h"
 #include "DetourCommon.h"
+#include "DetourCrowd.h"
 
 #include <QCoreApplication>
 #include <QFile>
 
 #include "BtOgreExtras.h"
 
+class AgentComponent;
+
 namespace dt {
+    
+class DUCTTAPE_API Crowd : public Manager {
+    Q_OBJECT
+    
+    friend class NavigationManager; 
+    
+private:
+    /**
+     * Crowd are created through the Navigation Manager
+     */
+    Crowd(dtNavMesh* nav_mesh);
+    ~Crowd();
+    
+public slots:
+    void UpdateFrame(double simulation_frame_time);
+        
+public:
+    virtual void Initialize();
+    virtual void Deinitialize();
+//     virtual int type() { return TOOL_CROWD; }
+//     virtual void init(Sample* sample);
+//     virtual void reset();
+//     virtual void handleMenu();
+//     virtual void handleClick(const float* s, const float* p, bool shift);
+//     virtual void handleToggle();
+//     virtual void handleStep();
+//     virtual void handleUpdate(const float dt);
+//     virtual void handleRender();
+//     virtual void handleRenderOverlay(double* proj, double* model, int* view);
+    
+    /**
+     * Get the detour crowd.
+     * @return the detour crowd.
+     */
+    dtCrowd& GetCrowd() {return mCrowd;};
+    
+//     /**
+//      * Get the navigation query.
+//      * @return the navigation query.
+//      */
+//     dtNavMeshQuery* GetNavQuery() {return mNavQuery;};
+    
+    /**
+     * Create a component that tracks an agent of the crowd.
+     * User should add the returning component to a node.
+     */
+    AgentComponent* CreateAgentComponent(const Ogre::Vector3& position, const dtCrowdAgentParams& ap, const QString& name = "");
+    
+    /**
+     * Create a default, valid configuration for an agent.
+     * @return a default configuration.
+     */
+    dtCrowdAgentParams CreateDefaultConfig();
+    
+//     Sample* m_sample;
+    unsigned char m_oldFlags;
+    
+    float m_targetPos[3];
+    dtPolyRef m_targetRef;
+
+    bool m_expandSelectedDebugDraw;
+    bool m_showCorners;
+    bool m_showCollisionSegments;
+    bool m_showPath;
+    bool m_showVO;
+    bool m_showOpt;
+    bool m_showNeis;
+
+    bool m_expandDebugDraw;
+    bool m_showLabels;
+    bool m_showGrid;
+    bool m_showNodes;
+    bool m_showPerfGraph;
+    
+    bool m_expandOptions;
+    bool m_anticipateTurns;
+    bool m_optimizeVis;
+    bool m_optimizeTopo;
+    bool m_obstacleAvoidance;
+    float m_obstacleAvoidanceType;
+    bool m_separation;
+    float m_separationWeight;
+    
+    bool m_run;
+
+    dtCrowdAgentDebugInfo m_agentDebug;
+    dtObstacleAvoidanceDebugData* m_vod;
+    
+    static const int AGENT_MAX_TRAIL = 64;
+    static const int MAX_AGENTS = 128;
+    static const int MAX_AGENT_RADIUS = 4;
+    struct AgentTrail
+    {
+            float trail[AGENT_MAX_TRAIL*3];
+            int htrail;
+    };
+    AgentTrail m_trails[MAX_AGENTS];
+    
+//     ValueHistory m_crowdTotalTime;
+//     ValueHistory m_crowdSampleCount;
+    
+    
+    enum ToolMode
+    {
+            TOOLMODE_CREATE,
+            TOOLMODE_MOVE_TARGET,
+            TOOLMODE_SELECT,
+            TOOLMODE_TOGGLE_POLYS,
+    };
+    ToolMode m_mode;
+    
+    void updateAgentParams();
+    void updateTick(const float dt);
+    dtNavMesh* mNavMesh; //!< Detour navigation mesh.
+    dtNavMeshQuery* mNavQuery; //!< The detour navigation mesh query.
+    dtCrowd mCrowd; //!< Detour crowd.
+
+}; 
     
 enum SamplePolyAreas
 {
@@ -92,11 +214,13 @@ public:
     /**
       * Manager class for the Navigation Engine.
       */
-    NavigationManager(Ogre::SceneManager* scene_mgr);
+    NavigationManager();
     ~NavigationManager();
 
     void Initialize();
     void Deinitialize();
+    
+    
     static NavigationManager* Get();
 
 //     bool AddNavigation(QString script, QString name);
@@ -164,9 +288,29 @@ public:
     rcConfig GetConfig();
     
     /**
+     * Create the debug drawer.
+     */
+    void CreateDebugDrawer(Ogre::SceneManager* scene_mgr);
+    
+    /**
      * Show the debug map.
      */
     void ShowDebug(bool show);
+    
+    /**
+     * Get the detour Navigation Query.
+     * @return the detour Navigation Query.
+     */
+    dtNavMeshQuery* GetNavQuery() {return mNavQuery;};
+    
+    /**
+     * Create a crowd.
+     * @return a crowd.
+     */
+    Crowd* CreateCrowd();
+    
+public slots:
+    void UpdateFrame(double simulation_frame_time);
     
 private:
     /**
@@ -222,20 +366,6 @@ private:
      */
     bool _CreateDetourData();
    
-    /**
-     * Convert an array of 3 floats to a Ogre::Vector3
-     * @param vector an array of 3 floats.
-     * @return an ogre vector.
-     */
-    Ogre::Vector3 _FloatsToOgreVector3(float* vector);
-    
-    /**
-     * Convert an Ogre::Vector3 to an array of 3 floats.
-     * @param ogre_vector an ogre vector.
-     * @param float_vector an array of 3 floats. warning: the float memory must be writable.
-     */
-    void _OgreVector3ToFloats(const Ogre::Vector3& ogre_vector, float* float_vector);
-   
     bool mKeepTempResult;
     float mTotalBuildTime;
 
@@ -287,8 +417,11 @@ private:
     float mAgentHeight;
     float mAgentMaxClimb;
     float mAgentRadius;
+    
+    std::deque<Crowd*> mCrowdList;
    
 };
+
 
 }
 
