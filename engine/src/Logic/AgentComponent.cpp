@@ -6,7 +6,7 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#include "AgentComponent.h"
+#include "AgentComponent.hpp"
 #include <Scene/Node.hpp>
 
 #include <DetourNavMesh.h>
