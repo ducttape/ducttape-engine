@@ -13,7 +13,7 @@
 
 #include <Core/Manager.hpp>
 #include <Logic/FollowPathComponent.hpp>
-#include <Logic/AgentComponent.h>
+#include <Logic/AgentComponent.hpp>
 
 #include "Recast.h"
 #include "DebugDraw.h"
@@ -32,52 +32,48 @@ class AgentComponent;
 
 namespace dt {
     
-class DUCTTAPE_API Crowd : public Manager {
+class DUCTTAPE_API Crowd : QObject {
     Q_OBJECT
     
-    friend class NavigationManager; 
+friend class NavigationManager; 
     
 private:
     /**
-     * Crowd are created through the Navigation Manager
+     * A Crowd is a set of navigation agent that shares 
+     * a common configuration.
+     * Crowd are created through the Navigation Manager.
      */
     Crowd(dtNavMesh* nav_mesh);
     ~Crowd();
     
 public slots:
+    /**
+     * Update the Crowd, move the agents depending on 
+     * frame time.
+     * @param simulation_frame_time the lenght of the frame.
+     */
     void UpdateFrame(double simulation_frame_time);
         
 public:
-    virtual void Initialize();
-    virtual void Deinitialize();
-//     virtual int type() { return TOOL_CROWD; }
-//     virtual void init(Sample* sample);
-//     virtual void reset();
-//     virtual void handleMenu();
-//     virtual void handleClick(const float* s, const float* p, bool shift);
-//     virtual void handleToggle();
-//     virtual void handleStep();
-//     virtual void handleUpdate(const float dt);
-//     virtual void handleRender();
-//     virtual void handleRenderOverlay(double* proj, double* model, int* view);
-    
-    /**
-     * Get the detour crowd.
-     * @return the detour crowd.
-     */
-    dtCrowd& GetCrowd() {return mCrowd;};
-    
-//     /**
-//      * Get the navigation query.
-//      * @return the navigation query.
-//      */
-//     dtNavMeshQuery* GetNavQuery() {return mNavQuery;};
     
     /**
      * Create a component that tracks an agent of the crowd.
-     * User should add the returning component to a node.
+     * User may add the returning component to a node.
+     * @param position the initial position of the agent.
+     * @param params the parameters of the agent.
+     * @param name the name of the node.
      */
-    AgentComponent* CreateAgentComponent(const Ogre::Vector3& position, const dtCrowdAgentParams& ap, const QString& name = "");
+    AgentComponent* CreateAgentComponent(const Ogre::Vector3& position, 
+                                         const dtCrowdAgentParams& params, const QString& name = "");
+    
+    /**
+     * Create a component that tracks an agent of the crowd.
+     * The new agent will have the global params of the crowd.
+     * User may add the returning component to a node.
+     * @param position the initial position of the agent.
+     * @param name the name of the node.
+     */
+    AgentComponent* CreateAgentComponent(const Ogre::Vector3& position, const QString& name = "");
     
     /**
      * Create a default, valid configuration for an agent.
@@ -85,99 +81,60 @@ public:
      */
     dtCrowdAgentParams CreateDefaultConfig();
     
-//     Sample* m_sample;
-    unsigned char m_oldFlags;
+    /**
+     * Get the detour crowd.
+     * @return the detour crowd.
+     */
+    dtCrowd& GetCrowd() {return mCrowd;};
     
-    float m_targetPos[3];
-    dtPolyRef m_targetRef;
+    /**
+     * Set the same params for all the agents.
+     * @param params the params for all the agents.
+     */
+    void SetCrowdParams(const dtCrowdAgentParams& params);
 
-    bool m_expandSelectedDebugDraw;
-    bool m_showCorners;
-    bool m_showCollisionSegments;
-    bool m_showPath;
-    bool m_showVO;
-    bool m_showOpt;
-    bool m_showNeis;
-
-    bool m_expandDebugDraw;
-    bool m_showLabels;
-    bool m_showGrid;
-    bool m_showNodes;
-    bool m_showPerfGraph;
-    
-    bool m_expandOptions;
-    bool m_anticipateTurns;
-    bool m_optimizeVis;
-    bool m_optimizeTopo;
-    bool m_obstacleAvoidance;
-    float m_obstacleAvoidanceType;
-    bool m_separation;
-    float m_separationWeight;
-    
-    bool m_run;
-
-    dtCrowdAgentDebugInfo m_agentDebug;
-    dtObstacleAvoidanceDebugData* m_vod;
+    dtCrowdAgentDebugInfo mAgentDebug;
+    dtObstacleAvoidanceDebugData* mObstacleAvoidanceDebugData;
     
     static const int AGENT_MAX_TRAIL = 64;
     static const int MAX_AGENTS = 128;
     static const int MAX_AGENT_RADIUS = 4;
-    struct AgentTrail
-    {
-            float trail[AGENT_MAX_TRAIL*3];
-            int htrail;
-    };
-    AgentTrail m_trails[MAX_AGENTS];
     
-//     ValueHistory m_crowdTotalTime;
-//     ValueHistory m_crowdSampleCount;
-    
-    
-    enum ToolMode
-    {
-            TOOLMODE_CREATE,
-            TOOLMODE_MOVE_TARGET,
-            TOOLMODE_SELECT,
-            TOOLMODE_TOGGLE_POLYS,
-    };
-    ToolMode m_mode;
-    
-    void updateAgentParams();
-    void updateTick(const float dt);
-    dtNavMesh* mNavMesh; //!< Detour navigation mesh.
-    dtNavMeshQuery* mNavQuery; //!< The detour navigation mesh query.
     dtCrowd mCrowd; //!< Detour crowd.
+    dtCrowdAgentParams mGlobalSharedParams; //!< Global params of the crowd
+    float mTargetPos[3]; //! Position of the target.
+    dtPolyRef mTargetRef; //! The polygon reference of the target.
 
 }; 
     
 enum SamplePolyAreas
 {
-        SAMPLE_POLYAREA_GROUND,
-        SAMPLE_POLYAREA_WATER,
-        SAMPLE_POLYAREA_ROAD,
-        SAMPLE_POLYAREA_DOOR,
-        SAMPLE_POLYAREA_GRASS,
-        SAMPLE_POLYAREA_JUMP,
+        POLYAREA_GROUND,
+        POLYAREA_WATER,
+        POLYAREA_ROAD,
+        POLYAREA_DOOR,
+        POLYAREA_GRASS,
+        POLYAREA_JUMP,
 };
 enum SamplePolyFlags
 {
-        SAMPLE_POLYFLAGS_WALK           = 0x01,         // Ability to walk (ground, grass, road)
-        SAMPLE_POLYFLAGS_SWIM           = 0x02,         // Ability to swim (water).
-        SAMPLE_POLYFLAGS_DOOR           = 0x04,         // Ability to move through doors.
-        SAMPLE_POLYFLAGS_JUMP           = 0x08,         // Ability to jump.
-        SAMPLE_POLYFLAGS_DISABLED       = 0x10,         // Disabled polygon
-        SAMPLE_POLYFLAGS_ALL            = 0xffff        // All abilities.
+        POLYFLAGS_WALK           = 0x01,         // Ability to walk (ground, grass, road)
+        POLYFLAGS_SWIM           = 0x02,         // Ability to swim (water).
+        POLYFLAGS_DOOR           = 0x04,         // Ability to move through doors.
+        POLYFLAGS_JUMP           = 0x08,         // Ability to jump.
+        POLYFLAGS_DISABLED       = 0x10,         // Disabled polygon
+        POLYFLAGS_ALL            = 0xffff        // All abilities.
 };
 
 /** 
  * Ogre Manual Object debug draw implementation.
- * This class will draw on the screen maps or paths.
+ * This class will draw on the screen maps and paths.
  */
 class DebugDraw : public duDebugDraw
 {
 public:
     /**
-     * This class will draw on the screen maps or paths.
+     * This class will draw on the screen maps and paths.
      * @param scene_mgr The scene manager where the data will be drawn.
      */
     DebugDraw(Ogre::SceneManager* scene_mgr);
@@ -205,7 +162,7 @@ private:
   * In order to use the engine:
   * 1. Add the mesh to analyze with AddMesh().
   * 2. Build the navigation map with BuildMap().
-  * 3. Request path with FindPath().
+  * 3. Request path with FindPath() or create crowd with CreateCrowd(). 
   */
 class DUCTTAPE_API NavigationManager : public Manager {
     Q_OBJECT
@@ -216,15 +173,29 @@ public:
       */
     NavigationManager();
     ~NavigationManager();
-
+    
+        
+public slots:
+    void UpdateFrame(double simulation_frame_time);
+    
+public:
     void Initialize();
     void Deinitialize();
     
-    
     static NavigationManager* Get();
-
-//     bool AddNavigation(QString script, QString name);
     
+    /**
+     * Create a crowd.
+     * @return a crowd.
+     */
+    Crowd* CreateCrowd();
+    
+    /**
+     * Create a default configuration.
+     * @return a default configuration.
+     */
+    rcConfig CreateDefaultConfig();
+
     /**
      * Add a mesh to the navigation map.
      * @param mesh the mesh to add.
@@ -260,26 +231,9 @@ public:
     bool BuildMap();
     
     /**
-     * Reset the parameter to the default configuration
-     */
-    void ResetCommonSetting();
-    
-    /**
      * Update the NavQuery.
      */
     bool UpdateNavQuery();
-    
-    /**
-     * Create a default configuration.
-     * @return a default configuration.
-     */
-    rcConfig CreateDefaultConfig();
-    
-    /**
-     * Set a configuration.
-     * @param config a configuration.
-     */
-    void SetConfig(const rcConfig& config);
     
     /**
      * Get the configuration in use.
@@ -290,7 +244,7 @@ public:
     /**
      * Create the debug drawer.
      */
-    void CreateDebugDrawer(Ogre::SceneManager* scene_mgr);
+    void InitDebugDrawer(Ogre::SceneManager* scene_mgr);
     
     /**
      * Show the debug map.
@@ -304,13 +258,15 @@ public:
     dtNavMeshQuery* GetNavQuery() {return mNavQuery;};
     
     /**
-     * Create a crowd.
-     * @return a crowd.
+     * Reset the parameter to the default configuration
      */
-    Crowd* CreateCrowd();
+    void ResetCommonSetting();
     
-public slots:
-    void UpdateFrame(double simulation_frame_time);
+    /**
+     * Set a configuration.
+     * @param config a configuration.
+     */
+    void SetConfig(const rcConfig& config);
     
 private:
     /**
@@ -421,7 +377,6 @@ private:
     std::deque<Crowd*> mCrowdList;
    
 };
-
 
 }
 

@@ -25,6 +25,8 @@
 #include "DetourNavMeshBuilder.h"
 #include "DetourDebugDraw.h"
 
+namespace dt {
+    
 static const int MAX_CONVEXVOL_PTS = 12;
 
 struct ConvexVolume
@@ -35,7 +37,115 @@ struct ConvexVolume
         int area;
 };
 
-namespace dt {
+Crowd::Crowd(dtNavMesh* nav_mesh) {
+    mObstacleAvoidanceDebugData = dtAllocObstacleAvoidanceDebugData();
+    mObstacleAvoidanceDebugData->init(2048);
+    
+    memset(&mAgentDebug, 0, sizeof(mAgentDebug));
+    mAgentDebug.idx = -1;
+    mAgentDebug.vod = mObstacleAvoidanceDebugData;
+    
+    mGlobalSharedParams = CreateDefaultConfig();
+    
+    if (!nav_mesh) {
+        dt::Logger::Get().Error("The navigation mesh is not valid");
+    } else {
+        mCrowd.init(MAX_AGENTS, MAX_AGENT_RADIUS, nav_mesh);
+
+        // Make polygons with 'disabled' flag invalid.
+        mCrowd.getEditableFilter()->setExcludeFlags(POLYFLAGS_DISABLED);
+        
+        // Setup local avoidance params to different qualities.
+        dtObstacleAvoidanceParams params;
+        // Use mostly default settings, copy from dtCrowd.
+        memcpy(&params, mCrowd.getObstacleAvoidanceParams(0), sizeof(dtObstacleAvoidanceParams));
+        
+        // Low (11)
+        params.velBias = 0.5f;
+        params.adaptiveDivs = 5;
+        params.adaptiveRings = 2;
+        params.adaptiveDepth = 1;
+        mCrowd.setObstacleAvoidanceParams(0, &params);
+
+        // Medium (22)
+        params.velBias = 0.5f;
+        params.adaptiveDivs = 5;
+        params.adaptiveRings = 2;
+        params.adaptiveDepth = 2;
+        mCrowd.setObstacleAvoidanceParams(1, &params);
+        
+        // Good (45)
+        params.velBias = 0.5f;
+        params.adaptiveDivs = 7;
+        params.adaptiveRings = 2;
+        params.adaptiveDepth = 3;
+        mCrowd.setObstacleAvoidanceParams(2, &params);
+        
+        // High (66)
+        params.velBias = 0.5f;
+        params.adaptiveDivs = 7;
+        params.adaptiveRings = 3;
+        params.adaptiveDepth = 3;
+        
+        mCrowd.setObstacleAvoidanceParams(3, &params);
+    }
+}
+
+Crowd::~Crowd() {
+    dtFreeObstacleAvoidanceDebugData(mObstacleAvoidanceDebugData);
+}
+
+void Crowd::UpdateFrame(double simulation_frame_time) {
+    mCrowd.update(simulation_frame_time, &mAgentDebug);
+}    
+    
+AgentComponent* Crowd::CreateAgentComponent(const Ogre::Vector3& position, const dtCrowdAgentParams& ap, const QString& name) {
+    float pos[3];
+    dt::Utils::OgreVector3ToFloats(position, pos);
+    
+    int index = mCrowd.addAgent(pos, &ap);
+    if(index != -1)
+    {
+        if(mTargetRef)
+                mCrowd.requestMoveTarget(index, mTargetRef, mTargetPos);
+    }
+
+    AgentComponent* agent_component = new AgentComponent(this, index, name);
+    return agent_component;
+}
+
+AgentComponent* Crowd::CreateAgentComponent(const Ogre::Vector3& position, const QString& name) {
+    CreateAgentComponent(position, mGlobalSharedParams, name);
+}
+
+dtCrowdAgentParams Crowd::CreateDefaultConfig() {
+    dtCrowdAgentParams ap;
+    memset(&ap, 0, sizeof(ap));
+    ap.radius = 1;
+    ap.height = 1;
+    ap.maxAcceleration = 10.0f;
+    ap.maxSpeed = 4.5f;
+    ap.collisionQueryRange = ap.radius * 12.0f;
+    ap.pathOptimizationRange = ap.radius * 30.0f;
+    ap.updateFlags = 0; 
+    ap.updateFlags |= DT_CROWD_ANTICIPATE_TURNS;
+    ap.updateFlags |= DT_CROWD_OPTIMIZE_VIS;
+    ap.updateFlags |= DT_CROWD_OPTIMIZE_TOPO;
+    ap.updateFlags |= DT_CROWD_OBSTACLE_AVOIDANCE;
+    ap.updateFlags |= DT_CROWD_SEPARATION;
+    ap.obstacleAvoidanceType = 3;
+    ap.separationWeight = 2.0f;
+    return ap;
+}
+
+void Crowd::SetCrowdParams(const dtCrowdAgentParams& params) {
+    for(int i = 0; i < mCrowd.getAgentCount(); ++i) {
+        const dtCrowdAgent* agent = mCrowd.getAgent(i);
+        if(agent->active) {
+            mCrowd.updateAgentParameters(i, &params);
+        }
+    }       
+}
 
 NavigationManager::NavigationManager() : 
 mVerticesNumber(0),
@@ -50,17 +160,22 @@ NavigationManager::~NavigationManager()
     log.close();
 }
 
+void NavigationManager::UpdateFrame(double simulation_frame_time) {
+    for(std::deque<Crowd*>::iterator it = mCrowdList.begin(); it < mCrowdList.end(); ++it) {
+        (*it)->UpdateFrame(simulation_frame_time);
+    }
+}
 
 void NavigationManager::Initialize() {
-    mFilter.setIncludeFlags(SAMPLE_POLYFLAGS_ALL ^ SAMPLE_POLYFLAGS_DISABLED);
+    mFilter.setIncludeFlags(POLYFLAGS_ALL ^ POLYFLAGS_DISABLED);
     mFilter.setExcludeFlags(0);
     
-    mFilter.setAreaCost(SAMPLE_POLYAREA_GROUND, 1.0f);
-    mFilter.setAreaCost(SAMPLE_POLYAREA_WATER, 10.0f);
-    mFilter.setAreaCost(SAMPLE_POLYAREA_ROAD, 1.0f);
-    mFilter.setAreaCost(SAMPLE_POLYAREA_DOOR, 1.0f);
-    mFilter.setAreaCost(SAMPLE_POLYAREA_GRASS, 2.0f);
-    mFilter.setAreaCost(SAMPLE_POLYAREA_JUMP, 1.5f);
+//     mFilter.setAreaCost(POLYAREA_GROUND, 1.0f);
+//     mFilter.setAreaCost(POLYAREA_WATER, 10.0f);
+//     mFilter.setAreaCost(POLYAREA_ROAD, 1.0f);
+//     mFilter.setAreaCost(POLYAREA_DOOR, 1.0f);
+//     mFilter.setAreaCost(POLYAREA_GRASS, 2.0f);
+//     mFilter.setAreaCost(POLYAREA_JUMP, 1.5f);
     
     mNavQuery = dtAllocNavMeshQuery();
     
@@ -73,12 +188,19 @@ void NavigationManager::Initialize() {
     log << "# Navigation Manager Log.\n";
 }
 
-void NavigationManager::ResetCommonSetting() {
-   mCFG = CreateDefaultConfig();
+void NavigationManager::Deinitialize() {}
+
+NavigationManager* NavigationManager::Get() {
+    return Root::GetInstance().GetNavigationManager();
 }
 
-rcConfig NavigationManager::CreateDefaultConfig()
-{
+Crowd* NavigationManager::CreateCrowd() {
+    Crowd* crowd = new Crowd(mNavMesh);
+    mCrowdList.push_back(crowd);
+    return crowd;
+}
+
+rcConfig NavigationManager::CreateDefaultConfig() {
     rcConfig config;
     memset(&config, 0, sizeof(config));
     config.cs = 0.3f;
@@ -97,6 +219,27 @@ rcConfig NavigationManager::CreateDefaultConfig()
     return config;
 }
 
+void NavigationManager::InitDebugDrawer(Ogre::SceneManager* scene_mgr) {
+     mDebugDraw = new DebugDraw(scene_mgr);
+     mDebugDraw->SetVisible(true);
+}
+
+
+void NavigationManager::ShowDebug(bool show) {
+    if(mDebugDraw) { 
+        mDebugDraw->SetVisible(show);
+    } else {
+        dt::Logger::Get().Error("No navigation debug drawer created, create it with CreateDebugDrawer()");
+    }
+}
+
+
+
+void NavigationManager::ResetCommonSetting() {
+   mCFG = CreateDefaultConfig();
+}
+
+
 void NavigationManager::SetConfig(const rcConfig& config) {
     mCFG = config;
     
@@ -113,34 +256,6 @@ void NavigationManager::SetConfig(const rcConfig& config) {
 rcConfig NavigationManager::GetConfig() {
     return mCFG;
 }
-
-void NavigationManager::CreateDebugDrawer(Ogre::SceneManager* scene_mgr) {
-     mDebugDraw = new DebugDraw(scene_mgr);
-     mDebugDraw->SetVisible(true);
-}
-
-
-void NavigationManager::ShowDebug(bool show) {
-    if(mDebugDraw) { 
-        mDebugDraw->SetVisible(show);
-    } else {
-        dt::Logger::Get().Error("No navigation debug drawer created, create it with CreateDebugDrawer()");
-    }
-}
-
-Crowd* NavigationManager::CreateCrowd() {
-    Crowd* crowd = new Crowd(mNavMesh);
-    mCrowdList.push_back(crowd);
-    return crowd;
-}
-
-void NavigationManager::UpdateFrame(double simulation_frame_time) {
-    for(std::deque<Crowd*>::iterator it = mCrowdList.begin(); it < mCrowdList.end(); ++it) {
-        (*it)->UpdateFrame(simulation_frame_time);
-    }
-}
-
-
 
 bool NavigationManager::_RastetizeMesh() {
     
@@ -373,21 +488,21 @@ bool NavigationManager::_CreateDetourData() {
             for(int i = 0; i < mPMesh->npolys; ++i)
             {
                     if(mPMesh->areas[i] == RC_WALKABLE_AREA)
-                            mPMesh->areas[i] = SAMPLE_POLYAREA_GROUND;
+                            mPMesh->areas[i] = POLYAREA_GROUND;
                             
-                    if(mPMesh->areas[i] == SAMPLE_POLYAREA_GROUND ||
-                            mPMesh->areas[i] == SAMPLE_POLYAREA_GRASS ||
-                            mPMesh->areas[i] == SAMPLE_POLYAREA_ROAD)
+                    if(mPMesh->areas[i] == POLYAREA_GROUND ||
+                            mPMesh->areas[i] == POLYAREA_GRASS ||
+                            mPMesh->areas[i] == POLYAREA_ROAD)
                     {
-                            mPMesh->flags[i] = SAMPLE_POLYFLAGS_WALK;
+                            mPMesh->flags[i] = POLYFLAGS_WALK;
                     }
-                    else if(mPMesh->areas[i] == SAMPLE_POLYAREA_WATER)
+                    else if(mPMesh->areas[i] == POLYAREA_WATER)
                     {
-                            mPMesh->flags[i] = SAMPLE_POLYFLAGS_SWIM;
+                            mPMesh->flags[i] = POLYFLAGS_SWIM;
                     }
-                    else if(mPMesh->areas[i] == SAMPLE_POLYAREA_DOOR)
+                    else if(mPMesh->areas[i] == POLYAREA_DOOR)
                     {
-                            mPMesh->flags[i] = SAMPLE_POLYFLAGS_WALK | SAMPLE_POLYFLAGS_DOOR;
+                            mPMesh->flags[i] = POLYFLAGS_WALK | POLYFLAGS_DOOR;
                     }
             }
 
@@ -462,7 +577,7 @@ bool NavigationManager::_CreateDetourData() {
     
     mTotalBuildTime = mCTX.getAccumulatedTime(RC_TIMER_TOTAL)/1000.0f;
     
-    duDebugDrawNavMeshPolysWithFlags(mDebugDraw, *mNavMesh, SAMPLE_POLYFLAGS_ALL, duRGBA(0,0,0,128));
+    duDebugDrawNavMeshPolysWithFlags(mDebugDraw, *mNavMesh, POLYFLAGS_ALL, duRGBA(0,0,0,128));
 }
 
 
@@ -494,17 +609,6 @@ bool NavigationManager::BuildMap() {
     
     return true;
 }
-
-
-void NavigationManager::Deinitialize() {}
-
-NavigationManager* NavigationManager::Get() {
-    return Root::GetInstance().GetNavigationManager();
-}
-
-// bool NavigationManager::AddNavigation(QString script, QString name) {
-//     return true;
-// }
 
 void NavigationManager::AddMesh(Ogre::Mesh& mesh, const Ogre::Vector3& position, const Ogre::Quaternion& orient, const Ogre::Vector3& scale)
 {
@@ -827,228 +931,5 @@ void DebugDraw::end() {
 void DebugDraw::SetVisible(bool visible) {
     mManualObject->setVisible(visible);
 }
-
-Crowd::Crowd(dtNavMesh* nav_mesh) :
-//     m_sample(0),
-    m_oldFlags(0),
-    m_targetRef(0),
-    m_expandSelectedDebugDraw(true),
-    m_showCorners(false),
-    m_showCollisionSegments(false),
-    m_showPath(false),
-    m_showVO(false),
-    m_showOpt(false),
-    m_showNeis(false),
-    m_expandDebugDraw(false),
-    m_showLabels(false),
-    m_showGrid(false),
-    m_showNodes(false),
-    m_showPerfGraph(false),
-    m_expandOptions(true),
-    m_anticipateTurns(true),
-    m_optimizeVis(true),
-    m_optimizeTopo(true),
-    m_obstacleAvoidance(true),
-    m_obstacleAvoidanceType(3.0f),
-    m_separation(false),
-    m_separationWeight(2.0f),
-    m_run(true),
-    m_mode(TOOLMODE_CREATE),
-    mNavMesh(nav_mesh){
-    memset(m_trails, 0, sizeof(m_trails));
-    
-    m_vod = dtAllocObstacleAvoidanceDebugData();
-    m_vod->init(2048);
-    
-    memset(&m_agentDebug, 0, sizeof(m_agentDebug));
-    m_agentDebug.idx = -1;
-    m_agentDebug.vod = m_vod;
-    
-//         if (m_sample != sample)
-//         {
-//                 m_sample = sample;
-//                 m_oldFlags = m_sample->getNavMeshDrawFlags();
-//                 m_sample->setNavMeshDrawFlags(m_oldFlags & ~DU_DRAWNAVMESH_CLOSEDLIST);
-//         }
-                
-//         dtNavMesh* nav = m_sample->getNavMesh();
-//         dtCrowd* mCrowd = m_sample->getCrowd();
-        if (mNavMesh)
-        {
-                mCrowd.init(MAX_AGENTS, MAX_AGENT_RADIUS, mNavMesh);
-
-                // Make polygons with 'disabled' flag invalid.
-                mCrowd.getEditableFilter()->setExcludeFlags(SAMPLE_POLYFLAGS_DISABLED);
-                
-                // Setup local avoidance params to different qualities.
-                dtObstacleAvoidanceParams params;
-                // Use mostly default settings, copy from dtCrowd.
-                memcpy(&params, mCrowd.getObstacleAvoidanceParams(0), sizeof(dtObstacleAvoidanceParams));
-                
-                // Low (11)
-                params.velBias = 0.5f;
-                params.adaptiveDivs = 5;
-                params.adaptiveRings = 2;
-                params.adaptiveDepth = 1;
-                mCrowd.setObstacleAvoidanceParams(0, &params);
-
-                // Medium (22)
-                params.velBias = 0.5f;
-                params.adaptiveDivs = 5;
-                params.adaptiveRings = 2;
-                params.adaptiveDepth = 2;
-                mCrowd.setObstacleAvoidanceParams(1, &params);
-                
-                // Good (45)
-                params.velBias = 0.5f;
-                params.adaptiveDivs = 7;
-                params.adaptiveRings = 2;
-                params.adaptiveDepth = 3;
-                mCrowd.setObstacleAvoidanceParams(2, &params);
-                
-                // High (66)
-                params.velBias = 0.5f;
-                params.adaptiveDivs = 7;
-                params.adaptiveRings = 3;
-                params.adaptiveDepth = 3;
-                
-                mCrowd.setObstacleAvoidanceParams(3, &params);
-        }
-}
-
-Crowd::~Crowd() {
-//     if (m_sample)
-//     {
-//             m_sample->setNavMeshDrawFlags(m_oldFlags);
-//     }
-    
-    dtFreeObstacleAvoidanceDebugData(m_vod);
-}
-
-void Crowd::Initialize() {
-
-}
-
-void Crowd::Deinitialize() {
-
-}
-
-// void Crowd::handleUpdate(const float dt) {
-// 
-// }
-// 
-// void Crowd::updateTick(const float dt) {
-// 
-// }
-
-
-
-AgentComponent* Crowd::CreateAgentComponent(const Ogre::Vector3& position, const dtCrowdAgentParams& ap, const QString& name) {
-    float pos[3];
-    dt::Utils::OgreVector3ToFloats(position, pos);
-    
-    int index = mCrowd.addAgent(pos, &ap);
-    if (index != -1)
-    {
-            if (m_targetRef)
-                    mCrowd.requestMoveTarget(index, m_targetRef, m_targetPos);
-
-//             // Init trail
-//             AgentTrail* trail = &m_trails[index];
-//             for (int i = 0; i < AGENT_MAX_TRAIL; ++i)
-//                     dtVcopy(&trail->trail[i*3], p);
-//             trail->htrail = 0;
-    }
-
-    AgentComponent* agent_component = new AgentComponent(this, index, name);
-    return agent_component;
-}
-
-dtCrowdAgentParams Crowd::CreateDefaultConfig() {
-    dtCrowdAgentParams ap;
-    memset(&ap, 0, sizeof(ap));
-    ap.radius = 1;
-    ap.height = 1;
-    ap.maxAcceleration = 10.0f;
-    ap.maxSpeed = 4.5f;
-    ap.collisionQueryRange = ap.radius * 12.0f;
-    ap.pathOptimizationRange = ap.radius * 30.0f;
-    ap.updateFlags = 0; 
-    ap.updateFlags |= DT_CROWD_ANTICIPATE_TURNS;
-    ap.updateFlags |= DT_CROWD_OPTIMIZE_VIS;
-    ap.updateFlags |= DT_CROWD_OPTIMIZE_TOPO;
-    ap.updateFlags |= DT_CROWD_OBSTACLE_AVOIDANCE;
-    ap.updateFlags |= DT_CROWD_SEPARATION;
-    ap.obstacleAvoidanceType = 3;
-    ap.separationWeight = 2.0f;
-    return ap;
-}
-
-void Crowd::updateAgentParams() {
-//         dtCrowd* mCrowd = m_sample->getCrowd();
-//         if (!mCrowd) return;
-
-        unsigned char updateFlags = 0;
-        unsigned char obstacleAvoidanceType = 0;
-        
-        if (m_anticipateTurns)
-                updateFlags |= DT_CROWD_ANTICIPATE_TURNS;
-        if (m_optimizeVis)
-                updateFlags |= DT_CROWD_OPTIMIZE_VIS;
-        if (m_optimizeTopo)
-                updateFlags |= DT_CROWD_OPTIMIZE_TOPO;
-        if (m_obstacleAvoidance)
-                updateFlags |= DT_CROWD_OBSTACLE_AVOIDANCE;
-        if (m_obstacleAvoidance)
-                updateFlags |= DT_CROWD_OBSTACLE_AVOIDANCE;
-        if (m_separation)
-                updateFlags |= DT_CROWD_SEPARATION;
-        
-        obstacleAvoidanceType = (unsigned char)m_obstacleAvoidanceType;
-
-        dtCrowdAgentParams params;
-        
-        for (int i = 0; i < mCrowd.getAgentCount(); ++i)
-        {
-                const dtCrowdAgent* ag = mCrowd.getAgent(i);
-                if (!ag->active) continue;
-                memcpy(&params, &ag->params, sizeof(dtCrowdAgentParams));
-                params.updateFlags = updateFlags;
-                params.obstacleAvoidanceType = obstacleAvoidanceType;
-                params.separationWeight = m_separationWeight;
-                mCrowd.updateAgentParameters(i, &params);
-        }       
-}
-
-void Crowd::UpdateFrame(double simulation_frame_time) {
-        if(!mNavMesh) { 
-            return;
-        }
-
-//         TimeVal startTime = getPerfTime();
-        
-        mCrowd.update(simulation_frame_time, &m_agentDebug); //TODO
-        
-        
-//         TimeVal endTime = getPerfTime();
-        
-        // Update agent trails
-//         for (int i = 0; i < mCrowd.getAgentCount(); ++i)
-//         {
-//                 const dtCrowdAgent* ag = mCrowd.getAgent(i);
-//                 AgentTrail* trail = &m_trails[i];
-//                 if (!ag->active)
-//                         continue;
-//                 // Update agent movement trail.
-//                 trail->htrail = (trail->htrail + 1) % AGENT_MAX_TRAIL;
-//                 dtVcopy(&trail->trail[trail->htrail*3], ag->npos);
-//         }
-        
-//         m_agentDebug.vod->normalizeSamples();
-//         
-//         m_mCrowdSampleCount.addSample((float)mCrowd.getVelocitySampleCount());
-//         m_mCrowdTotalTime.addSample(getPerfDeltaTimeUsec(startTime, endTime) / 1000.0f);
-}
-
 
 }

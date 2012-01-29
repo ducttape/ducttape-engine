@@ -13,7 +13,7 @@
 #include <Graphics/CameraComponent.hpp>
 #include <Logic/FollowPathComponent.hpp>
 #include <Logic/NavigationManager.hpp>
-#include <Logic/AgentComponent.h>
+#include <Logic/AgentComponent.hpp>
 
 namespace NavigationTest {
 
