@@ -19,7 +19,6 @@ namespace dt {
 class Crowd;
 
 class DUCTTAPE_API AgentComponent : public Component {
-// Q_OBJECT
 
 public:
     ~AgentComponent();

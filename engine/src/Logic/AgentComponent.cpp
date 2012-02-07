@@ -16,12 +16,9 @@ namespace dt {
 AgentComponent::AgentComponent(dt::Crowd* crowd, int32_t index, const QString& name): 
 Component(name),
 mCrowd(crowd),
-mIndex(index) { //TODO -1 check
-}
+mIndex(index) {}
 
-AgentComponent::~AgentComponent() {
-
-}
+AgentComponent::~AgentComponent() {}
 
 void AgentComponent::OnCreate() {}
 
@@ -56,10 +53,10 @@ void AgentComponent::MoveTo(const Ogre::Vector3& position) {
     dtPolyRef target_ref;
     float target_pos[3];
 
-    dt::NavigationManager::Get()->GetNavQuery()->findNearestPoly(pos, ext, filter, &target_ref, target_pos);
+    detour_crowd.getNavMeshQuery()->findNearestPoly(pos, ext, filter, &target_ref, target_pos);
     bool successful = detour_crowd.requestMoveTarget(mIndex, target_ref, target_pos);
     if(!successful) {
-        dt::Logger::Get().Debug(" movement unsuccess");
+        dt::Logger::Get().Error("The movement of agent n." + dt::Utils::ToString(mIndex) + "was not executed");
     }
 }
 

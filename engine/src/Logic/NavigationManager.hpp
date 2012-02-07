@@ -12,6 +12,7 @@
 #include <Config.hpp>
 
 #include <Core/Manager.hpp>
+#include <Graphics/MeshComponent.hpp>
 #include <Logic/FollowPathComponent.hpp>
 #include <Logic/AgentComponent.hpp>
 
@@ -26,8 +27,6 @@
 #include <QCoreApplication>
 #include <QFile>
 
-#include "BtOgreExtras.h"
-
 class AgentComponent;
 
 namespace dt {
@@ -39,11 +38,12 @@ friend class NavigationManager;
     
 private:
     /**
-     * A Crowd is a set of navigation agent that shares 
+     * A Crowd is a set of navigation agent that share 
      * a common configuration.
      * Crowd are created through the Navigation Manager.
      */
     Crowd(dtNavMesh* nav_mesh);
+    
     ~Crowd();
     
 public slots:
@@ -64,7 +64,8 @@ public:
      * @param name the name of the node.
      */
     AgentComponent* CreateAgentComponent(const Ogre::Vector3& position, 
-                                         const dtCrowdAgentParams& params, const QString& name = "");
+                                         const dtCrowdAgentParams& params, 
+                                         const QString& name = "");
     
     /**
      * Create a component that tracks an agent of the crowd.
@@ -93,12 +94,12 @@ public:
      */
     void SetCrowdParams(const dtCrowdAgentParams& params);
 
-    dtCrowdAgentDebugInfo mAgentDebug;
-    dtObstacleAvoidanceDebugData* mObstacleAvoidanceDebugData;
+    dtCrowdAgentDebugInfo mAgentDebug; //!< Collects data of the agents.
+    dtObstacleAvoidanceDebugData* mObstacleAvoidanceDebugData; //!< Collects data of the avoidance process.
     
-    static const int AGENT_MAX_TRAIL = 64;
-    static const int MAX_AGENTS = 128;
-    static const int MAX_AGENT_RADIUS = 4;
+    static const uint16_t AGENT_MAX_TRAIL = 64;
+    static const uint16_t MAX_AGENTS = 128;
+    static const uint16_t MAX_AGENT_RADIUS = 4;
     
     dtCrowd mCrowd; //!< Detour crowd.
     dtCrowdAgentParams mGlobalSharedParams; //!< Global params of the crowd
@@ -106,32 +107,12 @@ public:
     dtPolyRef mTargetRef; //! The polygon reference of the target.
 
 }; 
-    
-enum SamplePolyAreas
-{
-        POLYAREA_GROUND,
-        POLYAREA_WATER,
-        POLYAREA_ROAD,
-        POLYAREA_DOOR,
-        POLYAREA_GRASS,
-        POLYAREA_JUMP,
-};
-enum SamplePolyFlags
-{
-        POLYFLAGS_WALK           = 0x01,         // Ability to walk (ground, grass, road)
-        POLYFLAGS_SWIM           = 0x02,         // Ability to swim (water).
-        POLYFLAGS_DOOR           = 0x04,         // Ability to move through doors.
-        POLYFLAGS_JUMP           = 0x08,         // Ability to jump.
-        POLYFLAGS_DISABLED       = 0x10,         // Disabled polygon
-        POLYFLAGS_ALL            = 0xffff        // All abilities.
-};
 
 /** 
  * Ogre Manual Object debug draw implementation.
  * This class will draw on the screen maps and paths.
  */
-class DebugDraw : public duDebugDraw
-{
+class DebugDraw : public duDebugDraw {
 public:
     /**
      * This class will draw on the screen maps and paths.
@@ -154,7 +135,13 @@ public:
     void SetVisible(bool visible);
         
 private:
+    /**
+     * Set the colour.
+     */
+    void _SetColour(unsigned int color);
+    
     Ogre::ManualObject* mManualObject; //!< Manual object that draw lines and triangles.
+    static const Ogre::String mMaterialName; //!< Name of the material used by the drawer.
 };
 
 /**
@@ -178,6 +165,13 @@ public:
 public slots:
     void UpdateFrame(double simulation_frame_time);
     
+    /**
+     * Remove the mesh from the navigation map.
+     * Call BuilMap() in order to update the navigation map.
+     * @param name The name of the mesh to be removed.
+     */
+    void RemoveMesh(const QString& name);
+    
 public:
     void Initialize();
     void Deinitialize();
@@ -198,28 +192,24 @@ public:
 
     /**
      * Add a mesh to the navigation map.
-     * @param mesh the mesh to add.
-     * @param position the position of the mesh.
-     * @param orient the orientation of the mesh.
-     * @param scale the scale of the mesh.
+     * @param mesh_component The MeshComponent to add.
      */
-    void AddMesh(Ogre::Mesh& mesh, const Ogre::Vector3 &position,
-                 const Ogre::Quaternion &orient, const Ogre::Vector3 &scale );
+    void AddMesh(dt::MeshComponent* mesh);
     
     /**
      * Find the straight path from point Begin to point End.
-     * @param Begin the begin point of the path.
-     * @param End the end point of the path. 
+     * @param Begin The begin point of the path.
+     * @param End The end point of the path. 
      * @return a deque of vector (points of the path).
      */
     std::deque<Ogre::Vector3> FindPath(const Ogre::Vector3& Begin, const Ogre::Vector3& End);
     
-    /** TODO rename method
+    /**
      * Find the shortest path and append it to a 
      * FollowPath component.
-     * @param Begin the begin point of the path.
-     * @param End the end point of the path.
-     * @param path the follow path to be modified.
+     * @param Begin The begin point of the path.
+     * @param End The end point of the path.
+     * @param path The follow path to be modified.
      */
     void AddPathToComponent(const Ogre::Vector3& Begin, const Ogre::Vector3& End, dt::FollowPathComponent& path);
     
@@ -243,6 +233,7 @@ public:
     
     /**
      * Create the debug drawer.
+     * @param scene_mgr The scene manager where the data will be drawn.
      */
     void InitDebugDrawer(Ogre::SceneManager* scene_mgr);
     
@@ -269,6 +260,22 @@ public:
     void SetConfig(const rcConfig& config);
     
 private:
+    
+    /**
+     * Load all the added meshes.
+     */
+    void _LoadMeshes();
+    
+    /**
+     * Add a mesh to the navigation map.
+     * @param mesh the mesh to add.
+     * @param position the absolute position of the mesh.
+     * @param orient the absolute orientation of the mesh.
+     * @param scale the absolute scale of the mesh.
+     */
+    void _AddInputMesh(Ogre::Mesh& mesh, const Ogre::Vector3& position,
+                 const Ogre::Quaternion& orient, const Ogre::Vector3& scale);
+    
     /**
      * @param mesh the mesh to add.
      * @param vertex_count The number of the vertex.
@@ -287,15 +294,17 @@ private:
                             const Ogre::Vector3 &position,
                             const Ogre::Quaternion &orient,
                             const Ogre::Vector3 &scale);
+    
     /**
      * Rastetize the navigation mesh.
+     * @return false on error.
      */
     bool _RastetizeMesh();
    
     /**
      * Filter the walkable surface.
      */
-    bool _FilterWalkableSurface();
+    void _FilterWalkableSurface();
    
     /**
      *  Partition walkable surface to simple regions.
@@ -321,61 +330,62 @@ private:
      * Create Detour data from Recast poly mesh.
      */
     bool _CreateDetourData();
-   
-    bool mKeepTempResult;
-    float mTotalBuildTime;
-
-    unsigned char* mTriareas;
-    rcHeightfield* mSolid;
-    rcCompactHeightfield* mCHF;
-    rcContourSet* mCSet;
-    rcPolyMesh* mPMesh;
-    rcConfig mCFG; 
-    rcPolyMeshDetail* mDMesh;
-    rcContext mCTX; //TODO Inherit another class from rcContext
-    class dtNavMesh* mNavMesh;
-    class dtNavMeshQuery* mNavQuery;
-    class dtCrowd* mCrowd;
     
-    // Filter for walkable area.
-    dtQueryFilter mFilter; 
-    // The reference id of the nearest polygon.
-    dtPolyRef mStartRef;
-    // The reference id of the nearest polygon.
-    dtPolyRef mEndRef;
+    /**
+     * Delete temponary data (vertices and indices)
+     */
+    void _DeleteTemporaryData();
     
-    // The number of points in the straight path
-    int mNStraightPath;
-    int mNPolys;
-
-    float mHitPos[3];
-    float mHitNormal[3];
-    dtPolyRef mPolys[10000];
-    unsigned char mStraightPathFlags[10000];
+    static const int32_t MAX_POLYS = 256;
+    static const int32_t MAX_NODES = 2048;
+    static const int16_t MAX_PATH_POINTS = 9000;
+    static const int16_t MAX_PATH_POLYGONS = 1000;
+    static const uint8_t SEARCH_DISTANCE_X = 2;
+    static const uint8_t SEARCH_DISTANCE_Y = 4;
+    static const uint8_t SEARCH_DISTANCE_Z = 2;
+    static const uint8_t MAX_CONVEXVOL_PTS = 12;
    
-    uint64_t mVerticesNumber; //!< number of the vertices of the meshes to be rastetized.
-    uint64_t mIndicesNumber; //!< number of the indices of the meshes to be rastetized.
-    float* mVertices; //!< array to vertices of the meshes to be rastetized.
-    int32_t* mIndices; //!< array to indices of the meshes to be rastetized.
+    bool mKeepTempResult; //!< Wheter to keep temporary result for debugging purpose.
+    float mTotalBuildTime; //!< The lenght of the build time of the navigation mesh in seconds.
 
+    rcHeightfield* mSolid; //!< A dynamic heightfield representing obstructed space.
+    rcCompactHeightfield* mCHF; //!< A compact, static heightfield representing unobstructed space.
+    rcContourSet* mCSet; //!< A group of related contours.
+    rcPolyMesh* mPMesh; //!< A polygon mesh suitable for use in building a navigation mesh.
+    rcConfig mCFG; //!< A configuration to use when performing Recast builds.
+    rcPolyMeshDetail* mDMesh; //!< Detailed height data associated with the polygons.
+    rcContext mCTX; //!< Logging and performance analisys interface. 
+    class dtNavMesh* mNavMesh; //!< A navigation mesh based on tiles of convex polygons
+    class dtNavMeshQuery* mNavQuery; //!< The query that provides pathfinding.
+    dtQueryFilter mFilter; //!< Filter for walkable area.
+    DebugDraw* mDebugDraw; //!< The drawer for debbuging purpose.
+    
+    dtPolyRef mStartRef; //!< The reference id of the nearest polygon.
+    dtPolyRef mEndRef; //!< The reference id of the nearest polygon.  
+    unsigned char* mTriareas; //!< Array of triangles areas that will be walkable.
+    int32_t mNStraightPath; //!< The number of points in the straight path.
+    int32_t mNPolys; //!< The number of polygons in the straight path.
+    dtPolyRef mPolys[MAX_PATH_POLYGONS*10]; //!< The Polygon of the straight path.
+    unsigned char mStraightPathFlags[MAX_PATH_POINTS*10]; //!< Flags that describes points of the path.
+    uint64_t mVerticesNumber; //!< Number of the vertices of the meshes to be rastetized.
+    uint64_t mIndicesNumber; //!< Number of the indices of the meshes to be rastetized.
+    float* mVertices; //!< Array to vertices of the meshes to be rastetized.
+    int32_t* mIndices; //!< Array to indices of the meshes to be rastetized.
     Ogre::Vector3 mBeginPosition; //!< The start position of the path.
     Ogre::Vector3 mEndPosition; //!< The end position of the path.
-
-    float mSearchDistance[3]; 
-    static const int MAX_POLYS = 256;
-    float mStraightPath[9000];
-    dtPolyRef mStraightPathPolys[10000];
-        
-    DebugDraw* mDebugDraw; //!< The drawer for debbuging purpose.
-    std::ofstream log; //!< output stream for printing Detour debug data.
+    float mSearchDistance[3]; //!< The search distance (x, y, z).
+    float mStraightPath[MAX_PATH_POINTS]; //!< Points of the straight path.
+    dtPolyRef mStraightPathPolys[MAX_PATH_POLYGONS]; //!< Polygons of the straight path.
     
-    //! Agent
-    float mAgentHeight;
-    float mAgentMaxClimb;
-    float mAgentRadius;
+    float mAgentHeight; //! The agent height
+    float mAgentMaxClimb; //! The agent max climb
+    float mAgentRadius; //! The agent max radius
     
-    std::deque<Crowd*> mCrowdList;
-   
+    std::deque<Crowd*> mCrowdList; //!< Deque containing all the crowds.
+    std::map<QString, dt::MeshComponent*> mInputMeshList; //!< The mesh that will be analyzed.
+    
+    static const bool mMonotonePartitioning; //!< Wheter to use monotone partitioning.
+    
 };
 
 }
