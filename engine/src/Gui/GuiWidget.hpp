@@ -88,6 +88,8 @@ public:
 
     void RemoveChild(const QString& name);
 
+    void RemoveAllChildren();
+
     boost::ptr_map<QString, GuiWidget>& GetChildrenMap();
 
     /**

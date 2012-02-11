@@ -10,6 +10,7 @@
 
 #include <Graphics/DisplayManager.hpp>
 #include <Physics/PhysicsManager.hpp>
+#include <Gui/GuiManager.hpp>
 
 namespace dt {
 
@@ -17,10 +18,15 @@ Scene::Scene(const QString& name)
     : Node(name) {}
 
 void Scene::OnInitialize() {
+    GuiManager::Get()->SetSceneManager(GetSceneManager());
+
     Logger::Get().Debug("Scene " + mName + " is being initialized.");
 }
 
 void Scene::OnDeinitialize() {
+    GuiManager::Get()->GetRootWindow().RemoveAllChildren();
+    GuiManager::Get()->SetSceneManager(nullptr);
+
     Logger::Get().Debug("Scene " + mName + " is being deinitialized.");
 }
 
