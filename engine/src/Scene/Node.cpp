@@ -197,7 +197,14 @@ void Node::LookAt(Ogre::Vector3 target, Ogre::Vector3 front_vector, RelativeTo r
 void Node::SetParent(Node* parent) {
     if(parent != nullptr) {
         if(parent->FindChildNode(mName, false) == nullptr) { // we are not already a child of the new parent
-            parent->AddChildNode(this);
+            if(mParent != nullptr) {                         // Remove it from its original parent.
+                auto iter = mParent->mChildren.find(mName);
+                parent->mChildren.insert(mName, mParent->mChildren.release(iter).release());
+                mParent = parent;
+            }
+            else {
+                parent->AddChildNode(this);
+            }
             return;
         }
     }
@@ -341,10 +348,11 @@ void Node::Enable() {
     if(mParent == nullptr || mParent->IsEnabled()) {
         mIsEnabled = true;
         
-        for each(auto iter in mComponents) {
-            iter.second->Enable();
+        for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
+            iter->second->Enable();
         }
-        for(auto iter = mChildren.begin() ; iter != mChildren.end() ; iter++) {
+
+        for(auto iter = mComponents.begin(); iter != mComponents.end(); ++iter) {
             iter->second->Enable();
         }
 
@@ -356,10 +364,11 @@ void Node::Disable() {
     if(mIsEnabled) {
         mIsEnabled = false;
 
-        for each(auto iter in mComponents) {
-            iter.second->Disable();
+        for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
+            iter->second->Disable();
         }
-        for(auto iter = mChildren.begin() ; iter != mChildren.end() ; iter++) {
+
+        for(auto iter = mComponents.begin(); iter != mComponents.end(); ++iter) {
             iter->second->Disable();
         }
 

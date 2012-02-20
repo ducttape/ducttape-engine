@@ -16,6 +16,7 @@
 #include <Graphics/DisplayManager.hpp>
 
 #include <SFML/System/Sleep.hpp>
+#include <SFML/Audio/Listener.hpp>
 
 namespace dt {
 
@@ -83,6 +84,15 @@ void Game::Run(State* start_state, int argc, char** argv) {
         // DISPLAYING
         // Won't work without a CameraComponent which initializes the render system!
         root.GetDisplayManager()->Render();
+
+        // Update the listener.
+        auto main_camera = root.GetDisplayManager()->GetMainCamera();
+        if(main_camera != nullptr) {
+            auto pos = main_camera->GetNode()->GetPosition();
+            auto dir = main_camera->GetCamera()->getDirection();
+            sf::Listener::SetPosition(pos.x, pos.y, pos.z);
+            sf::Listener::SetDirection(dir.x, dir.y, dir.z);
+        }
 
         sf::Sleep(5);
     }

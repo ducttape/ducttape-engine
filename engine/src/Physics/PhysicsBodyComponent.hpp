@@ -49,8 +49,8 @@ public:
       * @see MeshComponent
       * @see Component
       */
-    PhysicsBodyComponent(const QString& mesh_component_name,
-                         const QString& name = "", CollisionShapeType collision_shape_type = CONVEX);
+    PhysicsBodyComponent(const QString& mesh_component_name, 
+                         const QString& name = "", CollisionShapeType collision_shape_type = CONVEX, btScalar mass = 5.0f);
 
     void OnCreate();
     void OnDestroy();
@@ -165,6 +165,7 @@ private:
     uint16_t mCollisionMask;
     uint16_t mCollisionGroup;
     bool mCollisionMaskInUse;
+    btScalar mMass;
 
 };
 
