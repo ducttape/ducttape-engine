@@ -96,7 +96,7 @@ void Component::Destroy() {
 }
 
 void Component::Enable() {
-    if(!mIsEnabled) {
+    if(!mIsEnabled && this->GetNode()->IsEnabled()) {
         mIsEnabled = true;
         emit ComponentEnabled();
         OnEnable();

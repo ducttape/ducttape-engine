@@ -14,21 +14,23 @@
 
 #include <BtOgreGP.h>
 
-namespace dt {
+#include <BulletCollision/CollisionShapes/btBoxShape.h>
 
-PhysicsBodyComponent::PhysicsBodyComponent(const QString& mesh_component_name,
-                                           const QString& name)
+namespace dt {
+PhysicsBodyComponent::PhysicsBodyComponent(const QString& mesh_component_name, 
+                                           const QString& name, CollisionShapeType collision_shape_type, btScalar mass)
     : Component(name),
       mMeshComponentName(mesh_component_name),
       mCollisionShape(nullptr),
-      mCollisionShapeType(CONVEX),
+      mCollisionShapeType(collision_shape_type),
       mBody(nullptr),
       mMotionState(nullptr),
       mCentralForce(btVector3(0, 0, 0)),
       mTorque(btVector3(0, 0, 0)),
       mCollisionMask(0),
       mCollisionGroup(0),
-      mCollisionMaskInUse(false) {}
+      mCollisionMaskInUse(false),
+      mMass(mass) {}
 
 void PhysicsBodyComponent::OnCreate() {
     if(! mNode->HasComponent(mMeshComponentName)) {
@@ -42,34 +44,46 @@ void PhysicsBodyComponent::OnCreate() {
         mNode->FindComponent<MeshComponent>(mMeshComponentName);
 
     BtOgre::StaticMeshToShapeConverter converter(mesh_component->GetOgreEntity());
-
+    
     // TODO: CollisionShapes should likely be stored at a central place.
     // Perhaps the PhysicsManager is a good place. It would save a lot of memory
     // for many bodies with the same CollisionShape.
-    if(mCollisionShapeType == BOX)
-        mCollisionShape = converter.createBox();
+    if(mCollisionShapeType == BOX) {
+        Ogre::Vector3 size = mesh_component->GetOgreEntity()->getBoundingBox().getSize();
+        size /= 2.0;
+        mCollisionShape = new btBoxShape(BtOgre::Convert::toBullet(size));
+        //mCollisionShape = converter.createBox();
+    }
     else if(mCollisionShapeType == CONVEX)
         mCollisionShape = converter.createConvex();
-    else if(mCollisionShapeType == SPHERE)
-        mCollisionShape = converter.createSphere();
-    else if(mCollisionShapeType == CYLINDER)
-        mCollisionShape = converter.createCylinder();
+    else if(mCollisionShapeType == SPHERE) {
+        mCollisionShape = new btSphereShape(mesh_component->GetOgreEntity()->getBoundingRadius());
+    }
+    else if(mCollisionShapeType == CYLINDER) {
+        Ogre::Vector3 size = mesh_component->GetOgreEntity()->getBoundingBox().getSize();
+        size /= 2.0;
+        mCollisionShape = new btCylinderShape(BtOgre::Convert::toBullet(size));
+    }
     else if(mCollisionShapeType == TRIMESH)
         mCollisionShape = converter.createTrimesh();
 
-
-    btScalar mass = 5;
-    btVector3 inertia;
-    mCollisionShape->calculateLocalInertia(mass, inertia);
+    btVector3 inertia(0, 0, 0);
+    //Only the rigidbody's mass doesn't equal to zero is dynamic or some odd phenomenon may appear.
+    if(mMass != 0.0f)
+        mCollisionShape->calculateLocalInertia(mMass, inertia);
 
     btDefaultMotionState* state = new btDefaultMotionState(
         btTransform(BtOgre::Convert::toBullet(GetNode()->GetRotation(Node::SCENE)),
-                    BtOgre::Convert::toBullet(GetNode()->GetPosition(Node::SCENE))));
+        BtOgre::Convert::toBullet(GetNode()->GetPosition(Node::SCENE))));
 
-    mBody = new btRigidBody(mass, state, mCollisionShape, inertia);
+    //Here's the most tricky part. You need to give it 5.0 as its temporary mass.
+    //Or you will find your player character keeps falling down no matter there's a ground.
+    //Its real mass will be set in OnEnable().
+    mBody = new btRigidBody(5.0, state, mCollisionShape, inertia);
 
     // Store pointer to this PhysicsBodyComponent for later retrieval (for
     // collisions, for instance)
+    mBody->setFriction(1.0);
     mBody->setUserPointer((void *)(this));
 }
 
@@ -84,6 +98,17 @@ void PhysicsBodyComponent::OnEnable() {
         GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addRigidBody(mBody, mCollisionGroup, mCollisionMask);
     else
         GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addRigidBody(mBody);
+
+    //Re-sychronize the PhysicsBodyComponent with the node.
+    btDefaultMotionState* state = new btDefaultMotionState(
+        btTransform(BtOgre::Convert::toBullet(GetNode()->GetRotation(Node::SCENE)),
+        BtOgre::Convert::toBullet(GetNode()->GetPosition(Node::SCENE))));
+    mBody->setMotionState(state);
+
+    SetMass(mMass);
+
+    //Activate it.
+    this->Activate();
 }
 
 void PhysicsBodyComponent::OnDisable() {
@@ -91,7 +116,7 @@ void PhysicsBodyComponent::OnDisable() {
 }
 
 void PhysicsBodyComponent::OnCollide(PhysicsBodyComponent* other_body) {
-    emit Collided(other_body);
+    emit Collided(other_body, this);
 }
 
 btRigidBody* PhysicsBodyComponent::GetRigidBody() {
@@ -180,13 +205,19 @@ void PhysicsBodyComponent::OnUpdate(double time_diff) {
 }
 
 void PhysicsBodyComponent::SetMass(btScalar mass) {
-    btVector3 inertia;
-    mCollisionShape->calculateLocalInertia(mass, inertia);
+    btVector3 inertia(0, 0, 0);
+    if(mass != 0.0f)
+        mCollisionShape->calculateLocalInertia(mass, inertia);
     mBody->setMassProps(mass, inertia);
+    mMass = mass;
 }
-
+/*
 void PhysicsBodyComponent::SetCollisionShapeType(CollisionShapeType type) {
     mCollisionShapeType = type;
 }
+*/
 
+void PhysicsBodyComponent::Activate() {
+    mBody->activate();
+}
 }

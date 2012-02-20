@@ -102,6 +102,9 @@ public:
             ptr->Create();
             std::pair<QString, std::shared_ptr<Component> > pair(cname, ptr);
             mComponents.insert(pair);
+            
+            if(!mIsEnabled)
+                component->Disable();
 
             _UpdateAllComponents(0);
         } else {
@@ -229,6 +232,16 @@ public:
 
     virtual void OnSerialize(IOPacket& packet);
 
+    /**
+      * Called when the node is enabled.
+      */
+    virtual void OnEnable();
+
+    /**
+      * Called when the node is disabled.
+      */
+    virtual void OnDisable();
+
 public slots:
     /**
       * Returns the name of the Node.
@@ -262,6 +275,29 @@ public slots:
       * @param rel Reference point.
       */
     void SetPosition(float x, float y, float z, RelativeTo rel = PARENT);
+
+    /**
+      * Sets the death mark to true. Then the node will be kill when it updates.
+      */
+    void Kill();
+
+    /**
+      * Enables the node. If a node is enabled, all of its components and child nodes are enabled but
+      * its components and child nodes can be disabled manually by the user.
+      */
+    void Enable();
+
+    /**
+      * Disables the node. If a node is disabled, all of its components and child nodes are disabled 
+      * and its components or child nodes can't be enabled at this situation.
+      */
+    void Disable();
+
+    /**
+      * Returns whether the node is enabled.
+      * @returns Whether the node is enabled.
+      */
+    bool IsEnabled();
 
 signals:
     void PositionChanged();
@@ -299,7 +335,8 @@ private:
     Node* mParent;                  //!< A pointer to the parent Node.
     bool mIsUpdatingAfterChange;    //!< Whether the node is just in the process of updating all components after a change occurred. This is to prevent infinite stack loops.
     boost::uuids::uuid mId;         //!< The node's uuid.
-
+    bool mDeathMark;                //!< Whether the node is marked to be killed. If it's true, the node will be killed when it updates.
+    bool mIsEnabled;                //!< Whether the node is enabled or not.
 };
 
 } // namespace dt

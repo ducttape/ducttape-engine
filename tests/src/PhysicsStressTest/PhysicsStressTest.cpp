@@ -58,7 +58,8 @@ void Main::OnInitialize() {
     dt::Node* planenode = scene->AddChildNode(new dt::Node("planenode"));
     planenode->SetPosition(Ogre::Vector3(0, 0, 0));
     planenode->AddComponent(new dt::MeshComponent("Plane", "PrimitivesTest/Pebbles", "plane-mesh"));
-    planenode->AddComponent(new dt::PhysicsBodyComponent("plane-mesh", "plane-body"))->SetMass(0.f);
+    planenode->AddComponent(new dt::PhysicsBodyComponent("plane-mesh", "plane-body", 
+        dt::PhysicsBodyComponent::CONVEX, 0.0f));
 
     dt::Node* lightnode1 = scene->AddChildNode(new dt::Node("lightnode1"));
     lightnode1->AddComponent(new dt::LightComponent("light1"));
