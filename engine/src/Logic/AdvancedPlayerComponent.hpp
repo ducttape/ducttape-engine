@@ -40,10 +40,10 @@ public:
       */
     AdvancedPlayerComponent(const QString& name = "");
 
-    void OnCreate();
-    void OnEnable();
-    void OnDisable();
-    void OnUpdate(double time_diff);
+    virtual void OnCreate();
+    virtual void OnEnable();
+    virtual void OnDisable();
+    virtual void OnUpdate(double time_diff);
 
     /**
       * Sets whether the keyboard is enabled or not.
