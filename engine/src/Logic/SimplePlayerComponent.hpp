@@ -1,4 +1,3 @@
-
 // ----------------------------------------------------------------------------
 // This file is part of the Ducttape Project (http://ducttape-dev.org) and is
 // licensed under the GNU LESSER PUBLIC LICENSE version 3. For the full license
