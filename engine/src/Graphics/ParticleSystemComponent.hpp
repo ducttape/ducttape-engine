@@ -32,6 +32,7 @@ namespace dt {
 class DUCTTAPE_API ParticleSystemComponent : public Component {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE(ParticleSystemComponent)
     /**
       * Advanced constructor.
       * @see Component

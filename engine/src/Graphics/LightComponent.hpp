@@ -29,6 +29,7 @@ namespace dt {
 class DUCTTAPE_API LightComponent : public Component {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE(LightComponent)
     /**
       * Advanced constructor.
       * @param name The name for this component.
@@ -66,6 +67,7 @@ public slots:
       * @param color The color of the light.
       */
     void SetColor(const Ogre::ColourValue color);
+    void SetColor(float r, float g, float b, float a = 1);
 
 signals:
     void ColorChanged(const Ogre::ColourValue new_color);

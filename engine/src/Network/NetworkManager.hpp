@@ -50,9 +50,6 @@ public:
       */
     static NetworkManager* Get();
 
-//    void HandleEvent(std::shared_ptr<Event> e);
-   // virtual int GetEventPriority() const;
-
     /**
       * Binds the Socket used for the complete networking to the port given.
       * @param port The port to bind the socket to, or 0 to automatically select a free port.
