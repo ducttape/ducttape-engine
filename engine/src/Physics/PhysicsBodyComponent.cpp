@@ -17,7 +17,6 @@
 #include <BulletCollision/CollisionShapes/btBoxShape.h>
 
 namespace dt {
-
 PhysicsBodyComponent::PhysicsBodyComponent(const QString& mesh_component_name, 
                                            const QString& name, CollisionShapeType collision_shape_type, btScalar mass)
     : Component(name),

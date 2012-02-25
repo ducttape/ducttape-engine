@@ -141,7 +141,7 @@ public:
     void DisableSleep(bool disabled);
 
     void SetDampingAmount(btScalar linear_damping, btScalar angular_damping);
-    void SetCollisionShapeType(CollisionShapeType type);
+    //void SetCollisionShapeType(CollisionShapeType type);
 
     /**
       * Sets the mass of the physics body.

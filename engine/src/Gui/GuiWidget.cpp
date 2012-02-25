@@ -37,12 +37,12 @@ void GuiWidget::Create() {
 
 void GuiWidget::Destroy() {
     // destroy all children
-    for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
+    /*for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
         iter->second->Destroy();
 
         iter = mChildren.erase(iter);
-    }
-
+    }*/
+    RemoveAllChildren();
     // destroy the mygui widget
     GuiManager::Get()->GetGuiSystem()->destroyWidget(GetMyGUIWidget());
 }
@@ -175,8 +175,18 @@ bool GuiWidget::IsVisible() const {
 
 void GuiWidget::RemoveChild(const QString& name) {
     GuiWidget* w = FindChild(name);
+    
     if(w != nullptr) {
         w->Destroy();
+        auto count = mChildren.erase(name);
+    }
+}
+
+void GuiWidget::RemoveAllChildren() {
+    for(auto child = mChildren.begin(); child != mChildren.end(); child++) {
+        auto name = child->first;
+        child--;
+        RemoveChild(name);
     }
 }
 
