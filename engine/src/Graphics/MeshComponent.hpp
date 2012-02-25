@@ -48,6 +48,7 @@ public:
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);
+    void OnSerialize(IOPacket &packet);
 
     /**
       * Sets the handle the mesh is being loaded from.

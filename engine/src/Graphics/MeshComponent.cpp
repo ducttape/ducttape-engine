@@ -54,6 +54,11 @@ void MeshComponent::OnUpdate(double time_diff) {
     }
 }
 
+void MeshComponent::OnSerialize(IOPacket &packet) {
+    packet.Stream(mMeshHandle, "mesh");
+    packet.Stream(mMaterialName, "material");
+}
+
 void MeshComponent::SetMeshHandle(const QString& mesh_handle) {
     if(mesh_handle != mMeshHandle && IsCreated()) {
         // we got a new mesh; load it

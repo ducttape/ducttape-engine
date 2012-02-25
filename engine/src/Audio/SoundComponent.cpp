@@ -32,6 +32,10 @@ void SoundComponent::OnUpdate(double time_diff) {
                        mNode->GetPosition(Node::SCENE).z);
 }
 
+void SoundComponent::OnSerialize(IOPacket &packet) {
+    packet.Stream(mSoundFileName, "sound_file");
+}
+
 void SoundComponent::SetSoundFileName(const QString& sound_file_name) {
     if(sound_file_name != mSoundFileName && IsCreated()) {
         // we got a new sound; load it

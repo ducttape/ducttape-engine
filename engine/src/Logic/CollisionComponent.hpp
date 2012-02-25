@@ -27,6 +27,7 @@ namespace dt {
 class DUCTTAPE_API CollisionComponent : public InteractionComponent {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE_INHERITED(CollisionComponent, InteractionComponent)
     /**
       * Advanced constructor.
       * @param bullet_handle The handle o the bullet's mesh.

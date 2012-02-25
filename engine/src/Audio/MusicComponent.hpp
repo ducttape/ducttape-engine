@@ -39,6 +39,7 @@ public:
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);
+    void OnSerialize(IOPacket &packet);
 
     /**
       * Sets the file to load music from.

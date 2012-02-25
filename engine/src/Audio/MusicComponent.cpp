@@ -52,6 +52,10 @@ void MusicComponent::OnUpdate(double time_diff) {
     }
 }
 
+void MusicComponent::OnSerialize(IOPacket &packet) {
+    packet.Stream(mMusicFileName, "music_file");
+}
+
 void MusicComponent::SetMusicFileName(const QString& music_file_name) {
     if(music_file_name != mMusicFileName && IsCreated()) {
         // we got a new music; load it

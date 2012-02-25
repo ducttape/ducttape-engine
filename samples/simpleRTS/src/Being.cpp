@@ -78,7 +78,7 @@ void Being::LookAt(const Ogre::Vector3& position) {
 }
 
 void Being::StareAtBeing(const BeingPointer& being) {
-    connect(being.get(), SIGNAL(killed(BeingID)), this, SLOT(StopStareAtBeing()));
+    QObject::connect(being.get(), SIGNAL(killed(BeingID)), this, SLOT(StopStareAtBeing()));
     mStareAtBeing = being;
     mLookingAt = false;
     mStaringAtBeing = true;

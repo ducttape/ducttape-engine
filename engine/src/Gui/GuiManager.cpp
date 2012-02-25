@@ -31,12 +31,12 @@ void GuiManager::Initialize() {
             return;
         }
         InputManager* inputMgrPtr = InputManager::Get();
-        connect(inputMgrPtr, SIGNAL(sKeyPressed(const OIS::KeyEvent&)), this, SLOT(sKeyPressed(const OIS::KeyEvent&)));
-        connect(inputMgrPtr, SIGNAL(sKeyReleased(const OIS::KeyEvent&)), this, SLOT(sKeyReleased(const OIS::KeyEvent&)));
-        connect(inputMgrPtr, SIGNAL(sMouseMoved(const OIS::MouseEvent&)), this, SLOT(sMouseMoved(const OIS::MouseEvent&)));
-        connect(inputMgrPtr, SIGNAL(sMousePressed(const OIS::MouseEvent&, OIS::MouseButtonID)),
+        QObject::connect(inputMgrPtr, SIGNAL(sKeyPressed(const OIS::KeyEvent&)), this, SLOT(sKeyPressed(const OIS::KeyEvent&)));
+        QObject::connect(inputMgrPtr, SIGNAL(sKeyReleased(const OIS::KeyEvent&)), this, SLOT(sKeyReleased(const OIS::KeyEvent&)));
+        QObject::connect(inputMgrPtr, SIGNAL(sMouseMoved(const OIS::MouseEvent&)), this, SLOT(sMouseMoved(const OIS::MouseEvent&)));
+        QObject::connect(inputMgrPtr, SIGNAL(sMousePressed(const OIS::MouseEvent&, OIS::MouseButtonID)),
                 this, SLOT(sMousePressed(const OIS::MouseEvent&, OIS::MouseButtonID)));
-        connect(inputMgrPtr, SIGNAL(sMouseReleased(const OIS::MouseEvent&, OIS::MouseButtonID)),
+        QObject::connect(inputMgrPtr, SIGNAL(sMouseReleased(const OIS::MouseEvent&, OIS::MouseButtonID)),
                 this, SLOT(sMouseReleased(const OIS::MouseEvent&, OIS::MouseButtonID)));
         Ogre::SceneManager* scene_mgr = c->GetCamera()->getSceneManager();
 

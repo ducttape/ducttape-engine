@@ -33,6 +33,7 @@ namespace dt {
 class DUCTTAPE_API AdvancedPlayerComponent : public Component {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE(AdvancedPlayerComponent)
     /**
       * Advanced constructor.
       * @param name The name of the Component.

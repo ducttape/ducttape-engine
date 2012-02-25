@@ -40,6 +40,7 @@ public:
     void OnCreate();
     void OnDestroy();
     void OnUpdate(double time_diff);
+    void OnSerialize(IOPacket &packet);
 
     /**
      * Plays the sound located in mSound.
