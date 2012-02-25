@@ -32,6 +32,7 @@ void MeshComponent::OnCreate() {
 }
 
 void MeshComponent::OnDestroy() {
+    emit DeletingMesh(mName);
     _DestroyMesh();
 }
 

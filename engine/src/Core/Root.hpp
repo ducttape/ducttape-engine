@@ -45,6 +45,9 @@
 
 namespace dt {
 
+class NavigationManager;
+
+
 class LogManager;
 class ResourceManager;
 class InputManager;
@@ -103,6 +106,12 @@ public:
       * @returns the StateManager
       */
     StateManager* GetStateManager();
+    
+    /**
+      * Returns the NavigationManager.
+      * @returns the NavigationManager
+      */
+    NavigationManager* GetNavigationManager();
 
     /**
       * Returns the NetworkManager.
@@ -160,6 +169,7 @@ private:
     InputManager* mInputManager;        //!< Pointer to the InputManager.
     DisplayManager* mDisplayManager;    //!< Pointer to the DisplayManager.
     StateManager* mStateManager;        //!< Pointer to the StateManager.
+    NavigationManager* mNavigationManager; //!< Pointer to the NavigationManager.
     NetworkManager* mNetworkManager;    //!< Pointer to the NetworkManager.
     PhysicsManager* mPhysicsManager;    //!< Pointer to the PhysicsManager.
     TerrainManager* mTerrainManager;    //!< Pointer to the TerrainManager.

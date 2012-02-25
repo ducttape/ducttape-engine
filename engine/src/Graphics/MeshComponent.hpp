@@ -136,6 +136,7 @@ signals:
     void AnimationPlayed();
     void AnimationStopped();
     void AnimationPaused();
+    void DeletingMesh(const QString& name);
 
 private:
     /**

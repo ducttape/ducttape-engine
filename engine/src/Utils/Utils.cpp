@@ -38,6 +38,22 @@ boost::uuids::uuid GenerateUUIDFromString(const QString& qstring) {
     return uuid;
 }
 
+
+Ogre::Vector3 FloatsToOgreVector3(const float* float_vector) { 
+    Ogre::Vector3 ogre_vector;
+    ogre_vector.x = float_vector[0];
+    ogre_vector.y = float_vector[1];
+    ogre_vector.z = float_vector[2];
+    return ogre_vector;
+}
+
+void OgreVector3ToFloats(const Ogre::Vector3& ogre_vector, float* float_vector) {
+    float_vector[0] = ogre_vector.x;
+    float_vector[1] = ogre_vector.y;
+    float_vector[2] = ogre_vector.z;
+}
+
+
 } // namespace Utils
 
 } // namespace dt

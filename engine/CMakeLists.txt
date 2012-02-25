@@ -32,6 +32,8 @@ target_link_libraries(ducttape
     ${MYGUI_PLATFORM_LIBRARIES}
     ${YAMLCPP_LIBRARY}
     ${QT_LIBRARIES}
+#     ${Recast_LIBRARIES}
+    Recast
     BtOgre
     OgreProcedural
     ogre-paged

@@ -11,6 +11,8 @@
 
 #include <Config.hpp>
 
+#include <OgreVector3.h>
+
 #include <boost/lexical_cast.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
@@ -54,6 +56,21 @@ DUCTTAPE_API boost::uuids::uuid GenerateUUIDRandom();
   * @returns the new uuid.
   */
 DUCTTAPE_API boost::uuids::uuid GenerateUUIDFromString(const QString& qstring);
+
+/**
+ * Convert an array of 3 floats to a Ogre::Vector3
+ * @param vector an array of 3 floats.
+ * @return an ogre vector.
+ */
+Ogre::Vector3 FloatsToOgreVector3(const float* float_vector);
+    
+/**
+ * Convert an Ogre::Vector3 to an array of 3 floats.
+ * @param ogre_vector an ogre vector.
+ * @param float_vector an array of 3 floats. warning: the float memory must be writable.
+*/
+void OgreVector3ToFloats(const Ogre::Vector3& ogre_vector, float* float_vector);
+
 } // namespace Utils
 
 } // namespace dt

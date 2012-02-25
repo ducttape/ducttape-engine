@@ -14,6 +14,7 @@
 #include <Graphics/DisplayManager.hpp>
 #include <Scene/StateManager.hpp>
 #include <Scene/Serializer.hpp>
+#include <Logic/NavigationManager.hpp>
 #include <Network/NetworkManager.hpp>
 #include <Physics/PhysicsManager.hpp>
 #include <Graphics/TerrainManager.hpp>
@@ -32,6 +33,7 @@ Root::Root()
       mInputManager(new InputManager()),
       mDisplayManager(new DisplayManager()),
       mStateManager(new StateManager()),
+      mNavigationManager(new NavigationManager()),
       mNetworkManager(new NetworkManager()),
       mPhysicsManager(new PhysicsManager()),
       mTerrainManager(new TerrainManager()),
@@ -67,6 +69,7 @@ void Root::Initialize(int argc, char** argv) {
     mDisplayManager->Initialize();
     // Do not initialize the InputManager.
     // The display manager does this when the window is created.
+    mNavigationManager->Initialize();
     mNetworkManager->Initialize();
     mStateManager->Initialize();
     mPhysicsManager->Initialize();
@@ -81,6 +84,7 @@ void Root::Deinitialize() {
     mStateManager->Deinitialize();
     mNetworkManager->Deinitialize();
     // Do not deinitialize the InputManager (see above).
+    mNavigationManager->Deinitialize();
     mDisplayManager->Deinitialize();
     mResourceManager->Deinitialize();
     mLogManager->Deinitialize();
@@ -99,6 +103,10 @@ LogManager* Root::GetLogManager() {
 
 StateManager* Root::GetStateManager() {
     return mStateManager;
+}
+
+NavigationManager* Root::GetNavigationManager() {
+    return mNavigationManager;
 }
 
 NetworkManager* Root::GetNetworkManager() {

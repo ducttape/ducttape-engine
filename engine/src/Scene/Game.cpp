@@ -33,6 +33,8 @@ void Game::Run(State* start_state, int argc, char** argv) {
     connect(this, SIGNAL(BeginFrame(double)), root.GetStateManager(), SIGNAL(BeginFrame(double)), Qt::DirectConnection);
     connect(this, SIGNAL(BeginFrame(double)), (QObject*)root.GetPhysicsManager(),
             SLOT(UpdateFrame(double)), Qt::DirectConnection);
+    connect(this, SIGNAL(BeginFrame(double)), (QObject*)root.GetNavigationManager(),
+            SLOT(UpdateFrame(double)), Qt::DirectConnection);
 
     mClock.Restart();
     mIsRunning = true;
