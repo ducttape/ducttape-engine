@@ -81,56 +81,49 @@ void Main::OnInitialize() {
     mFieldNode = mGameNode->AddChildNode(new dt::Node("field"));
     mFieldNode->SetPosition(Ogre::Vector3(0, -1.f, 0));
     mFieldNode->AddComponent(new dt::MeshComponent("Field", "AdvancedPongField", "mesh"));
-	mFieldNode->AddComponent(new dt::PhysicsBodyComponent("mesh", "body"))->SetMass(20.f);
+	mFieldNode->AddComponent(new dt::PhysicsBodyComponent("mesh", "body", dt::PhysicsBodyComponent::BOX, 20.f));
 	mFieldNode->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictMovement(btVector3(0,0,0));
 	mFieldNode->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictRotation(btVector3(0,0,0));
-	mFieldNode->FindComponent<dt::PhysicsBodyComponent>("body")->SetCollisionShapeType(dt::PhysicsBodyComponent::BOX);
 
 	mFieldWallX1Node = mFieldNode->AddChildNode(new dt::Node("fieldwallx1"));
 	mFieldWallX1Node->SetPosition(Ogre::Vector3(0, 1.0f, FIELD_HEIGHT / 2));
 	mFieldWallX1Node->AddComponent(new dt::MeshComponent("FieldWallX", "AdvancedPongField", "mesh"));
-	mFieldWallX1Node->AddComponent(new dt::PhysicsBodyComponent("mesh", "body"))->SetMass(10.f);
+	mFieldWallX1Node->AddComponent(new dt::PhysicsBodyComponent("mesh", "body", dt::PhysicsBodyComponent::BOX, 10.f));
 	mFieldWallX1Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictMovement(btVector3(0,0,0));
 	mFieldWallX1Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictRotation(btVector3(0,0,0));
 	mFieldWallX1Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setRestitution(0.5f);
-	mFieldWallX1Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetCollisionShapeType(dt::PhysicsBodyComponent::BOX);
 
 	mFieldWallX2Node = mFieldNode->AddChildNode(new dt::Node("fieldwallx2"));
 	mFieldWallX2Node->SetPosition(Ogre::Vector3(0, 1.0f, - FIELD_HEIGHT / 2));
 	mFieldWallX2Node->AddComponent(new dt::MeshComponent("FieldWallX", "AdvancedPongField", "mesh"));
-	mFieldWallX2Node->AddComponent(new dt::PhysicsBodyComponent("mesh", "body"))->SetMass(10.f);
+	mFieldWallX2Node->AddComponent(new dt::PhysicsBodyComponent("mesh", "body", dt::PhysicsBodyComponent::BOX, 10.f));
 	mFieldWallX2Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictMovement(btVector3(0,0,0));
 	mFieldWallX2Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictRotation(btVector3(0,0,0));
 	mFieldWallX2Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setRestitution(0.5f);
-	mFieldWallX2Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetCollisionShapeType(dt::PhysicsBodyComponent::BOX);
 
 	mFieldWallY1Node = mFieldNode->AddChildNode(new dt::Node("fieldwally1"));
 	mFieldWallY1Node->SetPosition(Ogre::Vector3(FIELD_WIDTH / 2, 1.0f, 0));
 	mFieldWallY1Node->AddComponent(new dt::MeshComponent("FieldWallY", "AdvancedPongField", "mesh"));
-	mFieldWallY1Node->AddComponent(new dt::PhysicsBodyComponent("mesh", "body"))->SetMass(10.f);
+	mFieldWallY1Node->AddComponent(new dt::PhysicsBodyComponent("mesh", "body", dt::PhysicsBodyComponent::BOX, 10.f));
 	mFieldWallY1Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictMovement(btVector3(0,0,0));
 	mFieldWallY1Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictRotation(btVector3(0,0,0));
 	mFieldWallY1Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setRestitution(0.5f);
-	mFieldWallY1Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetCollisionShapeType(dt::PhysicsBodyComponent::BOX);
 
 	mFieldWallY2Node = mFieldNode->AddChildNode(new dt::Node("fieldwally2"));
 	mFieldWallY2Node->SetPosition(Ogre::Vector3(- FIELD_WIDTH / 2, 1.0f, 0));
 	mFieldWallY2Node->AddComponent(new dt::MeshComponent("FieldWallY", "AdvancedPongField", "mesh"));
-	mFieldWallY2Node->AddComponent(new dt::PhysicsBodyComponent("mesh", "body"))->SetMass(10.f);
+	mFieldWallY2Node->AddComponent(new dt::PhysicsBodyComponent("mesh", "body", dt::PhysicsBodyComponent::BOX, 10.f));
 	mFieldWallY2Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictMovement(btVector3(0,0,0));
 	mFieldWallY2Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictRotation(btVector3(0,0,0));
 	mFieldWallY2Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setRestitution(0.5f);
-	mFieldWallY2Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetCollisionShapeType(dt::PhysicsBodyComponent::BOX);
 
     mBallNode = mGameNode->AddChildNode(new dt::Node("ball"));
     mBallNode->SetPosition(Ogre::Vector3(0, 0.1f, 0));
     mBallNode->AddComponent(new dt::MeshComponent("Ball", "AdvancedPongBall", "mesh"));
-	mBallNode->AddComponent(new dt::PhysicsBodyComponent("mesh", "body"))->DisableSleep(true);
-	mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->SetMass(1.f);
+	mBallNode->AddComponent(new dt::PhysicsBodyComponent("mesh", "body", dt::PhysicsBodyComponent::BOX, 1.f))->DisableSleep(true);
 	mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictMovement(btVector3(1,1,1));
 	mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictRotation(btVector3(0,1,0));
 	mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setRestitution(1.0f);
-	mBallNode->FindComponent<dt::PhysicsBodyComponent>("body")->SetCollisionShapeType(dt::PhysicsBodyComponent::BOX);
 
 	connect(mBallNode->FindComponent<dt::PhysicsBodyComponent>("body"), SIGNAL(Collided(dt::PhysicsBodyComponent*)), this,
 		SLOT(BallCollided(dt::PhysicsBodyComponent*)), Qt::DirectConnection);
@@ -138,22 +131,18 @@ void Main::OnInitialize() {
     mPaddle1Node = mGameNode->AddChildNode(new dt::Node("paddle1"));
     mPaddle1Node->SetPosition(Ogre::Vector3(- FIELD_WIDTH / 2 + 1.1f, 0.1f, 0));
     mPaddle1Node->AddComponent(new dt::MeshComponent("Paddle", "AdvancedPongPaddle1", "mesh"));
-	mPaddle1Node->AddComponent(new dt::PhysicsBodyComponent("mesh", "body"))->DisableSleep(true);
-	mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetMass(5.f);
+	mPaddle1Node->AddComponent(new dt::PhysicsBodyComponent("mesh", "body", dt::PhysicsBodyComponent::BOX, 5.f))->DisableSleep(true);
 	mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictMovement(btVector3(0,1,1));
 	mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictRotation(btVector3(0,0,0));
 	mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setRestitution(3.0f); //for a blast off the paddle
-	mPaddle1Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetCollisionShapeType(dt::PhysicsBodyComponent::BOX);
 
     mPaddle2Node = mGameNode->AddChildNode(new dt::Node("paddle2"));
     mPaddle2Node->SetPosition(Ogre::Vector3(FIELD_WIDTH / 2 - 1.1f, 0.1f, 0));
     mPaddle2Node->AddComponent(new dt::MeshComponent("Paddle", "AdvancedPongPaddle2", "mesh"));
-	mPaddle2Node->AddComponent(new dt::PhysicsBodyComponent("mesh", "body"))->DisableSleep(true);
-	mPaddle2Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetMass(5.f);
+	mPaddle2Node->AddComponent(new dt::PhysicsBodyComponent("mesh", "body", dt::PhysicsBodyComponent::BOX, 5.f))->DisableSleep(true);
 	mPaddle2Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictMovement(btVector3(0,1,1));
 	mPaddle2Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetRestrictRotation(btVector3(0,0,0));
 	mPaddle2Node->FindComponent<dt::PhysicsBodyComponent>("body")->GetRigidBody()->setRestitution(3.0f); //for a blast off the paddle
-	mPaddle2Node->FindComponent<dt::PhysicsBodyComponent>("body")->SetCollisionShapeType(dt::PhysicsBodyComponent::BOX);
 
     dt::Node* score1_node = mGameNode->AddChildNode(new dt::Node("score1"));
     score1_node->SetPosition(Ogre::Vector3(-10, 0, - FIELD_HEIGHT / 2 + 2));
