@@ -35,7 +35,7 @@ bool SoundTest::Run(int argc, char** argv) {
     }
 
     std::cout << "SoundComponent file = " << dt::Utils::ToStdString(sound_component->GetSoundFileName()) << std::endl;
-    std::cout << "SoundComponent duration = " << sound_component->GetSound().GetBuffer()->GetDuration() << std::endl;
+    std::cout << "SoundComponent duration = " << sound_component->GetSound().GetBuffer()->GetDuration().AsMilliseconds() << std::endl;
 
     /* Test 3D sound */
 
@@ -45,7 +45,7 @@ bool SoundTest::Run(int argc, char** argv) {
         sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/50.f);
     }
 
-    if(sound_component->GetSound().GetPlayingOffset() < 100) {
+    if(sound_component->GetSound().GetPlayingOffset().AsMilliseconds() < 100) {
         std::cerr << "[1] The sound was not played correctly." << std::endl;
         return false;
     }
@@ -87,7 +87,7 @@ bool SoundTest::Run(int argc, char** argv) {
     }
 
     std::cout << "SoundComponent file = " << dt::Utils::ToStdString(sound_component->GetSoundFileName()) << std::endl;
-    std::cout << "SoundComponent duration = " << sound_component->GetSound().GetBuffer()->GetDuration() << std::endl;
+    std::cout << "SoundComponent duration = " << sound_component->GetSound().GetBuffer()->GetDuration().AsMilliseconds() << std::endl;
 
     /* Test 3D sound */
 
@@ -98,7 +98,7 @@ bool SoundTest::Run(int argc, char** argv) {
             sf::Sleep(sound_component->GetSound().GetBuffer()->GetDuration()/20.f);
     }
 
-    if(sound_component->GetSound().GetPlayingOffset() < 100) {
+    if(sound_component->GetSound().GetPlayingOffset().AsMilliseconds() < 100) {
         std::cerr << "[1] The sound was not played correctly." << std::endl;
         return false;
     }

@@ -60,7 +60,7 @@ void Root::Initialize(int argc, char** argv) {
     mCoreApplication = new QCoreApplication(argc, argv);
     Serializer::Initialize();
 
-    mSfClock.Reset();
+    mSfClock.Restart();
 
     mLogManager->Initialize();
     mResourceManager->Initialize();
@@ -90,7 +90,7 @@ void Root::Deinitialize() {
 }
 
 double Root::GetTimeSinceInitialize() const {
-    return mSfClock.GetElapsedTime() / 1000.0;
+    return mSfClock.GetElapsedTime().AsSeconds();
 }
 
 LogManager* Root::GetLogManager() {

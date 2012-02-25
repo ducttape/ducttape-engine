@@ -30,7 +30,7 @@ bool ScriptingTest::Run(int argc, char** argv) {
     RunScript("return_version", dt::Root::_VERSION);
     RunScript("test_load_script_file.js", "test");
 
-    sf::Sleep(100);
+    sf::Sleep(sf::Milliseconds(100));
     dt::ScriptManager::Get()->UpdateContext();
     RunScript("update_context");
 
