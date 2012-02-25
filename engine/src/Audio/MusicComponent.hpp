@@ -34,8 +34,8 @@ public:
      */
     MusicComponent(const QString& music_file_name = "", const QString& name = "");
 
-    void OnCreate();
-    void OnDestroy();
+    void OnInitialize();
+    void OnDeinitialize();
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);

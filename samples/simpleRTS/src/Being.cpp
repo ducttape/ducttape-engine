@@ -94,7 +94,7 @@ void Being::SetScene(dt::Scene* scene) {
 
 void Being::SetMesh(const QString& mesh_name) {
     if(mMeshComponent) {
-        mMeshComponent->Destroy();
+        mMeshComponent->Deinitialize();
     }
     mMeshComponent = new dt::MeshComponent(mesh_name);
     mNode->AddComponent(mMeshComponent);

@@ -37,8 +37,8 @@ public:
      */
     SoundComponent(const QString& sound_file_name = "", const QString& name = "");
 
-    void OnCreate();
-    void OnDestroy();
+    void OnInitialize();
+    void OnDeinitialize();
     void OnUpdate(double time_diff);
     void OnSerialize(IOPacket &packet);
 

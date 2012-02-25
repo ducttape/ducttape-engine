@@ -48,7 +48,7 @@ public:
       */
     const QString& GetBulletMeshHandle();
 
-    void OnCreate();
+    void OnInitialize();
 
 protected:
     /*

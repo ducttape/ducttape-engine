@@ -23,7 +23,7 @@ ScriptComponent::ScriptComponent(const QString& script_name, const QString& name
     }
 }
 
-void ScriptComponent::OnCreate() {
+void ScriptComponent::OnInitialize() {
     if(mValid) {
         // create our QScriptValue, that represents the script object
         mScriptObject = ScriptManager::Get()->GetScriptObject(mScriptName, this);
@@ -31,11 +31,11 @@ void ScriptComponent::OnCreate() {
         mValid = !mScriptObject.isUndefined();
     }
 
-    _CallScriptFunction("OnCreate");
+    _CallScriptFunction("OnInitialize");
 }
 
-void ScriptComponent::OnDestroy() {
-    _CallScriptFunction("OnDestroy");
+void ScriptComponent::OnDeinitialize() {
+    _CallScriptFunction("OnDeinitialize");
 }
 
 void ScriptComponent::OnEnable() {}

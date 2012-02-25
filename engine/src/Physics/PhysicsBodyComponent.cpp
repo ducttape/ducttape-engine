@@ -34,7 +34,7 @@ PhysicsBodyComponent::PhysicsBodyComponent(const QString& mesh_component_name,
       mCollisionMaskInUse(false),
       mMass(mass) {}
 
-void PhysicsBodyComponent::OnCreate() {
+void PhysicsBodyComponent::OnInitialize() {
     if(! mNode->HasComponent(mMeshComponentName)) {
         Logger::Get().Error("Node "+mNode->GetName()+" has no Component named "+
                             mMeshComponentName+" which is required to create the"+
@@ -89,7 +89,7 @@ void PhysicsBodyComponent::OnCreate() {
     mBody->setUserPointer((void *)(this));
 }
 
-void PhysicsBodyComponent::OnDestroy() {
+void PhysicsBodyComponent::OnDeinitialize() {
     delete mBody->getMotionState();
     delete mBody;
     delete mCollisionShape;

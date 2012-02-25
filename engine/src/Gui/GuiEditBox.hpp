@@ -29,7 +29,7 @@ public:
       */
     GuiEditBox(const QString& name);
     MyGUI::Widget* GetMyGUIWidget();
-    void OnCreate();
+    void OnInitialize();
 
 private:
     MyGUI::EditBox* mEditBox;

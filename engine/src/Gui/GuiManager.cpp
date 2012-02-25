@@ -56,8 +56,8 @@ void GuiManager::Initialize() {
         // Show / hide the mouse cursor.
         SetMouseCursorVisible(mMouseCursorVisible);
 
-        // Create the root widget.
-        mRootGuiWindow.Create();
+        // Initialize the root widget.
+        mRootGuiWindow.Initialize();
     }
 }
 

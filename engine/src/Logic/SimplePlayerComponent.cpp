@@ -67,7 +67,7 @@ SimplePlayerComponent::SimplePlayerComponent(const QString& name)
     }
 }*/
 
-void SimplePlayerComponent::OnCreate() {
+void SimplePlayerComponent::OnInitialize() {
     if(!QObject::connect(InputManager::Get(), SIGNAL(sKeyPressed(const OIS::KeyEvent&)), 
         this, SLOT(_HandleKeyPressed(const OIS::KeyEvent&)))) {
             Logger::Get().Error("Cannot connect the key pressed signal with " + GetName()
@@ -87,7 +87,7 @@ void SimplePlayerComponent::OnCreate() {
     }
 }
 
-void SimplePlayerComponent::OnDestroy() {}
+void SimplePlayerComponent::OnDeinitialize() {}
 
 void SimplePlayerComponent::OnUpdate(double time_diff) {
     /*OIS::Keyboard* k = InputManager::Get()->GetKeyboard();*/

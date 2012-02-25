@@ -27,11 +27,11 @@ MeshComponent::MeshComponent(const QString& mesh_handle, const QString& material
     mMaterialName = material_name;
 }
 
-void MeshComponent::OnCreate() {
+void MeshComponent::OnInitialize() {
     _LoadMesh();
 }
 
-void MeshComponent::OnDestroy() {
+void MeshComponent::OnDeinitialize() {
     _DestroyMesh();
 }
 
@@ -60,7 +60,7 @@ void MeshComponent::OnSerialize(IOPacket &packet) {
 }
 
 void MeshComponent::SetMeshHandle(const QString& mesh_handle) {
-    if(mesh_handle != mMeshHandle && IsCreated()) {
+    if(mesh_handle != mMeshHandle && IsInitialized()) {
         // we got a new mesh; load it
         _LoadMesh();
     }

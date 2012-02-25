@@ -41,7 +41,7 @@ public:
       */
     AdvancedPlayerComponent(const QString& name = "");
 
-    virtual void OnCreate();
+    virtual void OnInitialize();
     virtual void OnEnable();
     virtual void OnDisable();
     virtual void OnUpdate(double time_diff);
