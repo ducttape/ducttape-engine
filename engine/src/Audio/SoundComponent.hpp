@@ -28,6 +28,7 @@ namespace dt {
 class DUCTTAPE_API SoundComponent : public Component {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE(SoundComponent)
     /**
      * Advanced constructor.
      * @param sound_file The name of the sound resource to play.

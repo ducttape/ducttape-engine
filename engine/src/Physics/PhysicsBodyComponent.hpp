@@ -30,6 +30,7 @@ namespace dt {
 class DUCTTAPE_API PhysicsBodyComponent : public Component {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE(PhysicsBodyComponent)
     /**
       * The type of collision shape that is constructed from the mesh.
       */
@@ -76,17 +77,23 @@ public:
       */
     void ApplyCentralImpulse(const btVector3& impulse);
 
+    void ApplyCentralImpulse(float x, float y, float z);
+
     /**
       * Gives the center a force.
       * @param force The force to give.
       */
     void SetCentralForce(const btVector3& force);
 
+    void SetCentralForce(float x, float y, float z);
+
     /**
       * Gives the PhysicsBodyComponent a torque to make it rotate.
       * @param torque The torque to give.
       */
     void SetTorque(const btVector3& torque);
+
+    void SetTorque(float x, float y, float z);
 
     /**
       * Sets the collision mask.
@@ -118,6 +125,7 @@ public:
       * to disallow movement on that plane or 1 to allow it.
       */
     void SetRestrictMovement(const btVector3& restriction);
+    void SetRestrictMovement(float x, float y, float z);
 
     /**
       * Sets rotation restriction. This can be used to restrict a body's rotation to 1 or 2 dimensions.
@@ -125,12 +133,14 @@ public:
       * to disallow movement on that plane or 1 to allow it.
       */
     void SetRestrictRotation(const btVector3& restriction);
+    void SetRestrictRotation(float x, float y, float z);
 
     /**
       * Sets the gravity of the physics body.
       * @param gravity The new gravity.
       */
     void SetGravity(const btVector3& gravity);
+    void SetGravity(float x, float y, float z);
     
     /**
       * Prevents a body from sleeping when it rests. This decreases performance

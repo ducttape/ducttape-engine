@@ -162,6 +162,10 @@ void TextComponent::SetColor(Ogre::ColourValue color) {
         emit ColorChanged();
 }
 
+void TextComponent::SetColor(float r, float g, float b, float a) {
+    SetColor(Ogre::ColourValue(r, g, b, a));
+}
+
 Ogre::ColourValue TextComponent::GetColor() const {
     return mColor;
 }
@@ -191,6 +195,10 @@ const QString& TextComponent::GetBackgroundMaterial() const {
 
 void TextComponent::SetPadding(Ogre::Vector2 padding) {
     mPadding = padding;
+}
+
+void TextComponent::SetPadding(float x, float y) {
+    SetPadding(Ogre::Vector2(x, y));
 }
 
 Ogre::Vector2 TextComponent::GetPadding() const {

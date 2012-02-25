@@ -67,6 +67,10 @@ void CameraComponent::LookAt(Ogre::Vector3 target_point) {
     mNode->SetRotation(mCamera->getOrientation());
 }
 
+void CameraComponent::LookAt(float x, float y, float z) {
+    LookAt(Ogre::Vector3(x, y, z));
+}
+
 void CameraComponent::SetupViewport(float left, float top, float width, float height) {
     mViewport->setDimensions(left, top, width, height);
 }

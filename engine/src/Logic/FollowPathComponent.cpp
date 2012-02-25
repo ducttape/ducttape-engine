@@ -70,6 +70,10 @@ void FollowPathComponent::AddPoint(Ogre::Vector3 point) {
     }
 }
 
+void FollowPathComponent::AddPoint(float x, float y, float z) {
+    AddPoint(Ogre::Vector3(x, y, z));
+}
+
 void FollowPathComponent::SetSpeed(float speed) {
     mTotalDuration = GetTotalLength() / speed;
 }
