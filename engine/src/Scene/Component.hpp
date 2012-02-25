@@ -38,7 +38,7 @@ class DUCTTAPE_API Component : public QObject,
     Q_OBJECT
     Q_PROPERTY(QString name READ GetName CONSTANT FINAL)
     Q_PROPERTY(bool isEnabled READ IsEnabled FINAL)
-    Q_PROPERTY(bool isCreated READ IsCreated FINAL)
+    Q_PROPERTY(bool isInitialized READ IsInitialized FINAL)
     Q_PROPERTY(QScriptValue node READ GetScriptNode)
 
 public:
@@ -54,14 +54,14 @@ public:
     virtual ~Component() = 0;
 
     /**
-      * Called when the component is activated. Create all scene objects here.
+      * Called when the component is activated. Initialize all scene objects here.
       */
-    virtual void OnCreate();
+    virtual void OnInitialize();
 
     /**
-      * Called when the component is deactivated. Destroy all scene objects here.
+      * Called when the component is deactivated. Deinitialize all scene objects here.
       */
-    virtual void OnDestroy();
+    virtual void OnDeinitialize();
 
     /**
       * Called when the component is enabled. Show/enable all scene objects here.
@@ -118,7 +118,7 @@ public slots:
       * Returns whether the component is created.
       * @returns Whether the component is created.
       */
-    bool IsCreated();
+    bool IsInitialized();
 
     /**
       * Returns whether the component is enabled.
@@ -127,14 +127,14 @@ public slots:
     bool IsEnabled();
 
     /**
-      * Creates the component.
+      * Initializes the component.
       */
-    void Create();
+    void Initialize();
 
     /**
-      * Destroys the component.
+      * Deinitializes the component.
       */
-    void Destroy();
+    void Deinitialize();
 
     /**
       * Enables the component.
@@ -147,8 +147,8 @@ public slots:
     void Disable();
 
 signals:
-    void ComponentCreated();
-    void ComponentDestroyed();
+    void ComponentInitialized();
+    void ComponentUninitialized();
     void ComponentEnabled();
     void ComponentDisabled();
 
@@ -158,7 +158,7 @@ protected:
 
 private:
     bool mIsEnabled;    //!< Whether the component is enabled or not.
-    bool mIsCreated;    //!< Whether the component has been created or not.
+    bool mIsInitialized;    //!< Whether the component has been created or not.
     boost::uuids::uuid mId;    //!< The id for the component.
 };
 

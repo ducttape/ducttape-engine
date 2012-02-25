@@ -53,8 +53,8 @@ public:
     PhysicsBodyComponent(const QString& mesh_component_name, 
                          const QString& name = "", CollisionShapeType collision_shape_type = CONVEX, btScalar mass = 5.0f);
 
-    void OnCreate();
-    void OnDestroy();
+    void OnInitialize();
+    void OnDeinitialize();
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);

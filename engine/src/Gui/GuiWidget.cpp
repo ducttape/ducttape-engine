@@ -30,15 +30,15 @@ GuiWidget::GuiWidget(const QString& name)
 
 GuiWidget::~GuiWidget() {}
 
-void GuiWidget::Create() {
+void GuiWidget::Initialize() {
     GuiManager::Get()->Initialize(); // initialize if not already happened
-    OnCreate();
+    OnInitialize();
 }
 
-void GuiWidget::Destroy() {
+void GuiWidget::Deinitialize() {
     // destroy all children
     /*for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
-        iter->second->Destroy();
+        iter->second->Deinitialize();
 
         iter = mChildren.erase(iter);
     }*/
@@ -177,7 +177,7 @@ void GuiWidget::RemoveChild(const QString& name) {
     GuiWidget* w = FindChild(name);
     
     if(w != nullptr) {
-        w->Destroy();
+        w->Deinitialize();
         mChildren.erase(name);
     }
 }

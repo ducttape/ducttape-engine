@@ -23,7 +23,7 @@ NetworkManager::~NetworkManager() {}
 void NetworkManager::Initialize() {
     // initialize the connections mananger
     mConnectionsManager.Initialize();
-    connect(this, SIGNAL(NewEvent(std::shared_ptr<dt::NetworkEvent>)),
+    QObject::connect(this, SIGNAL(NewEvent(std::shared_ptr<dt::NetworkEvent>)),
             GetConnectionsManager(), SLOT(HandleEvent(std::shared_ptr<dt::NetworkEvent>)));
 
     // add all default events as prototypes

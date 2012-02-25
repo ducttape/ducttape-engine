@@ -25,11 +25,11 @@ FollowPathComponent::FollowPathComponent(Mode mode, const QString& name)
 
 //void FollowPathComponent::HandleEvent(std::shared_ptr<Event> e) {}
 
-void FollowPathComponent::OnCreate() {
+void FollowPathComponent::OnInitialize() {
     mLastPoint = mNode->GetPosition();
 }
 
-void FollowPathComponent::OnDestroy() {}
+void FollowPathComponent::OnDeinitialize() {}
 
 void FollowPathComponent::OnUpdate(double time_diff) {
     // move progress further

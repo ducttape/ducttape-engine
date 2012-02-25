@@ -20,7 +20,7 @@ MyGUI::Widget* GuiButton::GetMyGUIWidget() {
     return mButton;
 }
 
-void GuiButton::OnCreate() {
+void GuiButton::OnInitialize() {
     mButton = GetParent()->GetMyGUIWidget()->createWidget<MyGUI::Button>("Button", 0, 0, 100, 100, MyGUI::Align::Default, dt::Utils::ToStdString(GetFullName()));
 }
 

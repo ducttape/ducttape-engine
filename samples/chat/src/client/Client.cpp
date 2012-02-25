@@ -21,7 +21,7 @@ Client::Client() {
 }
 
 void Client::OnInitialize() {
-    connect((QObject*)dt::NetworkManager::Get(), SIGNAL(NewEvent(std::shared_ptr<dt::NetworkEvent>)),
+    QObject::connect((QObject*)dt::NetworkManager::Get(), SIGNAL(NewEvent(std::shared_ptr<dt::NetworkEvent>)),
             this, SLOT(_HandleEvent(std::shared_ptr<dt::NetworkEvent>)));
     dt::Logger::Get().GetStream("debug")->SetDisabled(true);
     dt::Logger::Get().GetStream("info")->SetDisabled(true);

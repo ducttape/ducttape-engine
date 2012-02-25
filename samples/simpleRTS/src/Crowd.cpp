@@ -15,7 +15,7 @@ mCenter(center) {}
 Crowd::~Crowd() {}
 
 void Crowd::AddBeing(BeingPointer being) {
-    connect(dynamic_cast<Being*>(being.get()), SIGNAL(killed(BeingID)), this, SLOT(RemoveBeing(BeingID)));
+    QObject::connect(dynamic_cast<Being*>(being.get()), SIGNAL(killed(BeingID)), this, SLOT(RemoveBeing(BeingID)));
     mBeings.insert({being->GetBeingID(), being});
 }
 

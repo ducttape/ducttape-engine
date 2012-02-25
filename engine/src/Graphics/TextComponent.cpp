@@ -33,7 +33,7 @@ TextComponent::TextComponent(const QString& text, const QString& name)
       mBackgroundMaterial(""),
       mPadding(Ogre::Vector2(10,4)) {}
 
-void TextComponent::OnCreate() {
+void TextComponent::OnInitialize() {
     // overlay
     QString oname = GetNode()->GetName() + "-" + mName;
     mOverlay = Ogre::OverlayManager::getSingleton().create(Utils::ToStdString(oname) + "-overlay");
@@ -57,7 +57,7 @@ void TextComponent::OnCreate() {
     mOverlay->show();
 }
 
-void TextComponent::OnDestroy() {
+void TextComponent::OnDeinitialize() {
     Ogre::OverlayManager* mgr = Ogre::OverlayManager::getSingletonPtr();
 
     mPanel->removeChild(mLabel->getName());

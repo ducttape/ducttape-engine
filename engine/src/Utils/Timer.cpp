@@ -23,7 +23,7 @@ Timer::Timer(const QString& message, double interval, bool repeat, bool threaded
         _RunThread();
     } else {
         mTimeLeft = mInterval;
-        connect(Root::GetInstance().GetStateManager(), SIGNAL(BeginFrame(double)), 
+        QObject::connect(Root::GetInstance().GetStateManager(), SIGNAL(BeginFrame(double)), 
                 this, SLOT(UpdateTimeLeft(double)));
     }
 }

@@ -31,7 +31,7 @@ BillboardSetComponent::BillboardSetComponent(const QString& name, uint32_t pool_
     mSceneNode(nullptr),
     mTextureUnitState(nullptr) {}
 
-void BillboardSetComponent::OnCreate() {
+void BillboardSetComponent::OnInitialize() {
     mBillboardSet = GetNode()->GetScene()->GetSceneManager()
                     ->createBillboardSet(Utils::ToStdString(mName), mPoolSize);
 
@@ -58,7 +58,7 @@ void BillboardSetComponent::OnCreate() {
     mSceneNode->attachObject(mBillboardSet);
 }
 
-void BillboardSetComponent::OnDestroy() {
+void BillboardSetComponent::OnDeinitialize() {
     Ogre::SceneManager* scene_mgr = GetNode()->GetScene()->GetSceneManager();
 
     if(mBillboardSet != nullptr) {
