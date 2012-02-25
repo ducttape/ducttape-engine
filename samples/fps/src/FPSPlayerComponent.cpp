@@ -16,7 +16,7 @@ FPSPlayerComponent::FPSPlayerComponent(uint16_t weapon_num, const QString& name)
 void FPSPlayerComponent::OnCreate() {
     AdvancedPlayerComponent::OnCreate();
 
-    for(uint16_t i = 0 ; i < mWeaponNum ; i++) {
+    for(uint16_t i = 0; i < mWeaponNum; ++i) {
         mWeapons.push_back(nullptr);
     }
 
@@ -35,7 +35,7 @@ void FPSPlayerComponent::OnDestroy() {
 }
 
 void FPSPlayerComponent::AddWeapon(Weapon* weapon) {
-    unsigned index = weapon->GetType();
+    uint16_t index = weapon->GetType();
 
     if(index < mWeaponNum) {
         if(mWeapons[index] != nullptr)

@@ -1,6 +1,5 @@
-#ifndef PLAYER_H
-#define PLAYER_H
-#pragma once
+#ifndef DUCTTAPE_SAMPLE_FPS_PLAYER
+#define DUCTTAPE_SAMPLE_FPS_PLAYER
 
 #include "Config.hpp"
 

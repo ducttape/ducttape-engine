@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DUCTTAPE_SAMPLE_FPS_WEAPON
+#define DUCTTAPE_SAMPLE_FPS_WEAPON
 
 #include <Config.hpp>
 
@@ -96,3 +97,5 @@ private:
     dt::SoundComponent* mReloadingBeginSound;
     dt::SoundComponent* mReloadingDoneSound;
 };
+
+#endif

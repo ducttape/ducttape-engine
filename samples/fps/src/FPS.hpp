@@ -1,6 +1,5 @@
-#ifndef FPS_H
-#define FPS_H
-#pragma once
+#ifndef DUCTTAPE_SAMPLE_FPS_FPS
+#define DUCTTAPE_SAMPLE_FPS_FPS
 
 #include <Scene/State.hpp>
 
