@@ -19,8 +19,8 @@ bool ResourceManagerTest::Run(int argc, char** argv) {
     dt::ResourceManager* mgr = dt::ResourceManager::Get();
 
     mgr->AddSoundBuffer("sad-trombone.wav", "trombone");
-    if(mgr->GetSoundBuffer("trombone")->GetDuration() <= 1000) {
-        std::cerr << "The sound buffer is too short, probably empty. Length: " << mgr->GetSoundBuffer("trombone")->GetDuration() <<
+    if(mgr->GetSoundBuffer("trombone")->GetDuration().AsMilliseconds() <= 1000) {
+        std::cerr << "The sound buffer is too short, probably empty. Length: " << mgr->GetSoundBuffer("trombone")->GetDuration().AsMilliseconds() <<
                      " - Expected: 4150." << std::endl;
         return false;
     }

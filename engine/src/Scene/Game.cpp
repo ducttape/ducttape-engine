@@ -35,7 +35,7 @@ void Game::Run(State* start_state, int argc, char** argv) {
     connect(this, SIGNAL(BeginFrame(double)), (QObject*)root.GetPhysicsManager(),
             SLOT(UpdateFrame(double)), Qt::DirectConnection);
 
-    mClock.Reset();
+    mClock.Restart();
     mIsRunning = true;
 
     // read http://gafferongames.com/game-physics/fix-your-timestep for more
@@ -48,8 +48,8 @@ void Game::Run(State* start_state, int argc, char** argv) {
     while(!mIsShutdownRequested) {
         // TIMING
         // TODO: Implement real timing instead of just getting the time difference
-        double frame_time = mClock.GetElapsedTime() / 1000.0;
-        mClock.Reset();
+        double frame_time = mClock.GetElapsedTime().AsSeconds();
+        mClock.Restart();
 
         // Shift states and cancel if none are left
         if(!root.GetStateManager()->ShiftStates())
@@ -60,7 +60,7 @@ void Game::Run(State* start_state, int argc, char** argv) {
 
         accumulator += frame_time;
         while(accumulator >= simulation_frame_time) {
-            anti_spiral_clock.Reset();
+            anti_spiral_clock.Restart();
             // SIMULATION
             emit BeginFrame(simulation_frame_time);
 
@@ -68,7 +68,7 @@ void Game::Run(State* start_state, int argc, char** argv) {
             // NETWORKING
             root.GetNetworkManager()->SendQueuedEvents();
 
-            double real_simulation_time = anti_spiral_clock.GetElapsedTime() / 1000.0;
+            double real_simulation_time = anti_spiral_clock.GetElapsedTime().AsSeconds();
             if(real_simulation_time > simulation_frame_time) {
                 // this is bad! the simulation did not render fast enough
                 // to have some time left for rendering etc.
@@ -94,7 +94,7 @@ void Game::Run(State* start_state, int argc, char** argv) {
             sf::Listener::SetDirection(dir.x, dir.y, dir.z);
         }
 
-        sf::Sleep(5);
+        sf::Sleep(sf::Milliseconds(5));
     }
 
     // Send the GoodbyeEvent to close the network connection.

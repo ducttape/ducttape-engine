@@ -34,7 +34,7 @@ void Timer::TriggerTickEvent() {
     if(mRepeat) {
         if(mThreaded) {
             while(mRepeat) {
-                sf::Sleep(GetInterval() * 1000);
+                sf::Sleep(sf::Seconds(GetInterval()));
                 emit TimerTicked(mMessage, mInterval);
             }
         } else {
@@ -62,7 +62,7 @@ void Timer::_ThreadFunction(void* user_data) {
     Timer* timer = (Timer*)user_data;
 
     // wait for interval, convert to milliseconds for SFML
-    sf::Sleep(timer->GetInterval() * 1000);
+    sf::Sleep(sf::Seconds(timer->GetInterval()));
     
     // done, trigger event
     timer->TriggerTickEvent();
