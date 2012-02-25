@@ -178,7 +178,7 @@ void GuiWidget::RemoveChild(const QString& name) {
     
     if(w != nullptr) {
         w->Destroy();
-        auto count = mChildren.erase(name);
+        mChildren.erase(name);
     }
 }
 
