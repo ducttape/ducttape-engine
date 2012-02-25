@@ -23,11 +23,14 @@ void CollisionComponent::OnCheck(const btVector3& start, const btVector3& end) {
     impulse = end - start;
     impulse.normalize();
 
-    Node* bullet = GetNode()->GetScene()->AddChildNode(new Node(QString(Utils::AutoId())));
+    auto id = Utils::AutoId();
+    QString name = QString("bullet") + Utils::ToString(id);
 
-    bullet->AddComponent<MeshComponent>(new MeshComponent(mBulletMeshHandle, "", "bullet"));
+    Node* bullet = GetNode()->GetScene()->AddChildNode(new Node(QString(id)));
+
+    bullet->AddComponent<MeshComponent>(new MeshComponent(mBulletMeshHandle, "", name));
     bullet->SetPosition(BtOgre::Convert::toOgre(start), Node::SCENE);
-    PhysicsBodyComponent* bullet_body = bullet->AddComponent<PhysicsBodyComponent>(new PhysicsBodyComponent("bullet", "bullet_body"));
+    PhysicsBodyComponent* bullet_body = bullet->AddComponent<PhysicsBodyComponent>(new PhysicsBodyComponent(name, "bullet_body"));
     bullet_body->SetMass(1.0);
 
     if(!QObject::connect(bullet_body, SIGNAL(Collided(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)), 

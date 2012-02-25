@@ -30,8 +30,6 @@
   * \subsection Media
   * \li Darren \a 'visionseeker' Cullen (http://www.deliciousmusic.co.nz/artists/visionseeker)
   * \li Lasse \a 'lazzly' Bienkowski
-  * \li Christian-Nietsche
-  * \li Richard T.White Jr.
   */
 
 #ifndef DUCTTAPE_ENGINE_ROOT
