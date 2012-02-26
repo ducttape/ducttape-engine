@@ -188,7 +188,7 @@ public:
         // create GUI
         dt::GuiRootWindow& win = dt::GuiManager::Get()->GetRootWindow();
 
-        mOutput = win.CreateChild<dt::GuiEditBox>("output");
+        mOutput = win.AddChildWidget(new dt::GuiEditBox("output"));
         mOutput->SetPosition(10, 10);
         mOutput->SetSize(780, 550);
         MyGUI::EditBox* output = dynamic_cast<MyGUI::EditBox*>(mOutput->GetMyGUIWidget());
@@ -197,7 +197,7 @@ public:
         output->setEditReadOnly(true);
         output->setTextAlign(MyGUI::Align::Bottom | MyGUI::Align::Left);
 
-        mInput = win.CreateChild<dt::GuiEditBox>("input");
+        mInput = win.AddChildWidget(new dt::GuiEditBox("input"));
         mInput->SetPosition(10, 570);
         mInput->SetSize(700, 20);
         MyGUI::EditBox* input = dynamic_cast<MyGUI::EditBox*>(mInput->GetMyGUIWidget());
@@ -207,11 +207,11 @@ public:
         input->eventKeyButtonPressed += MyGUI::newDelegate(this, &Main::KeyPressed);
         input->setTextAlign(MyGUI::Align::Bottom | MyGUI::Align::Left);
 
-        mButton = win.CreateChild<dt::GuiButton>("button");
+        mButton = win.AddChildWidget(new dt::GuiButton("button"));
         mButton->SetPosition(720, 570);
         mButton->SetSize(70, 20);
         mButton->SetCaption("Run");
-        dynamic_cast<MyGUI::Button*>(mButton->GetMyGUIWidget())->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::SubmitClicked);
+        mButton->GetMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::SubmitClicked);
 
 
         InfoFunction(nullptr, dt::ScriptManager::Get()->GetScriptEngine());

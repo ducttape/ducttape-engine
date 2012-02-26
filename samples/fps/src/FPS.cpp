@@ -16,7 +16,8 @@
 #include <OgreProcedural.h>
 
 void Main::OnInitialize() {
-    dt::ResourceManager::Get()->AddDataPath(QDir("./fps/data"));
+    //dt::ResourceManager::Get()->AddDataPath(QDir("../samples/fps/data"));
+    dt::ResourceManager::Get()->AddResourceLocation("../samples/fps/data", "FileSystem", true);
     dt::ResourceManager::Get()->AddResourceLocation("gui","FileSystem", true);
     dt::ResourceManager::Get()->AddResourceLocation("","FileSystem");
     dt::ResourceManager::Get()->AddResourceLocation("crate", "FileSystem");

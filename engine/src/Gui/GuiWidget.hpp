@@ -80,8 +80,9 @@ public:
       * @returns A pointer to the new widget.
       */
     template <typename WidgetType>
-    WidgetType* CreateChild(const QString& name) {
-        _AddChild(new WidgetType(name));
+    WidgetType* AddChildWidget(WidgetType* widget) {
+        const QString& name = widget->GetName();
+        _AddChild(widget);
         FindChild(name)->Initialize();
         return dynamic_cast<WidgetType*>(FindChild(name));
     }
