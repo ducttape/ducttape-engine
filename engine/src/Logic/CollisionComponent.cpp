@@ -48,7 +48,7 @@ void CollisionComponent::OnHit(PhysicsBodyComponent* hit, PhysicsBodyComponent* 
     emit sHit(hit);
 }
 
-void CollisionComponent::OnCreate() {
+void CollisionComponent::OnInitialize() {
     //Preload the bullet mesh.
     Node* bullet = this->GetNode()->GetScene()->AddChildNode(new Node("preload_bullet"));
     bullet->AddComponent(new MeshComponent(mBulletMeshHandle, "", "bullet"));

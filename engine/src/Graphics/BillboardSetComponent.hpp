@@ -41,8 +41,8 @@ public:
     BillboardSetComponent(const QString& name = "", uint32_t pool_size=20, 
                           const QString& file = "");
     
-    void OnCreate();
-    void OnDestroy();
+    void OnInitialize();
+    void OnDeinitialize();
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);

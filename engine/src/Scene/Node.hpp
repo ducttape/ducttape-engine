@@ -99,7 +99,7 @@ public:
         if(!HasComponent(cname)) {
             std::shared_ptr<Component> ptr(component);
             ptr->SetNode(this);
-            ptr->Create();
+            ptr->Initialize();
             std::pair<QString, std::shared_ptr<Component> > pair(cname, ptr);
             mComponents.insert(pair);
             

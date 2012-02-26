@@ -127,7 +127,7 @@ void Soldier::_SearchAndDigMine() {
 }
 
 void Soldier::AttackBeing(const BeingPointer& being_ptr) {
-    connect(being_ptr.get(), SIGNAL(killed(BeingID)), this, SLOT(StopAttacking()));
+    QObject::connect(being_ptr.get(), SIGNAL(killed(BeingID)), this, SLOT(StopAttacking()));
     mAttackedBeing = being_ptr;
     mIsAttacking = true;
     StareAtBeing(mAttackedBeing);

@@ -29,10 +29,10 @@ void Game::Run(State* start_state, int argc, char** argv) {
 
     root.Initialize(argc, argv);
     root.GetStateManager()->SetNewState(start_state);
-    connect(root.GetInputManager(), SIGNAL(WindowClosed()), this, SLOT(RequestShutdown()));
+    QObject::connect(root.GetInputManager(), SIGNAL(WindowClosed()), this, SLOT(RequestShutdown()));
     //connect BeginFrames to things that need it, like State/Scenes and the PhysicsManager
-    connect(this, SIGNAL(BeginFrame(double)), root.GetStateManager(), SIGNAL(BeginFrame(double)), Qt::DirectConnection);
-    connect(this, SIGNAL(BeginFrame(double)), (QObject*)root.GetPhysicsManager(),
+    QObject::connect(this, SIGNAL(BeginFrame(double)), root.GetStateManager(), SIGNAL(BeginFrame(double)), Qt::DirectConnection);
+    QObject::connect(this, SIGNAL(BeginFrame(double)), (QObject*)root.GetPhysicsManager(),
             SLOT(UpdateFrame(double)), Qt::DirectConnection);
 
     mClock.Restart();

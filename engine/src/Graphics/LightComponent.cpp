@@ -22,7 +22,7 @@ LightComponent::LightComponent(const QString& name)
       mSceneNode(nullptr),
       mCastShadows(true) {}
 
-void LightComponent::OnCreate() {
+void LightComponent::OnInitialize() {
     mLight = GetNode()->GetScene()->GetSceneManager()->createLight(Utils::ToStdString(mName));
 
     // Set the point light as the default light type
@@ -37,7 +37,7 @@ void LightComponent::OnCreate() {
     mSceneNode->attachObject(mLight);
 }
 
-void LightComponent::OnDestroy() {
+void LightComponent::OnDeinitialize() {
     Ogre::SceneManager* scene_mgr = GetNode()->GetScene()->GetSceneManager();
 
     if(mLight != nullptr)

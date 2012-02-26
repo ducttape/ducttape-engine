@@ -43,11 +43,12 @@ public:
     MeshComponent(const QString& mesh_handle = "",
                   const QString& material_name = "", const QString& name = "");
 
-    void OnCreate();
-    void OnDestroy();
+    void OnInitialize();
+    void OnDeinitialize();
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);
+    void OnSerialize(IOPacket &packet);
 
     /**
       * Sets the handle the mesh is being loaded from.

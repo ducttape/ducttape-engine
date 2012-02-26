@@ -29,7 +29,7 @@ public:
       */
     GuiWindow(const QString& name);
     MyGUI::Widget* GetMyGUIWidget();
-    virtual void OnCreate();
+    virtual void OnInitialize();
 
 protected:
     MyGUI::Window* mWindow;

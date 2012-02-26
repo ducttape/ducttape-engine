@@ -16,7 +16,7 @@ namespace dt {
 GuiRootWindow::GuiRootWindow(const QString& name)
     : GuiWindow(name) {}
 
-void GuiRootWindow::OnCreate() {
+void GuiRootWindow::OnInitialize() {
     mWindow = GuiManager::Get()->GetGuiSystem()->createWidget<MyGUI::Window>("PanelEmpty", 0, 0, 1, 1, MyGUI::Align::Default, "Main", dt::Utils::ToStdString(GetFullName()));
     SetPosition(0, 0);
     SetSize(1.f, 1.f);

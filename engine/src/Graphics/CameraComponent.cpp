@@ -20,7 +20,7 @@ namespace dt {
 CameraComponent::CameraComponent(const QString& name)
    : Component(name) {}
 
-void CameraComponent::OnCreate() {
+void CameraComponent::OnInitialize() {
     // create the ogre context if not present
     DisplayManager::Get()->CreateOgreRoot();
 
@@ -36,7 +36,7 @@ void CameraComponent::OnCreate() {
     }
 }
 
-void CameraComponent::OnDestroy() {
+void CameraComponent::OnDeinitialize() {
     // reset the main camera if we were the main camera
     if(DisplayManager::Get()->GetMainCamera() == this)
         DisplayManager::Get()->SetMainCamera(nullptr);

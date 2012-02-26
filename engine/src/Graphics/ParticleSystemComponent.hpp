@@ -124,8 +124,8 @@ public:
       */
     Ogre::ParticleSystem* GetOgreParticleSystem();
 
-    void OnCreate();
-    void OnDestroy();
+    void OnInitialize();
+    void OnDeinitialize();
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);

@@ -14,9 +14,9 @@ TriggerComponent::TriggerComponent(const QString& name)
     : Component(name) {
 }
 
-void TriggerComponent::OnCreate() {}
+void TriggerComponent::OnInitialize() {}
 
-void TriggerComponent::OnDestroy() {}
+void TriggerComponent::OnDeinitialize() {}
 
 void TriggerComponent::OnUpdate(double time_diff) {}
 

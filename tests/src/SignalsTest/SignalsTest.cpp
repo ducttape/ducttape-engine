@@ -44,9 +44,9 @@ QString SignalsTest::GetTestName() {
 TestComponent::TestComponent(const QString& name)
     : dt::Component(name) {}
 
-void TestComponent::OnCreate() {}
+void TestComponent::OnInitialize() {}
 
-void TestComponent::OnDestroy() {}
+void TestComponent::OnDeinitialize() {}
 
 void TestComponent::Invoke() {
     emit Invoked();

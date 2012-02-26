@@ -33,8 +33,8 @@ public:
       */
     TriggerComponent(const QString& name = "");
 
-    void OnCreate();
-    void OnDestroy();
+    void OnInitialize();
+    void OnDeinitialize();
     void OnUpdate(double time_diff);
 };
 

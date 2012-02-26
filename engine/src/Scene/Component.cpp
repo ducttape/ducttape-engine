@@ -17,7 +17,7 @@ namespace dt {
 Component::Component(const QString& name)
     : mName(name),
       mIsEnabled(false),
-      mIsCreated(false) {
+      mIsInitialized(false) {
     // auto-generate the component name
     if(mName == "") {
         mName = "Component-" + Utils::ToString(Utils::AutoId());
@@ -37,9 +37,9 @@ QString Component::GetFullName() const {
     return mNode->GetFullName() + "/" + GetName();
 }
 
-void Component::OnCreate() {}
+void Component::OnInitialize() {}
 
-void Component::OnDestroy() {}
+void Component::OnDeinitialize() {}
 
 void Component::OnEnable() {}
 
@@ -77,21 +77,21 @@ QScriptValue Component::GetScriptNode() {
     return dt::ScriptManager::Get()->GetScriptEngine()->newQObject(mNode);
 }
 
-void Component::Create() {
-    if(!mIsCreated) {
-        mIsCreated = true;
-        OnCreate();
-        emit ComponentCreated();
+void Component::Initialize() {
+    if(!mIsInitialized) {
+        mIsInitialized = true;
+        OnInitialize();
+        emit ComponentInitialized();
         Enable();
     }
 }
 
-void Component::Destroy() {
-    if(mIsCreated) {
-        mIsCreated = false;
+void Component::Deinitialize() {
+    if(mIsInitialized) {
+        mIsInitialized = false;
         Disable();
-        emit ComponentDestroyed();
-        OnDestroy();
+        emit ComponentUninitialized();
+        OnDeinitialize();
     }
 }
 
@@ -111,8 +111,8 @@ void Component::Disable() {
     }
 }
 
-bool Component::IsCreated() {
-    return mIsCreated;
+bool Component::IsInitialized() {
+    return mIsInitialized;
 }
 
 bool Component::IsEnabled() {

@@ -13,8 +13,8 @@ FPSPlayerComponent::FPSPlayerComponent(uint16_t weapon_num, const QString& name)
       mWeaponInUse(nullptr),
       mGrabber(nullptr) {}
 
-void FPSPlayerComponent::OnCreate() {
-    AdvancedPlayerComponent::OnCreate();
+void FPSPlayerComponent::OnInitialize() {
+    AdvancedPlayerComponent::OnInitialize();
 
     for(uint16_t i = 0; i < mWeaponNum; ++i) {
         mWeapons.push_back(nullptr);
@@ -30,8 +30,8 @@ void FPSPlayerComponent::OnCreate() {
     }
 }
 
-void FPSPlayerComponent::OnDestroy() {
-    AdvancedPlayerComponent::OnDestroy();
+void FPSPlayerComponent::OnDeinitialize() {
+    AdvancedPlayerComponent::OnDeinitialize();
 }
 
 void FPSPlayerComponent::AddWeapon(Weapon* weapon) {
