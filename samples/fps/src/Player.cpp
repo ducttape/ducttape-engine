@@ -35,9 +35,9 @@ void Player::OnInitialize() {
     this->AddComponent(mJumpingSound);
 
     dt::GuiRootWindow& win = dt::GuiManager::Get()->GetRootWindow();
-    mHUDAmmo = win.CreateChild<dt::GuiButton>("HUD_ammo");
-    mHUDHealth = win.CreateChild<dt::GuiButton>("HUD_health");
-    mHUDClip = win.CreateChild<dt::GuiButton>("HUD_clip");
+    mHUDAmmo = win.AddChildWidget(new dt::GuiButton("HUD_ammo"));
+    mHUDHealth = win.AddChildWidget(new dt::GuiButton("HUD_health"));
+    mHUDClip = win.AddChildWidget(new dt::GuiButton("HUD_clip"));
     auto screen_rect = win.GetMyGUIWidget()->getAbsoluteRect();
 
     mHUDHealth->SetSize(100, 30);
