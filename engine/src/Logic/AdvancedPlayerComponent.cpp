@@ -75,12 +75,12 @@ void AdvancedPlayerComponent::OnCreate() {
     }
     if(!QObject::connect(InputManager::Get(), SIGNAL(sMousePressed(const OIS::MouseEvent&, OIS::MouseButtonID)), 
         this, SLOT(_HandleMouseDown(const OIS::MouseEvent&, OIS::MouseButtonID)))) {
-            Logger::Get().Error("Cannot connect the mouse moved signal with " + GetName()
+            Logger::Get().Error("Cannot connect the mouse pressed signal with " + GetName()
                 + "'s mouse input handling slot.");
     }
     if(!QObject::connect(InputManager::Get(), SIGNAL(sMouseReleased(const OIS::MouseEvent&, OIS::MouseButtonID)), 
         this, SLOT(_HandleMouseUp(const OIS::MouseEvent&, OIS::MouseButtonID)))) {
-            Logger::Get().Error("Cannot connect the mouse moved signal with " + GetName()
+            Logger::Get().Error("Cannot connect the mouse released signal with " + GetName()
                 + "'s mouse input handling slot.");
     }
 }

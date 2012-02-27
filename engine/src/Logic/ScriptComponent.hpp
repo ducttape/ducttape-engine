@@ -27,10 +27,12 @@ class DUCTTAPE_API ScriptComponent : public Component {
 public:
     /**
       * Advanced constructor.
+      * @param script_name The name for the script.
       * @param name The name for this component.
+      * @param is_update_enabled Whether update call of the script is enabled or not.
       * @see Component
       */
-    ScriptComponent(const QString& script_name, const QString& name = "");
+    ScriptComponent(const QString& script_name, const QString& name = "", bool is_update_enabled = false);
 
     void OnCreate();
     void OnDestroy();
@@ -38,12 +40,25 @@ public:
     void OnDisable();
     void OnUpdate(double time_diff);
 
+    /**
+      * Gets if update call of the script is enabled or not.
+      * @return Whether update call of the script is enabled or not.
+      */
+    bool IsUpdateEnabled() const;
+
+    /**
+      * Sets if update call of the script is enabled or not.
+      * @param is_enabled Whether update call of the script is enabled or not.
+      */
+    void SetUpdateEnabled(bool is_enabled);
+
 protected:
     QScriptValue _CallScriptFunction(QString name, QScriptValueList params = QScriptValueList());
 
     QString mScriptName;
     QScriptValue mScriptObject;
     bool mValid;
+    bool mIsUpdateEnabled;
 };
 
 }
