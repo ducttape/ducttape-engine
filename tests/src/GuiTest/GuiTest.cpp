@@ -64,29 +64,29 @@ void Main::OnInitialize() {
     // GUI
     dt::GuiRootWindow& win = dt::GuiManager::Get()->GetRootWindow();
 
-    dt::GuiButton* button1 = win.CreateChild<dt::GuiButton>("b1");
+    dt::GuiButton* button1 = win.AddChildWidget(new dt::GuiButton("b1"));
     button1->SetCaption("Campaign");
     button1->SetPosition(10, 10);
     button1->SetSize(200, 30);
-    dynamic_cast<MyGUI::Button*>(button1->GetMyGUIWidget())->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
+    button1->GetMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
 
-    dt::GuiButton* button2 = win.CreateChild<dt::GuiButton>("b2");
+    dt::GuiButton* button2 = win.AddChildWidget(new dt::GuiButton("b2"));
     button2->SetCaption("Tutorial");
     button2->SetPosition(10, 50);
     button2->SetSize(200, 30);
-    dynamic_cast<MyGUI::Button*>(button2->GetMyGUIWidget())->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
+    button2->GetMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
 
-    dt::GuiButton* button3 = win.CreateChild<dt::GuiButton>("b3");
+    dt::GuiButton* button3 = win.AddChildWidget(new dt::GuiButton("b3"));
     button3->SetCaption("Options");
     button3->SetPosition(10, 90);
     button3->SetSize(200, 30);
-    dynamic_cast<MyGUI::Button*>(button3->GetMyGUIWidget())->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
+    button3->GetMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
 
-    dt::GuiButton* button4 = win.CreateChild<dt::GuiButton>("b4");
+    dt::GuiButton* button4 = win.AddChildWidget(new dt::GuiButton("b4"));
     button4->SetCaption("Exit");
     button4->SetPosition(10, 130);
     button4->SetSize(200, 30);
-    dynamic_cast<MyGUI::Button*>(button4->GetMyGUIWidget())->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
+    button4->GetMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
 }
 
 void Main::UpdateStateFrame(double simulation_frame_time) {
