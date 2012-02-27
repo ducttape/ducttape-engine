@@ -22,9 +22,9 @@ SoundComponent::SoundComponent(const QString& sound_file_name, const QString& na
     _LoadSound();
 }
 
-void SoundComponent::OnCreate() {}
+void SoundComponent::OnInitialize() {}
 
-void SoundComponent::OnDestroy() {}
+void SoundComponent::OnDeinitialize() {}
 
 void SoundComponent::OnUpdate(double time_diff) {
 	mSound.SetPosition(mNode->GetPosition(Node::SCENE).x,
@@ -32,8 +32,12 @@ void SoundComponent::OnUpdate(double time_diff) {
                        mNode->GetPosition(Node::SCENE).z);
 }
 
+void SoundComponent::OnSerialize(IOPacket &packet) {
+    packet.Stream(mSoundFileName, "sound_file");
+}
+
 void SoundComponent::SetSoundFileName(const QString& sound_file_name) {
-    if(sound_file_name != mSoundFileName && IsCreated()) {
+    if(sound_file_name != mSoundFileName && IsInitialized()) {
         // we got a new sound; load it
         _LoadSound();
     }

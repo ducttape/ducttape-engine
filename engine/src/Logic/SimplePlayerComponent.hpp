@@ -31,6 +31,7 @@ namespace dt {
 class DUCTTAPE_API SimplePlayerComponent : public Component {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE(SimplePlayerComponent)
     /**
       * Advanced constructor.
       * @param name The name of the Component.
@@ -40,8 +41,8 @@ public:
 
     //virtual void HandleEvent(std::shared_ptr<Event> e);
 
-    void OnCreate();
-    void OnDestroy();
+    void OnInitialize();
+    void OnDeinitialize();
     void OnUpdate(double time_diff);
 
     /**
@@ -115,11 +116,24 @@ public:
       * @returns Whether the mouse y-axis should be inversed.
       */
     bool GetMouseYInversed() const;
+    
+    /**
+      * Sets whether the node will move until the key is released.
+      * @param pressed Whether the node will move until the key is released.
+      */
+    void SetConstant(bool constant);
+    
+    /**
+      * Gets whether the node will move until the key is released.
+      * @returns consta Whether the node will move until the key is released.
+      */
+    bool GetConstant() const;
 
 private slots:
     void _HandleMouseInput(const OIS::MouseEvent& event);
 
-    void _HandleKeyboardInput(const OIS::KeyEvent& event);
+    void _HandleKeyPressed(const OIS::KeyEvent& event);
+    void _HandleKeyReleased(const OIS::KeyEvent& event);
 
 private:
     bool mWASDEnabled;          //!< Whether the WASD  keys are enabled for movement or not.
@@ -128,6 +142,8 @@ private:
     bool mMouseEnabled;         //!< Whether the Mouse is enabled for looking around or not.
     float mMouseSensitivity;    //!< The sensitivity of the mouse. Default: 1.0.
     bool mMouseYInversed;       //!< True if the mouse's y-axis should be inversed.
+    bool mCostant;              //!< If true, the node will move until the key is released.
+    bool mInputStateChanged;    //!< True if one key is pressed, released or the mouse is moved.
     Ogre::Vector3 mMove;        //!< Record the movement of the node. It will be set to zero after every update of the node.
 
 };

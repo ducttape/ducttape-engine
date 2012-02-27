@@ -30,6 +30,7 @@ namespace dt {
 class DUCTTAPE_API MeshComponent : public Component {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE(MeshComponent)
     /**
       * Advanced constructor.
       * @param name The name of the Component.
@@ -42,11 +43,12 @@ public:
     MeshComponent(const QString& mesh_handle = "",
                   const QString& material_name = "", const QString& name = "");
 
-    void OnCreate();
-    void OnDestroy();
+    void OnInitialize();
+    void OnDeinitialize();
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);
+    void OnSerialize(IOPacket &packet);
 
     /**
       * Sets the handle the mesh is being loaded from.

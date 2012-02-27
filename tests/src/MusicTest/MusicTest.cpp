@@ -37,12 +37,12 @@ bool MusicTest::Run(int argc, char** argv) {
         return false;
     }
 
-    sf::Sleep(500);
+    sf::Sleep(sf::Milliseconds(500));
     //dt::MusicComponent::SetMasterVolume(1);
     music_component->SetVolume(1);
-    sf::Sleep(500);
+    sf::Sleep(sf::Milliseconds(500));
 
-    if(resmgr->GetMusicFile(music_file)->GetPlayingOffset() < 100) {
+    if(resmgr->GetMusicFile(music_file)->GetPlayingOffset().AsMilliseconds() < 100) {
         std::cerr << "The music was not played correctly." << std::endl;
         resmgr->GetMusicFile(music_file)->Stop();
         return false;
@@ -55,7 +55,7 @@ bool MusicTest::Run(int argc, char** argv) {
         return false;
     }
 
-    sf::Sleep(200);
+    sf::Sleep(sf::Milliseconds(200));
 
     music_component->StopMusic();
     if(resmgr->GetMusicFile(music_file)->GetStatus() != sf::Music::Stopped) {
@@ -64,7 +64,7 @@ bool MusicTest::Run(int argc, char** argv) {
         return false;
     }
 
-    sf::Sleep(200);
+    sf::Sleep(sf::Milliseconds(200));
 
     music_component->PlayMusic();
     if(resmgr->GetMusicFile(music_file)->GetStatus() != sf::Music::Playing) {

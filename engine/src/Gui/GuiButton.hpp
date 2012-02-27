@@ -28,7 +28,7 @@ public:
       */
     GuiButton(const QString& name);
     MyGUI::Widget* GetMyGUIWidget();
-    void OnCreate();
+    void OnInitialize();
 
 private:
     MyGUI::Button* mButton;

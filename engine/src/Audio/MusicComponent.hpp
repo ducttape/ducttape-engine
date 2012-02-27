@@ -25,6 +25,7 @@ namespace dt {
 class DUCTTAPE_API MusicComponent : public Component {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE(MusicComponent)
     /**
      * Advanced constructor.
      * @param music_file_name The name of the music resource to play.
@@ -33,11 +34,12 @@ public:
      */
     MusicComponent(const QString& music_file_name = "", const QString& name = "");
 
-    void OnCreate();
-    void OnDestroy();
+    void OnInitialize();
+    void OnDeinitialize();
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);
+    void OnSerialize(IOPacket &packet);
 
     /**
       * Sets the file to load music from.

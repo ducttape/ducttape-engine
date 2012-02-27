@@ -1,6 +1,5 @@
-#ifndef HITTABLE_H
-#define HITTABLE_H
-#pragma once
+#ifndef DUCTTAPE_SAMPLE_FPS_HITTABLE
+#define DUCTTAPE_SAMPLE_FPS_HITTABLE
 
 #include "Scene/Node.hpp"
 #include "StatusComponent.hpp"

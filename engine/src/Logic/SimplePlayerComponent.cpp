@@ -23,6 +23,7 @@ SimplePlayerComponent::SimplePlayerComponent(const QString& name)
       mMouseEnabled(true),
       mMouseSensitivity(1.0),
       mMouseYInversed(false),
+      mCostant(false),
       mMove(Ogre::Vector3::ZERO) {}
 
 /*void SimplePlayerComponent::HandleEvent(std::shared_ptr<Event> e) {
@@ -66,11 +67,18 @@ SimplePlayerComponent::SimplePlayerComponent(const QString& name)
     }
 }*/
 
-void SimplePlayerComponent::OnCreate() {
+void SimplePlayerComponent::OnInitialize() {
     if(!QObject::connect(InputManager::Get(), SIGNAL(sKeyPressed(const OIS::KeyEvent&)), 
-        this, SLOT(_HandleKeyboardInput(const OIS::KeyEvent&)))) {
+        this, SLOT(_HandleKeyPressed(const OIS::KeyEvent&)))) {
             Logger::Get().Error("Cannot connect the key pressed signal with " + GetName()
                 + "'s keyboard input handling slot.");
+    }
+    if(mCostant) {
+        if(!QObject::connect(InputManager::Get(), SIGNAL(sKeyReleased(const OIS::KeyEvent&)), 
+            this, SLOT(_HandleKeyReleased(const OIS::KeyEvent&)))) {
+                Logger::Get().Error("Cannot connect the key released signal with " + GetName()
+                    + "'s keyboard input handling slot.");
+        }
     }
     if(!QObject::connect(InputManager::Get(), SIGNAL(sMouseMoved(const OIS::MouseEvent&)), 
         this, SLOT(_HandleMouseInput(const OIS::MouseEvent&)))) {
@@ -79,7 +87,7 @@ void SimplePlayerComponent::OnCreate() {
     }
 }
 
-void SimplePlayerComponent::OnDestroy() {}
+void SimplePlayerComponent::OnDeinitialize() {}
 
 void SimplePlayerComponent::OnUpdate(double time_diff) {
     /*OIS::Keyboard* k = InputManager::Get()->GetKeyboard();*/
@@ -100,16 +108,17 @@ void SimplePlayerComponent::OnUpdate(double time_diff) {
             move.x += 1.0;
         }*/
 
-
         if(mMove.length() > 0) {
-            mMove.normalise(); // do not move too fast :P
-
-            mMove = GetNode()->GetRotation() * mMove;
-            GetNode()->SetPosition(GetNode()->GetPosition() + mMove * time_diff * mMoveSpeed);
-            mMove = Ogre::Vector3::ZERO;
+            static Ogre::Vector3 move;
+            if(mInputStateChanged) {
+               move = GetNode()->GetRotation() * mMove; //update movement direction
+            }
+            
+            GetNode()->SetPosition(GetNode()->GetPosition() + move * time_diff * mMoveSpeed);
+            if(!mCostant) {
+                mMove = Ogre::Vector3::ZERO;
+            }
         }
-    //}
-
 }
 
 void SimplePlayerComponent::SetWASDEnabled(bool wasd_enabled) {
@@ -160,6 +169,27 @@ bool SimplePlayerComponent::GetMouseYInversed() const {
     return mMouseYInversed;
 }
 
+void SimplePlayerComponent::SetConstant(bool constant) {
+    mCostant = constant;
+    if(mCostant) {
+        if(!QObject::connect(InputManager::Get(), SIGNAL(sKeyReleased(const OIS::KeyEvent&)), 
+            this, SLOT(_HandleKeyReleased(const OIS::KeyEvent&)))) {
+                Logger::Get().Error("Cannot connect the key released signal with " + GetName()
+                    + "'s keyboard press event slot.");
+        }  
+    } else {
+        if(!QObject::disconnect(InputManager::Get(), SIGNAL(sKeyReleased(const OIS::KeyEvent&)),
+            this, SLOT(_HandleKeyReleased(const OIS::KeyEvent&)))) {
+                Logger::Get().Error("Cannot disconnect the key released signal with " + GetName()
+                    + "'s keyboard release event slot.");
+        }
+    }
+}
+
+bool SimplePlayerComponent::GetConstant() const {
+    return mCostant;
+}
+
 void SimplePlayerComponent::_HandleMouseInput(const OIS::MouseEvent& event) {
     float factor = mMouseSensitivity * -0.01;
     
@@ -190,23 +220,39 @@ void SimplePlayerComponent::_HandleMouseInput(const OIS::MouseEvent& event) {
         Ogre::Quaternion rot;
         rot.FromRotationMatrix(orientMatrix);
         GetNode()->SetRotation(rot);
+        mInputStateChanged = true;
     }
 }
 
-void SimplePlayerComponent::_HandleKeyboardInput(const OIS::KeyEvent& event) {
+void SimplePlayerComponent::_HandleKeyPressed(const OIS::KeyEvent& event) {
     if(mWASDEnabled || mArrowsEnabled) {
         if((mWASDEnabled && event.key == OIS::KC_W) || (mArrowsEnabled && event.key == OIS::KC_UP)) {
-            mMove.z -= 1.0;
+            mMove.z = -1.0;
         }
         if((mWASDEnabled && event.key == OIS::KC_S) || (mArrowsEnabled && event.key == OIS::KC_DOWN)) {
-            mMove.z += 1.0;
+            mMove.z = 1.0;
         }
         if((mWASDEnabled && event.key == OIS::KC_A) || (mArrowsEnabled && event.key == OIS::KC_LEFT)) {
-            mMove.x -= 1.0;
+            mMove.x = -1.0;
         }
         if((mWASDEnabled && event.key == OIS::KC_D) || (mArrowsEnabled && event.key == OIS::KC_RIGHT)) {
-            mMove.x += 1.0;
+            mMove.x = 1.0;
         }
+        mInputStateChanged = true;
+    }
+}
+
+void SimplePlayerComponent::_HandleKeyReleased(const OIS::KeyEvent& event) {
+    if(mWASDEnabled || mArrowsEnabled) {
+        if((mWASDEnabled && event.key == OIS::KC_W) || (mArrowsEnabled && event.key == OIS::KC_UP) || 
+           (mWASDEnabled && event.key == OIS::KC_S) || (mArrowsEnabled && event.key == OIS::KC_DOWN)) {
+            mMove.z = 0;
+        }
+        if((mWASDEnabled && event.key == OIS::KC_A) || (mArrowsEnabled && event.key == OIS::KC_LEFT) || 
+           (mWASDEnabled && event.key == OIS::KC_D) || (mArrowsEnabled && event.key == OIS::KC_RIGHT)) {
+            mMove.x = 0;
+        }
+        mInputStateChanged = true;
     }
 }
 

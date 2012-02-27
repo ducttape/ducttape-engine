@@ -33,8 +33,8 @@ class TestComponent : public dt::Component {
 
 public:
     TestComponent(const QString& name);
-    void OnCreate();
-    void OnDestroy();
+    void OnInitialize();
+    void OnDeinitialize();
 
 public slots:
     void Invoke();

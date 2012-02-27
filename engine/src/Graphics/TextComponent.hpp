@@ -28,13 +28,14 @@ namespace dt {
 class DUCTTAPE_API TextComponent : public Component {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE(TextComponent)
     /**
       * Advanced constructor.
       */
     TextComponent(const QString& text, const QString& name = "");
 
-    void OnCreate();
-    void OnDestroy();
+    void OnInitialize();
+    void OnDeinitialize();
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);
@@ -93,6 +94,7 @@ public:
       * @param padding The padding (spacing between text and panel border), in pixels.
       */
     void SetPadding(Ogre::Vector2 padding);
+    void SetPadding(float x, float y);
 
     /**
       * Returns the padding for the text box.
@@ -112,6 +114,7 @@ public slots:
       * @param color The font color.
       */
     void SetColor(Ogre::ColourValue color);
+    void SetColor(float r, float g, float b, float a = 1);
 
 signals:
     void TextChanged();

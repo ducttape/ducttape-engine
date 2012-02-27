@@ -34,7 +34,7 @@ AdvancedPlayerComponent::AdvancedPlayerComponent(const QString& name)
       mIsLeftMouseDown(false),
       mIsRightMouseDown(false) {}
 
-void AdvancedPlayerComponent::OnCreate() {
+void AdvancedPlayerComponent::OnInitialize() {
     btTransform  start_trans;
     start_trans.setIdentity();
     start_trans.setOrigin(BtOgre::Convert::toBullet(GetNode()->GetPosition(Node::SCENE)));

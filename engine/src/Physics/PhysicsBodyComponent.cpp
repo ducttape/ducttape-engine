@@ -18,7 +18,9 @@
 
 namespace dt {
 PhysicsBodyComponent::PhysicsBodyComponent(const QString& mesh_component_name, 
-                                           const QString& name, CollisionShapeType collision_shape_type, btScalar mass)
+                                           const QString& name,
+                                           CollisionShapeType collision_shape_type,
+                                           btScalar mass)
     : Component(name),
       mMeshComponentName(mesh_component_name),
       mCollisionShape(nullptr),
@@ -32,7 +34,7 @@ PhysicsBodyComponent::PhysicsBodyComponent(const QString& mesh_component_name,
       mCollisionMaskInUse(false),
       mMass(mass) {}
 
-void PhysicsBodyComponent::OnCreate() {
+void PhysicsBodyComponent::OnInitialize() {
     if(! mNode->HasComponent(mMeshComponentName)) {
         Logger::Get().Error("Node "+mNode->GetName()+" has no Component named "+
                             mMeshComponentName+" which is required to create the"+
@@ -87,7 +89,7 @@ void PhysicsBodyComponent::OnCreate() {
     mBody->setUserPointer((void *)(this));
 }
 
-void PhysicsBodyComponent::OnDestroy() {
+void PhysicsBodyComponent::OnDeinitialize() {
     delete mBody->getMotionState();
     delete mBody;
     delete mCollisionShape;
@@ -127,13 +129,24 @@ void PhysicsBodyComponent::ApplyCentralImpulse(const btVector3& impulse) {
     mBody->applyCentralImpulse(impulse);
 }
 
+void PhysicsBodyComponent::ApplyCentralImpulse(float x, float y, float z) {
+    ApplyCentralImpulse(btVector3(x, y, z));
+}
+
 void PhysicsBodyComponent::SetCentralForce(const btVector3& force) {
     mCentralForce = force;
 }
 
-void PhysicsBodyComponent::SetTorque(const btVector3& torque)
-{
+void PhysicsBodyComponent::SetCentralForce(float x, float y, float z) {
+    SetCentralForce(btVector3(x, y, z));
+}
+
+void PhysicsBodyComponent::SetTorque(const btVector3& torque) {
     mTorque = torque;
+}
+
+void PhysicsBodyComponent::SetTorque(float x, float y, float z) {
+    SetTorque(btVector3(x, y, z));
 }
 
 void PhysicsBodyComponent::SetCollisionMask(uint16_t collision_mask) {
@@ -168,12 +181,24 @@ void PhysicsBodyComponent::SetRestrictMovement(const btVector3& restriction) {
     mBody->setLinearFactor(restriction);
 }
 
+void PhysicsBodyComponent::SetRestrictMovement(float x, float y, float z) {
+    SetRestrictMovement(btVector3(x, y, z));
+}
+
 void PhysicsBodyComponent::SetRestrictRotation(const btVector3& restriction) {
     mBody->setAngularFactor(restriction);
 }
 
+void PhysicsBodyComponent::SetRestrictRotation(float x, float y, float z) {
+    SetRestrictRotation(btVector3(x, y, z));
+}
+
 void PhysicsBodyComponent::SetGravity(const btVector3& gravity) {
     mBody->setGravity(gravity);
+}
+
+void PhysicsBodyComponent::SetGravity(float x, float y, float z) {
+    SetGravity(btVector3(x, y, z));
 }
 
 void PhysicsBodyComponent::DisableSleep(bool disabled) {

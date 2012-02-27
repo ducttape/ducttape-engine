@@ -32,6 +32,7 @@ namespace dt {
 class DUCTTAPE_API ParticleSystemComponent : public Component {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE(ParticleSystemComponent)
     /**
       * Advanced constructor.
       * @see Component
@@ -123,8 +124,8 @@ public:
       */
     Ogre::ParticleSystem* GetOgreParticleSystem();
 
-    void OnCreate();
-    void OnDestroy();
+    void OnInitialize();
+    void OnDeinitialize();
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);

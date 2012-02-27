@@ -25,11 +25,11 @@ FollowPathComponent::FollowPathComponent(Mode mode, const QString& name)
 
 //void FollowPathComponent::HandleEvent(std::shared_ptr<Event> e) {}
 
-void FollowPathComponent::OnCreate() {
+void FollowPathComponent::OnInitialize() {
     mLastPoint = mNode->GetPosition();
 }
 
-void FollowPathComponent::OnDestroy() {}
+void FollowPathComponent::OnDeinitialize() {}
 
 void FollowPathComponent::OnUpdate(double time_diff) {
     // move progress further
@@ -68,6 +68,10 @@ void FollowPathComponent::AddPoint(Ogre::Vector3 point) {
     if(mPoints.size() == 1) {
         Reset();
     }
+}
+
+void FollowPathComponent::AddPoint(float x, float y, float z) {
+    AddPoint(Ogre::Vector3(x, y, z));
 }
 
 void FollowPathComponent::SetSpeed(float speed) {

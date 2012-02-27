@@ -25,7 +25,7 @@ ParticleSystemComponent::ParticleSystemComponent(const QString& name)
 
 void ParticleSystemComponent::SetParticleCountLimit(uint32_t limit) {
     mParticleCountLimit = limit;
-    if(IsCreated()) {
+    if(IsInitialized()) {
         mParticleSystem->setParticleQuota(mParticleCountLimit);
     }
 }
@@ -36,7 +36,7 @@ uint32_t ParticleSystemComponent::GetParticleCountLimit() const {
 
 void ParticleSystemComponent::SetMaterialName(const QString& material_name) {
     mMaterialName = material_name;
-    if(IsCreated() && mParticleSystem != nullptr) {
+    if(IsInitialized() && mParticleSystem != nullptr) {
         mParticleSystem->setMaterialName(Utils::ToStdString(mMaterialName));
     }
 }
@@ -82,13 +82,13 @@ Ogre::ParticleAffector* ParticleSystemComponent::AddLinearForceAffector(const QS
 }
 
 Ogre::ParticleSystem* ParticleSystemComponent::GetOgreParticleSystem() {
-    if(!IsCreated())
+    if(!IsInitialized())
         return nullptr;
     return mParticleSystem;
 }
 
 
-void ParticleSystemComponent::OnCreate() {
+void ParticleSystemComponent::OnInitialize() {
     if(mNode != nullptr) {
         Ogre::SceneManager* scene_mgr = mNode->GetScene()->GetSceneManager();
         mSceneNode = scene_mgr->getRootSceneNode()->createChildSceneNode(Utils::ToStdString(mName) + "-node");
@@ -102,7 +102,7 @@ void ParticleSystemComponent::OnCreate() {
     }
 }
 
-void ParticleSystemComponent::OnDestroy() {
+void ParticleSystemComponent::OnDeinitialize() {
     if(mNode != nullptr && mParticleSystem != nullptr) {
         mNode->GetScene()->GetSceneManager()->destroyParticleSystem(mParticleSystem);
         mParticleSystem = nullptr;

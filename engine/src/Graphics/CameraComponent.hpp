@@ -28,6 +28,7 @@ namespace dt {
 class DUCTTAPE_API CameraComponent : public Component {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE(CameraComponent)
     /**
       * Advanced constructor.
       * @name The name of the component.
@@ -35,13 +36,14 @@ public:
       */
     CameraComponent(const QString& name = "");
 
-    void OnCreate();
-    void OnDestroy();
+    void OnInitialize();
+    void OnDeinitialize();
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);
     Ogre::Ray GetCameraToViewportRay(float x, float y);
     void LookAt(Ogre::Vector3 target_point);
+    void LookAt(float x, float y, float z);
 
     // sets the viewport size
     void SetupViewport(float left, float top, float width, float height);

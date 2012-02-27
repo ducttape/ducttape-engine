@@ -20,7 +20,7 @@ MyGUI::Widget* GuiEditBox::GetMyGUIWidget() {
     return mEditBox;
 }
 
-void GuiEditBox::OnCreate() {
+void GuiEditBox::OnInitialize() {
     mEditBox = GetParent()->GetMyGUIWidget()->createWidget<MyGUI::EditBox>("EditBox", 0, 0, 100, 100, MyGUI::Align::Default, dt::Utils::ToStdString(GetFullName()));
 }
 

@@ -86,3 +86,76 @@ material SimplePongPaddle
         }
     }
 }
+
+material AdvancedPongField
+{
+    technique
+    {
+        pass
+        {
+            scene_blend alpha_blend
+            
+ 
+            texture_unit
+            {
+                colour_op_ex source1 src_manual src_current 0.1 0.9 0.1
+                alpha_op_ex source1 src_manual src_current 0.5
+            }
+        }
+    }
+}
+
+material AdvancedPongBall
+{
+    technique
+    {
+        pass
+        {
+            scene_blend alpha_blend
+            
+ 
+            texture_unit
+            {
+                colour_op_ex source1 src_manual src_current 0.9 0.1 0.9
+                alpha_op_ex source1 src_manual src_current 0.5
+            }
+        }
+    }
+}
+
+material AdvancedPongPaddle1
+{
+    technique
+    {
+        pass
+        {
+            scene_blend alpha_blend
+            
+ 
+            texture_unit
+            {
+                colour_op_ex source1 src_manual src_current 0.9 0.1 0.1
+                alpha_op_ex source1 src_manual src_current 0.5
+            }
+        }
+    }
+}
+
+material AdvancedPongPaddle2
+{
+    technique
+    {
+        pass
+        {
+            scene_blend alpha_blend
+            emissive 1 1 1 1
+            
+ 
+            texture_unit
+            {
+                colour_op_ex source1 src_manual src_current 0.1 0.1 0.9
+                alpha_op_ex source1 src_manual src_current 0.5
+            }
+        }
+    }
+}

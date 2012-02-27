@@ -33,7 +33,7 @@ TextComponent::TextComponent(const QString& text, const QString& name)
       mBackgroundMaterial(""),
       mPadding(Ogre::Vector2(10,4)) {}
 
-void TextComponent::OnCreate() {
+void TextComponent::OnInitialize() {
     // overlay
     QString oname = GetNode()->GetName() + "-" + mName;
     mOverlay = Ogre::OverlayManager::getSingleton().create(Utils::ToStdString(oname) + "-overlay");
@@ -57,7 +57,7 @@ void TextComponent::OnCreate() {
     mOverlay->show();
 }
 
-void TextComponent::OnDestroy() {
+void TextComponent::OnDeinitialize() {
     Ogre::OverlayManager* mgr = Ogre::OverlayManager::getSingletonPtr();
 
     mPanel->removeChild(mLabel->getName());
@@ -162,6 +162,10 @@ void TextComponent::SetColor(Ogre::ColourValue color) {
         emit ColorChanged();
 }
 
+void TextComponent::SetColor(float r, float g, float b, float a) {
+    SetColor(Ogre::ColourValue(r, g, b, a));
+}
+
 Ogre::ColourValue TextComponent::GetColor() const {
     return mColor;
 }
@@ -191,6 +195,10 @@ const QString& TextComponent::GetBackgroundMaterial() const {
 
 void TextComponent::SetPadding(Ogre::Vector2 padding) {
     mPadding = padding;
+}
+
+void TextComponent::SetPadding(float x, float y) {
+    SetPadding(Ogre::Vector2(x, y));
 }
 
 Ogre::Vector2 TextComponent::GetPadding() const {

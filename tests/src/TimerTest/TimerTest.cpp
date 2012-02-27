@@ -56,9 +56,9 @@ void Main::OnInitialize() {
     mTimer2 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 2 (thread mode)", 0.2, true, true));
 
     QObject::connect(mTimer1.get(), SIGNAL(TimerTicked(const QString&, double)),
-                     this, SLOT(_TimerCallback(QString)));
+            this, SLOT(_TimerCallback(QString)));
     QObject::connect(mTimer2.get(), SIGNAL(TimerTicked(const QString&, double)),
-                     this, SLOT(_TimerCallback(QString)), Qt::DirectConnection);
+            this, SLOT(_TimerCallback(QString)), Qt::DirectConnection);
 
     mTotalTime = 0;
 }

@@ -25,6 +25,7 @@ namespace dt {
 class DUCTTAPE_API InteractionComponent : public Component {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE(InteractionComponent)
     /**
       * Advanced constructor.
       * @param name The name of the Component.

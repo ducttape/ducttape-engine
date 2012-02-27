@@ -41,14 +41,14 @@ public:
       */
     virtual ~GuiWidget() = 0;
 
-    void Create();
+    void Initialize();
 
-    void Destroy();
+    void Deinitialize();
 
     /**
       * Called when the widget is being created.
       */
-    virtual void OnCreate() = 0;
+    virtual void OnInitialize() = 0;
 
     /**
       * Returns the MyGUI widget of this widget.
@@ -80,9 +80,10 @@ public:
       * @returns A pointer to the new widget.
       */
     template <typename WidgetType>
-    WidgetType* CreateChild(const QString& name) {
-        _AddChild(new WidgetType(name));
-        FindChild(name)->Create();
+    WidgetType* AddChildWidget(WidgetType* widget) {
+        const QString& name = widget->GetName();
+        _AddChild(widget);
+        FindChild(name)->Initialize();
         return dynamic_cast<WidgetType*>(FindChild(name));
     }
 

@@ -30,6 +30,7 @@ namespace dt {
 class DUCTTAPE_API BillboardSetComponent : public Component {
 //    Q_OBJECT
 public:
+    DT_SERIALIZABLE(BillboardSetComponent)
     /**
       * Advanced constructor.
       * @param name The name of the Component.
@@ -40,8 +41,8 @@ public:
     BillboardSetComponent(const QString& name = "", uint32_t pool_size=20, 
                           const QString& file = "");
     
-    void OnCreate();
-    void OnDestroy();
+    void OnInitialize();
+    void OnDeinitialize();
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);
@@ -69,6 +70,7 @@ public:
       * @param common_vector The Billboards will rotate around this vector
       */  
     void SetOrientedCommon(const Ogre::Vector3& common_vector);
+    void SetOrientedCommon(float x, float y, float z);
     
     /**
       * Set Billboards to face the camera, rotating
@@ -91,6 +93,7 @@ public:
       * @param up_vector The X and Y axis of the billboards are determined by this vector.
       */  
     void SetPerpendicularSelf(const Ogre::Vector3& up_vector);  
+    void SetPerpendicularSelf(float x, float y, float z);
     
     /**
       * Sets whether or not each Pass renders with depth-buffer checking on or not.

@@ -27,6 +27,7 @@ namespace dt {
 class DUCTTAPE_API RaycastComponent : public InteractionComponent {
     Q_OBJECT
 public:
+    DT_SERIALIZABLE_INHERITED(RaycastComponent, InteractionComponent)
     /**
       * Advanced constructor.
       * @param name The name of the Component.

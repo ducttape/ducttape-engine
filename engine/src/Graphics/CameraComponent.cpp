@@ -20,7 +20,7 @@ namespace dt {
 CameraComponent::CameraComponent(const QString& name)
    : Component(name) {}
 
-void CameraComponent::OnCreate() {
+void CameraComponent::OnInitialize() {
     // create the ogre context if not present
     DisplayManager::Get()->CreateOgreRoot();
 
@@ -36,7 +36,7 @@ void CameraComponent::OnCreate() {
     }
 }
 
-void CameraComponent::OnDestroy() {
+void CameraComponent::OnDeinitialize() {
     // reset the main camera if we were the main camera
     if(DisplayManager::Get()->GetMainCamera() == this)
         DisplayManager::Get()->SetMainCamera(nullptr);
@@ -65,6 +65,10 @@ Ogre::Ray CameraComponent::GetCameraToViewportRay(float x, float y) {
 void CameraComponent::LookAt(Ogre::Vector3 target_point) {
     mCamera->lookAt(target_point);
     mNode->SetRotation(mCamera->getOrientation());
+}
+
+void CameraComponent::LookAt(float x, float y, float z) {
+    LookAt(Ogre::Vector3(x, y, z));
 }
 
 void CameraComponent::SetupViewport(float left, float top, float width, float height) {

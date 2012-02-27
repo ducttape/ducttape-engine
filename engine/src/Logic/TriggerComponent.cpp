@@ -14,15 +14,9 @@ TriggerComponent::TriggerComponent(const QString& name)
     : Component(name) {
 }
 
-//void TriggerComponent::HandleEvent(std::shared_ptr<Event> e) {
-//    if(e->GetType() == "trigger") {
-//
-//    }
-//}
+void TriggerComponent::OnInitialize() {}
 
-void TriggerComponent::OnCreate() {}
-
-void TriggerComponent::OnDestroy() {}
+void TriggerComponent::OnDeinitialize() {}
 
 void TriggerComponent::OnUpdate(double time_diff) {}
 

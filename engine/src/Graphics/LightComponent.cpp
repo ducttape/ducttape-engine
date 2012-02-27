@@ -22,7 +22,7 @@ LightComponent::LightComponent(const QString& name)
       mSceneNode(nullptr),
       mCastShadows(true) {}
 
-void LightComponent::OnCreate() {
+void LightComponent::OnInitialize() {
     mLight = GetNode()->GetScene()->GetSceneManager()->createLight(Utils::ToStdString(mName));
 
     // Set the point light as the default light type
@@ -37,7 +37,7 @@ void LightComponent::OnCreate() {
     mSceneNode->attachObject(mLight);
 }
 
-void LightComponent::OnDestroy() {
+void LightComponent::OnDeinitialize() {
     Ogre::SceneManager* scene_mgr = GetNode()->GetScene()->GetSceneManager();
 
     if(mLight != nullptr)
@@ -65,6 +65,10 @@ void LightComponent::SetColor(const Ogre::ColourValue color) {
     mLight->setDiffuseColour(color);
     mLight->setSpecularColour(color);
     emit ColorChanged(color);
+}
+
+void LightComponent::SetColor(float r, float g, float b, float a) {
+    SetColor(Ogre::ColourValue(r, g, b, a));
 }
 
 Ogre::Light* LightComponent::GetOgreLight() const {

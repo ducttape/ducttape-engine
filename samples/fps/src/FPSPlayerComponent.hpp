@@ -1,6 +1,5 @@
-#ifndef FPSPLAYERCOMPONENT_H
-#define FPSPLAYERCOMPONENT_H
-#pragma once
+#ifndef DUCTTAPE_SAMPLE_FPS_FPSPLAYERCOMPONENT
+#define DUCTTAPE_SAMPLE_FPS_FPSPLAYERCOMPONENT
 
 #include "Weapon.hpp"
 
@@ -21,9 +20,9 @@ class FPSPlayerComponent : public dt::AdvancedPlayerComponent {
 public:
     FPSPlayerComponent(uint16_t weapon_num, const QString& name = "");
 
-    void OnCreate();
+    void OnInitialize();
 
-    void OnDestroy();
+    void OnDeinitialize();
 
     uint16_t GetWeaponNumber() const;
 

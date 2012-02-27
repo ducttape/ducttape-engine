@@ -44,12 +44,11 @@ void SecondState::OnInitialize() {
     mesh->SetCastShadows(false);
 
     dt::GuiRootWindow& rootWindow = dt::GuiManager::Get()->GetRootWindow();
-    mReturnButton = rootWindow.CreateChild<dt::GuiButton>("return");
+    mReturnButton = rootWindow.AddChildWidget(new dt::GuiButton("return"));
     mReturnButton->SetCaption("Return");
     mReturnButton->SetSize(250, 100);
     mReturnButton->SetPosition(100, 100);
-    dynamic_cast<MyGUI::Button*>(mReturnButton->GetMyGUIWidget())->eventMouseButtonClick
-        += MyGUI::newDelegate(this, &SecondState::OnClick);
+    mReturnButton->GetMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &SecondState::OnClick);
 }
 
 void SecondState::OnDeinitialize() {
@@ -89,12 +88,11 @@ void FirstState::OnInitialize() {
     text->SetFontSize(64);
 
     dt::GuiRootWindow& rootWindow = dt::GuiManager::Get()->GetRootWindow();
-    mNextButton = rootWindow.CreateChild<dt::GuiButton>("next");
+    mNextButton = rootWindow.AddChildWidget(new dt::GuiButton("next"));
     mNextButton->SetCaption("Next");
     mNextButton->SetSize(250, 100);
     mNextButton->SetPosition(100, 100);
-    dynamic_cast<MyGUI::Button*>(mNextButton->GetMyGUIWidget())->eventMouseButtonClick
-        += MyGUI::newDelegate(this, &FirstState::OnClick);
+    mNextButton->GetMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &FirstState::OnClick);
 }
 
 void FirstState::OnDeinitialize() {

@@ -103,7 +103,7 @@ void Node::RemoveChildNode(const QString& name) {
 
 void Node::RemoveComponent(const QString& name) {
     if(HasComponent(name)) {
-        mComponents[name]->Destroy();
+        mComponents[name]->Deinitialize();
         mComponents.erase(name);
     }
 }
