@@ -69,11 +69,13 @@ bool InputManager::GetJailInput() const {
 
 bool InputManager::keyPressed(const OIS::KeyEvent& event) {
     emit sKeyPressed(event);
+    emit sPressed((InputCode)event.key, event);
     return true;
 }
 
 bool InputManager::keyReleased(const OIS::KeyEvent& event) {
     emit sKeyReleased(event);
+    emit sReleased((InputCode)event.key, event);
     return true;
 }
 
@@ -84,11 +86,13 @@ bool InputManager::mouseMoved(const OIS::MouseEvent& event) {
 
 bool InputManager::mousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
     emit sMousePressed(event, button);
+    emit sPressed((InputCode)(MC_LEFT + button), event);
     return true;
 }
 
 bool InputManager::mouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
     emit sMouseReleased(event, button);
+    emit sReleased((InputCode)(MC_LEFT + button), event);
     return true;
 }
 

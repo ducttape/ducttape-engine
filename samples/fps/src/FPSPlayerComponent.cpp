@@ -25,8 +25,14 @@ void FPSPlayerComponent::OnInitialize() {
     
     if(!QObject::connect(mGrabber, SIGNAL(sHit(dt::PhysicsBodyComponent*)), 
         this, SLOT(_PickUpWeapon(dt::PhysicsBodyComponent*)))) {
-            dt::Logger::Get().Error("Cannot connect the grabber's sHit signal with FPSPlayerComponent " + 
-                GetName() + "'s _PickUpWeapon slot.");
+            dt::Logger::Get().Error("Cannot connect the grabber's signal sHit with FPSPlayerComponent " + 
+                GetName() + "'s slot _PickUpWeapon.");
+    }
+
+    if(!QObject::connect(dt::InputManager::Get(), SIGNAL(sPressed(dt::InputManager::InputCode, const OIS::EventArg&)), 
+        this, SLOT(_OnKeyDown(dt::InputManager::InputCode, const OIS::EventArg&)))) {
+            dt::Logger::Get().Error("Cannot connect signal sPressed with " + GetName()
+                + "'s input handling slot.");
     }
 }
 
@@ -80,48 +86,50 @@ const std::vector<Weapon*>& FPSPlayerComponent::GetAllWeapons() const {
     return mWeapons;
 }
 
-void FPSPlayerComponent::_OnKeyDown(const OIS::KeyEvent& event) {
-    switch(event.key) {
-    case OIS::KC_1:
-        ChangeWeapon(0);
-        break;
-    case OIS::KC_2:
-        ChangeWeapon(1);
-        break;
-    case OIS::KC_3:
-        ChangeWeapon(2);
-        break;
-    case OIS::KC_4:
-        ChangeWeapon(3);
-        break;
-    case OIS::KC_5:
-        ChangeWeapon(4);
-        break;
-    case OIS::KC_6:
-        ChangeWeapon(5);
-        break;
-    case OIS::KC_7:
-        ChangeWeapon(6);
-        break;
-    case OIS::KC_8:
-        ChangeWeapon(7);
-        break;
-    case OIS::KC_9:
-        ChangeWeapon(8);
-        break;
-    case OIS::KC_G:
-        if(mWeaponInUse != nullptr)
-            RemoveWeapon(mWeaponInUse->GetType());
-        break;
-    case OIS::KC_R:
-        if(mWeaponInUse != nullptr)
-            mWeaponInUse->Reload();
-        break;
-    case OIS::KC_E:
-        mGrabber->Check();
-        break;
-    default:
-        return;
+void FPSPlayerComponent::_OnKeyDown(dt::InputManager::InputCode input_code, const OIS::EventArg& event) {
+    if(this->IsEnabled()) {
+        switch(input_code) {
+        case dt::InputManager::KC_1:
+            ChangeWeapon(0);
+            break;
+        case dt::InputManager::KC_2:
+            ChangeWeapon(1);
+            break;
+        case dt::InputManager::KC_3:
+            ChangeWeapon(2);
+            break;
+        case dt::InputManager::KC_4:
+            ChangeWeapon(3);
+            break;
+        case dt::InputManager::KC_5:
+            ChangeWeapon(4);
+            break;
+        case dt::InputManager::KC_6:
+            ChangeWeapon(5);
+            break;
+        case dt::InputManager::KC_7:
+            ChangeWeapon(6);
+            break;
+        case dt::InputManager::KC_8:
+            ChangeWeapon(7);
+            break;
+        case dt::InputManager::KC_9:
+            ChangeWeapon(8);
+            break;
+        case dt::InputManager::KC_G:
+            if(mWeaponInUse != nullptr)
+                RemoveWeapon(mWeaponInUse->GetType());
+            break;
+        case dt::InputManager::KC_R:
+            if(mWeaponInUse != nullptr)
+                mWeaponInUse->Reload();
+            break;
+        case dt::InputManager::KC_E:
+            mGrabber->Check();
+            break;
+        default:
+            return;
+        }
     }
 }
 

@@ -10,8 +10,8 @@
 
 #include <Config.hpp>
 
-//#include <Event/Event.hpp>
 #include <Scene/Component.hpp>
+#include <Input/InputManager.hpp>
 
 #define OIS_DYNAMIC_LIB
 #include <OIS.h>
@@ -132,8 +132,8 @@ public:
 private slots:
     void _HandleMouseInput(const OIS::MouseEvent& event);
 
-    void _HandleKeyPressed(const OIS::KeyEvent& event);
-    void _HandleKeyReleased(const OIS::KeyEvent& event);
+    void _HandleKeyPressed(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
+    void _HandleKeyReleased(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
 
 private:
     bool mWASDEnabled;          //!< Whether the WASD  keys are enabled for movement or not.
