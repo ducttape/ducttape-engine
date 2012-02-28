@@ -32,9 +32,9 @@ void GuiManager::Initialize() {
         }
         InputManager* inputMgrPtr = InputManager::Get();
         QObject::connect(inputMgrPtr, SIGNAL(sPressed(dt::InputManager::InputCode, const OIS::EventArg&)),
-            this, SLOT(sPressed(dt::InputManager::InputCode, const OIS::EventArg&)));
+                                this, SLOT(sPressed(dt::InputManager::InputCode, const OIS::EventArg&)));
         QObject::connect(inputMgrPtr, SIGNAL(sReleased(dt::InputManager::InputCode, const OIS::EventArg&)),
-            this, SLOT(sReleased(dt::InputManager::InputCode, const OIS::EventArg&)));
+                                this, SLOT(sReleased(dt::InputManager::InputCode, const OIS::EventArg&)));
         QObject::connect(inputMgrPtr, SIGNAL(sMouseMoved(const OIS::MouseEvent&)), this, SLOT(sMouseMoved(const OIS::MouseEvent&)));
 
         Ogre::SceneManager* scene_mgr = c->GetCamera()->getSceneManager();

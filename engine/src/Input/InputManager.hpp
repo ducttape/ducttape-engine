@@ -315,11 +315,7 @@ public:
 
 signals:
     void WindowClosed();
-    void sKeyPressed(const OIS::KeyEvent& event);
-    void sKeyReleased(const OIS::KeyEvent& event);
     void sMouseMoved(const OIS::MouseEvent& event);
-    void sMousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID button);
-    void sMouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID button);
     void sPressed(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
     void sReleased(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
 private:

@@ -24,13 +24,13 @@ void FPSPlayerComponent::OnInitialize() {
     mGrabber->SetRange(3.0f);
     
     if(!QObject::connect(mGrabber, SIGNAL(sHit(dt::PhysicsBodyComponent*)), 
-        this, SLOT(_PickUpWeapon(dt::PhysicsBodyComponent*)))) {
+                             this, SLOT(_PickUpWeapon(dt::PhysicsBodyComponent*)))) {
             dt::Logger::Get().Error("Cannot connect the grabber's signal sHit with FPSPlayerComponent " + 
                 GetName() + "'s slot _PickUpWeapon.");
     }
 
     if(!QObject::connect(dt::InputManager::Get(), SIGNAL(sPressed(dt::InputManager::InputCode, const OIS::EventArg&)), 
-        this, SLOT(_OnKeyDown(dt::InputManager::InputCode, const OIS::EventArg&)))) {
+                                            this, SLOT(_OnKeyDown(dt::InputManager::InputCode, const OIS::EventArg&)))) {
             dt::Logger::Get().Error("Cannot connect signal sPressed with " + GetName()
                 + "'s input handling slot.");
     }

@@ -58,17 +58,17 @@ void AdvancedPlayerComponent::OnInitialize() {
     GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addAction(mBtController.get());
 
     if(!QObject::connect(InputManager::Get(), SIGNAL(sPressed(dt::InputManager::InputCode, const OIS::EventArg&)), 
-        this, SLOT(_HandleButtonDown(dt::InputManager::InputCode, const OIS::EventArg&)))) {
+                                        this, SLOT(_HandleButtonDown(dt::InputManager::InputCode, const OIS::EventArg&)))) {
             Logger::Get().Error("Cannot connect signal sPressed with " + GetName()
                 + "'s input handling slot.");
     }
     if(!QObject::connect(InputManager::Get(), SIGNAL(sReleased(dt::InputManager::InputCode, const OIS::EventArg&)), 
-        this, SLOT(_HandleButtonUp(dt::InputManager::InputCode, const OIS::EventArg&)))) {
+                                        this, SLOT(_HandleButtonUp(dt::InputManager::InputCode, const OIS::EventArg&)))) {
             Logger::Get().Error("Cannot connect signal sReleased with " + GetName()
                 + "'s input handling slot.");
     }
     if(!QObject::connect(InputManager::Get(), SIGNAL(sMouseMoved(const OIS::MouseEvent&)), 
-        this, SLOT(_HandleMouseMove(const OIS::MouseEvent&)))) {
+                                        this, SLOT(_HandleMouseMove(const OIS::MouseEvent&)))) {
             Logger::Get().Error("Cannot connect signal sMouseMoved with " + GetName()
                 + "'s input handling slot.");
     }
