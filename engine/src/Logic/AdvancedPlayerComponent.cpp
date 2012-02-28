@@ -116,7 +116,9 @@ void AdvancedPlayerComponent::OnUpdate(double time_diff) {
     static btTransform trans;
 
     quaternion = Ogre::Quaternion(GetNode()->GetRotation().getYaw(), Ogre::Vector3(0.0, 1.0, 0.0));
-    move = quaternion * BtOgre::Convert::toOgre(mMove) * mMoveSpeed;
+    move = quaternion * BtOgre::Convert::toOgre(mMove);
+    move.normalise();
+    move *= mMoveSpeed;
     mBtController->setVelocityForTimeInterval(BtOgre::Convert::toBullet(move), 0.5);
 
     trans = mBtGhostObject->getWorldTransform();
