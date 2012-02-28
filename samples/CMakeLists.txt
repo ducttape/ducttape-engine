@@ -45,7 +45,7 @@ foreach(sample ${NETWORKSAMPLES})
         ducttape)
 endforeach(sample)
 
-set(SIMPLESAMPLES simplepong advancedpong script jumptape fps simpleRTS)
+set(SIMPLESAMPLES simplepong advancedpong script jumptape fps) # simpleRTS (broken and bad code)
 
 foreach(sample ${SIMPLESAMPLES})
     aux_source_directory(${sample}/src ${sample}_src)
