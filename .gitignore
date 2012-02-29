@@ -4,7 +4,7 @@ bin/
 build/
 qtcreator-build/
 lib/
-dependencies/
+dependencies/*
 *.user
 docs/doxygen
 *.log

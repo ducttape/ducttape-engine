@@ -69,11 +69,9 @@ public slots:
       */
     void SetMouseCursorVisible(bool visible);
 
-    void sKeyPressed(const OIS::KeyEvent& event);
-    void sKeyReleased(const OIS::KeyEvent& event);
+    void sPressed(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
+    void sReleased(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
     void sMouseMoved(const OIS::MouseEvent& event);
-    void sMousePressed(const OIS::MouseEvent& event, OIS::MouseButtonID button);
-    void sMouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID button);
 
 signals:
     void MouseCursorVisibilityChanged(bool visible);
