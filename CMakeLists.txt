@@ -71,6 +71,7 @@ find_package(YamlCpp REQUIRED)
 # Qt4 stuff
 set(QT_USE_QTSCRIPT TRUE)
 set(QT_DONT_USE_QTGUI TRUE)
+set(QT_USE_QTXML TRUE)
 find_package(Qt4 REQUIRED)
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITONS})
