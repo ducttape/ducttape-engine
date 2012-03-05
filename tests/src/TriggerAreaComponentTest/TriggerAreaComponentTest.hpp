@@ -21,11 +21,9 @@
 #include <Scene/StateManager.hpp>
 
 
-namespace TriggerAreaComponentTest 
-{
+namespace TriggerAreaComponentTest {
 
-class TriggerAreaComponentTest : public Test 
-{
+class TriggerAreaComponentTest : public Test {
 public:
     bool Run(int argc, char** argv);
     QString GetTestName();

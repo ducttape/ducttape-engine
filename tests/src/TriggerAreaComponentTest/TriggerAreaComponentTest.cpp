@@ -36,14 +36,12 @@ Main::Main()
 void Main::UpdateStateFrame(double simulation_frame_time) {
     mRuntime += simulation_frame_time;
 
-    if(mRuntime > 3.0f) 
-    {
+    if(mRuntime > 3.0f) {
         dt::StateManager::Get()->Pop(1);
     }
 }
 
-dt::Node* Main::_AddMeshNode(dt::Scene* scene, std::string name, Ogre::Vector3 pos)
-{
+dt::Node* Main::_AddMeshNode(dt::Scene* scene, std::string name, Ogre::Vector3 pos) {
     dt::Node* meshnode = scene->AddChildNode(new dt::Node(name.c_str()));
     dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh");
     meshnode->AddComponent(mesh);

@@ -11,13 +11,11 @@ TriggerAreaComponent::TriggerAreaComponent(ScriptComponent* script,
     mTriggeringNode(node),
     mArea(area),
     mScript(script),
-    mOneShotMode(false)
-{
+    mOneShotMode(false) {
     mScript->SetUpdateEnabled(false);
 }
 
-void TriggerAreaComponent::OnUpdate(double time_diff)
-{
+void TriggerAreaComponent::OnUpdate(double time_diff) {
     if(mOneShotMode && mScript->IsUpdateEnabled())
         return;
 
@@ -31,18 +29,15 @@ void TriggerAreaComponent::OnDestroy(){}
 void TriggerAreaComponent::OnEnable(){}
 void TriggerAreaComponent::OnDisable(){}
 
-void TriggerAreaComponent::SetOneShotMode(bool oneShotMode)
-{
+void TriggerAreaComponent::SetOneShotMode(bool oneShotMode) {
     mOneShotMode = oneShotMode;
 }
 
-void TriggerAreaComponent::SetNode(Node* node)
-{
+void TriggerAreaComponent::SetNode(Node* node) {
     mTriggeringNode = node;
 }
 
-void TriggerAreaComponent::SetScript(ScriptComponent* script)
-{
+void TriggerAreaComponent::SetScript(ScriptComponent* script) {
     mScript = script;
 }
 

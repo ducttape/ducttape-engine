@@ -16,11 +16,9 @@
 #include <Scene/Node.hpp>
 #include <OgreAxisAlignedBox.h>
 
-namespace dt
-{
+namespace dt {
 
-class DUCTTAPE_API TriggerAreaComponent : public Component
-{
+class DUCTTAPE_API TriggerAreaComponent : public Component {
     Q_OBJECT
 public:
     /**
