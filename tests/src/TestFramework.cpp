@@ -30,6 +30,7 @@
 #include "SerializationBinaryTest/SerializationBinaryTest.hpp"
 #include "SerializationYamlTest/SerializationYamlTest.hpp"
 #include "ScriptComponentTest/ScriptComponentTest.hpp"
+#include "TriggerAreaComponentTest/TriggerAreaComponentTest.hpp"
 #include "ScriptingTest/ScriptingTest.hpp"
 #include "ShadowsTest/ShadowsTest.hpp"
 #include "SignalsTest/SignalsTest.hpp"
@@ -84,6 +85,7 @@ int main(int argc, char** argv) {
     AddTest(new SerializationBinaryTest::SerializationBinaryTest);
     AddTest(new SerializationYamlTest::SerializationYamlTest);
     AddTest(new ScriptComponentTest::ScriptComponentTest);
+    AddTest(new TriggerAreaComponentTest::TriggerAreaComponentTest);
     AddTest(new ScriptingTest::ScriptingTest);
     AddTest(new ShadowsTest::ShadowsTest);
     AddTest(new SignalsTest::SignalsTest);

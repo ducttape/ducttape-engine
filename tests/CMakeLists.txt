@@ -42,6 +42,7 @@ add_test(NAME Names COMMAND test_framework Names)
 add_test(NAME QObject COMMAND test_framework QObject)
 add_test(NAME Scripting COMMAND test_framework Scripting)
 add_test(NAME ScriptComponent COMMAND test_framework ScriptComponent)
+add_test(NAME TriggerAreaComponent COMMAND test_framework TriggerAreaComponent)
 # disabled for Windows compatibility
 # add_test(NAME Network COMMAND ${PROJECT_SOURCE_DIR}/bin/Network.sh)
 add_test(NAME SerializationBinary COMMAND test_framework SerializationBinary)
