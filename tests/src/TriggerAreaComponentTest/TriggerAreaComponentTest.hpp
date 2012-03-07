@@ -37,10 +37,14 @@ public:
     void OnInitialize();
     void UpdateStateFrame(double simulation_frame_time);
 
+ public slots:
+     void AreaTriggered();
+
 private:
     dt::Node* _AddMeshNode(dt::Scene* scene, std::string name, Ogre::Vector3 pos);
 
     double mRuntime;
+    bool mAreaTriggered;
 };
 
 }

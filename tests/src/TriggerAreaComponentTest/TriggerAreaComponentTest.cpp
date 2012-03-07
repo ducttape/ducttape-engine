@@ -31,23 +31,37 @@ QString TriggerAreaComponentTest::GetTestName() {
 
 
 Main::Main()
-    : mRuntime(0) {}
+    : mRuntime(0),
+      mAreaTriggered(false) {}
 
 void Main::UpdateStateFrame(double simulation_frame_time) {
     mRuntime += simulation_frame_time;
 
-    if(mRuntime > 3.0f) {
+    if(mRuntime > 3.0f && !mAreaTriggered) {
+        dt::Logger::Get().Error( "The trigger area was not triggered" );
+        exit(1);
+    }
+
+    if(mRuntime > 3.5) {
+        if(mAreaTriggered) {
+            dt::Logger::Get().Info( "Test succeeded" );
+        }
         dt::StateManager::Get()->Pop(1);
     }
 }
 
-dt::Node* Main::_AddMeshNode(dt::Scene* scene, std::string name, Ogre::Vector3 pos) {
+dt::Node* Main::_AddMeshNode(dt::Scene* scene, std::string name, Ogre::Vector3 pos)
+{
     dt::Node* meshnode = scene->AddChildNode(new dt::Node(name.c_str()));
-    dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh");
+    dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh", "", "meshNode1");
     meshnode->AddComponent(mesh);
     meshnode->SetPosition(pos);
 
     return meshnode;
+}
+
+void Main::AreaTriggered() {
+    mAreaTriggered = true;
 }
 
 void Main::OnInitialize() {
@@ -56,29 +70,21 @@ void Main::OnInitialize() {
     dt::ResourceManager::Get()->AddResourceLocation("sinbad.zip","Zip", true);
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    dt::ScriptManager::Get()->LoadScript("scripts/circular_movement.js");
-
     dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
     camnode->SetPosition(Ogre::Vector3(0, 0, 50));
     camnode->AddComponent(new dt::CameraComponent("cam"))->LookAt(Ogre::Vector3(0, 0, 0));;
 
-    dt::Node* meshnode1 = _AddMeshNode(scene, "meshNode1", Ogre::Vector3(0.0f, 0.0f, 0.0f));
-    dt::Node* meshnode2 = _AddMeshNode(scene, "meshNode2", Ogre::Vector3(-20.0f, 20.0f, 0.0f));
-    
-    dt::ScriptComponent * script = new dt::ScriptComponent("circular_movement.js", "script");
-    meshnode1->AddComponent(script);
-    
-    dt::FollowPathComponent * followPath = meshnode2->AddComponent(new dt::FollowPathComponent(dt::FollowPathComponent::LOOP, "followPath"));
-    followPath->AddPoint(Ogre::Vector3(-15.0f, 15.0f, 0.0f));
-    followPath->AddPoint(Ogre::Vector3(15.0f, 15.0f, 0.0f));
-    followPath->SetDuration(5.0);
-    followPath->SetSpeed(10.0);
+    dt::Node* meshnode1 = _AddMeshNode(scene, "meshNode1", Ogre::Vector3(0.0f, 20.0f, 0.0f));
 
-    Ogre::AxisAlignedBox areaBox = Ogre::AxisAlignedBox(Ogre::Vector3(-5.0f, -5.0f, -5.0f), Ogre::Vector3(5.0f, 5.0f, 5.0f));
+    meshnode1->AddComponent(new dt::PhysicsBodyComponent("meshNode1", "meshBody"));
+
+    btCollisionShape * areaBox = new btBoxShape(btVector3(5.0f, 5.0f, 5.0f));
 
     dt::Node * triggerAreaNode = scene->AddChildNode(new dt::Node("triggerArea"));
-    dt::TriggerAreaComponent * triggerAreaComponent = triggerAreaNode->AddComponent(new dt::TriggerAreaComponent(script, meshnode2, areaBox, "triggerArea"));
-    triggerAreaNode->SetPosition(Ogre::Vector3(0.0f, 15.0f, 0.0f));
+    dt::TriggerAreaComponent * triggerAreaComponent = triggerAreaNode->AddComponent(new dt::TriggerAreaComponent(areaBox, "triggerArea"));
+    triggerAreaNode->SetPosition(Ogre::Vector3(0.0f, 0.0f, 0.0f));
+
+    QObject::connect(triggerAreaComponent, SIGNAL(Triggered(dt::TriggerAreaComponent*)), this, SLOT(AreaTriggered()));
 
 }
 

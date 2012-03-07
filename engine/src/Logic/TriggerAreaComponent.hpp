@@ -13,8 +13,9 @@
 
 #include <Scene/Component.hpp>
 #include <Logic/ScriptComponent.hpp>
-#include <Scene/Node.hpp>
-#include <OgreAxisAlignedBox.h>
+
+#include <btBulletCollisionCommon.h>
+#include <BulletCollision\CollisionDispatch\btGhostObject.h>
 
 namespace dt {
 
@@ -23,14 +24,10 @@ class DUCTTAPE_API TriggerAreaComponent : public Component {
 public:
     /**
     * Constructor.
-    * @param script Script to trigger
-    * @param node Node that will trigger the script when moved into area
-    * @param area Area, entering which will trigger the script (in node space)
+    * @param area Shape of the trigger area
     * @param name The name of the component.
     */
-    TriggerAreaComponent(ScriptComponent* script, 
-                         Node* node, 
-                         Ogre::AxisAlignedBox area, 
+    TriggerAreaComponent(btCollisionShape* area,
                          const QString& name = "");
 
     void OnCreate();
@@ -38,20 +35,19 @@ public:
     void OnEnable();
     void OnDisable();
     void OnUpdate(double time_diff);
-
+    
     /**
-    * Setter for a flag indicating if the script should 
-    * be switched off when the node leaves the area
+    * Setter for the area shape
+    * @param area Shape of the trigger area
     */
-    void SetOneShotMode(bool oneShotMode);
-    void SetNode(Node* node);
-    void SetScript(ScriptComponent* script);
+    void SetAreaShape(btCollisionShape* area);
+
+signals:
+    void Triggered(dt::TriggerAreaComponent* trigger_area);
 
 private:
-    ScriptComponent* mScript;
-    Node* mTriggeringNode;
-    Ogre::AxisAlignedBox mArea;
-    bool mOneShotMode;
+    btCollisionShape* mArea; /// area entering which sends the Triggered signal
+    btGhostObject* mObject;  /// object used to check collission
 
 };
 
