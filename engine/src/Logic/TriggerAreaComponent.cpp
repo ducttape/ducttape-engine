@@ -32,7 +32,10 @@ void TriggerAreaComponent::SetAreaShape(btCollisionShape* area)
     mObject->setCollisionShape(mArea);
 }
 
-void TriggerAreaComponent::OnDestroy(){}
+void TriggerAreaComponent::OnDestroy() {
+    delete mObject;
+    delete mArea;
+}
 void TriggerAreaComponent::OnEnable(){}
 void TriggerAreaComponent::OnDisable(){}
 
