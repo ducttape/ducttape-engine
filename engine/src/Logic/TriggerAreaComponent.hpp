@@ -9,6 +9,8 @@
 #ifndef DUCTTAPE_ENGINE_LOGIC_TRIGGER_AREA_COMPONENT
 #define DUCTTAPE_ENGINE_LOGIC_TRIGGER_AREA_COMPONENT
 
+#include <memory>
+
 #include <Config.hpp>
 
 #include <Scene/Component.hpp>
@@ -24,10 +26,10 @@ class DUCTTAPE_API TriggerAreaComponent : public Component {
 public:
     /**
     * Constructor.
-    * @param area Shape of the trigger area
+    * @param areaShape shape of the trigger area 
     * @param name The name of the component.
     */
-    TriggerAreaComponent(btCollisionShape* area,
+    TriggerAreaComponent(btCollisionShape* areaShape,
                          const QString& name = "");
 
     void OnCreate();
@@ -40,14 +42,14 @@ public:
     * Setter for the area shape
     * @param area Shape of the trigger area
     */
-    void SetAreaShape(btCollisionShape* area);
+    void SetAreaShape(btCollisionShape* areaShape);
 
 signals:
-    void Triggered(dt::TriggerAreaComponent* trigger_area);
+    void Triggered(dt::TriggerAreaComponent* trigger_area, dt::Node* node);
 
 private:
-    btCollisionShape* mArea; /// area entering which sends the Triggered signal
-    btGhostObject* mObject;  /// object used to check collission
+    std::unique_ptr<btCollisionShape> mArea; /// area entering which sends the Triggered signal
+    std::unique_ptr<btGhostObject> mObject;  /// object used to check collission
 
 };
 

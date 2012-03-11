@@ -12,7 +12,6 @@
 #include <Core/ResourceManager.hpp>
 #include <Logic/ScriptManager.hpp>
 #include <Graphics/CameraComponent.hpp>
-#include <Logic/TriggerAreaComponent.hpp>
 #include <Logic/ScriptComponent.hpp>
 #include <Logic/FollowPathComponent.hpp>
 
@@ -60,8 +59,10 @@ dt::Node* Main::_AddMeshNode(dt::Scene* scene, std::string name, Ogre::Vector3 p
     return meshnode;
 }
 
-void Main::AreaTriggered() {
-    mAreaTriggered = true;
+void Main::AreaTriggered(dt::TriggerAreaComponent* trigger_area, dt::Node* node) {
+    if(trigger_area->GetName() == "triggerArea" && node->GetName() == "meshNode1") {
+        mAreaTriggered = true;
+    }
 }
 
 void Main::OnInitialize() {
@@ -74,17 +75,19 @@ void Main::OnInitialize() {
     camnode->SetPosition(Ogre::Vector3(0, 0, 50));
     camnode->AddComponent(new dt::CameraComponent("cam"))->LookAt(Ogre::Vector3(0, 0, 0));;
 
-    dt::Node* meshnode1 = _AddMeshNode(scene, "meshNode1", Ogre::Vector3(0.0f, 20.0f, 0.0f));
+    dt::Node* meshnode1 = _AddMeshNode(scene, "meshNode1", Ogre::Vector3(-15.0f, 20.0f, 0.0f));
 
     meshnode1->AddComponent(new dt::PhysicsBodyComponent("meshNode1", "meshBody"));
 
-    btCollisionShape * areaBox = new btBoxShape(btVector3(5.0f, 5.0f, 5.0f));
-
     dt::Node * triggerAreaNode = scene->AddChildNode(new dt::Node("triggerArea"));
-    dt::TriggerAreaComponent * triggerAreaComponent = triggerAreaNode->AddComponent(new dt::TriggerAreaComponent(areaBox, "triggerArea"));
-    triggerAreaNode->SetPosition(Ogre::Vector3(0.0f, 0.0f, 0.0f));
+    dt::TriggerAreaComponent * triggerAreaComponent = triggerAreaNode->AddComponent(new dt::TriggerAreaComponent(new btBoxShape(btVector3(5.0f, 5.0f, 5.0f)), "triggerArea"));
+    triggerAreaNode->SetPosition(Ogre::Vector3(-15.0f, 0.0f, 0.0f));
 
-    QObject::connect(triggerAreaComponent, SIGNAL(Triggered(dt::TriggerAreaComponent*)), this, SLOT(AreaTriggered()));
+    QObject::connect(triggerAreaComponent, 
+                     SIGNAL(Triggered(dt::TriggerAreaComponent*, dt::Node*)), 
+                     this, 
+                     SLOT(AreaTriggered(dt::TriggerAreaComponent*, 
+                     dt::Node*)));
 
 }
 

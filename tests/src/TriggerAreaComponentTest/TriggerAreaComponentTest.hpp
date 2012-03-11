@@ -15,7 +15,7 @@
 
 #include <Core/Root.hpp>
 #include <Graphics/MeshComponent.hpp>
-#include <Logic/ScriptComponent.hpp>
+#include <Logic/TriggerAreaComponent.hpp>
 #include <Scene/Node.hpp>
 #include <Scene/Scene.hpp>
 #include <Scene/StateManager.hpp>
@@ -38,7 +38,7 @@ public:
     void UpdateStateFrame(double simulation_frame_time);
 
  public slots:
-     void AreaTriggered();
+     void AreaTriggered(dt::TriggerAreaComponent* trigger_area, dt::Node* node);
 
 private:
     dt::Node* _AddMeshNode(dt::Scene* scene, std::string name, Ogre::Vector3 pos);
