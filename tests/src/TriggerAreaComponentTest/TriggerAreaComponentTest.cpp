@@ -59,8 +59,8 @@ dt::Node* Main::_AddMeshNode(dt::Scene* scene, std::string name, Ogre::Vector3 p
     return meshnode;
 }
 
-void Main::AreaTriggered(dt::TriggerAreaComponent* trigger_area, dt::Node* node) {
-    if(trigger_area->GetName() == "triggerArea" && node->GetName() == "meshNode1") {
+void Main::AreaTriggered(dt::TriggerAreaComponent* trigger_area, dt::Component* component) {
+    if(trigger_area->GetName() == "triggerArea" && component->GetName() == "meshBody") {
         mAreaTriggered = true;
     }
 }
@@ -84,10 +84,10 @@ void Main::OnInitialize() {
     triggerAreaNode->SetPosition(Ogre::Vector3(-15.0f, 0.0f, 0.0f));
 
     QObject::connect(triggerAreaComponent, 
-                     SIGNAL(Triggered(dt::TriggerAreaComponent*, dt::Node*)), 
+                     SIGNAL(Triggered(dt::TriggerAreaComponent*, dt::Component*)), 
                      this, 
                      SLOT(AreaTriggered(dt::TriggerAreaComponent*, 
-                     dt::Node*)));
+                     dt::Component*)));
 
 }
 

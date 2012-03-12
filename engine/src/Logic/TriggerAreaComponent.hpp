@@ -45,7 +45,7 @@ public:
     void SetAreaShape(btCollisionShape* areaShape);
 
 signals:
-    void Triggered(dt::TriggerAreaComponent* trigger_area, dt::Node* node);
+    void Triggered(dt::TriggerAreaComponent* trigger_area, dt::Component* component);
 
 private:
     std::unique_ptr<btCollisionShape> mArea; /// area entering which sends the Triggered signal

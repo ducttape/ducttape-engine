@@ -38,7 +38,7 @@ public:
     void UpdateStateFrame(double simulation_frame_time);
 
  public slots:
-     void AreaTriggered(dt::TriggerAreaComponent* trigger_area, dt::Node* node);
+     void AreaTriggered(dt::TriggerAreaComponent* trigger_area, dt::Component* component);
 
 private:
     dt::Node* _AddMeshNode(dt::Scene* scene, std::string name, Ogre::Vector3 pos);

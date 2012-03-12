@@ -24,7 +24,7 @@ void TriggerAreaComponent::OnUpdate(double time_diff) {
     for(uint32_t i = 0; i < mObject->getNumOverlappingObjects(); ++i)
     {
         Component* collidingComponent = static_cast<Component*>(mObject->getOverlappingObject(i)->getUserPointer());
-        emit Triggered(this, collidingComponent->GetNode());
+        emit Triggered(this, collidingComponent);
     }
 }
 
