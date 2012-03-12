@@ -33,8 +33,8 @@ namespace GuiStateTest {
 
 class GuiStateTest : public Test {
 public:
-    bool Run(int argc, char** argv);
-    QString GetTestName();
+    bool run(int argc, char** argv);
+    QString getTestName();
 };
 
 ////////////////////////////////////////////////////////////////
@@ -42,13 +42,13 @@ public:
 class SecondState : public dt::State {
     Q_OBJECT
 public:
-    void OnInitialize();
+    void onInitialize();
 
-    void OnDeinitialize();
+    void onDeinitialize();
 
-    void OnClick(MyGUI::Widget* sender);
+    void onClick(MyGUI::Widget* sender);
 
-    void UpdateStateFrame(double simulation_frame_time);
+    void updateStateFrame(double simulation_frame_time);
 
 private:
     dt::GuiButton* mReturnButton;
@@ -59,13 +59,13 @@ private:
 class FirstState : public dt::State {
     Q_OBJECT
 public:
-    void OnInitialize();
+    void onInitialize();
 
-    void OnDeinitialize();
+    void onDeinitialize();
 
-    void OnClick(MyGUI::Widget* sender);
+    void onClick(MyGUI::Widget* sender);
 
-    void UpdateStateFrame(double simulation_frame_time);
+    void updateStateFrame(double simulation_frame_time);
 
 private:
     dt::GuiButton* mNextButton;

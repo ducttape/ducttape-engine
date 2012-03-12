@@ -15,13 +15,13 @@
 
 namespace GuiTest {
 
-bool GuiTest::Run(int argc, char** argv) {
+bool GuiTest::run(int argc, char** argv) {
     dt::Game game;
-    game.Run(new Main(), argc, argv);
+    game.run(new Main(), argc, argv);
     return true;
 }
 
-QString GuiTest::GetTestName() {
+QString GuiTest::getTestName() {
     return "Gui";
 }
 
@@ -30,8 +30,8 @@ QString GuiTest::GetTestName() {
 Main::Main()
     : mRuntime(0) {}
 
-void Main::Click(MyGUI::Widget* _sender) {
-    dt::Logger::Get().Debug("Clicked! " + QString(_sender->getName().c_str()));
+void Main::click(MyGUI::Widget* _sender) {
+    dt::Logger::get().debug("Clicked! " + QString(_sender->getName().c_str()));
     if(_sender->getName() == "Gui.b1") {
         static_cast<MyGUI::Button*>(_sender)->setCaption("Not implemented!");
     } else if(_sender->getName() == "Gui.b2") {
@@ -39,60 +39,60 @@ void Main::Click(MyGUI::Widget* _sender) {
     } else if(_sender->getName() == "Gui.b3") {
         static_cast<MyGUI::Button*>(_sender)->setCaption("Not implemented!");
     } else if(_sender->getName() == "Gui.b4") {
-        dt::StateManager::Get()->Pop(1);
+        dt::StateManager::get()->pop(1);
     }
 }
 
-void Main::OnInitialize() {
-    dt::Scene* scene = AddScene(new dt::Scene("testscene"));
+void Main::onInitialize() {
+    dt::Scene* scene = addScene(new dt::Scene("testscene"));
 
-    dt::ResourceManager::Get()->AddResourceLocation("sinbad.zip","Zip", true);
-    dt::ResourceManager::Get()->AddResourceLocation("gui","FileSystem", true);
+    dt::ResourceManager::get()->addResourceLocation("sinbad.zip","Zip", true);
+    dt::ResourceManager::get()->addResourceLocation("gui","FileSystem", true);
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
-    camnode->SetPosition(Ogre::Vector3(0, 5, 10));
-    camnode->AddComponent(new dt::CameraComponent("cam"))->LookAt(Ogre::Vector3(0, 0, 0));;
+    dt::Node* camnode = scene->addChildNode(new dt::Node("camnode"));
+    camnode->setPosition(Ogre::Vector3(0, 5, 10));
+    camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));;
 
-    dt::Node* meshnode = scene->AddChildNode(new dt::Node("meshnode"));
+    dt::Node* meshnode = scene->addChildNode(new dt::Node("meshnode"));
     dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh");
-    meshnode->AddComponent(mesh);
-    mesh->SetAnimation("Dance");
-    mesh->SetLoopAnimation(true);
-    mesh->PlayAnimation();
+    meshnode->addComponent(mesh);
+    mesh->setAnimation("Dance");
+    mesh->setLoopAnimation(true);
+    mesh->playAnimation();
 
     // GUI
-    dt::GuiRootWindow& win = dt::GuiManager::Get()->GetRootWindow();
+    dt::GuiRootWindow& win = dt::GuiManager::get()->getRootWindow();
 
-    dt::GuiButton* button1 = win.AddChildWidget(new dt::GuiButton("b1"));
-    button1->SetCaption("Campaign");
-    button1->SetPosition(10, 10);
-    button1->SetSize(200, 30);
-    button1->GetMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
+    dt::GuiButton* button1 = win.addChildWidget(new dt::GuiButton("b1"));
+    button1->setCaption("Campaign");
+    button1->setPosition(10, 10);
+    button1->setSize(200, 30);
+    button1->getMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::click);
 
-    dt::GuiButton* button2 = win.AddChildWidget(new dt::GuiButton("b2"));
-    button2->SetCaption("Tutorial");
-    button2->SetPosition(10, 50);
-    button2->SetSize(200, 30);
-    button2->GetMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
+    dt::GuiButton* button2 = win.addChildWidget(new dt::GuiButton("b2"));
+    button2->setCaption("Tutorial");
+    button2->setPosition(10, 50);
+    button2->setSize(200, 30);
+    button2->getMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::click);
 
-    dt::GuiButton* button3 = win.AddChildWidget(new dt::GuiButton("b3"));
-    button3->SetCaption("Options");
-    button3->SetPosition(10, 90);
-    button3->SetSize(200, 30);
-    button3->GetMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
+    dt::GuiButton* button3 = win.addChildWidget(new dt::GuiButton("b3"));
+    button3->setCaption("Options");
+    button3->setPosition(10, 90);
+    button3->setSize(200, 30);
+    button3->getMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::click);
 
-    dt::GuiButton* button4 = win.AddChildWidget(new dt::GuiButton("b4"));
-    button4->SetCaption("Exit");
-    button4->SetPosition(10, 130);
-    button4->SetSize(200, 30);
-    button4->GetMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::Click);
+    dt::GuiButton* button4 = win.addChildWidget(new dt::GuiButton("b4"));
+    button4->setCaption("Exit");
+    button4->setPosition(10, 130);
+    button4->setSize(200, 30);
+    button4->getMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::click);
 }
 
-void Main::UpdateStateFrame(double simulation_frame_time) {
+void Main::updateStateFrame(double simulation_frame_time) {
     mRuntime += simulation_frame_time;
     if(mRuntime > 3.0) {
-        dt::StateManager::Get()->Pop(1);
+        dt::StateManager::get()->pop(1);
     }
 }
 

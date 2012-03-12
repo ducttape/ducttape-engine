@@ -16,13 +16,13 @@
 
 namespace InputTest {
 
-bool InputTest::Run(int argc, char** argv) {
+bool InputTest::run(int argc, char** argv) {
     dt::Game game;
-    game.Run(new Main(), argc, argv);
+    game.run(new Main(), argc, argv);
     return true;
 }
 
-QString InputTest::GetTestName() {
+QString InputTest::getTestName() {
     return "Input";
 }
 
@@ -31,30 +31,30 @@ QString InputTest::GetTestName() {
 Main::Main()
     : mRuntime(0) {}
 
-void Main::OnInitialize() {
-    dt::Scene* scene = AddScene(new dt::Scene("testscene"));
-    dt::InputManager::Get()->SetJailInput(true);
+void Main::onInitialize() {
+    dt::Scene* scene = addScene(new dt::Scene("testscene"));
+    dt::InputManager::get()->setJailInput(true);
 
-    dt::ResourceManager::Get()->AddResourceLocation("sinbad.zip","Zip", true);
+    dt::ResourceManager::get()->addResourceLocation("sinbad.zip","Zip", true);
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
-    camnode->SetPosition(Ogre::Vector3(0, 5, 10));
-    camnode->AddComponent(new dt::CameraComponent("cam"))->LookAt(Ogre::Vector3(0, 0, 0));
-    camnode->AddComponent(new dt::SimplePlayerComponent("player"));
+    dt::Node* camnode = scene->addChildNode(new dt::Node("camnode"));
+    camnode->setPosition(Ogre::Vector3(0, 5, 10));
+    camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));
+    camnode->addComponent(new dt::SimplePlayerComponent("player"));
 
-    dt::Node* meshnode = scene->AddChildNode(new dt::Node("meshnode"));
+    dt::Node* meshnode = scene->addChildNode(new dt::Node("meshnode"));
     dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh");
-    meshnode->AddComponent(mesh);
-    mesh->SetAnimation("Dance");
-    mesh->SetLoopAnimation(true);
-    mesh->PlayAnimation();
+    meshnode->addComponent(mesh);
+    mesh->setAnimation("Dance");
+    mesh->setLoopAnimation(true);
+    mesh->playAnimation();
 }
 
-void Main::UpdateStateFrame(double simulation_frame_time) {
+void Main::updateStateFrame(double simulation_frame_time) {
     mRuntime += simulation_frame_time;
-    if(mRuntime > 2.5) {
-        dt::StateManager::Get()->Pop(1);
+    if(mRuntime > 10.0) {
+        dt::StateManager::get()->pop(1);
     }
 }
 

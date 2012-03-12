@@ -131,7 +131,6 @@ public:
 
 private slots:
     void _handleMouseInput(const OIS::MouseEvent& event);
-
     void _handleKeyPressed(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
     void _handleKeyReleased(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
 

@@ -123,6 +123,7 @@ void AdvancedPlayerComponent::onUpdate(double time_diff) {
     move = quaternion * BtOgre::Convert::toOgre(mMove);
     move.normalise();
     move *= mMoveSpeed;
+    
     mBtController->setVelocityForTimeInterval(BtOgre::Convert::toBullet(move), 0.5);
 
     trans = mBtGhostObject->getWorldTransform();

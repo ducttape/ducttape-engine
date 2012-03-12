@@ -147,7 +147,8 @@ protected:
 private slots:
     /**
       * Handles the events triggered by pressing a key or a mouse button.
-      * @param event The key-pressing event.
+      * @param input_code The input code.
+      * @param event The event argument.
       */
     void _handleButtonDown(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
 
@@ -159,7 +160,8 @@ private slots:
 
     /**
       * Handles the events triggered by releasing a key or a mouse button.
-      * @param event The key-releasing event.
+      * @param input_code The input code.
+      * @param event The event argument.
       */
     void _handleButtonUp(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
 
