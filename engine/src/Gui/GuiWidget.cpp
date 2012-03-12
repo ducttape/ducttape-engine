@@ -16,113 +16,113 @@
 
 namespace dt {
 
-GuiWidget::GuiWidget(const QString& name)
+GuiWidget::GuiWidget(const QString name)
     : mName(name),
       mParent(nullptr),
       mIsVisible(true) {
 
     if(mName.contains('.')) {
-        Logger::Get().Warning("GuiWidget name cannot contain '.': \"" + mName + "\". All occurrences will be stripped.");
+        Logger::get().warning("GuiWidget name cannot contain '.': \"" + mName + "\". All occurrences will be stripped.");
         mName = mName.replace('.', "");
-        Logger::Get().Info("New widget name: \"" + mName + "\".");
+        Logger::get().info("New widget name: \"" + mName + "\".");
     }
 }
 
 GuiWidget::~GuiWidget() {}
 
-void GuiWidget::Initialize() {
-    GuiManager::Get()->Initialize(); // initialize if not already happened
-    OnInitialize();
+void GuiWidget::initialize() {
+    GuiManager::get()->initialize(); // initialize if not already happened
+    onInitialize();
 }
 
-void GuiWidget::Deinitialize() {
+void GuiWidget::deinitialize() {
     // destroy all children
     /*for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
         iter->second->Deinitialize();
 
         iter = mChildren.erase(iter);
     }*/
-    RemoveAllChildren();
+    removeAllChildren();
     // destroy the mygui widget
-    GuiManager::Get()->GetGuiSystem()->destroyWidget(GetMyGUIWidget());
+    GuiManager::get()->getGuiSystem()->destroyWidget(getMyGUIWidget());
 }
 
-const QString& GuiWidget::GetName() const {
+const QString GuiWidget::getName() const {
     return mName;
 }
 
-void GuiWidget::Focus() {
-    if(MyGUI::InputManager::getInstance().getKeyFocusWidget() != GetMyGUIWidget()) {
-        MyGUI::InputManager::getInstance().setKeyFocusWidget(GetMyGUIWidget());
-        emit Focused();
+void GuiWidget::focus() {
+    if(MyGUI::InputManager::getInstance().getKeyFocusWidget() != getMyGUIWidget()) {
+        MyGUI::InputManager::getInstance().setKeyFocusWidget(getMyGUIWidget());
+        emit focused();
     }
 }
 
-void GuiWidget::SetPosition(float x, float y) {
-    if(GetMyGUIWidget()->getAbsoluteLeft() != (int)x || GetMyGUIWidget()->getAbsoluteTop() != (int)y) {
-        GetMyGUIWidget()->setRealPosition(x, y);
-        emit PositionChanged(x, y);
+void GuiWidget::setPosition(float x, float y) {
+    if(getMyGUIWidget()->getAbsoluteLeft() != (int)x || getMyGUIWidget()->getAbsoluteTop() != (int)y) {
+        getMyGUIWidget()->setRealPosition(x, y);
+        emit positionChanged(x, y);
     }
 }
 
-void GuiWidget::SetPosition(int x, int y) {
-    if(GetMyGUIWidget()->getAbsoluteLeft() != x || GetMyGUIWidget()->getAbsoluteTop() != y) {
-        GetMyGUIWidget()->setPosition(x, y);
-        emit PositionChanged(x, y);
+void GuiWidget::setPosition(int x, int y) {
+    if(getMyGUIWidget()->getAbsoluteLeft() != x || getMyGUIWidget()->getAbsoluteTop() != y) {
+        getMyGUIWidget()->setPosition(x, y);
+        emit positionChanged(x, y);
     }
 }
 
-void GuiWidget::SetSize(float width, float height) {
+void GuiWidget::setSize(float width, float height) {
     //DO NOT ADD THE TEST BELOW! OR YOU WILL NEVER SEE THE GUI!
     //if(GetMyGUIWidget()->getSize().width != width || GetMyGUIWidget()->getSize().height != height) {
-        GetMyGUIWidget()->setRealSize(width, height);
-        emit SizeChanged(width, height);
+        getMyGUIWidget()->setRealSize(width, height);
+        emit sizeChanged(width, height);
     //}
 }
 
-void GuiWidget::SetSize(int width, int height) {
-    if(GetMyGUIWidget()->getSize().width != width || GetMyGUIWidget()->getSize().height != height) {
-        GetMyGUIWidget()->setSize(width, height);
-        emit SizeChanged(width, height);
+void GuiWidget::setSize(int width, int height) {
+    if(getMyGUIWidget()->getSize().width != width || getMyGUIWidget()->getSize().height != height) {
+        getMyGUIWidget()->setSize(width, height);
+        emit sizeChanged(width, height);
     }
 }
 
 // Parent management
 
-void GuiWidget::SetParent(GuiWidget* parent) {
+void GuiWidget::setParent(GuiWidget* parent) {
     if(mParent != nullptr && parent != nullptr) {
         // move ourselves to another widget
-        boost::ptr_map<QString, GuiWidget>& from = mParent->GetChildrenMap();
-        boost::ptr_map<QString, GuiWidget>& to = parent->GetChildrenMap();
+        boost::ptr_map<QString, GuiWidget>& from = mParent->getChildrenMap();
+        boost::ptr_map<QString, GuiWidget>& to = parent->getChildrenMap();
         to.transfer(to.end(), from.find(mName), from);
     }
     if(mParent != nullptr && parent == nullptr) {
         // just remove ourselves
-        mParent->GetChildrenMap().erase(mName);
+        mParent->getChildrenMap().erase(mName);
     }
     mParent = parent;
 }
 
-GuiWidget* GuiWidget::GetParent() {
+GuiWidget* GuiWidget::getParent() {
     if(mParent == nullptr) {
         // uh oh!
-        Logger::Get().Error("Parent of widget " + GetFullName() + " is nullptr.");
+        Logger::get().error("Parent of widget " + getFullName() + " is nullptr.");
     }
     return mParent;
 }
 
-QScriptValue GuiWidget::GetScriptParent() {
-    return dt::ScriptManager::Get()->GetScriptEngine()->newQObject(mParent);
+QScriptValue GuiWidget::getScriptParent() {
+    return dt::ScriptManager::get()->getScriptEngine()->newQObject(mParent);
 }
 
-void GuiWidget::SetScriptParent(QScriptValue parent) {
+void GuiWidget::setScriptParent(QScriptValue parent) {
     QObject* q = parent.toQObject();
     mParent = dynamic_cast<GuiWidget*>(q);
 }
 
 // Children management
 
-GuiWidget* GuiWidget::FindChild(const QString& name) {
+GuiWidget* GuiWidget::findChild(const QString name) {
     QStringList split = name.split('.', QString::SkipEmptyParts);
     if(split.size() == 0)
         return nullptr;
@@ -136,83 +136,84 @@ GuiWidget* GuiWidget::FindChild(const QString& name) {
     } else {
         split.removeFirst(); // remove first item from path
         QString path(split.join("."));
-        return iter->second->FindChild(path);
+        return iter->second->findChild(path);
     }
 }
 
 
-QScriptValue GuiWidget::GetChild(const QString& name) {
-    GuiWidget* widget = FindChild(name);
+QScriptValue GuiWidget::getChild(const QString name) {
+    GuiWidget* widget = findChild(name);
     if(widget == nullptr) {
-        return QScriptValue(dt::ScriptManager::Get()->GetScriptEngine(), QScriptValue::UndefinedValue);
+        return QScriptValue(dt::ScriptManager::get()->getScriptEngine(), QScriptValue::UndefinedValue);
     }
-    return dt::ScriptManager::Get()->GetScriptEngine()->newQObject(widget);
+    return dt::ScriptManager::get()->getScriptEngine()->newQObject(widget);
 }
 
-void GuiWidget::Show() {
-    if(IsVisible() != true) {
-        SetVisible(true);
-    }
-}
-
-void GuiWidget::Hide() {
-    if(IsVisible() != false) {
-        SetVisible(false);
+void GuiWidget::show() {
+    if(isVisible() != true) {
+        setVisible(true);
     }
 }
 
-void GuiWidget::SetVisible(bool visible) {
-    if(IsVisible() != visible) {
+void GuiWidget::hide() {
+    if(isVisible() != false) {
+        setVisible(false);
+    }
+}
+
+void GuiWidget::setVisible(bool visible) {
+    if(isVisible() != visible) {
         mIsVisible = visible;
-        GetMyGUIWidget()->setVisible(visible);
-        emit VisibilityChanged(visible);
+        getMyGUIWidget()->setVisible(visible);
+        emit visibilityChanged(visible);
     }
 }
 
-bool GuiWidget::IsVisible() const {
+bool GuiWidget::isVisible() const {
     return mIsVisible;
 }
 
-void GuiWidget::RemoveChild(const QString& name) {
-    GuiWidget* w = FindChild(name);
+void GuiWidget::removeChild(const QString name) {
+    GuiWidget* w = findChild(name);
     
     if(w != nullptr) {
-        w->Deinitialize();
+        w->deinitialize();
         mChildren.erase(name);
     }
 }
 
-void GuiWidget::RemoveAllChildren() {
+void GuiWidget::removeAllChildren() {
     for(auto child = mChildren.begin(); child != mChildren.end(); child++) {
         auto name = child->first;
         child--;
-        RemoveChild(name);
+        removeChild(name);
     }
 }
 
-boost::ptr_map<QString, GuiWidget>& GuiWidget::GetChildrenMap() {
+boost::ptr_map<QString, GuiWidget>& GuiWidget::getChildrenMap() {
     return mChildren;
 }
 
-bool GuiWidget::_AddChild(GuiWidget* widget) {
-    QString name(widget->GetName()); // need a copy for boost::ptr_map::insert()
+bool GuiWidget::_addChild(GuiWidget* widget) {
+    QString name(widget->getName()); // need a copy for boost::ptr_map::insert()
 
-    if(FindChild(name) != nullptr) {
+    if(findChild(name) != nullptr) {
         // widget already exists
-        Logger::Get().Error("Cannot add widget \"" + widget->GetName() + "\" to \"" + GetFullName() + "\": widget with this name already exists.");
+        Logger::get().error("Cannot add widget \"" + widget->getName() + "\" to \"" +
+                            getFullName() + "\": widget with this name already exists.");
         return false;
     }
 
     mChildren.insert(name, widget);
-    FindChild(name)->SetParent(this);
+    findChild(name)->setParent(this);
     return true;
 }
 
-QString GuiWidget::GetFullName() {
+QString GuiWidget::getFullName() {
     if(mParent == nullptr)
         return mName;
     else
-        return mParent->GetFullName() + "." + mName;
+        return mParent->getFullName() + "." + mName;
 }
 
 }

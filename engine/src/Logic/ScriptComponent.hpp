@@ -31,16 +31,16 @@ public:
       * @param name The name for this component.
       * @see Component
       */
-    ScriptComponent(const QString& script_name, const QString& name = "");
+    ScriptComponent(const QString script_name, const QString name = "");
 
-    void OnInitialize();
-    void OnDeinitialize();
-    void OnEnable();
-    void OnDisable();
-    void OnUpdate(double time_diff);
+    void onInitialize();
+    void onDeinitialize();
+    void onEnable();
+    void onDisable();
+    void onUpdate(double time_diff);
 
 protected:
-    QScriptValue _CallScriptFunction(QString name, QScriptValueList params = QScriptValueList());
+    QScriptValue _callScriptFunction(QString name, QScriptValueList params = QScriptValueList());
 
     QString mScriptName;
     QScriptValue mScriptObject;

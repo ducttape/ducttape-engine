@@ -35,34 +35,34 @@ public:
     /**
       * Initializer.
       */
-    void Initialize(Ogre::Viewport* Viewport);
+    void initialize(Ogre::Viewport* Viewport);
 
     /**
       * Deinitializer.
       */
-    void Deinitialize();
+    void deinitialize();
 
     /**
       * Sets the camera for this viewport.
       * @param cam The camera.
       */
-    void SetCamera(Ogre::Camera* cam);
+    void setCamera(Ogre::Camera* cam);
 
     /**
       * Sets the background color for this viewport.
       * @param color The background color.
       */
-    void SetBackgroundColor(const Ogre::ColourValue& color);
+    void setBackgroundColor(const Ogre::ColourValue& color);
 
     /**
       * Hides the viewport.
       */
-    void Hide();
+    void hide();
 
     /**
       * Shows the viewport.
       */
-    void Show();
+    void show();
 
 private:
     Ogre::Viewport* mViewport;  //!< The Ogre::Viewport managed by this class.

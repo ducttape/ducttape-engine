@@ -16,89 +16,89 @@
 
 namespace dt {
 
-SoundComponent::SoundComponent(const QString& sound_file_name, const QString& name)
+SoundComponent::SoundComponent(const QString sound_file_name, const QString name)
     : Component(name),
       mSoundFileName(sound_file_name) {
-    _LoadSound();
+    _loadSound();
 }
 
-void SoundComponent::OnInitialize() {}
+void SoundComponent::onInitialize() {}
 
-void SoundComponent::OnDeinitialize() {}
+void SoundComponent::onDeinitialize() {}
 
-void SoundComponent::OnUpdate(double time_diff) {
-	mSound.SetPosition(mNode->GetPosition(Node::SCENE).x,
-                       mNode->GetPosition(Node::SCENE).y,
-                       mNode->GetPosition(Node::SCENE).z);
+void SoundComponent::onUpdate(double time_diff) {
+    mSound.setPosition(mNode->getPosition(Node::SCENE).x,
+                       mNode->getPosition(Node::SCENE).y,
+                       mNode->getPosition(Node::SCENE).z);
 }
 
-void SoundComponent::OnSerialize(IOPacket &packet) {
-    packet.Stream(mSoundFileName, "sound_file");
+void SoundComponent::onSerialize(IOPacket& packet) {
+    packet.stream(mSoundFileName, "sound_file");
 }
 
-void SoundComponent::SetSoundFileName(const QString& sound_file_name) {
-    if(sound_file_name != mSoundFileName && IsInitialized()) {
+void SoundComponent::setSoundFileName(const QString sound_file_name) {
+    if(sound_file_name != mSoundFileName && isInitialized()) {
         // we got a new sound; load it
-        _LoadSound();
+        _loadSound();
     }
     mSoundFileName = sound_file_name;
 }
 
-const QString& SoundComponent::GetSoundFileName() const {
+const QString SoundComponent::getSoundFileName() const {
     return mSoundFileName;
 }
 
-sf::Sound& SoundComponent::GetSound() {
+sf::Sound& SoundComponent::getSound() {
 	return mSound;
 }
 
-void SoundComponent::PlaySound() {
-    if(mSound.GetStatus() != sf::Sound::Playing) {
+void SoundComponent::playSound() {
+    if(mSound.getStatus() != sf::Sound::Playing) {
         // play sound if possible and enabled
-        if(IsEnabled())
-            mSound.Play();
-        emit SoundPlayed();
+        if(isEnabled())
+            mSound.play();
+        emit soundPlayed();
     }
 }
 
-void SoundComponent::PauseSound() {
-    if(mSound.GetStatus() != sf::Sound::Paused) {
+void SoundComponent::pauseSound() {
+    if(mSound.getStatus() != sf::Sound::Paused) {
         // pause sound if possible
-        mSound.Pause();
-        emit SoundPaused();
+        mSound.pause();
+        emit soundPaused();
     }
 }
 
-void SoundComponent::StopSound() {
-    if(mSound.GetStatus() != sf::Sound::Stopped) {
+void SoundComponent::stopSound() {
+    if(mSound.getStatus() != sf::Sound::Stopped) {
         // stop sound if possible
-        mSound.Stop();
-        emit SoundStopped();
+        mSound.stop();
+        emit soundStopped();
     }
 }
 
-void SoundComponent::_LoadSound() {
+void SoundComponent::_loadSound() {
     if(mSoundFileName == "") {
-        Logger::Get().Error("SoundComponent [" + mName + "]: Needs a sound file.");
+        Logger::get().error("SoundComponent [" + mName + "]: Needs a sound file.");
     }
-    if(!ResourceManager::Get()->AddSoundBuffer(mSoundFileName)) {
-        Logger::Get().Error("SoundComponent [" + mName + "]: Wasn't able to load sound file [" + mSoundFileName + "].");
+    if(!ResourceManager::get()->addSoundBuffer(mSoundFileName)) {
+        Logger::get().error("SoundComponent [" + mName + "]: Wasn't able to load sound file [" + mSoundFileName + "].");
     } else {
-        mSound.SetBuffer(*ResourceManager::Get()->GetSoundBuffer(mSoundFileName));
+        mSound.setBuffer(*ResourceManager::get()->getSoundBuffer(mSoundFileName));
     }
 }
 
-void SoundComponent::SetVolume(float volume) {
-    if(mSound.GetVolume() != volume) {
-        mSound.SetVolume(volume);
-        emit VolumeChanged(volume);
+void SoundComponent::setVolume(float volume) {
+    if(mSound.getVolume() != volume) {
+        mSound.setVolume(volume);
+        emit volumeChanged(volume);
     }
 }
 
-void SoundComponent::SetMasterVolume(float volume) {
-    if(sf::Listener::GetGlobalVolume() != volume) {
-        sf::Listener::SetGlobalVolume(volume);
-        emit MasterVolumeChanged(volume);
+void SoundComponent::setMasterVolume(float volume) {
+    if(sf::Listener::getGlobalVolume() != volume) {
+        sf::Listener::setGlobalVolume(volume);
+        emit masterVolumeChanged(volume);
     }
 }
 

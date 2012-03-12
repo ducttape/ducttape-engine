@@ -17,10 +17,10 @@
 class Weapon : public dt::Node {
     Q_OBJECT
 public:
-    Weapon(const QString& name, dt::InteractionComponent* interactor, int32_t power, 
+    Weapon(const QString name, dt::InteractionComponent* interactor, int32_t power,
         uint16_t max_clip, uint16_t ammo_per_clip, float reload_time, uint16_t type,
-        const QString& sound_handle, const QString& reloading_begin_sound_handle, 
-        const QString& reloading_done_sound_handle, const QString& mesh_handle, const QString& material_handle = "");
+        const QString sound_handle, const QString reloading_begin_sound_handle,
+        const QString reloading_done_sound_handle, const QString mesh_handle, const QString material_handle = "");
 
     void OnInitialize();
 

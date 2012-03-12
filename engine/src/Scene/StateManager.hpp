@@ -32,41 +32,41 @@ public:
       */
     StateManager();
 
-    void Initialize();
-    void Deinitialize();
+    void initialize();
+    void deinitialize();
 
     /**
       * Returns a pointer to the Manager instance.
       * @returns A pointer to the Manager instance.
       */
-    static StateManager* Get();
+    static StateManager* get();
 
     /**
       * Sets the state to be pushed on the stack in the next frame.
       * @param new_state The new state.
       */
-    void SetNewState(State* new_state);
+    void setNewState(State* new_state);
 
     /**
       * Adds and removes all pending states. Called every frame.
       * @returns Whether any states are left.
       */
-    bool ShiftStates();
+    bool shiftStates();
 
     /**
       * Removes \c count states from the stack in the next frame.
       * @param count The number of states to remove.
       */
-    void Pop(uint16_t count = 1);
+    void pop(uint16_t count = 1);
 
     /**
       * Returns the current state.
       * @returns The current state.
       */
-    State* GetCurrentState();
+    State* getCurrentState();
     
 signals:
-    void BeginFrame(double simulation_frame_time);
+    void beginFrame(double simulation_frame_time);
     
 private:
     std::shared_ptr<State> mNewState;   //!< The newly created game state to be pushed onto the stack in the next step.

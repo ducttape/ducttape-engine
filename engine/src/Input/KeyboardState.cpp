@@ -12,20 +12,20 @@
 
 namespace dt {
 
-bool KeyboardState::IsKeyDown(int key_code) const {
-    return InputManager::Get()->GetKeyboard()->isKeyDown(static_cast<OIS::KeyCode>(key_code));
+bool KeyboardState::isKeyDown(int key_code) const {
+    return InputManager::get()->getKeyboard()->isKeyDown(static_cast<OIS::KeyCode>(key_code));
 }
 
-bool KeyboardState::IsAltDown() const {
-    return InputManager::Get()->GetKeyboard()->isModifierDown(OIS::Keyboard::Alt);
+bool KeyboardState::isAltDown() const {
+    return InputManager::get()->getKeyboard()->isModifierDown(OIS::Keyboard::Alt);
 }
 
-bool KeyboardState::IsShiftDown() const {
-    return InputManager::Get()->GetKeyboard()->isModifierDown(OIS::Keyboard::Shift);
+bool KeyboardState::isShiftDown() const {
+    return InputManager::get()->getKeyboard()->isModifierDown(OIS::Keyboard::Shift);
 }
 
-bool KeyboardState::IsCtrlDown() const {
-    return InputManager::Get()->GetKeyboard()->isModifierDown(OIS::Keyboard::Ctrl);
+bool KeyboardState::isCtrlDown() const {
+    return InputManager::get()->getKeyboard()->isModifierDown(OIS::Keyboard::Ctrl);
 }
 
 }

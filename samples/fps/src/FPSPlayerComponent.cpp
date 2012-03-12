@@ -7,7 +7,7 @@
 
 #include <OgreProcedural.h>
 
-FPSPlayerComponent::FPSPlayerComponent(uint16_t weapon_num, const QString& name)
+FPSPlayerComponent::FPSPlayerComponent(uint16_t weapon_num, const QString name)
     : AdvancedPlayerComponent(name),
       mWeaponNum(weapon_num),
       mWeaponInUse(nullptr),
@@ -24,7 +24,7 @@ void FPSPlayerComponent::OnInitialize() {
     mGrabber->SetRange(3.0f);
     
     if(!QObject::connect(mGrabber, SIGNAL(sHit(dt::PhysicsBodyComponent*)), 
-        this, SLOT(_PickUpWeapon(dt::PhysicsBodyComponent*)))) {
+                         this,     SLOT(_PickUpWeapon(dt::PhysicsBodyComponent*)))) {
             dt::Logger::Get().Error("Cannot connect the grabber's sHit signal with FPSPlayerComponent " + 
                 GetName() + "'s _PickUpWeapon slot.");
     }

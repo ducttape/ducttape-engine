@@ -26,8 +26,8 @@ namespace TimerTest {
 
 class TimerTest : public Test {
 public:
-    bool Run(int argc, char** argv);
-    QString GetTestName();
+    bool run(int argc, char** argv);
+    QString getTestName();
 };
 
 ////////////////////////////////////////////////////////////////
@@ -36,11 +36,11 @@ class Main : public dt::State {
     Q_OBJECT
 
 public:
-    void OnInitialize();
-    void UpdateStateFrame(double simulation_frame_time);
+    void onInitialize();
+    void updateStateFrame(double simulation_frame_time);
 
 private slots:
-    void _TimerCallback(const QString& message);
+    void _timerCallback(const QString message);
 
 public:
     std::shared_ptr<dt::Timer> mTimer1;

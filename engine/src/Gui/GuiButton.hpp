@@ -26,9 +26,9 @@ public:
     /**
       * Constructor.
       */
-    GuiButton(const QString& name);
-    MyGUI::Widget* GetMyGUIWidget();
-    void OnInitialize();
+    GuiButton(const QString name);
+    MyGUI::Widget* getMyGUIWidget();
+    void onInitialize();
 
 private:
     MyGUI::Button* mButton;

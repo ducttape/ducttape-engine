@@ -45,21 +45,21 @@ public:
     /**
       * Initializer.
       */
-    static void Initialize();
+    static void initialize();
 
     /**
       * Deinitializer. Cleans up the whole mess :D
       */
-    static void Deinitialize();
+    static void deinitialize();
 
     template <typename T>
-    static void RegisterComponent(const std::string& name) {
+    static void registerComponent(const std::string& name) {
         qRegisterMetaType<T>(name.c_str());
     }
 
-    static Component* CreateComponent(const std::string& name);
+    static Component* createComponent(const std::string& name);
 
-    static void SerializeNode(Node* node);
+    static void serializeNode(Node* node);
 
 private:
 

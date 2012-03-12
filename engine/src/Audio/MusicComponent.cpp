@@ -15,107 +15,107 @@
 
 namespace dt {
 
-MusicComponent::MusicComponent(const QString& music_file_name, const QString& name)
+MusicComponent::MusicComponent(const QString music_file_name, const QString name)
     : Component(name),
       mMusicFileName(music_file_name),
       mFadeFlag(false),
       mElapsedTime(0.0),
       mFadeTime(0.0),
       mFadeVolume(0.0f) {
-    _LoadMusic();
+    _loadMusic();
 }
 
-void MusicComponent::OnInitialize() {}
+void MusicComponent::onInitialize() {}
 
-void MusicComponent::OnDeinitialize() {
-    StopMusic();
+void MusicComponent::onDeinitialize() {
+    stopMusic();
 }
 
-void MusicComponent::OnEnable() {
-    PlayMusic();
+void MusicComponent::onEnable() {
+    playMusic();
 }
 
-void MusicComponent::OnDisable() {
-    PauseMusic();
+void MusicComponent::onDisable() {
+    pauseMusic();
 }
 
-void MusicComponent::OnUpdate(double time_diff) {
+void MusicComponent::onUpdate(double time_diff) {
     if(mFadeFlag) {
-        auto* resmgr = ResourceManager::Get();
+        auto* resmgr = ResourceManager::get();
         if(mElapsedTime >= mFadeTime) {
             mFadeFlag = false;
         } else {
-            float volume = ((time_diff / mFadeTime) * mFadeVolume) + resmgr->GetMusicFile(mMusicFileName)->GetVolume();
-            resmgr->GetMusicFile(mMusicFileName)->SetVolume(volume);
+            float volume = ((time_diff / mFadeTime) * mFadeVolume) + resmgr->getMusicFile(mMusicFileName)->getVolume();
+            resmgr->getMusicFile(mMusicFileName)->setVolume(volume);
             mElapsedTime += time_diff;
         }
     }
 }
 
-void MusicComponent::OnSerialize(IOPacket &packet) {
-    packet.Stream(mMusicFileName, "music_file");
+void MusicComponent::onSerialize(IOPacket& packet) {
+    packet.stream(mMusicFileName, "music_file");
 }
 
-void MusicComponent::SetMusicFileName(const QString& music_file_name) {
-    if(music_file_name != mMusicFileName && IsInitialized()) {
+void MusicComponent::setMusicFileName(const QString music_file_name) {
+    if(music_file_name != mMusicFileName && isInitialized()) {
         // we got a new music; load it
-        _LoadMusic();
+        _loadMusic();
     }
     mMusicFileName = music_file_name;
 }
 
-const QString& MusicComponent::GetMusicFileName() const {
+const QString MusicComponent::getMusicFileName() const {
     return mMusicFileName;
 }
 
-void MusicComponent::SetVolume(float volume) {
-    if(ResourceManager::Get()->GetMusicFile(mMusicFileName)->GetVolume() != volume) {
-        ResourceManager::Get()->GetMusicFile(mMusicFileName)->SetVolume(volume);
-        emit VolumeChanged(volume);
+void MusicComponent::setVolume(float volume) {
+    if(ResourceManager::get()->getMusicFile(mMusicFileName)->getVolume() != volume) {
+        ResourceManager::get()->getMusicFile(mMusicFileName)->setVolume(volume);
+        emit volumeChanged(volume);
     }
 }
 
-void MusicComponent::SetMasterVolume(float volume) {
-    if(sf::Listener::GetGlobalVolume() != volume) {
-        sf::Listener::SetGlobalVolume(volume);
-        emit MasterVolumeChanged(volume);
+void MusicComponent::setMasterVolume(float volume) {
+    if(sf::Listener::getGlobalVolume() != volume) {
+        sf::Listener::setGlobalVolume(volume);
+        emit masterVolumeChanged(volume);
     }
 }
 
-void MusicComponent::_LoadMusic() {
+void MusicComponent::_loadMusic() {
     if(mMusicFileName == "") {
-        Logger::Get().Error("MusicComponent [" + mName + "]: Needs a music file.");
+        Logger::get().error("MusicComponent [" + mName + "]: Needs a music file.");
     }
-    if(!ResourceManager::Get()->AddMusicFile(mMusicFileName)) {
-        Logger::Get().Error("MusicComponent [" + mName + "]: Wasn't able to load music file [" + mMusicFileName + "].");
+    if(!ResourceManager::get()->addMusicFile(mMusicFileName)) {
+        Logger::get().error("MusicComponent [" + mName + "]: Wasn't able to load music file [" + mMusicFileName + "].");
     }
 }
 
-void MusicComponent::PlayMusic() {
-    if(ResourceManager::Get()->GetMusicFile(mMusicFileName)->GetStatus() != sf::Music::Playing) {
+void MusicComponent::playMusic() {
+    if(ResourceManager::get()->getMusicFile(mMusicFileName)->getStatus() != sf::Music::Playing) {
         // play music if possible
-        ResourceManager::Get()->GetMusicFile(mMusicFileName)->Play();
-        emit MusicPlayed();
+        ResourceManager::get()->getMusicFile(mMusicFileName)->play();
+        emit musicPlayed();
     }
 }
 
-void MusicComponent::StopMusic() {
-    if(ResourceManager::Get()->GetMusicFile(mMusicFileName)->GetStatus() != sf::Music::Stopped) {
+void MusicComponent::stopMusic() {
+    if(ResourceManager::get()->getMusicFile(mMusicFileName)->getStatus() != sf::Music::Stopped) {
         // stop music if possible
-        ResourceManager::Get()->GetMusicFile(mMusicFileName)->Stop();
-        emit MusicStopped();
+        ResourceManager::get()->getMusicFile(mMusicFileName)->stop();
+        emit musicStopped();
     }
 }
 
-void MusicComponent::PauseMusic() {
-    if(ResourceManager::Get()->GetMusicFile(mMusicFileName)->GetStatus() != sf::Music::Paused) {
+void MusicComponent::pauseMusic() {
+    if(ResourceManager::get()->getMusicFile(mMusicFileName)->getStatus() != sf::Music::Paused) {
         // pause music if possible
-        ResourceManager::Get()->GetMusicFile(mMusicFileName)->Pause();
-        emit MusicPaused();
+        ResourceManager::get()->getMusicFile(mMusicFileName)->pause();
+        emit musicPaused();
     }
 }
 
-void MusicComponent::Fade(double time, float target_volume) {
+void MusicComponent::fade(double time, float target_volume) {
     mFadeFlag = true;
     if(time > 0.0)
         mFadeTime = time;
@@ -127,6 +127,6 @@ void MusicComponent::Fade(double time, float target_volume) {
         target_volume = 0.0f;
     else if(target_volume > 100.0f)
         target_volume = 100.0f;
-    mFadeVolume = target_volume - ResourceManager::Get()->GetMusicFile(mMusicFileName)->GetVolume();
+    mFadeVolume = target_volume - ResourceManager::get()->getMusicFile(mMusicFileName)->getVolume();
 }
 }

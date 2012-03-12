@@ -16,14 +16,14 @@
 
 namespace dt {
 
-LightComponent::LightComponent(const QString& name)
+LightComponent::LightComponent(const QString name)
     : Component(name),
       mLight(nullptr),
       mSceneNode(nullptr),
       mCastShadows(true) {}
 
-void LightComponent::OnInitialize() {
-    mLight = GetNode()->GetScene()->GetSceneManager()->createLight(Utils::ToStdString(mName));
+void LightComponent::onInitialize() {
+    mLight = getNode()->getScene()->getSceneManager()->createLight(Utils::toStdString(mName));
 
     // Set the point light as the default light type
     mLight->setType(Ogre::Light::LT_POINT);
@@ -33,12 +33,13 @@ void LightComponent::OnInitialize() {
     mLight->setSpecularColour(1.0, 1.0, 1.0);
     mLight->setDirection(Ogre::Vector3(0,0,1));
 
-    mSceneNode = GetNode()->GetScene()->GetSceneManager()->getRootSceneNode()->createChildSceneNode(Utils::ToStdString(mName) + "-node");
+    mSceneNode = getNode()->getScene()->getSceneManager()->getRootSceneNode()->
+                                        createChildSceneNode(Utils::toStdString(mName) + "-node");
     mSceneNode->attachObject(mLight);
 }
 
-void LightComponent::OnDeinitialize() {
-    Ogre::SceneManager* scene_mgr = GetNode()->GetScene()->GetSceneManager();
+void LightComponent::onDeinitialize() {
+    Ogre::SceneManager* scene_mgr = getNode()->getScene()->getSceneManager();
 
     if(mLight != nullptr)
         scene_mgr->destroyLight(mLight);
@@ -47,42 +48,42 @@ void LightComponent::OnDeinitialize() {
         scene_mgr->destroySceneNode(mSceneNode);
 }
 
-void LightComponent::OnEnable() {
+void LightComponent::onEnable() {
     mLight->setVisible(true);
 }
 
-void LightComponent::OnDisable() {
+void LightComponent::onDisable() {
     mLight->setVisible(false);
 }
 
-void LightComponent::OnUpdate(double time_diff) {
-    mSceneNode->setPosition(GetNode()->GetPosition(Node::SCENE));
-    mSceneNode->setOrientation(GetNode()->GetRotation(Node::SCENE));
-    mSceneNode->setScale(GetNode()->GetScale(Node::SCENE));
+void LightComponent::onUpdate(double time_diff) {
+    mSceneNode->setPosition(getNode()->getPosition(Node::SCENE));
+    mSceneNode->setOrientation(getNode()->getRotation(Node::SCENE));
+    mSceneNode->setScale(getNode()->getScale(Node::SCENE));
 }
 
-void LightComponent::SetColor(const Ogre::ColourValue color) {
+void LightComponent::setColor(const Ogre::ColourValue color) {
     mLight->setDiffuseColour(color);
     mLight->setSpecularColour(color);
-    emit ColorChanged(color);
+    emit colorChanged(color);
 }
 
-void LightComponent::SetColor(float r, float g, float b, float a) {
-    SetColor(Ogre::ColourValue(r, g, b, a));
+void LightComponent::setColor(float r, float g, float b, float a) {
+    setColor(Ogre::ColourValue(r, g, b, a));
 }
 
-Ogre::Light* LightComponent::GetOgreLight() const {
+Ogre::Light* LightComponent::getOgreLight() const {
     return mLight;
 }
 
-void LightComponent::SetCastShadows(bool cast_shadows) {
+void LightComponent::setCastShadows(bool cast_shadows) {
     mCastShadows = cast_shadows;
     if(mLight != nullptr) {
         mLight->setCastShadows(mCastShadows);
     }
 }
 
-bool LightComponent::GetCastShadows() const {
+bool LightComponent::getCastShadows() const {
     return mCastShadows;
 }
 

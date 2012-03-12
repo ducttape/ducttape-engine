@@ -27,9 +27,9 @@ public:
     /**
       * Constructor.
       */
-    GuiEditBox(const QString& name);
-    MyGUI::Widget* GetMyGUIWidget();
-    void OnInitialize();
+    GuiEditBox(const QString name);
+    MyGUI::Widget* getMyGUIWidget();
+    void onInitialize();
 
 private:
     MyGUI::EditBox* mEditBox;

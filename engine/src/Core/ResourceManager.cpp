@@ -25,29 +25,29 @@ ResourceManager::ResourceManager()
 
 ResourceManager::~ResourceManager() {}
 
-void ResourceManager::Initialize() {
-    _FindDataPaths();
+void ResourceManager::initialize() {
+    _findDataPaths();
 }
 
-void ResourceManager::Deinitialize() {}
+void ResourceManager::deinitialize() {}
 
-ResourceManager* ResourceManager::Get() {
-    return Root::GetInstance().GetResourceManager();
+ResourceManager* ResourceManager::get() {
+    return Root::getInstance().getResourceManager();
 }
 
-void ResourceManager::AddResourceLocation(const QString& path, const QString& type, bool recursive) {
-    QFile file(FindFile(path).absoluteFilePath());
+void ResourceManager::addResourceLocation(const QString path, const QString type, bool recursive) {
+    QFile file(findFile(path).absoluteFilePath());
 
     // Does the path exist?
     if(file.exists()) {
-        DisplayManager::Get()->CreateOgreRoot();
-        Ogre::ResourceGroupManager::getSingleton().addResourceLocation(Utils::ToStdString(file.fileName()), Utils::ToStdString(type),
+        DisplayManager::get()->createOgreRoot();
+        Ogre::ResourceGroupManager::getSingleton().addResourceLocation(Utils::toStdString(file.fileName()), Utils::toStdString(type),
                     Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, recursive);
     }
 }
 
-bool ResourceManager::AddSoundBuffer(const QString& path, const QString& sound_file) {
-    QFile file(FindFile(path).absoluteFilePath());
+bool ResourceManager::addSoundBuffer(const QString path, const QString sound_file) {
+    QFile file(findFile(path).absoluteFilePath());
 
     // Does the path exist?
     if(file.exists()) {
@@ -65,8 +65,8 @@ bool ResourceManager::AddSoundBuffer(const QString& path, const QString& sound_f
         }
 
         std::shared_ptr<sf::SoundBuffer> sound_buffer(new sf::SoundBuffer());
-        if(!sound_buffer->LoadFromFile(Utils::ToStdString(file.fileName()))) {
-            Logger::Get().Error("Loading sound <" + file.fileName() + "> failed.");
+        if(!sound_buffer->loadFromFile(Utils::toStdString(file.fileName()))) {
+            Logger::get().error("Loading sound <" + file.fileName() + "> failed.");
             return false;
         }
 
@@ -76,17 +76,17 @@ bool ResourceManager::AddSoundBuffer(const QString& path, const QString& sound_f
     return false;
 }
 
-std::shared_ptr<sf::SoundBuffer> ResourceManager::GetSoundBuffer(const QString& sound_file) {
+std::shared_ptr<sf::SoundBuffer> ResourceManager::getSoundBuffer(const QString sound_file) {
     if(mSoundBuffers.contains(sound_file)) {
         return mSoundBuffers.value(sound_file);
 	} else {
-        Logger::Get().Error("Error getting sound \"" + sound_file + "\": not found.");
+        Logger::get().error("Error getting sound \"" + sound_file + "\": not found.");
 		exit(1);
 	}
 }
 
-bool ResourceManager::AddMusicFile(const QString& path, const QString& music_file) {
-    QFile file(FindFile(path).absoluteFilePath());
+bool ResourceManager::addMusicFile(const QString path, const QString music_file) {
+    QFile file(findFile(path).absoluteFilePath());
 
     // Does the path exist?
     if(file.exists()) {
@@ -104,8 +104,8 @@ bool ResourceManager::AddMusicFile(const QString& path, const QString& music_fil
         }
 
         std::shared_ptr<sf::Music> music(new sf::Music());
-        if(!music->OpenFromFile(Utils::ToStdString(file.fileName()))) {
-            Logger::Get().Error("Loading Music <" + file.fileName() + "> failed.");
+        if(!music->openFromFile(Utils::toStdString(file.fileName()))) {
+            Logger::get().error("Loading Music <" + file.fileName() + "> failed.");
             return false;
         }
 
@@ -115,41 +115,41 @@ bool ResourceManager::AddMusicFile(const QString& path, const QString& music_fil
     return false;
 }
 
-std::shared_ptr<sf::Music> ResourceManager::GetMusicFile(const QString& music_file) {
+std::shared_ptr<sf::Music> ResourceManager::getMusicFile(const QString music_file) {
 	if(mMusic.count(music_file) >= 1) {
 		return mMusic[music_file];
 	} else {
-        Logger::Get().Error("Error getting music \"" + music_file + "\": not found.");
+        Logger::get().error("Error getting music \"" + music_file + "\": not found.");
 		exit(1);
 	}
 }
 
-void ResourceManager::AddDataPath(QDir path) {
+void ResourceManager::addDataPath(QDir path) {
     // make sure the default paths are checked first
     if(!mDataPathsSearched)
-        _FindDataPaths();
+        _findDataPaths();
 
     if(path.exists()) {
-        Logger::Get().Debug("Added data path: <" + path.absolutePath() + ">.");
+        Logger::get().debug("Added data path: <" + path.absolutePath() + ">.");
         QDir::addSearchPath("data", path.absolutePath());
     } else {
-        Logger::Get().Warning("Cannot add data path <" + path.path() + ">: not a directory.");
+        Logger::get().warning("Cannot add data path <" + path.path() + ">: not a directory.");
     }
 }
 
-QFileInfo ResourceManager::FindFile(const QString& relative_path) {
+QFileInfo ResourceManager::findFile(const QString relative_path) {
     QFile file("data:" + relative_path);
 
     QFileInfo info(file);
 
     if(!file.exists()) {
-        Logger::Get().Error("Could not locate file <" + relative_path + ">.");
+        Logger::get().error("Could not locate file <" + relative_path + ">.");
     }
 
     return info;
 }
 
-void ResourceManager::_FindDataPaths() {
+void ResourceManager::_findDataPaths() {
     mDataPathsSearched = true;
 
     // check recursively upwards
@@ -158,7 +158,7 @@ void ResourceManager::_FindDataPaths() {
     while(!dir.isRoot()) {
         QDir data(dir.absolutePath() + "/data");
         if(data.exists()) {
-            AddDataPath(data.absolutePath());
+            addDataPath(data.absolutePath());
             break;
         }
         dir.cdUp();
@@ -176,7 +176,7 @@ void ResourceManager::_FindDataPaths() {
     // warn if we also did not find one previously
     if(dir.isRoot()) {
         // did not find the data path
-        Logger::Get().Warning("No relative data path found.");
+        Logger::get().warning("No relative data path found.");
     }
 #endif
 }

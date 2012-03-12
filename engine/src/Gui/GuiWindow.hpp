@@ -27,9 +27,9 @@ public:
     /**
       * Constructor.
       */
-    GuiWindow(const QString& name);
-    MyGUI::Widget* GetMyGUIWidget();
-    virtual void OnInitialize();
+    GuiWindow(const QString name);
+    MyGUI::Widget* getMyGUIWidget();
+    virtual void onInitialize();
 
 protected:
     MyGUI::Window* mWindow;

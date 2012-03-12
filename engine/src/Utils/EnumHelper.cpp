@@ -13,16 +13,16 @@ namespace dt {
 EnumHelper::EnumHelper(void* e)
     : mEnumObj(e) {}
 
-uint32_t EnumHelper::Get() {
+uint32_t EnumHelper::get() {
     return (uint32_t)(*((uint32_t*)mEnumObj));
 }
 
-void EnumHelper::Set(uint32_t i) {
+void EnumHelper::set(uint32_t i) {
    *((uint32_t*)mEnumObj) = i;
 }
 
 sf::Packet& operator << (sf::Packet& p, EnumHelper e) {
-    uint32_t i = e.Get();
+    uint32_t i = e.get();
     p << i;
     return p;
 }
@@ -30,7 +30,7 @@ sf::Packet& operator << (sf::Packet& p, EnumHelper e) {
 sf::Packet& operator >> (sf::Packet& p, EnumHelper e) {
     uint32_t i;
     p >> i;
-    e.Set(i);
+    e.set(i);
     return p;
 }
 

@@ -92,7 +92,7 @@ void Main::OnInitialize() {
     lightnode2->SetPosition(Ogre::Vector3(0, -10, 0));
 }
 
-void Main::PutMeshShadow(const QString& meshName, const Ogre::Vector3& position, const QString materialName) {
+void Main::PutMeshShadow(const QString meshName, const Ogre::Vector3& position, const QString materialName) {
     dt::Scene* scene = dt::StateManager::Get()->GetCurrentState()->GetScene("testscene");
     dt::Node* node = scene->AddChildNode(new dt::Node("" + meshName + "node"));
     dt::MeshComponent* mesh = new dt::MeshComponent(meshName, materialName, meshName);

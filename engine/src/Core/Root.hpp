@@ -74,77 +74,77 @@ public:
      * Gets singleton instance reference.
      * @returns singleton instance reference to itself
      */
-    static Root& GetInstance();
+    static Root& getInstance();
 
     /**
       * Initializes all managers.
       */
-    void Initialize(int argc, char** argv);
+    void initialize(int argc, char** argv);
 
     /**
       * Deinitializes all managers.
       */
-    void Deinitialize();
+    void deinitialize();
 
     /**
       * Gets time since calling Initialize().
       * @returns The time in seconds since calling Initialize()
       */
-    double GetTimeSinceInitialize() const;
+    double getTimeSinceInitialize() const;
 
     /**
       * Returns the LogManager.
       * @returns the LogManager
       */
-    LogManager* GetLogManager();
+    LogManager* getLogManager();
 
     /**
       * Returns the StateManager.
       * @returns the StateManager
       */
-    StateManager* GetStateManager();
+    StateManager* getStateManager();
 
     /**
       * Returns the NetworkManager.
       * @returns the NetworkManager
       */
-    NetworkManager* GetNetworkManager();
+    NetworkManager* getNetworkManager();
 
     /**
       * Returns the DisplayManager.
       * @returns the DisplayManager
       */
-    DisplayManager* GetDisplayManager();
+    DisplayManager* getDisplayManager();
 
     /**
       * Returns the InputManager.
       * @returns the InputManager
       */
-    InputManager* GetInputManager();
+    InputManager* getInputManager();
 
     /**
       * Returns the ResourceManager.
       * @returns the ResourceManager
       */
-    ResourceManager* GetResourceManager();
+    ResourceManager* getResourceManager();
 
     /**
       * Returns the PhysicsManager.
       * @returns the PhysicsManager
       */
-    PhysicsManager* GetPhysicsManager();
+    PhysicsManager* getPhysicsManager();
 
     /**
       * Returns the ScriptManager.
       * @returns the ScriptManager
       */
-    ScriptManager* GetScriptManager();
+    ScriptManager* getScriptManager();
 
     /**
       * Returns the TerrainManager.
       * @returns the TerrainManager
       */
-    TerrainManager* GetTerrainManager();
+    TerrainManager* getTerrainManager();
 
 private:
     /**

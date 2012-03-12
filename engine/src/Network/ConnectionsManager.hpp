@@ -47,143 +47,143 @@ public:
       */
     ~ConnectionsManager();
 
-    void Initialize();
-    void Deinitialize();
+    void initialize();
+    void deinitialize();
 
     /**
       * Returns a pointer to the Manager instance.
       * @returns A pointer to the Manager instance.
       */
-    static ConnectionsManager* Get();
+    static ConnectionsManager* get();
 
     /**
       * Setter for maximum number of connections allowed. Existing connections will \b not be removed
       * if this value is lowered.
       * @param max The maximum number of connections allowed.
       */
-    void SetMaxConnections(ID_t max);
+    void setMaxConnections(ID_t max);
 
     /**
       * Returns the maximum number of connections allowed.
       * @returns The maximum number of connections allowed.
       */
-    ID_t GetMaxConnections() const;
+    ID_t getMaxConnections() const;
 
     /**
       * Checks whether a connection is known by this manager.
       * @param c A Connection object to search for.
       * @returns True if the connection is known, otherwise false.
       */
-    bool IsKnownConnection(Connection c);
+    bool isKnownConnection(Connection c);
 
     /**
       * Adds a Connection to this manager.
       * @param c The Connection to add.
       * @returns The ID assigned to the Connection.
       */
-    ID_t AddConnection(Connection* c);
+    ID_t addConnection(Connection* c);
 
     /**
       * Removes a Connection from the manager.
       * @param id The ID of the Connection to remove.
       */
-    void RemoveConnection(ID_t id);
+    void removeConnection(ID_t id);
 
     /**
       * Removes a Connection from the manager.
       * @param c The Connection to remove.
       */
-    void RemoveConnection(Connection c);
+    void removeConnection(Connection c);
 
     /**
       * Returns the ID of a Connection.
       * @param c The Connection to search for.
       * @returns The ID of the Connection or 0 if it is not known.
       */
-    ID_t GetConnectionID(Connection c);
+    ID_t getConnectionID(Connection c);
 
     /**
       * Returns a pointer to the Connection with the ID.
       * @param id The ID to search for.
       * @returns A pointer to the Connection or nullptr if it is not know.
       */
-    Connection* GetConnection(ID_t id);
+    Connection* getConnection(ID_t id);
 
     /**
       * Returns a list of all Connections.
       * @returns A list of all Connections.
       */
-    std::vector<Connection*> GetAllConnections();
+    std::vector<Connection*> getAllConnections();
 
     /**
      * Returns the number of active connections.
      * @returns An int of the number of active connections.
      */
-    uint16_t GetConnectionCount();
+    uint16_t getConnectionCount();
 
     /**
       * Sets the interval between two pings. Set this to 0 to disable pings. Default: 1.0.
       * @param ping_interval The interval between two pings, in seconds.
       */
-    void SetPingInterval(double ping_interval);
+    void setPingInterval(double ping_interval);
 
     /**
       * Returns the interval between two pings.
       * @return The interval between two pings, in seconds.
       */
-    double GetPingInterval();
+    double getPingInterval();
 
     /**
       * Sets the time until a connection times out. Set this to 0 to disable timeouts. Default: 10.0.
       * @param timeout The time until a connection times out, in seconds.
       */
-    void SetTimeout(double timeout);
+    void setTimeout(double timeout);
 
     /**
       * Returns the time until a connection times out.
       * @returns The time until a connection times out, in seconds.
       */
-    double GetTimeout();
+    double getTimeout();
 
     /**
       * Returns the ping of a connection.
       * @param connection The ID of the connection.
       * @returns The ping of the connection.
       */
-    double GetPing(ID_t connection);
+    double getPing(ID_t connection);
 
 public slots:
-    void HandleEvent(std::shared_ptr<dt::NetworkEvent> e);
-    void TimerTick(QString message, double interval);
+    void handleEvent(std::shared_ptr<dt::NetworkEvent> e);
+    void timerTick(QString message, double interval);
 
 private:
     /**
       * Private method. Finds an unused ID to assign to the next Connection.
       * @returns An unused ID.
       */
-    ID_t _GetNewID();
+    ID_t _getNewID();
 
     /**
       * Private method. Sends out a PingEvent.
       */
-    void _Ping();
+    void _ping();
 
     /**
       * Private method. Handles an incoming ping event.
       * @param ping_event The ping event.
       */
-    void _HandlePing(std::shared_ptr<PingEvent> ping_event);
+    void _handlePing(std::shared_ptr<PingEvent> ping_event);
 
     /**
       * Private method. Checks all connections for timeouts.
       */
-    void _CheckTimeouts();
+    void _checkTimeouts();
 
     /**
       * Private method. Called when a connection times out.
       * @param connection The ID of the connection that timed out.
       */
-    void _TimeoutConnection(ID_t connection);
+    void _timeoutConnection(ID_t connection);
 
     ID_t mMaxConnections;                           //!< The maximum number of Connections allowed.
     boost::ptr_map<ID_t, Connection> mConnections;  //!< The Connections known to this manager.

@@ -26,23 +26,23 @@ DisplayManager::DisplayManager()
 
 DisplayManager::~DisplayManager() {}
 
-void DisplayManager::Initialize() {}
+void DisplayManager::initialize() {}
 
-void DisplayManager::Deinitialize() {
+void DisplayManager::deinitialize() {
     if(mOgreRoot != nullptr) {
-        _DestroyWindow();
+        _destroyWindow();
     }
 }
 
-DisplayManager* DisplayManager::Get() {
-    return Root::GetInstance().GetDisplayManager();
+DisplayManager* DisplayManager::get() {
+    return Root::getInstance().getDisplayManager();
 }
 
-void DisplayManager::SetRenderWindowParams(Ogre::NameValuePairList* params) {
+void DisplayManager::setRenderWindowParams(Ogre::NameValuePairList* params) {
     mOgreRenderParams = params;
 }
 
-void DisplayManager::SetWindowSize(int width, int height) {
+void DisplayManager::setWindowSize(int width, int height) {
     mWindowSize.x = width;
     mWindowSize.y = height;
 
@@ -51,13 +51,13 @@ void DisplayManager::SetWindowSize(int width, int height) {
     }
 }
 
-void DisplayManager::SetFullscreen(bool fullscreen, bool adjust_resolution) {
+void DisplayManager::setFullscreen(bool fullscreen, bool adjust_resolution) {
     mFullscreen = fullscreen;
 
     if(mOgreRoot != nullptr) {
         if(adjust_resolution) {
-            sf::VideoMode desktop = sf::VideoMode::GetDesktopMode();
-            mOgreRenderWindow->setFullscreen(fullscreen, desktop.Width, desktop.Height);
+            sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+            mOgreRenderWindow->setFullscreen(fullscreen, desktop.width, desktop.height);
             // do not save as mWindowSize, so when we toggle back, we will get the old resolution back
         } else {
             mOgreRenderWindow->setFullscreen(fullscreen, mWindowSize.x, mWindowSize.y);
@@ -65,18 +65,18 @@ void DisplayManager::SetFullscreen(bool fullscreen, bool adjust_resolution) {
     }
 }
 
-void DisplayManager::Render() {
+void DisplayManager::render() {
     if(mOgreRoot != nullptr && mOgreRoot->isInitialised()) {
         mOgreRoot->renderOneFrame();
         Ogre::WindowEventUtilities::messagePump();
     }
 }
 
-Ogre::SceneManager* DisplayManager::GetSceneManager(const QString& scene) {
+Ogre::SceneManager* DisplayManager::getSceneManager(const QString scene) {
     if(mSceneManagers.count(scene) == 0) {
-        _CreateWindow(); // TODO check if window already present
+        _createWindow(); // TODO check if window already present
 
-        Logger::Get().Info("Creating a scene manager for scene " + scene + ".");
+        Logger::get().info("Creating a scene manager for scene " + scene + ".");
         Ogre::SceneManager* mgr = mOgreRoot->createSceneManager("DefaultSceneManager");
         mgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
         mgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_MODULATIVE);
@@ -85,19 +85,19 @@ Ogre::SceneManager* DisplayManager::GetSceneManager(const QString& scene) {
     return mSceneManagers[scene];
 }
 
-Ogre::RenderWindow* DisplayManager::GetRenderWindow() {
+Ogre::RenderWindow* DisplayManager::getRenderWindow() {
     return mOgreRenderWindow;
 }
 
-CameraComponent* DisplayManager::GetMainCamera() {
+CameraComponent* DisplayManager::getMainCamera() {
     return mMainCamera;
 }
 
-void DisplayManager::SetMainCamera(CameraComponent* camera_component) {
+void DisplayManager::setMainCamera(CameraComponent* camera_component) {
     mMainCamera = camera_component;
 }
 
-void DisplayManager::_CreateWindow() {
+void DisplayManager::_createWindow() {
     if(mOgreRoot != nullptr) {
         return;
     }
@@ -124,33 +124,33 @@ void DisplayManager::_CreateWindow() {
                                                       mOgreRenderParams);
 
     // Attach OIS
-    InputManager::Get()->SetWindow(mOgreRenderWindow);
-    InputManager::Get()->Initialize();
+    InputManager::get()->setWindow(mOgreRenderWindow);
+    InputManager::get()->initialize();
 }
 
-void DisplayManager::_DestroyWindow() {
+void DisplayManager::_destroyWindow() {
     // Make sure to destroy the GUI first (it won't do anything if it was not initialized)
-    mGuiManager.Deinitialize();
+    mGuiManager.deinitialize();
 
     // Unattach OIS before window shutdown (very important under Linux)
-    Root::GetInstance().GetInputManager()->Deinitialize();
+    Root::getInstance().getInputManager()->deinitialize();
 
     mOgreRenderWindow->destroy();
     mOgreRoot->shutdown();
     delete mOgreRoot;
 }
 
-void DisplayManager::CreateOgreRoot() {
+void DisplayManager::createOgreRoot() {
     if(mOgreRoot == nullptr) {
-        _CreateWindow();
+        _createWindow();
     }
 }
 
-GuiManager* DisplayManager::GetGuiManager() {
+GuiManager* DisplayManager::getGuiManager() {
     return &mGuiManager;
 }
 
-int DisplayManager::GetNextZOrder() {
+int DisplayManager::getNextZOrder() {
     mNextZOrder++;
     return mNextZOrder;
 }

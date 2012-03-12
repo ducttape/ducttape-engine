@@ -33,7 +33,7 @@ public:
       * @param name The name of the Component.
       * @see Component
       */
-    RaycastComponent(const QString& name = "");
+    RaycastComponent(const QString name = "");
 
     /**
       * Called when Check() is called. It will emit a sCheck signal when it's called and a sHit signal if it hits something.
@@ -41,7 +41,7 @@ public:
       * @param end The absolute ending position for the check.
       * @see InteractionComponent
       */
-    void OnCheck(const btVector3& start, const btVector3& end);
+    void onCheck(const btVector3& start, const btVector3& end);
 };
 
 }

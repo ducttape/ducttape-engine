@@ -15,7 +15,7 @@
 
 namespace dt {
 
-SimplePlayerComponent::SimplePlayerComponent(const QString& name)
+SimplePlayerComponent::SimplePlayerComponent(const QString name)
     : Component(name),
       mWASDEnabled(true),
       mArrowsEnabled(true),
@@ -26,70 +26,29 @@ SimplePlayerComponent::SimplePlayerComponent(const QString& name)
       mCostant(false),
       mMove(Ogre::Vector3::ZERO) {}
 
-/*void SimplePlayerComponent::HandleEvent(std::shared_ptr<Event> e) {
-    // do not react to any events if this component is disabled
-    if(!IsEnabled())
-        return;
-
-    if(mMouseEnabled && e->GetType() == "DT_MOUSEEVENT") {
-        std::shared_ptr<MouseEvent> m = std::dynamic_pointer_cast<MouseEvent>(e);
-        if(m->GetAction() == MouseEvent::MOVED) {
-            float factor = mMouseSensitivity * -0.01;
-            float dx = m->GetMouseState().X.rel * factor;
-            float dy = m->GetMouseState().Y.rel * factor * (mMouseYInversed ? -1 : 1);
-
-            if(dx != 0 || dy != 0) {
-                // watch out for da gimbal lock !!
-
-                Ogre::Matrix3 orientMatrix;
-                GetNode()->GetRotation().ToRotationMatrix(orientMatrix);
-
-                Ogre::Radian yaw, pitch, roll;
-                orientMatrix.ToEulerAnglesYXZ(yaw, pitch, roll);
-
-                pitch += Ogre::Radian(dy);
-                yaw += Ogre::Radian(dx);
-
-                // do not let it look completely vertical, or the yaw will break
-                if(pitch > Ogre::Degree(89.9))
-                    pitch = Ogre::Degree(89.9);
-
-                if(pitch < Ogre::Degree(-89.9))
-                    pitch = Ogre::Degree(-89.9);
-
-                orientMatrix.FromEulerAnglesYXZ(yaw, pitch, roll);
-
-                Ogre::Quaternion rot;
-                rot.FromRotationMatrix(orientMatrix);
-                GetNode()->SetRotation(rot);
-            }
-        }
-    }
-}*/
-
-void SimplePlayerComponent::OnInitialize() {
-    if(!QObject::connect(InputManager::Get(), SIGNAL(sKeyPressed(const OIS::KeyEvent&)), 
-        this, SLOT(_HandleKeyPressed(const OIS::KeyEvent&)))) {
-            Logger::Get().Error("Cannot connect the key pressed signal with " + GetName()
+void SimplePlayerComponent::onInitialize() {
+    if(!QObject::connect(InputManager::get(), SIGNAL(sKeyPressed(const OIS::KeyEvent&)),
+                         this,                SLOT(_HandleKeyPressed(const OIS::KeyEvent&)))) {
+            Logger::get().error("Cannot connect the key pressed signal with " + getName()
                 + "'s keyboard input handling slot.");
     }
     if(mCostant) {
-        if(!QObject::connect(InputManager::Get(), SIGNAL(sKeyReleased(const OIS::KeyEvent&)), 
-            this, SLOT(_HandleKeyReleased(const OIS::KeyEvent&)))) {
-                Logger::Get().Error("Cannot connect the key released signal with " + GetName()
+        if(!QObject::connect(InputManager::get(), SIGNAL(sKeyReleased(const OIS::KeyEvent&)),
+                             this,                SLOT(_HandleKeyReleased(const OIS::KeyEvent&)))) {
+                Logger::get().error("Cannot connect the key released signal with " + getName()
                     + "'s keyboard input handling slot.");
         }
     }
-    if(!QObject::connect(InputManager::Get(), SIGNAL(sMouseMoved(const OIS::MouseEvent&)), 
-        this, SLOT(_HandleMouseInput(const OIS::MouseEvent&)))) {
-            Logger::Get().Error("Cannot connect the mouse moved signal with " + GetName()
+    if(!QObject::connect(InputManager::get(), SIGNAL(sMouseMoved(const OIS::MouseEvent&)),
+                         this,                SLOT(_HandleMouseInput(const OIS::MouseEvent&)))) {
+            Logger::get().error("Cannot connect the mouse moved signal with " + getName()
                 + "'s mouse input handling slot.");
     }
 }
 
-void SimplePlayerComponent::OnDeinitialize() {}
+void SimplePlayerComponent::onDeinitialize() {}
 
-void SimplePlayerComponent::OnUpdate(double time_diff) {
+void SimplePlayerComponent::onUpdate(double time_diff) {
     /*OIS::Keyboard* k = InputManager::Get()->GetKeyboard();*/
 
     /*if(mWASDEnabled || mArrowsEnabled) {
@@ -111,86 +70,86 @@ void SimplePlayerComponent::OnUpdate(double time_diff) {
         if(mMove.length() > 0) {
             static Ogre::Vector3 move;
             if(mInputStateChanged) {
-               move = GetNode()->GetRotation() * mMove; //update movement direction
+               move = getNode()->getRotation() * mMove; //update movement direction
             }
             
-            GetNode()->SetPosition(GetNode()->GetPosition() + move * time_diff * mMoveSpeed);
+            getNode()->setPosition(getNode()->getPosition() + move * time_diff * mMoveSpeed);
             if(!mCostant) {
                 mMove = Ogre::Vector3::ZERO;
             }
         }
 }
 
-void SimplePlayerComponent::SetWASDEnabled(bool wasd_enabled) {
+void SimplePlayerComponent::setWASDEnabled(bool wasd_enabled) {
     mWASDEnabled = wasd_enabled;
 }
 
-bool SimplePlayerComponent::GetWASDEnabled() const {
+bool SimplePlayerComponent::getWASDEnabled() const {
     return mWASDEnabled;
 }
 
-void SimplePlayerComponent::SetArrowsEnabled(bool arrows_enabled) {
+void SimplePlayerComponent::setArrowsEnabled(bool arrows_enabled) {
     mArrowsEnabled = arrows_enabled;
 }
 
-bool SimplePlayerComponent::GetArrowsEnabled() const {
+bool SimplePlayerComponent::getArrowsEnabled() const {
     return mArrowsEnabled;
 }
 
-void SimplePlayerComponent::SetMoveSpeed(float move_speed) {
+void SimplePlayerComponent::setMoveSpeed(float move_speed) {
     mMoveSpeed = move_speed;
 }
 
-float SimplePlayerComponent::GetMoveSpeed() const {
+float SimplePlayerComponent::getMoveSpeed() const {
     return mMoveSpeed;
 }
 
-void SimplePlayerComponent::SetMouseEnabled(bool mouse_enabled) {
+void SimplePlayerComponent::setMouseEnabled(bool mouse_enabled) {
     mMouseEnabled = mouse_enabled;
 }
 
-bool SimplePlayerComponent::GetMouseEnabled() const {
+bool SimplePlayerComponent::getMouseEnabled() const {
     return mMouseEnabled;
 }
 
-void SimplePlayerComponent::SetMouseSensitivity(float mouse_sensitivity) {
+void SimplePlayerComponent::setMouseSensitivity(float mouse_sensitivity) {
     mMouseSensitivity = mouse_sensitivity;
 }
 
-float SimplePlayerComponent::GetMouseSensitivity() const {
+float SimplePlayerComponent::getMouseSensitivity() const {
     return mMouseSensitivity;
 }
 
-void SimplePlayerComponent::SetMouseYInversed(bool mouse_y_inversed) {
+void SimplePlayerComponent::setMouseYInversed(bool mouse_y_inversed) {
     mMouseYInversed = mouse_y_inversed;
 }
 
-bool SimplePlayerComponent::GetMouseYInversed() const {
+bool SimplePlayerComponent::getMouseYInversed() const {
     return mMouseYInversed;
 }
 
-void SimplePlayerComponent::SetConstant(bool constant) {
+void SimplePlayerComponent::setConstant(bool constant) {
     mCostant = constant;
     if(mCostant) {
-        if(!QObject::connect(InputManager::Get(), SIGNAL(sKeyReleased(const OIS::KeyEvent&)), 
-            this, SLOT(_HandleKeyReleased(const OIS::KeyEvent&)))) {
-                Logger::Get().Error("Cannot connect the key released signal with " + GetName()
+        if(!QObject::connect(InputManager::get(), SIGNAL(sKeyReleased(const OIS::KeyEvent&)),
+            this,                                 SLOT(_HandleKeyReleased(const OIS::KeyEvent&)))) {
+                Logger::get().error("Cannot connect the key released signal with " + getName()
                     + "'s keyboard press event slot.");
         }  
     } else {
-        if(!QObject::disconnect(InputManager::Get(), SIGNAL(sKeyReleased(const OIS::KeyEvent&)),
-            this, SLOT(_HandleKeyReleased(const OIS::KeyEvent&)))) {
-                Logger::Get().Error("Cannot disconnect the key released signal with " + GetName()
+        if(!QObject::disconnect(InputManager::get(), SIGNAL(sKeyReleased(const OIS::KeyEvent&)),
+            this,                                    SLOT(_handleKeyReleased(const OIS::KeyEvent&)))) {
+                Logger::get().error("Cannot disconnect the key released signal with " + getName()
                     + "'s keyboard release event slot.");
         }
     }
 }
 
-bool SimplePlayerComponent::GetConstant() const {
+bool SimplePlayerComponent::getConstant() const {
     return mCostant;
 }
 
-void SimplePlayerComponent::_HandleMouseInput(const OIS::MouseEvent& event) {
+void SimplePlayerComponent::_handleMouseInput(const OIS::MouseEvent& event) {
     float factor = mMouseSensitivity * -0.01;
     
     float dx = event.state.X.rel * factor;
@@ -200,7 +159,7 @@ void SimplePlayerComponent::_HandleMouseInput(const OIS::MouseEvent& event) {
         // watch out for da gimbal lock !!
 
         Ogre::Matrix3 orientMatrix;
-        GetNode()->GetRotation().ToRotationMatrix(orientMatrix);
+        getNode()->getRotation().ToRotationMatrix(orientMatrix);
 
         Ogre::Radian yaw, pitch, roll;
         orientMatrix.ToEulerAnglesYXZ(yaw, pitch, roll);
@@ -219,12 +178,12 @@ void SimplePlayerComponent::_HandleMouseInput(const OIS::MouseEvent& event) {
 
         Ogre::Quaternion rot;
         rot.FromRotationMatrix(orientMatrix);
-        GetNode()->SetRotation(rot);
+        getNode()->setRotation(rot);
         mInputStateChanged = true;
     }
 }
 
-void SimplePlayerComponent::_HandleKeyPressed(const OIS::KeyEvent& event) {
+void SimplePlayerComponent::_handleKeyPressed(const OIS::KeyEvent& event) {
     if(mWASDEnabled || mArrowsEnabled) {
         if((mWASDEnabled && event.key == OIS::KC_W) || (mArrowsEnabled && event.key == OIS::KC_UP)) {
             mMove.z = -1.0;
@@ -242,7 +201,7 @@ void SimplePlayerComponent::_HandleKeyPressed(const OIS::KeyEvent& event) {
     }
 }
 
-void SimplePlayerComponent::_HandleKeyReleased(const OIS::KeyEvent& event) {
+void SimplePlayerComponent::_handleKeyReleased(const OIS::KeyEvent& event) {
     if(mWASDEnabled || mArrowsEnabled) {
         if((mWASDEnabled && event.key == OIS::KC_W) || (mArrowsEnabled && event.key == OIS::KC_UP) || 
            (mWASDEnabled && event.key == OIS::KC_S) || (mArrowsEnabled && event.key == OIS::KC_DOWN)) {

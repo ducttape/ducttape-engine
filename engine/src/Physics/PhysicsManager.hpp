@@ -35,39 +35,39 @@ public:
       */
     PhysicsManager();
 
-    void Initialize();
-    void Deinitialize();
-    int GetEventPriority() const;
+    void initialize();
+    void deinitialize();
+    int getEventPriority() const;
 
     /**
       * Returns a pointer to the Manager instance.
       * @returns A pointer to the Manager instance.
       */
-    static PhysicsManager* Get();
+    static PhysicsManager* get();
 
     /**
       * Returns whether a world with the given name exists.
       * @param name The name of the world to look for.
       * @returns Whether a world with the given name exists.
       */
-    bool HasWorld(const QString& name);
+    bool hasWorld(const QString name);
 
     /**
       * Adds a PhysicsWorld.
       * @param world The new PhysicsWorld.
       * @returns A pointer to the new PhysicsWorld.
       */
-    PhysicsWorld* AddWorld(PhysicsWorld* world);
+    PhysicsWorld* addWorld(PhysicsWorld* world);
 
     /**
       * Gets a PhysicsWorld.
       * @param name The name of the PhysicsWorld to find.
       * @returns A pointer to the PhysicsWorld, or nullptr of none was found.
       */
-    PhysicsWorld* GetWorld(const QString& name);
+    PhysicsWorld* getWorld(const QString name);
 
 public slots:
-    void UpdateFrame(double simulation_frame_time);
+    void updateFrame(double simulation_frame_time);
 
 private:
     boost::ptr_map<QString, PhysicsWorld> mWorlds;  //!< The list of PhysicsWorlds.

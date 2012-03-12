@@ -37,28 +37,28 @@ public:
       */
     GuiManager();
 
-    void Initialize();
-    void Deinitialize();
+    void initialize();
+    void deinitialize();
 
     /**
       * Sets the scene manager to use for the GUI display.
       * @param scene_manager The scene manager to use.
       */
-    void SetSceneManager(Ogre::SceneManager* scene_manager);
+    void setSceneManager(Ogre::SceneManager* scene_manager);
 
     /**
       * Returns MyGUI's GUI system.
       * @returns The GUI System.
       */
-    MyGUI::Gui* GetGuiSystem();
+    MyGUI::Gui* getGuiSystem();
 
     /**
       * Returns a pointer to the Manager instance.
       * @returns A pointer to the Manager instance.
       */
-    static GuiManager* Get();
+    static GuiManager* get();
 
-    GuiRootWindow& GetRootWindow();
+    GuiRootWindow& getRootWindow();
 
 public slots:
     /**
@@ -67,7 +67,7 @@ public slots:
       * @param visible Whether the mouse cursor should be visible.
       * @internal
       */
-    void SetMouseCursorVisible(bool visible);
+    void setMouseCursorVisible(bool visible);
 
     void sKeyPressed(const OIS::KeyEvent& event);
     void sKeyReleased(const OIS::KeyEvent& event);
@@ -76,15 +76,15 @@ public slots:
     void sMouseReleased(const OIS::MouseEvent& event, OIS::MouseButtonID button);
 
 signals:
-    void MouseCursorVisibilityChanged(bool visible);
+    void mouseCursorVisibilityChanged(bool visible);
 
 private:
+    bool _eventEnabled();              //!< Whether the MyGUI event system is enabled.
     MyGUI::Gui* mGuiSystem;            //!< MyGUI's GUI system.
     MyGUI::OgrePlatform* mPlatform;    //!< MyGUI's OgrePlatform.
     bool mMouseCursorVisible;          //!< Whether the GUI mouse cursor is visible.
     GuiRootWindow mRootGuiWindow;      //!< The root window widget.
     Ogre::SceneManager* mSceneManager; //!< The scene manager used for the GUI.
-    bool _EventEnabled();              //!< Whether the MyGUI event system is enabled.
     MyGUI::InputManager* mMyguiInputMgrPtr;
 };
 

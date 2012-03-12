@@ -14,7 +14,7 @@
 namespace dt {
 
 namespace Math {
-    float BounceBoth(float value1, float value2, float amount, float overshoot) {
+    float bounceBoth(float value1, float value2, float amount, float overshoot) {
         overshoot *= 0.25949f;
 
         value2 -= value1;
@@ -28,14 +28,14 @@ namespace Math {
         }
     }
 
-    float BounceIn(float value1, float value2, float amount, float overshoot) {
+    float bounceIn(float value1, float value2, float amount, float overshoot) {
         overshoot *= 0.170158f;
         value2 -= value1;
 
         return value2 * pow(amount, 2.f) * ((overshoot + 1.f) * amount - overshoot) + value1;
     }
 
-    float BounceOut(float value1, float value2, float amount, float overshoot) {
+    float bounceOut(float value1, float value2, float amount, float overshoot) {
         overshoot *= 0.170158f;
         amount = amount / 1.f - 1.f;
         value2 -= value1;
@@ -43,7 +43,7 @@ namespace Math {
         return value2 * (pow(amount, 2.f) * ((overshoot + 1.f) * amount + overshoot) + 1.f) + value1;
     }
 
-    float Clamp(float value, float minval, float maxval) {
+    float clamp(float value, float minval, float maxval) {
         if(value > maxval)
             value = maxval;
         else if(value < minval)
@@ -52,7 +52,7 @@ namespace Math {
         return value;
     }
 
-    float Hermite(float value1, float tangent1, float value2, float tangent2, float amount) {
+    float hermite(float value1, float tangent1, float value2, float tangent2, float amount) {
         float result = 0.f;
         if(amount == 0.f)
             result = value1;
@@ -64,13 +64,13 @@ namespace Math {
         return result;
     }
 
-    float Lerp(float value1, float value2, float amount) {
-        float result = Clamp(amount, 0.f, 1.f);
+    float lerp(float value1, float value2, float amount) {
+        float result = clamp(amount, 0.f, 1.f);
         return value1 + (value2 - value1) * result;
     }
 
-    float Lerp2(float value1, float value2, float amount) {
-        float result = Clamp(amount, 0.f, 1.f);
+    float lerp2(float value1, float value2, float amount) {
+        float result = clamp(amount, 0.f, 1.f);
 
         if(result > 0.5f)
             return value2 + (value1 - value2) * ((result - 0.5f) * 2.f);
@@ -78,8 +78,8 @@ namespace Math {
             return value1 + (value2 - value1) * (result * 2.f);
     }
 
-    float MultiLerp(std::vector<float>& values, float amount) {
-        float result = Clamp(amount, 0.f, 1.f);
+    float multiLerp(std::vector<float>& values, float amount) {
+        float result = clamp(amount, 0.f, 1.f);
         if(result == 1.f)
             return *(values.end());
 
@@ -88,28 +88,28 @@ namespace Math {
         float current_lerp = amount - position * individual_lerp;
         float lerp_amount = current_lerp / individual_lerp;
 
-        return Lerp(values[position], values[position + 1], lerp_amount);
+        return lerp(values[position], values[position + 1], lerp_amount);
     }
 
-    float NextPow2(float value) {
+    float nextPow2(float value) {
         float logbase2 = log(value) / log(2.0);
         float p = pow(2, ceil(logbase2));
         return p < 0 ? ceil(p - 0.5) : floor(p + 0.5);
     }
 
-    float SmoothStep(float value1, float value2, float amount) {
-        float result = Clamp(amount, 0.f, 1.f);
-        result = Hermite(value1, 0.f, value2, 0.f, result);
+    float smoothStep(float value1, float value2, float amount) {
+        float result = clamp(amount, 0.f, 1.f);
+        result = hermite(value1, 0.f, value2, 0.f, result);
         return result;
      }
 
-    float SmoothStep2(float value1, float value2, float amount) {
-        float result = Clamp(amount, 0.f, 1.f);
+    float smoothStep2(float value1, float value2, float amount) {
+        float result = clamp(amount, 0.f, 1.f);
 
         if(result > 0.5f)
-            result = Hermite(value2, 0.f, value1, 0.f, (result - 0.5f) * 2);
+            result = hermite(value2, 0.f, value1, 0.f, (result - 0.5f) * 2);
         else
-            result = Hermite(value1, 0.f, value2, 0.f, result * 2);
+            result = hermite(value1, 0.f, value2, 0.f, result * 2);
 
         return result;
      }

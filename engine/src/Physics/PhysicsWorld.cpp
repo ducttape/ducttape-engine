@@ -17,7 +17,7 @@
 
 namespace dt {
 
-PhysicsWorld::PhysicsWorld(const QString& name, Scene* scene)
+PhysicsWorld::PhysicsWorld(const QString name, Scene* scene)
     : mDynamicsWorld(nullptr),
       mDebugDrawer(nullptr),
       mShowDebug(false),
@@ -26,8 +26,8 @@ PhysicsWorld::PhysicsWorld(const QString& name, Scene* scene)
       mName(name),
       mIsEnabled(true) {}
 
-void PhysicsWorld::Initialize() {
-    Logger::Get().Info("Initializing phyics world: " + mName);
+void PhysicsWorld::initialize() {
+    Logger::get().info("Initializing phyics world: " + mName);
 
     // Manually create and manage memory for the Bullet stuff -- the Bullet way.
     mBroadphase = new btDbvtBroadphase();
@@ -39,18 +39,18 @@ void PhysicsWorld::Initialize() {
                                                  mCollisionConfiguration);
 
     // setup world
-    SetGravity(mGravity);
+    setGravity(mGravity);
     mDynamicsWorld->setInternalTickCallback(PhysicsWorld::BulletTickCallback, static_cast<void *>(this));
 
     // setup debug drawer
-    mDebugDrawer = new BtOgre::DebugDrawer(mScene->GetSceneManager()->getRootSceneNode(), mDynamicsWorld);
+    mDebugDrawer = new BtOgre::DebugDrawer(mScene->getSceneManager()->getRootSceneNode(), mDynamicsWorld);
     mDebugDrawer->setDebugMode(mShowDebug);
     mDynamicsWorld->setDebugDrawer(mDebugDrawer);
 
     mDynamicsWorld->getBroadphase()->getOverlappingPairCache()->setInternalGhostPairCallback(new btGhostPairCallback());
 }
 
-void PhysicsWorld::Deinitialize() {
+void PhysicsWorld::deinitialize() {
     // Delete in reverse order.
     delete mDebugDrawer;
     delete mDynamicsWorld;
@@ -60,18 +60,18 @@ void PhysicsWorld::Deinitialize() {
     delete mBroadphase;
 }
 
-void PhysicsWorld::StepSimulation(double time_diff) {
+void PhysicsWorld::stepSimulation(double time_diff) {
     if(mIsEnabled) {
         mDynamicsWorld->stepSimulation(time_diff, 10);
         mDebugDrawer->step();
     }
 }
 
-btDiscreteDynamicsWorld* PhysicsWorld::GetBulletWorld() {
+btDiscreteDynamicsWorld* PhysicsWorld::getBulletWorld() {
     return mDynamicsWorld;
 }
 
-void PhysicsWorld::OnTick(btScalar time_diff) {
+void PhysicsWorld::onTick(btScalar time_diff) {
     uint32_t num_manifolds = mDynamicsWorld->getDispatcher()->getNumManifolds();
     for(uint32_t i = 0; i < num_manifolds; ++i) {
         btPersistentManifold* contact_manifold =  mDynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
@@ -91,49 +91,49 @@ void PhysicsWorld::OnTick(btScalar time_diff) {
                     PhysicsBodyComponent* physics_body_a = (PhysicsBodyComponent*)ob_a->getUserPointer();
                     PhysicsBodyComponent* physics_body_b = (PhysicsBodyComponent*)ob_b->getUserPointer();
 
-                    physics_body_a->OnCollide(physics_body_b);
-                    physics_body_b->OnCollide(physics_body_a);
+                    physics_body_a->onCollide(physics_body_b);
+                    physics_body_b->onCollide(physics_body_a);
                 }
             }
         }
     }
 }
 
-void PhysicsWorld::SetGravity(Ogre::Vector3 gravity) {
+void PhysicsWorld::setGravity(Ogre::Vector3 gravity) {
     mGravity = gravity;
     if(mDynamicsWorld != nullptr) {
         mDynamicsWorld->setGravity(BtOgre::Convert::toBullet(mGravity));
     }
 }
 
-const QString& PhysicsWorld::GetName() const {
+const QString PhysicsWorld::getName() const {
     return mName;
 }
 
-void PhysicsWorld::SetShowDebug(bool show_debug) {
+void PhysicsWorld::setShowDebug(bool show_debug) {
     mShowDebug = show_debug;
     if(mDebugDrawer != nullptr) {
         mDebugDrawer->setDebugMode(mShowDebug);
     }
 }
 
-bool PhysicsWorld::GetShowDebug() const {
+bool PhysicsWorld::getShowDebug() const {
     return mShowDebug;
 }
 
 
-void PhysicsWorld::SetEnabled(bool enabled) {
+void PhysicsWorld::setEnabled(bool enabled) {
     mIsEnabled = enabled;
 }
 
-bool PhysicsWorld::IsEnabled() const {
+bool PhysicsWorld::isEnabled() const {
     return mIsEnabled;
 }
 
 // Callback stuff for Bullet (static)
 void PhysicsWorld::BulletTickCallback(btDynamicsWorld* world, btScalar time_diff) {
     PhysicsWorld* physics_world = static_cast<PhysicsWorld*>(world->getWorldUserInfo());
-    physics_world->OnTick(time_diff);
+    physics_world->onTick(time_diff);
 }
 
 }

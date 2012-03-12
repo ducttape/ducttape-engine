@@ -12,16 +12,16 @@ namespace dt {
 
 HandshakeEvent::HandshakeEvent() {}
 
-const QString HandshakeEvent::GetType() const {
+const QString HandshakeEvent::getType() const {
     return "DT_HANDSHAKEEVENT";
 }
 
-std::shared_ptr<NetworkEvent> HandshakeEvent::Clone() const {
+std::shared_ptr<NetworkEvent> HandshakeEvent::clone() const {
     std::shared_ptr<NetworkEvent> ptr(new HandshakeEvent());
     return ptr;
 }
 
-void HandshakeEvent::Serialize(IOPacket& p) {
+void HandshakeEvent::serialize(IOPacket& p) {
     // do nothing, we have no data
 }
 

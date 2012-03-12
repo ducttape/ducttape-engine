@@ -34,21 +34,21 @@ public:
       * @param name The name of the Component.
       * @see Component
       */
-    CollisionComponent(const QString& bullet_handle, const QString& name = "");
+    CollisionComponent(const QString bullet_handle, const QString name = "");
 
     /**
       * Sets the handle of the bullet's mesh.
       * @param bullet_handle The handle to set.
       */
-    void SetBulletMeshHandle(const QString& bullet_handle);
+    void setBulletMeshHandle(const QString bullet_handle);
 
     /**
       * Gets the handle of the bullet's mesh.
       * @returns The handle of the bullet's mesh.
       */
-    const QString& GetBulletMeshHandle();
+    const QString getBulletMeshHandle();
 
-    void OnInitialize();
+    void onInitialize();
 
 protected:
     /*
@@ -57,7 +57,7 @@ protected:
      * @param end The absolute ending position for the check.
      * @see InteractionComponent
      */
-    void OnCheck(const btVector3& start, const btVector3& end);
+    void onCheck(const btVector3& start, const btVector3& end);
 
 protected slots:
      /**
@@ -65,7 +65,7 @@ protected slots:
       * @param hit The hit object.
       * @param bullet The bullet object.
       */
-    void OnHit(dt::PhysicsBodyComponent* hit, dt::PhysicsBodyComponent* bullet);
+    void onHit(dt::PhysicsBodyComponent* hit, dt::PhysicsBodyComponent* bullet);
 
 private:
     QString mBulletMeshHandle;                              //!< The handle to the bullet's mesh.

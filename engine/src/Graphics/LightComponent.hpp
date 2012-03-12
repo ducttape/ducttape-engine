@@ -35,42 +35,42 @@ public:
       * @param name The name for this component.
       * @see Component
       */
-    LightComponent(const QString& name = "");
+    LightComponent(const QString name = "");
 
-    void OnInitialize();
-    void OnDeinitialize();
-    void OnEnable();
-    void OnDisable();
-    void OnUpdate(double time_diff);
+    void onInitialize();
+    void onDeinitialize();
+    void onEnable();
+    void onDisable();
+    void onUpdate(double time_diff);
 
     /**
       * Get the ogre light object.
       * @return A pointer to the ogre light object.
       */
-    Ogre::Light* GetOgreLight() const;
+    Ogre::Light* getOgreLight() const;
 
     /**
       * Sets whether the mesh should cast shadows. Default: true.
       * @param shadow Whether the mesh should cast shadows.
       */
-    void SetCastShadows(bool cast_shadows);
+    void setCastShadows(bool cast_shadows);
 
     /**
       * Gets whether the mesh should cast shadows.
       * @returns Whether the mesh should cast shadows.
       */
-    bool GetCastShadows() const;
+    bool getCastShadows() const;
 
 public slots:
     /**
       * Sets the color of the light.
       * @param color The color of the light.
       */
-    void SetColor(const Ogre::ColourValue color);
-    void SetColor(float r, float g, float b, float a = 1);
+    void setColor(const Ogre::ColourValue color);
+    void setColor(float r, float g, float b, float a = 1);
 
 signals:
-    void ColorChanged(const Ogre::ColourValue new_color);
+    void colorChanged(const Ogre::ColourValue new_color);
 
 protected:
     Ogre::Light* mLight;    //!< The pointer to the ogre light object.

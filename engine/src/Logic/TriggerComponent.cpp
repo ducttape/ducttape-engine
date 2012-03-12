@@ -10,14 +10,14 @@
 
 namespace dt {
 
-TriggerComponent::TriggerComponent(const QString& name)
+TriggerComponent::TriggerComponent(const QString name)
     : Component(name) {
 }
 
-void TriggerComponent::OnInitialize() {}
+void TriggerComponent::onInitialize() {}
 
-void TriggerComponent::OnDeinitialize() {}
+void TriggerComponent::onDeinitialize() {}
 
-void TriggerComponent::OnUpdate(double time_diff) {}
+void TriggerComponent::onUpdate(double time_diff) {}
 
 }

@@ -23,7 +23,7 @@ namespace dt {
   */
 class DUCTTAPE_API GuiTextBox : public GuiWidget {
     Q_OBJECT
-    Q_PROPERTY(QString caption READ GetCaption WRITE SetCaption)
+    Q_PROPERTY(QString caption READ getCaption WRITE setCaption)
 
 public:
     /**
@@ -41,17 +41,17 @@ public:
       * Gets the caption of the widget.
       * @returns The caption.
       */
-    QString GetCaption();
+    QString getCaption();
 
 public slots:
     /**
       * Sets the caption of the widget.
       * @param caption The new caption.
       */
-    void SetCaption(QString caption);
+    void setCaption(QString caption);
 
 signals:
-    void CaptionChanged(QString caption);
+    void captionChanged(QString caption);
 };
 
 }

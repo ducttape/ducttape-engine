@@ -32,28 +32,28 @@ public:
       */
     ScriptManager();
 
-    void Initialize();
-    void Deinitialize();
-    static ScriptManager* Get();
+    void initialize();
+    void deinitialize();
+    static ScriptManager* get();
 
-    bool AddScript(QString script, QString name);
-    bool LoadScript(QString path, QString name = "");
-    bool HasScript(QString name);
+    bool addScript(QString script, QString name);
+    bool loadScript(QString path, QString name = "");
+    bool hasScript(QString name);
 
-    void UpdateContext(QScriptEngine* engine = nullptr);
-    void UpdateContext(QScriptValue object);
-    bool ExecuteScript(QString name);
-    bool Evaluate(QString snippet, QString context = "unknown");
-    QScriptValue GetLastReturnValue();
-    QScriptValue GetScriptObject(QString name, ScriptComponent* component);
-    QScriptEngine* GetScriptEngine();
+    void updateContext(QScriptEngine* engine = nullptr);
+    void updateContext(QScriptValue object);
+    bool executeScript(QString name);
+    bool evaluate(QString snippet, QString context = "unknown");
+    QScriptValue getLastReturnValue();
+    QScriptValue getScriptObject(QString name, ScriptComponent* component);
+    QScriptEngine* getScriptEngine();
 
-    bool HandleErrors(QString context = "unknown");
+    bool handleErrors(QString context = "unknown");
 
-    static QScriptValue ScriptPrintFunction(QScriptContext* context, QScriptEngine* engine);
+    static QScriptValue scriptPrintFunction(QScriptContext* context, QScriptEngine* engine);
 
 private:
-    bool _Evaluate(QScriptProgram program);
+    bool _evaluate(QScriptProgram program);
     QScriptEngine* mScriptEngine;
     QMap<QString, QScriptProgram> mScripts;
     QScriptValue mLastReturnValue;

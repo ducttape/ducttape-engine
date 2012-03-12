@@ -38,7 +38,7 @@ public:
       * Advanced constructor. Creates a LogStream with the given name.
       * @param name the name of the new LogStream
       */
-    LogStream(const QString& name);
+    LogStream(const QString name);
 
     /**
       * Formats a log message, taking into account the name of the logger.
@@ -47,7 +47,7 @@ public:
       * @returns the formatted message
       * @see SetFormat()
       */
-    QString FormatMessage(Logger* logger, const QString& msg);
+    QString formatMessage(Logger* logger, const QString msg);
 
     /**
       * Formats and outputs a log message to the output stream.
@@ -56,19 +56,19 @@ public:
       * @param logger the Logger the message was sent from
       * @param msg the log message
       */
-    void Output(Logger* logger, const QString& msg);
+    void output(Logger* logger, const QString msg);
 
     /**
       * Sets the output stream for this LogStream.
       * @param stream the new output stream
       */
-    void SetStream(std::ostream& stream);
+    void setStream(std::ostream& stream);
 
     /**
       * Sets the name (level) for this LogStream.
       * @param name the new name
       */
-    void SetName(const QString& name);
+    void setName(const QString name);
 
     /**
       * Sets the format which is used to format the messages before displaying.
@@ -76,26 +76,26 @@ public:
       * @see sprintf
       * @param format the new format string
       */
-    void SetFormat(const QString& format);
+    void setFormat(const QString format);
 
     /**
       * Returns the Logger's name.
       * @returns the Logger's name
       */
-    const QString& GetName() const;
+    const QString getName() const;
 
     /**
       * Sets whether messages should be written to this stream or not. Useful for disabling some streams, e.g. DEBUG, while keeping
       * more important streams enabled, e.g. ERROR.
       * @param disabled Whether the stream should be disabled or not.
       */
-    void SetDisabled(bool disabled);
+    void setDisabled(bool disabled);
 
     /**
       * Returns whether the stream is disabled.
       * @returns Whether the stream is disabled.
       */
-    bool IsDisabled() const;
+    bool isDisabled() const;
 private:
     std::ostream* mStream;  //!< the output stream
     QString mFormat;    //!< the message format

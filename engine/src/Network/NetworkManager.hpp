@@ -41,59 +41,59 @@ public:
       */
     ~NetworkManager();
 
-    void Initialize();
-    void Deinitialize();
+    void initialize();
+    void deinitialize();
 
     /**
       * Returns a pointer to the Manager instance.
       * @returns A pointer to the Manager instance.
       */
-    static NetworkManager* Get();
+    static NetworkManager* get();
 
     /**
       * Binds the Socket used for the complete networking to the port given.
       * @param port The port to bind the socket to, or 0 to automatically select a free port.
       * @returns True if the binding was successful. Otherwise false.
       */
-    bool BindSocket(uint16_t port = 0);
+    bool bindSocket(uint16_t port = 0);
 
     /**
       * Connects to a remote device. This method sends a HandshakeEvent to that target.
       * @param target The remote device to connect to.
       */
-    void Connect(Connection target);
+    void connect(Connection target);
 
     /**
       * Disconnects from a remote device. This method sends a GoodbyeEvent to that target.
       * @param target The remote device to disconnect from.
       */
-    void Disconnect(Connection target);
+    void disconnect(Connection target);
 
     /**
       * Disconnects from all remote devices.
       * @see NetworkManager::Disconnect(Connection target)
       */
-    void DisconnectAll();
+    void disconnectAll();
 
     /**
       * Sends all pending Events from the queue.
       * @see NetworkManager::QueueEvent(NetworkEvent* event);
       */
-    void SendQueuedEvents();
+    void sendQueuedEvents();
 
     /**
       * Queues an Event to be sent later.
       * @see NetworkManager::SendQueuedEvents();
       * @param event The NetworkEvent to be sent.
       */
-    void QueueEvent(std::shared_ptr<NetworkEvent> event);
+    void queueEvent(std::shared_ptr<NetworkEvent> event);
 
     /**
       * Receives and handles all events pending at the socket.
       */
-    void HandleIncomingEvents();
+    void handleIncomingEvents();
 
-    void HandleEvent(std::shared_ptr<NetworkEvent> e);
+    void handleEvent(std::shared_ptr<NetworkEvent> e);
 
     /**
       * Registers a NetworkEvent as prototype for incoming packets.
@@ -101,7 +101,7 @@ public:
       * @see NetworkEvent::Clone();
       * @param event A new instance of a NetworkEvent to be used for factory.
       */
-    void RegisterNetworkEventPrototype(std::shared_ptr<NetworkEvent> event);
+    void registerNetworkEventPrototype(std::shared_ptr<NetworkEvent> event);
 
     /**
       * Creates a new instance of the prototype with the type ID given.
@@ -111,20 +111,20 @@ public:
       * @param type_id The ID of the type of NetworkEvent to create an instance of.
       * @returns A new instance of the prototype with the type ID given.
       */
-    std::shared_ptr<NetworkEvent> CreatePrototypeInstance(uint16_t type);
+    std::shared_ptr<NetworkEvent> createPrototypeInstance(uint16_t type);
 
     /**
       * Returns a pointer to the ConnectionsManager.
       * @returns A pointer to the ConnectionsManager.
       */
-    ConnectionsManager* GetConnectionsManager();
+    ConnectionsManager* getConnectionsManager();
 
     /**
       * Registers a new string with a generated Id.
       * @param name The string to register.
       * @returns The new Id.
       */
-    uint16_t RegisterEvent(const QString& name);
+    uint16_t registerEvent(const QString name);
 
     /**
       * Attempts to register a string with a specific id
@@ -132,52 +132,52 @@ public:
       * @param id The id to register it to.
       * @returns true if neither string nor id have already been registered.
       */
-    bool RegisterEvent(const QString& name, uint16_t id);
+    bool registerEvent(const QString name, uint16_t id);
 
     /**
       * Unregisters string with id
       * @param name The string to unregister.
       * @returns true If successful.
       */
-    bool UnregisterEvent(const QString& name);
+    bool unregisterEvent(const QString name);
 
     /**
       * Checks whether a string is already registered.
       * @param name The string to be checked.
       * @returns true If the string is already registered, otherwise false.
       */
-    bool EventRegistered(const QString& name);
+    bool eventRegistered(const QString name);
 
     /**
       * Checks whether an Id is already used.
       * @param id The Id to be checked.
       * @returns true If the Id is already used, otherwise false.
       */
-    bool EventRegistered(uint16_t id);
+    bool eventRegistered(uint16_t id);
 
     /**
       * Returns the Id for a string.
       * @param string The string to find.
       * @returns The Id for the string.
       */
-    uint16_t GetEventId(const QString& string);
+    uint16_t getEventId(const QString string);
 
     /**
       * Returns the string for an Id.
       * @param id The Id to find.
       * @returns The string for the Id.
       */
-    const QString& GetEventString(uint16_t id);
+    const QString getEventString(uint16_t id);
 
 signals:
-    void NewEvent(std::shared_ptr<dt::NetworkEvent> event);
+    void newEvent(std::shared_ptr<dt::NetworkEvent> event);
 
 private:
     /**
       * Sends an Event to its recipients.
       * @param event The event to send.
       */
-    void _SendEvent(std::shared_ptr<NetworkEvent> event);
+    void _sendEvent(std::shared_ptr<NetworkEvent> event);
 
     ConnectionsManager mConnectionsManager;                     //!< The ConnectionsManager that manages all remote devices.
     std::deque<std::shared_ptr<NetworkEvent>> mQueue;           //!< The queue of Events to be send. @see NetworkManager::QueueEvent(NetworkEvent* event);

@@ -19,9 +19,9 @@
 
 boost::ptr_map<QString, Test> Tests;
 
-void AddTest(Test* test);
+void addTest(Test* test);
 
-Test* GetTest(QString name);
+Test* getTest(QString name);
 
 int main(int argc, char** argv);
 

@@ -25,18 +25,18 @@ class Client : public dt::State {
 public:
     Client();
 
-    void OnInitialize();
-    void UpdateStateFrame(double simulation_frame_time);
+    void onInitialize();
+    void updateStateFrame(double simulation_frame_time);
 
-    void SetServerIP(sf::IpAddress server_ip);
-    sf::IpAddress GetServerIP() const;
+    void setServerIP(sf::IpAddress server_ip);
+    sf::IpAddress getServerIP() const;
 
-    void SetNick(const QString& nick);
-    const QString& GetNick() const;
+    void setNick(const QString nick);
+    const QString getNick() const;
 
-    static void InputThread(void* user_data);
+    static void inputThread(void* user_data);
 private slots:
-    void _HandleEvent(std::shared_ptr<dt::NetworkEvent> e);
+    void _handleEvent(std::shared_ptr<dt::NetworkEvent> e);
 private:
     std::shared_ptr<sf::Thread> mInputThread;
     QString mNick;

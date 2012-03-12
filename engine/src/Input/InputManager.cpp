@@ -21,36 +21,36 @@ InputManager::InputManager()
       mMouseCursorMode(InputManager::SYSTEM),
       mJailInput(false) {}
 
-void InputManager::Initialize() {
+void InputManager::initialize() {
     if(mInputSystem != nullptr) {
-        Logger::Get().Warning("Input system already initialized. Aborting.");
+        Logger::get().warning("Input system already initialized. Aborting.");
         return;
     }
 
     if(mWindow == nullptr) {
-        Logger::Get().Warning("Cannot initialize InputManager: no window set.");
+        Logger::get().warning("Cannot initialize InputManager: no window set.");
         return;
     }
 
-    _CreateInputSystem();
+    _createInputSystem();
 
     // Register as a Window listener
     Ogre::WindowEventUtilities::addWindowEventListener(mWindow, this);
 }
 
-void InputManager::Deinitialize() {
-    _DestroyInputSystem();
+void InputManager::deinitialize() {
+    _destroyInputSystem();
 }
 
-InputManager* InputManager::Get() {
-    return Root::GetInstance().GetInputManager();
+InputManager* InputManager::get() {
+    return Root::getInstance().getInputManager();
 }
 
-void InputManager::SetWindow(Ogre::RenderWindow* window) {
+void InputManager::setWindow(Ogre::RenderWindow* window) {
     mWindow = window;
 }
 
-void InputManager::Capture() {
+void InputManager::capture() {
     if(mInputSystem != nullptr) {
         // the system has been initialized
         mMouse->capture();
@@ -58,11 +58,11 @@ void InputManager::Capture() {
     }
 }
 
-void InputManager::SetJailInput(bool jail_input) {
+void InputManager::setJailInput(bool jail_input) {
     mJailInput =  jail_input;
 }
 
-bool InputManager::GetJailInput() const {
+bool InputManager::getJailInput() const {
     return mJailInput;
 }
 
@@ -106,46 +106,46 @@ void InputManager::windowResized(Ogre::RenderWindow* window) {
 void InputManager::windowClosed(Ogre::RenderWindow* window) {
     // Only close for window that created OIS
     if(window == mWindow) {
-        Logger::Get().Info("The window was closed");
-        emit WindowClosed();
+        Logger::get().info("The window was closed");
+        emit windowClosed();
     }
 }
 
-OIS::Mouse* InputManager::GetMouse() {
+OIS::Mouse* InputManager::getMouse() {
     return mMouse;
 }
 
-OIS::Keyboard* InputManager::GetKeyboard() {
+OIS::Keyboard* InputManager::getKeyboard() {
     return mKeyboard;
 }
 
-void InputManager::SetMouseCursorMode(InputManager::MouseCursorMode mode) {
+void InputManager::setMouseCursorMode(InputManager::MouseCursorMode mode) {
     if(mMouseCursorMode == mode) {
         // don't do anything
         return;
     }
 
-    GuiManager::Get()->SetMouseCursorVisible(mode == InputManager::GRAPHICAL);
+    GuiManager::get()->setMouseCursorVisible(mode == InputManager::GRAPHICAL);
 
     mMouseCursorMode = mode;
 
     // restart the input system with the correct settings, so
     // the cursor visibility is being applied
-    _ResetInputSystem();
+    _resetInputSystem();
 }
 
-InputManager::MouseCursorMode InputManager::GetMouseCursorMode() const {
+InputManager::MouseCursorMode InputManager::getMouseCursorMode() const {
     return mMouseCursorMode;
 }
 
-void InputManager::_ResetInputSystem() {
-    _DestroyInputSystem();
-    _CreateInputSystem();
+void InputManager::_resetInputSystem() {
+    _destroyInputSystem();
+    _createInputSystem();
 }
 
-void InputManager::_DestroyInputSystem() {
+void InputManager::_destroyInputSystem() {
     if(mInputSystem != nullptr) {
-        Logger::Get().Info("Deinitializing input system");
+        Logger::get().info("Deinitializing input system");
         mInputSystem->destroyInputObject(mMouse);
         mInputSystem->destroyInputObject(mKeyboard);
         OIS::InputManager::destroyInputSystem(mInputSystem);
@@ -153,13 +153,13 @@ void InputManager::_DestroyInputSystem() {
     }
 }
 
-void InputManager::_CreateInputSystem() {
+void InputManager::_createInputSystem() {
     OIS::ParamList params;
 
     // getting window handle
     size_t window_handle = 0;
     mWindow->getCustomAttribute("WINDOW", &window_handle);
-    params.insert(std::make_pair(std::string("WINDOW"), Utils::ToStdString(Utils::ToString(window_handle))));
+    params.insert(std::make_pair(std::string("WINDOW"), Utils::toStdString(Utils::toString(window_handle))));
     if(!mJailInput) {
 // THIS IS TOTALLY BROKEN AND NEEDS FIXING
 #if defined OIS_WIN32_PLATFORM
@@ -181,7 +181,7 @@ void InputManager::_CreateInputSystem() {
     params.insert(std::make_pair(std::string("x11_mouse_hide"), std::string(mMouseCursorMode == InputManager::SYSTEM ? "false" : "true")));
 #endif
 
-    Logger::Get().Info("Initializing input system (Window: " + Utils::ToString(window_handle) + ")");
+    Logger::get().info("Initializing input system (Window: " + Utils::toString(window_handle) + ")");
     mInputSystem = OIS::InputManager::createInputSystem(params);
 
     mKeyboard = static_cast<OIS::Keyboard*>(mInputSystem->createInputObject(OIS::OISKeyboard, true));

@@ -18,19 +18,19 @@ Connection::Connection(sf::IpAddress address, uint16_t port)
 
 Connection::~Connection() {}
 
-void Connection::SetIPAddress(sf::IpAddress address) {
+void Connection::setIPAddress(sf::IpAddress address) {
     mIPAddress = address;
 }
 
-sf::IpAddress Connection::GetIPAddress() const {
+sf::IpAddress Connection::getIPAddress() const {
     return mIPAddress;
 }
 
-void Connection::SetPort(uint16_t port) {
+void Connection::setPort(uint16_t port) {
     mPort = port;
 }
 
-uint16_t Connection::GetPort() const {
+uint16_t Connection::getPort() const {
     return mPort;
 }
 

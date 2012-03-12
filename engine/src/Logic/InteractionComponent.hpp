@@ -31,69 +31,69 @@ public:
       * @param name The name of the Component.
       * @see Component
       */
-    InteractionComponent(const QString& name = "");
+    InteractionComponent(const QString name = "");
 
     /**
       * Check if there's any objects in the InteractionComponent's range. 
       * It will emit a sCheck signal when the check starts successfully.
       */
-   void Check();
+   void check();
 
     /**
       * Sets the range.
       * @param range The range to set.
       */
-    void SetRange(float range);
+    void setRange(float range);
 
     /**
       * Sets the offset.
       * @param offset The offset to set.
       */
-    void SetOffset(float offset);
+    void setOffset(float offset);
 
     /**
       * Gets the range.
       * @returns The range.
       */
-    float GetRange() const;
+    float getRange() const;
 
     /**
       * Gets the offset.
       * @returns The offset.
       */
-    float GetOffset() const;
+    float getOffset() const;
 
     /**
       * Gets the interval between two interactions.
       * @returns The interval time.
       */
-    float GetIntervalTime() const;
+    float getIntervalTime() const;
 
     /**
       * Sets the interval between two interactions.
       * @param interval_time The interval time to set.
       */
-    void SetIntervalTime(float interval_time);
+    void setIntervalTime(float interval_time);
 
     /**
       * Gets the remain time before the next interaction can be performed.
       * @returns The remain time.
       */
-    float GetRemainTime() const;
+    float getRemainTime() const;
 
     /**
       * Sets the remain time manually.
       * @param remain_time The remain time to set.
       */
-    void SetRemainTime(float remain_time);
+    void setRemainTime(float remain_time);
 
-    void OnUpdate(double time_diff);
+    void onUpdate(double time_diff);
 
     /**
       * Gets whether it's ready to perform the next interaction.
       * @returns Whether it's ready to perform the next interaction.
       */
-    bool IsReady() const;
+    bool isReady() const;
 
 protected:
     /**
@@ -101,7 +101,7 @@ protected:
       * @param start The absolute starting position for the check.
       * @param end The absolute ending position for the check.
       */
-    virtual void OnCheck(const btVector3& start, const btVector3& end) = 0;
+    virtual void onCheck(const btVector3& start, const btVector3& end) = 0;
 
 signals:
     /**

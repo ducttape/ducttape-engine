@@ -12,28 +12,28 @@
 
 namespace dt {
 
-bool MouseState::IsButtonDown(int button) {
-    return InputManager::Get()->GetMouse()->getMouseState().buttonDown(static_cast<OIS::MouseButtonID>(button));
+bool MouseState::isButtonDown(int button) {
+    return InputManager::get()->getMouse()->getMouseState().buttonDown(static_cast<OIS::MouseButtonID>(button));
 }
 
-bool MouseState::IsLeftButtonDown() {
-    return IsButtonDown(OIS::MB_Left);
+bool MouseState::isLeftButtonDown() {
+    return isButtonDown(OIS::MB_Left);
 }
 
-bool MouseState::IsRightButtonDown() {
-    return IsButtonDown(OIS::MB_Right);
+bool MouseState::isRightButtonDown() {
+    return isButtonDown(OIS::MB_Right);
 }
 
-bool MouseState::IsMiddleButtonDown() {
-    return IsButtonDown(OIS::MB_Middle);
+bool MouseState::isMiddleButtonDown() {
+    return isButtonDown(OIS::MB_Middle);
 }
 
-int MouseState::GetX() {
-    return InputManager::Get()->GetMouse()->getMouseState().X.abs;
+int MouseState::getX() {
+    return InputManager::get()->getMouse()->getMouseState().X.abs;
 }
 
-int MouseState::GetY() {
-    return InputManager::Get()->GetMouse()->getMouseState().Y.abs;
+int MouseState::getY() {
+    return InputManager::get()->getMouse()->getMouseState().Y.abs;
 }
 
 }

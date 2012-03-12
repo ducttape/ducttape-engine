@@ -14,23 +14,23 @@
 
 namespace dt {
 
-Logger::Logger(const QString& name)
+Logger::Logger(const QString name)
     : mName(name) {
-    GetStream("debug")->SetFormat(  dt::LogStream::COLOR_CYAN   + "%2$8s: " + dt::LogStream::COLOR_NONE + "%3$s");
-    GetStream("info")->SetFormat(   dt::LogStream::COLOR_BLUE   + "%2$8s: " + dt::LogStream::COLOR_NONE + "%3$s");
-    GetStream("error")->SetFormat(  dt::LogStream::COLOR_RED    + "%2$8s: " + dt::LogStream::COLOR_NONE + "%3$s");
-    GetStream("warning")->SetFormat(dt::LogStream::COLOR_YELLOW + "%2$8s: " + dt::LogStream::COLOR_NONE + "%3$s");
+    getStream("debug")->setFormat(  dt::LogStream::COLOR_CYAN   + "%2$8s: " + dt::LogStream::COLOR_NONE + "%3$s");
+    getStream("info")->setFormat(   dt::LogStream::COLOR_BLUE   + "%2$8s: " + dt::LogStream::COLOR_NONE + "%3$s");
+    getStream("error")->setFormat(  dt::LogStream::COLOR_RED    + "%2$8s: " + dt::LogStream::COLOR_NONE + "%3$s");
+    getStream("warning")->setFormat(dt::LogStream::COLOR_YELLOW + "%2$8s: " + dt::LogStream::COLOR_NONE + "%3$s");
 }
 
-void Logger::Log(const QString& level, const QString& msg) {
-    LogStream* stream = GetStream(level.toUpper());
-    stream->Output(this, msg);
+void Logger::log(const QString level, const QString msg) {
+    LogStream* stream = getStream(level.toUpper());
+    stream->output(this, msg);
 }
 
-LogStream* Logger::GetStream(const QString& streamname) {
+LogStream* Logger::getStream(const QString streamname) {
     QString name(streamname.toUpper());
     for(auto iter = mStreams.begin(); mStreams.end() != iter; ++iter) {
-        if(name == iter->GetName().toUpper()) {
+        if(name == iter->getName().toUpper()) {
             return &(*iter);
         }
     }
@@ -39,36 +39,36 @@ LogStream* Logger::GetStream(const QString& streamname) {
 }
 
 
-void Logger::Debug(const QString& msg) {
-    Log("DEBUG", msg);
+void Logger::debug(const QString msg) {
+    log("DEBUG", msg);
 }
 
-void Logger::Info(const QString& msg) {
-    Log("INFO", msg);
+void Logger::info(const QString msg) {
+    log("INFO", msg);
 }
 
-void Logger::Warning(const QString& msg) {
-    Log("WARNING", msg);
+void Logger::warning(const QString msg) {
+    log("WARNING", msg);
 }
 
-void Logger::Error(const QString& msg) {
-    Log("ERROR", msg);
+void Logger::error(const QString msg) {
+    log("ERROR", msg);
 }
 
-void Logger::SetName(const QString& name) {
+void Logger::setName(const QString name) {
     mName = name;
 }
 
-const QString& Logger::GetName() const {
+const QString Logger::getName() const {
     return mName;
 }
 
-Logger& Logger::Get() {
-    return GetByName("default");
+Logger& Logger::get() {
+    return getByName("default");
 }
 
-Logger& Logger::GetByName(const QString& name) {
-    return LogManager::Get()->GetLogger(name);
+Logger& Logger::getByName(const QString name) {
+    return LogManager::get()->getLogger(name);
 }
 
 } // namespace dt

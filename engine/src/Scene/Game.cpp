@@ -24,18 +24,20 @@ Game::Game()
     : mIsShutdownRequested(false),
       mIsRunning(false) {}
 
-void Game::Run(State* start_state, int argc, char** argv) {
-    Root& root = Root::GetInstance();
+void Game::run(State* start_state, int argc, char** argv) {
+    Root& root = Root::getInstance();
 
-    root.Initialize(argc, argv);
-    root.GetStateManager()->SetNewState(start_state);
-    QObject::connect(root.GetInputManager(), SIGNAL(WindowClosed()), this, SLOT(RequestShutdown()));
+    root.initialize(argc, argv);
+    root.getStateManager()->setNewState(start_state);
+    QObject::connect(root.getInputManager(), SIGNAL(windowClosed()),
+                     this,                   SLOT(requestShutdown()));
     //connect BeginFrames to things that need it, like State/Scenes and the PhysicsManager
-    QObject::connect(this, SIGNAL(BeginFrame(double)), root.GetStateManager(), SIGNAL(BeginFrame(double)), Qt::DirectConnection);
-    QObject::connect(this, SIGNAL(BeginFrame(double)), (QObject*)root.GetPhysicsManager(),
-            SLOT(UpdateFrame(double)), Qt::DirectConnection);
+    QObject::connect(this,                   SIGNAL(beginFrame(double)),
+                     root.getStateManager(), SIGNAL(beginFrame(double)), Qt::DirectConnection);
+    QObject::connect(this,                               SIGNAL(beginFrame(double)),
+                     (QObject*)root.getPhysicsManager(), SLOT(updateFrame(double)), Qt::DirectConnection);
 
-    mClock.Restart();
+    mClock.restart();
     mIsRunning = true;
 
     // read http://gafferongames.com/game-physics/fix-your-timestep for more
@@ -48,27 +50,27 @@ void Game::Run(State* start_state, int argc, char** argv) {
     while(!mIsShutdownRequested) {
         // TIMING
         // TODO: Implement real timing instead of just getting the time difference
-        double frame_time = mClock.GetElapsedTime().AsSeconds();
-        mClock.Restart();
+        double frame_time = mClock.getElapsedTime().asSeconds();
+        mClock.restart();
 
         // Shift states and cancel if none are left
-        if(!root.GetStateManager()->ShiftStates())
+        if(!root.getStateManager()->shiftStates())
             break;
 
         // INPUT
-        InputManager::Get()->Capture();
+        InputManager::get()->capture();
 
         accumulator += frame_time;
         while(accumulator >= simulation_frame_time) {
-            anti_spiral_clock.Restart();
+            anti_spiral_clock.restart();
             // SIMULATION
-            emit BeginFrame(simulation_frame_time);
+            emit beginFrame(simulation_frame_time);
 
 
             // NETWORKING
-            root.GetNetworkManager()->SendQueuedEvents();
+            root.getNetworkManager()->sendQueuedEvents();
 
-            double real_simulation_time = anti_spiral_clock.GetElapsedTime().AsSeconds();
+            double real_simulation_time = anti_spiral_clock.getElapsedTime().asSeconds();
             if(real_simulation_time > simulation_frame_time) {
                 // this is bad! the simulation did not render fast enough
                 // to have some time left for rendering etc.
@@ -83,39 +85,39 @@ void Game::Run(State* start_state, int argc, char** argv) {
 
         // DISPLAYING
         // Won't work without a CameraComponent which initializes the render system!
-        root.GetDisplayManager()->Render();
+        root.getDisplayManager()->render();
 
         // Update the listener.
-        auto main_camera = root.GetDisplayManager()->GetMainCamera();
+        auto main_camera = root.getDisplayManager()->getMainCamera();
         if(main_camera != nullptr) {
-            auto pos = main_camera->GetNode()->GetPosition();
-            auto dir = main_camera->GetCamera()->getDirection();
-            sf::Listener::SetPosition(pos.x, pos.y, pos.z);
-            sf::Listener::SetDirection(dir.x, dir.y, dir.z);
+            auto pos = main_camera->getNode()->getPosition();
+            auto dir = main_camera->getCamera()->getDirection();
+            sf::Listener::setPosition(pos.x, pos.y, pos.z);
+            sf::Listener::setDirection(dir.x, dir.y, dir.z);
         }
 
-        sf::Sleep(sf::Milliseconds(5));
+        sf::sleep(sf::milliseconds(5));
     }
 
     // Send the GoodbyeEvent to close the network connection.
-    root.GetNetworkManager()->QueueEvent(std::make_shared<GoodbyeEvent>("The client closed the session."));
-    root.GetNetworkManager()->SendQueuedEvents();
+    root.getNetworkManager()->queueEvent(std::make_shared<GoodbyeEvent>("The client closed the session."));
+    root.getNetworkManager()->sendQueuedEvents();
 
     mIsRunning = false;
 
-    root.Deinitialize();
+    root.deinitialize();
 }
 
-void Game::RequestShutdown() {
-    if(OnShutdownRequested())
+void Game::requestShutdown() {
+    if(onShutdownRequested())
         mIsShutdownRequested = true;
 }
 
-bool Game::OnShutdownRequested() {
+bool Game::onShutdownRequested() {
     return true;
 }
 
-bool Game::IsRunning() {
+bool Game::isRunning() {
     return mIsRunning;
 }
 

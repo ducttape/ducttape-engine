@@ -32,7 +32,7 @@ class TestComponent : public dt::Component {
     Q_OBJECT
 
 public:
-    TestComponent(const QString& name);
+    TestComponent(const QString name);
     void OnInitialize();
     void OnDeinitialize();
 

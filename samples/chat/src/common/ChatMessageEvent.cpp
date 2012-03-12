@@ -8,30 +8,30 @@
 
 #include "ChatMessageEvent.hpp"
 
-ChatMessageEvent::ChatMessageEvent(const QString& message, const QString& sender) /*:
+ChatMessageEvent::ChatMessageEvent(const QString message, const QString sender) /*:
     MessageEvent(message)*/ {
     mSenderNick = sender;
     mMessage = message;
 }
 
-const QString ChatMessageEvent::GetType() const {
+const QString ChatMessageEvent::getType() const {
     return "CHATMESSAGEEVENT";
 }
 
-std::shared_ptr<dt::NetworkEvent> ChatMessageEvent::Clone() const {
+std::shared_ptr<dt::NetworkEvent> ChatMessageEvent::clone() const {
     std::shared_ptr<dt::NetworkEvent> ptr(new ChatMessageEvent(mMessage, mSenderNick));
     return ptr;
 }
 
-void ChatMessageEvent::Serialize(dt::IOPacket& p) {
-    p.Stream(mMessage, "message");
-    p.Stream(mSenderNick, "sender_nick");
+void ChatMessageEvent::serialize(dt::IOPacket& p) {
+    p.stream(mMessage, "message");
+    p.stream(mSenderNick, "sender_nick");
 }
 
-const QString& ChatMessageEvent::GetSenderNick() const {
+const QString ChatMessageEvent::getSenderNick() const {
     return mSenderNick;
 }
 
-const QString& ChatMessageEvent::GetMessageText() const {
+const QString ChatMessageEvent::getMessageText() const {
     return mMessage;
 }

@@ -15,26 +15,26 @@ namespace dt {
 
 namespace Utils {
 
-std::string ToStdString(const QString& qstring) {
+std::string toStdString(const QString qstring) {
     return std::string(qstring.toLocal8Bit().data());
 }
 
 uint32_t mAutoId = 0;
 
-uint32_t AutoId() {
+uint32_t autoId() {
     mAutoId++;
     return mAutoId;
 }
 
-boost::uuids::uuid GenerateUUIDRandom() {
+boost::uuids::uuid generateUUIDRandom() {
     boost::uuids::random_generator gen;
     boost::uuids::uuid uuid = gen();
     return uuid;
 }
 
-boost::uuids::uuid GenerateUUIDFromString(const QString& qstring) {
+boost::uuids::uuid generateUUIDFromString(const QString qstring) {
     boost::uuids::string_generator gen;
-    boost::uuids::uuid uuid = gen(ToStdString(qstring));
+    boost::uuids::uuid uuid = gen(toStdString(qstring));
     return uuid;
 }
 

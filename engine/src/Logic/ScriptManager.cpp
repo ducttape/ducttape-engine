@@ -23,19 +23,19 @@ namespace dt {
 
 ScriptManager::ScriptManager() {}
 
-void ScriptManager::Initialize() {
+void ScriptManager::initialize() {
     mScriptEngine = new QScriptEngine();
 
     // setup globals and engine info
     mGlobalObject = mScriptEngine->globalObject();
     mGlobalObject.setProperty("DT_VERSION", DUCTTAPE_VERSION);
     // redirect print output
-    mGlobalObject.setProperty("print", mScriptEngine->newFunction(&ScriptManager::ScriptPrintFunction));
+    mGlobalObject.setProperty("print", mScriptEngine->newFunction(&ScriptManager::scriptPrintFunction));
 
-    QScriptValue display_manager = mScriptEngine->newQObject(DisplayManager::Get());
+    QScriptValue display_manager = mScriptEngine->newQObject(DisplayManager::get());
     mScriptEngine->globalObject().setProperty("DisplayManager", display_manager);
 
-    QScriptValue gui_root = mScriptEngine->newQObject(& GuiManager::Get()->GetRootWindow());
+    QScriptValue gui_root = mScriptEngine->newQObject(& GuiManager::get()->getRootWindow());
     mScriptEngine->globalObject().setProperty("Gui", gui_root);
 
     QScriptValue keyboard = mScriptEngine->newQObject(new KeyboardState());
@@ -45,39 +45,39 @@ void ScriptManager::Initialize() {
     mScriptEngine->globalObject().setProperty("Mouse", mouse);
 }
 
-void ScriptManager::Deinitialize() {}
+void ScriptManager::deinitialize() {}
 
-ScriptManager* ScriptManager::Get() {
-    return Root::GetInstance().GetScriptManager();
+ScriptManager* ScriptManager::get() {
+    return Root::getInstance().getScriptManager();
 }
 
-bool ScriptManager::AddScript(QString script, QString name) {
+bool ScriptManager::addScript(QString script, QString name) {
     if(name == "") {
-        Logger::Get().Error("Cannot add script without name.");
+        Logger::get().error("Cannot add script without name.");
         return false;
     }
 
-    if(HasScript(name)) {
-        Logger::Get().Error("Cannot add script \"" + name + "\": a script with this name already exists.");
+    if(hasScript(name)) {
+        Logger::get().error("Cannot add script \"" + name + "\": a script with this name already exists.");
         return false;
     }
 
     // check the syntax
     QScriptSyntaxCheckResult syntax = mScriptEngine->checkSyntax(script);
     if(syntax.state() != QScriptSyntaxCheckResult::Valid) {
-        Logger::Get().Error("Syntax error in script \"" + name + "\" at line "
-                            + Utils::ToString(syntax.errorLineNumber()) + " column "
-                            + Utils::ToString(syntax.errorColumnNumber()) + ":");
-        Logger::Get().Error("    " +  syntax.errorMessage());
+        Logger::get().error("Syntax error in script \"" + name + "\" at line "
+                            + Utils::toString(syntax.errorLineNumber()) + " column "
+                            + Utils::toString(syntax.errorColumnNumber()) + ":");
+        Logger::get().error("    " +  syntax.errorMessage());
     } else {
-        Logger::Get().Debug("Adding script \"" + name + "\".");
+        Logger::get().debug("Adding script \"" + name + "\".");
         mScripts[name] = QScriptProgram(script, name);
     }
     return true;
 }
 
-bool ScriptManager::LoadScript(QString path, QString name) {
-    QFileInfo&& info = ResourceManager::Get()->FindFile(path);
+bool ScriptManager::loadScript(QString path, QString name) {
+    QFileInfo&& info = ResourceManager::get()->findFile(path);
     QFile file(info.absoluteFilePath());
 
     if(!file.exists())
@@ -85,7 +85,7 @@ bool ScriptManager::LoadScript(QString path, QString name) {
 
     // check if file is open or open it
     if(!(file.isOpen() || file.open(QIODevice::ReadOnly | QIODevice::Text))) {
-        Logger::Get().Error("Cannot open file <" + path + ">: " + file.errorString());
+        Logger::get().error("Cannot open file <" + path + ">: " + file.errorString());
         return false;
     }
 
@@ -97,44 +97,44 @@ bool ScriptManager::LoadScript(QString path, QString name) {
         name = info.fileName();
     }
 
-    return AddScript(script, name);
+    return addScript(script, name);
 }
 
-bool ScriptManager::HasScript(QString name) {
+bool ScriptManager::hasScript(QString name) {
     return mScripts.contains(name);
 }
 
-void ScriptManager::UpdateContext(QScriptEngine* engine) {
+void ScriptManager::updateContext(QScriptEngine* engine) {
     if(engine == nullptr) {
         engine = mScriptEngine;
     }
 
-    engine->globalObject().setProperty("TotalTime", Root::GetInstance().GetTimeSinceInitialize());
+    engine->globalObject().setProperty("TotalTime", Root::getInstance().getTimeSinceInitialize());
 }
 
-void ScriptManager::UpdateContext(QScriptValue object) {
-    UpdateContext(object.engine());
+void ScriptManager::updateContext(QScriptValue object) {
+    updateContext(object.engine());
 }
 
-bool ScriptManager::ExecuteScript(QString name) {
-    if(name == "" || !HasScript(name)) {
-        Logger::Get().Error("Cannot execute script \"" + name + "\": script not found.");
+bool ScriptManager::executeScript(QString name) {
+    if(name == "" || !hasScript(name)) {
+        Logger::get().error("Cannot execute script \"" + name + "\": script not found.");
         return false;
     }
 
-    return _Evaluate(mScripts[name]);
+    return _evaluate(mScripts[name]);
 }
 
-bool ScriptManager::Evaluate(QString snippet, QString context) {
-    return _Evaluate(QScriptProgram(snippet, context));
+bool ScriptManager::evaluate(QString snippet, QString context) {
+    return _evaluate(QScriptProgram(snippet, context));
 }
 
-QScriptValue ScriptManager::GetLastReturnValue() {
+QScriptValue ScriptManager::getLastReturnValue() {
     return mLastReturnValue;
 }
 
-QScriptValue ScriptManager::GetScriptObject(QString name, ScriptComponent* component) {
-    if(!HasScript(name)) {
+QScriptValue ScriptManager::getScriptObject(QString name, ScriptComponent* component) {
+    if(!hasScript(name)) {
         return QScriptValue::UndefinedValue;
     }
 
@@ -144,7 +144,7 @@ QScriptValue ScriptManager::GetScriptObject(QString name, ScriptComponent* compo
 
     // write script members/functions as properties into global object
     // like this we have the same engine linked, so the
-    ExecuteScript(name);
+    executeScript(name);
 
     // extract the global object and reset the original one
     QScriptValue obj(mScriptEngine->globalObject());
@@ -154,43 +154,43 @@ QScriptValue ScriptManager::GetScriptObject(QString name, ScriptComponent* compo
     QScriptValue componentObject = mScriptEngine->newQObject(component);
     QScriptValue prop = obj.property("component");
     if(prop.isValid()) {
-        Logger::Get().Warning("Overriding member \"component\" in script \"" + name + "\" with ScriptComponent \"" + component->GetName() + "\".");
-        Logger::Get().Info(" > Previous Value: " + prop.toString());
-        Logger::Get().Info(" > Previous  Type: " + QString(prop.toVariant().typeName()) );
+        Logger::get().warning("Overriding member \"component\" in script \"" + name + "\" with ScriptComponent \"" + component->getName() + "\".");
+        Logger::get().info(" > Previous Value: " + prop.toString());
+        Logger::get().info(" > Previous  Type: " + QString(prop.toVariant().typeName()) );
     }
     obj.setProperty("component", componentObject);
 
     return obj;
 }
 
-QScriptEngine* ScriptManager::GetScriptEngine() {
+QScriptEngine* ScriptManager::getScriptEngine() {
     return mScriptEngine;
 }
 
-bool ScriptManager::HandleErrors(QString context) {
+bool ScriptManager::handleErrors(QString context) {
     if(mScriptEngine->hasUncaughtException()) {
         int line = mScriptEngine->uncaughtExceptionLineNumber();
-        Logger::Get().Error( QString("SCRIPT EXCEPTION -- %1:%2 -- %3").arg(context,
-                Utils::ToString(line), mLastReturnValue.toString()) );
+        Logger::get().error( QString("SCRIPT EXCEPTION -- %1:%2 -- %3").arg(context,
+                Utils::toString(line), mLastReturnValue.toString()) );
         return false;
     }
 
     return true;
 }
 
-QScriptValue ScriptManager::ScriptPrintFunction(QScriptContext* context, QScriptEngine* engine) {
+QScriptValue ScriptManager::scriptPrintFunction(QScriptContext* context, QScriptEngine* engine) {
     QString line;
     for(int i = 0; i < context->argumentCount(); ++i) {
         // append the argument, converted to string
         line.append(context->argument(i).toString());
     }
-    Logger::Get().Info("Script output: " + line);
+    Logger::get().info("Script output: " + line);
     return engine->undefinedValue();
 }
 
-bool ScriptManager::_Evaluate(QScriptProgram program) {
+bool ScriptManager::_evaluate(QScriptProgram program) {
     mLastReturnValue = mScriptEngine->evaluate(program);
-    return HandleErrors(program.fileName());
+    return handleErrors(program.fileName());
 }
 
 }

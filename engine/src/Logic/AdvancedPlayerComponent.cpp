@@ -17,7 +17,7 @@
 
 namespace dt {
 
-AdvancedPlayerComponent::AdvancedPlayerComponent(const QString& name)
+AdvancedPlayerComponent::AdvancedPlayerComponent(const QString name)
     : Component(name),
       mBtController(nullptr),
       mBtGhostObject(nullptr),
@@ -34,11 +34,11 @@ AdvancedPlayerComponent::AdvancedPlayerComponent(const QString& name)
       mIsLeftMouseDown(false),
       mIsRightMouseDown(false) {}
 
-void AdvancedPlayerComponent::OnInitialize() {
+void AdvancedPlayerComponent::onInitialize() {
     btTransform  start_trans;
     start_trans.setIdentity();
-    start_trans.setOrigin(BtOgre::Convert::toBullet(GetNode()->GetPosition(Node::SCENE)));
-    start_trans.setRotation(BtOgre::Convert::toBullet(GetNode()->GetRotation(Node::SCENE)));
+    start_trans.setOrigin(BtOgre::Convert::toBullet(getNode()->getPosition(Node::SCENE)));
+    start_trans.setRotation(BtOgre::Convert::toBullet(getNode()->getRotation(Node::SCENE)));
 
     btScalar character_height = 1.75;
     btScalar character_width = 0.44;
@@ -55,69 +55,69 @@ void AdvancedPlayerComponent::OnInitialize() {
     /////////////////////////////////////////////////////////////////////////////////////////////////
     mBtController = std::shared_ptr<btKinematicCharacterController>
         (new btKinematicCharacterController(mBtGhostObject.get(), capsule, 1));
-    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addCollisionObject(mBtGhostObject.get());
-    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addAction(mBtController.get());
+    getNode()->getScene()->getPhysicsWorld()->getBulletWorld()->addCollisionObject(mBtGhostObject.get());
+    getNode()->getScene()->getPhysicsWorld()->getBulletWorld()->addAction(mBtController.get());
 
-    if(!QObject::connect(InputManager::Get(), SIGNAL(sKeyPressed(const OIS::KeyEvent&)), 
-        this, SLOT(_HandleKeyDown(const OIS::KeyEvent&)))) {
-            Logger::Get().Error("Cannot connect the key pressed signal with " + GetName()
+    if(!QObject::connect(InputManager::get(), SIGNAL(sKeyPressed(const OIS::KeyEvent&)),
+                         this,                SLOT(_handleKeyDown(const OIS::KeyEvent&)))) {
+            Logger::get().error("Cannot connect the key pressed signal with " + getName()
                 + "'s keyboard input handling slot.");
     }
-    if(!QObject::connect(InputManager::Get(), SIGNAL(sKeyReleased(const OIS::KeyEvent&)), 
-        this, SLOT(_HandleKeyUp(const OIS::KeyEvent&)))) {
-            Logger::Get().Error("Cannot connect the key released signal with " + GetName()
+    if(!QObject::connect(InputManager::get(), SIGNAL(sKeyReleased(const OIS::KeyEvent&)),
+                         this,                SLOT(_handleKeyUp(const OIS::KeyEvent&)))) {
+            Logger::get().error("Cannot connect the key released signal with " + getName()
                 + "'s keyboard input handling slot.");
     }
-    if(!QObject::connect(InputManager::Get(), SIGNAL(sMouseMoved(const OIS::MouseEvent&)), 
-        this, SLOT(_HandleMouseMove(const OIS::MouseEvent&)))) {
-            Logger::Get().Error("Cannot connect the mouse moved signal with " + GetName()
+    if(!QObject::connect(InputManager::get(), SIGNAL(sMouseMoved(const OIS::MouseEvent&)),
+                         this,                SLOT(_HandleMouseMove(const OIS::MouseEvent&)))) {
+            Logger::get().error("Cannot connect the mouse moved signal with " + getName()
                 + "'s mouse input handling slot.");
     }
-    if(!QObject::connect(InputManager::Get(), SIGNAL(sMousePressed(const OIS::MouseEvent&, OIS::MouseButtonID)), 
-        this, SLOT(_HandleMouseDown(const OIS::MouseEvent&, OIS::MouseButtonID)))) {
-            Logger::Get().Error("Cannot connect the mouse moved signal with " + GetName()
+    if(!QObject::connect(InputManager::get(), SIGNAL(sMousePressed(const OIS::MouseEvent&, OIS::MouseButtonID)),
+                         this,                SLOT(_HandleMouseDown(const OIS::MouseEvent&, OIS::MouseButtonID)))) {
+            Logger::get().error("Cannot connect the mouse moved signal with " + getName()
                 + "'s mouse input handling slot.");
     }
-    if(!QObject::connect(InputManager::Get(), SIGNAL(sMouseReleased(const OIS::MouseEvent&, OIS::MouseButtonID)), 
-        this, SLOT(_HandleMouseUp(const OIS::MouseEvent&, OIS::MouseButtonID)))) {
-            Logger::Get().Error("Cannot connect the mouse moved signal with " + GetName()
+    if(!QObject::connect(InputManager::get(), SIGNAL(sMouseReleased(const OIS::MouseEvent&, OIS::MouseButtonID)),
+                         this,                SLOT(_handleMouseUp(const OIS::MouseEvent&, OIS::MouseButtonID)))) {
+            Logger::get().error("Cannot connect the mouse moved signal with " + getName()
                 + "'s mouse input handling slot.");
     }
 }
 
-void AdvancedPlayerComponent::OnEnable() {
-    SetKeyboardEnabled(true);
-    SetMouseEnabled(true);
+void AdvancedPlayerComponent::onEnable() {
+    setKeyboardEnabled(true);
+    setMouseEnabled(true);
 
     //Re-sychronize it.
     btTransform transform;
     transform.setIdentity();
-    transform.setOrigin(BtOgre::Convert::toBullet(GetNode()->GetPosition(Node::SCENE)));
-    transform.setRotation(BtOgre::Convert::toBullet(GetNode()->GetRotation(Node::SCENE)));
+    transform.setOrigin(BtOgre::Convert::toBullet(getNode()->getPosition(Node::SCENE)));
+    transform.setRotation(BtOgre::Convert::toBullet(getNode()->getRotation(Node::SCENE)));
 
     mBtGhostObject->setWorldTransform(transform);
-    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addCollisionObject(mBtGhostObject.get());
+    getNode()->getScene()->getPhysicsWorld()->getBulletWorld()->addCollisionObject(mBtGhostObject.get());
 }
 
-void AdvancedPlayerComponent::OnDisable() {
-    SetKeyboardEnabled(false);
-    SetMouseEnabled(false);
+void AdvancedPlayerComponent::onDisable() {
+    setKeyboardEnabled(false);
+    setMouseEnabled(false);
 
-    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->removeCollisionObject(mBtGhostObject.get());
+    getNode()->getScene()->getPhysicsWorld()->getBulletWorld()->removeCollisionObject(mBtGhostObject.get());
 }
 
-void AdvancedPlayerComponent::OnUpdate(double time_diff) {
+void AdvancedPlayerComponent::onUpdate(double time_diff) {
     static Ogre::Vector3 move;
     static Ogre::Quaternion quaternion;
     static btTransform trans;
 
-    quaternion = Ogre::Quaternion(GetNode()->GetRotation().getYaw(), Ogre::Vector3(0.0, 1.0, 0.0));
+    quaternion = Ogre::Quaternion(getNode()->getRotation().getYaw(), Ogre::Vector3(0.0, 1.0, 0.0));
     move = quaternion * BtOgre::Convert::toOgre(mMove) * mMoveSpeed;
     mBtController->setVelocityForTimeInterval(BtOgre::Convert::toBullet(move), 0.5);
 
     trans = mBtGhostObject->getWorldTransform();
 
-    GetNode()->SetPosition(BtOgre::Convert::toOgre(trans.getOrigin()), Node::SCENE);
+    getNode()->setPosition(BtOgre::Convert::toOgre(trans.getOrigin()), Node::SCENE);
 
     if(!move.isZeroLength() && mBtController->onGround() && !mIsMoving) {
         //Emit sMove when the player starts to move when he's stopping or has done jumpping.
@@ -131,7 +131,7 @@ void AdvancedPlayerComponent::OnUpdate(double time_diff) {
     }
 
     if(mIsLeftMouseDown || mIsRightMouseDown) {
-        _OnMouseTriggered();
+        _onMouseTriggered();
 
         if(mIsLeftOneShot) {
             mIsLeftMouseDown = false;
@@ -143,26 +143,26 @@ void AdvancedPlayerComponent::OnUpdate(double time_diff) {
 
 }
 
-void AdvancedPlayerComponent::SetKeyboardEnabled(bool is_keyboard_enabled) {
+void AdvancedPlayerComponent::setKeyboardEnabled(bool is_keyboard_enabled) {
     mKeyboardEnabled = is_keyboard_enabled;
 
     if(!mKeyboardEnabled)
         mMove.setZero();
 }
 
-bool AdvancedPlayerComponent::GetKeyboardEnabled() const {
+bool AdvancedPlayerComponent::getKeyboardEnabled() const {
     return mKeyboardEnabled;
 }
 
-void AdvancedPlayerComponent::SetMoveSpeed(float move_speed) {
+void AdvancedPlayerComponent::setMoveSpeed(float move_speed) {
     mMoveSpeed = move_speed;
 }
 
-float AdvancedPlayerComponent::GetMoveSpeed() const {
+float AdvancedPlayerComponent::getMoveSpeed() const {
     return mMoveSpeed;
 }
 
-void AdvancedPlayerComponent::SetMouseEnabled(bool mouse_enabled) {
+void AdvancedPlayerComponent::setMouseEnabled(bool mouse_enabled) {
     mMouseEnabled = mouse_enabled;
 
     if(!mMouseEnabled) {
@@ -171,35 +171,35 @@ void AdvancedPlayerComponent::SetMouseEnabled(bool mouse_enabled) {
     }
 }
 
-bool AdvancedPlayerComponent::GetMouseEnabled() const {
+bool AdvancedPlayerComponent::getMouseEnabled() const {
     return mMouseEnabled;
 }
 
-void AdvancedPlayerComponent::SetMouseSensitivity(float mouse_sensitivity) {
+void AdvancedPlayerComponent::setMouseSensitivity(float mouse_sensitivity) {
     mMouseSensitivity = mouse_sensitivity;
 }
 
-float AdvancedPlayerComponent::GetMouseSensitivity() const {
+float AdvancedPlayerComponent::getMouseSensitivity() const {
     return mMouseSensitivity;
 }
 
-void AdvancedPlayerComponent::SetMouseYInversed(bool mouse_y_inversed) {
+void AdvancedPlayerComponent::setMouseYInversed(bool mouse_y_inversed) {
     mMouseYInversed = mouse_y_inversed;
 }
 
-bool AdvancedPlayerComponent::GetMouseYInversed() const {
+bool AdvancedPlayerComponent::getMouseYInversed() const {
     return mMouseYInversed;
 }
 
-void AdvancedPlayerComponent::SetJumpEnabled(bool jump_enabled) {
+void AdvancedPlayerComponent::setJumpEnabled(bool jump_enabled) {
     mJumpEnabled = jump_enabled;
 }
 
-bool AdvancedPlayerComponent::GetJumpEnabled() const{
+bool AdvancedPlayerComponent::getJumpEnabled() const{
     return mJumpEnabled;
 }
 
-void AdvancedPlayerComponent::_HandleKeyDown(const OIS::KeyEvent& event) {
+void AdvancedPlayerComponent::_handleKeyDown(const OIS::KeyEvent& event) {
     if(mKeyboardEnabled) {
         if(event.key == OIS::KC_W || event.key == OIS::KC_UP) {
             mMove.setZ(mMove.getZ() - 1.0f);
@@ -221,11 +221,11 @@ void AdvancedPlayerComponent::_HandleKeyDown(const OIS::KeyEvent& event) {
             emit sJump();
         }
 
-        _OnKeyDown(event);
+        _onKeyDown(event);
     }
 }
 
-void AdvancedPlayerComponent::_HandleMouseMove(const OIS::MouseEvent& event) {
+void AdvancedPlayerComponent::_handleMouseMove(const OIS::MouseEvent& event) {
     if(mMouseEnabled) {
         float factor = mMouseSensitivity * -0.01;
 
@@ -236,7 +236,7 @@ void AdvancedPlayerComponent::_HandleMouseMove(const OIS::MouseEvent& event) {
             // watch out for da gimbal lock !!
 
             Ogre::Matrix3 orientMatrix;
-            GetNode()->GetRotation().ToRotationMatrix(orientMatrix);
+            getNode()->getRotation().ToRotationMatrix(orientMatrix);
 
             Ogre::Radian yaw, pitch, roll;
             orientMatrix.ToEulerAnglesYXZ(yaw, pitch, roll);
@@ -255,14 +255,14 @@ void AdvancedPlayerComponent::_HandleMouseMove(const OIS::MouseEvent& event) {
 
             Ogre::Quaternion rot;
             rot.FromRotationMatrix(orientMatrix);
-            GetNode()->SetRotation(rot);
+            getNode()->setRotation(rot);
         }
 
-        _OnMouseMove(event);
+        _onMouseMove(event);
     }
 }
 
-void AdvancedPlayerComponent::_HandleKeyUp(const OIS::KeyEvent& event) {
+void AdvancedPlayerComponent::_handleKeyUp(const OIS::KeyEvent& event) {
     if(mKeyboardEnabled) {
         if(event.key == OIS::KC_W || event.key == OIS::KC_UP) {
             mMove.setZ(mMove.getZ() + 1.0f);
@@ -277,11 +277,11 @@ void AdvancedPlayerComponent::_HandleKeyUp(const OIS::KeyEvent& event) {
             mMove.setX(mMove.getX() - 1.0f);
         }
 
-        _OnKeyUp(event);
+        _onKeyUp(event);
     }
 }
 
-void AdvancedPlayerComponent::_HandleMouseDown(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
+void AdvancedPlayerComponent::_handleMouseDown(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
     if(mMouseEnabled) {
         if(button == OIS::MB_Left) {
             mIsLeftMouseDown = true;
@@ -290,11 +290,11 @@ void AdvancedPlayerComponent::_HandleMouseDown(const OIS::MouseEvent& event, OIS
             mIsRightMouseDown = true;
         }
 
-        _OnMouseDown(event, button);
+        _onMouseDown(event, button);
     }
 }
 
-void AdvancedPlayerComponent::_HandleMouseUp(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
+void AdvancedPlayerComponent::_handleMouseUp(const OIS::MouseEvent& event, OIS::MouseButtonID button) {
     if(mMouseEnabled) {
         if(button == OIS::MB_Left) {
             mIsLeftMouseDown = false;
@@ -303,11 +303,11 @@ void AdvancedPlayerComponent::_HandleMouseUp(const OIS::MouseEvent& event, OIS::
             mIsRightMouseDown = false;
         }
 
-        _OnMouseUp(event, button);
+        _onMouseUp(event, button);
     }
 }
 
-bool AdvancedPlayerComponent::GetIsOneShot(OIS::MouseButtonID mouse_button) const {
+bool AdvancedPlayerComponent::getIsOneShot(OIS::MouseButtonID mouse_button) const {
     if(mouse_button == OIS::MB_Left) {
         return mIsLeftOneShot;
     }
@@ -316,7 +316,7 @@ bool AdvancedPlayerComponent::GetIsOneShot(OIS::MouseButtonID mouse_button) cons
     }
 }
 
-void AdvancedPlayerComponent::SetIsOneShot(bool is_one_shot, OIS::MouseButtonID mouse_button) {
+void AdvancedPlayerComponent::setIsOneShot(bool is_one_shot, OIS::MouseButtonID mouse_button) {
     if(mouse_button == OIS::MB_Left) {
         mIsLeftOneShot = is_one_shot;
     }

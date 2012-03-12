@@ -21,52 +21,53 @@ Client::Client() {
 }
 
 void Client::OnInitialize() {
-    QObject::connect((QObject*)dt::NetworkManager::Get(), SIGNAL(NewEvent(std::shared_ptr<dt::NetworkEvent>)),
-            this, SLOT(_HandleEvent(std::shared_ptr<dt::NetworkEvent>)));
-    dt::Logger::Get().GetStream("debug")->SetDisabled(true);
-    dt::Logger::Get().GetStream("info")->SetDisabled(true);
+    QObject::connect((QObject*)dt::NetworkManager::get(), SIGNAL(newEvent(std::shared_ptr<dt::NetworkEvent>)),
+                      this,                               SLOT(_handleEvent(std::shared_ptr<dt::NetworkEvent>)));
+    dt::Logger::get().getStream("debug")->setDisabled(true);
+    dt::Logger::get().getStream("info")->setDisabled(true);
 
     std::shared_ptr<dt::NetworkEvent> ptr(new ChatMessageEvent("",""));
-    dt::NetworkManager::Get()->RegisterNetworkEventPrototype(ptr);
+    dt::NetworkManager::get()->registerNetworkEventPrototype(ptr);
 
-    dt::NetworkManager::Get()->BindSocket();
-    dt::NetworkManager::Get()->Connect(dt::Connection(mServerIP, 29876));
+    dt::NetworkManager::get()->bindSocket();
+    dt::NetworkManager::get()->connect(dt::Connection(mServerIP, 29876));
 
     mInputThread = std::shared_ptr<sf::Thread>(new sf::Thread(&Client::InputThread, this));
-    mInputThread->Launch();
+    mInputThread->launch();
 }
 
-void Client::UpdateStateFrame(double simulation_frame_time) {
-    dt::NetworkManager::Get()->HandleIncomingEvents();
-    dt::NetworkManager::Get()->SendQueuedEvents();
+void Client::updateStateFrame(double simulation_frame_time) {
+    dt::NetworkManager::get()->handleIncomingEvents();
+    dt::NetworkManager::get()->sendQueuedEvents();
 }
 
-void Client::_HandleEvent(std::shared_ptr<dt::NetworkEvent> e) {
-    if(e->GetType() == "CHATMESSAGEEVENT") {
+void Client::_handleEvent(std::shared_ptr<dt::NetworkEvent> e) {
+    if(e->getType() == "CHATMESSAGEEVENT") {
         std::shared_ptr<ChatMessageEvent> c = std::dynamic_pointer_cast<ChatMessageEvent>(e);
         //if(c->IsLocalEvent()) { // we just received this
-            std::cout << std::endl << "<" << dt::Utils::ToStdString(c->GetSenderNick()) << "> " << dt::Utils::ToStdString(c->GetMessageText()) << std::endl;
+            std::cout << std::endl << "<" << dt::Utils::toStdString(c->getSenderNick()) << "> " <<
+                         dt::Utils::toStdString(c->getMessageText()) << std::endl;
         //}
     }
 }
 
-void Client::SetServerIP(sf::IpAddress server_ip) {
+void Client::setServerIP(sf::IpAddress server_ip) {
     mServerIP = server_ip;
 }
 
-sf::IpAddress Client::GetServerIP() const {
+sf::IpAddress Client::getServerIP() const {
     return mServerIP;
 }
 
-void Client::SetNick(const QString& nick) {
+void Client::setNick(const QString nick) {
     mNick = nick;
 }
 
-const QString& Client::GetNick() const {
+const QString Client::getNick() const {
     return mNick;
 }
 
-void Client::InputThread(void* user_data) {
+void Client::inputThread(void* user_data) {
     Client* client = (Client*)user_data;
 
     while(true) {
@@ -75,15 +76,15 @@ void Client::InputThread(void* user_data) {
 
         if(in.substr(0, 6) == "/nick ") {
             QString nick = QString(in.substr(6).c_str());
-            client->SetNick(nick);
-            std::cout << "** You changed your nick to: " << dt::Utils::ToStdString(nick) << std::endl;
+            client->setNick(nick);
+            std::cout << "** You changed your nick to: " << dt::Utils::toStdString(nick) << std::endl;
         } else if(in.substr(0,5) == "/ping") {
-            std::cout << "** Your ping is: " << dt::ConnectionsManager::Get()->GetPing(1) << std::endl;
+            std::cout << "** Your ping is: " << dt::ConnectionsManager::Get()->getPing(1) << std::endl;
         } else if(in == "/quit" || in == "/exit") {
             // quit this state. the application will terminate
-            dt::StateManager::Get()->Pop();
+            dt::StateManager::get()->pop();
         } else {
-            dt::NetworkManager::Get()->QueueEvent(std::make_shared<ChatMessageEvent>(QString(in.c_str()), client->GetNick()));
+            dt::NetworkManager::get()->queueEvent(std::make_shared<ChatMessageEvent>(QString(in.c_str()), client->getNick()));
         }
     }
 }

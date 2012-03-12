@@ -15,8 +15,8 @@
 
 class Test {
 public:
-    virtual QString GetTestName() = 0;
-    virtual bool Run(int argc, char** argv) = 0;
+    virtual QString getTestName() = 0;
+    virtual bool run(int argc, char** argv) = 0;
 };
 
 #endif
