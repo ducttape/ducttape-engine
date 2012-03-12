@@ -143,6 +143,18 @@ public:
     void SetGravity(float x, float y, float z);
     
     /**
+      * Sets the friction.
+      * @param friction The new friction.
+      */
+    void SetFriction(double friction);
+
+    /**
+      * Gets the friction.
+      * @returns The friction.
+      */
+    double GetFriction() const;
+
+    /**
       * Prevents a body from sleeping when it rests. This decreases performance
       * if a large numbers of bodies are active at the same time. Normally, a body
       * would go to sleep if it doesn't move.
