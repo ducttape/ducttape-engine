@@ -13,81 +13,81 @@
 
 namespace dt {
 
-Timer::Timer(const QString& message, double interval, bool repeat, bool threaded)
+Timer::Timer(const QString message, double interval, bool repeat, bool threaded)
     : mMessage(message),
       mInterval(interval),
       mRepeat(repeat),
       mThreaded(threaded) {
     // start the timer
     if(threaded) {
-        _RunThread();
+        _runThread();
     } else {
         mTimeLeft = mInterval;
-        QObject::connect(Root::GetInstance().GetStateManager(), SIGNAL(BeginFrame(double)), 
-                this, SLOT(UpdateTimeLeft(double)));
+        QObject::connect(Root::getInstance().getStateManager(), SIGNAL(beginFrame(double)),
+                         this,                                  SLOT(updateTimeLeft(double)));
     }
 }
 
-void Timer::TriggerTickEvent() {
-    emit TimerTicked(mMessage, mInterval);
+void Timer::triggerTickEvent() {
+    emit timerTicked(mMessage, mInterval);
 
     if(mRepeat) {
         if(mThreaded) {
             while(mRepeat) {
-                sf::Sleep(sf::Seconds(GetInterval()));
-                emit TimerTicked(mMessage, mInterval);
+                sf::sleep(sf::seconds(getInterval()));
+                emit timerTicked(mMessage, mInterval);
             }
         } else {
             mTimeLeft = mInterval;
         }
     } else {
-        Stop();
+        stop();
     }
 }
 
-double Timer::GetInterval() const {
+double Timer::getInterval() const {
     return mInterval;
 }
 
-const QString& Timer::GetMessageEvent() const {
+const QString Timer::getMessageEvent() const {
     return mMessage;
 }
 
-void Timer::_RunThread() {
-    mThread = std::shared_ptr<sf::Thread>(new sf::Thread(&Timer::_ThreadFunction, this));
-    mThread->Launch();
+void Timer::_runThread() {
+    mThread = std::shared_ptr<sf::Thread>(new sf::Thread(&Timer::_threadFunction, this));
+    mThread->launch();
 }
 
-void Timer::_ThreadFunction(void* user_data) {
+void Timer::_threadFunction(void* user_data) {
     Timer* timer = (Timer*)user_data;
 
     // wait for interval, convert to milliseconds for SFML
-    sf::Sleep(sf::Seconds(timer->GetInterval()));
+    sf::sleep(sf::seconds(timer->getInterval()));
     
     // done, trigger event
-    timer->TriggerTickEvent();
+    timer->triggerTickEvent();
 }
 
-void Timer::TriggerTick() {
-    emit TimerTicked("DEBUG", mInterval);
+void Timer::triggerTick() {
+    emit timerTicked("DEBUG", mInterval);
 }
 
-void Timer::UpdateTimeLeft(const double& frame_time) {
+void Timer::updateTimeLeft(const double& frame_time) {
     mTimeLeft -= frame_time;
     if(mTimeLeft <= 0) {
-        TriggerTickEvent();
+        triggerTickEvent();
     }       
 }
 
-void Timer::Stop() {
+void Timer::stop() {
     if(mThreaded) {
-        mThread->Terminate();
+        mThread->terminate();
     } else {
-        disconnect(Root::GetInstance().GetStateManager(), SIGNAL(BeginFrame(double)), 
-                   this, SLOT(UpdateTimeLeft(double)));
+        disconnect(Root::getInstance().getStateManager(), SIGNAL(beginFrame(double)),
+                   this,                                  SLOT(updateTimeLeft(double)));
         mTimeLeft = mInterval; // reset
     }
-    emit TimerStoped();
+    emit timerStoped();
 }
 
 } // namespace dt

@@ -34,17 +34,17 @@
 
 namespace dt {
 
-void Serializer::Initialize() {
+void Serializer::initialize() {
     // TODO: add OnSerialize functions to these other components
-    RegisterComponent<SoundComponent>("dt::SoundComponent");
-    RegisterComponent<MusicComponent>("dt::MusicComponent");
+    registerComponent<SoundComponent>("dt::SoundComponent");
+    registerComponent<MusicComponent>("dt::MusicComponent");
     //RegisterComponent<BillboardSetComponent>("dt::BillboardSetComponent");
-    RegisterComponent<CameraComponent>("dt::CameraComponent");
-    RegisterComponent<LightComponent>("dt::LightComponent");
-    RegisterComponent<MeshComponent>("dt::MeshComponent");
+    registerComponent<CameraComponent>("dt::CameraComponent");
+    registerComponent<LightComponent>("dt::LightComponent");
+    registerComponent<MeshComponent>("dt::MeshComponent");
     //RegisterComponent<ParticleSystemComponent>("dt::ParticleSystemComponent");
     //RegisterComponent<TextComponent>("dt::TextComponent");
-    RegisterComponent<TriggerComponent>("dt::TriggerComponent");
+    registerComponent<TriggerComponent>("dt::TriggerComponent");
     //RegisterComponent<AdvancedPlayerComponent>("dt::AdvancedPlayerComponent");
     //RegisterComponent<CollisionComponent>("dt::CollisionComponent");
     //RegisterComponent<FollowPathComponent>("dt::FollowPathComponent");
@@ -55,15 +55,15 @@ void Serializer::Initialize() {
     //RegisterComponent<PhysicsBodyComponent>("dt::PhysicsBodyComponent");
 }
 
-void Serializer::Deinitialize() {
+void Serializer::deinitialize() {
 
 }
 
-Component* Serializer::CreateComponent(const std::string& name) {
+Component* Serializer::createComponent(const std::string& name) {
     int id = QMetaType::type(name.c_str());
-    Logger::Get().Debug("Component type ID: " + QString::number(id));
+    Logger::get().debug("Component type ID: " + QString::number(id));
     if(id == 0) {
-        Logger::Get().Error("Invalid component type: " + Utils::ToString(name) + ". Did you forget to declare it? Watch out for namespaces!");
+        Logger::get().error("Invalid component type: " + Utils::toString(name) + ". Did you forget to declare it? Watch out for namespaces!");
         exit(1);
     }
     Component* component = static_cast<Component*>(QMetaType::construct(id));

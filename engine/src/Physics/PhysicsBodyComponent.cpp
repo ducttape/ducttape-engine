@@ -17,8 +17,8 @@
 #include <BulletCollision/CollisionShapes/btBoxShape.h>
 
 namespace dt {
-PhysicsBodyComponent::PhysicsBodyComponent(const QString& mesh_component_name, 
-                                           const QString& name,
+PhysicsBodyComponent::PhysicsBodyComponent(const QString mesh_component_name,
+                                           const QString name,
                                            CollisionShapeType collision_shape_type,
                                            btScalar mass)
     : Component(name),
@@ -34,24 +34,23 @@ PhysicsBodyComponent::PhysicsBodyComponent(const QString& mesh_component_name,
       mCollisionMaskInUse(false),
       mMass(mass) {}
 
-void PhysicsBodyComponent::OnInitialize() {
-    if(! mNode->HasComponent(mMeshComponentName)) {
-        Logger::Get().Error("Node "+mNode->GetName()+" has no Component named "+
-                            mMeshComponentName+" which is required to create the"+
-                            " PhysicsBodyComponent "+mName);
+void PhysicsBodyComponent::onInitialize() {
+    if(! mNode->hasComponent(mMeshComponentName)) {
+        Logger::get().error("Node " + mNode->getName() + " has no Component named " +
+                            mMeshComponentName + " which is required to create the" +
+                            " PhysicsBodyComponent " + mName);
         exit(1);
     }
 
-    MeshComponent* mesh_component =
-        mNode->FindComponent<MeshComponent>(mMeshComponentName);
+    MeshComponent* mesh_component = mNode->findComponent<MeshComponent>(mMeshComponentName);
 
-    BtOgre::StaticMeshToShapeConverter converter(mesh_component->GetOgreEntity());
+    BtOgre::StaticMeshToShapeConverter converter(mesh_component->getOgreEntity());
     
     // TODO: CollisionShapes should likely be stored at a central place.
     // Perhaps the PhysicsManager is a good place. It would save a lot of memory
     // for many bodies with the same CollisionShape.
     if(mCollisionShapeType == BOX) {
-        Ogre::Vector3 size = mesh_component->GetOgreEntity()->getBoundingBox().getSize();
+        Ogre::Vector3 size = mesh_component->getOgreEntity()->getBoundingBox().getSize();
         size /= 2.0;
         mCollisionShape = new btBoxShape(BtOgre::Convert::toBullet(size));
         //mCollisionShape = converter.createBox();
@@ -59,10 +58,10 @@ void PhysicsBodyComponent::OnInitialize() {
     else if(mCollisionShapeType == CONVEX)
         mCollisionShape = converter.createConvex();
     else if(mCollisionShapeType == SPHERE) {
-        mCollisionShape = new btSphereShape(mesh_component->GetOgreEntity()->getBoundingRadius());
+        mCollisionShape = new btSphereShape(mesh_component->getOgreEntity()->getBoundingRadius());
     }
     else if(mCollisionShapeType == CYLINDER) {
-        Ogre::Vector3 size = mesh_component->GetOgreEntity()->getBoundingBox().getSize();
+        Ogre::Vector3 size = mesh_component->getOgreEntity()->getBoundingBox().getSize();
         size /= 2.0;
         mCollisionShape = new btCylinderShape(BtOgre::Convert::toBullet(size));
     }
@@ -75,8 +74,8 @@ void PhysicsBodyComponent::OnInitialize() {
         mCollisionShape->calculateLocalInertia(mMass, inertia);
 
     btDefaultMotionState* state = new btDefaultMotionState(
-        btTransform(BtOgre::Convert::toBullet(GetNode()->GetRotation(Node::SCENE)),
-        BtOgre::Convert::toBullet(GetNode()->GetPosition(Node::SCENE))));
+        btTransform(BtOgre::Convert::toBullet(getNode()->getRotation(Node::SCENE)),
+        BtOgre::Convert::toBullet(getNode()->getPosition(Node::SCENE))));
 
     //Here's the most tricky part. You need to give it 5.0 as its temporary mass.
     //Or you will find your player character keeps falling down no matter there's a ground.
@@ -97,129 +96,129 @@ double PhysicsBodyComponent::GetFriction() const {
     return mBody->getFriction();
 }
 
-void PhysicsBodyComponent::OnDeinitialize() {
+void PhysicsBodyComponent::onDeinitialize() {
     delete mBody->getMotionState();
     delete mBody;
     delete mCollisionShape;
 }
 
-void PhysicsBodyComponent::OnEnable() {
+void PhysicsBodyComponent::onEnable() {
     if(mCollisionMaskInUse) // Special treatment due to Bullet internals
-        GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addRigidBody(mBody, mCollisionGroup, mCollisionMask);
+        getNode()->getScene()->getPhysicsWorld()->getBulletWorld()->addRigidBody(mBody, mCollisionGroup, mCollisionMask);
     else
-        GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->addRigidBody(mBody);
+        getNode()->getScene()->getPhysicsWorld()->getBulletWorld()->addRigidBody(mBody);
 
     //Re-sychronize the PhysicsBodyComponent with the node.
     btDefaultMotionState* state = new btDefaultMotionState(
-        btTransform(BtOgre::Convert::toBullet(GetNode()->GetRotation(Node::SCENE)),
-        BtOgre::Convert::toBullet(GetNode()->GetPosition(Node::SCENE))));
+        btTransform(BtOgre::Convert::toBullet(getNode()->getRotation(Node::SCENE)),
+        BtOgre::Convert::toBullet(getNode()->getPosition(Node::SCENE))));
     mBody->setMotionState(state);
 
-    SetMass(mMass);
+    setMass(mMass);
 
     //Activate it.
-    this->Activate();
+    this->activate();
 }
 
-void PhysicsBodyComponent::OnDisable() {
-    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->removeRigidBody(mBody);
+void PhysicsBodyComponent::onDisable() {
+    getNode()->getScene()->getPhysicsWorld()->getBulletWorld()->removeRigidBody(mBody);
 }
 
-void PhysicsBodyComponent::OnCollide(PhysicsBodyComponent* other_body) {
-    emit Collided(other_body, this);
+void PhysicsBodyComponent::onCollide(PhysicsBodyComponent* other_body) {
+    emit collided(other_body, this);
 }
 
-btRigidBody* PhysicsBodyComponent::GetRigidBody() {
+btRigidBody* PhysicsBodyComponent::getRigidBody() {
     return mBody;
 }
 
-void PhysicsBodyComponent::ApplyCentralImpulse(const btVector3& impulse) {
+void PhysicsBodyComponent::applyCentralImpulse(const btVector3& impulse) {
     mBody->applyCentralImpulse(impulse);
 }
 
-void PhysicsBodyComponent::ApplyCentralImpulse(float x, float y, float z) {
-    ApplyCentralImpulse(btVector3(x, y, z));
+void PhysicsBodyComponent::applyCentralImpulse(float x, float y, float z) {
+    applyCentralImpulse(btVector3(x, y, z));
 }
 
-void PhysicsBodyComponent::SetCentralForce(const btVector3& force) {
+void PhysicsBodyComponent::setCentralForce(const btVector3& force) {
     mCentralForce = force;
 }
 
-void PhysicsBodyComponent::SetCentralForce(float x, float y, float z) {
-    SetCentralForce(btVector3(x, y, z));
+void PhysicsBodyComponent::setCentralForce(float x, float y, float z) {
+    setCentralForce(btVector3(x, y, z));
 }
 
-void PhysicsBodyComponent::SetTorque(const btVector3& torque) {
+void PhysicsBodyComponent::setTorque(const btVector3& torque) {
     mTorque = torque;
 }
 
-void PhysicsBodyComponent::SetTorque(float x, float y, float z) {
-    SetTorque(btVector3(x, y, z));
+void PhysicsBodyComponent::setTorque(float x, float y, float z) {
+    setTorque(btVector3(x, y, z));
 }
 
-void PhysicsBodyComponent::SetCollisionMask(uint16_t collision_mask) {
+void PhysicsBodyComponent::setCollisionMask(uint16_t collision_mask) {
     mCollisionMask = collision_mask;
     mCollisionMaskInUse = true;
 
-    if(IsEnabled()) {
-        Disable();
-        Enable();
+    if(isEnabled()) {
+        disable();
+        enable();
     }
 }
 
-void PhysicsBodyComponent::SetCollisionGroup(uint16_t collision_group) {
+void PhysicsBodyComponent::setCollisionGroup(uint16_t collision_group) {
     mCollisionGroup = collision_group;
     mCollisionMaskInUse = true;
 
-    if(IsEnabled()) {
-        Disable();
-        Enable();
+    if(isEnabled()) {
+        disable();
+        enable();
     }
 }
 
-const btVector3 PhysicsBodyComponent::GetCentralForce() const {
+const btVector3 PhysicsBodyComponent::getCentralForce() const {
     return mCentralForce;
 }
 
-const btVector3 PhysicsBodyComponent::GetTorque() const {
+const btVector3 PhysicsBodyComponent::getTorque() const {
     return mTorque;
 }
 
-void PhysicsBodyComponent::SetRestrictMovement(const btVector3& restriction) {
+void PhysicsBodyComponent::setRestrictMovement(const btVector3& restriction) {
     mBody->setLinearFactor(restriction);
 }
 
-void PhysicsBodyComponent::SetRestrictMovement(float x, float y, float z) {
-    SetRestrictMovement(btVector3(x, y, z));
+void PhysicsBodyComponent::setRestrictMovement(float x, float y, float z) {
+    setRestrictMovement(btVector3(x, y, z));
 }
 
-void PhysicsBodyComponent::SetRestrictRotation(const btVector3& restriction) {
+void PhysicsBodyComponent::setRestrictRotation(const btVector3& restriction) {
     mBody->setAngularFactor(restriction);
 }
 
-void PhysicsBodyComponent::SetRestrictRotation(float x, float y, float z) {
-    SetRestrictRotation(btVector3(x, y, z));
+void PhysicsBodyComponent::setRestrictRotation(float x, float y, float z) {
+    setRestrictRotation(btVector3(x, y, z));
 }
 
-void PhysicsBodyComponent::SetGravity(const btVector3& gravity) {
+void PhysicsBodyComponent::setGravity(const btVector3& gravity) {
     mBody->setGravity(gravity);
 }
 
-void PhysicsBodyComponent::SetGravity(float x, float y, float z) {
-    SetGravity(btVector3(x, y, z));
+void PhysicsBodyComponent::setGravity(float x, float y, float z) {
+    setGravity(btVector3(x, y, z));
 }
 
-void PhysicsBodyComponent::DisableSleep(bool disabled) {
+void PhysicsBodyComponent::disableSleep(bool disabled) {
     if(disabled) {
         mBody->setActivationState(DISABLE_DEACTIVATION);
     }
 }
 
-void PhysicsBodyComponent::SetDampingAmount(btScalar lindamping, btScalar angdamping) {
+void PhysicsBodyComponent::setDampingAmount(btScalar lindamping, btScalar angdamping) {
     mBody->setDamping(lindamping, angdamping);
 }
 
-void PhysicsBodyComponent::OnUpdate(double time_diff) {
+void PhysicsBodyComponent::onUpdate(double time_diff) {
     btTransform trans;
     mBody->getMotionState()->getWorldTransform(trans);
     /*std::cout << "x: " << trans.getOrigin().getX() << " y: "
@@ -233,11 +232,11 @@ void PhysicsBodyComponent::OnUpdate(double time_diff) {
         mBody->applyTorque(mTorque);
     }
 
-    GetNode()->SetPosition(BtOgre::Convert::toOgre(trans.getOrigin()), Node::SCENE);
-    GetNode()->SetRotation(BtOgre::Convert::toOgre(trans.getRotation()), Node::SCENE);
+    getNode()->setPosition(BtOgre::Convert::toOgre(trans.getOrigin()), Node::SCENE);
+    getNode()->setRotation(BtOgre::Convert::toOgre(trans.getRotation()), Node::SCENE);
 }
 
-void PhysicsBodyComponent::SetMass(btScalar mass) {
+void PhysicsBodyComponent::setMass(btScalar mass) {
     btVector3 inertia(0, 0, 0);
     if(mass != 0.0f)
         mCollisionShape->calculateLocalInertia(mass, inertia);
@@ -250,7 +249,7 @@ void PhysicsBodyComponent::SetCollisionShapeType(CollisionShapeType type) {
 }
 */
 
-void PhysicsBodyComponent::Activate() {
+void PhysicsBodyComponent::activate() {
     mBody->activate();
 }
 }

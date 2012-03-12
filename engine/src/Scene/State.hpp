@@ -41,57 +41,57 @@ public:
     /**
       * Called when the State is initialized. Create the scene(s) and its contents here.
       */
-    virtual void OnInitialize() = 0;
+    virtual void onInitialize() = 0;
 
     /**
       * Called when the State is deinitialized.
       */
-    virtual void OnDeinitialize();
+    virtual void onDeinitialize();
 
     /**
       * Initializes the State.
       */
-    void Initialize();
+    void initialize();
 
     /**
       * Deinitializes the state.
       */
-    void Deinitialize();
+    void deinitialize();
 
     /**
       * Adds a scene to the state.
       * @param scene The scene to add.
       * @returns A pointer to the scene.
       */
-    Scene* AddScene(Scene* scene);
+    Scene* addScene(Scene* scene);
 
     /**
       * Returns the scene with the given name.
       * @param name The name of the Scene to find.
       * @returns The scene, or nullptr if it was not found.
       */
-    Scene* GetScene(const QString& name);
+    Scene* getScene(const QString name);
 
     /**
       * Deletes a scene.
       * @param name The name of the Scene to delete.
       */
-    void DeleteScene(const QString& name);
+    void deleteScene(const QString name);
 
     /**
       * Manually updates every scene
       * @param simulation_frame_time time since last update
       */
-    void UpdateSceneFrame(double simulation_frame_time);
+    void updateSceneFrame(double simulation_frame_time);
 
     /**
       * State update function to be defined in children
       * @param simulation_frame_time time since last update
       */
-    virtual void UpdateStateFrame(double simulation_frame_time) = 0;
+    virtual void updateStateFrame(double simulation_frame_time) = 0;
 
 public slots:
-    void UpdateFrame(double simulation_frame_time);
+    void updateFrame(double simulation_frame_time);
 
 private:
     boost::ptr_map<QString, Scene> mScenes;        //!< List of scenes.

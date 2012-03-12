@@ -79,16 +79,16 @@ public:
       * Returns the mode set for this IOPacket.
       * @returns The mode set for this IOPacket.
       */
-    Mode GetMode() const;
+    Mode getMode() const;
 
     /**
       * Returns the mode set for this IOPacket.
       * @returns The mode set for this IOPacket.
       */
-    Direction GetDirection() const;
+    Direction getDirection() const;
 
     template <typename T>
-    IOPacket& Stream(T& t, QString key, T def = T()) {
+    IOPacket& stream(T& t, QString key, T def = T()) {
         if(mMode == BINARY) {
             if(mDirection == DESERIALIZE)
                 *mPacket >> t;
@@ -110,19 +110,19 @@ public:
 
     // TODO: try template specialization
 
-    virtual IOPacket& Stream(EnumHelper h, QString key = "", uint32_t def = 0);
+    virtual IOPacket& stream(EnumHelper h, QString key = "", uint32_t def = 0);
 
-    virtual IOPacket& Stream(QString& s, QString key = "", QString def = "");
+    virtual IOPacket& stream(QString s, QString key = "", QString def = "");
 
-    virtual IOPacket& Stream(boost::uuids::uuid& id, QString key = "", boost::uuids::uuid def = boost::uuids::uuid());
+    virtual IOPacket& stream(boost::uuids::uuid& id, QString key = "", boost::uuids::uuid def = boost::uuids::uuid());
 
-    uint32_t BeginList(uint32_t count, QString key);
+    uint32_t beginList(uint32_t count, QString key);
 
-    void EndList();
+    void endList();
 
-    void BeginObject();
+    void beginObject();
 
-    void EndObject();
+    void endObject();
 
 protected:
     Direction mDirection;   //!< The streaming direction.

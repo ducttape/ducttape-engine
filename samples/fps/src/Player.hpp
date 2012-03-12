@@ -15,7 +15,7 @@
 class Player : public Hittable {
     Q_OBJECT
 public:
-    Player(const QString& name = "player");
+    Player(const QString name = "player");
 
     void OnInitialize();
 

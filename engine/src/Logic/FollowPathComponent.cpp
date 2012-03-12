@@ -13,7 +13,7 @@
 
 namespace dt {
 
-FollowPathComponent::FollowPathComponent(Mode mode, const QString& name)
+FollowPathComponent::FollowPathComponent(Mode mode, const QString name)
     : Component(name),
       mDurationSinceStart(0),
       mTotalDuration(0),
@@ -23,15 +23,13 @@ FollowPathComponent::FollowPathComponent(Mode mode, const QString& name)
       mReversed(false),
       mMode(mode) {}
 
-//void FollowPathComponent::HandleEvent(std::shared_ptr<Event> e) {}
-
-void FollowPathComponent::OnInitialize() {
-    mLastPoint = mNode->GetPosition();
+void FollowPathComponent::onInitialize() {
+    mLastPoint = mNode->getPosition();
 }
 
-void FollowPathComponent::OnDeinitialize() {}
+void FollowPathComponent::onDeinitialize() {}
 
-void FollowPathComponent::OnUpdate(double time_diff) {
+void FollowPathComponent::onUpdate(double time_diff) {
     // move progress further
     if(!mReversed) {
         mDurationSinceStart += time_diff;
@@ -41,48 +39,48 @@ void FollowPathComponent::OnUpdate(double time_diff) {
 
     // calculate new position
     if(mNode != nullptr)
-        mNode->SetPosition(_CalculatePosition());
+        mNode->setPosition(_calculatePosition());
 
     if(mFollowRotation && time_diff > 0) {
-        mNode->LookAt(mLastPoint, Ogre::Vector3::NEGATIVE_UNIT_Z); // look backwards at the point we were
-        mLastPoint = mNode->GetPosition();
+        mNode->lookAt(mLastPoint, Ogre::Vector3::NEGATIVE_UNIT_Z); // look backwards at the point we were
+        mLastPoint = mNode->getPosition();
     }
 
     if(mDurationSinceStart > mTotalDuration || mDurationSinceStart < 0) {
         // we have travelled the whole path. now what?
         if(mMode == FollowPathComponent::LOOP) {
-            Reset();
+            reset();
         } else if(mMode == FollowPathComponent::ALTERNATING) {
             mReversed = !mReversed;
-            Reset();
+            reset();
         } else {
             // disable
-            Reset();
-            Disable();
+            reset();
+            disable();
         }
     }
 }
 
-void FollowPathComponent::AddPoint(Ogre::Vector3 point) {
+void FollowPathComponent::addPoint(Ogre::Vector3 point) {
     mPoints.push_back(point);
     if(mPoints.size() == 1) {
-        Reset();
+        reset();
     }
 }
 
-void FollowPathComponent::AddPoint(float x, float y, float z) {
-    AddPoint(Ogre::Vector3(x, y, z));
+void FollowPathComponent::addPoint(float x, float y, float z) {
+    addPoint(Ogre::Vector3(x, y, z));
 }
 
-void FollowPathComponent::SetSpeed(float speed) {
-    mTotalDuration = GetTotalLength() / speed;
+void FollowPathComponent::setSpeed(float speed) {
+    mTotalDuration = getTotalLength() / speed;
 }
 
-void FollowPathComponent::SetDuration(float duration) {
+void FollowPathComponent::setDuration(float duration) {
     mTotalDuration = duration;
 }
 
-float FollowPathComponent::GetTotalLength() const {
+float FollowPathComponent::getTotalLength() const {
     if(mPoints.size() <= 1)
         return 0;
 
@@ -95,24 +93,24 @@ float FollowPathComponent::GetTotalLength() const {
     return total;
 }
 
-void FollowPathComponent::Reset() {
+void FollowPathComponent::reset() {
     if(!mReversed) {
         mDurationSinceStart = 0;
         if(mPoints.size() > 0 && mNode != nullptr) {
-            mNode->SetPosition(mPoints.front());
+            mNode->setPosition(mPoints.front());
         }
     } else {
         mDurationSinceStart = mTotalDuration;
         if(mPoints.size() > 0 && mNode != nullptr) {
-            mNode->SetPosition(mPoints.back());
+            mNode->setPosition(mPoints.back());
         }
     }
 }
 
-Ogre::Vector3 FollowPathComponent::_CalculatePosition() {
+Ogre::Vector3 FollowPathComponent::_calculatePosition() {
     if(mPoints.size() == 0) {
         if(mNode != nullptr)
-            return mNode->GetPosition();
+            return mNode->getPosition();
         else
             return Ogre::Vector3::ZERO;
     }
@@ -121,7 +119,7 @@ Ogre::Vector3 FollowPathComponent::_CalculatePosition() {
         return mPoints[0];
     }
 
-    float length_travelled = mDurationSinceStart / mTotalDuration * GetTotalLength();
+    float length_travelled = mDurationSinceStart / mTotalDuration * getTotalLength();
     float total = 0;
     Ogre::Vector3* last = & mPoints[0];
     for(std::vector<Ogre::Vector3>::iterator iter = mPoints.begin() + 1; iter != mPoints.end(); ++iter) {
@@ -134,7 +132,7 @@ Ogre::Vector3 FollowPathComponent::_CalculatePosition() {
                     (iter == mPoints.begin() + 1 && segment_progress < 0.5) ||         // we're in the first part of the first segment
                     (iter == mPoints.end() - 1 && segment_progress >= 0.5)) {    // we're in the last part of the last segment
                 if(mSmoothAcceleration)
-                    segment_progress = Math::SmoothStep(0, 1, segment_progress); // 0.5 will still be 0.5 :D
+                    segment_progress = Math::smoothStep(0, 1, segment_progress); // 0.5 will still be 0.5 :D
 
                 return (*last) + ((*iter)- (*last)) * segment_progress;
             } else {
@@ -154,8 +152,8 @@ Ogre::Vector3 FollowPathComponent::_CalculatePosition() {
                 if(segment_progress < 0.5)
                     corner_progress += 1.0;
 
-                return c + (n - c) * 0.5 * Math::BounceIn(0, 1, corner_progress, 0)
-                         + (p - c) * 0.5 * Math::BounceOut(1, 0, corner_progress, 0);
+                return c + (n - c) * 0.5 * Math::bounceIn(0, 1, corner_progress, 0)
+                         + (p - c) * 0.5 * Math::bounceOut(1, 0, corner_progress, 0);
 
                 // well done!
             }
@@ -168,35 +166,35 @@ Ogre::Vector3 FollowPathComponent::_CalculatePosition() {
     return mPoints.back();
 }
 
-void FollowPathComponent::SetSmoothAcceleration(bool smooth_acceleration) {
+void FollowPathComponent::setSmoothAcceleration(bool smooth_acceleration) {
     mSmoothAcceleration = smooth_acceleration;
 }
 
-bool FollowPathComponent::GetSmoothAcceleration() const {
+bool FollowPathComponent::getSmoothAcceleration() const {
     return mSmoothAcceleration;
 }
 
-void FollowPathComponent::SetSmoothCorners(bool smooth_corners) {
+void FollowPathComponent::setSmoothCorners(bool smooth_corners) {
     mSmoothCorners = smooth_corners;
 }
 
-bool FollowPathComponent::GetSmoothCorners() const {
+bool FollowPathComponent::getSmoothCorners() const {
     return mSmoothCorners;
 }
 
-void FollowPathComponent::SetMode(Mode mode) {
+void FollowPathComponent::setMode(Mode mode) {
     mMode = mode;
 }
 
-FollowPathComponent::Mode FollowPathComponent::GetMode() const {
+FollowPathComponent::Mode FollowPathComponent::getMode() const {
     return mMode;
 }
 
-void FollowPathComponent::SetFollowRotation(bool follow_rotation) {
+void FollowPathComponent::setFollowRotation(bool follow_rotation) {
     mFollowRotation = follow_rotation;
 }
 
-bool FollowPathComponent::GetFollowRotation() const {
+bool FollowPathComponent::getFollowRotation() const {
     return mFollowRotation;
 }
 

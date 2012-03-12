@@ -18,7 +18,7 @@
 class FPSPlayerComponent : public dt::AdvancedPlayerComponent {
     Q_OBJECT
 public:
-    FPSPlayerComponent(uint16_t weapon_num, const QString& name = "");
+    FPSPlayerComponent(uint16_t weapon_num, const QString name = "");
 
     void OnInitialize();
 

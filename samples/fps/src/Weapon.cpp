@@ -4,10 +4,10 @@
 
 #include "Utils/Utils.hpp"
 
-Weapon::Weapon(const QString& name, dt::InteractionComponent* interactor, int32_t power, uint16_t max_clip, 
-    uint16_t ammo_per_clip, float reload_time, uint16_t type, const QString& firing_sound_handle, 
-    const QString& reloading_begin_sound_handle, const QString& reloading_done_sound_handle, 
-    const QString& mesh_handle, const QString& material_handle)
+Weapon::Weapon(const QString name, dt::InteractionComponent* interactor, int32_t power, uint16_t max_clip,
+    uint16_t ammo_per_clip, float reload_time, uint16_t type, const QString firing_sound_handle,
+    const QString reloading_begin_sound_handle, const QString reloading_done_sound_handle,
+    const QString mesh_handle, const QString material_handle)
     : Node(name),
       mInteractor(interactor),
       mPower(power),
@@ -39,7 +39,7 @@ void Weapon::OnInitialize() {
     mIsPhysicsBodyEnabled = true;
 
     if(!QObject::connect(mInteractor, SIGNAL(sHit(dt::PhysicsBodyComponent*)), 
-        this, SLOT(_OnHit(dt::PhysicsBodyComponent*)))) {
+                         this,        SLOT(_OnHit(dt::PhysicsBodyComponent*)))) {
             dt::Logger::Get().Error("Cannot connect the sHit signal with the OnHit slot.");
     }
 
@@ -92,7 +92,7 @@ void Weapon::Reload() {
         mReloadTimer = new dt::Timer("Weapon reloaded", mReloadTime, false);
         mReloadingBeginSound->PlaySound();
         if(!QObject::connect(mReloadTimer, SIGNAL(TimerStoped()),
-            this, SLOT(_OnReloadCompleted()))) {
+                             this,         SLOT(_OnReloadCompleted()))) {
                 dt::Logger::Get().Error("Cannot connect weapon " + this->GetName() + 
                     "'s _OnReloadCompleted slot with its reload timer's signal");
         }

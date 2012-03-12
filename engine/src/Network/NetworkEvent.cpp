@@ -19,25 +19,25 @@ NetworkEvent::NetworkEvent()
      mIsLocalEvent(false) {
 
     // add default recipients
-    const std::vector<Connection*>&& connections = ConnectionsManager::Get()->GetAllConnections();
+    const std::vector<Connection*>&& connections = ConnectionsManager::get()->getAllConnections();
     for(auto iter = connections.begin(); iter != connections.end(); ++iter) {
-        AddRecipient(ConnectionsManager::Get()->GetConnectionID(**iter));
+        addRecipient(ConnectionsManager::get()->getConnectionID(**iter));
     }
 }
 
-uint16_t NetworkEvent::GetTypeId() const{
-    return NetworkManager::Get()->GetEventId(GetType());
+uint16_t NetworkEvent::getTypeId() const{
+    return NetworkManager::get()->getEventId(getType());
 }
 
-bool NetworkEvent::IsNetworkEvent() const {
+bool NetworkEvent::isNetworkEvent() const {
     return true;
 }
 
-void NetworkEvent::AddRecipient(uint16_t id) {
+void NetworkEvent::addRecipient(uint16_t id) {
     mRecipients.push_back(id);
 }
 
-void NetworkEvent::RemoveRecipient(uint16_t id) {
+void NetworkEvent::removeRecipient(uint16_t id) {
     for(auto iter = mRecipients.begin(); iter != mRecipients.end(); ++iter) {
         if(*iter == id) {
             iter = mRecipients.erase(iter);
@@ -45,15 +45,15 @@ void NetworkEvent::RemoveRecipient(uint16_t id) {
     }
 }
 
-void NetworkEvent::ClearRecipients() {
+void NetworkEvent::clearRecipients() {
     mRecipients.clear();
 }
 
-const std::vector<uint16_t>& NetworkEvent::GetRecipients() const {
+const std::vector<uint16_t>& NetworkEvent::getRecipients() const {
     return mRecipients;
 }
 
-bool NetworkEvent::HasRecipient(uint16_t id) {
+bool NetworkEvent::hasRecipient(uint16_t id) {
     for(auto iter = mRecipients.begin(); iter != mRecipients.end(); ++iter) {
         if(*iter == id)
             return true;
@@ -61,19 +61,19 @@ bool NetworkEvent::HasRecipient(uint16_t id) {
     return false;
 }
 
-bool NetworkEvent::IsLocalEvent() const {
+bool NetworkEvent::isLocalEvent() const {
     return mIsLocalEvent;
 }
 
-void NetworkEvent::IsLocalEvent(bool is_local_event) {
+void NetworkEvent::isLocalEvent(bool is_local_event) {
     mIsLocalEvent = is_local_event;
 }
 
-uint16_t NetworkEvent::GetSenderID() const {
+uint16_t NetworkEvent::getSenderID() const {
     return mSenderID;
 }
 
-void NetworkEvent::SetSenderID(uint16_t id) {
+void NetworkEvent::setSenderID(uint16_t id) {
     mSenderID = id;
 }
 

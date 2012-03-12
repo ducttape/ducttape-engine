@@ -46,96 +46,96 @@ public:
       * @param name The name of the component.
       * @param mode The mode.
       */
-    FollowPathComponent(Mode mode = SINGLE, const QString& name = "");
+    FollowPathComponent(Mode mode = SINGLE, const QString name = "");
 
-    void OnInitialize();
-    void OnDeinitialize();
-    void OnUpdate(double time_diff);
+    void onInitialize();
+    void onDeinitialize();
+    void onUpdate(double time_diff);
 
     /**
       * Adds a point to the end of the path.
       * @param point The new point to add.
       */
-    void AddPoint(Ogre::Vector3 point);
-    void AddPoint(float x, float y, float z);
+    void addPoint(Ogre::Vector3 point);
+    void addPoint(float x, float y, float z);
 
     /**
       * Sets the speed with which the Node should travel along the path.
       * @param speed The speed in units per second.
       */
-    void SetSpeed(float speed);
+    void setSpeed(float speed);
 
     /**
       * Sets the duration the path should take to complete.
       * @param duration The duration in seconds.
       */
-    void SetDuration(float duration);
+    void setDuration(float duration);
 
     /**
       * Returns the total length of all path segments.
       * @returns The total length of all path segments.
       */
-    float GetTotalLength() const;
+    float getTotalLength() const;
 
     /**
       * Resets the node to the beginning of the path.
       */
-    void Reset();
+    void reset();
 
     /**
       * Sets whether the node should accelerate smoothly.
       * @param smooth_acceleration Whether the node should accelerate smoothly.
       */
-    void SetSmoothAcceleration(bool smooth_acceleration);
+    void setSmoothAcceleration(bool smooth_acceleration);
 
     /**
       * Gets whether the node should accelerate smoothly.
       * @returns Whether the node should accelerate smoothly.
       */
-    bool GetSmoothAcceleration() const;
+    bool getSmoothAcceleration() const;
 
     /**
       * Sets whether the node should move smoothly around the corners.
       * @param smooth_corners Whether the node should move smoothly around the corners. From 0 (sharp corners) to 1 (no straight edges).
       */
-    void SetSmoothCorners(bool smooth_corners);
+    void setSmoothCorners(bool smooth_corners);
 
     /**
       * Gets whether the node should move smoothly around the corners.
       * @returns Whether the node should move smoothly around the corners.
       */
-    bool GetSmoothCorners() const;
+    bool getSmoothCorners() const;
 
     /**
       * Sets whether the node direction should follow the path.
       * @param follow_rotation Whether the node direction should follow the path. From 0 (sharp corners) to 1 (no straight edges).
       */
-    void SetFollowRotation(bool follow_rotation);
+    void setFollowRotation(bool follow_rotation);
 
     /**
       * Gets whether the node direction follows the path.
       * @returns Whether the node direction follows the path.
       */
-    bool GetFollowRotation() const;
+    bool getFollowRotation() const;
 
     /**
       * Sets the mode.
       * @param mode The mode.
       */
-    void SetMode(Mode mode);
+    void setMode(Mode mode);
 
     /**
       * Returns the mode.
       * @returns The mode.
       */
-    Mode GetMode() const;
+    Mode getMode() const;
 
 protected:
     /**
       * Calculates the position for the current progress.
       * @returns The position the Node should have right now.
       */
-    Ogre::Vector3 _CalculatePosition();
+    Ogre::Vector3 _calculatePosition();
 
 private:
     std::vector<Ogre::Vector3> mPoints; //!< The list of path points.

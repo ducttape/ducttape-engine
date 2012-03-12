@@ -20,14 +20,14 @@ int main(int argc, char** argv) {
     Client* client = new Client();
 
     if(argc > 1)
-        client->SetNick(argv[1]);
+        client->setNick(argv[1]);
     else
-        client->SetNick("chatter-" + dt::Utils::ToString(time(0)));
+        client->setNick("chatter-" + dt::Utils::toString(time(0)));
 
     if(argc > 2)
-        client->SetServerIP(sf::IpAddress(argv[2]));
+        client->setServerIP(sf::IpAddress(argv[2]));
 
-    game.Run(client, argc, argv);
+    game.run(client, argc, argv);
 
     return 0;
 }

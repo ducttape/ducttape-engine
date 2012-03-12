@@ -15,51 +15,51 @@
 
 #include "ChatMessageEvent.hpp"
 
-void Server::OnInitialize() {
-    QObject::connect((QObject*)dt::NetworkManager::Get(), SIGNAL(NewEvent(std::shared_ptr<dt::NetworkEvent>)),
-        this, SLOT(_HandleEvent(std::shared_ptr<dt::NetworkEvent>)));
+void Server::onInitialize() {
+    QObject::connect((QObject*)dt::NetworkManager::get(), SIGNAL(newEvent(std::shared_ptr<dt::NetworkEvent>)),
+                      this,                               SLOT(_handleEvent(std::shared_ptr<dt::NetworkEvent>)));
 
 
     std::shared_ptr<dt::NetworkEvent> ptr(new ChatMessageEvent("",""));
-    dt::NetworkManager::Get()->RegisterNetworkEventPrototype(ptr);
+    dt::NetworkManager::get()->registerNetworkEventPrototype(ptr);
 
-    dt::NetworkManager::Get()->BindSocket(29876);
+    dt::NetworkManager::get()->bindSocket(29876);
 }
 
-void Server::UpdateStateFrame(double simulation_frame_time) {
-    dt::NetworkManager::Get()->HandleIncomingEvents();
-    dt::NetworkManager::Get()->SendQueuedEvents();
+void Server::updateStateFrame(double simulation_frame_time) {
+    dt::NetworkManager::get()->handleIncomingEvents();
+    dt::NetworkManager::get()->sendQueuedEvents();
 }
 
-void Server::_HandleEvent(std::shared_ptr<dt::NetworkEvent> e) {
+void Server::_handleEvent(std::shared_ptr<dt::NetworkEvent> e) {
     // This is quite useful for debugging purposes.
     //dt::Logger::Get().Info("There are " + boost::lexical_cast<QString>(dt::ConnectionsManager::Get()->GetConnectionCount()) + " connections active.");
 
-    if(e->GetType() == "CHATMESSAGEEVENT") {
+    if(e->getType() == "CHATMESSAGEEVENT") {
         std::shared_ptr<ChatMessageEvent> c = std::dynamic_pointer_cast<ChatMessageEvent>(e);
 
         //if(c->IsLocalEvent()) { // we just received this
 
-            if(c->GetMessageText() == "/help") {
+            if(c->getMessageText() == "/help") {
                 QString msg = "\nThe following commands are available:\n\
                               /help - This message\n\
                               /quit - disconnects from the server\n\
                               /nick [nickname] - changes your nickname";
-                dt::NetworkManager::Get()->
-                    QueueEvent(std::make_shared<ChatMessageEvent>(msg, c->GetSenderNick()));
+                dt::NetworkManager::get()->
+                    queueEvent(std::make_shared<ChatMessageEvent>(msg, c->getSenderNick()));
             } else {
-                std::cout << std::endl << dt::Utils::ToStdString(c->GetSenderNick()) << ": "
-                    << dt::Utils::ToStdString(c->GetMessageText()) << std::endl;
+                std::cout << std::endl << dt::Utils::toStdString(c->getSenderNick()) << ": "
+                    << dt::Utils::toStdString(c->getMessageText()) << std::endl;
             }
 
             // send back to everyone else
-            dt::NetworkManager::Get()->
-                QueueEvent(std::make_shared<ChatMessageEvent>(c->GetMessageText(),
-                c->GetSenderNick()));
+            dt::NetworkManager::get()->
+                queueEvent(std::make_shared<ChatMessageEvent>(c->getMessageText(),
+                c->getSenderNick()));
         //}
 
-    } else if(e->GetType() == "DT_GOODBYEEVENT") {
-        dt::Logger::Get().Info("Client disconnected: " +
-            std::dynamic_pointer_cast<dt::GoodbyeEvent>(e)->GetReason());
+    } else if(e->getType() == "DT_GOODBYEEVENT") {
+        dt::Logger::get().Info("Client disconnected: " +
+            std::dynamic_pointer_cast<dt::GoodbyeEvent>(e)->getReason());
     }
 }

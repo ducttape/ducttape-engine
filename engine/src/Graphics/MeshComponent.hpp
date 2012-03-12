@@ -40,115 +40,115 @@ public:
       * a file path or a generated's mesh name.
       * @see Component
       */
-    MeshComponent(const QString& mesh_handle = "",
-                  const QString& material_name = "", const QString& name = "");
+    MeshComponent(const QString mesh_handle = "",
+                  const QString material_name = "", const QString name = "");
 
-    void OnInitialize();
-    void OnDeinitialize();
-    void OnEnable();
-    void OnDisable();
-    void OnUpdate(double time_diff);
-    void OnSerialize(IOPacket &packet);
+    void onInitialize();
+    void onDeinitialize();
+    void onEnable();
+    void onDisable();
+    void onUpdate(double time_diff);
+    void onSerialize(IOPacket &packet);
 
     /**
       * Sets the handle the mesh is being loaded from.
       * @param mesh_handle The handle of the mesh.
       */
-    void SetMeshHandle(const QString& mesh_handle);
+    void setMeshHandle(const QString mesh_handle);
 
     /**
       * Returns the name of the mesh handle.
       * @returns The name of the mesh handle. This could be a file path or a
       * generated's mesh name.
       */
-    const QString& GetMeshHandle() const;
+    const QString getMeshHandle() const;
 
     /**
       * Returns a list of available animations for the loaded mesh.
       * @returns A list of available animations for the loaded mesh.
       */
-    std::vector<QString> GetAvailableAnimations();
+    std::vector<QString> getAvailableAnimations();
 
     /**
       * Sets the animation to use.
       * @param animation_state The identifier (name) of the Ogre::AnimationState to use.
       * @see Ogre::AnimationState
       */
-    void SetAnimation(const QString& animation_state);
+    void setAnimation(const QString animation_state);
 
     /**
       * Sets whether the animation should be looped or not.
       * @param loop_animation Whether the animation should be looped or not.
       */
-    void SetLoopAnimation(bool loop_animation);
+    void setLoopAnimation(bool loop_animation);
 
     /**
       * Returns whether the animation is being looped or not.
       * @returns Whether the animation is being looped or not.
       */
-    bool GetLoopAnimation();
+    bool getLoopAnimation();
 
     /**
       * Sets the material name of the mesh.
       * @param material_name The new Ogre material name.
       */
-    void SetMaterialName(const QString& material_name);
+    void setMaterialName(const QString material_name);
 
     /**
       * Gets the Ogre::SceneNode.
       * @returns The Ogre::SceneNode this mesh is attached to.
       */
-    Ogre::SceneNode* GetOgreSceneNode() const;
+    Ogre::SceneNode* getOgreSceneNode() const;
 
     /**
       * Gets the Ogre::Entity;
       * @returns The Ogre::Entity representing this mesh.
       */
-    Ogre::Entity* GetOgreEntity() const;
+    Ogre::Entity* getOgreEntity() const;
 
     /**
       * Sets whether the mesh should cast shadows. Default: true.
       * @param shadow Whether the mesh should cast shadows.
       */
-    void SetCastShadows(bool cast_shadows);
+    void setCastShadows(bool cast_shadows);
 
     /**
       * Gets whether the mesh should cast shadows.
       * @returns Whether the mesh should cast shadows.
       */
-    bool GetCastShadows() const;
+    bool getCastShadows() const;
 
 public slots:
     /**
       * Plays the current animation.
       */
-    void PlayAnimation();
+    void playAnimation();
 
     /**
       * Stops the current animation.
       */
-    void StopAnimation();
+    void stopAnimation();
 
     /**
       * Pauses the current animation.
       */
-    void PauseAnimation();
+    void pauseAnimation();
 
 signals:
-    void AnimationPlayed();
-    void AnimationStopped();
-    void AnimationPaused();
+    void animationPlayed();
+    void animationStopped();
+    void animationPaused();
 
 private:
     /**
       * Private method. Loads the mesh handle.
       */
-    void _LoadMesh();
+    void _loadMesh();
 
     /**
       * Private method. Destroys the mesh.
       */
-    void _DestroyMesh();
+    void _destroyMesh();
 
     Ogre::SceneNode* mSceneNode;    //!< The scene Node the mesh is being attached to.
     Ogre::Entity* mEntity;          //!< The actual mesh.

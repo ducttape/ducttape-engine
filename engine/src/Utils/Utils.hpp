@@ -24,7 +24,7 @@ namespace dt {
 
 namespace Utils {
 
-template <typename Source> QString ToString(const Source& source) {
+template <typename Source> QString toString(const Source& source) {
     return QString((boost::lexical_cast<std::string>(source)).c_str());
 }
 
@@ -33,7 +33,7 @@ template <typename Source> QString ToString(const Source& source) {
   * @param qstring The QString you are going to convert.
   * @returns The converted std::string.
   */
-DUCTTAPE_API std::string ToStdString(const QString& qstring);
+DUCTTAPE_API std::string toStdString(const QString qstring);
 
 extern uint32_t mAutoId;
 
@@ -41,19 +41,19 @@ extern uint32_t mAutoId;
   * A tool for assigning Id's
   * @returns the new id
   */
-uint32_t AutoId();
+uint32_t autoId();
 
 /**
   * Generate a random uuid.
   * @returns the new uuid.
   */
-DUCTTAPE_API boost::uuids::uuid GenerateUUIDRandom();
+DUCTTAPE_API boost::uuids::uuid generateUUIDRandom();
 
 /**
   * Generate a uuid from a given string.
   * @returns the new uuid.
   */
-DUCTTAPE_API boost::uuids::uuid GenerateUUIDFromString(const QString& qstring);
+DUCTTAPE_API boost::uuids::uuid generateUUIDFromString(const QString qstring);
 } // namespace Utils
 
 } // namespace dt

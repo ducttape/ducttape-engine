@@ -41,7 +41,7 @@ public:
 
 private:
     double mRuntime;
-    void PutMeshShadow(const QString& meshName, const Ogre::Vector3& position, const QString materialName = "");
+    void PutMeshShadow(const QString meshName, const Ogre::Vector3& position, const QString materialName = "");
 };
 
 } // namespace ShadowsTest

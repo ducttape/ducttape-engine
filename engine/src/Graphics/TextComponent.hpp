@@ -32,93 +32,93 @@ public:
     /**
       * Advanced constructor.
       */
-    TextComponent(const QString& text, const QString& name = "");
+    TextComponent(const QString text, const QString name = "");
 
-    void OnInitialize();
-    void OnDeinitialize();
-    void OnEnable();
-    void OnDisable();
-    void OnUpdate(double time_diff);
+    void onInitialize();
+    void onDeinitialize();
+    void onEnable();
+    void onDisable();
+    void onUpdate(double time_diff);
 
     /**
       * Gets the text displayed.
       * @returns The text displayed.
       */
-    const QString& GetText() const;
+    const QString getText() const;
 
     /**
       * Sets the font to use.
       * @param fontname The name of the font resource.
       * @see http://www.ogre3d.org/docs/manual/manual_44.html
       */
-    void SetFont(const QString& fontname);
+    void setFont(const QString fontname);
 
     /**
       * Returns the font used.
       * @returns The name of the font resource.
       */
-    const QString& GetFont() const;
+    const QString getFont() const;
 
     /**
       * Returns the font color.
       * @returns The font color.
       */
-    Ogre::ColourValue GetColor() const;
+    Ogre::ColourValue getColor() const;
 
     /**
       * Sets the font size.
       * @param font_size The font size, in standard points.
       */
-    void SetFontSize(uint8_t font_size);
+    void setFontSize(uint8_t font_size);
 
     /**
       * Returns the font size.
       * @returns The font size, in standard points.
       */
-    uint8_t GetFontSize() const;
+    uint8_t getFontSize() const;
 
     /**
       * Sets the material for the background panel.
       * @param material_name The name of the background material resource.
       */
-    void SetBackgroundMaterial(const QString& material_name);
+    void setBackgroundMaterial(const QString material_name);
 
     /**
       * Returns the material of the background panel.
       * @returns The name of the background material resource.
       */
-    const QString& GetBackgroundMaterial() const;
+    const QString getBackgroundMaterial() const;
 
     /**
       * Sets the padding for the text box.
       * @param padding The padding (spacing between text and panel border), in pixels.
       */
-    void SetPadding(Ogre::Vector2 padding);
-    void SetPadding(float x, float y);
+    void setPadding(Ogre::Vector2 padding);
+    void setPadding(float x, float y);
 
     /**
       * Returns the padding for the text box.
       * @returns The padding, in pixels.
       */
-    Ogre::Vector2 GetPadding() const;
+    Ogre::Vector2 getPadding() const;
 
 public slots:
     /**
       * Sets the text of the TextComponent.
       * @param text The new text.
       */
-    void SetText(const QString& text);
+    void setText(const QString text);
 
     /**
       * Sets the font color.
       * @param color The font color.
       */
-    void SetColor(Ogre::ColourValue color);
-    void SetColor(float r, float g, float b, float a = 1);
+    void setColor(Ogre::ColourValue color);
+    void setColor(float r, float g, float b, float a = 1);
 
 signals:
-    void TextChanged();
-    void ColorChanged();
+    void textChanged();
+    void colorChanged();
 
 private:
     QString mText;          //!< The text to display.

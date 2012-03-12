@@ -34,25 +34,25 @@ public:
       * @name The name of the component.
       * @see Component
       */
-    CameraComponent(const QString& name = "");
+    CameraComponent(const QString name = "");
 
-    void OnInitialize();
-    void OnDeinitialize();
-    void OnEnable();
-    void OnDisable();
-    void OnUpdate(double time_diff);
-    Ogre::Ray GetCameraToViewportRay(float x, float y);
-    void LookAt(Ogre::Vector3 target_point);
-    void LookAt(float x, float y, float z);
+    void onInitialize();
+    void onDeinitialize();
+    void onEnable();
+    void onDisable();
+    void onUpdate(double time_diff);
+    Ogre::Ray getCameraToViewportRay(float x, float y);
+    void lookAt(Ogre::Vector3 target_point);
+    void lookAt(float x, float y, float z);
 
     // sets the viewport size
-    void SetupViewport(float left, float top, float width, float height);
+    void setupViewport(float left, float top, float width, float height);
 
     /**
       * Returns the Ogre Camera object.
       * @returns The Ogre Camera object.
       */
-	Ogre::Camera* GetCamera();
+    Ogre::Camera* getCamera();
 
 private:
     Ogre::Camera* mCamera;      //!< The Ogre camera instance.

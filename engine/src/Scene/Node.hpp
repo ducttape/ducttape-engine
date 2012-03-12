@@ -42,9 +42,9 @@ class DUCTTAPE_API Node : public QObject {
     Q_OBJECT
     Q_ENUMS(RelativeTo)
 
-    Q_PROPERTY(QString name READ GetName CONSTANT FINAL)
-    Q_PROPERTY(Node* parent READ GetParent FINAL)
-    Q_PROPERTY(Scene* scene READ GetScene FINAL)
+    Q_PROPERTY(QString name READ getName CONSTANT FINAL)
+    Q_PROPERTY(Node* parent READ getParent FINAL)
+    Q_PROPERTY(Scene* scene READ getScene FINAL)
 
 public:
     /**
@@ -59,34 +59,34 @@ public:
       * Constructor.
       * @param name The name of the Node.
       */
-    Node(const QString& name = "");
+    Node(const QString name = "");
 
     /**
       * Initializer.
       */
-    void Initialize();
+    void initialize();
 
     /**
       * Deinitializer. Cleans up the whole mess :D
       */
-    void Deinitialize();
+    void deinitialize();
 
     /**
       * Called when the Node is initialized.
       */
-    virtual void OnInitialize();
+    virtual void onInitialize();
 
     /**
       * Called when the Node is deinitialized.
       */
-    virtual void OnDeinitialize();
+    virtual void onDeinitialize();
 
     /**
       * Adds a Node as child.
       * @param child The Node to be added as child
       * @returns A pointer to the Node.
       */
-    Node* AddChildNode(Node* child);
+    Node* addChildNode(Node* child);
 
     /**
       * Assigns a component to this node.
@@ -94,23 +94,23 @@ public:
       * @returns A pointer to the new component.
       */
     template <typename ComponentType>
-    ComponentType* AddComponent(ComponentType* component) {
-        const QString& cname = component->GetName();
-        if(!HasComponent(cname)) {
+    ComponentType* addComponent(ComponentType* component) {
+        const QString cname = component->getName();
+        if(!hasComponent(cname)) {
             std::shared_ptr<Component> ptr(component);
-            ptr->SetNode(this);
-            ptr->Initialize();
+            ptr->setNode(this);
+            ptr->initialize();
             std::pair<QString, std::shared_ptr<Component> > pair(cname, ptr);
             mComponents.insert(pair);
             
             if(!mIsEnabled)
-                component->Disable();
+                component->disable();
 
-            _UpdateAllComponents(0);
+            _updateAllComponents(0);
         } else {
-            Logger::Get().Error("Cannot add component " + cname + ": a component with this name already exists.");
+            Logger::get().error("Cannot add component " + cname + ": a component with this name already exists.");
         }
-        return FindComponent<ComponentType>(cname);
+        return findComponent<ComponentType>(cname);
     }
 
     /**
@@ -119,7 +119,7 @@ public:
       * @param recursive Whether to search within child nodes or not.
       * @returns A pointer to the Node with the name or nullptr if none is found.
       */
-    Node* FindChildNode(const QString& name, bool recursive = true);
+    Node* findChildNode(const QString name, bool recursive = true);
 
     /**
       * Returns a component.
@@ -127,8 +127,8 @@ public:
       * @returns A pointer to the component, or nullptr if no component with the specified name exists.
       */
     template <typename ComponentType>
-    ComponentType* FindComponent(const QString& name) {
-        if(!HasComponent(name))
+    ComponentType* findComponent(const QString name) {
+        if(!hasComponent(name))
             return nullptr;
         return dynamic_cast<ComponentType*>(mComponents[name].get());
     }
@@ -138,75 +138,75 @@ public:
       * @param name The name of the Component.
       * @returns true if the component is assigned, otherwise false
       */
-    bool HasComponent(const QString& name);
+    bool hasComponent(const QString name);
 
     /**
       * Removes a child Node with a specific name.
       * @param name The name of the Node to be removed.
       */
-    void RemoveChildNode(const QString& name);
+    void removeChildNode(const QString name);
 
     /**
       * Removes a Component with a specific name.
       * @param name The name of the Component to be removed.
       */
-    void RemoveComponent(const QString& name);
+    void removeComponent(const QString name);
 
     /**
       * Returns the position of the Node.
       * @param rel Reference point.
       * @returns The Node position.
       */
-    Ogre::Vector3 GetPosition(RelativeTo rel = PARENT) const;
+    Ogre::Vector3 getPosition(RelativeTo rel = PARENT) const;
 
     /**
       * Sets the position of the Node.
       * @param position The new position of the Node.
       * @param rel Reference point.
       */
-    void SetPosition(Ogre::Vector3 position, RelativeTo rel = PARENT);
+    void setPosition(Ogre::Vector3 position, RelativeTo rel = PARENT);
 
     /**
       * Returns the scale of the Node.
       * @param rel Reference scale.
       * @returns The scale of the Node
       */
-    Ogre::Vector3 GetScale(RelativeTo rel = PARENT) const;
+    Ogre::Vector3 getScale(RelativeTo rel = PARENT) const;
 
     /**
       * Sets the scale of the Node.
       * @param scale The new scale.
       * @param rel Reference scale.
       */
-    void SetScale(Ogre::Vector3 scale, RelativeTo rel = PARENT);
+    void setScale(Ogre::Vector3 scale, RelativeTo rel = PARENT);
 
     /**
       * Sets the scale of the Node.
       * @param scale The new scale to use for all axis.
       * @param rel Reference scale.
       */
-    void SetScale(Ogre::Real scale, RelativeTo rel = PARENT);
+    void setScale(Ogre::Real scale, RelativeTo rel = PARENT);
 
     /**
       * Returns the rotation of the Node.
       * @param rel Reference rotation.
       * @returns The Rotation of the Node.
       */
-    Ogre::Quaternion GetRotation(RelativeTo rel = PARENT) const;
+    Ogre::Quaternion getRotation(RelativeTo rel = PARENT) const;
 
     /**
       * Sets the rotation of the Node.
       * @param rotation The rotation to set.
       * @param rel Reference rotation.
       */
-    void SetRotation(Ogre::Quaternion rotation, RelativeTo rel = PARENT);
+    void setRotation(Ogre::Quaternion rotation, RelativeTo rel = PARENT);
 
     /**
       * Sets the direction the Node is facing.
       * @param direction The direction the Node is facing.
       * @param front_vector The local direction that specifies the front of the Node (which part of the Node should be facing into the direction).
       */
-    void SetDirection(Ogre::Vector3 direction, Ogre::Vector3 front_vector = Ogre::Vector3::UNIT_Z);
+    void setDirection(Ogre::Vector3 direction, Ogre::Vector3 front_vector = Ogre::Vector3::UNIT_Z);
 
     /**
       * Rotates the node to look at the target.
@@ -214,58 +214,58 @@ public:
       * @param front_vector The local direction that specifies the front of the Node (which part of the Node should be facing into the direction).
       * @param rel Reference position.
       */
-    void LookAt(Ogre::Vector3 target, Ogre::Vector3 front_vector = Ogre::Vector3::UNIT_Z, RelativeTo rel = PARENT);
+    void lookAt(Ogre::Vector3 target, Ogre::Vector3 front_vector = Ogre::Vector3::UNIT_Z, RelativeTo rel = PARENT);
 
     /**
       * Sets the parent Node pointer.
       * @param parent The parent Node pointer.
       */
-    void SetParent(Node* parent);
+    void setParent(Node* parent);
 
     /**
       * Called when the Node is being updated.
       * @param time_diff The frame time.
       */
-    virtual void OnUpdate(double time_diff);
+    virtual void onUpdate(double time_diff);
 
-    void Serialize(IOPacket& packet);
+    void serialize(IOPacket& packet);
 
-    virtual void OnSerialize(IOPacket& packet);
+    virtual void onSerialize(IOPacket& packet);
 
     /**
       * Called when the node is enabled.
       */
-    virtual void OnEnable();
+    virtual void onEnable();
 
     /**
       * Called when the node is disabled.
       */
-    virtual void OnDisable();
+    virtual void onDisable();
 
 public slots:
     /**
       * Returns the name of the Node.
       * @returns The name of the Node.
       */
-    const QString& GetName() const;
+    const QString getName() const;
 
     /**
       * Returns the name of the Node, including all parent names.
       * @returns The name of the Node, including all parent names.
       */
-    QString GetFullName() const;
+    QString getFullName() const;
 
     /**
       * Returns a pointer to the parent Node.
       * @returns A pointer to the parent Node.
       */
-    Node* GetParent();
+    Node* getParent();
 
     /**
       * Returns the Scene this Node is attached to.
       * @returns The Scene this Node is attached to.
       */
-    Scene* GetScene();
+    Scene* getScene();
 
     /**
       * Sets the position of the Node.
@@ -274,33 +274,33 @@ public slots:
       * @param z The z position.
       * @param rel Reference point.
       */
-    void SetPosition(float x, float y, float z, RelativeTo rel = PARENT);
+    void setPosition(float x, float y, float z, RelativeTo rel = PARENT);
 
     /**
       * Sets the death mark to true. Then the node will be kill when it updates.
       */
-    void Kill();
+    void kill();
 
     /**
       * Enables the node. If a node is enabled, all of its components and child nodes are enabled but
       * its components and child nodes can be disabled manually by the user.
       */
-    void Enable();
+    void enable();
 
     /**
       * Disables the node. If a node is disabled, all of its components and child nodes are disabled 
       * and its components or child nodes can't be enabled at this situation.
       */
-    void Disable();
+    void disable();
 
     /**
       * Returns whether the node is enabled.
       * @returns Whether the node is enabled.
       */
-    bool IsEnabled();
+    bool isEnabled();
 
 signals:
-    void PositionChanged();
+    void positionChanged();
 
 protected:
     /**
@@ -308,21 +308,21 @@ protected:
       * @internal
       * @returns Whether this Node is a Scene.
       */
-    virtual bool _IsScene();
+    virtual bool _isScene();
 
     /**
       * Updates all components.
       * @param time_diff The frame time.
       * @see Component::OnUpdate(double time_diff);
       */
-    void _UpdateAllComponents(double time_diff);
+    void _updateAllComponents(double time_diff);
 
     /**
       * Updates all child nodes.
       * @param time_diff The frame time.
       * @see OnUpdate(double time_diff);
       */
-    void _UpdateAllChildren(double time_diff);
+    void _updateAllChildren(double time_diff);
 
     std::map<QString, std::shared_ptr<Component> > mComponents;   //!< The list of Components.
     QString mName;              //!< The Node name.

@@ -15,13 +15,13 @@
 
 namespace dt {
 
-RaycastComponent::RaycastComponent(const QString& name)
+RaycastComponent::RaycastComponent(const QString name)
     : InteractionComponent(name) {}
 
-void RaycastComponent::OnCheck(const btVector3& start, const btVector3& end) {
+void RaycastComponent::onCheck(const btVector3& start, const btVector3& end) {
     btCollisionWorld::ClosestRayResultCallback raycast_callback(start, end);
 
-    GetNode()->GetScene()->GetPhysicsWorld()->GetBulletWorld()->rayTest(start, end, raycast_callback);
+    getNode()->getScene()->getPhysicsWorld()->getBulletWorld()->rayTest(start, end, raycast_callback);
 
     if(raycast_callback.hasHit()) {
         btCollisionObject* collision_object = raycast_callback.m_collisionObject;

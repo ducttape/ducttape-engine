@@ -4,7 +4,7 @@
 #include "Gui/GuiManager.hpp"
 #include "Gui/GuiRootWindow.hpp"
 
-Player::Player(const QString& name)
+Player::Player(const QString name)
     : Hittable(name),
       mController(nullptr),
       mCamera(nullptr),
@@ -64,20 +64,23 @@ void Player::OnInitialize() {
     }
 
     if(!QObject::connect(mController, SIGNAL(sWeaponChanged(const Weapon*)), 
-        this, SLOT(_OnWeaponChanged(const Weapon*)), Qt::DirectConnection)) {
+                         this,        SLOT(_OnWeaponChanged(const Weapon*)), Qt::DirectConnection)) {
             dt::Logger::Get().Debug(QString("Failed to connect the controller's sWeaponChanged") +
                 QString("signal with the player's _OnWeaponChanged"));
     }
 
-    if(!QObject::connect(mController, SIGNAL(sMove()), this, SLOT(_OnWalk()), Qt::DirectConnection)) {
+    if(!QObject::connect(mController, SIGNAL(sMove()),
+                         this,        SLOT(_OnWalk()), Qt::DirectConnection)) {
         dt::Logger::Get().Debug(QString("Failed to connect the controller's sMove with the player's _OnWalk"));
     }
 
-    if(!QObject::connect(mController, SIGNAL(sStop()), this, SLOT(_OnStop()), Qt::DirectConnection)) {
+    if(!QObject::connect(mController, SIGNAL(sStop()),
+                         this,        SLOT(_OnStop()), Qt::DirectConnection)) {
         dt::Logger::Get().Debug(QString("Failed to connect the controller's sStop with the player's _OnStop()"));
     }
 
-    if(!QObject::connect(mController, SIGNAL(sJump()), this, SLOT(_OnJump()), Qt::DirectConnection)) {
+    if(!QObject::connect(mController, SIGNAL(sJump()),
+                         this,        SLOT(_OnJump()), Qt::DirectConnection)) {
         dt::Logger::Get().Debug(QString("Failed to connect the controller's sStop with the player's _OnStop()"));
     }
 }
@@ -106,10 +109,10 @@ void Player::_OnWeaponChanged(const Weapon* current_weapon) {
     }
     else {
         if(!QObject::connect(current_weapon, SIGNAL(sAmmoChanged(uint16_t)),
-            this, SLOT(_RefreshAmmo(uint16_t))))
+                             this,           SLOT(_RefreshAmmo(uint16_t))))
             dt::Logger::Get().Debug("Failed to connect the new weapon's sAmmoChanged signal!");
         if(!QObject::connect(current_weapon, SIGNAL(sClipChanged(uint16_t)),
-            this, SLOT(_RefreshClip(uint16_t))))
+                             this,           SLOT(_RefreshClip(uint16_t))))
             dt::Logger::Get().Debug("Failed to connect the new weapon's sClipChanged signal!");
        
         _RefreshClip(current_weapon->GetCurrentClip());

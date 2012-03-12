@@ -24,32 +24,32 @@ ScriptComponent::ScriptComponent(const QString& script_name, const QString& name
     }
 }
 
-void ScriptComponent::OnInitialize() {
+void ScriptComponent::onInitialize() {
     if(mValid) {
         // create our QScriptValue, that represents the script object
-        mScriptObject = ScriptManager::Get()->GetScriptObject(mScriptName, this);
+        mScriptObject = ScriptManager::get()->getScriptObject(mScriptName, this);
 
         mValid = !mScriptObject.isUndefined();
     }
 
-    _CallScriptFunction("OnInitialize");
+    _callScriptFunction("OnInitialize");
 }
 
-void ScriptComponent::OnDeinitialize() {
-    _CallScriptFunction("OnDeinitialize");
+void ScriptComponent::onDeinitialize() {
+    _callScriptFunction("OnDeinitialize");
 }
 
-void ScriptComponent::OnEnable() {}
-void ScriptComponent::OnDisable() {}
+void ScriptComponent::onEnable() {}
+void ScriptComponent::onDisable() {}
 
-void ScriptComponent::OnUpdate(double time_diff) {
+void ScriptComponent::onUpdate(double time_diff) {
     if(mIsUpdateEnabled) {
         dt::ScriptManager::Get()->UpdateContext(mScriptObject);
         _CallScriptFunction("OnUpdate", QScriptValueList() << time_diff);
     }
 }
 
-QScriptValue ScriptComponent::_CallScriptFunction(QString name, QScriptValueList params) {
+QScriptValue ScriptComponent::_callScriptFunction(QString name, QScriptValueList params) {
     if(!mValid) {
         return QScriptValue::UndefinedValue;
     }
@@ -62,14 +62,14 @@ QScriptValue ScriptComponent::_CallScriptFunction(QString name, QScriptValueList
     }
 
     if(!function.isFunction()) {
-        Logger::Get().Error("Cannot call function \"" + name + "\" in script \"" + mScriptName + "\": not a function.");
+        Logger::get().error("Cannot call function \"" + name + "\" in script \"" + mScriptName + "\": not a function.");
         return QScriptValue::UndefinedValue;
     }
 
     QScriptValue value = function.call(mScriptObject, params);
-    if(!ScriptManager::Get()->HandleErrors(mScriptName)) {
-        Logger::Get().Warning("Error while calling script function. Disabling ScriptComponent \"" + mName + "\".");
-        Disable();
+    if(!ScriptManager::get()->handleErrors(mScriptName)) {
+        Logger::get().warning("Error while calling script function. Disabling ScriptComponent \"" + mName + "\".");
+        disable();
     }
     return value;
 }

@@ -7,7 +7,7 @@
 
 #include <OgreProcedural.h>
 
-FPSPlayerComponent::FPSPlayerComponent(uint16_t weapon_num, const QString& name)
+FPSPlayerComponent::FPSPlayerComponent(uint16_t weapon_num, const QString name)
     : AdvancedPlayerComponent(name),
       mWeaponNum(weapon_num),
       mWeaponInUse(nullptr),

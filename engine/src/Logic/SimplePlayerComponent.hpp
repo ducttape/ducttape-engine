@@ -37,101 +37,100 @@ public:
       * @param name The name of the Component.
       * @see Component
       */
-    SimplePlayerComponent(const QString& name = "");
+    SimplePlayerComponent(const QString name = "");
 
     //virtual void HandleEvent(std::shared_ptr<Event> e);
 
-    void OnInitialize();
-    void OnDeinitialize();
-    void OnUpdate(double time_diff);
+    void onInitialize();
+    void onDeinitialize();
+    void onUpdate(double time_diff);
 
     /**
       * Sets whether the WASD keys are enabled for movement.
       * @param wasd_enabled Whether the WASD keys are enabled for movement.
       */
-    void SetWASDEnabled(bool wasd_enabled);
+    void setWASDEnabled(bool wasd_enabled);
 
     /**
       * Gets whether the WASD keys are enabled for movement.
       * @returns Whether the WASD keys are enabled for movement.
       */
-    bool GetWASDEnabled() const;
+    bool getWASDEnabled() const;
 
     /**
       * Sets whether the arrow keys are enabled for movement.
       * @param arrows_enabled Whether the arrow keys are enabled for movement.
       */
-    void SetArrowsEnabled(bool arrows_enabled);
+    void setArrowsEnabled(bool arrows_enabled);
 
     /**
       * Gets whether the arrow keys are enabled for movement.
       * @returns Whether the arrow keys are enabled for movement.
       */
-    bool GetArrowsEnabled() const;
+    bool getArrowsEnabled() const;
 
     /**
       * Sets the speed the player moves at.
       * @param move_speed The maximum speed, in units per second.
       */
-    void SetMoveSpeed(float move_speed);
+    void setMoveSpeed(float move_speed);
 
     /**
       * Gets the speed the player moves at.
       * @returns The player speed, in units per second.
       */
-    float GetMoveSpeed() const;
+    float getMoveSpeed() const;
 
     /**
       * Sets whether the mouse is enabled for looking around.
       * @param mouse_enabled Whether the mouse is enabled for looking around.
       */
-    void SetMouseEnabled(bool mouse_enabled);
+    void setMouseEnabled(bool mouse_enabled);
 
     /**
       * Gets whether the mouse is enabled for looking around.
       * @returns Whether the mouse is enabled for looking around.
       */
-    bool GetMouseEnabled() const;
+    bool getMouseEnabled() const;
 
     /**
       * Sets the mouse sensitivity. Default: 1.0.
       * @param mouse_sensitivity The mouse sensitivity. Default: 1.0.
       */
-    void SetMouseSensitivity(float mouse_sensitivity);
+    void setMouseSensitivity(float mouse_sensitivity);
 
     /**
       * Gets the mouse sensitivity. Default: 1.0.
       * @returns The mouse sensitivity. Default: 1.0.
       */
-    float GetMouseSensitivity() const;
+    float getMouseSensitivity() const;
 
     /**
       * Sets whether the mouse y-axis should be inversed.
       * @param mouse_y_inversed Whether the mouse y-axis should be inversed.
       */
-    void SetMouseYInversed(bool mouse_y_inversed);
+    void setMouseYInversed(bool mouse_y_inversed);
 
     /**
       * Gets whether the mouse y-axis should be inversed.
       * @returns Whether the mouse y-axis should be inversed.
       */
-    bool GetMouseYInversed() const;
+    bool getMouseYInversed() const;
     
     /**
       * Sets whether the node will move until the key is released.
       * @param pressed Whether the node will move until the key is released.
       */
-    void SetConstant(bool constant);
+    void setConstant(bool constant);
     
     /**
       * Gets whether the node will move until the key is released.
       * @returns consta Whether the node will move until the key is released.
       */
-    bool GetConstant() const;
+    bool getConstant() const;
 
 private slots:
     void _HandleMouseInput(const OIS::MouseEvent& event);
-
     void _HandleKeyPressed(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
     void _HandleKeyReleased(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
 

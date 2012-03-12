@@ -203,25 +203,25 @@ public:
       */
     InputManager();
 
-    void Initialize();
-    void Deinitialize();
+    void initialize();
+    void deinitialize();
 
     /**
       * Returns a pointer to the Manager instance.
       * @returns A pointer to the Manager instance.
       */
-    static InputManager* Get();
+    static InputManager* get();
 
     /**
       * Sets the render window.
       * @param window The render window.
       */
-    void SetWindow(Ogre::RenderWindow* window);
+    void setWindow(Ogre::RenderWindow* window);
 
     /**
       * Captures the input devices and calls all events.
       */
-    void Capture();
+    void capture();
 
     /**
       * Sets whether the input deviced are jailed. If true, the mouse cannot move outside the window
@@ -229,13 +229,13 @@ public:
       * Default: false.
       * @param jail_input Whether to jail the input devices.
       */
-    void SetJailInput(bool jail_input = false);
+    void setJailInput(bool jail_input = false);
 
     /**
       * Returns whether the input devices are jailed (for details on that see InputManager::SetJailInput).
       * @returns Whether to jail the input devices.
       */
-    bool GetJailInput() const;
+    bool getJailInput() const;
 
     /**
       * OIS callback.
@@ -290,13 +290,13 @@ public:
       * Returns the mouse object.
       * @returns The mouse object.
       */
-    OIS::Mouse* GetMouse();
+    OIS::Mouse* getMouse();
 
     /**
       * Returns the keyboard object.
       * @returns The keyboard object.
       */
-    OIS::Keyboard* GetKeyboard();
+    OIS::Keyboard* getKeyboard();
 
     /**
       * Sets the mouse cursor mode. Available modes are:
@@ -305,16 +305,16 @@ public:
       * - GRAPHICAL (use the GUI system to show the cursor)
       * @param mode The mouse cursor mode.
       */
-    void SetMouseCursorMode(MouseCursorMode mode);
+    void setMouseCursorMode(MouseCursorMode mode);
 
     /**
       * Gets the mouse cursor mode.
       * @returns The mouse cursor mode.
       */
-    MouseCursorMode GetMouseCursorMode() const;
+    MouseCursorMode getMouseCursorMode() const;
 
 signals:
-    void WindowClosed();
+    void windowClosed();
     void sMouseMoved(const OIS::MouseEvent& event);
     void sPressed(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
     void sReleased(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
@@ -324,17 +324,17 @@ private:
       * @see _DestroyInputSystem();
       * @see _CreateInputSystem();
       */
-    void _ResetInputSystem();
+    void _resetInputSystem();
 
     /**
       * Destroys the input system.
       */
-    void _DestroyInputSystem();
+    void _destroyInputSystem();
 
     /**
       * Creates the input system.
       */
-    void _CreateInputSystem();
+    void _createInputSystem();
 
     Ogre::RenderWindow* mWindow;        //!< The Window used for input (from the DisplayManager).
     OIS::InputManager* mInputSystem;    //!< The OIS input manager.

@@ -10,27 +10,27 @@
 
 namespace dt {
 
-GoodbyeEvent::GoodbyeEvent(const QString& reason)
+GoodbyeEvent::GoodbyeEvent(const QString reason)
     : mReason(reason) {}
 
-const QString GoodbyeEvent::GetType() const {
+const QString GoodbyeEvent::getType() const {
     return "DT_GOODBYEEVENT";
 }
 
-std::shared_ptr<NetworkEvent> GoodbyeEvent::Clone() const {
+std::shared_ptr<NetworkEvent> GoodbyeEvent::clone() const {
     std::shared_ptr<NetworkEvent> ptr(new GoodbyeEvent(mReason));
     return ptr;
 }
 
-void GoodbyeEvent::Serialize(IOPacket& p) {
-    p.Stream(mReason, "reason", "");
+void GoodbyeEvent::serialize(IOPacket& p) {
+    p.stream(mReason, "reason", "");
 }
 
-const QString& GoodbyeEvent::GetReason() const {
+const QString GoodbyeEvent::getReason() const {
     return mReason;
 }
 
-void GoodbyeEvent::SetReason(const QString& reason) {
+void GoodbyeEvent::setReason(const QString reason) {
     mReason = reason;
 }
 

@@ -34,13 +34,13 @@ public:
       * Returns whether a requested shutdown should be handled. Override this to cancel a shutdown, e.g. when the window was closed.
       * @returns Whether a requested shutdown should be handled.
       */
-    virtual bool OnShutdownRequested();
+    virtual bool onShutdownRequested();
 
     /**
       * Returns whether the main loop is running.
       * @returns Whether the main loop is running.
       */
-    bool IsRunning();
+    bool isRunning();
 
 public slots:
     /**
@@ -50,15 +50,16 @@ public slots:
       * @param argv Command line params.
       * @see State
       */
-    void Run(State* start_state, int argc, char** argv);
+    void run(State* start_state, int argc, char** argv);
 
     /**
       * Requests a shutdown. The current frame is being processed, but then the main loop will be cancelled.
       */
-    void RequestShutdown();
+    void requestShutdown();
 
 signals:
-    void BeginFrame(double simulation_frame_time);
+    void beginFrame(double simulation_frame_time);
+
 protected:
     sf::Clock mClock;           //!< A clock for timing the frames.
     bool mIsShutdownRequested;  //!< Whether a shutdown has been requested.

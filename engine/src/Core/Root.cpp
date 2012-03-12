@@ -51,86 +51,86 @@ Root::~Root() {
     delete mLogManager;
 }
 
-Root& Root::GetInstance() {
+Root& Root::getInstance() {
     static Root instance;
     return instance;
 }
 
-void Root::Initialize(int argc, char** argv) {
+void Root::initialize(int argc, char** argv) {
     if(qApp){
         mCoreApplication = qApp;
     } else {
         mCoreApplication = new QCoreApplication(argc, argv);
     }
 
-    Serializer::Initialize();
+    Serializer::initialize();
 
-    mSfClock.Restart();
+    mSfClock.restart();
 
-    mLogManager->Initialize();
-    mResourceManager->Initialize();
-    mDisplayManager->Initialize();
+    mLogManager->initialize();
+    mResourceManager->initialize();
+    mDisplayManager->initialize();
     // Do not initialize the InputManager.
     // The display manager does this when the window is created.
-    mNetworkManager->Initialize();
-    mStateManager->Initialize();
-    mPhysicsManager->Initialize();
-    mTerrainManager->Initialize();
-    mScriptManager->Initialize();
+    mNetworkManager->initialize();
+    mStateManager->initialize();
+    mPhysicsManager->initialize();
+    mTerrainManager->initialize();
+    mScriptManager->initialize();
 }
 
-void Root::Deinitialize() {
-    mScriptManager->Deinitialize();
-    mTerrainManager->Deinitialize();
-    mPhysicsManager->Deinitialize();
-    mStateManager->Deinitialize();
-    mNetworkManager->Deinitialize();
+void Root::deinitialize() {
+    mScriptManager->deinitialize();
+    mTerrainManager->deinitialize();
+    mPhysicsManager->deinitialize();
+    mStateManager->deinitialize();
+    mNetworkManager->deinitialize();
     // Do not deinitialize the InputManager (see above).
-    mDisplayManager->Deinitialize();
-    mResourceManager->Deinitialize();
-    mLogManager->Deinitialize();
+    mDisplayManager->deinitialize();
+    mResourceManager->deinitialize();
+    mLogManager->deinitialize();
 
-    Serializer::Deinitialize();
+    Serializer::deinitialize();
     delete mCoreApplication;
 }
 
-double Root::GetTimeSinceInitialize() const {
-    return mSfClock.GetElapsedTime().AsSeconds();
+double Root::getTimeSinceInitialize() const {
+    return mSfClock.getElapsedTime().asSeconds();
 }
 
-LogManager* Root::GetLogManager() {
+LogManager* Root::getLogManager() {
     return mLogManager;
 }
 
-StateManager* Root::GetStateManager() {
+StateManager* Root::getStateManager() {
     return mStateManager;
 }
 
-NetworkManager* Root::GetNetworkManager() {
+NetworkManager* Root::getNetworkManager() {
     return mNetworkManager;
 }
 
-DisplayManager* Root::GetDisplayManager() {
+DisplayManager* Root::getDisplayManager() {
     return mDisplayManager;
 }
 
-InputManager* Root::GetInputManager() {
+InputManager* Root::getInputManager() {
     return mInputManager;
 }
 
-ResourceManager* Root::GetResourceManager() {
+ResourceManager* Root::getResourceManager() {
     return mResourceManager;
 }
 
-PhysicsManager* Root::GetPhysicsManager() {
+PhysicsManager* Root::getPhysicsManager() {
     return mPhysicsManager;
 }
 
-ScriptManager* Root::GetScriptManager() {
+ScriptManager* Root::getScriptManager() {
     return mScriptManager;
 }
 
-TerrainManager* Root::GetTerrainManager() {
+TerrainManager* Root::getTerrainManager() {
     return mTerrainManager;
 }
 

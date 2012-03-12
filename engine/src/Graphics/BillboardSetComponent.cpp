@@ -22,8 +22,8 @@
 
 namespace dt {
 
-BillboardSetComponent::BillboardSetComponent(const QString& name, uint32_t pool_size,
-                                             const QString& file) : 
+BillboardSetComponent::BillboardSetComponent(const QString name, uint32_t pool_size,
+                                             const QString file) :
     Component(name),
     mBillboardSet(nullptr),
     mPoolSize(pool_size),
@@ -31,11 +31,11 @@ BillboardSetComponent::BillboardSetComponent(const QString& name, uint32_t pool_
     mSceneNode(nullptr),
     mTextureUnitState(nullptr) {}
 
-void BillboardSetComponent::OnInitialize() {
-    mBillboardSet = GetNode()->GetScene()->GetSceneManager()
-                    ->createBillboardSet(Utils::ToStdString(mName), mPoolSize);
+void BillboardSetComponent::onInitialize() {
+    mBillboardSet = getNode()->getScene()->getSceneManager()
+                    ->createBillboardSet(Utils::toStdString(mName), mPoolSize);
 
-    std::string material_name = Utils::ToStdString(mName) + "_material"; 
+    std::string material_name = Utils::toStdString(mName) + "_material";
     mMaterialPtr = Ogre::MaterialManager::getSingleton()
                                     .create(material_name, "General", true);
     mBillboardSet->setMaterial(mMaterialPtr);
@@ -45,7 +45,7 @@ void BillboardSetComponent::OnInitialize() {
     // If a image file is given, create one billboard and use the image as texture.
     if(!mImageFile.isEmpty()) {
         mBillboardSet->createBillboard(0, 0, 0);
-        SetTextureFromFile(mImageFile);
+        setTextureFromFile(mImageFile);
     }
 
     // Commons default settings for a billboard.
@@ -53,13 +53,13 @@ void BillboardSetComponent::OnInitialize() {
     pass->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA); // Allow transparency from alpha channel.
     mMaterialPtr->setLightingEnabled(false);   // Disable lighting.
 
-    mSceneNode = GetNode()->GetScene()->GetSceneManager()->getRootSceneNode()
-                 ->createChildSceneNode(Utils::ToStdString(mName) + "_node");
+    mSceneNode = getNode()->getScene()->getSceneManager()->getRootSceneNode()
+                 ->createChildSceneNode(Utils::toStdString(mName) + "_node");
     mSceneNode->attachObject(mBillboardSet);
 }
 
-void BillboardSetComponent::OnDeinitialize() {
-    Ogre::SceneManager* scene_mgr = GetNode()->GetScene()->GetSceneManager();
+void BillboardSetComponent::onDeinitialize() {
+    Ogre::SceneManager* scene_mgr = getNode()->getScene()->getSceneManager();
 
     if(mBillboardSet != nullptr) {
         scene_mgr->destroyBillboardSet(mBillboardSet);
@@ -70,59 +70,59 @@ void BillboardSetComponent::OnDeinitialize() {
     }
 }
 
-void BillboardSetComponent::OnEnable() {
+void BillboardSetComponent::onEnable() {
     mBillboardSet->setVisible(true);
 }
 
-void BillboardSetComponent::OnDisable() {
+void BillboardSetComponent::onDisable() {
     mBillboardSet->setVisible(false);
 }
 
-void BillboardSetComponent::OnUpdate(double time_diff) {
-    mSceneNode->setPosition(GetNode()->GetPosition(Node::SCENE));
-    mSceneNode->setOrientation(GetNode()->GetRotation(Node::SCENE));
-    mSceneNode->setScale(GetNode()->GetScale(Node::SCENE));
+void BillboardSetComponent::onUpdate(double time_diff) {
+    mSceneNode->setPosition(getNode()->getPosition(Node::SCENE));
+    mSceneNode->setOrientation(getNode()->getRotation(Node::SCENE));
+    mSceneNode->setScale(getNode()->getScale(Node::SCENE));
 }
 
-Ogre::BillboardSet* BillboardSetComponent::GetOgreBillboardSet() const {
+Ogre::BillboardSet* BillboardSetComponent::getOgreBillboardSet() const {
     return mBillboardSet;
 }
 
-void BillboardSetComponent::SetTextureFromFile(const QString& file) {
-    Ogre::TextureManager::getSingleton().load(Utils::ToStdString(file), "General");
-    mTextureUnitState->setTextureName(Utils::ToStdString(file));
+void BillboardSetComponent::setTextureFromFile(const QString file) {
+    Ogre::TextureManager::getSingleton().load(Utils::toStdString(file), "General");
+    mTextureUnitState->setTextureName(Utils::toStdString(file));
 }
 
-void BillboardSetComponent::SetFaceCamera() {
+void BillboardSetComponent::setFaceCamera() {
     mBillboardSet->setBillboardType(Ogre::BBT_POINT);
 }
 
-void BillboardSetComponent::SetOrientedCommon(const Ogre::Vector3& common_vector) {
+void BillboardSetComponent::setOrientedCommon(const Ogre::Vector3& common_vector) {
     mBillboardSet->setBillboardType(Ogre::BBT_ORIENTED_COMMON);
     mBillboardSet->setCommonDirection(common_vector);
 }
 
-void BillboardSetComponent::SetOrientedCommon(float x, float y, float z) {
-    SetOrientedCommon(Ogre::Vector3(x, y, z));
+void BillboardSetComponent::setOrientedCommon(float x, float y, float z) {
+    setOrientedCommon(Ogre::Vector3(x, y, z));
 }
 
-void BillboardSetComponent::SetOrientedSelf() {
+void BillboardSetComponent::setOrientedSelf() {
     mBillboardSet->setBillboardType(Ogre::BBT_ORIENTED_SELF);
 }
 
-void BillboardSetComponent::SetPerpendicularCommon(const Ogre::Vector3& common_vector, const Ogre::Vector3& up_vector) {
+void BillboardSetComponent::setPerpendicularCommon(const Ogre::Vector3& common_vector, const Ogre::Vector3& up_vector) {
     mBillboardSet->setBillboardType(Ogre::BBT_PERPENDICULAR_COMMON);
     mBillboardSet->setCommonDirection(common_vector);
     mBillboardSet->setCommonUpVector(up_vector);
 }
 
-void BillboardSetComponent::SetPerpendicularSelf(const Ogre::Vector3& up_vector) {
+void BillboardSetComponent::setPerpendicularSelf(const Ogre::Vector3& up_vector) {
     mBillboardSet->setBillboardType(Ogre::BBT_PERPENDICULAR_SELF);
     mBillboardSet->setCommonUpVector(up_vector);
 }
 
-void BillboardSetComponent::SetPerpendicularSelf(float x, float y, float z) {
-    SetPerpendicularSelf(Ogre::Vector3(x, y, z));
+void BillboardSetComponent::setPerpendicularSelf(float x, float y, float z) {
+    setPerpendicularSelf(Ogre::Vector3(x, y, z));
 }
 
 void BillboardSetComponent::setDepthCheckEnabled(bool enabled) {

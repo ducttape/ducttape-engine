@@ -23,7 +23,7 @@ bool SignalsTest::Run(int argc, char** argv) {
     TestComponent component("test");
     CallbackClass callback;
     QObject::connect(&component, SIGNAL(Invoked()),
-                     &callback, SLOT(TheCallback()));
+                     &callback,  SLOT(TheCallback()));
     component.Invoke();
 
     if(!callback.mInvoked) {
@@ -41,7 +41,7 @@ QString SignalsTest::GetTestName() {
 
 ////////////////////////////////////////////////////////////////
 
-TestComponent::TestComponent(const QString& name)
+TestComponent::TestComponent(const QString name)
     : dt::Component(name) {}
 
 void TestComponent::OnInitialize() {}

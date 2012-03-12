@@ -29,23 +29,23 @@ public:
       * Advanced constructor.
       * @param reason The reason for the disconnect.
       */
-    GoodbyeEvent(const QString& reason = "");
+    GoodbyeEvent(const QString reason = "");
 
-    const QString GetType() const;
-    std::shared_ptr<NetworkEvent> Clone() const;
-    void Serialize(IOPacket& p);
+    const QString getType() const;
+    std::shared_ptr<NetworkEvent> clone() const;
+    void serialize(IOPacket& p);
 
     /**
       * Returns the reason for the disconnect.
       * @returns The reason for the disconnect.
       */
-    const QString& GetReason() const;
+    const QString getReason() const;
 
     /**
       * Sets the reason for the disconnect.
       * @param reason The reason for the disconnect.
       */
-    void SetReason(const QString& reason);
+    void setReason(const QString reason);
 
 private:
     QString mReason;    //!< The reason for the disconnect.
