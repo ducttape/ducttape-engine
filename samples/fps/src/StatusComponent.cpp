@@ -12,7 +12,7 @@ uint16_t StatusComponent::GetHealth() {
 }
 
 void StatusComponent::SetHealth(uint16_t health) {
-    if(this->IsEnabled() && mHealth != health) {
+    if(this->isEnabled() && mHealth != health) {
         if(health >= mMaxHealth) {
             health = mMaxHealth;
         }
@@ -25,7 +25,7 @@ void StatusComponent::SetHealth(uint16_t health) {
         emit sHealthChanged(health, mHealth);
         
         if(mHealth == 0)
-            emit sDeath(this->GetNode()->GetName());
+            emit sDeath(this->getNode()->getName());
     }
 }
 
@@ -34,7 +34,7 @@ uint16_t StatusComponent::GetMaxHealth() {
 }
 
 void StatusComponent::SetMaxHealth(uint16_t max_health) {
-    if(this->IsEnabled())
+    if(this->isEnabled())
         mMaxHealth = max_health;
 }
 
