@@ -7,8 +7,6 @@
 
 #include <Logic/SimplePlayerComponent.hpp>
 
-#include <Input/InputManager.hpp>
-//#include <Input/MouseEvent.hpp>
 #include <Scene/Node.hpp>
 
 #include <OgreMatrix3.h>
@@ -27,14 +25,16 @@ SimplePlayerComponent::SimplePlayerComponent(const QString name)
       mMove(Ogre::Vector3::ZERO) {}
 
 void SimplePlayerComponent::onInitialize() {
-    if(!QObject::connect(InputManager::get(), SIGNAL(sKeyPressed(const OIS::KeyEvent&)),
-                         this,                SLOT(_HandleKeyPressed(const OIS::KeyEvent&)))) {
+    if(!QObject::connect(InputManager::get(), SIGNAL(sPressed(dt::InputManager::InputCode input_code, const OIS::EventArg& event)),
+                         this,                SLOT(_HandleKeyPressed(dt::InputManager::InputCode input_code,
+        const OIS::EventArg& event)))) {
             Logger::get().error("Cannot connect the key pressed signal with " + getName()
                 + "'s keyboard input handling slot.");
     }
     if(mCostant) {
-        if(!QObject::connect(InputManager::get(), SIGNAL(sKeyReleased(const OIS::KeyEvent&)),
-                             this,                SLOT(_HandleKeyReleased(const OIS::KeyEvent&)))) {
+        if(!QObject::connect(InputManager::get(), SIGNAL(sReleased(dt::InputManager::InputCode input_code, const OIS::EventArg& event)),
+                             this,                SLOT(_HandleKeyReleased(dt::InputManager::InputCode input_code,
+            const OIS::EventArg& event)))) {
                 Logger::get().error("Cannot connect the key released signal with " + getName()
                     + "'s keyboard input handling slot.");
         }
@@ -49,35 +49,17 @@ void SimplePlayerComponent::onInitialize() {
 void SimplePlayerComponent::onDeinitialize() {}
 
 void SimplePlayerComponent::onUpdate(double time_diff) {
-    /*OIS::Keyboard* k = InputManager::Get()->GetKeyboard();*/
+    if(mMove.length() > 0) {
+        static Ogre::Vector3 move;
+        if(mInputStateChanged) {
+           move = getNode()->getRotation() * mMove; //update movement direction
+        }
 
-    /*if(mWASDEnabled || mArrowsEnabled) {
-        Ogre::Vector3 move(Ogre::Vector3::ZERO);
-
-        if((mWASDEnabled && k->isKeyDown(OIS::KC_W)) || (mArrowsEnabled && k->isKeyDown(OIS::KC_UP))) {
-            move.z -= 1.0;
+        getNode()->setPosition(getNode()->getPosition() + move * time_diff * mMoveSpeed);
+        if(!mCostant) {
+            mMove = Ogre::Vector3::ZERO;
         }
-        if((mWASDEnabled && k->isKeyDown(OIS::KC_S)) || (mArrowsEnabled && k->isKeyDown(OIS::KC_DOWN))) {
-            move.z += 1.0;
-        }
-        if((mWASDEnabled && k->isKeyDown(OIS::KC_A)) || (mArrowsEnabled && k->isKeyDown(OIS::KC_LEFT))) {
-            move.x -= 1.0;
-        }
-        if((mWASDEnabled && k->isKeyDown(OIS::KC_D)) || (mArrowsEnabled && k->isKeyDown(OIS::KC_RIGHT))) {
-            move.x += 1.0;
-        }*/
-
-        if(mMove.length() > 0) {
-            static Ogre::Vector3 move;
-            if(mInputStateChanged) {
-               move = getNode()->getRotation() * mMove; //update movement direction
-            }
-            
-            getNode()->setPosition(getNode()->getPosition() + move * time_diff * mMoveSpeed);
-            if(!mCostant) {
-                mMove = Ogre::Vector3::ZERO;
-            }
-        }
+    }
 }
 
 void SimplePlayerComponent::setWASDEnabled(bool wasd_enabled) {
@@ -131,14 +113,16 @@ bool SimplePlayerComponent::getMouseYInversed() const {
 void SimplePlayerComponent::setConstant(bool constant) {
     mCostant = constant;
     if(mCostant) {
-        if(!QObject::connect(InputManager::get(), SIGNAL(sKeyReleased(const OIS::KeyEvent&)),
-            this,                                 SLOT(_HandleKeyReleased(const OIS::KeyEvent&)))) {
+        if(!QObject::connect(InputManager::get(), SIGNAL(sReleased(dt::InputManager::InputCode input_code, const OIS::EventArg& event)),
+                             this,                SLOT(_HandleKeyReleased(dt::InputManager::InputCode input_code,
+            const OIS::EventArg& event)))) {
                 Logger::get().error("Cannot connect the key released signal with " + getName()
                     + "'s keyboard press event slot.");
         }  
     } else {
-        if(!QObject::disconnect(InputManager::get(), SIGNAL(sKeyReleased(const OIS::KeyEvent&)),
-            this,                                    SLOT(_handleKeyReleased(const OIS::KeyEvent&)))) {
+        if(!QObject::disconnect(InputManager::get(), SIGNAL(sReleased(dt::InputManager::InputCode input_code, const OIS::EventArg& event)),
+                                this,                SLOT(_HandleKeyReleased(dt::InputManager::InputCode input_code,
+            const OIS::EventArg& event)))) {
                 Logger::get().error("Cannot disconnect the key released signal with " + getName()
                     + "'s keyboard release event slot.");
         }
@@ -183,32 +167,32 @@ void SimplePlayerComponent::_handleMouseInput(const OIS::MouseEvent& event) {
     }
 }
 
-void SimplePlayerComponent::_handleKeyPressed(const OIS::KeyEvent& event) {
+void SimplePlayerComponent::_handleKeyPressed(dt::InputManager::InputCode input_code, const OIS::EventArg& event) {
     if(mWASDEnabled || mArrowsEnabled) {
-        if((mWASDEnabled && event.key == OIS::KC_W) || (mArrowsEnabled && event.key == OIS::KC_UP)) {
+        if((mWASDEnabled && input_code == InputManager::KC_W) || (mArrowsEnabled && input_code == InputManager::KC_UP)) {
             mMove.z = -1.0;
         }
-        if((mWASDEnabled && event.key == OIS::KC_S) || (mArrowsEnabled && event.key == OIS::KC_DOWN)) {
+        if((mWASDEnabled && input_code == InputManager::KC_S) || (mArrowsEnabled && input_code == InputManager::KC_DOWN)) {
             mMove.z = 1.0;
         }
-        if((mWASDEnabled && event.key == OIS::KC_A) || (mArrowsEnabled && event.key == OIS::KC_LEFT)) {
+        if((mWASDEnabled && input_code == InputManager::KC_A) || (mArrowsEnabled && input_code == InputManager::KC_LEFT)) {
             mMove.x = -1.0;
         }
-        if((mWASDEnabled && event.key == OIS::KC_D) || (mArrowsEnabled && event.key == OIS::KC_RIGHT)) {
+        if((mWASDEnabled && input_code == InputManager::KC_D) || (mArrowsEnabled && input_code == InputManager::KC_RIGHT)) {
             mMove.x = 1.0;
         }
         mInputStateChanged = true;
     }
 }
 
-void SimplePlayerComponent::_handleKeyReleased(const OIS::KeyEvent& event) {
+void SimplePlayerComponent::_handleKeyReleased(dt::InputManager::InputCode input_code, const OIS::EventArg& event) {
     if(mWASDEnabled || mArrowsEnabled) {
-        if((mWASDEnabled && event.key == OIS::KC_W) || (mArrowsEnabled && event.key == OIS::KC_UP) || 
-           (mWASDEnabled && event.key == OIS::KC_S) || (mArrowsEnabled && event.key == OIS::KC_DOWN)) {
+        if((mWASDEnabled && input_code == InputManager::KC_W) || (mArrowsEnabled && input_code == InputManager::KC_UP) || 
+           (mWASDEnabled && input_code == InputManager::KC_S) || (mArrowsEnabled && input_code == InputManager::KC_DOWN)) {
             mMove.z = 0;
         }
-        if((mWASDEnabled && event.key == OIS::KC_A) || (mArrowsEnabled && event.key == OIS::KC_LEFT) || 
-           (mWASDEnabled && event.key == OIS::KC_D) || (mArrowsEnabled && event.key == OIS::KC_RIGHT)) {
+        if((mWASDEnabled && input_code == InputManager::KC_A) || (mArrowsEnabled && input_code == InputManager::KC_LEFT) || 
+           (mWASDEnabled && input_code == InputManager::KC_D) || (mArrowsEnabled && input_code == InputManager::KC_RIGHT)) {
             mMove.x = 0;
         }
         mInputStateChanged = true;

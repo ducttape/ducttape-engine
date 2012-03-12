@@ -15,12 +15,12 @@ bool ConnectionsTest::Run(int argc, char** argv) {
     dt::ConnectionsManager connections_manager;
 
     uint16_t max_connections = 50;
-    connections_manager.SetMaxConnections(max_connections); // counts from 1
+    connections_manager.setMaxConnections(max_connections); // counts from 1
 
     // Test AddConnection()
     for(uint8_t i = 0; i <= max_connections; ++i) { // this will get us up to 21 connections
-        uint16_t ip = dt::Random::Get(1, 255);
-        uint16_t port = dt::Random::Get(1001, 51311);
+        uint16_t ip = dt::Random::get(1, 255);
+        uint16_t port = dt::Random::get(1001, 51311);
 
         auto connection = std::shared_ptr<dt::Connection>(new dt::Connection(sf::IpAddress("127.168.178." + dt::Utils::ToStdString(dt::Utils::ToString(ip))), port+i));
         uint16_t connection_id = connections_manager.AddConnection(connection.get());

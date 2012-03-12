@@ -12,6 +12,7 @@
 #include <Config.hpp>
 
 #include <Scene/Component.hpp>
+#include <Input/InputManager.hpp>
 
 #include <BulletCollision/CollisionShapes/btConvexHullShape.h>
 #include <btBulletDynamicsCommon.h>
@@ -42,6 +43,7 @@ public:
     AdvancedPlayerComponent(const QString name = "");
 
     virtual void onInitialize();
+    virtual void onDeinitialize();
     virtual void onEnable();
     virtual void onDisable();
     virtual void onUpdate(double time_diff);
@@ -142,42 +144,12 @@ protected:
       */
     virtual void _onMouseTriggered() {}
 
-    /**
-      * Called by void _HandleKeyDown(const OIS::KeyEvent& event). Override it to add your handling logic.
-      * @param event The key-pressing event.
-      */
-    virtual void _onKeyDown(const OIS::KeyEvent& event) {}
-
-    /**
-      * Called by void _HandleMouseMove(const OIS::MouseEvent& event). Override it to add your handling logic.
-      * @param event The mouse-moving event.
-      */
-    virtual void _onMouseMove(const OIS::MouseEvent& event) {}
-
-    /**
-      * Called by void _HandleKeyUp(const OIS::KeyEvent& event). Override it to add your handling logic.
-      * @param event The key-releasing event.
-      */
-    virtual void _onKeyUp(const OIS::KeyEvent& event) {}
-
-    /**
-      * Called by void _HandleMouseDown(const OIS::MouseEvent& event). Override it to add your handling logic.
-      * @param event The mouse button-pressing event.
-      */
-    virtual void _onMouseDown(const OIS::MouseEvent& event, OIS::MouseButtonID button) {}
-
-    /**
-      * Called by void _HandleMouseUp(const OIS::MouseEvent& event). Override it to add your handling logic.
-      * @param event The mouse button-releasing event.
-      */
-    virtual void _onMouseUp(const OIS::MouseEvent& event, OIS::MouseButtonID button) {}
-
 private slots:
     /**
-      * Handles the events triggered by pressing a key.
+      * Handles the events triggered by pressing a key or a mouse button.
       * @param event The key-pressing event.
       */
-    void _handleKeyDown(const OIS::KeyEvent& event);
+    void _handleButtonDown(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
 
     /**
       * Handles the events triggered by moving the mouse.
@@ -186,24 +158,10 @@ private slots:
     void _handleMouseMove(const OIS::MouseEvent& event);
 
     /**
-      * Handles the events triggered by releasing a key.
+      * Handles the events triggered by releasing a key or a mouse button.
       * @param event The key-releasing event.
       */
-    void _handleKeyUp(const OIS::KeyEvent& event);
-
-    /**
-      * Handles the events triggered by pressing the mouse buttons.
-      * @param event The mouse button-pressing event.
-      * @param button The pushed mouse button.
-      */
-    void _handleMouseDown(const OIS::MouseEvent& event, OIS::MouseButtonID button);
-
-    /**
-      * Handles the events triggered by releasing the mouse buttons.
-      * @param event The mouse button-releasing event.
-      * @param button The released mouse button. 
-      */
-    void _handleMouseUp(const OIS::MouseEvent& event, OIS::MouseButtonID button);
+    void _handleButtonUp(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
 
 signals:
     /**

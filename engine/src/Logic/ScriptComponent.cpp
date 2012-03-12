@@ -13,10 +13,11 @@
 
 namespace dt {
 
-ScriptComponent::ScriptComponent(const QString script_name, const QString name)
+ScriptComponent::ScriptComponent(const QString script_name, const QString name, bool is_update_enabled)
     : Component(name),
       mScriptName(script_name),
-      mValid(true) {
+      mValid(true),
+      mIsUpdateEnabled(is_update_enabled) {
     if(!ScriptManager::get()->hasScript(mScriptName)) {
         Logger::get().error("Cannot create ScriptComponent for script \"" + mScriptName + "\": script not loaded.");
         mValid = false;
@@ -42,8 +43,10 @@ void ScriptComponent::onEnable() {}
 void ScriptComponent::onDisable() {}
 
 void ScriptComponent::onUpdate(double time_diff) {
-    dt::ScriptManager::get()->updateContext(mScriptObject);
-    _callScriptFunction("OnUpdate", QScriptValueList() << time_diff);
+    if(mIsUpdateEnabled) {
+        dt::ScriptManager::get()->updateContext(mScriptObject);
+        _callScriptFunction("OnUpdate", QScriptValueList() << time_diff);
+    }
 }
 
 QScriptValue ScriptComponent::_callScriptFunction(QString name, QScriptValueList params) {
@@ -71,4 +74,12 @@ QScriptValue ScriptComponent::_callScriptFunction(QString name, QScriptValueList
     return value;
 }
 
+bool ScriptComponent::IsUpdateEnabled() const {
+    return mIsUpdateEnabled;
+}
+
+void ScriptComponent::SetUpdateEnabled(bool is_enabled) {
+    if(is_enabled != mIsUpdateEnabled)
+        mIsUpdateEnabled = is_enabled;
+}
 }

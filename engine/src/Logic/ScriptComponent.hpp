@@ -28,10 +28,12 @@ public:
     DT_SERIALIZABLE(ScriptComponent)
     /**
       * Advanced constructor.
+      * @param script_name The name for the script.
       * @param name The name for this component.
+      * @param is_update_enabled Whether update call of the script is enabled or not.
       * @see Component
       */
-    ScriptComponent(const QString script_name, const QString name = "");
+    ScriptComponent(const QString script_name, const QString name = "", bool is_update_enabled = false);
 
     void onInitialize();
     void onDeinitialize();
@@ -39,12 +41,25 @@ public:
     void onDisable();
     void onUpdate(double time_diff);
 
+    /**
+      * Gets if update call of the script is enabled or not.
+      * @return Whether update call of the script is enabled or not.
+      */
+    bool IsUpdateEnabled() const;
+
+    /**
+      * Sets if update call of the script is enabled or not.
+      * @param is_enabled Whether update call of the script is enabled or not.
+      */
+    void SetUpdateEnabled(bool is_enabled);
+
 protected:
     QScriptValue _callScriptFunction(QString name, QScriptValueList params = QScriptValueList());
 
     QString mScriptName;
     QScriptValue mScriptObject;
     bool mValid;
+    bool mIsUpdateEnabled;
 };
 
 }

@@ -59,7 +59,6 @@ void Server::_handleEvent(std::shared_ptr<dt::NetworkEvent> e) {
         //}
 
     } else if(e->getType() == "DT_GOODBYEEVENT") {
-        dt::Logger::get().Info("Client disconnected: " +
-            std::dynamic_pointer_cast<dt::GoodbyeEvent>(e)->getReason());
+        dt::Logger::get().info("Client disconnected: " + std::dynamic_pointer_cast<dt::GoodbyeEvent>(e)->getReason());
     }
 }

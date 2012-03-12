@@ -46,7 +46,7 @@ private:
     void _OnMouseTriggered();
 
 private slots:
-    void _OnKeyDown(const OIS::KeyEvent& event);
+    void _OnKeyDown(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
 
     void _PickUpWeapon(dt::PhysicsBodyComponent* object);
 
