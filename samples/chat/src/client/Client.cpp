@@ -20,7 +20,7 @@ Client::Client() {
     mServerIP = sf::IpAddress::LocalHost;
 }
 
-void Client::OnInitialize() {
+void Client::onInitialize() {
     QObject::connect((QObject*)dt::NetworkManager::get(), SIGNAL(newEvent(std::shared_ptr<dt::NetworkEvent>)),
                       this,                               SLOT(_handleEvent(std::shared_ptr<dt::NetworkEvent>)));
     dt::Logger::get().getStream("debug")->setDisabled(true);
@@ -32,7 +32,7 @@ void Client::OnInitialize() {
     dt::NetworkManager::get()->bindSocket();
     dt::NetworkManager::get()->connect(dt::Connection(mServerIP, 29876));
 
-    mInputThread = std::shared_ptr<sf::Thread>(new sf::Thread(&Client::InputThread, this));
+    mInputThread = std::shared_ptr<sf::Thread>(new sf::Thread(&Client::inputThread, this));
     mInputThread->launch();
 }
 
@@ -79,7 +79,7 @@ void Client::inputThread(void* user_data) {
             client->setNick(nick);
             std::cout << "** You changed your nick to: " << dt::Utils::toStdString(nick) << std::endl;
         } else if(in.substr(0,5) == "/ping") {
-            std::cout << "** Your ping is: " << dt::ConnectionsManager::Get()->getPing(1) << std::endl;
+            std::cout << "** Your ping is: " << dt::ConnectionsManager::get()->getPing(1) << std::endl;
         } else if(in == "/quit" || in == "/exit") {
             // quit this state. the application will terminate
             dt::StateManager::get()->pop();

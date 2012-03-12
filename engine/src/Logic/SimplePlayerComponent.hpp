@@ -130,9 +130,9 @@ public:
     bool getConstant() const;
 
 private slots:
-    void _HandleMouseInput(const OIS::MouseEvent& event);
-    void _HandleKeyPressed(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
-    void _HandleKeyReleased(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
+    void _handleMouseInput(const OIS::MouseEvent& event);
+    void _handleKeyPressed(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
+    void _handleKeyReleased(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
 
 private:
     bool mWASDEnabled;          //!< Whether the WASD  keys are enabled for movement or not.

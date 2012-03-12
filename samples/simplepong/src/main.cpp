@@ -12,6 +12,6 @@
 
 int main(int argc, char** argv) {
     dt::Game game;
-    game.Run(new Main(), argc, argv);
+    game.run(new Main(), argc, argv);
     return 0;
 }

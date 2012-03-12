@@ -30,14 +30,14 @@ void GuiManager::initialize() {
             Logger::get().error("Cannot initialize GUI System - no main camera set.");
             return;
         }
-        InputManager* inputMgrPtr = InputManager::Get();
+        InputManager* inputMgrPtr = InputManager::get();
         QObject::connect(inputMgrPtr, SIGNAL(sPressed(dt::InputManager::InputCode, const OIS::EventArg&)),
                                 this, SLOT(sPressed(dt::InputManager::InputCode, const OIS::EventArg&)));
         QObject::connect(inputMgrPtr, SIGNAL(sReleased(dt::InputManager::InputCode, const OIS::EventArg&)),
                                 this, SLOT(sReleased(dt::InputManager::InputCode, const OIS::EventArg&)));
         QObject::connect(inputMgrPtr, SIGNAL(sMouseMoved(const OIS::MouseEvent&)), this, SLOT(sMouseMoved(const OIS::MouseEvent&)));
 
-        Ogre::SceneManager* scene_mgr = c->GetCamera()->getSceneManager();
+        Ogre::SceneManager* scene_mgr = c->getCamera()->getSceneManager();
 
         mPlatform = new MyGUI::OgrePlatform();
 
@@ -73,7 +73,7 @@ void GuiManager::deinitialize() {
 }
 
 void GuiManager::sPressed(dt::InputManager::InputCode input_code, const OIS::EventArg& event) {
-    if (_EventEnabled()) {
+    if (_eventEnabled()) {
         if(input_code >= InputManager::MC_LEFT) {
             const OIS::MouseEvent& mouse_event = (const OIS::MouseEvent&)event;
 
@@ -89,7 +89,7 @@ void GuiManager::sPressed(dt::InputManager::InputCode input_code, const OIS::Eve
 }
 
 void GuiManager::sReleased(dt::InputManager::InputCode input_code, const OIS::EventArg& event) {
-    if (_EventEnabled()) {
+    if (_eventEnabled()) {
         if(input_code >= InputManager::MC_LEFT) {
             const OIS::MouseEvent& mouse_event = (const OIS::MouseEvent&)event;
 
@@ -107,7 +107,7 @@ void GuiManager::sReleased(dt::InputManager::InputCode input_code, const OIS::Ev
 }
 
 void GuiManager::sMouseMoved(const OIS::MouseEvent& event) {
-    if (_EventEnabled()) {
+    if (_eventEnabled()) {
         mMyguiInputMgrPtr->injectMouseMove(event.state.X.abs, event.state.Y.abs, event.state.Z.abs);
     }
 }

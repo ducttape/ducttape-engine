@@ -43,6 +43,7 @@ public:
     AdvancedPlayerComponent(const QString name = "");
 
     virtual void onInitialize();
+    virtual void onDeinitialize();
     virtual void onEnable();
     virtual void onDisable();
     virtual void onUpdate(double time_diff);

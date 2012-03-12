@@ -57,34 +57,34 @@ void AdvancedPlayerComponent::onInitialize() {
     getNode()->getScene()->getPhysicsWorld()->getBulletWorld()->addCollisionObject(mBtGhostObject.get());
     getNode()->getScene()->getPhysicsWorld()->getBulletWorld()->addAction(mBtController.get());
 
-    if(!QObject::connect(InputManager::Get(), SIGNAL(sPressed(dt::InputManager::InputCode, const OIS::EventArg&)), 
-                                        this, SLOT(_HandleButtonDown(dt::InputManager::InputCode, const OIS::EventArg&)))) {
-            Logger::Get().Error("Cannot connect signal sPressed with " + GetName()
+    if(!QObject::connect(InputManager::get(), SIGNAL(sPressed(dt::InputManager::InputCode, const OIS::EventArg&)), 
+                                        this, SLOT(_handleButtonDown(dt::InputManager::InputCode, const OIS::EventArg&)))) {
+            Logger::get().error("Cannot connect signal sPressed with " + getName()
                 + "'s input handling slot.");
     }
-    if(!QObject::connect(InputManager::Get(), SIGNAL(sReleased(dt::InputManager::InputCode, const OIS::EventArg&)), 
-                                        this, SLOT(_HandleButtonUp(dt::InputManager::InputCode, const OIS::EventArg&)))) {
-            Logger::Get().Error("Cannot connect signal sReleased with " + GetName()
+    if(!QObject::connect(InputManager::get(), SIGNAL(sReleased(dt::InputManager::InputCode, const OIS::EventArg&)), 
+                                        this, SLOT(_handleButtonUp(dt::InputManager::InputCode, const OIS::EventArg&)))) {
+            Logger::get().error("Cannot connect signal sReleased with " + getName()
                 + "'s input handling slot.");
     }
-    if(!QObject::connect(InputManager::Get(), SIGNAL(sMouseMoved(const OIS::MouseEvent&)), 
-                                        this, SLOT(_HandleMouseMove(const OIS::MouseEvent&)))) {
-            Logger::Get().Error("Cannot connect signal sMouseMoved with " + GetName()
+    if(!QObject::connect(InputManager::get(), SIGNAL(sMouseMoved(const OIS::MouseEvent&)), 
+                                        this, SLOT(_handleMouseMove(const OIS::MouseEvent&)))) {
+            Logger::get().error("Cannot connect signal sMouseMoved with " + getName()
                 + "'s input handling slot.");
     }
 }
 
-void AdvancedPlayerComponent::OnDeinitialize() {
-    if(!QObject::disconnect(this, SLOT(_HandleButtonDown(dt::InputManager::InputCode, const OIS::EventArg&)))) {
-            Logger::Get().Error("Cannot disconnect signal sPressed with " + GetName()
+void AdvancedPlayerComponent::onDeinitialize() {
+    if(!QObject::disconnect(this, SLOT(_handleButtonDown(dt::InputManager::InputCode, const OIS::EventArg&)))) {
+            Logger::get().error("Cannot disconnect signal sPressed with " + getName()
                 + "'s input handling slot.");
     }
-    if(!QObject::disconnect(this, SLOT(_HandleButtonUp(dt::InputManager::InputCode, const OIS::EventArg&)))) {
-            Logger::Get().Error("Cannot disconnect signal sReleased with " + GetName()
+    if(!QObject::disconnect(this, SLOT(_handleButtonUp(dt::InputManager::InputCode, const OIS::EventArg&)))) {
+            Logger::get().error("Cannot disconnect signal sReleased with " + getName()
                 + "'s input handling slot.");
     }
-    if(!QObject::disconnect(this, SLOT(_HandleMouseMove(const OIS::MouseEvent&)))) {
-            Logger::Get().Error("Cannot disconnect signal sMouseMoved with " + GetName()
+    if(!QObject::disconnect(this, SLOT(_handleMouseMove(const OIS::MouseEvent&)))) {
+            Logger::get().error("Cannot disconnect signal sMouseMoved with " + getName()
                 + "'s input handling slot.");
     }
 }
@@ -206,7 +206,7 @@ bool AdvancedPlayerComponent::getJumpEnabled() const{
     return mJumpEnabled;
 }
 
-void AdvancedPlayerComponent::_HandleButtonDown(dt::InputManager::InputCode input_code, const OIS::EventArg& event) {
+void AdvancedPlayerComponent::_handleButtonDown(dt::InputManager::InputCode input_code, const OIS::EventArg& event) {
     if(mKeyboardEnabled) {
         if(input_code == InputManager::KC_W || input_code == InputManager::KC_UP) {
             mMove.setZ(mMove.getZ() - 1.0f);
@@ -274,7 +274,7 @@ void AdvancedPlayerComponent::_handleMouseMove(const OIS::MouseEvent& event) {
     }
 }
 
-void AdvancedPlayerComponent::_HandleButtonUp(dt::InputManager::InputCode input_code, const OIS::EventArg& event) {
+void AdvancedPlayerComponent::_handleButtonUp(dt::InputManager::InputCode input_code, const OIS::EventArg& event) {
     if(mKeyboardEnabled) {
         if(input_code == InputManager::KC_W || input_code == InputManager::KC_UP) {
             mMove.setZ(mMove.getZ() + 1.0f);

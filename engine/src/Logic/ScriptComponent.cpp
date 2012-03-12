@@ -18,8 +18,8 @@ ScriptComponent::ScriptComponent(const QString& script_name, const QString& name
       mScriptName(script_name),
       mValid(true),
       mIsUpdateEnabled(is_update_enabled) {
-    if(!ScriptManager::Get()->HasScript(mScriptName)) {
-        Logger::Get().Error("Cannot create ScriptComponent for script \"" + mScriptName + "\": script not loaded.");
+    if(!ScriptManager::get()->hasScript(mScriptName)) {
+        Logger::get().error("Cannot create ScriptComponent for script \"" + mScriptName + "\": script not loaded.");
         mValid = false;
     }
 }
@@ -44,8 +44,8 @@ void ScriptComponent::onDisable() {}
 
 void ScriptComponent::onUpdate(double time_diff) {
     if(mIsUpdateEnabled) {
-        dt::ScriptManager::Get()->UpdateContext(mScriptObject);
-        _CallScriptFunction("OnUpdate", QScriptValueList() << time_diff);
+        dt::ScriptManager::get()->updateContext(mScriptObject);
+        _callScriptFunction("OnUpdate", QScriptValueList() << time_diff);
     }
 }
 

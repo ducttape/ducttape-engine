@@ -25,17 +25,17 @@ SimplePlayerComponent::SimplePlayerComponent(const QString name)
       mMove(Ogre::Vector3::ZERO) {}
 
 void SimplePlayerComponent::onInitialize() {
-    if(!QObject::connect(InputManager::Get(), SIGNAL(sPressed(dt::InputManager::InputCode input_code,
-        const OIS::EventArg& event)), this, SLOT(_HandleKeyPressed(dt::InputManager::InputCode input_code, 
+    if(!QObject::connect(InputManager::get(), SIGNAL(sPressed(dt::InputManager::InputCode input_code,
+        const OIS::EventArg& event)), this, SLOT(_handleKeyPressed(dt::InputManager::InputCode input_code, 
         const OIS::EventArg& event)))) {
-            Logger::Get().Error("Cannot connect the key pressed signal with " + GetName()
+            Logger::get().error("Cannot connect the key pressed signal with " + getName()
                 + "'s keyboard input handling slot.");
     }
     if(mCostant) {
-        if(!QObject::connect(InputManager::Get(), SIGNAL(sReleased(dt::InputManager::InputCode input_code, 
-            const OIS::EventArg& event)), this, SLOT(_HandleKeyReleased(dt::InputManager::InputCode input_code, 
+        if(!QObject::connect(InputManager::get(), SIGNAL(sReleased(dt::InputManager::InputCode input_code, 
+            const OIS::EventArg& event)), this, SLOT(_handleKeyReleased(dt::InputManager::InputCode input_code, 
             const OIS::EventArg& event)))) {
-                Logger::Get().Error("Cannot connect the key released signal with " + GetName()
+                Logger::get().error("Cannot connect the key released signal with " + getName()
                     + "'s keyboard input handling slot.");
         }
     }
@@ -113,17 +113,17 @@ bool SimplePlayerComponent::getMouseYInversed() const {
 void SimplePlayerComponent::setConstant(bool constant) {
     mCostant = constant;
     if(mCostant) {
-        if(!QObject::connect(InputManager::Get(), SIGNAL(sReleased(dt::InputManager::InputCode input_code, 
-            const OIS::EventArg& event)), this, SLOT(_HandleKeyReleased(dt::InputManager::InputCode input_code, 
+        if(!QObject::connect(InputManager::get(), SIGNAL(sReleased(dt::InputManager::InputCode input_code, 
+            const OIS::EventArg& event)), this, SLOT(_handleKeyReleased(dt::InputManager::InputCode input_code, 
             const OIS::EventArg& event)))) {
-                Logger::Get().Error("Cannot connect the key released signal with " + GetName()
+                Logger::get().error("Cannot connect the key released signal with " + getName()
                     + "'s keyboard press event slot.");
         }  
     } else {
-        if(!QObject::disconnect(InputManager::Get(), SIGNAL(sReleased(dt::InputManager::InputCode input_code, 
+        if(!QObject::disconnect(InputManager::get(), SIGNAL(sReleased(dt::InputManager::InputCode input_code, 
             const OIS::EventArg& event)), this, SLOT(_HandleKeyReleased(dt::InputManager::InputCode input_code, 
             const OIS::EventArg& event)))) {
-                Logger::Get().Error("Cannot disconnect the key released signal with " + GetName()
+                Logger::get().error("Cannot disconnect the key released signal with " + getName()
                     + "'s keyboard release event slot.");
         }
     }
@@ -167,7 +167,7 @@ void SimplePlayerComponent::_handleMouseInput(const OIS::MouseEvent& event) {
     }
 }
 
-void SimplePlayerComponent::_HandleKeyPressed(dt::InputManager::InputCode input_code, const OIS::EventArg& event) {
+void SimplePlayerComponent::_handleKeyPressed(dt::InputManager::InputCode input_code, const OIS::EventArg& event) {
     if(mWASDEnabled || mArrowsEnabled) {
         if((mWASDEnabled && input_code == InputManager::KC_W) || (mArrowsEnabled && input_code == InputManager::KC_UP)) {
             mMove.z = -1.0;
@@ -185,7 +185,7 @@ void SimplePlayerComponent::_HandleKeyPressed(dt::InputManager::InputCode input_
     }
 }
 
-void SimplePlayerComponent::_HandleKeyReleased(dt::InputManager::InputCode input_code, const OIS::EventArg& event) {
+void SimplePlayerComponent::_handleKeyReleased(dt::InputManager::InputCode input_code, const OIS::EventArg& event) {
     if(mWASDEnabled || mArrowsEnabled) {
         if((mWASDEnabled && input_code == InputManager::KC_W) || (mArrowsEnabled && input_code == InputManager::KC_UP) || 
            (mWASDEnabled && input_code == InputManager::KC_S) || (mArrowsEnabled && input_code == InputManager::KC_DOWN)) {
