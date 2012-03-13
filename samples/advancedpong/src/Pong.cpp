@@ -11,13 +11,11 @@
 #include <Physics/PhysicsManager.hpp>
 #include <Physics/PhysicsWorld.hpp>
 #include <Core/ResourceManager.hpp>
+#include <Utils/Random.hpp>
 
 #include <OgreFontManager.h>
 
 #include <OgreProcedural.h>
-
-#include <math.h>
-#include <time.h>
 
 float FIELD_WIDTH = 24;
 float FIELD_HEIGHT = 16;
@@ -63,7 +61,7 @@ void Main::ResetBall() {
 }
 
 void Main::OnInitialize() {
-    srand(time(nullptr));
+    dt::Random::Initialize();
 
     mScore1 = 0;
     mScore2 = 0;
@@ -149,8 +147,8 @@ void Main::OnInitialize() {
         dt::Node* plasma_node = mGameNode->AddChildNode(new dt::Node(QString("plasma_") + dt::Utils::ToString(i)));
         int pos_x, pos_y;
        
-        pos_x = rand() % (int)(FIELD_WIDTH - 3) - (int)(FIELD_WIDTH - 3) / 2;
-        pos_y = rand() % (int)(FIELD_HEIGHT - 3) - (int)(FIELD_HEIGHT - 3) / 2;
+        pos_x = dt::Random::Get(-(FIELD_WIDTH - 3) / 2, (FIELD_WIDTH - 3) / 2);
+        pos_y = dt::Random::Get(-(FIELD_HEIGHT - 3) / 2, (FIELD_HEIGHT - 3) / 2);
 
         plasma_node->SetPosition(Ogre::Vector3(pos_x, 2.0f, pos_y));
         plasma_node->AddComponent(new dt::MeshComponent("Plasma", "", "mesh"));
