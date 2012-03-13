@@ -38,13 +38,13 @@ bool TimerTest::run(int argc, char** argv) {
     return true;
 }
 
-QString TimerTest::GetTestName() {
+QString TimerTest::getTestName() {
     return "Timer";
 }
 
 ////////////////////////////////////////////////////////////////
 
-void Main::OnInitialize() {
+void Main::onInitialize() {
     mTimer1Count = 0;
     mTimer2Count = 0;
 
@@ -63,17 +63,17 @@ void Main::OnInitialize() {
     mTotalTime = 0;
 }
 
-void Main::UpdateStateFrame(double simulation_frame_time) {
+void Main::updateStateFrame(double simulation_frame_time) {
     mTotalTime += simulation_frame_time;
 
     if(mTotalTime >= 1.0) {
-        dt::StateManager::Get()->Pop(1);
-        mTimer1->Stop();
-        mTimer2->Stop();
+        dt::StateManager::get()->pop(1);
+        mTimer1->stop();
+        mTimer2->stop();
     }
 }
 
-void Main::_TimerCallback(const QString message) {
+void Main::_timerCallback(const QString message) {
     if(message == "Timer 1 (event mode)") {
         mTimer1Count++;
         std::cout << "Timer tick " << mTimer1Count << ": " << "Timer 1 (event mode)" << std::endl;

@@ -12,7 +12,7 @@
 
 namespace QObjectTest {
 
-bool QObjectTest::Run(int argc, char** argv) {
+bool QObjectTest::run(int argc, char** argv) {
     // Don't initialize Root, we don't need the StringManager.
     // We gave that Component a name. Components love names.
 
@@ -28,7 +28,7 @@ bool QObjectTest::Run(int argc, char** argv) {
     return true;
 }
 
-QString QObjectTest::GetTestName() {
+QString QObjectTest::getTestName() {
     return "QObject";
 }
 

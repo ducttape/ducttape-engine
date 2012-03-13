@@ -14,13 +14,13 @@
 
 namespace PhysicsSimpleTest {
 
-bool PhysicsSimpleTest::Run(int argc, char** argv) {
+bool PhysicsSimpleTest::run(int argc, char** argv) {
     dt::Game game;
-    game.Run(new Main(), argc, argv);
+    game.run(new Main(), argc, argv);
     return true;
 }
 
-QString PhysicsSimpleTest::GetTestName() {
+QString PhysicsSimpleTest::getTestName() {
     return "PhysicsSimple";
 }
 
@@ -29,83 +29,83 @@ QString PhysicsSimpleTest::GetTestName() {
 Main::Main()
     : mRuntime(0) {}
 
-void Main::UpdateStateFrame(double simulation_frame_time) {
+void Main::updateStateFrame(double simulation_frame_time) {
     mRuntime += simulation_frame_time;
 
-    dt::Scene* testscene = GetScene("testscene");
-    dt::PhysicsBodyComponent* sphere1 = testscene->FindChildNode("spherenode")->FindComponent<dt::PhysicsBodyComponent>("sphere-body");
-    dt::PhysicsBodyComponent* sphere2 = testscene->FindChildNode("spherenode2")->FindComponent<dt::PhysicsBodyComponent>("sphere-body2");
+    dt::Scene* testscene = getScene("testscene");
+    dt::PhysicsBodyComponent* sphere1 = testscene->findChildNode("spherenode")->findComponent<dt::PhysicsBodyComponent>("sphere-body");
+    dt::PhysicsBodyComponent* sphere2 = testscene->findChildNode("spherenode2")->findComponent<dt::PhysicsBodyComponent>("sphere-body2");
 
-    if(sphere2->IsEnabled() && mRuntime > 1.0) {
+    if(sphere2->isEnabled() && mRuntime > 1.0) {
         // disable and save position
-        sphere2->Disable();
-        mSphere2DisabledPosition = sphere2->GetNode()->GetPosition();
-    } else if(!sphere2->IsEnabled()) {
+        sphere2->disable();
+        mSphere2DisabledPosition = sphere2->getNode()->getPosition();
+    } else if(!sphere2->isEnabled()) {
         // check if it moved
-        if(mSphere2DisabledPosition != sphere2->GetNode()->GetPosition()) {
+        if(mSphere2DisabledPosition != sphere2->getNode()->getPosition()) {
             std::cerr << "The second sphere moved, even though it should be disabled." << std::endl;
             exit(1);
         }
     }
 
 
-    if(mRuntime >= 3.0 && testscene->GetPhysicsWorld()->IsEnabled()) {
-        mSphere1DisabledPosition = sphere1->GetNode()->GetPosition();
+    if(mRuntime >= 3.0 && testscene->getPhysicsWorld()->isEnabled()) {
+        mSphere1DisabledPosition = sphere1->getNode()->getPosition();
     }
-    if(!testscene->GetPhysicsWorld()->IsEnabled()) {
-        if(mSphere1DisabledPosition != sphere1->GetNode()->GetPosition()) {
+    if(!testscene->getPhysicsWorld()->isEnabled()) {
+        if(mSphere1DisabledPosition != sphere1->getNode()->getPosition()) {
             std::cerr << "The first sphere moved, even though it should be disabled (the whole physics world should be disabled)." << std::endl;
             exit(1);
         }
     }
 
-    testscene->GetPhysicsWorld()->SetShowDebug(mRuntime > 2.0);
-    testscene->GetPhysicsWorld()->SetEnabled(mRuntime < 3.0);
+    testscene->getPhysicsWorld()->setShowDebug(mRuntime > 2.0);
+    testscene->getPhysicsWorld()->setEnabled(mRuntime < 3.0);
 
     if(mRuntime > 5.0) {
-        dt::StateManager::Get()->Pop(1);
+        dt::StateManager::get()->pop(1);
     }
 }
 
-void Main::OnInitialize() {
-    dt::Scene* scene = AddScene(new dt::Scene("testscene"));
+void Main::onInitialize() {
+    dt::Scene* scene = addScene(new dt::Scene("testscene"));
 
-    dt::ResourceManager::Get()->AddResourceLocation("","FileSystem");
-    dt::ResourceManager::Get()->AddResourceLocation("crate","FileSystem");
+    dt::ResourceManager::get()->addResourceLocation("","FileSystem");
+    dt::ResourceManager::get()->addResourceLocation("crate","FileSystem");
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    OgreProcedural::Root::getInstance()->sceneManager = scene->GetSceneManager();
+    OgreProcedural::Root::getInstance()->sceneManager = scene->getSceneManager();
 
     OgreProcedural::SphereGenerator().setRadius(1.f).setUTile(.5f).realizeMesh("Sphere");
     OgreProcedural::PlaneGenerator().setSizeX(10.f).setSizeY(10.f).realizeMesh("Plane");
 
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
-    camnode->SetPosition(Ogre::Vector3(15, 2, 15));
-    camnode->AddComponent(new dt::CameraComponent("cam"))->LookAt(Ogre::Vector3(0, 0, 0));;
+    dt::Node* camnode = scene->addChildNode(new dt::Node("camnode"));
+    camnode->setPosition(Ogre::Vector3(15, 2, 15));
+    camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));;
 
-    dt::Node* spherenode = scene->AddChildNode(new dt::Node("spherenode"));
-    spherenode->SetPosition(Ogre::Vector3(0, 10, 0));
-    spherenode->AddComponent(new dt::MeshComponent("Crate01.mesh", "", "sphere-mesh"));
-    spherenode->AddComponent(new dt::PhysicsBodyComponent("sphere-mesh", "sphere-body"));
+    dt::Node* spherenode = scene->addChildNode(new dt::Node("spherenode"));
+    spherenode->setPosition(Ogre::Vector3(0, 10, 0));
+    spherenode->addComponent(new dt::MeshComponent("Crate01.mesh", "", "sphere-mesh"));
+    spherenode->addComponent(new dt::PhysicsBodyComponent("sphere-mesh", "sphere-body"));
 
-    dt::Node* spherenode2 = scene->AddChildNode(new dt::Node("spherenode2"));
-    spherenode2->SetPosition(Ogre::Vector3(2, 10, 0));
-    spherenode2->AddComponent(new dt::MeshComponent("Sphere", "PrimitivesTest/RedBrick", "sphere-mesh2"));
-    spherenode2->AddComponent(new dt::PhysicsBodyComponent("sphere-mesh2", "sphere-body2"));
+    dt::Node* spherenode2 = scene->addChildNode(new dt::Node("spherenode2"));
+    spherenode2->setPosition(Ogre::Vector3(2, 10, 0));
+    spherenode2->addComponent(new dt::MeshComponent("Sphere", "PrimitivesTest/RedBrick", "sphere-mesh2"));
+    spherenode2->addComponent(new dt::PhysicsBodyComponent("sphere-mesh2", "sphere-body2"));
 
-    dt::Node* planenode = scene->AddChildNode(new dt::Node("planenode"));
-    planenode->SetPosition(Ogre::Vector3(0, 0, 0));
+    dt::Node* planenode = scene->addChildNode(new dt::Node("planenode"));
+    planenode->setPosition(Ogre::Vector3(0, 0, 0));
     Ogre::Quaternion q;
     q.FromAngleAxis(Ogre::Degree(20), Ogre::Vector3::UNIT_X);
-    planenode->SetRotation(q);
-    planenode->AddComponent(new dt::MeshComponent("Plane", "PrimitivesTest/Pebbles", "plane-mesh"));
-    planenode->AddComponent(new dt::PhysicsBodyComponent("plane-mesh", "plane-body"))->SetMass(0.f);
+    planenode->setRotation(q);
+    planenode->addComponent(new dt::MeshComponent("Plane", "PrimitivesTest/Pebbles", "plane-mesh"));
+    planenode->addComponent(new dt::PhysicsBodyComponent("plane-mesh", "plane-body"))->setMass(0.f);
 
-    dt::Node* lightnode1 = scene->AddChildNode(new dt::Node("lightnode1"));
-    lightnode1->AddComponent(new dt::LightComponent("light1"));
-    lightnode1->SetPosition(Ogre::Vector3(15, 5, 15));
+    dt::Node* lightnode1 = scene->addChildNode(new dt::Node("lightnode1"));
+    lightnode1->addComponent(new dt::LightComponent("light1"));
+    lightnode1->setPosition(Ogre::Vector3(15, 5, 15));
 }
 
 }

@@ -23,9 +23,9 @@ namespace ScriptingTest {
 
 class ScriptingTest : public Test {
 public:
-    bool Run(int argc, char** argv);
-    QString GetTestName();
-    QScriptValue RunScript(QString name, QScriptValue expected_value = QScriptValue::UndefinedValue);
+    bool run(int argc, char** argv);
+    QString getTestName();
+    QScriptValue runScript(QString name, QScriptValue expected_value = QScriptValue::UndefinedValue);
 private:
     bool mFailed;
 };
