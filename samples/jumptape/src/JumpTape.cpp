@@ -29,9 +29,9 @@ JumpTape::JumpTape() :
     mRuntime(0),
     mConsecutiveBlank(0) {}
 
-void JumpTape::UpdateStateFrame(double simulation_frame_time) {
+void JumpTape::updateStateFrame(double simulation_frame_time) {
     mRuntime += simulation_frame_time;
-    mKeyboard = dt::InputManager::Get()->GetKeyboard();
+    mKeyboard = dt::InputManager::get()->getKeyboard();
     double field_speed = mRuntime/1000; 
     
     // Move each tile. 
@@ -50,7 +50,7 @@ void JumpTape::UpdateStateFrame(double simulation_frame_time) {
         // Get position of the last (precedent) tile.
         double last_tile_x = mTiles->getBillboard((i+TILES-1) % TILES)->getPosition().x;
         // Append billboard to end.
-        tile->setPosition(last_tile_x+TILE_X, dt::Random::Get(-3, 3), 0); 
+        tile->setPosition(last_tile_x+TILE_X, dt::Random::get(-3, 3), 0);
         tile->setTexcoordIndex(blank);
         i++; // Switch to next tile...
         i %= TILES; // ...in a cicle.
@@ -105,40 +105,40 @@ void JumpTape::UpdateStateFrame(double simulation_frame_time) {
     // Show reset game info.
     static QString time;
     if(player_pos.y < -4) {
-        mGameInfo->SetText("You ran for " + time + " seconds, press N for a new game");
+        mGameInfo->setText("You ran for " + time + " seconds, press N for a new game");
     }
     else {
-        time = dt::Utils::ToString(static_cast<uint32_t>(mRuntime));
-        mGameInfo->SetText("You ran for " + time + " seconds");
+        time = dt::Utils::toString(static_cast<uint32_t>(mRuntime));
+        mGameInfo->setText("You ran for " + time + " seconds");
     }
 }
 
-void JumpTape::OnInitialize() {
-        dt::Scene* scene = AddScene(new dt::Scene("JumpTape_scene"));
-        OgreProcedural::Root::getInstance()->sceneManager = scene->GetSceneManager();
+void JumpTape::onInitialize() {
+        dt::Scene* scene = addScene(new dt::Scene("JumpTape_scene"));
+        OgreProcedural::Root::getInstance()->sceneManager = scene->getSceneManager();
 
-        dt::ResourceManager::Get()->AddResourceLocation("", "FileSystem", true);
+        dt::ResourceManager::get()->addResourceLocation("", "FileSystem", true);
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
         Ogre::FontManager::getSingleton().load("DejaVuSans", "General");
 
-        dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
-        camnode->SetPosition(Ogre::Vector3(0, 0, 40));
-        camnode->AddComponent(new dt::CameraComponent("cam"))->LookAt(Ogre::Vector3(0, 0, 0));
+        dt::Node* camnode = scene->addChildNode(new dt::Node("camnode"));
+        camnode->setPosition(Ogre::Vector3(0, 0, 40));
+        camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));
         
-        dt::Node* background = scene->AddChildNode(new dt::Node("background"));
-        background->SetPosition(Ogre::Vector3(0, 0, -1));
-        dt::BillboardSetComponent* background_billboard = background->AddComponent(
+        dt::Node* background = scene->addChildNode(new dt::Node("background"));
+        background->setPosition(Ogre::Vector3(0, 0, -1));
+        dt::BillboardSetComponent* background_billboard = background->addComponent(
             new dt::BillboardSetComponent(
                 "background_billboard", 1, "jumptape-background.jpg"));
-        background_billboard->GetOgreBillboardSet()->setDefaultDimensions(50, 34);
+        background_billboard->getOgreBillboardSet()->setDefaultDimensions(50, 34);
 
-        mField = scene->AddChildNode(new dt::Node("field_node"));
-        mField->SetPosition(Ogre::Vector3(0, 0, 0));
+        mField = scene->addChildNode(new dt::Node("field_node"));
+        mField->setPosition(Ogre::Vector3(0, 0, 0));
         
-        dt::BillboardSetComponent* billboard = mField->AddComponent(
+        dt::BillboardSetComponent* billboard = mField->addComponent(
             new dt::BillboardSetComponent("tiles", TILES));
-        billboard->SetTextureFromFile("jumptape-tiles.png");
-        mTiles = billboard->GetOgreBillboardSet();
+        billboard->setTextureFromFile("jumptape-tiles.png");
+        mTiles = billboard->getOgreBillboardSet();
         mTiles->setTextureStacksAndSlices(1, 2);
         mTiles->setDefaultDimensions(TILE_X, TILE_Y);
         mTiles->setRenderQueueGroup(Ogre::RENDER_QUEUE_OVERLAY); // Always visible
@@ -160,12 +160,12 @@ void JumpTape::OnInitialize() {
             tile->setTexcoordIndex(blank);
         }
 
-        dt::Node* player = scene->AddChildNode(new dt::Node("player"));
-        player->SetPosition(Ogre::Vector3(0, 0, 0));
+        dt::Node* player = scene->addChildNode(new dt::Node("player"));
+        player->setPosition(Ogre::Vector3(0, 0, 0));
         dt::BillboardSetComponent* billboard_component = 
-            player->AddComponent(new dt::BillboardSetComponent("player", 
+            player->addComponent(new dt::BillboardSetComponent("player",
                                                                1, "jumptape-jumper.png"));
-        Ogre::BillboardSet* player_billboard = billboard_component->GetOgreBillboardSet(); 
+        Ogre::BillboardSet* player_billboard = billboard_component->getOgreBillboardSet();
         player_billboard->setRenderQueueGroup(Ogre::RENDER_QUEUE_OVERLAY);
         player_billboard->setTextureStacksAndSlices(1, 12);
         player_billboard->setDefaultDimensions(2, 2);
@@ -173,12 +173,12 @@ void JumpTape::OnInitialize() {
         mPlayer->setPosition(mTiles->getBillboard(2)->getPosition().x-1.6, // Match edges of image.
                              mTiles->getBillboard(2)->getPosition().y+9, 0);
         
-        dt::Node* info_node = scene->AddChildNode(new dt::Node("info"));
-        info_node->SetPosition(Ogre::Vector3(0, (-GAME_HEIGHT/2)+5, 2));
-        mGameInfo = info_node->AddComponent(new dt::TextComponent(""));
-        mGameInfo->SetFont("DejaVuSans");
-        mGameInfo->SetFontSize(20);
-        mGameInfo->SetColor(Ogre::ColourValue::White);
+        dt::Node* info_node = scene->addChildNode(new dt::Node("info"));
+        info_node->setPosition(Ogre::Vector3(0, (-GAME_HEIGHT/2)+5, 2));
+        mGameInfo = info_node->addComponent(new dt::TextComponent(""));
+        mGameInfo->setFont("DejaVuSans");
+        mGameInfo->setFontSize(20);
+        mGameInfo->setColor(Ogre::ColourValue::White);
 }
 
 bool JumpTape::_GetTileType() {
@@ -188,7 +188,7 @@ bool JumpTape::_GetTileType() {
                mConsecutiveBlank =- 1;
      } 
      else {
-        blank = static_cast<uint8_t>(dt::Random::Get(0, 1));
+        blank = static_cast<uint8_t>(dt::Random::get(0, 1));
      }
      return blank;
 }

@@ -9,11 +9,13 @@ class Main: public dt::State {
 public:
     void ResetBall();
 
-    void OnInitialize();
-    void UpdateStateFrame(double simulation_frame_time);
+    void onInitialize();
+    void updateStateFrame(double simulation_frame_time);
 
 public slots:
-	void BallCollided(dt::PhysicsBodyComponent* collider);
+	void BallCollided(dt::PhysicsBodyComponent* collider, dt::PhysicsBodyComponent* ball);
+
+    void PaddleCollided(dt::PhysicsBodyComponent* collider, dt::PhysicsBodyComponent* paddle);
 
 private:
     dt::Node* mGameNode;
@@ -29,4 +31,9 @@ private:
     dt::TextComponent* mScore2Text;
     int mScore1;
     int mScore2;
+    double mPreviousSpeed;
+    bool mIsAtTop1;
+    bool mIsAtTop2;
+    bool mIsAtBottom1;
+    bool mIsAtBottom2;
 };

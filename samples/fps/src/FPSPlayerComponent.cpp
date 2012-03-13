@@ -7,37 +7,37 @@
 
 #include <OgreProcedural.h>
 
-FPSPlayerComponent::FPSPlayerComponent(uint16_t weapon_num, const QString& name)
+FPSPlayerComponent::FPSPlayerComponent(uint16_t weapon_num, const QString name)
     : AdvancedPlayerComponent(name),
       mWeaponNum(weapon_num),
       mWeaponInUse(nullptr),
       mGrabber(nullptr) {}
 
-void FPSPlayerComponent::OnInitialize() {
-    AdvancedPlayerComponent::OnInitialize();
+void FPSPlayerComponent::onInitialize() {
+    AdvancedPlayerComponent::onInitialize();
 
     for(uint16_t i = 0; i < mWeaponNum; ++i) {
         mWeapons.push_back(nullptr);
     }
 
-    mGrabber = this->GetNode()->AddComponent<dt::RaycastComponent>(new dt::RaycastComponent("grabber"));
-    mGrabber->SetRange(3.0f);
+    mGrabber = this->getNode()->addComponent<dt::RaycastComponent>(new dt::RaycastComponent("grabber"));
+    mGrabber->setRange(3.0f);
     
     if(!QObject::connect(mGrabber, SIGNAL(sHit(dt::PhysicsBodyComponent*)), 
-                             this, SLOT(_PickUpWeapon(dt::PhysicsBodyComponent*)))) {
-            dt::Logger::Get().Error("Cannot connect the grabber's signal sHit with FPSPlayerComponent " + 
-                GetName() + "'s slot _PickUpWeapon.");
+                         this,     SLOT(_PickUpWeapon(dt::PhysicsBodyComponent*)))) {
+            dt::Logger::get().error("Cannot connect the grabber's signal sHit with FPSPlayerComponent " +
+                getName() + "'s slot _PickUpWeapon.");
     }
 
-    if(!QObject::connect(dt::InputManager::Get(), SIGNAL(sPressed(dt::InputManager::InputCode, const OIS::EventArg&)), 
-                                            this, SLOT(_OnKeyDown(dt::InputManager::InputCode, const OIS::EventArg&)))) {
-            dt::Logger::Get().Error("Cannot connect signal sPressed with " + GetName()
+    if(!QObject::connect(dt::InputManager::get(), SIGNAL(sPressed(dt::InputManager::InputCode, const OIS::EventArg&)),
+                         this, SLOT(_onKeyDown(dt::InputManager::InputCode, const OIS::EventArg&)))) {
+            dt::Logger::get().error("Cannot connect signal sPressed with " + getName()
                 + "'s input handling slot.");
     }
 }
 
-void FPSPlayerComponent::OnDeinitialize() {
-    AdvancedPlayerComponent::OnDeinitialize();
+void FPSPlayerComponent::onDeinitialize() {
+    AdvancedPlayerComponent::onDeinitialize();
 }
 
 void FPSPlayerComponent::AddWeapon(Weapon* weapon) {
@@ -48,16 +48,16 @@ void FPSPlayerComponent::AddWeapon(Weapon* weapon) {
             this->RemoveWeapon(index);
 
         weapon->EnablePhysicsBody(false);
-        weapon->SetParent(this->GetNode());
-        weapon->SetRotation(Ogre::Quaternion::IDENTITY);
-        weapon->SetPosition(0.5f, -0.5f, -1.0f);
+        weapon->setParent(this->getNode());
+        weapon->setRotation(Ogre::Quaternion::IDENTITY);
+        weapon->setPosition(0.5f, -0.5f, -1.0f);
         mWeapons[index] = weapon;
 
         if(mWeaponInUse == nullptr) {
             this->ChangeWeapon(index);
         }
         else {
-            weapon->Disable();
+            weapon->disable();
         }
     }
 }
@@ -65,10 +65,10 @@ void FPSPlayerComponent::AddWeapon(Weapon* weapon) {
 void FPSPlayerComponent::ChangeWeapon(uint16_t weapon_type) {
     if(mWeaponNum > weapon_type && mWeapons[weapon_type] != nullptr && mWeaponInUse != mWeapons[weapon_type]) {
         if(mWeaponInUse != nullptr)
-            mWeaponInUse->Disable();
+            mWeaponInUse->disable();
 
         mWeaponInUse = mWeapons[weapon_type];
-        mWeaponInUse->Enable();
+        mWeaponInUse->enable();
 
         emit sWeaponChanged(mWeaponInUse);
     }      
@@ -87,7 +87,7 @@ const std::vector<Weapon*>& FPSPlayerComponent::GetAllWeapons() const {
 }
 
 void FPSPlayerComponent::_OnKeyDown(dt::InputManager::InputCode input_code, const OIS::EventArg& event) {
-    if(this->IsEnabled()) {
+    if(this->isEnabled()) {
         switch(input_code) {
         case dt::InputManager::KC_1:
             ChangeWeapon(0);
@@ -125,7 +125,7 @@ void FPSPlayerComponent::_OnKeyDown(dt::InputManager::InputCode input_code, cons
                 mWeaponInUse->Reload();
             break;
         case dt::InputManager::KC_E:
-            mGrabber->Check();
+            mGrabber->check();
             break;
         default:
             return;
@@ -138,23 +138,23 @@ void FPSPlayerComponent::RemoveWeapon(uint16_t weapon_type) {
         if(mWeaponInUse == mWeapons[weapon_type])
             mWeaponInUse = nullptr;
 
-        mWeapons[weapon_type]->SetPosition(0.0f, 0.0f, -3.0f);
-        Ogre::Vector3 pos = mWeapons[weapon_type]->GetPosition(dt::Node::SCENE);
-        mWeapons[weapon_type]->SetParent(this->GetNode()->GetScene());
-        mWeapons[weapon_type]->SetPosition(pos, dt::Node::SCENE);
+        mWeapons[weapon_type]->setPosition(0.0f, 0.0f, -3.0f);
+        Ogre::Vector3 pos = mWeapons[weapon_type]->getPosition(dt::Node::SCENE);
+        mWeapons[weapon_type]->setParent(this->getNode()->getScene());
+        mWeapons[weapon_type]->setPosition(pos, dt::Node::SCENE);
         mWeapons[weapon_type]->EnablePhysicsBody(true);
-        mWeapons[weapon_type]->Enable();
+        mWeapons[weapon_type]->enable();
         mWeapons[weapon_type] = nullptr;
     }
 }
 
-void FPSPlayerComponent::_OnMouseTriggered() {
+void FPSPlayerComponent::_onMouseTriggered() {
     if(mIsLeftMouseDown && mWeaponInUse != nullptr)
         mWeaponInUse->Fire();
 }
 
 void FPSPlayerComponent::_PickUpWeapon(dt::PhysicsBodyComponent* object) {
-    Weapon* weapon = dynamic_cast<Weapon*>(object->GetNode());
+    Weapon* weapon = dynamic_cast<Weapon*>(object->getNode());
 
     if(weapon != nullptr) {
         AddWeapon(weapon);

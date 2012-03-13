@@ -12,6 +12,6 @@
 
 int main(int argc, char** argv) {
     dt::Game game;
-    game.Run(new JumpTape, argc, argv);
+    game.run(new JumpTape, argc, argv);
     return 0;
 }
