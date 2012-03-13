@@ -12,30 +12,30 @@
 
 namespace NamesTest {
 
-bool NamesTest::Run(int argc, char** argv) {
-    dt::Root::GetInstance().Initialize(argc, argv);
+bool NamesTest::run(int argc, char** argv) {
+    dt::Root::getInstance().initialize(argc, argv);
 
     dt::Node node;
-    std::cout << "Node name: " << dt::Utils::ToStdString(node.GetName()) << std::endl;
-    if(node.GetName() != "Node-1") {
-        std::cerr << "Node name generation failed. Got \"" << dt::Utils::ToStdString(node.GetName()) << "\" instead of \"Node-1\"." << std::endl;
+    std::cout << "Node name: " << dt::Utils::toStdString(node.getName()) << std::endl;
+    if(node.getName() != "Node-1") {
+        std::cerr << "Node name generation failed. Got \"" << dt::Utils::toStdString(node.getName()) << "\" instead of \"Node-1\"." << std::endl;
         return false;
     }
 
     dt::CameraComponent component;
-    std::cout << "Component name: " << dt::Utils::ToStdString(component.GetName()) << std::endl;
-    assert(component.GetName() == "Component-2");
+    std::cout << "Component name: " << dt::Utils::toStdString(component.getName()) << std::endl;
+    assert(component.getName() == "Component-2");
 
-    if(component.GetName() != "Component-2") {
-        std::cerr << "Component name generation failed. Got \"" << dt::Utils::ToStdString(component.GetName()) << "\" instead of \"Component-2\"." << std::endl;
+    if(component.getName() != "Component-2") {
+        std::cerr << "Component name generation failed. Got \"" << dt::Utils::toStdString(component.getName()) << "\" instead of \"Component-2\"." << std::endl;
         return false;
     }
 
-    dt::Root::GetInstance().Deinitialize();
+    dt::Root::getInstance().deinitialize();
     return true;
 }
 
-QString NamesTest::GetTestName() {
+QString NamesTest::getTestName() {
     return "Names";
 }
 

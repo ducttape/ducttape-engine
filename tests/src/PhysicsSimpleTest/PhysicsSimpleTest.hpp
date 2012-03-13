@@ -27,8 +27,8 @@ namespace PhysicsSimpleTest {
 
 class PhysicsSimpleTest : public Test {
 public:
-    bool Run(int argc, char** argv);
-    QString GetTestName();
+    bool run(int argc, char** argv);
+    QString getTestName();
 };
 
 ////////////////////////////////////////////////////////////////
@@ -38,8 +38,8 @@ class Main : public dt::State {
 public:
     Main();
     //Main::Priority GetEventPriority() const;
-    void OnInitialize();
-    void UpdateStateFrame(double simulation_frame_time);
+    void onInitialize();
+    void updateStateFrame(double simulation_frame_time);
 
 private:
     double mRuntime;

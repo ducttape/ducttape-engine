@@ -14,9 +14,9 @@
 
 namespace MusicTest {
 
-bool MusicTest::Run(int argc, char** argv) {
-    dt::Root& root = dt::Root::GetInstance();
-    root.Initialize(argc, argv);
+bool MusicTest::run(int argc, char** argv) {
+    dt::Root& root = dt::Root::getInstance();
+    root.initialize(argc, argv);
     QString music_file = "test_music_loop.ogg";
 
     // set global volume
@@ -24,61 +24,61 @@ bool MusicTest::Run(int argc, char** argv) {
 
     dt::Scene scene("scene1");
 
-    dt::Node* music_node = scene.AddChildNode(new dt::Node("music"));
-    dt::MusicComponent* music_component = music_node->AddComponent(new dt::MusicComponent(music_file));
+    dt::Node* music_node = scene.addChildNode(new dt::Node("music"));
+    dt::MusicComponent* music_component = music_node->addComponent(new dt::MusicComponent(music_file));
 
-    music_component->SetVolume(40);
+    music_component->setVolume(40);
 
-    auto resmgr = root.GetResourceManager();
+    auto resmgr = root.getResourceManager();
 
-    if(resmgr->GetMusicFile(music_file)->GetStatus() != sf::Music::Playing) {
+    if(resmgr->getMusicFile(music_file)->getStatus() != sf::Music::Playing) {
         std::cerr << "The music is currently not playing." << std::endl;
-        resmgr->GetMusicFile(music_file)->Stop();
+        resmgr->getMusicFile(music_file)->stop();
         return false;
     }
 
-    sf::Sleep(sf::Milliseconds(500));
+    sf::sleep(sf::milliseconds(500));
     //dt::MusicComponent::SetMasterVolume(1);
-    music_component->SetVolume(1);
-    sf::Sleep(sf::Milliseconds(500));
+    music_component->setVolume(1);
+    sf::sleep(sf::milliseconds(500));
 
-    if(resmgr->GetMusicFile(music_file)->GetPlayingOffset().AsMilliseconds() < 100) {
+    if(resmgr->getMusicFile(music_file)->getPlayingOffset().asMilliseconds() < 100) {
         std::cerr << "The music was not played correctly." << std::endl;
-        resmgr->GetMusicFile(music_file)->Stop();
+        resmgr->getMusicFile(music_file)->stop();
         return false;
     }
 
-    music_component->PauseMusic();
-    if(resmgr->GetMusicFile(music_file)->GetStatus() != sf::Music::Paused) {
+    music_component->pauseMusic();
+    if(resmgr->getMusicFile(music_file)->getStatus() != sf::Music::Paused) {
         std::cerr << "The music is currently playing. It should be paused." << std::endl;
-        resmgr->GetMusicFile(music_file)->Stop();
+        resmgr->getMusicFile(music_file)->stop();
         return false;
     }
 
-    sf::Sleep(sf::Milliseconds(200));
+    sf::sleep(sf::milliseconds(200));
 
-    music_component->StopMusic();
-    if(resmgr->GetMusicFile(music_file)->GetStatus() != sf::Music::Stopped) {
+    music_component->stopMusic();
+    if(resmgr->getMusicFile(music_file)->getStatus() != sf::Music::Stopped) {
         std::cerr << "The music is currently not stopped." << std::endl;
-        resmgr->GetMusicFile(music_file)->Stop();
+        resmgr->getMusicFile(music_file)->stop();
         return false;
     }
 
-    sf::Sleep(sf::Milliseconds(200));
+    sf::sleep(sf::milliseconds(200));
 
-    music_component->PlayMusic();
-    if(resmgr->GetMusicFile(music_file)->GetStatus() != sf::Music::Playing) {
+    music_component->playMusic();
+    if(resmgr->getMusicFile(music_file)->getStatus() != sf::Music::Playing) {
         std::cerr << "The music is currently not playing." << std::endl;
-        resmgr->GetMusicFile(music_file)->Stop();
+        resmgr->getMusicFile(music_file)->stop();
         return false;
     }
 
-    resmgr->GetMusicFile(music_file)->Stop();
-    root.Deinitialize();
+    resmgr->getMusicFile(music_file)->stop();
+    root.deinitialize();
     return true;
 }
 
-QString MusicTest::GetTestName() {
+QString MusicTest::getTestName() {
     return "Music";
 }
 
