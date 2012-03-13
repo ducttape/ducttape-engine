@@ -20,9 +20,9 @@ class FPSPlayerComponent : public dt::AdvancedPlayerComponent {
 public:
     FPSPlayerComponent(uint16_t weapon_num, const QString name = "");
 
-    void OnInitialize();
+    void onInitialize();
 
-    void OnDeinitialize();
+    void onDeinitialize();
 
     uint16_t GetWeaponNumber() const;
 
@@ -43,7 +43,7 @@ signals:
     void sWeaponChanged(const Weapon* current_weapon);
 
 private:
-    void _OnMouseTriggered();
+    void _onMouseTriggered();
 
 private slots:
     void _OnKeyDown(dt::InputManager::InputCode input_code, const OIS::EventArg& event);

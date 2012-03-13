@@ -57,18 +57,20 @@ void AdvancedPlayerComponent::onInitialize() {
     getNode()->getScene()->getPhysicsWorld()->getBulletWorld()->addCollisionObject(mBtGhostObject.get());
     getNode()->getScene()->getPhysicsWorld()->getBulletWorld()->addAction(mBtController.get());
 
-    if(!QObject::connect(InputManager::get(), SIGNAL(sPressed(dt::InputManager::InputCode, const OIS::EventArg&)), 
-                                        this, SLOT(_handleButtonDown(dt::InputManager::InputCode, const OIS::EventArg&)))) {
+    if(!QObject::connect(InputManager::get(), SIGNAL(sPressed(dt::InputManager::InputCode, const OIS::EventArg&)),
+                         this,                SLOT(_handleButtonDown(dt::InputManager::InputCode, const OIS::EventArg&)))) {
             Logger::get().error("Cannot connect signal sPressed with " + getName()
                 + "'s input handling slot.");
     }
-    if(!QObject::connect(InputManager::get(), SIGNAL(sReleased(dt::InputManager::InputCode, const OIS::EventArg&)), 
-                                        this, SLOT(_handleButtonUp(dt::InputManager::InputCode, const OIS::EventArg&)))) {
+
+    if(!QObject::connect(InputManager::get(), SIGNAL(sReleased(dt::InputManager::InputCode, const OIS::EventArg&)),
+                         this,                SLOT(_handleButtonUp(dt::InputManager::InputCode, const OIS::EventArg&)))) {
             Logger::get().error("Cannot connect signal sReleased with " + getName()
                 + "'s input handling slot.");
     }
-    if(!QObject::connect(InputManager::get(), SIGNAL(sMouseMoved(const OIS::MouseEvent&)), 
-                                        this, SLOT(_handleMouseMove(const OIS::MouseEvent&)))) {
+
+    if(!QObject::connect(InputManager::get(), SIGNAL(sMouseMoved(const OIS::MouseEvent&)),
+                         this,                SLOT(_handleMouseMove(const OIS::MouseEvent&)))) {
             Logger::get().error("Cannot connect signal sMouseMoved with " + getName()
                 + "'s input handling slot.");
     }
@@ -79,10 +81,12 @@ void AdvancedPlayerComponent::onDeinitialize() {
             Logger::get().error("Cannot disconnect signal sPressed with " + getName()
                 + "'s input handling slot.");
     }
+
     if(!QObject::disconnect(this, SLOT(_handleButtonUp(dt::InputManager::InputCode, const OIS::EventArg&)))) {
             Logger::get().error("Cannot disconnect signal sReleased with " + getName()
                 + "'s input handling slot.");
     }
+
     if(!QObject::disconnect(this, SLOT(_handleMouseMove(const OIS::MouseEvent&)))) {
             Logger::get().error("Cannot disconnect signal sMouseMoved with " + getName()
                 + "'s input handling slot.");

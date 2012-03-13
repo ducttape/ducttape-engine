@@ -33,7 +33,7 @@ public:
       * @param is_update_enabled Whether update call of the script is enabled or not.
       * @see Component
       */
-    ScriptComponent(const QString& script_name, const QString& name = "", bool is_update_enabled = false);
+    ScriptComponent(const QString script_name, const QString name = "", bool is_update_enabled = false);
 
     void onInitialize();
     void onDeinitialize();

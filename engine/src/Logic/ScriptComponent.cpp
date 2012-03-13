@@ -13,7 +13,7 @@
 
 namespace dt {
 
-ScriptComponent::ScriptComponent(const QString& script_name, const QString& name, bool is_update_enabled)
+ScriptComponent::ScriptComponent(const QString script_name, const QString name, bool is_update_enabled)
     : Component(name),
       mScriptName(script_name),
       mValid(true),

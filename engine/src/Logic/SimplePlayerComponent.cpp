@@ -25,15 +25,15 @@ SimplePlayerComponent::SimplePlayerComponent(const QString name)
       mMove(Ogre::Vector3::ZERO) {}
 
 void SimplePlayerComponent::onInitialize() {
-    if(!QObject::connect(InputManager::get(), SIGNAL(sPressed(dt::InputManager::InputCode input_code,
-        const OIS::EventArg& event)), this, SLOT(_handleKeyPressed(dt::InputManager::InputCode input_code, 
+    if(!QObject::connect(InputManager::get(), SIGNAL(sPressed(dt::InputManager::InputCode input_code, const OIS::EventArg& event)),
+                         this,                SLOT(_HandleKeyPressed(dt::InputManager::InputCode input_code,
         const OIS::EventArg& event)))) {
             Logger::get().error("Cannot connect the key pressed signal with " + getName()
                 + "'s keyboard input handling slot.");
     }
     if(mCostant) {
-        if(!QObject::connect(InputManager::get(), SIGNAL(sReleased(dt::InputManager::InputCode input_code, 
-            const OIS::EventArg& event)), this, SLOT(_handleKeyReleased(dt::InputManager::InputCode input_code, 
+        if(!QObject::connect(InputManager::get(), SIGNAL(sReleased(dt::InputManager::InputCode input_code, const OIS::EventArg& event)),
+                             this,                SLOT(_HandleKeyReleased(dt::InputManager::InputCode input_code,
             const OIS::EventArg& event)))) {
                 Logger::get().error("Cannot connect the key released signal with " + getName()
                     + "'s keyboard input handling slot.");
@@ -49,17 +49,17 @@ void SimplePlayerComponent::onInitialize() {
 void SimplePlayerComponent::onDeinitialize() {}
 
 void SimplePlayerComponent::onUpdate(double time_diff) {
-        if(mMove.length() > 0) {
-            static Ogre::Vector3 move;
-            if(mInputStateChanged) {
-               move = getNode()->getRotation() * mMove; //update movement direction
-            }
-            
-            getNode()->setPosition(getNode()->getPosition() + move * time_diff * mMoveSpeed);
-            if(!mCostant) {
-                mMove = Ogre::Vector3::ZERO;
-            }
+    if(mMove.length() > 0) {
+        static Ogre::Vector3 move;
+        if(mInputStateChanged) {
+           move = getNode()->getRotation() * mMove; //update movement direction
         }
+
+        getNode()->setPosition(getNode()->getPosition() + move * time_diff * mMoveSpeed);
+        if(!mCostant) {
+            mMove = Ogre::Vector3::ZERO;
+        }
+    }
 }
 
 void SimplePlayerComponent::setWASDEnabled(bool wasd_enabled) {
@@ -113,15 +113,15 @@ bool SimplePlayerComponent::getMouseYInversed() const {
 void SimplePlayerComponent::setConstant(bool constant) {
     mCostant = constant;
     if(mCostant) {
-        if(!QObject::connect(InputManager::get(), SIGNAL(sReleased(dt::InputManager::InputCode input_code, 
-            const OIS::EventArg& event)), this, SLOT(_handleKeyReleased(dt::InputManager::InputCode input_code, 
+        if(!QObject::connect(InputManager::get(), SIGNAL(sReleased(dt::InputManager::InputCode input_code, const OIS::EventArg& event)),
+                             this,                SLOT(_HandleKeyReleased(dt::InputManager::InputCode input_code,
             const OIS::EventArg& event)))) {
                 Logger::get().error("Cannot connect the key released signal with " + getName()
                     + "'s keyboard press event slot.");
         }  
     } else {
-        if(!QObject::disconnect(InputManager::get(), SIGNAL(sReleased(dt::InputManager::InputCode input_code, 
-            const OIS::EventArg& event)), this, SLOT(_HandleKeyReleased(dt::InputManager::InputCode input_code, 
+        if(!QObject::disconnect(InputManager::get(), SIGNAL(sReleased(dt::InputManager::InputCode input_code, const OIS::EventArg& event)),
+                                this,                SLOT(_HandleKeyReleased(dt::InputManager::InputCode input_code,
             const OIS::EventArg& event)))) {
                 Logger::get().error("Cannot disconnect the key released signal with " + getName()
                     + "'s keyboard release event slot.");
