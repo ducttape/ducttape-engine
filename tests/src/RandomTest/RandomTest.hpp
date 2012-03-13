@@ -21,8 +21,8 @@ namespace RandomTest {
 
 class RandomTest : public Test {
 public:
-    bool Run(int argc, char** argv);
-    QString GetTestName();
+    bool run(int argc, char** argv);
+    QString getTestName();
 };
 
 } // namespace RandomTest

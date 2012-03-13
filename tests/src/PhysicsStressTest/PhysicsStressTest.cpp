@@ -14,13 +14,13 @@
 
 namespace PhysicsStressTest {
 
-bool PhysicsStressTest::Run(int argc, char** argv) {
+bool PhysicsStressTest::run(int argc, char** argv) {
     dt::Game game;
-    game.Run(new Main(), argc, argv);
+    game.run(new Main(), argc, argv);
     return true;
 }
 
-QString PhysicsStressTest::GetTestName() {
+QString PhysicsStressTest::getTestName() {
     return "PhysicsStress";
 }
 
@@ -29,53 +29,53 @@ QString PhysicsStressTest::GetTestName() {
 Main::Main()
     : mRuntime(0) {}
 
-void Main::UpdateStateFrame(double simulation_frame_time) {
+void Main::updateStateFrame(double simulation_frame_time) {
     mRuntime += simulation_frame_time;
 
     if(mRuntime > 10.0) {
-        dt::StateManager::Get()->Pop(1);
+        dt::StateManager::get()->pop(1);
     }
 }
 
-void Main::OnInitialize() {
-    dt::Scene* scene = AddScene(new dt::Scene("testscene"));
+void Main::onInitialize() {
+    dt::Scene* scene = addScene(new dt::Scene("testscene"));
 
-    dt::ResourceManager::Get()->AddResourceLocation("","FileSystem");
-    dt::ResourceManager::Get()->AddResourceLocation("crate","FileSystem");
+    dt::ResourceManager::get()->addResourceLocation("","FileSystem");
+    dt::ResourceManager::get()->addResourceLocation("crate","FileSystem");
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    OgreProcedural::Root::getInstance()->sceneManager = scene->GetSceneManager();
+    OgreProcedural::Root::getInstance()->sceneManager = scene->getSceneManager();
 
     OgreProcedural::SphereGenerator().setRadius(1.f).setUTile(.5f).realizeMesh("Sphere");
     OgreProcedural::PlaneGenerator().setSizeX(100.f).setSizeY(100.f).setVTile(10.f).setUTile(10.f).realizeMesh("Plane");
 
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
-    camnode->SetPosition(Ogre::Vector3(30, 25, 30));
-    camnode->AddComponent(new dt::CameraComponent("cam"))->LookAt(Ogre::Vector3(0, 10, 0));;
+    dt::Node* camnode = scene->addChildNode(new dt::Node("camnode"));
+    camnode->setPosition(Ogre::Vector3(30, 25, 30));
+    camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 10, 0));;
 
-    dt::Node* planenode = scene->AddChildNode(new dt::Node("planenode"));
-    planenode->SetPosition(Ogre::Vector3(0, 0, 0));
-    planenode->AddComponent(new dt::MeshComponent("Plane", "PrimitivesTest/Pebbles", "plane-mesh"));
-    planenode->AddComponent(new dt::PhysicsBodyComponent("plane-mesh", "plane-body", 
+    dt::Node* planenode = scene->addChildNode(new dt::Node("planenode"));
+    planenode->setPosition(Ogre::Vector3(0, 0, 0));
+    planenode->addComponent(new dt::MeshComponent("Plane", "PrimitivesTest/Pebbles", "plane-mesh"));
+    planenode->addComponent(new dt::PhysicsBodyComponent("plane-mesh", "plane-body", 
         dt::PhysicsBodyComponent::CONVEX, 0.0f));
 
-    dt::Node* lightnode1 = scene->AddChildNode(new dt::Node("lightnode1"));
-    lightnode1->AddComponent(new dt::LightComponent("light1"));
-    lightnode1->SetPosition(Ogre::Vector3(15, 5, 15));
+    dt::Node* lightnode1 = scene->addChildNode(new dt::Node("lightnode1"));
+    lightnode1->addComponent(new dt::LightComponent("light1"));
+    lightnode1->setPosition(Ogre::Vector3(15, 5, 15));
 
     int n = 2; // (n*2+1) ^ 3 blocks
     for(int x = -n; x <= n; ++x) {
         for(int y = -n; y <= n; ++y) {
             for(int i = 0; i < n*2 + 1; ++i) {
-                dt::Node* node = scene->AddChildNode(new dt::Node("node"
-                            "x-" + dt::Utils::ToString(x) + "-" +
-                            "y-" + dt::Utils::ToString(y) + "-" +
-                            "z-" + dt::Utils::ToString(i) ));
-                node->SetPosition(Ogre::Vector3(x * 2.5, i * 2.5 + 5, y * 2.5));
-                node->AddComponent(new dt::MeshComponent("Crate01.mesh", "", "mesh"));
-                node->AddComponent(new dt::PhysicsBodyComponent("mesh", "body"));
+                dt::Node* node = scene->addChildNode(new dt::Node("node"
+                            "x-" + dt::Utils::toString(x) + "-" +
+                            "y-" + dt::Utils::toString(y) + "-" +
+                            "z-" + dt::Utils::toString(i) ));
+                node->setPosition(Ogre::Vector3(x * 2.5, i * 2.5 + 5, y * 2.5));
+                node->addComponent(new dt::MeshComponent("Crate01.mesh", "", "mesh"));
+                node->addComponent(new dt::PhysicsBodyComponent("mesh", "body"));
             }
         }
     }

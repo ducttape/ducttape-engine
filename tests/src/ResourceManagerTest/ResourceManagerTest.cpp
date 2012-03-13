@@ -14,26 +14,26 @@
 
 namespace ResourceManagerTest {
 
-bool ResourceManagerTest::Run(int argc, char** argv) {
-    dt::Root::GetInstance().Initialize(argc, argv);
-    dt::ResourceManager* mgr = dt::ResourceManager::Get();
+bool ResourceManagerTest::run(int argc, char** argv) {
+    dt::Root::getInstance().initialize(argc, argv);
+    dt::ResourceManager* mgr = dt::ResourceManager::get();
 
-    mgr->AddSoundBuffer("sad-trombone.wav", "trombone");
-    if(mgr->GetSoundBuffer("trombone")->GetDuration().AsMilliseconds() <= 1000) {
-        std::cerr << "The sound buffer is too short, probably empty. Length: " << mgr->GetSoundBuffer("trombone")->GetDuration().AsMilliseconds() <<
+    mgr->addSoundBuffer("sad-trombone.wav", "trombone");
+    if(mgr->getSoundBuffer("trombone")->getDuration().asMilliseconds() <= 1000) {
+        std::cerr << "The sound buffer is too short, probably empty. Length: " << mgr->getSoundBuffer("trombone")->getDuration().asMilliseconds() <<
                      " - Expected: 4150." << std::endl;
         return false;
     }
 
-    mgr->AddResourceLocation("sinbad.zip", "Zip");
+    mgr->addResourceLocation("sinbad.zip", "Zip");
     // we'd get an Ogre exception if this one failed. No need to check ourselves.
 
     std::cout << "ResourceManager: OK" << std::endl;
-    dt::Root::GetInstance().Deinitialize();
+    dt::Root::getInstance().deinitialize();
     return true;
 }
 
-QString ResourceManagerTest::GetTestName() {
+QString ResourceManagerTest::getTestName() {
     return "ResourceManager";
 }
 

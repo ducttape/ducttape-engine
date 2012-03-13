@@ -17,13 +17,13 @@
 
 namespace ParticlesTest {
 
-bool ParticlesTest::Run(int argc, char** argv) {
+bool ParticlesTest::run(int argc, char** argv) {
     dt::Game game;
-    game.Run(new Main(), argc, argv);
+    game.run(new Main(), argc, argv);
     return true;
 }
 
-QString ParticlesTest::GetTestName() {
+QString ParticlesTest::getTestName() {
     return "Particles";
 }
 
@@ -32,57 +32,57 @@ QString ParticlesTest::GetTestName() {
 Main::Main()
     : mRuntime(0) {}
 
-void Main::UpdateStateFrame(double simulation_frame_time) {
+void Main::updateStateFrame(double simulation_frame_time) {
     mRuntime += simulation_frame_time;
     if(mRuntime > 2.0) {
-        dt::StateManager::Get()->Pop(1);
+        dt::StateManager::get()->pop(1);
     }
 }
 
-void Main::OnInitialize() {
-    dt::Scene* scene = AddScene(new dt::Scene("testscene"));
+void Main::onInitialize() {
+    dt::Scene* scene = addScene(new dt::Scene("testscene"));
 
-    dt::ResourceManager::Get()->AddResourceLocation("sinbad.zip","Zip", true);
-    dt::ResourceManager::Get()->AddResourceLocation("particle/","FileSystem", true);
+    dt::ResourceManager::get()->addResourceLocation("sinbad.zip","Zip", true);
+    dt::ResourceManager::get()->addResourceLocation("particle/","FileSystem", true);
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
     // make a scene
-    dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
-    camnode->SetPosition(Ogre::Vector3(0, 2, 10));
-    camnode->AddComponent(new dt::CameraComponent("cam"))->LookAt(Ogre::Vector3(0, 2, 0));;
+    dt::Node* camnode = scene->addChildNode(new dt::Node("camnode"));
+    camnode->setPosition(Ogre::Vector3(0, 2, 10));
+    camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 2, 0));;
 
-    dt::Node* p = scene->AddChildNode(new dt::Node("p"));
+    dt::Node* p = scene->addChildNode(new dt::Node("p"));
 
-    p->SetScale(0.2);
-    dt::MeshComponent* mesh = p->AddComponent(new dt::MeshComponent("Sinbad.mesh"));
-    mesh->SetAnimation("RunBase");
-    mesh->SetLoopAnimation(true);
-    mesh->PlayAnimation();
+    p->setScale(0.2);
+    dt::MeshComponent* mesh = p->addComponent(new dt::MeshComponent("Sinbad.mesh"));
+    mesh->setAnimation("RunBase");
+    mesh->setLoopAnimation(true);
+    mesh->playAnimation();
 
     dt::FollowPathComponent* path =
-        p->AddComponent(new dt::FollowPathComponent(dt::FollowPathComponent::LOOP));
-    path->AddPoint(Ogre::Vector3(-10, 0, 0));
-    path->AddPoint(Ogre::Vector3(10, 0, 0));
-    path->SetDuration(2.f);
-    path->SetFollowRotation(true);
+        p->addComponent(new dt::FollowPathComponent(dt::FollowPathComponent::LOOP));
+    path->addPoint(Ogre::Vector3(-10, 0, 0));
+    path->addPoint(Ogre::Vector3(10, 0, 0));
+    path->setDuration(2.f);
+    path->setFollowRotation(true);
 
     // create the particle system
-    dt::ParticleSystemComponent* p_sys = p->AddComponent(new dt::ParticleSystemComponent("p_sys"));
-    p_sys->SetMaterialName("Test/Particle");
-    p_sys->SetParticleCountLimit(1000);
-    p_sys->GetOgreParticleSystem()->setDefaultDimensions(0.03, 0.03);
+    dt::ParticleSystemComponent* p_sys = p->addComponent(new dt::ParticleSystemComponent("p_sys"));
+    p_sys->setMaterialName("Test/Particle");
+    p_sys->setParticleCountLimit(1000);
+    p_sys->getOgreParticleSystem()->setDefaultDimensions(0.03, 0.03);
 
-    Ogre::ParticleEmitter* e = p_sys->AddEmitter("emit1", "Point");
+    Ogre::ParticleEmitter* e = p_sys->addEmitter("emit1", "Point");
     e->setAngle(Ogre::Degree(10));
     e->setColour(Ogre::ColourValue(1.f, 0.6f, 0.f), Ogre::ColourValue(0.2f, 0.8f, 0.2f));
     e->setEmissionRate(100);
     e->setParticleVelocity(3.f, 4.f);
     e->setTimeToLive(1.f, 2.f);
 
-    p_sys->AddScalerAffector("scaler", 1.05);
-    p_sys->AddLinearForceAffector("force", Ogre::Vector3(0, 5, 0));
+    p_sys->addScalerAffector("scaler", 1.05);
+    p_sys->addLinearForceAffector("force", Ogre::Vector3(0, 5, 0));
 
-    Ogre::ParticleAffector* a = p_sys->AddAffector("colour_interpolator", "ColourInterpolator");
+    Ogre::ParticleAffector* a = p_sys->addAffector("colour_interpolator", "ColourInterpolator");
     a->setParameter("time0", "0");
     a->setParameter("colour0", "1 1 0 1");
     a->setParameter("time1", "0.5");
