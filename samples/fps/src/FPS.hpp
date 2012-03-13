@@ -6,8 +6,8 @@
 class Main : public dt::State {
     Q_OBJECT
 public:
-    void OnInitialize();
-    void UpdateStateFrame(double simulation_frame_time);
+    void onInitialize();
+    void updateStateFrame(double simulation_frame_time);
 };
 
 #endif
