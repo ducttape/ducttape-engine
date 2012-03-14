@@ -16,8 +16,6 @@
 #include <Network/PingEvent.hpp>
 #include <Utils/Timer.hpp>
 
-#include <boost/ptr_container/ptr_map.hpp>
-
 #include <map>
 #include <memory>
 
@@ -185,10 +183,10 @@ private:
       */
     void _TimeoutConnection(ID_t connection);
 
-    ID_t mMaxConnections;                           //!< The maximum number of Connections allowed.
-    boost::ptr_map<ID_t, Connection> mConnections;  //!< The Connections known to this manager.
-    std::map<ID_t, double> mPings;                  //!< The pings for the different Connections.
-    std::map<ID_t, double> mLastActivity;           //!< The time the connection sent the last packet.
+    ID_t mMaxConnections;                                  //!< The maximum number of Connections allowed.
+    std::map<ID_t, Connection::ConnectionSP> mConnections; //!< The Connections known to this manager.
+    std::map<ID_t, double> mPings;                         //!< The pings for the different Connections.
+    std::map<ID_t, double> mLastActivity;                  //!< The time the connection sent the last packet.
 
     double mTimeout;        //!< The time to wait before a connection times out. In milliseconds.
     double mPingInterval;   //!< The interval in milliseconds between two pings.

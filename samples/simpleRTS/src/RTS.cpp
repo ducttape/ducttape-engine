@@ -31,7 +31,8 @@ float MAP_HEIGHT = 300;
 void Main::ResetGame() {}
 
 void Main::OnInitialize() {
-    dt::Scene* scene = AddScene(new dt::Scene("RTScene"));
+    dt::Scene::SceneSP scene(new dt::Scene("RTScene"));
+    AddScene(scene);
     OgreProcedural::Root::getInstance()->sceneManager = scene->GetSceneManager();
 
     dt::ResourceManager::Get()->AddResourceLocation("","FileSystem", true);

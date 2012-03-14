@@ -14,10 +14,12 @@
 #include "Test.hpp"
 
 #include <QString>
+#include <memory>
+#include <map>
 
-#include <boost/ptr_container/ptr_map.hpp>
+typedef std::shared_ptr<Test> TestSP;
 
-boost::ptr_map<QString, Test> Tests;
+std::map<QString, TestSP> Tests;
 
 void AddTest(Test* test);
 

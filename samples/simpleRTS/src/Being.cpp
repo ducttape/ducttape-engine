@@ -18,7 +18,7 @@
 
 #include <memory>
 
-dt::Scene* Being::mScene = nullptr;
+dt::Scene::SceneSP Being::mScene;
 bool Being::mResourceInitialized = false; 
 // GameMap* Being::mGameMap = GameMap::GetGameMapInstance();
 std::map<BeingID, BeingPointer> Being::mBeingMap; 
@@ -33,7 +33,7 @@ mStaringAtBeing(false),
 mLookingAt(false),
 mPlayerID(player_id),
 mMapCell(nullptr) {       
-    if(mScene) {
+    if(mScene.get()) {
         mBeingID = ++mCreatedCount;
         mNode = mScene->AddChildNode(new dt::Node(dt::Utils::ToString(mBeingID)));
         mNode->SetPosition(position);
@@ -78,7 +78,7 @@ void Being::LookAt(const Ogre::Vector3& position) {
 }
 
 void Being::StareAtBeing(const BeingPointer& being) {
-    QObject::connect(being.get(), SIGNAL(killed(BeingID)), this, SLOT(StopStareAtBeing()));
+    connect(being.get(), SIGNAL(killed(BeingID)), this, SLOT(StopStareAtBeing()));
     mStareAtBeing = being;
     mLookingAt = false;
     mStaringAtBeing = true;
@@ -88,13 +88,13 @@ void Being::StopStaring() {
     mStaringAtBeing = false;
 }
 
-void Being::SetScene(dt::Scene* scene) {
+void Being::SetScene(dt::Scene::SceneSP scene) {
     mScene = scene;
 }
 
 void Being::SetMesh(const QString& mesh_name) {
     if(mMeshComponent) {
-        mMeshComponent->Deinitialize();
+        mMeshComponent->Destroy();
     }
     mMeshComponent = new dt::MeshComponent(mesh_name);
     mNode->AddComponent(mMeshComponent);

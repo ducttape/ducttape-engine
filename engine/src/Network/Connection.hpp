@@ -14,6 +14,7 @@
 #include <SFML/Network/IpAddress.hpp>
 
 #include <cstdint>
+#include <memory>
 
 namespace dt {
 
@@ -23,6 +24,9 @@ namespace dt {
   */
 class DUCTTAPE_API Connection {
 public:
+    
+    typedef std::shared_ptr<Connection> ConnectionSP;
+    
     /**
       * Default constructor. Needed for boost::ptr_map.
       */

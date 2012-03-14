@@ -20,7 +20,6 @@
 #include <Terrain/OgreTerrainGroup.h>
 
 #include <QString>
-#include <boost/ptr_container/ptr_vector.hpp>
 
 namespace dt {
 
@@ -36,6 +35,9 @@ public:
       */
     class DUCTTAPE_API TextureLayer {
     public:
+    
+        typedef std::shared_ptr<TextureLayer> TextureLayerSP;
+    
         TextureLayer(const std::vector<QString>& texture_names, float world_size, float min_height, float fade_distance);
         ~TextureLayer();
         Ogre::Terrain::LayerInstance* getLayerInstance() const;
@@ -168,7 +170,7 @@ private:
       */
     void _GenerateBlendMaps(Ogre::Terrain* terrain);
 
-    boost::ptr_vector<TextureLayer> mTextureLayer;          //!< The TextureLayers.
+    std::vector<TextureLayer::TextureLayerSP> mTextureLayer;          //!< The TextureLayers.
     dt::LightComponent* mLight;                             //!< The light to bake the lightmap
     Ogre::TerrainGroup* mTerrainGroup;                      //!< The terraingroup which holds our terrain.
     Ogre::TerrainGlobalOptions* mTerrainGlobalOptions;      //!< The global options for terrains.

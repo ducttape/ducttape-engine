@@ -32,7 +32,8 @@ void State::Deinitialize() {
 
 Scene* State::AddScene(Scene* scene) {
     QString key(scene->GetName());
-    mScenes.insert(key, scene);
+    Scene::SceneSP scene_sp(scene);
+    mScenes.insert(std::make_pair(key, scene_sp));
     GetScene(key)->Initialize();
     //connect(this, SIGNAL(BeginFrame(double)), GetScene(key), SLOT(UpdateFrame(double)));
     return GetScene(key);
@@ -40,7 +41,7 @@ Scene* State::AddScene(Scene* scene) {
 
 Scene* State::GetScene(const QString& name) {
     if(mScenes.find(name) != mScenes.end())
-        return mScenes.find(name)->second;
+        return mScenes.find(name)->second.get();
     return nullptr;
 }
 

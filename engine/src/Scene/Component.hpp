@@ -15,9 +15,6 @@
 #include <Network/IOPacket.hpp>
 #include <Scene/Serializer.hpp>
 
-#include <boost/noncopyable.hpp>
-#include <boost/ptr_container/ptr_map.hpp>
-
 #include <QObject>
 #include <QScriptValue>
 #include <QString>
@@ -33,8 +30,7 @@ class Node;
   * Modifier for a node. This will add all the functionality to an otherwise empty node,
   * such as a mesh or sound.
   */
-class DUCTTAPE_API Component : public QObject,
-                               public boost::noncopyable {
+class DUCTTAPE_API Component : public QObject {
     Q_OBJECT
     Q_PROPERTY(QString name READ GetName CONSTANT FINAL)
     Q_PROPERTY(bool isEnabled READ IsEnabled FINAL)
@@ -159,7 +155,7 @@ protected:
 private:
     bool mIsEnabled;    //!< Whether the component is enabled or not.
     bool mIsInitialized;    //!< Whether the component has been created or not.
-    boost::uuids::uuid mId;    //!< The id for the component.
+    QUuid mId;    //!< The id for the component.
 };
 
 } // namespace dt
