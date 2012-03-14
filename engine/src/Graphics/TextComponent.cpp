@@ -19,7 +19,7 @@
 
 namespace dt {
 
-TextComponent::TextComponent(const QString& text, const QString& name)
+TextComponent::TextComponent(const QString text, const QString name)
     : Component(name),
       mText(text),
       mOverlay(nullptr),
@@ -33,23 +33,23 @@ TextComponent::TextComponent(const QString& text, const QString& name)
       mBackgroundMaterial(""),
       mPadding(Ogre::Vector2(10,4)) {}
 
-void TextComponent::OnInitialize() {
+void TextComponent::onInitialize() {
     // overlay
-    QString oname = GetNode()->GetName() + "-" + mName;
-    mOverlay = Ogre::OverlayManager::getSingleton().create(Utils::ToStdString(oname) + "-overlay");
+    QString oname = getNode()->getName() + "-" + mName;
+    mOverlay = Ogre::OverlayManager::getSingleton().create(Utils::toStdString(oname) + "-overlay");
 
-    mPanel = static_cast<Ogre::OverlayContainer*>(Ogre::OverlayManager::getSingleton().createOverlayElement("Panel", Utils::ToStdString(oname) + "-panel"));
+    mPanel = static_cast<Ogre::OverlayContainer*>(Ogre::OverlayManager::getSingleton().createOverlayElement("Panel", Utils::toStdString(oname) + "-panel"));
     mPanel->setDimensions(0.0, 0.0);
 
-    mLabel = static_cast<Ogre::TextAreaOverlayElement*>(Ogre::OverlayManager::getSingleton().createOverlayElement("TextArea", Utils::ToStdString(oname) + "-label"));
+    mLabel = static_cast<Ogre::TextAreaOverlayElement*>(Ogre::OverlayManager::getSingleton().createOverlayElement("TextArea", Utils::toStdString(oname) + "-label"));
 
     mLabel->setMetricsMode(Ogre::GMM_PIXELS);
     mLabel->setPosition(0, 0);
-    SetColor(mColor);
-    SetFontSize(mFontSize);
-    SetFont(mFont);
-    SetBackgroundMaterial(mBackgroundMaterial);
-    SetText(mText);
+    setColor(mColor);
+    setFontSize(mFontSize);
+    setFont(mFont);
+    setBackgroundMaterial(mBackgroundMaterial);
+    setText(mText);
     mRefresh = true;
 
     mOverlay->add2D(mPanel);
@@ -57,7 +57,7 @@ void TextComponent::OnInitialize() {
     mOverlay->show();
 }
 
-void TextComponent::OnDeinitialize() {
+void TextComponent::onDeinitialize() {
     Ogre::OverlayManager* mgr = Ogre::OverlayManager::getSingletonPtr();
 
     mPanel->removeChild(mLabel->getName());
@@ -68,23 +68,23 @@ void TextComponent::OnDeinitialize() {
     mgr->destroy(mOverlay);
 }
 
-void TextComponent::OnEnable() {
+void TextComponent::onEnable() {
     mOverlay->show();
 }
 
-void TextComponent::OnDisable() {
+void TextComponent::onDisable() {
     mOverlay->hide();
 }
 
-void TextComponent::OnUpdate(double time_diff) {
+void TextComponent::onUpdate(double time_diff) {
     if(mRefresh && mFont != "") {
         // calculate the text width
         mTextWidth = 0;
-        Ogre::Font* font = dynamic_cast<Ogre::Font*>(Ogre::FontManager::getSingleton().getByName(Utils::ToStdString(mFont)).getPointer());
+        Ogre::Font* font = dynamic_cast<Ogre::Font*>(Ogre::FontManager::getSingleton().getByName(Utils::toStdString(mFont)).getPointer());
         if(font == nullptr) {
-            Logger::Get().Warning("Cannot find font: \"" + mFont + "\".");
+            Logger::get().warning("Cannot find font: \"" + mFont + "\".");
         } else {
-            std::string str = Utils::ToStdString(mText);
+            std::string str = Utils::toStdString(mText);
             for(Ogre::String::iterator iter = str.begin(); iter < str.end(); ++iter) {
                 if(*iter == 0x0020) {
                     mTextWidth += font->getGlyphAspectRatio(0x0030);
@@ -99,13 +99,13 @@ void TextComponent::OnUpdate(double time_diff) {
 
     // set the position
 
-    if(DisplayManager::Get()->GetMainCamera() == nullptr) {
-        Logger::Get().Error("Cannot get main camera for text component: no main camera set. Disabling text component " + mName + ".");
-        Disable();
+    if(DisplayManager::get()->getMainCamera() == nullptr) {
+        Logger::get().error("Cannot get main camera for text component: no main camera set. Disabling text component " + mName + ".");
+        disable();
         return;
     }
-    Ogre::Camera* camera = DisplayManager::Get()->GetMainCamera()->GetCamera();
-    Ogre::Vector3 screen_pos(camera->getProjectionMatrix() * camera->getViewMatrix() * GetNode()->GetPosition(Node::SCENE));
+    Ogre::Camera* camera = DisplayManager::get()->getMainCamera()->getCamera();
+    Ogre::Vector3 screen_pos(camera->getProjectionMatrix() * camera->getViewMatrix() * getNode()->getPosition(Node::SCENE));
 
     if(screen_pos.z >= 1) {
         // behind or in the camera, hide
@@ -130,47 +130,47 @@ void TextComponent::OnUpdate(double time_diff) {
     mLabel->setDimensions(mTextWidth, mFontSize);
 }
 
-void TextComponent::SetText(const QString& text) {
+void TextComponent::setText(const QString text) {
         mText = text;
         if(mLabel != nullptr) {
-            mLabel->setCaption(Utils::ToStdString(mText));
+            mLabel->setCaption(Utils::toStdString(mText));
             mRefresh = true;
         }
-        emit TextChanged();
+        emit textChanged();
 }
 
-const QString& TextComponent::GetText() const {
+const QString TextComponent::getText() const {
     return mText;
 }
 
-void TextComponent::SetFont(const QString& fontname) {
+void TextComponent::setFont(const QString fontname) {
     mFont = fontname;
     if(mLabel != nullptr && mFont != "") {
-        mLabel->setFontName(Utils::ToStdString(mFont));
+        mLabel->setFontName(Utils::toStdString(mFont));
     }
 }
 
-const QString& TextComponent::GetFont() const {
+const QString TextComponent::getFont() const {
     return mFont;
 }
 
-void TextComponent::SetColor(Ogre::ColourValue color) {
+void TextComponent::setColor(Ogre::ColourValue color) {
         mColor = color;
         if(mLabel != nullptr) {
             mLabel->setColour(mColor);
         }
-        emit ColorChanged();
+        emit colorChanged();
 }
 
-void TextComponent::SetColor(float r, float g, float b, float a) {
-    SetColor(Ogre::ColourValue(r, g, b, a));
+void TextComponent::setColor(float r, float g, float b, float a) {
+    setColor(Ogre::ColourValue(r, g, b, a));
 }
 
-Ogre::ColourValue TextComponent::GetColor() const {
+Ogre::ColourValue TextComponent::getColor() const {
     return mColor;
 }
 
-void TextComponent::SetFontSize(uint8_t font_size) {
+void TextComponent::setFontSize(uint8_t font_size) {
     mFontSize = font_size;
     if(mLabel != nullptr) {
         mLabel->setCharHeight(mFontSize);
@@ -178,30 +178,30 @@ void TextComponent::SetFontSize(uint8_t font_size) {
     }
 }
 
-uint8_t TextComponent::GetFontSize() const {
+uint8_t TextComponent::getFontSize() const {
     return mFontSize;
 }
 
-void TextComponent::SetBackgroundMaterial(const QString& material_name) {
+void TextComponent::setBackgroundMaterial(const QString material_name) {
     mBackgroundMaterial = material_name;
     if(mPanel != nullptr && mBackgroundMaterial != "") {
-        mPanel->setMaterialName(Utils::ToStdString(mBackgroundMaterial));
+        mPanel->setMaterialName(Utils::toStdString(mBackgroundMaterial));
     }
 }
 
-const QString& TextComponent::GetBackgroundMaterial() const {
+const QString TextComponent::getBackgroundMaterial() const {
     return mBackgroundMaterial;
 }
 
-void TextComponent::SetPadding(Ogre::Vector2 padding) {
+void TextComponent::setPadding(Ogre::Vector2 padding) {
     mPadding = padding;
 }
 
-void TextComponent::SetPadding(float x, float y) {
-    SetPadding(Ogre::Vector2(x, y));
+void TextComponent::setPadding(float x, float y) {
+    setPadding(Ogre::Vector2(x, y));
 }
 
-Ogre::Vector2 TextComponent::GetPadding() const {
+Ogre::Vector2 TextComponent::getPadding() const {
     return mPadding;
 }
 

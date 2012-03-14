@@ -44,14 +44,14 @@ public:
       */
     ~ResourceManager();
 
-    void Initialize();
-    void Deinitialize();
+    void initialize();
+    void deinitialize();
 
     /**
       * Returns a pointer to the Manager instance.
       * @returns A pointer to the Manager instance.
       */
-    static ResourceManager* Get();
+    static ResourceManager* get();
 
     /**
       * Adds a resource location of to the search path.
@@ -60,7 +60,7 @@ public:
       * @param recursive A flag to set when resources should be searched recursively.
       * @todo Perhaps merge the other resource methods into this.
       */
-    void AddResourceLocation(const QString& path, const QString& type, bool recursive = false);
+    void addResourceLocation(const QString path, const QString type, bool recursive = false);
 
     /**
       * Adds a single sound file to memory. A sound file in memory is called a sound buffer.
@@ -70,7 +70,7 @@ public:
       * @todo Merge this into AddResourceLocation
       * @returns Whether the operation was successful or not.
       */
-    bool AddSoundBuffer(const QString& path, const QString& sound_file="");
+    bool addSoundBuffer(const QString path, const QString sound_file="");
 
     /**
       * Retrieves a single sound buffer from memory. If the requested soundbuffer is not found,
@@ -79,7 +79,7 @@ public:
       * @returns A reference to the requested sound buffer.
       * @todo This shouldn't really be required if resources or loaded automatically in a lazy manner.
       */
-    std::shared_ptr<sf::SoundBuffer> GetSoundBuffer(const QString& sound_file);
+    std::shared_ptr<sf::SoundBuffer> getSoundBuffer(const QString sound_file);
 
     /**
      * Adds a single music file to memory.
@@ -88,25 +88,25 @@ public:
      * @returns Whether the operation was successful or not.
      * @todo Merge this into AddResourceLocation
      */
-    bool AddMusicFile(const QString& path, const QString& music_file="");
+    bool addMusicFile(const QString path, const QString music_file="");
 
     /**
      * Retrieves a single music file from memory.
      */
-    std::shared_ptr<sf::Music> GetMusicFile(const QString& music_file);
+    std::shared_ptr<sf::Music> getMusicFile(const QString music_file);
 
     /**
       * Adds a path to the list of data directories, where data may be located in.
       * @param path The path to the data directory.
       */
-    void AddDataPath(QDir path);
+    void addDataPath(QDir path);
 
     /**
       * Attempts to find a file in one of the data directories.
       * @param relative_path The relative path of the file.
       * @returns A QFile object. Use the \c exists() method to check if it was found.
       */
-    QFileInfo FindFile(const QString& relative_path);
+    QFileInfo findFile(const QString relative_path);
 
 private:
     /**
@@ -116,7 +116,7 @@ private:
      *  path for the existence of data/ (this is convenient for developers)
      * -# Check compile-time path set by DT_DATA_PATH (this is for system installation)
      */
-    void _FindDataPaths();
+    void _findDataPaths();
 
     bool mDataPathsSearched;                                        //!< Whether the local data paths have been searched for suitable data locations.
     QMap<QString, std::shared_ptr<sf::Music> > mMusic;              //!< Pool of registered music objects. This does not actually contain the music data since music is actually streamed.

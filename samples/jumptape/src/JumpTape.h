@@ -30,8 +30,8 @@ class JumpTape: public dt::State {
 public:
     JumpTape();
     
-    void OnInitialize();
-    void UpdateStateFrame(double simulation_frame_time);
+    void onInitialize();
+    void updateStateFrame(double simulation_frame_time);
     
 private:
     dt::Node* mGameNode;

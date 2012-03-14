@@ -12,57 +12,58 @@ namespace dt {
 
 State::State() {}
 
-void State::OnDeinitialize() {}
+void State::onDeinitialize() {}
 
-void State::Initialize() {
-    Logger::Get().Info("Initializing state.");
-    OnInitialize();
+void State::initialize() {
+    Logger::get().info("Initializing state.");
+    onInitialize();
 }
 
-void State::Deinitialize() {
+void State::deinitialize() {
     // deinitialize all scenes
     while(mScenes.size() > 0) {
-        DeleteScene(mScenes.begin()->second->GetName());
+        deleteScene(mScenes.begin()->second->getName());
     }
 
-    OnDeinitialize();
+    onDeinitialize();
 
-    Logger::Get().Info("Deinitialized state.");
+    Logger::get().info("Deinitialized state.");
 }
 
-Scene* State::AddScene(Scene* scene) {
+Scene* State::addScene(Scene* scene) {
     QString key(scene->GetName());
     Scene::SceneSP scene_sp(scene);
     mScenes.insert(std::make_pair(key, scene_sp));
-    GetScene(key)->Initialize();
+    getScene(key)->initialize();
+>>>>>>> 36a2c47f18aa8b9b82167d6dee78e7ca81a2895c
     //connect(this, SIGNAL(BeginFrame(double)), GetScene(key), SLOT(UpdateFrame(double)));
-    return GetScene(key);
+    return getScene(key);
 }
 
-Scene* State::GetScene(const QString& name) {
+Scene* State::getScene(const QString name) {
     if(mScenes.find(name) != mScenes.end())
         return mScenes.find(name)->second.get();
     return nullptr;
 }
 
-void State::DeleteScene(const QString& name) {
-    if(GetScene(name) == nullptr) {
-        Logger::Get().Warning("Cannot delete scene " + name + ": There is no such scene.");
+void State::deleteScene(const QString name) {
+    if(getScene(name) == nullptr) {
+        Logger::get().warning("Cannot delete scene " + name + ": There is no such scene.");
         return;
     }
 
-    GetScene(name)->Deinitialize();
+    getScene(name)->deinitialize();
     mScenes.erase(mScenes.find(name));
 }
 
-void State::UpdateFrame(double simulation_frame_time) {
-    UpdateSceneFrame(simulation_frame_time);
-    UpdateStateFrame(simulation_frame_time);
+void State::updateFrame(double simulation_frame_time) {
+    updateSceneFrame(simulation_frame_time);
+    updateStateFrame(simulation_frame_time);
 }
 
-void State::UpdateSceneFrame(double simulation_frame_time) {
+void State::updateSceneFrame(double simulation_frame_time) {
     for(auto i = mScenes.begin();i != mScenes.end(); i++) {
-        i->second->UpdateFrame(simulation_frame_time);
+        i->second->updateFrame(simulation_frame_time);
     }
 }
 

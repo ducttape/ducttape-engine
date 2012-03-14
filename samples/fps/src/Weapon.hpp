@@ -17,54 +17,54 @@
 class Weapon : public dt::Node {
     Q_OBJECT
 public:
-    Weapon(const QString& name, dt::InteractionComponent* interactor, int32_t power, 
+    Weapon(const QString name, dt::InteractionComponent* interactor, int32_t power,
         uint16_t max_clip, uint16_t ammo_per_clip, float reload_time, uint16_t type,
-        const QString& sound_handle, const QString& reloading_begin_sound_handle, 
-        const QString& reloading_done_sound_handle, const QString& mesh_handle, const QString& material_handle = "");
+        const QString sound_handle, const QString reloading_begin_sound_handle,
+        const QString reloading_done_sound_handle, const QString mesh_handle, const QString material_handle = "");
 
-    void OnInitialize();
+    void onInitialize();
 
-    void OnDeinitialize();
+    void onDeinitialize();
 
-    int32_t GetPower() const;
+    int32_t getPower() const;
 
-    void SetPower(int32_t power);
+    void setPower(int32_t power);
     
-    void Fire();
+    void fire();
 
-    void Reload();
+    void reload();
 
-    void SetCurrentAmmo(uint16_t current_ammo);
+    void setCurrentAmmo(uint16_t current_ammo);
 
-    void SetCurrentClip(uint16_t current_clip);
+    void setCurrentClip(uint16_t current_clip);
 
-    void SetMaxClip(uint16_t max_clip);
+    void setMaxClip(uint16_t max_clip);
 
-    void SetAmmoPerClip(uint16_t ammo_per_clip);
+    void setAmmoPerClip(uint16_t ammo_per_clip);
 
-    uint16_t GetCurrentAmmo() const;
+    uint16_t getCurrentAmmo() const;
     
-    uint16_t GetCurrentClip() const;
+    uint16_t getCurrentClip() const;
 
-    uint16_t GetMaxClip() const;
+    uint16_t getMaxClip() const;
 
-    uint16_t GetAmmoPerClip() const;
+    uint16_t getAmmoPerClip() const;
 
-    float GetReloadTime() const;
+    float getReloadTime() const;
 
-    void SetReloadTime(float reload_time);
+    void setReloadTime(float reload_time);
 
-    const dt::InteractionComponent* GetInteractor() const;
+    const dt::InteractionComponent* getInteractor() const;
 
-    uint16_t GetType() const;
+    uint16_t getType() const;
 
-    void SetType(uint16_t type);
+    void setType(uint16_t type);
 
-    void EnablePhysicsBody(bool is_enabled);
+    void enablePhysicsBody(bool is_enabled);
 
-    bool IsPhysicsBodyEnabled() const;
+    bool isPhysicsBodyEnabled() const;
 
-    void OnEnable();
+    void onEnable();
 
 signals:
     void sAmmoChanged(uint16_t current_ammo);
@@ -72,9 +72,9 @@ signals:
     void sClipChanged(uint16_t current_clip);
 
 private slots:
-    void _OnHit(dt::PhysicsBodyComponent* hit);
+    void _onHit(dt::PhysicsBodyComponent* hit);
 
-    void _OnReloadCompleted();
+    void _onReloadCompleted();
 
 private:
     dt::InteractionComponent* mInteractor;

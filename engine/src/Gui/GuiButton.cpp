@@ -12,16 +12,16 @@
 
 namespace dt {
 
-GuiButton::GuiButton(const QString& name)
+GuiButton::GuiButton(const QString name)
     : GuiTextBox(name),
       mButton(nullptr) {}
 
-MyGUI::Widget* GuiButton::GetMyGUIWidget() {
+MyGUI::Widget* GuiButton::getMyGUIWidget() {
     return mButton;
 }
 
-void GuiButton::OnInitialize() {
-    mButton = GetParent()->GetMyGUIWidget()->createWidget<MyGUI::Button>("Button", 0, 0, 100, 100, MyGUI::Align::Default, dt::Utils::ToStdString(GetFullName()));
+void GuiButton::onInitialize() {
+    mButton = getParent()->getMyGUIWidget()->createWidget<MyGUI::Button>("Button", 0, 0, 100, 100, MyGUI::Align::Default, dt::Utils::toStdString(getFullName()));
 }
 
 }

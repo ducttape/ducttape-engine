@@ -27,8 +27,8 @@
 namespace ConnectionsTest {
 
 class ConnectionsTest : public Test {
-    bool Run(int argc, char** argv);
-    QString GetTestName();
+    bool run(int argc, char** argv);
+    QString getTestName();
 };
 
 } // namespace test_connections

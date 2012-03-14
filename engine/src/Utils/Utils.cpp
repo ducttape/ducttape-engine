@@ -12,19 +12,23 @@ namespace dt {
 
 namespace Utils {
 
-std::string ToStdString(const QString& qstring) {
+std::string toStdString(const QString qstring) {
     return std::string(qstring.toLocal8Bit().data());
 }
 
 uint32_t mAutoId = 0;
 
-uint32_t AutoId() {
+uint32_t autoId() {
     mAutoId++;
     return mAutoId;
 }
 
-QUuid GenerateUUIDRandom() {
+QUuid generateUUIDRandom() {
     return QUuid::createUuid();
+    boost::uuids::uuid uuid = gen();
+    return uuid;
+}
+
 }
 
 } // namespace Utils

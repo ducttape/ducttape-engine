@@ -23,7 +23,7 @@ TerrainManager::TextureLayer::TextureLayer(const std::vector<QString>& texture_n
       mFadeDistance(fade_distance) {
     mLayerInstance->worldSize = world_size;
     for(auto it = texture_names.begin(); it != texture_names.end(); ++it) {
-        mLayerInstance->textureNames.push_back(dt::Utils::ToStdString(*it));
+        mLayerInstance->textureNames.push_back(dt::Utils::toStdString(*it));
     }
 }
 
@@ -58,85 +58,86 @@ TerrainManager::TerrainManager()
 
 TerrainManager::~TerrainManager() {}
 
-void TerrainManager::Initialize() {}
+void TerrainManager::initialize() {}
 
-void TerrainManager::Deinitialize() {
-    _DestroyTerrain();
+void TerrainManager::deinitialize() {
+    _destroyTerrain();
 }
 
-TerrainManager* TerrainManager::Get() {
-    return Root::GetInstance().GetTerrainManager();
+TerrainManager* TerrainManager::get() {
+    return Root::getInstance().getTerrainManager();
 }
 
-void TerrainManager::SetScene(dt::Scene* scene) {
-    _DestroyTerrain();
+void TerrainManager::setScene(dt::Scene* scene) {
+    _destroyTerrain();
     mScene = scene;
 }
 
-void TerrainManager::SetLight(dt::LightComponent* light) {
+void TerrainManager::setLight(dt::LightComponent* light) {
     mLight = light;
 }
 
-void TerrainManager::SetSize(uint32_t count_x, uint32_t count_y) {
+void TerrainManager::setSize(uint32_t count_x, uint32_t count_y) {
     mCountX = count_x;
     mCountY = count_y;
 }
 
-void TerrainManager::SetScale(float scale) {
+void TerrainManager::setScale(float scale) {
     mScale = scale;
 }
 
-Ogre::TerrainGroup* TerrainManager::GetOgreTerrainGroup() const {
+Ogre::TerrainGroup* TerrainManager::getOgreTerrainGroup() const {
     return mTerrainGroup;
 }
 
-Ogre::TerrainGlobalOptions* TerrainManager::GetOgreTerrainGlobalOptions() const {
+Ogre::TerrainGlobalOptions* TerrainManager::getOgreTerrainGlobalOptions() const {
     return mTerrainGlobalOptions;
 }
 
-void TerrainManager::AddTextureLayer(const std::vector<QString>& texture_names, float world_size, float min_height, float fade_distance) {
+void TerrainManager::addTextureLayer(const std::vector<QString>& texture_names, float world_size,
+                                     float min_height, float fade_distance) {
     TextureLayer::TextureLayerSP texture_layer_sp(new TextureLayer(texture_names, world_size, min_height, fade_distance));
     mTextureLayer.push_back(texture_layer_sp);
 }
 
-bool TerrainManager::Import(const std::vector<QString>& files) {
+bool TerrainManager::import(const std::vector<QString>& files) {
     // If we have to less files return false
     if(files.size() < (mCountX*mCountY))
         return false;
-    _CreateTerrain();
+    _createTerrain();
     uint16_t i = 0;
     for(uint32_t x = 0; x < mCountX; x++) {
         for(uint32_t y = 0; y < mCountY; y++) {
-            _DefineTerrain(x, y, files.at(i++));
+            _defineTerrain(x, y, files.at(i++));
         }
     }
 
     mImported = true;
-    Refresh();
+    refresh();
     return true;
 }
 
-bool TerrainManager::Load(const QString& prefix, const QString& suffix) {
-    _CreateTerrain();
-    mTerrainGroup->setFilenameConvention(dt::Utils::ToStdString(prefix), dt::Utils::ToStdString(suffix));
+bool TerrainManager::load(const QString prefix, const QString suffix) {
+    _createTerrain();
+    mTerrainGroup->setFilenameConvention(dt::Utils::toStdString(prefix), dt::Utils::toStdString(suffix));
     for(long x = 0; x < mCountX; x++) {
         for(long y = 0; y < mCountY; y++) {
-            _DefineTerrain(x, y);
+            _defineTerrain(x, y);
         }
     }
 
     mImported = false;
-    Refresh();
+    refresh();
     return true;
 }
 
-void TerrainManager::Save(const QString& prefix, const QString& suffix) {
+void TerrainManager::save(const QString prefix, const QString suffix) {
     if(mTerrainGroup == nullptr) return;
-    mTerrainGroup->setFilenameConvention(dt::Utils::ToStdString(prefix), dt::Utils::ToStdString(suffix));
+    mTerrainGroup->setFilenameConvention(dt::Utils::toStdString(prefix), dt::Utils::toStdString(suffix));
     mTerrainGroup->saveAllTerrains(true);
 }
 
-void TerrainManager::Refresh() {
+void TerrainManager::refresh() {
     mTerrainGroup->loadAllTerrains(true);
 
     if(mImported) {
@@ -144,20 +145,20 @@ void TerrainManager::Refresh() {
         while(it.hasMoreElements())
         {
             Ogre::Terrain* terrain = it.getNext()->instance;
-            _GenerateBlendMaps(terrain);
+            _generateBlendMaps(terrain);
         }
     }
 
     mTerrainGroup->freeTemporaryResources();
 }
 
-void TerrainManager::_CreateTerrain() {
+void TerrainManager::_createTerrain() {
     // destroy existing terrain and global-options
-    _DestroyTerrain();
+    _destroyTerrain();
 
-    _InitOptions();
+    _initOptions();
 
-    Ogre::SceneManager* scene_mgr = mScene->GetSceneManager();
+    Ogre::SceneManager* scene_mgr = mScene->getSceneManager();
 
     mTerrainGroup = OGRE_NEW Ogre::TerrainGroup(scene_mgr, Ogre::Terrain::ALIGN_X_Z, mTerrainSize, mTerrainWorldSize);
     mTerrainGroup->setOrigin(Ogre::Vector3::ZERO); // TODO: let the user move it where he wants it. (Is this necessary?)
@@ -175,11 +176,11 @@ void TerrainManager::_CreateTerrain() {
     }
 }
 
-void TerrainManager::_InitOptions() {
+void TerrainManager::_initOptions() {
     if(mTerrainGlobalOptions == nullptr)
         mTerrainGlobalOptions = OGRE_NEW Ogre::TerrainGlobalOptions();
 
-    Ogre::SceneManager* scene_mgr = mScene->GetSceneManager();
+    Ogre::SceneManager* scene_mgr = mScene->getSceneManager();
 
     // Configure global
     mTerrainGlobalOptions->setMaxPixelError(8);
@@ -189,12 +190,12 @@ void TerrainManager::_InitOptions() {
     // Important to set these so that the terrain knows what to use for derived (non-realtime) data
     mTerrainGlobalOptions->setCompositeMapAmbient(scene_mgr->getAmbientLight());
     if(mLight != nullptr) {
-        mTerrainGlobalOptions->setLightMapDirection(mLight->GetOgreLight()->getDerivedDirection());
-        mTerrainGlobalOptions->setCompositeMapDiffuse(mLight->GetOgreLight()->getDiffuseColour());
+        mTerrainGlobalOptions->setLightMapDirection(mLight->getOgreLight()->getDerivedDirection());
+        mTerrainGlobalOptions->setCompositeMapDiffuse(mLight->getOgreLight()->getDiffuseColour());
     }
 }
 
-void TerrainManager::_DestroyTerrain() {
+void TerrainManager::_destroyTerrain() {
     if(mTerrainGroup != nullptr) {
         OGRE_DELETE mTerrainGroup;
         mTerrainGroup = nullptr;
@@ -206,19 +207,19 @@ void TerrainManager::_DestroyTerrain() {
     }
 }
 
-void TerrainManager::_DefineTerrain(uint32_t x, uint32_t y) {
+void TerrainManager::_defineTerrain(uint32_t x, uint32_t y) {
     Ogre::String filename = mTerrainGroup->generateFilename(x, y);
     if(Ogre::ResourceGroupManager::getSingleton().resourceExists(mTerrainGroup->getResourceGroup(), filename)) {
         mTerrainGroup->defineTerrain(x, y);
     } // TODO: else
 }
-void TerrainManager::_DefineTerrain(uint32_t x, uint32_t y, const QString& filename) {
+void TerrainManager::_defineTerrain(uint32_t x, uint32_t y, const QString filename) {
     Ogre::Image img;
-    img.load(dt::Utils::ToStdString(filename), Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME); //TODO: resourcegroup???
+    img.load(dt::Utils::toStdString(filename), Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME); //TODO: resourcegroup???
     mTerrainGroup->defineTerrain(x, y, &img);
 }
 
-void TerrainManager::_GenerateBlendMaps(Ogre::Terrain* terrain) {
+void TerrainManager::_generateBlendMaps(Ogre::Terrain* terrain) {
     if(mTextureLayer.size() < 2) return;
     for(uint32_t i = 1; i < mTextureLayer.size()-1; i++) {
         TextureLayer* layer = mTextureLayer[i].get();

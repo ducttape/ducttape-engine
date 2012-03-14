@@ -40,85 +40,85 @@ public:
       * @param name The name of the Component.
       * @see Component
       */
-    AdvancedPlayerComponent(const QString& name = "");
+    AdvancedPlayerComponent(const QString name = "");
 
-    virtual void OnInitialize();
-    virtual void OnDeinitialize();
-    virtual void OnEnable();
-    virtual void OnDisable();
-    virtual void OnUpdate(double time_diff);
+    virtual void onInitialize();
+    virtual void onDeinitialize();
+    virtual void onEnable();
+    virtual void onDisable();
+    virtual void onUpdate(double time_diff);
 
     /**
       * Sets whether the keyboard is enabled or not.
       * @param is_keyboard_enabled Whether the keyboard is enabled or not.
       */
-    void SetKeyboardEnabled(bool is_keyboard_enabled);
+    void setKeyboardEnabled(bool is_keyboard_enabled);
 
     /**
       * Gets whether the keyboard is enabled or not.
       * @returns Whether the keyboard is enabled or not.
       */
-    bool GetKeyboardEnabled() const;
+    bool getKeyboardEnabled() const;
 
     /**
       * Sets the speed the player moves at.
       * @param move_speed The maximum speed, in units per second.
       */
-    void SetMoveSpeed(float move_speed);
+    void setMoveSpeed(float move_speed);
 
     /**
       * Gets the speed the player moves at.
       * @returns The player speed, in units per second.
       */
-    float GetMoveSpeed() const;
+    float getMoveSpeed() const;
 
     /**
       * Sets whether the mouse is enabled for looking around.
       * @param mouse_enabled Whether the mouse is enabled for looking around.
       */
-    void SetMouseEnabled(bool mouse_enabled);
+    void setMouseEnabled(bool mouse_enabled);
 
     /**
       * Gets whether the mouse is enabled for looking around.
       * @returns Whether the mouse is enabled for looking around.
       */
-    bool GetMouseEnabled() const;
+    bool getMouseEnabled() const;
 
     /**
       * Sets the mouse sensitivity. Default: 1.0.
       * @param mouse_sensitivity The mouse sensitivity. Default: 1.0.
       */
-    void SetMouseSensitivity(float mouse_sensitivity);
+    void setMouseSensitivity(float mouse_sensitivity);
 
     /**
       * Gets the mouse sensitivity. Default: 1.0.
       * @returns The mouse sensitivity. Default: 1.0.
       */
-    float GetMouseSensitivity() const;
+    float getMouseSensitivity() const;
 
     /**
       * Sets whether the mouse y-axis should be inversed.
       * @param mouse_y_inversed Whether the mouse y-axis should be inversed.
       */
-    void SetMouseYInversed(bool mouse_y_inversed);
+    void setMouseYInversed(bool mouse_y_inversed);
 
     /**
       * Gets whether the mouse y-axis should be inversed.
       * @returns Whether the mouse y-axis should be inversed.
       */
-    bool GetMouseYInversed() const;
+    bool getMouseYInversed() const;
 
     /**
       * Sets whether the character can jump or not.
       * @param jump_enabled Whether the character can jump or not.
       */
-    void SetJumpEnabled(bool jump_enabled);
+    void setJumpEnabled(bool jump_enabled);
 
     /**
       * Gets whether the character can jump or not.
       * @returns Whether the character can jump or not.
       */
-    bool GetJumpEnabled() const;
+    bool getJumpEnabled() const;
 
     /**
       * Gets whether the mouse's key pressing effect is one-shot or not.
@@ -126,7 +126,7 @@ public:
       * If none of them is given, it will treat it as MB_Right.
       * @returns Whether the mouse's key pressing effect is one-shot or not.
       */
-    bool GetIsOneShot(OIS::MouseButtonID mouse_button) const;
+    bool getIsOneShot(OIS::MouseButtonID mouse_button) const;
 
     /**
       * Sets whether the mouse's key pressing effect is one-shot or not.
@@ -134,7 +134,7 @@ public:
       * @param mouse_button Specify which mouse button. Only accept MB_Left and MB_Right.
       * * If none of them is given, it will treat it as MB_Right.
       */
-    void SetIsOneShot(bool is_one_shot, OIS::MouseButtonID mouse_button);
+    void setIsOneShot(bool is_one_shot, OIS::MouseButtonID mouse_button);
 
 protected:
     /**
@@ -142,26 +142,28 @@ protected:
       * A mouse event is triggered once when you push down the mouse button under the one-shot mode.
       * Otherwise, it is triggered every frame if you've pushed down the mouse button and havn't released it yet.
       */
-    virtual void _OnMouseTriggered() {}
+    virtual void _onMouseTriggered() {}
 
 private slots:
     /**
       * Handles the events triggered by pressing a key or a mouse button.
-      * @param event The key-pressing event.
+      * @param input_code The input code.
+      * @param event The event argument.
       */
-    void _HandleButtonDown(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
+    void _handleButtonDown(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
 
     /**
       * Handles the events triggered by moving the mouse.
       * @param event The mouse-moving event.
       */
-    void _HandleMouseMove(const OIS::MouseEvent& event);
+    void _handleMouseMove(const OIS::MouseEvent& event);
 
     /**
       * Handles the events triggered by releasing a key or a mouse button.
-      * @param event The key-releasing event.
+      * @param input_code The input code.
+      * @param event The event argument.
       */
-    void _HandleButtonUp(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
+    void _handleButtonUp(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
 
 signals:
     /**

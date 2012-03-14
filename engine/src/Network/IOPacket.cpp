@@ -29,55 +29,55 @@ IOPacket::IOPacket(YAML::Emitter* emitter)
       mMode(TEXT),
       mEmitter(emitter) {}
 
-IOPacket::Mode IOPacket::GetMode() const {
+IOPacket::Mode IOPacket::getMode() const {
     return mMode;
 }
 
-IOPacket::Direction IOPacket::GetDirection() const {
+IOPacket::Direction IOPacket::getDirection() const {
     return mDirection;
 }
 
-IOPacket& IOPacket::Stream(EnumHelper h, QString key, uint32_t def) {
+IOPacket& IOPacket::stream(EnumHelper h, QString key, uint32_t def) {
     if(mDirection == DESERIALIZE) {
         uint32_t x = 0;
-        Stream(x, key, def);
-        h.Set(x);
+        stream(x, key, def);
+        h.set(x);
     }
     else {
-        uint32_t x = h.Get();
-        Stream(x, key, def);
+        uint32_t x = h.get();
+        stream(x, key, def);
     }
     return *this;
 }
 
-IOPacket& IOPacket::Stream(QString& s, QString key, QString def) {
+IOPacket& IOPacket::stream(QString s, QString key, QString def) {
     if(mDirection == DESERIALIZE) {
         std::string stdstr;
-        Stream(stdstr, key, def.toStdString());
+        stream(stdstr, key, def.toStdString());
         s = QString(stdstr.c_str());
     } else {
-        std::string stdstr = Utils::ToStdString(s);
-        Stream(stdstr, key, def.toStdString());
+        std::string stdstr = Utils::toStdString(s);
+        stream(stdstr, key, def.toStdString());
     }
     return *this;
 }
 
-IOPacket& IOPacket::Stream(QUuid& id, QString key, QUuid def) {
+IOPacket& IOPacket::stream(QUuid& id, QString key, QUuid def) {
     if(mDirection == DESERIALIZE) {
         std::string stdstr;
-        Stream(stdstr, key);
+        stream(stdstr, key);
         if(stdstr == "") id = def;
         else id = QUuid(QString::fromStdString(stdstr));
     } else {
-        std::string stdstr = Utils::ToStdString(id.toString());
-        Stream(stdstr, key);
+        std::string stdstr = Utils::toStdString(id.toString());
+        stream(stdstr, key);
     }
     return *this;
 }
 
-uint32_t IOPacket::BeginList(uint32_t count, QString key) {
+uint32_t IOPacket::beginList(uint32_t count, QString key) {
     if(mMode == BINARY) {
-        Stream(count, "count"); // Notice: key does not matter in binary mode
+        stream(count, "count"); // Notice: key does not matter in binary mode
     } else {
         mIndexInSequenceStack.push_back(mIndexInSequence);
         mIndexInSequence = 0;
@@ -93,7 +93,7 @@ uint32_t IOPacket::BeginList(uint32_t count, QString key) {
     return count;
 }
 
-void IOPacket::EndList() {
+void IOPacket::endList() {
     if(mMode == TEXT) {
         if(mIndexInSequenceStack.size() > 0) {
             mIndexInSequence = mIndexInSequenceStack.back();
@@ -111,7 +111,7 @@ void IOPacket::EndList() {
     }
 }
 
-void IOPacket::BeginObject() {
+void IOPacket::beginObject() {
     if(mMode == TEXT) {
         if(mDirection == SERIALIZE) {
             *mEmitter << YAML::BeginMap;
@@ -122,7 +122,7 @@ void IOPacket::BeginObject() {
     }
 }
 
-void IOPacket::EndObject() {
+void IOPacket::endObject() {
     if(mMode == TEXT) {
         if(mDirection == SERIALIZE) {
             *mEmitter << YAML::EndMap;

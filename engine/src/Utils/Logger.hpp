@@ -30,7 +30,7 @@ public:
       * Advanced constructor. Creates a logger with the given name.
       * @param name The name of the logger.
       */
-    Logger(const QString& name = "default");
+    Logger(const QString name = "default");
 
     // levels are usually (debug|info|warning|error) or self-defined levels
 
@@ -40,62 +40,62 @@ public:
       * @param level The level name of the LogStream
       * @param msg The log message
       */
-    void Log(const QString& level, const QString& msg);
+    void log(const QString level, const QString msg);
 
     /**
       * Returns the stream with the given name.
       * @param streamname the name of the stream to find, usually the log level
       * @returns the LogStream
       */
-    LogStream* GetStream(const QString& streamname);
+    LogStream* getStream(const QString streamname);
 
     /**
       * Logs a message at "DEBUG" level.
       * @param msg The log message
       */
-    void Debug(const QString& msg);
+    void debug(const QString msg);
 
     /**
       * Logs a message at "INFO" level.
       * @param msg The log message
       */
-    void Info(const QString& msg);
+    void info(const QString msg);
 
     /**
       * Logs a message at "WARNING" level.
       * @param msg The log message
       */
-    void Warning(const QString& msg);
+    void warning(const QString msg);
 
     /**
       * Logs a message at "ERROR" level.
       * @param msg The log message
       */
-    void Error(const QString& msg);
+    void error(const QString msg);
 
     /**
       * Sets the name of the Logger.
       * @param name The new name
       */
-    void SetName(const QString& name);
+    void setName(const QString name);
 
     /**
       * Returns the name of the Logger.
       * @returns The name of the Logger
       */
-    const QString& GetName() const;
+    const QString getName() const;
 
     /**
       * Return the "default" Logger from Root's LogManager.
       * @returns the default Logger
       */
-    static Logger& Get();
+    static Logger& get();
 
     /** Return a specific Logger from Root's LogManager.
       * @param name the name of the Logger
       * @returns the Logger if one is found, otherwise it is created
       */
-    static Logger& GetByName(const QString& name);
+    static Logger& getByName(const QString name);
 
 private:
     std::vector<LogStream::LogStreamSP> mStreams;  //!< The list of Streams owned by this Logger

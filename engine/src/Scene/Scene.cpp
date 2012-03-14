@@ -14,41 +14,41 @@
 
 namespace dt {
 
-Scene::Scene(const QString& name)
+Scene::Scene(const QString name)
     : Node(name) {}
 
-void Scene::OnInitialize() {
-    GuiManager::Get()->SetSceneManager(GetSceneManager());
+void Scene::onInitialize() {
+    GuiManager::get()->setSceneManager(getSceneManager());
 
-    Logger::Get().Debug("Scene " + mName + " is being initialized.");
+    Logger::get().debug("Scene " + mName + " is being initialized.");
 }
 
-void Scene::OnDeinitialize() {
-    GuiManager::Get()->GetRootWindow().RemoveAllChildren();
-    GuiManager::Get()->SetSceneManager(nullptr);
+void Scene::onDeinitialize() {
+    GuiManager::get()->getRootWindow().removeAllChildren();
+    GuiManager::get()->setSceneManager(nullptr);
 
-    Logger::Get().Debug("Scene " + mName + " is being deinitialized.");
+    Logger::get().debug("Scene " + mName + " is being deinitialized.");
 }
 
-Ogre::SceneManager* Scene::GetSceneManager() {
-    return DisplayManager::Get()->GetSceneManager(mName);
+Ogre::SceneManager* Scene::getSceneManager() {
+    return DisplayManager::get()->getSceneManager(mName);
 }
 
-bool Scene::_IsScene() {
+bool Scene::_isScene() {
     return true;
 }
 
-void Scene::UpdateFrame(double simulation_frame_time) {
-    OnUpdate(simulation_frame_time);
+void Scene::updateFrame(double simulation_frame_time) {
+    onUpdate(simulation_frame_time);
 }
 
-PhysicsWorld* Scene::GetPhysicsWorld() {
-    PhysicsManager* mgr = PhysicsManager::Get();
+PhysicsWorld* Scene::getPhysicsWorld() {
+    PhysicsManager* mgr = PhysicsManager::get();
     // create a world if none exists
-    if(!mgr->HasWorld(mName)) {
-        return mgr->AddWorld(new PhysicsWorld(mName, this));
+    if(!mgr->hasWorld(mName)) {
+        return mgr->addWorld(new PhysicsWorld(mName, this));
     }
-    return mgr->GetWorld(mName);
+    return mgr->getWorld(mName);
 }
 
 } // namespace dt

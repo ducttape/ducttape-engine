@@ -16,7 +16,7 @@
 
 namespace dt {
 
-MeshComponent::MeshComponent(const QString& mesh_handle, const QString& material_name, const QString& name)
+MeshComponent::MeshComponent(const QString mesh_handle, const QString material_name, const QString name)
     : Component(name),
       mSceneNode(nullptr),
       mEntity(nullptr),
@@ -27,51 +27,51 @@ MeshComponent::MeshComponent(const QString& mesh_handle, const QString& material
     mMaterialName = material_name;
 }
 
-void MeshComponent::OnInitialize() {
-    _LoadMesh();
+void MeshComponent::onInitialize() {
+    _loadMesh();
 }
 
-void MeshComponent::OnDeinitialize() {
-    _DestroyMesh();
+void MeshComponent::onDeinitialize() {
+    _destroyMesh();
 }
 
-void MeshComponent::OnEnable() {
+void MeshComponent::onEnable() {
     mEntity->setVisible(true);
 }
 
-void MeshComponent::OnDisable() {
+void MeshComponent::onDisable() {
     mEntity->setVisible(false);
 }
 
-void MeshComponent::OnUpdate(double time_diff) {
+void MeshComponent::onUpdate(double time_diff) {
     // set position, rotation and scale of the node
-    mSceneNode->setPosition(GetNode()->GetPosition(Node::SCENE));
-    mSceneNode->setOrientation(GetNode()->GetRotation(Node::SCENE));
-    mSceneNode->setScale(GetNode()->GetScale(Node::SCENE));
+    mSceneNode->setPosition(getNode()->getPosition(Node::SCENE));
+    mSceneNode->setOrientation(getNode()->getRotation(Node::SCENE));
+    mSceneNode->setScale(getNode()->getScale(Node::SCENE));
 
     if(mAnimationState != nullptr && mAnimationState->getEnabled()) {
         mAnimationState->addTime(time_diff);
     }
 }
 
-void MeshComponent::OnSerialize(IOPacket &packet) {
-    packet.Stream(mMeshHandle, "mesh");
-    packet.Stream(mMaterialName, "material");
+void MeshComponent::onSerialize(IOPacket& packet) {
+    packet.stream(mMeshHandle, "mesh");
+    packet.stream(mMaterialName, "material");
 }
 
-void MeshComponent::SetMeshHandle(const QString& mesh_handle) {
-    if(mesh_handle != mMeshHandle && IsInitialized()) {
+void MeshComponent::setMeshHandle(const QString mesh_handle) {
+    if(mesh_handle != mMeshHandle && isInitialized()) {
         // we got a new mesh; load it
-        _LoadMesh();
+        _loadMesh();
     }
     mMeshHandle = mesh_handle;
 }
 
-const QString& MeshComponent::GetMeshHandle() const {
+const QString MeshComponent::getMeshHandle() const {
     return mMeshHandle;
 }
 
-std::vector<QString> MeshComponent::GetAvailableAnimations() {
+std::vector<QString> MeshComponent::getAvailableAnimations() {
     std::vector<QString> result;
 
     if(mEntity == nullptr)
@@ -85,99 +85,100 @@ std::vector<QString> MeshComponent::GetAvailableAnimations() {
     return result;
 }
 
-void MeshComponent::SetAnimation(const QString& animation_state) {
+void MeshComponent::setAnimation(const QString animation_state) {
     if(mEntity != nullptr) {
-        mAnimationState = mEntity->getAnimationState(Utils::ToStdString(animation_state));
+        mAnimationState = mEntity->getAnimationState(Utils::toStdString(animation_state));
         mAnimationState->setLoop(mLoopAnimation);
     } else {
-        Logger::Get().Error("Cannot set animation of component " + GetName() + ": No entity loaded.");
+        Logger::get().error("Cannot set animation of component " + getName() + ": No entity loaded.");
     }
 }
 
-void MeshComponent::PlayAnimation() {
+void MeshComponent::playAnimation() {
     if(mAnimationState != nullptr && mAnimationState->getEnabled() != true) {
         mAnimationState->setEnabled(true);
-        emit AnimationPlayed();
+        emit animationPlayed();
     } else {
-        Logger::Get().Error("Cannot play animation of component " + GetName() + ": No animation set.");
+        Logger::get().error("Cannot play animation of component " + getName() + ": No animation set.");
     }
 }
 
-void MeshComponent::StopAnimation() {
+void MeshComponent::stopAnimation() {
     if(mAnimationState != nullptr && mAnimationState->getEnabled() != false) {
         mAnimationState->setEnabled(false);
         mAnimationState->setTimePosition(0);
-        emit AnimationStopped();
+        emit animationStopped();
     } else {
-        Logger::Get().Error("Cannot stop animation of component " + GetName() + ": No animation set.");
+        Logger::get().error("Cannot stop animation of component " + getName() + ": No animation set.");
     }
 }
 
-void MeshComponent::PauseAnimation() {
+void MeshComponent::pauseAnimation() {
     if(mAnimationState != nullptr && mAnimationState->getEnabled() != false) {
         mAnimationState->setEnabled(false);
-        emit AnimationPaused();
+        emit animationPaused();
     } else {
-        Logger::Get().Error("Cannot pause animation of component " + GetName() + ": No animation set.");
+        Logger::get().error("Cannot pause animation of component " + getName() + ": No animation set.");
     }
 }
 
-void MeshComponent::SetLoopAnimation(bool loop_animation) {
+void MeshComponent::setLoopAnimation(bool loop_animation) {
     mLoopAnimation = loop_animation;
     if(mAnimationState != nullptr) {
         mAnimationState->setLoop(mLoopAnimation);
     }
 }
 
-bool MeshComponent::GetLoopAnimation() {
+bool MeshComponent::getLoopAnimation() {
     return mLoopAnimation;
 }
 
-void MeshComponent::SetMaterialName(const QString& material_name) {
+void MeshComponent::setMaterialName(const QString material_name) {
     mMaterialName = material_name;
     if(mEntity != nullptr && mMaterialName != "") {
-        mEntity->setMaterialName(Utils::ToStdString(material_name));
+        mEntity->setMaterialName(Utils::toStdString(material_name));
     }
 }
 
-Ogre::SceneNode* MeshComponent::GetOgreSceneNode() const {
+Ogre::SceneNode* MeshComponent::getOgreSceneNode() const {
     return mSceneNode;
 }
 
-Ogre::Entity* MeshComponent::GetOgreEntity() const {
+Ogre::Entity* MeshComponent::getOgreEntity() const {
     return mEntity;
 }
 
-void MeshComponent::SetCastShadows(bool cast_shadows) {
+void MeshComponent::setCastShadows(bool cast_shadows) {
     mCastShadows = cast_shadows;
     if(mEntity != nullptr) {
         mEntity->setCastShadows(mCastShadows);
     }
 }
 
-bool MeshComponent::GetCastShadows() const {
+bool MeshComponent::getCastShadows() const {
     return mCastShadows;
 }
 
-void MeshComponent::_LoadMesh() {
+void MeshComponent::_loadMesh() {
     // destroy existing mesh and scene node
-    _DestroyMesh();
+    _destroyMesh();
 
     if(mMeshHandle == "") {
-        Logger::Get().Error("MeshComponent ["+ mName + "]: Needs a mesh handle.");
+        Logger::get().error("MeshComponent ["+ mName + "]: Needs a mesh handle.");
     }
 
-    Ogre::SceneManager* scene_mgr = GetNode()->GetScene()->GetSceneManager();
-    std::string nodename = Utils::ToStdString(GetNode()->GetName());
-    mEntity = scene_mgr->createEntity(nodename + "-mesh-entity-" + Utils::ToStdString(mName), Utils::ToStdString(mMeshHandle));
-    SetMaterialName(mMaterialName);
-    mSceneNode = scene_mgr->getRootSceneNode()->createChildSceneNode(nodename + "-mesh-scenenode-" + Utils::ToStdString(mName));
+    Ogre::SceneManager* scene_mgr = getNode()->getScene()->getSceneManager();
+    std::string nodename = Utils::toStdString(getNode()->getName());
+    mEntity = scene_mgr->createEntity(nodename + "-mesh-entity-" + Utils::toStdString(mName),
+                                                             Utils::toStdString(mMeshHandle));
+    setMaterialName(mMaterialName);
+    mSceneNode = scene_mgr->getRootSceneNode()->createChildSceneNode(nodename + "-mesh-scenenode-" + Utils::toStdString(mName));
     mSceneNode->attachObject(mEntity);
-    SetCastShadows(mCastShadows);
+    setCastShadows(mCastShadows);
 }
 
-void MeshComponent::_DestroyMesh() {
-    Ogre::SceneManager* scene_mgr = GetNode()->GetScene()->GetSceneManager();
+void MeshComponent::_destroyMesh() {
+    Ogre::SceneManager* scene_mgr = getNode()->getScene()->getSceneManager();
 
     if(mEntity != nullptr)
         scene_mgr->destroyEntity(mEntity);

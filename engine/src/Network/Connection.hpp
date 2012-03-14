@@ -48,25 +48,25 @@ public:
       * Setter for the IPAddress.
       * @param address The IPAddress to use.
       */
-    void SetIPAddress(sf::IpAddress address);
+    void setIPAddress(sf::IpAddress address);
 
     /**
       * Getter for the IPAddress.
       * @returns The IPAddress of the remote device.
       */
-    sf::IpAddress GetIPAddress() const;
+    sf::IpAddress getIPAddress() const;
 
     /**
       * Setter for the port number.
       * @param port The port number to use.
       */
-    void SetPort(uint16_t port);
+    void setPort(uint16_t port);
 
     /**
       * Getter for IPAddress.
       * @returns The port number of the remote device.
       */
-    uint16_t GetPort() const;
+    uint16_t getPort() const;
 
 private:
     sf::IpAddress mIPAddress;   //!< The IPAddress of the remote device.

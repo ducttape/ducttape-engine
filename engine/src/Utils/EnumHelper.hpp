@@ -49,13 +49,13 @@ public:
       * Returns the integer value of the enum object.
       * @returns The integer value of the enum object.
       */
-    uint32_t Get();
+    uint32_t get();
 
     /**
       * Sets a new value as for the enum object.
       * @param i The new integer value.
       */
-    void Set(uint32_t i);
+    void set(uint32_t i);
 
 private:
     void* mEnumObj; //!< A pointer to the enum object.

@@ -16,56 +16,56 @@
 
 namespace ScriptingTest {
 
-bool ScriptingTest::Run(int argc, char** argv) {
+bool ScriptingTest::run(int argc, char** argv) {
     mFailed = false;
 
-    dt::Root::GetInstance().Initialize(argc, argv);
+    dt::Root::getInstance().initialize(argc, argv);
 
-    dt::ScriptManager::Get()->AddScript("print(DT_VERSION);", "print_test");
-    dt::ScriptManager::Get()->AddScript("DT_VERSION", "return_version");
-    dt::ScriptManager::Get()->AddScript("print(TotalTime);", "update_context");
-    dt::ScriptManager::Get()->LoadScript("scripts/test_load_script_file.js");
+    dt::ScriptManager::get()->addScript("print(DT_VERSION);", "print_test");
+    dt::ScriptManager::get()->addScript("DT_VERSION", "return_version");
+    dt::ScriptManager::get()->addScript("print(TotalTime);", "update_context");
+    dt::ScriptManager::get()->loadScript("scripts/test_load_script_file.js");
 
-    RunScript("print_test");
-    RunScript("return_version", dt::Root::_VERSION);
-    RunScript("test_load_script_file.js", "test");
+    runScript("print_test");
+    runScript("return_version", dt::Root::_VERSION);
+    runScript("test_load_script_file.js", "test");
 
-    sf::Sleep(sf::Milliseconds(100));
-    dt::ScriptManager::Get()->UpdateContext();
-    RunScript("update_context");
+    sf::sleep(sf::milliseconds(100));
+    dt::ScriptManager::get()->updateContext();
+    runScript("update_context");
 
     if(mFailed) {
         std::cout << "Test Script: Errors occured." << std::endl;
         return false;
     }
 
-    dt::Root::GetInstance().Deinitialize();
+    dt::Root::getInstance().deinitialize();
     return true;
 }
 
-QString ScriptingTest::GetTestName() {
+QString ScriptingTest::getTestName() {
     return "Scripting";
 }
 
-QScriptValue ScriptingTest::RunScript(QString name, QScriptValue expected_value) {
+QScriptValue ScriptingTest::runScript(QString name, QScriptValue expected_value) {
     std::cout << "================================================================" << std::endl;
-    std::cout << "Running script: \"" << dt::Utils::ToStdString(name) << "\"..." << std::endl;
+    std::cout << "Running script: \"" << dt::Utils::toStdString(name) << "\"..." << std::endl;
 
     QScriptValue val;
     bool this_failed = false;
-    if(!dt::ScriptManager::Get()->ExecuteScript(name)) {
-        std::cerr << "Execution of script \"" <<  dt::Utils::ToStdString(name) << "\" failed." << std::endl;
+    if(!dt::ScriptManager::get()->executeScript(name)) {
+        std::cerr << "Execution of script \"" <<  dt::Utils::toStdString(name) << "\" failed." << std::endl;
         this_failed = true;
     } else {
-        val = dt::ScriptManager::Get()->GetLastReturnValue();
+        val = dt::ScriptManager::get()->getLastReturnValue();
         if(val.isError() && !val.equals(expected_value)) { // error, and no error expected
             std::cerr << "ERROR: Script error." << std::endl;
-            std::cerr << "Message:  " << dt::Utils::ToStdString(val.toString()) << std::endl;
+            std::cerr << "Message:  " << dt::Utils::toStdString(val.toString()) << std::endl;
             this_failed = true;
         } else if(!expected_value.isUndefined() && !val.equals(expected_value)) {
             std::cerr << "ERROR: Wrong value." << std::endl;
-            std::cerr << "Returned: " << dt::Utils::ToStdString(val.toString()) << std::endl;
-            std::cerr << "Expected: " << dt::Utils::ToStdString(expected_value.toString()) << std::endl;
+            std::cerr << "Returned: " << dt::Utils::toStdString(val.toString()) << std::endl;
+            std::cerr << "Expected: " << dt::Utils::toStdString(expected_value.toString()) << std::endl;
             this_failed = true;
         }
     }

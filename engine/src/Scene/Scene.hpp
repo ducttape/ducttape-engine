@@ -35,27 +35,27 @@ public:
     /**
       * Default constructor.
       */
-    Scene(const QString& name);
+    Scene(const QString name);
 
-    void OnInitialize();
+    void onInitialize();
 
-    void OnDeinitialize();
+    void onDeinitialize();
 
     /**
       * Returns the Ogre::SceneManager of this Scene.
       * @returns The Ogre::SceneManager of this Scene.
       */
-    Ogre::SceneManager* GetSceneManager();
+    Ogre::SceneManager* getSceneManager();
 
     /**
       * Returns the PhysicsWorld of this Scene. Creates the PhysicsWorld on-demand.
       * @returns The PhysicsWorld of this Scene.
       */
-    PhysicsWorld* GetPhysicsWorld();
+    PhysicsWorld* getPhysicsWorld();
 public slots:
-    void UpdateFrame(double simulation_frame_time);
+    void updateFrame(double simulation_frame_time);
 protected:
-    bool _IsScene();
+    bool _isScene();
 
 };
 

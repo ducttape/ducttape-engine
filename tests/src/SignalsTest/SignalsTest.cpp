@@ -16,40 +16,40 @@
 
 namespace SignalsTest {
 
-bool SignalsTest::Run(int argc, char** argv) {
-    dt::Root& root = dt::Root::GetInstance();
-    root.Initialize(argc, argv);
+bool SignalsTest::run(int argc, char** argv) {
+    dt::Root& root = dt::Root::getInstance();
+    root.initialize(argc, argv);
 
     TestComponent component("test");
     CallbackClass callback;
-    QObject::connect(&component, SIGNAL(Invoked()),
-                     &callback, SLOT(TheCallback()));
-    component.Invoke();
+    QObject::connect(&component, SIGNAL(invoked()),
+                     &callback,  SLOT(theCallback()));
+    component.invoke();
 
     if(!callback.mInvoked) {
         std::cerr << "Signal callback not received correctly." << std::endl;
         return false;
     }
 
-    root.Deinitialize();
+    root.deinitialize();
     return true;
 }
 
-QString SignalsTest::GetTestName() {
+QString SignalsTest::getTestName() {
     return "Signals";
 }
 
 ////////////////////////////////////////////////////////////////
 
-TestComponent::TestComponent(const QString& name)
+TestComponent::TestComponent(const QString name)
     : dt::Component(name) {}
 
-void TestComponent::OnInitialize() {}
+void TestComponent::onInitialize() {}
 
-void TestComponent::OnDeinitialize() {}
+void TestComponent::onDeinitialize() {}
 
-void TestComponent::Invoke() {
-    emit Invoked();
+void TestComponent::invoke() {
+    emit invoked();
 }
 
 ////////////////////////////////////////////////////////////////
@@ -57,7 +57,7 @@ void TestComponent::Invoke() {
 CallbackClass::CallbackClass()
     : mInvoked(false) {}
 
-void CallbackClass::TheCallback() {
+void CallbackClass::theCallback() {
     std::cout << "Callback was called." << std::endl;
     mInvoked = true;
 }

@@ -22,22 +22,23 @@ GuiManager::GuiManager()
       mMouseCursorVisible(true),
       mRootGuiWindow("Gui") {}
 
-void GuiManager::Initialize() {
+void GuiManager::initialize() {
     if(mGuiSystem == nullptr) {
-        CameraComponent* c = DisplayManager::Get()->GetMainCamera();
-        if(c == nullptr || c->GetCamera() == nullptr) {
+        CameraComponent* c = DisplayManager::get()->getMainCamera();
+        if(c == nullptr || c->getCamera() == nullptr) {
             // cannot initialize, there is no camera, so there is no viewport
-            Logger::Get().Error("Cannot initialize GUI System - no main camera set.");
+            Logger::get().error("Cannot initialize GUI System - no main camera set.");
             return;
         }
-        InputManager* inputMgrPtr = InputManager::Get();
+        InputManager* inputMgrPtr = InputManager::get();
         QObject::connect(inputMgrPtr, SIGNAL(sPressed(dt::InputManager::InputCode, const OIS::EventArg&)),
-                                this, SLOT(sPressed(dt::InputManager::InputCode, const OIS::EventArg&)));
+                         this,        SLOT(sPressed(dt::InputManager::InputCode, const OIS::EventArg&)));
         QObject::connect(inputMgrPtr, SIGNAL(sReleased(dt::InputManager::InputCode, const OIS::EventArg&)),
-                                this, SLOT(sReleased(dt::InputManager::InputCode, const OIS::EventArg&)));
-        QObject::connect(inputMgrPtr, SIGNAL(sMouseMoved(const OIS::MouseEvent&)), this, SLOT(sMouseMoved(const OIS::MouseEvent&)));
+                         this,        SLOT(sReleased(dt::InputManager::InputCode, const OIS::EventArg&)));
+        QObject::connect(inputMgrPtr, SIGNAL(sMouseMoved(const OIS::MouseEvent&)),
+                         this,        SLOT(sMouseMoved(const OIS::MouseEvent&)));
 
-        Ogre::SceneManager* scene_mgr = c->GetCamera()->getSceneManager();
+        Ogre::SceneManager* scene_mgr = c->getCamera()->getSceneManager();
 
         mPlatform = new MyGUI::OgrePlatform();
 
@@ -45,7 +46,7 @@ void GuiManager::Initialize() {
         // resource cannot be found
         MyGUI::LogManager::getInstance().setSTDOutputEnabled(false);
 
-        mPlatform->initialise(DisplayManager::Get()->GetRenderWindow(), scene_mgr, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+        mPlatform->initialise(DisplayManager::get()->getRenderWindow(), scene_mgr, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
         mGuiSystem = new MyGUI::Gui();
         mGuiSystem->initialise();
@@ -53,14 +54,14 @@ void GuiManager::Initialize() {
 //        EventManager::Get()->AddListener(this);
 
         // Show / hide the mouse cursor.
-        SetMouseCursorVisible(mMouseCursorVisible);
+        setMouseCursorVisible(mMouseCursorVisible);
 
         // Initialize the root widget.
-        mRootGuiWindow.Initialize();
+        mRootGuiWindow.initialize();
     }
 }
 
-void GuiManager::Deinitialize() {
+void GuiManager::deinitialize() {
     if(mGuiSystem != nullptr) {
         mGuiSystem->shutdown();
         delete mGuiSystem;
@@ -73,7 +74,7 @@ void GuiManager::Deinitialize() {
 }
 
 void GuiManager::sPressed(dt::InputManager::InputCode input_code, const OIS::EventArg& event) {
-    if (_EventEnabled()) {
+    if (_eventEnabled()) {
         if(input_code >= InputManager::MC_LEFT) {
             const OIS::MouseEvent& mouse_event = (const OIS::MouseEvent&)event;
 
@@ -89,7 +90,7 @@ void GuiManager::sPressed(dt::InputManager::InputCode input_code, const OIS::Eve
 }
 
 void GuiManager::sReleased(dt::InputManager::InputCode input_code, const OIS::EventArg& event) {
-    if (_EventEnabled()) {
+    if (_eventEnabled()) {
         if(input_code >= InputManager::MC_LEFT) {
             const OIS::MouseEvent& mouse_event = (const OIS::MouseEvent&)event;
 
@@ -107,46 +108,46 @@ void GuiManager::sReleased(dt::InputManager::InputCode input_code, const OIS::Ev
 }
 
 void GuiManager::sMouseMoved(const OIS::MouseEvent& event) {
-    if (_EventEnabled()) {
+    if (_eventEnabled()) {
         mMyguiInputMgrPtr->injectMouseMove(event.state.X.abs, event.state.Y.abs, event.state.Z.abs);
     }
 }
 
-void GuiManager::SetSceneManager(Ogre::SceneManager* scene_manager) {
+void GuiManager::setSceneManager(Ogre::SceneManager* scene_manager) {
     if(mPlatform != nullptr) {
         mPlatform->getRenderManagerPtr()->setSceneManager(scene_manager);
     }
 }
 
-MyGUI::Gui* GuiManager::GetGuiSystem() {
+MyGUI::Gui* GuiManager::getGuiSystem() {
     // initialize if not already happened
-    Initialize();
+    initialize();
     return mGuiSystem;
 }
 
-void GuiManager::SetMouseCursorVisible(bool visible) {
+void GuiManager::setMouseCursorVisible(bool visible) {
     if(mGuiSystem == nullptr && visible) {
         // we have no gui system, but we want to show the cursor
         // so we need to create the GUI system first
-        Initialize();
+        initialize();
     }
 
     if(mGuiSystem != nullptr && mMouseCursorVisible != visible) {
         MyGUI::PointerManager::getInstance().setVisible(visible);
         mMouseCursorVisible = visible;
-        emit MouseCursorVisibilityChanged(visible);
+        emit mouseCursorVisibilityChanged(visible);
     }
 }
 
-GuiManager* GuiManager::Get() {
-    return DisplayManager::Get()->GetGuiManager();
+GuiManager* GuiManager::get() {
+    return DisplayManager::get()->getGuiManager();
 }
 
-GuiRootWindow& GuiManager::GetRootWindow() {
+GuiRootWindow& GuiManager::getRootWindow() {
     return mRootGuiWindow;
 }
 
-bool GuiManager::_EventEnabled() {
+bool GuiManager::_eventEnabled() {
     auto mygui_inputmgr = MyGUI::InputManager::getInstancePtr();
     if (mGuiSystem == nullptr || mygui_inputmgr == nullptr) {
         return false;

@@ -32,17 +32,17 @@ class Node;
   */
 class DUCTTAPE_API Component : public QObject {
     Q_OBJECT
-    Q_PROPERTY(QString name READ GetName CONSTANT FINAL)
-    Q_PROPERTY(bool isEnabled READ IsEnabled FINAL)
-    Q_PROPERTY(bool isInitialized READ IsInitialized FINAL)
-    Q_PROPERTY(QScriptValue node READ GetScriptNode)
+    Q_PROPERTY(QString name READ getName CONSTANT FINAL)
+    Q_PROPERTY(bool isEnabled READ isEnabled FINAL)
+    Q_PROPERTY(bool isInitialized READ isInitialized FINAL)
+    Q_PROPERTY(QScriptValue node READ getScriptNode)
 
 public:
     /**
       * Constructor with set name.
       * @param name The Component name.
       */
-    Component(const QString& name = "");
+    Component(const QString name = "");
 
     /**
       * Pure virtual destructor makes this class abstract.
@@ -52,101 +52,101 @@ public:
     /**
       * Called when the component is activated. Initialize all scene objects here.
       */
-    virtual void OnInitialize();
+    virtual void onInitialize();
 
     /**
       * Called when the component is deactivated. Deinitialize all scene objects here.
       */
-    virtual void OnDeinitialize();
+    virtual void onDeinitialize();
 
     /**
       * Called when the component is enabled. Show/enable all scene objects here.
       */
-    virtual void OnEnable();
+    virtual void onEnable();
 
     /**
       * Called when the component is disabled. Hide/disable all scene objects here.
       */
-    virtual void OnDisable();
+    virtual void onDisable();
 
     /**
       * Called every frame. Update the Node here.
       * @param time_diff The frame delta time.
       */
-    virtual void OnUpdate(double time_diff);
+    virtual void onUpdate(double time_diff);
 
     /**
       * Sets the node of this component.
       * @param node The node to be set.
       */
-    void SetNode(Node* node);
+    void setNode(Node* node);
 
-    void Serialize(IOPacket& packet);
+    void serialize(IOPacket& packet);
 
-    virtual void OnSerialize(IOPacket& packet);
+    virtual void onSerialize(IOPacket& packet);
 
 public slots:
     /**
       * Returns the name of the Component.
       * @returns The name of the Component.
       */
-    const QString& GetName() const;
+    const QString getName() const;
 
     /**
       * Returns the name of the Component, including all parent names.
       * @returns The name of the Component, including all parent names.
       */
-    QString GetFullName() const;
+    QString getFullName() const;
 
     /**
       * Returns the Node of this component.
       * @returns The Node of this component.
       */
-    Node* GetNode();
+    Node* getNode();
 
     /**
       * Returns the Node of this component. Used for scripting access.
       * @returns The Node of this component.
       */
-    QScriptValue GetScriptNode();
+    QScriptValue getScriptNode();
 
     /**
       * Returns whether the component is created.
       * @returns Whether the component is created.
       */
-    bool IsInitialized();
+    bool isInitialized();
 
     /**
       * Returns whether the component is enabled.
       * @returns Whether the component is enabled.
       */
-    bool IsEnabled();
+    bool isEnabled();
 
     /**
       * Initializes the component.
       */
-    void Initialize();
+    void initialize();
 
     /**
       * Deinitializes the component.
       */
-    void Deinitialize();
+    void deinitialize();
 
     /**
       * Enables the component.
       */
-    void Enable();
+    void enable();
 
     /**
       * Disables the component.
       */
-    void Disable();
+    void disable();
 
 signals:
-    void ComponentInitialized();
-    void ComponentUninitialized();
-    void ComponentEnabled();
-    void ComponentDisabled();
+    void componentInitialized();
+    void componentUninitialized();
+    void componentEnabled();
+    void componentDisabled();
 
 protected:
     QString mName;  //!< The Component name.

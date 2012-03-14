@@ -17,15 +17,15 @@ GuiTextBox::GuiTextBox(QString name)
 
 GuiTextBox::~GuiTextBox() {}
 
-void GuiTextBox::SetCaption(QString caption) {
-    if(GetCaption() != caption) {
-        dynamic_cast<MyGUI::TextBox*>(GetMyGUIWidget())->setCaption(dt::Utils::ToStdString(caption));
-        emit CaptionChanged(caption);
+void GuiTextBox::setCaption(QString caption) {
+    if(getCaption() != caption) {
+        dynamic_cast<MyGUI::TextBox*>(getMyGUIWidget())->setCaption(dt::Utils::toStdString(caption));
+        emit captionChanged(caption);
     }
 }
 
-QString GuiTextBox::GetCaption() {
-    return QString(dynamic_cast<MyGUI::TextBox*>(GetMyGUIWidget())->getCaption().asUTF8_c_str());
+QString GuiTextBox::getCaption() {
+    return QString(dynamic_cast<MyGUI::TextBox*>(getMyGUIWidget())->getCaption().asUTF8_c_str());
 }
 
 }

@@ -30,12 +30,12 @@ public:
     /**
       * Called when the Manager is being initialized.
       */
-    virtual void Initialize() = 0;
+    virtual void initialize() = 0;
 
     /**
       * Called when the Manager is being deinitialized.
       */
-    virtual void Deinitialize() = 0;
+    virtual void deinitialize() = 0;
 
 };
 

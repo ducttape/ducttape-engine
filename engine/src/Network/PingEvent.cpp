@@ -14,25 +14,25 @@ PingEvent::PingEvent(double timestamp, bool is_reply)
     : mIsReply(is_reply),
       mTimestamp(timestamp) {}
 
-const QString PingEvent::GetType() const {
+const QString PingEvent::getType() const {
     return "DT_PINGEVENT";
 }
 
-std::shared_ptr<NetworkEvent> PingEvent::Clone() const {
+std::shared_ptr<NetworkEvent> PingEvent::clone() const {
     std::shared_ptr<NetworkEvent> ptr(new PingEvent(mTimestamp, mIsReply));
     return ptr;
 }
 
-void PingEvent::Serialize(IOPacket& p) {
-    p.Stream(mTimestamp, "timestamp", 0.0);
-    p.Stream(mIsReply, "is_reply", false);
+void PingEvent::serialize(IOPacket& p) {
+    p.stream(mTimestamp, "timestamp", 0.0);
+    p.stream(mIsReply, "is_reply", false);
 }
 
-bool PingEvent::IsReply() const {
+bool PingEvent::isReply() const {
     return mIsReply;
 }
 
-double PingEvent::GetTimestamp() const {
+double PingEvent::getTimestamp() const {
     return mTimestamp;
 }
 

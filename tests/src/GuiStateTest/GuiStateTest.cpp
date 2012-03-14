@@ -13,98 +13,98 @@
 
 namespace GuiStateTest {
 
-bool GuiStateTest::Run(int argc, char** argv) {
+bool GuiStateTest::run(int argc, char** argv) {
     dt::Game game;
-    game.Run(new FirstState(), argc, argv);
+    game.run(new FirstState(), argc, argv);
     return true;
 }
 
-QString GuiStateTest::GetTestName() {
+QString GuiStateTest::getTestName() {
     return "GuiState";
 }
 
 ////////////////////////////////////////////////////////////////
 
-void SecondState::OnInitialize() {
+void SecondState::onInitialize() {
     //mPopped = false;
-    dt::Logger::Get().Warning("SecondState::OnInitialize");
+    dt::Logger::get().warning("SecondState::OnInitialize");
 
-    dt::Scene* scene = AddScene(new dt::Scene("scene2"));
+    dt::Scene* scene = addScene(new dt::Scene("scene2"));
 
-    dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
-    camnode->SetPosition(Ogre::Vector3(0, 0, -20));
-    camnode->AddComponent(new dt::CameraComponent("cam"))->LookAt(Ogre::Vector3(0, 0, 0));;
+    dt::Node* camnode = scene->addChildNode(new dt::Node("camnode"));
+    camnode->setPosition(Ogre::Vector3(0, 0, -20));
+    camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));;
 
-    dt::Node* meshnode = scene->AddChildNode(new dt::Node("meshnode"));
+    dt::Node* meshnode = scene->addChildNode(new dt::Node("meshnode"));
     dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh");
-    meshnode->AddComponent(mesh);
-    mesh->SetAnimation("Dance");
-    mesh->SetLoopAnimation(true);
-    mesh->PlayAnimation();
-    mesh->SetCastShadows(false);
+    meshnode->addComponent(mesh);
+    mesh->setAnimation("Dance");
+    mesh->setLoopAnimation(true);
+    mesh->playAnimation();
+    mesh->setCastShadows(false);
 
-    dt::GuiRootWindow& rootWindow = dt::GuiManager::Get()->GetRootWindow();
-    mReturnButton = rootWindow.AddChildWidget(new dt::GuiButton("return"));
-    mReturnButton->SetCaption("Return");
-    mReturnButton->SetSize(250, 100);
-    mReturnButton->SetPosition(100, 100);
-    mReturnButton->GetMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &SecondState::OnClick);
+    dt::GuiRootWindow& rootWindow = dt::GuiManager::get()->getRootWindow();
+    mReturnButton = rootWindow.addChildWidget(new dt::GuiButton("return"));
+    mReturnButton->setCaption("Return");
+    mReturnButton->setSize(250, 100);
+    mReturnButton->setPosition(100, 100);
+    mReturnButton->getMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &SecondState::onClick);
 }
 
-void SecondState::OnDeinitialize() {
+void SecondState::onDeinitialize() {
     //dt::GuiManager::Get()->GetRootWindow().RemoveChild("return");
 }
 
-void SecondState::OnClick(MyGUI::Widget* sender) {
-    dt::StateManager::Get()->Pop();
-    dt::StateManager::Get()->SetNewState(new FirstState());
+void SecondState::onClick(MyGUI::Widget* sender) {
+    dt::StateManager::get()->pop();
+    dt::StateManager::get()->setNewState(new FirstState());
 }
 
-void SecondState::UpdateStateFrame(double simulation_frame_time) {
+void SecondState::updateStateFrame(double simulation_frame_time) {
 }
 
 ////////////////////////////////////////////////////////////////
 
-void FirstState::OnInitialize() {
-    dt::Logger::Get().Warning("FirstState::OnInitialize");
+void FirstState::onInitialize() {
+    dt::Logger::get().warning("FirstState::OnInitialize");
     //dt::InputManager::Get()->SetJailInput(false);
 
-    dt::Scene* scene = AddScene(new dt::Scene("scene1"));
+    dt::Scene* scene = addScene(new dt::Scene("scene1"));
 
-    dt::ResourceManager::Get()->AddResourceLocation("","FileSystem", true);
-    dt::ResourceManager::Get()->AddResourceLocation("sinbad.zip","Zip", true);
-    dt::ResourceManager::Get()->AddResourceLocation("gui","FileSystem", true);
+    dt::ResourceManager::get()->addResourceLocation("","FileSystem", true);
+    dt::ResourceManager::get()->addResourceLocation("sinbad.zip","Zip", true);
+    dt::ResourceManager::get()->addResourceLocation("gui","FileSystem", true);
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
     Ogre::FontManager::getSingleton().load("DejaVuSans", "General");
 
-    dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
-    camnode->SetPosition(Ogre::Vector3(0, 0, -10));
-    camnode->AddComponent(new dt::CameraComponent("cam"))->LookAt(Ogre::Vector3(0, 0, 0));;
+    dt::Node* camnode = scene->addChildNode(new dt::Node("camnode"));
+    camnode->setPosition(Ogre::Vector3(0, 0, -10));
+    camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));;
 
-    dt::Node* textnode = scene->AddChildNode(new dt::Node("text"));
-    textnode->SetPosition(Ogre::Vector3(0, 0, 0));
-    dt::TextComponent* text = textnode->AddComponent(new dt::TextComponent("First State", "text"));
-    text->SetFont("DejaVuSans");
-    text->SetFontSize(64);
+    dt::Node* textnode = scene->addChildNode(new dt::Node("text"));
+    textnode->setPosition(Ogre::Vector3(0, 0, 0));
+    dt::TextComponent* text = textnode->addComponent(new dt::TextComponent("First State", "text"));
+    text->setFont("DejaVuSans");
+    text->setFontSize(64);
 
-    dt::GuiRootWindow& rootWindow = dt::GuiManager::Get()->GetRootWindow();
-    mNextButton = rootWindow.AddChildWidget(new dt::GuiButton("next"));
-    mNextButton->SetCaption("Next");
-    mNextButton->SetSize(250, 100);
-    mNextButton->SetPosition(100, 100);
-    mNextButton->GetMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &FirstState::OnClick);
+    dt::GuiRootWindow& rootWindow = dt::GuiManager::get()->getRootWindow();
+    mNextButton = rootWindow.addChildWidget(new dt::GuiButton("next"));
+    mNextButton->setCaption("Next");
+    mNextButton->setSize(250, 100);
+    mNextButton->setPosition(100, 100);
+    mNextButton->getMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &FirstState::onClick);
 }
 
-void FirstState::OnDeinitialize() {
+void FirstState::onDeinitialize() {
     //dt::GuiManager::Get()->GetRootWindow().RemoveChild("next");
 }
 
-void FirstState::OnClick(MyGUI::Widget* sender) {
-    dt::StateManager::Get()->Pop();
-    dt::StateManager::Get()->SetNewState(new SecondState());
+void FirstState::onClick(MyGUI::Widget* sender) {
+    dt::StateManager::get()->pop();
+    dt::StateManager::get()->setNewState(new SecondState());
 }
 
-void FirstState::UpdateStateFrame(double simulation_frame_time) {
+void FirstState::updateStateFrame(double simulation_frame_time) {
 }
 
 }

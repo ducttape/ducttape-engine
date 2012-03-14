@@ -21,7 +21,7 @@ namespace dt {
 
 namespace Utils {
 
-template <typename Source> QString ToString(const Source& source) {
+template <typename Source> QString toString(const Source& source) {
     std::stringstream temp_stream;
     temp_stream << source;
     return QString(temp_stream.str().c_str());
@@ -32,7 +32,7 @@ template <typename Source> QString ToString(const Source& source) {
   * @param qstring The QString you are going to convert.
   * @returns The converted std::string.
   */
-DUCTTAPE_API std::string ToStdString(const QString& qstring);
+DUCTTAPE_API std::string toStdString(const QString qstring);
 
 extern uint32_t mAutoId;
 
@@ -40,19 +40,14 @@ extern uint32_t mAutoId;
   * A tool for assigning Id's
   * @returns the new id
   */
-uint32_t AutoId();
+uint32_t autoId();
 
 /**
   * Generate a random uuid.
   * @returns the new uuid.
   */
-DUCTTAPE_API QUuid GenerateUUIDRandom();
+DUCTTAPE_API QUuid generateUUIDRandom();
 
-/**
-  * Generate a uuid from a given string.
-  * @returns the new uuid.
-  */
-DUCTTAPE_API QUuid GenerateUUIDFromString(const QString& qstring);
 } // namespace Utils
 
 } // namespace dt

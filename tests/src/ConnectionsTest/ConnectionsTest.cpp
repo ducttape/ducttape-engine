@@ -10,33 +10,33 @@
 
 namespace ConnectionsTest {
 
-bool ConnectionsTest::Run(int argc, char** argv) {
+bool ConnectionsTest::run(int argc, char** argv) {
     std::map<uint16_t, dt::Connection*> connections;
     dt::ConnectionsManager connections_manager;
 
     uint16_t max_connections = 50;
-    connections_manager.SetMaxConnections(max_connections); // counts from 1
+    connections_manager.setMaxConnections(max_connections); // counts from 1
 
     // Test AddConnection()
     for(uint8_t i = 0; i <= max_connections; ++i) { // this will get us up to 21 connections
-        uint16_t ip = dt::Random::Get(1, 255);
-        uint16_t port = dt::Random::Get(1001, 51311);
+        uint16_t ip = dt::Random::get(1, 255);
+        uint16_t port = dt::Random::get(1001, 51311);
 
         dt::Connection* connection = new dt::Connection(sf::IpAddress("127.168.178." + dt::Utils::ToStdString(dt::Utils::ToString(ip))), port+i);
-        uint16_t connection_id = connections_manager.AddConnection(connection);
+        uint16_t connection_id = connections_manager.addConnection(connection);
         if(connection_id != 0) {
            connections[connection_id] = connection;
 
-//            Test GetConnection()
-          if(!(connections[connection_id]->GetIPAddress() == connections_manager.GetConnection(connection_id)->GetIPAddress() && \
-                       connections[connection_id]->GetPort() == connections_manager.GetConnection(connection_id)->GetPort())) {  
+          // Test GetConnection()
+          if(!(connections[connection_id]->getIPAddress() == connections_manager.getConnection(connection_id)->GetIPAddress() && \
+                       connections[connection_id]->getPort() == connections_manager.getConnection(connection_id)->GetPort())) {  
                std::cerr << "Connections should be equal." << std::endl;
                return false;
            } else {
-//                Test GetConnectionID()
-               dt::Connection* tmp_connection = connections_manager.GetConnection(connection_id);
+               // Test GetConnectionID()
+               dt::Connection* tmp_connection = connections_manager.getConnection(connection_id);
                if(tmp_connection != nullptr) {
-                   if(connection_id != connections_manager.GetConnectionID(*(tmp_connection))) {
+                   if(connection_id != connections_manager.getConnectionID(*(tmp_connection))) {
                        std::cerr << "Connection IDs should be equal." << std::endl;
                        return false;
                    }
@@ -61,7 +61,7 @@ bool ConnectionsTest::Run(int argc, char** argv) {
 
     // Test IsKnownConnection()
     for(auto iter = connections.begin(); iter != connections.end(); ++iter) {
-        if(!connections_manager.IsKnownConnection(*(iter->second))) {
+        if(!connections_manager.isKnownConnection(*(iter->second))) {
             std::cerr << "ConnectionsManager should know the requested connection." << std::endl;
             return false;
         }
@@ -71,14 +71,14 @@ bool ConnectionsTest::Run(int argc, char** argv) {
     int i = 0;
     for(auto iter = connections.begin(); iter != connections.end(); ++iter) {
         if(i<=10) {
-            connections_manager.RemoveConnection(iter->first);
-            if(connections_manager.GetConnection(iter->first) != nullptr) {
+            connections_manager.removeConnection(iter->first);
+            if(connections_manager.getConnection(iter->first) != nullptr) {
                 std::cerr << "ConnectionsManager did not delete correctly using the ID." << std::endl;
                 return false;
             }
         } else {
-            connections_manager.RemoveConnection(*(iter->second));
-            if(connections_manager.GetConnectionID(*(iter->second)) != 0) {
+            connections_manager.removeConnection(*(iter->second));
+            if(connections_manager.getConnectionID(*(iter->second)) != 0) {
                 std::cerr << "ConnectionsManager did not delete correctly using the connection instance." << std::endl;
                 return false;
             }
@@ -89,7 +89,7 @@ bool ConnectionsTest::Run(int argc, char** argv) {
 }
 
 
-QString ConnectionsTest::GetTestName() {
+QString ConnectionsTest::getTestName() {
     return "Connections";
 }
 

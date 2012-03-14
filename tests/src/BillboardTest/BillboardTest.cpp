@@ -10,13 +10,13 @@
 
 namespace BillboardTest {
 
-bool BillboardTest::Run(int argc, char** argv) {
+bool BillboardTest::run(int argc, char** argv) {
     dt::Game game;
-    game.Run(new Main(), argc, argv);
+    game.run(new Main(), argc, argv);
     return true;
 }
 
-QString BillboardTest::GetTestName() {
+QString BillboardTest::getTestName() {
     return "Billboard";
 }
 
@@ -25,63 +25,63 @@ QString BillboardTest::GetTestName() {
 Main::Main()
     : mRuntime(0) {}
 
-void Main::UpdateStateFrame(double simulation_frame_time) {
+void Main::updateStateFrame(double simulation_frame_time) {
     mRuntime += simulation_frame_time;
-    mCamNode->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 1, 0));
+    mCamNode->findComponent<dt::CameraComponent>("cam")->lookAt(Ogre::Vector3(0, 1, 0));
     if(mRuntime > 5.0) {
-        dt::StateManager::Get()->Pop(1);
+        dt::StateManager::get()->pop(1);
     }
 }
 
-void Main::OnInitialize() {
-    dt::Scene* scene = AddScene(new dt::Scene("testscene"));
+void Main::onInitialize() {
+    dt::Scene* scene = addScene(new dt::Scene("testscene"));
 
-    dt::ResourceManager::Get()->AddResourceLocation("", "FileSystem");
-    dt::ResourceManager::Get()->AddResourceLocation("crate", "FileSystem");
+    dt::ResourceManager::get()->addResourceLocation("", "FileSystem");
+    dt::ResourceManager::get()->addResourceLocation("crate", "FileSystem");
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    OgreProcedural::Root::getInstance()->sceneManager = scene->GetSceneManager();
+    OgreProcedural::Root::getInstance()->sceneManager = scene->getSceneManager();
 
     OgreProcedural::SphereGenerator().setRadius(1.f).setUTile(.5f).realizeMesh("Sphere");
     OgreProcedural::PlaneGenerator().setSizeX(10.f).setSizeY(10.f).realizeMesh("Plane");
 
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    mCamNode = scene->AddChildNode(new dt::Node("camnode"));
-    mCamNode->AddComponent(new dt::CameraComponent("cam"));
-    mCamNode->SetPosition(Ogre::Vector3(10, 10, 10));
-    mCamNode->FindComponent<dt::CameraComponent>("cam")->LookAt(Ogre::Vector3(0, 0, 0));
-    dt::FollowPathComponent* path = mCamNode->AddComponent(new dt::FollowPathComponent(dt::FollowPathComponent::LOOP, "path"));
-    path->SetFollowRotation(false);
-    path->SetSmoothAcceleration(true);
-    path->SetSmoothCorners(false);
-    path->AddPoint(Ogre::Vector3(10, 10, 10));
-    path->AddPoint(Ogre::Vector3(-10, 10, 10));
-    path->AddPoint(Ogre::Vector3(10, -10, 10));
-    path->SetDuration(5.0);
+    mCamNode = scene->addChildNode(new dt::Node("camnode"));
+    mCamNode->addComponent(new dt::CameraComponent("cam"));
+    mCamNode->setPosition(Ogre::Vector3(10, 10, 10));
+    mCamNode->findComponent<dt::CameraComponent>("cam")->lookAt(Ogre::Vector3(0, 0, 0));
+    dt::FollowPathComponent* path = mCamNode->addComponent(new dt::FollowPathComponent(dt::FollowPathComponent::LOOP, "path"));
+    path->setFollowRotation(false);
+    path->setSmoothAcceleration(true);
+    path->setSmoothCorners(false);
+    path->addPoint(Ogre::Vector3(10, 10, 10));
+    path->addPoint(Ogre::Vector3(-10, 10, 10));
+    path->addPoint(Ogre::Vector3(10, -10, 10));
+    path->setDuration(5.0);
 
 
-    dt::Node* cratenode = scene->AddChildNode(new dt::Node("spherenode"));
-    cratenode->SetPosition(Ogre::Vector3(1, 1, 0));
-    cratenode->AddComponent(new dt::MeshComponent("Crate01.mesh", "", "sphere-mesh"));
+    dt::Node* cratenode = scene->addChildNode(new dt::Node("spherenode"));
+    cratenode->setPosition(Ogre::Vector3(1, 1, 0));
+    cratenode->addComponent(new dt::MeshComponent("Crate01.mesh", "", "sphere-mesh"));
 
-    dt::Node* billboardnode = scene->AddChildNode(new dt::Node("billboardnode"));
-    billboardnode->SetPosition(Ogre::Vector3(0, 2, 0));
-    billboardnode->AddComponent(new dt::BillboardSetComponent(
+    dt::Node* billboardnode = scene->addChildNode(new dt::Node("billboardnode"));
+    billboardnode->setPosition(Ogre::Vector3(0, 2, 0));
+    billboardnode->addComponent(new dt::BillboardSetComponent(
                                     "billboard_test", 1, "ducttape-logo-256x256.png"));
     dt::BillboardSetComponent* billboardSetComponent = billboardnode->
-            FindComponent<dt::BillboardSetComponent>("billboard_test");
+            findComponent<dt::BillboardSetComponent>("billboard_test");
     Ogre::BillboardSet* billboardSet = billboardSetComponent
-                                       ->GetOgreBillboardSet();
+                                       ->getOgreBillboardSet();
     billboardSet->setDefaultDimensions(2, 2);
 
-    dt::Node* planenode = scene->AddChildNode(new dt::Node("planenode"));
-    planenode->SetPosition(Ogre::Vector3(0, 0, 0));
-    planenode->AddComponent(new dt::MeshComponent("Plane", "PrimitivesTest/Pebbles", "plane-mesh"));
+    dt::Node* planenode = scene->addChildNode(new dt::Node("planenode"));
+    planenode->setPosition(Ogre::Vector3(0, 0, 0));
+    planenode->addComponent(new dt::MeshComponent("Plane", "PrimitivesTest/Pebbles", "plane-mesh"));
 
-    dt::Node* lightnode1 = scene->AddChildNode(new dt::Node("lightnode1"));
-    lightnode1->AddComponent(new dt::LightComponent("light1"));
-    lightnode1->SetPosition(Ogre::Vector3(15, 5, 15));
+    dt::Node* lightnode1 = scene->addChildNode(new dt::Node("lightnode1"));
+    lightnode1->addComponent(new dt::LightComponent("light1"));
+    lightnode1->setPosition(Ogre::Vector3(15, 5, 15));
 }
 
 } // namespace BillboardTest

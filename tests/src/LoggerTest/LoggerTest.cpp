@@ -12,29 +12,29 @@
 
 namespace LoggerTest {
 
-bool LoggerTest::Run(int argc, char** argv) {
-    dt::Root::GetInstance().Initialize(argc, argv);
+bool LoggerTest::run(int argc, char** argv) {
+    dt::Root::getInstance().initialize(argc, argv);
 
     std::cout << std::endl << "= default logger test" << std::endl;
-    dt::Logger::Get().Debug("DEBUG test");
-    dt::Logger::Get().Info("INFO test");
-    dt::Logger::Get().Warning("WARNING test");
-    dt::Logger::Get().Error("ERROR test");
+    dt::Logger::get().debug("DEBUG test");
+    dt::Logger::get().info("INFO test");
+    dt::Logger::get().warning("WARNING test");
+    dt::Logger::get().error("ERROR test");
 
     std::cout << std::endl << "= custom logger test" << std::endl;
-    dt::Logger::GetByName("custom").Debug("DEBUG test");
-    dt::Logger::GetByName("custom").Info("INFO test");
-    dt::Logger::GetByName("custom").Warning("WARNING test");
-    dt::Logger::GetByName("custom").Error("ERROR test");
+    dt::Logger::getByName("custom").debug("DEBUG test");
+    dt::Logger::getByName("custom").info("INFO test");
+    dt::Logger::getByName("custom").warning("WARNING test");
+    dt::Logger::getByName("custom").error("ERROR test");
 
     std::cout << std::endl << "= custom logger & logstream test" << std::endl;
-    dt::Logger::GetByName("custom").Log("TESTSTREAM", "test");
+    dt::Logger::getByName("custom").log("TESTSTREAM", "test");
 
-    dt::Root::GetInstance().Deinitialize();
+    dt::Root::getInstance().deinitialize();
     return true;
 }
 
-QString LoggerTest::GetTestName() {
+QString LoggerTest::getTestName() {
     return "Logger";
 }
 

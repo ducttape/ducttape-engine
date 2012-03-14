@@ -40,67 +40,67 @@ public:
       * @param name The name for this PhysicsWorld.
       * @param scene The scene to link this world to.
       */
-    PhysicsWorld(const QString& name, Scene* scene);
+    PhysicsWorld(const QString name, Scene* scene);
 
 
-    void Initialize();
+    void initialize();
 
-    void Deinitialize();
+    void deinitialize();
 
     /**
       * Steps the simulation.
       * @param time_diff The time to step the simulation with.
       */
-    void StepSimulation(double time_diff);
+    void stepSimulation(double time_diff);
 
     /**
       * Returns the bullet world.
       * @returns The bullet world.
       */
-    btDiscreteDynamicsWorld* GetBulletWorld();
+    btDiscreteDynamicsWorld* getBulletWorld();
 
     /**
       * Callback called by the Bullet world itself. Do not call this manually.
       * @see PhysicsWorld::StepSimulation(double time_diff);
       * @param time_diff The time with which the world simulation was stepped.
       */
-    void OnTick(btScalar time_diff);
+    void onTick(btScalar time_diff);
 
     /**
       * Sets the Gravity in the world.
       * @param gravity The gravity vector. Default: (0, -9.81, 0)
       */
-    void SetGravity(Ogre::Vector3 gravity);
+    void setGravity(Ogre::Vector3 gravity);
 
     /**
       * Returns the name of this world.
       * @returns The name of this world.
       */
-    const QString& GetName() const;
+    const QString getName() const;
 
     /**
       * Sets whether debug drawings should be displayed.
       * @param show_debug Whether debug drawings should be displayed.
       */
-    void SetShowDebug(bool show_debug);
+    void setShowDebug(bool show_debug);
 
     /**
       * Gets whether debug drawings are being displayed.
       * @returns Whether debug drawings are being displayed.
       */
-    bool GetShowDebug() const;
+    bool getShowDebug() const;
 
     /**
       * Sets whether the world is enabled.
       * @param enabled Whether the world is enabled.
       */
-    void SetEnabled(bool enabled);
+    void setEnabled(bool enabled);
 
     /**
       * Gets whether the world is enabled.
       * @returns Whether the world is enabled.
       */
-    bool IsEnabled() const;
+    bool isEnabled() const;
 
     /**
       * Bullet tick callback.

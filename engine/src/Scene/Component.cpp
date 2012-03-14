@@ -14,108 +14,108 @@
 
 namespace dt {
 
-Component::Component(const QString& name)
+Component::Component(const QString name)
     : mName(name),
       mIsEnabled(false),
       mIsInitialized(false) {
     // auto-generate the component name
     if(mName == "") {
-        mName = "Component-" + Utils::ToString(Utils::AutoId());
+        mName = "Component-" + Utils::toString(Utils::autoId());
     }
 
     // Generate an uuid for this node.
-    mId = Utils::GenerateUUIDRandom();
+    mId = Utils::generateUUIDRandom();
 }
 
 Component::~Component() {}
 
-const QString& Component::GetName() const {
+const QString Component::getName() const {
     return mName;
 }
 
-QString Component::GetFullName() const {
-    return mNode->GetFullName() + "/" + GetName();
+QString Component::getFullName() const {
+    return mNode->getFullName() + "/" + getName();
 }
 
-void Component::OnInitialize() {}
+void Component::onInitialize() {}
 
-void Component::OnDeinitialize() {}
+void Component::onDeinitialize() {}
 
-void Component::OnEnable() {}
+void Component::onEnable() {}
 
-void Component::OnDisable() {}
+void Component::onDisable() {}
 
-void Component::OnUpdate(double time_diff) {}
+void Component::onUpdate(double time_diff) {}
 
-void Component::SetNode(Node* node) {
+void Component::setNode(Node* node) {
     mNode = node;
 }
 
-void Component::Serialize(IOPacket& packet) {
+void Component::serialize(IOPacket& packet) {
     // only write type when serializing, it will be read by the Node on deserialization
-    if(packet.GetDirection() == IOPacket::SERIALIZE) {
+    if(packet.getDirection() == IOPacket::SERIALIZE) {
         std::string type(metaObject()->className());
-        packet.Stream(type, "type");
+        packet.stream(type, "type");
     }
 
-    packet.Stream(mId, "uuid");
-    packet.Stream(mName, "name");
-    packet.Stream(mIsEnabled, "enabled", true);
+    packet.stream(mId, "uuid");
+    packet.stream(mName, "name");
+    packet.stream(mIsEnabled, "enabled", true);
 
-    OnSerialize(packet);
+    onSerialize(packet);
 }
 
-void Component::OnSerialize(IOPacket& packet) {}
+void Component::onSerialize(IOPacket& packet) {}
 
-Node* Component::GetNode() {
+Node* Component::getNode() {
     return mNode;
 }
 
-QScriptValue Component::GetScriptNode() {
+QScriptValue Component::getScriptNode() {
     // Making QScriptValue from Node. Type conversion in C style only due to limitation of incomplete type.
     // return dt::ScriptManager::GetScriptEngine()->newQObject((QObject*)mNode);
-    return dt::ScriptManager::Get()->GetScriptEngine()->newQObject(mNode);
+    return dt::ScriptManager::get()->getScriptEngine()->newQObject(mNode);
 }
 
-void Component::Initialize() {
+void Component::initialize() {
     if(!mIsInitialized) {
         mIsInitialized = true;
-        OnInitialize();
-        emit ComponentInitialized();
-        Enable();
+        onInitialize();
+        emit componentInitialized();
+        enable();
     }
 }
 
-void Component::Deinitialize() {
+void Component::deinitialize() {
     if(mIsInitialized) {
         mIsInitialized = false;
-        Disable();
-        emit ComponentUninitialized();
-        OnDeinitialize();
+        disable();
+        emit componentUninitialized();
+        onDeinitialize();
     }
 }
 
-void Component::Enable() {
-    if(!mIsEnabled && this->GetNode()->IsEnabled()) {
+void Component::enable() {
+    if(!mIsEnabled && this->getNode()->isEnabled()) {
         mIsEnabled = true;
-        emit ComponentEnabled();
-        OnEnable();
+        emit componentEnabled();
+        onEnable();
     }
 }
 
-void Component::Disable() {
+void Component::disable() {
     if(mIsEnabled) {
         mIsEnabled = false;
-        emit ComponentDisabled();
-        OnDisable();
+        emit componentDisabled();
+        onDisable();
     }
 }
 
-bool Component::IsInitialized() {
+bool Component::isInitialized() {
     return mIsInitialized;
 }
 
-bool Component::IsEnabled() {
+bool Component::isEnabled() {
     return mIsEnabled;
 }
 

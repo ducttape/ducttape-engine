@@ -14,7 +14,7 @@
 
 namespace dt {
 
-Node::Node(const QString& name)
+Node::Node(const QString name)
     : mName(name),
       mPosition(Ogre::Vector3::ZERO),
       mScale(Ogre::Vector3(1,1,1)),
@@ -25,55 +25,54 @@ Node::Node(const QString& name)
 
     // auto-generate name
     if(mName == "") {
-        mName = "Node-" + Utils::ToString(Utils::AutoId());
+        mName = "Node-" + Utils::toString(Utils::autoId());
     }
 
     // Generate an uuid for this node.
-    mId = Utils::GenerateUUIDRandom();
+    mId = Utils::generateUUIDRandom();
 }
 
-void Node::Initialize() {
-
-    OnInitialize();
+void Node::initialize() {
+    onInitialize();
 }
 
-void Node::Deinitialize() {
-    OnDeinitialize();
+void Node::deinitialize() {
+    onDeinitialize();
 
     // clear all children
     while(mChildren.size() > 0) {
-        RemoveChildNode(mChildren.begin()->first);
+        removeChildNode(mChildren.begin()->first);
     }
 
     // clear all components
     while(mComponents.size() > 0) {
-        RemoveComponent(mComponents.begin()->second->GetName());
+        removeComponent(mComponents.begin()->second->getName());
     }
 }
 
-void Node::OnInitialize() {}
+void Node::onInitialize() {}
 
-void Node::OnDeinitialize() {}
+void Node::onDeinitialize() {}
 
-Node* Node::AddChildNode(Node* child) {
+Node* Node::addChildNode(Node* child) {
     if(child != nullptr) {
-        QString key(child->GetName());
+        QString key(child->getName());
         NodeSP child_sp(child);
         mChildren.insert(std::make_pair(key, child_sp));
-        mChildren[key]->SetParent(this);
-        mChildren[key]->Initialize();
+        mChildren[key]->setParent(this);
+        mChildren[key]->initialize();
 
         if(!mIsEnabled)
-            child->Disable();
+            child->disable();
 
-        return FindChildNode(key, false);
+        return findChildNode(key, false);
     }
     else {
         return nullptr;
     }
 }
 
-Node* Node::FindChildNode(const QString& name, bool recursive) {
+Node* Node::findChildNode(const QString name, bool recursive) {
     if(mChildren.find(name) != mChildren.end())
         return mChildren.find(name)->second.get();
 
@@ -82,7 +81,7 @@ Node* Node::FindChildNode(const QString& name, bool recursive) {
             if(itr->first == name)
                 return itr->second.get();
             else {
-                Node* childNode = itr->second->FindChildNode(name, recursive);
+                Node* childNode = itr->second->findChildNode(name, recursive);
                 if(childNode != nullptr)
                     return childNode;
             }
@@ -91,90 +90,90 @@ Node* Node::FindChildNode(const QString& name, bool recursive) {
     return nullptr;
 }
 
-bool Node::HasComponent(const QString &name) {
+bool Node::hasComponent(const QString name) {
     return (mComponents.count(name) > 0);
 }
 
-void Node::RemoveChildNode(const QString& name) {
-    if(FindChildNode(name, false) != nullptr) {
-        FindChildNode(name, false)->Deinitialize(); // destroy recursively
+void Node::removeChildNode(const QString name) {
+    if(findChildNode(name, false) != nullptr) {
+        findChildNode(name, false)->deinitialize(); // destroy recursively
         mChildren.erase(name);
     }
 }
 
-void Node::RemoveComponent(const QString& name) {
-    if(HasComponent(name)) {
-        mComponents[name]->Deinitialize();
+void Node::removeComponent(const QString name) {
+    if(hasComponent(name)) {
+        mComponents[name]->deinitialize();
         mComponents.erase(name);
     }
 }
 
-const QString& Node::GetName() const {
+const QString Node::getName() const {
     return mName;
 }
 
-QString Node::GetFullName() const {
+QString Node::getFullName() const {
     if(mParent == nullptr)
-        return GetName();
+        return getName();
     else
-        return mParent->GetFullName() + "/" + GetName();
+        return mParent->getFullName() + "/" + getName();
 }
 
-Ogre::Vector3 Node::GetPosition(Node::RelativeTo rel) const {
+Ogre::Vector3 Node::getPosition(Node::RelativeTo rel) const {
     if(rel == PARENT || mParent == nullptr) {
         return mPosition;
     } else {
-        return mParent->GetPosition(SCENE) + mParent->GetRotation() * mPosition;
+        return mParent->getPosition(SCENE) + mParent->getRotation() * mPosition;
     }
 }
 
-void Node::SetPosition(Ogre::Vector3 position, Node::RelativeTo rel) {
+void Node::setPosition(Ogre::Vector3 position, Node::RelativeTo rel) {
     if(mIsUpdatingAfterChange || !mIsEnabled)
         return;
 
     if(rel == PARENT || mParent == nullptr) {
         mPosition = position;
     } else {
-        mPosition = mParent->GetRotation() * position - mParent->GetPosition(SCENE);
+        mPosition = mParent->getRotation() * position - mParent->getPosition(SCENE);
     }
-    OnUpdate(0);
+    onUpdate(0);
 }
 
-Ogre::Vector3 Node::GetScale(Node::RelativeTo rel) const {
+Ogre::Vector3 Node::getScale(Node::RelativeTo rel) const {
     if(rel == PARENT || mParent == nullptr) {
         return mScale;
     } else {
-        Ogre::Vector3 p(mParent->GetScale(SCENE));
+        Ogre::Vector3 p(mParent->getScale(SCENE));
         return Ogre::Vector3(p.x * mScale.x, p.y * mScale.y, p.z * mScale.z);
     }
 }
 
-void Node::SetScale(Ogre::Vector3 scale, Node::RelativeTo rel) {
+void Node::setScale(Ogre::Vector3 scale, Node::RelativeTo rel) {
     if(mIsUpdatingAfterChange || !mIsEnabled)
         return;
 
     if(rel == PARENT || mParent == nullptr) {
         mScale = scale;
     } else {
-        Ogre::Vector3 p(mParent->GetScale(SCENE));
+        Ogre::Vector3 p(mParent->getScale(SCENE));
         mScale = Ogre::Vector3(scale.x / p.x, scale.y / p.y, scale.z / p.z);
     }
-    OnUpdate(0);
+    onUpdate(0);
 }
 
-void Node::SetScale(Ogre::Real scale, Node::RelativeTo rel) {
-    SetScale(Ogre::Vector3(scale, scale, scale), rel);
+void Node::setScale(Ogre::Real scale, Node::RelativeTo rel) {
+    setScale(Ogre::Vector3(scale, scale, scale), rel);
 }
 
-Ogre::Quaternion Node::GetRotation(Node::RelativeTo rel) const {
+Ogre::Quaternion Node::getRotation(Node::RelativeTo rel) const {
     if(rel == PARENT || mParent == nullptr) {
         return mRotation;
     } else {
-        return mParent->GetRotation(SCENE) * mRotation;
+        return mParent->getRotation(SCENE) * mRotation;
     }
 }
 
-void Node::SetRotation(Ogre::Quaternion rotation, Node::RelativeTo rel) {
+void Node::setRotation(Ogre::Quaternion rotation, Node::RelativeTo rel) {
     if(mIsUpdatingAfterChange || !mIsEnabled)
         return;
 
@@ -182,22 +181,22 @@ void Node::SetRotation(Ogre::Quaternion rotation, Node::RelativeTo rel) {
         mRotation = rotation;
     } else {
         // TODO: implement backward rotation
-        mRotation = mParent->GetRotation(SCENE) * (-rotation);
+        mRotation = mParent->getRotation(SCENE) * (-rotation);
     }
-    OnUpdate(0);
+    onUpdate(0);
 }
 
-void Node::SetDirection(Ogre::Vector3 direction, Ogre::Vector3 front_vector) {
-    SetRotation(front_vector.getRotationTo(direction, Ogre::Vector3::UNIT_X));
+void Node::setDirection(Ogre::Vector3 direction, Ogre::Vector3 front_vector) {
+    setRotation(front_vector.getRotationTo(direction, Ogre::Vector3::UNIT_X));
 }
 
-void Node::LookAt(Ogre::Vector3 target, Ogre::Vector3 front_vector, RelativeTo rel) {
-    SetDirection(target - GetPosition(rel), front_vector);
+void Node::lookAt(Ogre::Vector3 target, Ogre::Vector3 front_vector, RelativeTo rel) {
+    setDirection(target - getPosition(rel), front_vector);
 }
 
-void Node::SetParent(Node* parent) {
+void Node::setParent(Node* parent) {
     if(parent != nullptr) {
-        if(parent->FindChildNode(mName, false) == nullptr) { // we are not already a child of the new parent
+        if(parent->findChildNode(mName, false) == nullptr) { // we are not already a child of the new parent
             if(mParent != nullptr) {                         // Remove it from its original parent.
                 auto iter = mParent->mChildren.find(mName);
                 parent->mChildren.insert(std::make_pair(mName, iter->second));
@@ -205,7 +204,7 @@ void Node::SetParent(Node* parent) {
                 mParent = parent;
             }
             else {
-                parent->AddChildNode(this);
+                parent->addChildNode(this);
             }
             return;
         }
@@ -219,106 +218,106 @@ void Node::SetParent(Node* parent) {
     mParent = parent;
 
     // the absolute position might have changed!
-    _UpdateAllComponents(0);
+    _updateAllComponents(0);
 }
 
-Node* Node::GetParent() {
+Node* Node::getParent() {
     return mParent;
 }
 
-Scene* Node::GetScene() {
-    if(_IsScene())
+Scene* Node::getScene() {
+    if(_isScene())
         return (Scene*)this;
     else if(mParent != nullptr)
-        return mParent->GetScene();
+        return mParent->getScene();
     else
         return nullptr;
 }
 
-void Node::OnUpdate(double time_diff) {
+void Node::onUpdate(double time_diff) {
     if(mIsEnabled) {
-        _UpdateAllChildren(time_diff);
-        _UpdateAllComponents(time_diff);
+        _updateAllChildren(time_diff);
+        _updateAllComponents(time_diff);
     }
 }
 
-void Node::Serialize(IOPacket& packet) {
-    packet.Stream(mId, "uuid");
-    packet.Stream(mName, "name", mName);
-    packet.Stream(mPosition, "position");
-    packet.Stream(mScale, "scale", Ogre::Vector3(1,1,1));
-    packet.Stream(mRotation, "rotation");
-    packet.Stream(mIsEnabled, "enabled");
-    OnSerialize(packet);
+void Node::serialize(IOPacket& packet) {
+    packet.stream(mId, "uuid");
+    packet.stream(mName, "name", mName);
+    packet.stream(mPosition, "position");
+    packet.stream(mScale, "scale", Ogre::Vector3(1,1,1));
+    packet.stream(mRotation, "rotation");
+    packet.stream(mIsEnabled, "enabled");
+    onSerialize(packet);
 
     // Components
-    uint32_t count = packet.BeginList(mComponents.size(), "components");
+    uint32_t count = packet.beginList(mComponents.size(), "components");
 
-    if(packet.GetDirection() == IOPacket::SERIALIZE) {
+    if(packet.getDirection() == IOPacket::SERIALIZE) {
         // serialize
         for(auto iter = mComponents.begin(); iter != mComponents.end(); ++iter) {
-            packet.BeginObject();
-            iter->second->Serialize(packet);
-            packet.EndObject();
+            packet.beginObject();
+            iter->second->serialize(packet);
+            packet.endObject();
         }
     } else {
         for(uint32_t i = 0; i < count; ++i) {
-            packet.BeginObject();
+            packet.beginObject();
             std::string type;
-            packet.Stream(type, "type", std::string(""));
-            Component* c = Serializer::CreateComponent(type);
-            c->Serialize(packet);
-            AddComponent(c);
-            packet.EndObject();
+            packet.stream(type, "type", std::string(""));
+            Component* c = Serializer::createComponent(type);
+            c->serialize(packet);
+            addComponent(c);
+            packet.endObject();
         }
     }
-    packet.EndList();
+    packet.endList();
 
     // Children
-    count = packet.BeginList(mChildren.size(), "children");
+    count = packet.beginList(mChildren.size(), "children");
 
-    if(packet.GetDirection() == IOPacket::SERIALIZE) {
+    if(packet.getDirection() == IOPacket::SERIALIZE) {
         for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
-            packet.BeginObject();
-            iter->second->Serialize(packet);
-            packet.EndObject();
+            packet.beginObject();
+            iter->second->serialize(packet);
+            packet.endObject();
         }
     } else {
         for(uint32_t i = 0; i < count; ++i) {
-            packet.BeginObject();
+            packet.beginObject();
             Node* n = new Node;
-            n->Serialize(packet);
-            AddChildNode(n);
-            packet.EndObject();
+            n->serialize(packet);
+            addChildNode(n);
+            packet.endObject();
         }
     }
-    packet.EndList();
+    packet.endList();
 }
 
-void Node::OnSerialize(IOPacket &packet) {}
+void Node::onSerialize(IOPacket &packet) {}
 
-void Node::SetPosition(float x, float y, float z, RelativeTo rel) {
-    SetPosition(Ogre::Vector3(x,y,z), rel);
+void Node::setPosition(float x, float y, float z, RelativeTo rel) {
+    setPosition(Ogre::Vector3(x,y,z), rel);
 }
 
 
-bool Node::_IsScene() {
+bool Node::_isScene() {
     return false;
 }
 
-void Node::_UpdateAllComponents(double time_diff) {
+void Node::_updateAllComponents(double time_diff) {
     mIsUpdatingAfterChange = (time_diff == 0);
 
     for(auto iter = mComponents.begin(); iter != mComponents.end(); ++iter) {
-        if(iter->second->IsEnabled()) {
-            iter->second->OnUpdate(time_diff);
+        if(iter->second->isEnabled()) {
+            iter->second->onUpdate(time_diff);
         }
     }
 
     mIsUpdatingAfterChange = false;
 }
 
-void Node::_UpdateAllChildren(double time_diff) {
+void Node::_updateAllChildren(double time_diff) {
     mIsUpdatingAfterChange = (time_diff == 0);
 
     for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
@@ -326,60 +325,60 @@ void Node::_UpdateAllChildren(double time_diff) {
             //Kill it if the death mark is set.
             Node* node = iter->second.get();
             iter--;
-            QString name = node->GetName();
-            RemoveChildNode(name);
+            QString name = node->getName();
+            removeChildNode(name);
         }
         else {
-            iter->second->OnUpdate(time_diff);
+            iter->second->onUpdate(time_diff);
         }
     }
 
     mIsUpdatingAfterChange = false;
 }
 
-void Node::Kill() {
+void Node::kill() {
     if(mIsEnabled)
         mDeathMark = true;
 }
 
-bool Node::IsEnabled() {
+bool Node::isEnabled() {
     return mIsEnabled;
 }
 
-void Node::Enable() {
-    if(mParent == nullptr || mParent->IsEnabled()) {
+void Node::enable() {
+    if(mParent == nullptr || mParent->isEnabled()) {
         mIsEnabled = true;
         
         for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
-            iter->second->Enable();
+            iter->second->enable();
         }
 
         for(auto iter = mComponents.begin(); iter != mComponents.end(); ++iter) {
-            iter->second->Enable();
+            iter->second->enable();
         }
 
-        OnEnable();
+        onEnable();
     }
 }
 
-void Node::Disable() {
+void Node::disable() {
     if(mIsEnabled) {
         mIsEnabled = false;
 
         for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
-            iter->second->Disable();
+            iter->second->disable();
         }
 
         for(auto iter = mComponents.begin(); iter != mComponents.end(); ++iter) {
-            iter->second->Disable();
+            iter->second->disable();
         }
 
-        OnDisable();
+        onDisable();
     }
 }
 
-void Node::OnEnable() {}
+void Node::onEnable() {}
 
-void Node::OnDisable() {}
+void Node::onDisable() {}
 
 } // namespace dt

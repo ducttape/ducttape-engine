@@ -24,7 +24,7 @@ public:
     /**
       * Initializes the generator. This uses the current time to seed the generator.
       */
-    static void Initialize();
+    static void initialize();
 
     /**
       * Returns a random integer.
@@ -32,7 +32,7 @@ public:
       * @param max The maximum return value.
       * @returns A random integer.
       */
-    static int32_t Get(int32_t min, int32_t max);
+    static int32_t get(int32_t min, int32_t max);
 
     /**
       * Returns a random float.
@@ -40,7 +40,7 @@ public:
       * @param max The maximum return value.
       * @returns A random float.
       */
-    static float Get(float min, float max);
+    static float get(float min, float max);
 private:
     static std::mt19937 Generator;  //!< The generator used to generate pseudorandom numbers.
 };

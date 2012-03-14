@@ -30,22 +30,22 @@ public:
       * @param is_reply Whether this ping is a reply.
       */
     PingEvent(double timestamp, bool is_reply = false);
-    const QString GetType() const;
+    const QString getType() const;
 
-    std::shared_ptr<NetworkEvent> Clone() const;
-    void Serialize(IOPacket& p);
+    std::shared_ptr<NetworkEvent> clone() const;
+    void serialize(IOPacket& p);
 
     /**
       * Returns whether this ping is a reply.
       * @returns Whether this ping is a reply.
       */
-    bool IsReply() const;
+    bool isReply() const;
 
     /**
       * Returns the time the ping was sent.
       * @returns The time the ping was sent.
       */
-    double GetTimestamp() const;
+    double getTimestamp() const;
 
 protected:
     bool mIsReply;          //!< Whether this ping is a reply.

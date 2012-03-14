@@ -35,16 +35,16 @@ public:
       * Returns the default logger.
       * @returns the default logger (name: "default")
       */
-    Logger& GetLogger();
+    Logger& getLogger();
 
-    void Initialize();
-    void Deinitialize();
+    void initialize();
+    void deinitialize();
 
     /**
       * Returns a pointer to the Manager instance.
       * @returns A pointer to the Manager instance.
       */
-    static LogManager* Get();
+    static LogManager* get();
 
     /**
       * Logs an Ogre message to the logger "ogre".
@@ -65,7 +65,7 @@ public:
       * @param name the name of the Logger to find
       * @returns the Logger if one is found, otherwise creates a new one
       */
-    Logger& GetLogger(const QString& name);
+    Logger& getLogger(const QString name);
 
 private:
     Ogre::LogManager mOgreLogManager;   //!< The Ogre log manager, which is required to redirect the Ogre log.

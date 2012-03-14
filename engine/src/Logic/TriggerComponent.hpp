@@ -31,11 +31,11 @@ public:
       * @param name The name for this component.
       * @see Component
       */
-    TriggerComponent(const QString& name = "");
+    TriggerComponent(const QString name = "");
 
-    void OnInitialize();
-    void OnDeinitialize();
-    void OnUpdate(double time_diff);
+    void onInitialize();
+    void onDeinitialize();
+    void onUpdate(double time_diff);
 };
 
 }

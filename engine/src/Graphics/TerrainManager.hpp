@@ -59,63 +59,63 @@ public:
       */
     ~TerrainManager();
 
-    void Initialize();
-    void Deinitialize();
+    void initialize();
+    void deinitialize();
 
     /**
       * Returns a pointer to the Manager instance.
       * @returns A pointer to the Manager instance.
       */
-    static TerrainManager* Get();
+    static TerrainManager* get();
 
     /**
       * Sets the scene.
       * @param scene The scene.
       */
-    void SetScene(dt::Scene* scene);
+    void setScene(dt::Scene* scene);
 
     /**
       * Sets the light which is used to build the lightmap.
       * @param light The light.
       * @todo getLight(), fallback if not used e.g. default light
       */
-    void SetLight(dt::LightComponent* light);
+    void setLight(dt::LightComponent* light);
 
     /**
       * Sets the number of terrains in each direction
       * @todo rename: names misleading.
       */
-    void SetSize(uint32_t count_x, uint32_t count_y);
+    void setSize(uint32_t count_x, uint32_t count_y);
 
     /**
       * Sets the scale-factor which is used to scale the height when you import from an image.
       */
-    void SetScale(float scale);
+    void setScale(float scale);
 
     /**
       * Gets the Ogre::TerrainGroup.
       * @returns The Ogre::TerrainGroup representing this terrain.
       */
-    Ogre::TerrainGroup* GetOgreTerrainGroup() const;
+    Ogre::TerrainGroup* getOgreTerrainGroup() const;
 
     /**
       * Gets the Ogre::TerrainGlobalOptions.
       * @returns The GlobalOptions for the terrain
       */
-    Ogre::TerrainGlobalOptions* GetOgreTerrainGlobalOptions() const;
+    Ogre::TerrainGlobalOptions* getOgreTerrainGlobalOptions() const;
 
     /**
       * Adds a TextureLayer.
       * @param texture_layer The Layer.
       */
-    void AddTextureLayer(const std::vector<QString>& texture_names, float world_size, float min_height, float fade_distance);
+    void addTextureLayer(const std::vector<QString>& texture_names, float world_size, float min_height, float fade_distance);
 
     /**
       * Imports a terrain using the images
       * @param files The filenames of the images to be used.
       * @returns true on success, false otherwise.
       */
-    bool Import(const std::vector<QString>& files);
+    bool import(const std::vector<QString>& files);
 
     /**
       * Loads an existing terrain using the file-prefix and suffix
@@ -124,7 +124,7 @@ public:
       * @param suffix the filenames suffix
       * @returns true on success, false otherwise.
       */
-    bool Load(const QString& prefix, const QString& suffix);
+    bool load(const QString prefix, const QString suffix);
 
     /**
       * Saves the terrain to disk using the file-prefix and suffix
@@ -132,43 +132,43 @@ public:
       * @param prefix the filenames prefix
       * @param suffix the filenames suffix
       */
-    void Save(const QString& prefix, const QString& suffix);
+    void save(const QString prefix, const QString suffix);
 
     /**
       * Refreshes the terrain/Applys all changes.
       */
-    void Refresh();
+    void refresh();
 
 private:
     /**
       * Private method. Creates the TerrainGroup-object.
       */
-    void _CreateTerrain();
+    void _createTerrain();
 
     /**
       * Private method. Initializes the Options with default values. Creates the TerrainGlobalOptions-object if necessary.
       */
-    void _InitOptions();
+    void _initOptions();
 
     /**
       * Private method. Destroys the terrain.
       */
-    void _DestroyTerrain();
+    void _destroyTerrain();
 
     /**
       * Private method. Load a part of the terrain.
       */
-    void _DefineTerrain(uint32_t x, uint32_t y);
+    void _defineTerrain(uint32_t x, uint32_t y);
 
     /**
       * Private method. Import a part of the terrain.
       */
-    void _DefineTerrain(uint32_t x, uint32_t y, const QString& filename);
+    void _defineTerrain(uint32_t x, uint32_t y, const QString filename);
 
     /**
       * Private method. Creates the blendmaps for a terrain.
       */
-    void _GenerateBlendMaps(Ogre::Terrain* terrain);
+    void _generateBlendMaps(Ogre::Terrain* terrain);
 
     std::vector<TextureLayer::TextureLayerSP> mTextureLayer;          //!< The TextureLayers.
     dt::LightComponent* mLight;                             //!< The light to bake the lightmap

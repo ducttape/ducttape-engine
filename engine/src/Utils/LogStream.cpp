@@ -23,50 +23,50 @@ QString LogStream::COLOR_PURPLE = "\033[22;35m";
 QString LogStream::COLOR_CYAN = "\033[22;36m";
 QString LogStream::COLOR_NONE = "\033[0m";
 
-LogStream::LogStream(const QString& name)
+LogStream::LogStream(const QString name)
     : mStream(&std::cout),
       mFormat("[%1 | %2] %3"),        // e.g.: "[default | WARNING] This is a warning!"
       mName(name),
       mDisabled(false) {}
 
-QString LogStream::FormatMessage(Logger* logger, const QString& msg) {
-    return QString(mFormat).arg(logger->GetName()).arg(mName).arg(msg);
+QString LogStream::formatMessage(Logger* logger, const QString& msg) {
+    return QString(mFormat).arg(logger->getName()).arg(mName).arg(msg);
 }
 
-void LogStream::Output(Logger* logger, const QString& msg) {
+void LogStream::output(Logger* logger, const QString msg) {
     if(!mDisabled) {
-        *mStream << dt::Utils::ToStdString(FormatMessage(logger, msg)) << std::endl;
+        *mStream << dt::Utils::toStdString(formatMessage(logger, msg)) << std::endl;
     }
 }
 
-void LogStream::DefaultOutput(Logger* logger, const QString& msg) {
+void LogStream::defaultOutput(Logger* logger, const QString& msg) {
     if(!mDisabled) {
         QString output = QString(mFormat).arg(mName).arg(msg);
-        *mStream << dt::Utils::ToStdString(output) << std::endl;
+        *mStream << dt::Utils::toStdString(output) << std::endl;
     }
 }
 
-void LogStream::SetStream(std::ostream& stream) {
+void LogStream::setStream(std::ostream& stream) {
     mStream = &stream;
 }
 
-void LogStream::SetName(const QString& name) {
+void LogStream::setName(const QString name) {
     mName = name;
 }
 
-void LogStream::SetFormat(const QString& format) {
+void LogStream::setFormat(const QString format) {
     mFormat = format;
 }
 
-const QString& LogStream::GetName() const {
+const QString LogStream::getName() const {
     return mName;
 }
 
-void LogStream::SetDisabled(bool disabled) {
+void LogStream::setDisabled(bool disabled) {
     mDisabled = disabled;
 }
 
-bool LogStream::IsDisabled() const {
+bool LogStream::isDisabled() const {
     return mDisabled;
 }
 

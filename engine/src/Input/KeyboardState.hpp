@@ -22,15 +22,15 @@ namespace dt {
   */
 class DUCTTAPE_API KeyboardState : public QObject {
     Q_OBJECT
-    Q_PROPERTY(bool shift READ IsShiftDown)
-    Q_PROPERTY(bool alt READ IsAltDown)
-    Q_PROPERTY(bool ctrl READ IsCtrlDown)
+    Q_PROPERTY(bool shift READ isShiftDown)
+    Q_PROPERTY(bool alt READ isAltDown)
+    Q_PROPERTY(bool ctrl READ isCtrlDown)
 
 public slots:
-    bool IsKeyDown(int key_code) const;
-    bool IsAltDown() const;
-    bool IsShiftDown() const;
-    bool IsCtrlDown() const;
+    bool isKeyDown(int key_code) const;
+    bool isAltDown() const;
+    bool isShiftDown() const;
+    bool isCtrlDown() const;
 
 };
 

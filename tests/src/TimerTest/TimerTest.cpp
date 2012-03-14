@@ -19,10 +19,10 @@
 
 namespace TimerTest {
 
-bool TimerTest::Run(int argc, char** argv) {
+bool TimerTest::run(int argc, char** argv) {
     dt::Game game;
     Main* main = new Main();
-    game.Run(main, argc, argv);
+    game.run(main, argc, argv);
 
     // we expect to have at least 9 ticks of timer 1 and 4 ticks of timer 2 within 10 seconds
     if(main->mTimer1Count < 9) {
@@ -38,13 +38,13 @@ bool TimerTest::Run(int argc, char** argv) {
     return true;
 }
 
-QString TimerTest::GetTestName() {
+QString TimerTest::getTestName() {
     return "Timer";
 }
 
 ////////////////////////////////////////////////////////////////
 
-void Main::OnInitialize() {
+void Main::onInitialize() {
     mTimer1Count = 0;
     mTimer2Count = 0;
 
@@ -55,25 +55,25 @@ void Main::OnInitialize() {
     mTimer1 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 1 (event mode)", 0.1, true, false));
     mTimer2 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 2 (thread mode)", 0.2, true, true));
 
-    QObject::connect(mTimer1.get(), SIGNAL(TimerTicked(const QString&, double)),
-            this, SLOT(_TimerCallback(QString)));
-    QObject::connect(mTimer2.get(), SIGNAL(TimerTicked(const QString&, double)),
-            this, SLOT(_TimerCallback(QString)), Qt::DirectConnection);
+    QObject::connect(mTimer1.get(), SIGNAL(TimerTicked(const QString, double)),
+                     this,          SLOT(_TimerCallback(QString)));
+    QObject::connect(mTimer2.get(), SIGNAL(TimerTicked(const QString, double)),
+                     this,          SLOT(_TimerCallback(QString)), Qt::DirectConnection);
 
     mTotalTime = 0;
 }
 
-void Main::UpdateStateFrame(double simulation_frame_time) {
+void Main::updateStateFrame(double simulation_frame_time) {
     mTotalTime += simulation_frame_time;
 
     if(mTotalTime >= 1.0) {
-        dt::StateManager::Get()->Pop(1);
-        mTimer1->Stop();
-        mTimer2->Stop();
+        dt::StateManager::get()->pop(1);
+        mTimer1->stop();
+        mTimer2->stop();
     }
 }
 
-void Main::_TimerCallback(const QString& message) {
+void Main::_timerCallback(const QString message) {
     if(message == "Timer 1 (event mode)") {
         mTimer1Count++;
         std::cout << "Timer tick " << mTimer1Count << ": " << "Timer 1 (event mode)" << std::endl;

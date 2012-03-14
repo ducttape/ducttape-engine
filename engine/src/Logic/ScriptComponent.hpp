@@ -33,13 +33,13 @@ public:
       * @param is_update_enabled Whether update call of the script is enabled or not.
       * @see Component
       */
-    ScriptComponent(const QString& script_name, const QString& name = "", bool is_update_enabled = false);
+    ScriptComponent(const QString script_name, const QString name = "", bool is_update_enabled = false);
 
-    void OnInitialize();
-    void OnDeinitialize();
-    void OnEnable();
-    void OnDisable();
-    void OnUpdate(double time_diff);
+    void onInitialize();
+    void onDeinitialize();
+    void onEnable();
+    void onDisable();
+    void onUpdate(double time_diff);
 
     /**
       * Gets if update call of the script is enabled or not.
@@ -54,7 +54,7 @@ public:
     void SetUpdateEnabled(bool is_enabled);
 
 protected:
-    QScriptValue _CallScriptFunction(QString name, QScriptValueList params = QScriptValueList());
+    QScriptValue _callScriptFunction(QString name, QScriptValueList params = QScriptValueList());
 
     QString mScriptName;
     QScriptValue mScriptObject;

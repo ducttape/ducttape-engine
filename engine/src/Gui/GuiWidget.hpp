@@ -24,9 +24,9 @@ namespace dt {
   */
 class DUCTTAPE_API GuiWidget : public QObject  {
     Q_OBJECT
-    Q_PROPERTY(QString name READ GetName FINAL)
-    Q_PROPERTY(QScriptValue parent READ GetScriptParent WRITE SetScriptParent)
-    Q_PROPERTY(bool visible READ IsVisible WRITE SetVisible)
+    Q_PROPERTY(QString name READ getName FINAL)
+    Q_PROPERTY(QScriptValue parent READ getScriptParent WRITE setScriptParent)
+    Q_PROPERTY(bool visible READ isVisible WRITE setVisible)
 
 public:
     
@@ -35,45 +35,45 @@ public:
     /**
       * Constructor.
       */
-    GuiWidget(const QString& name);
+    GuiWidget(const QString name);
 
     /**
       * Pure virtual destructor.
       */
     virtual ~GuiWidget() = 0;
 
-    void Initialize();
+    void initialize();
 
-    void Deinitialize();
+    void deinitialize();
 
     /**
       * Called when the widget is being created.
       */
-    virtual void OnInitialize() = 0;
+    virtual void onInitialize() = 0;
 
     /**
       * Returns the MyGUI widget of this widget.
       * @returns The MyGUI widget of this widget.
       */
-    virtual MyGUI::Widget* GetMyGUIWidget() = 0;
+    virtual MyGUI::Widget* getMyGUIWidget() = 0;
 
     /**
       * Returns the name of this widget.
       * @returns The name of this widget.
       */
-    const QString& GetName() const;
+    const QString getName() const;
 
-    void SetParent(GuiWidget* parent);
-    GuiWidget* GetParent();
-    QScriptValue GetScriptParent();
-    void SetScriptParent(QScriptValue parent);
+    void setParent(GuiWidget* parent);
+    GuiWidget* getParent();
+    QScriptValue getScriptParent();
+    void setScriptParent(QScriptValue parent);
 
     /**
       * Returns a child widget.
       * @param name The name of the child widget.
       * @returns The widget pointer, or \c nullptr if no widget named \c name exists.
       */
-    GuiWidget* FindChild(const QString& name);
+    GuiWidget* findChild(const QString name);
 
     /**
       * Creates a widget of type WidgetType and adds as a child it to this widget.
@@ -81,55 +81,55 @@ public:
       * @returns A pointer to the new widget.
       */
     template <typename WidgetType>
-    WidgetType* AddChildWidget(WidgetType* widget) {
-        const QString& name = widget->GetName();
-        _AddChild(widget);
-        FindChild(name)->Initialize();
-        return dynamic_cast<WidgetType*>(FindChild(name));
+    WidgetType* addChildWidget(WidgetType* widget) {
+        const QString name = widget->getName();
+        _addChild(widget);
+        findChild(name)->initialize();
+        return dynamic_cast<WidgetType*>(findChild(name));
     }
 
-    void RemoveChild(const QString& name);
+    void removeChild(const QString name);
 
-    void RemoveAllChildren();
+    void removeAllChildren();
 
-    std::map<QString, GuiWidget::GuiWidgetSP>& GetChildrenMap();
+    std::map<QString, GuiWidget::GuiWidgetSP>& getChildrenMap();
 
     /**
       * Returns the full name of this widget (e.g. "RootWidgetName.FirstChildWidgetName.ThisWidgetName")
       * @returns The full name of this widget.
       */
-    QString GetFullName();
+    QString getFullName();
 
 public slots:
-    void Focus();
+    void focus();
 
-    void SetPosition(float x, float y);
-    void SetPosition(int x, int y);
+    void setPosition(float x, float y);
+    void setPosition(int x, int y);
 
-    void SetSize(float width, float height);
-    void SetSize(int width, int height);
+    void setSize(float width, float height);
+    void setSize(int width, int height);
 
     /**
       * Returns a child widget, for scripting access.
       * @param name The name of the child widget.
       * @returns The widget, or \c UndefineValue if not found.
       */
-    QScriptValue GetChild(const QString& name);
+    QScriptValue getChild(const QString name);
 
-    void Show();
-    void Hide();
-    void SetVisible(bool visible);
-    bool IsVisible() const;
+    void show();
+    void hide();
+    void setVisible(bool visible);
+    bool isVisible() const;
 
 signals:
-    void Focused();
-    void PositionChanged(float x, float y);
-    void PositionChanged(int x, int y);
-    void SizeChanged(float width, float height);
-    void SizeChanged(int width, int height);
-    void Shown();
-    void Hidden();
-    void VisibilityChanged(bool visible);
+    void focused();
+    void positionChanged(float x, float y);
+    void positionChanged(int x, int y);
+    void sizeChanged(float width, float height);
+    void sizeChanged(int width, int height);
+    void shown();
+    void hidden();
+    void visibilityChanged(bool visible);
 
 private:
     /**
@@ -137,7 +137,7 @@ private:
       * @param widget The widget to add.
       * @returns True, if successful. False, if a widget with the name already exists.
       */
-    bool _AddChild(GuiWidget* widget);
+    bool _addChild(GuiWidget* widget);
 
     std::map<QString, GuiWidgetSP> mChildren;   //!< The map of child widgets (name -> widget).
 

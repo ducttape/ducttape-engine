@@ -15,40 +15,40 @@
 class Player : public Hittable {
     Q_OBJECT
 public:
-    Player(const QString& name = "player");
+    Player(const QString name = "player");
 
-    void OnInitialize();
+    void onInitialize();
 
-    void SetControllable(bool is_controllable);
+    void setControllable(bool is_controllable);
 
-    bool IsControllable() const;
+    bool isControllable() const;
 
-    void OnEnable();
+    void onEnable();
 
-    FPSPlayerComponent* GetController() const;
+    FPSPlayerComponent* getController() const;
 
-    dt::CameraComponent* GetCamera() const;
+    dt::CameraComponent* getCamera() const;
 
-    StatusComponent* GetStatus() const;
+    StatusComponent* getStatus() const;
 
-    dt::MeshComponent* GetMesh() const;
+    dt::MeshComponent* getMesh() const;
 
-    void OnHit(int32_t damage);
+    void onHit(int32_t damage);
 
 private slots:
-    void _RefreshHealth(uint16_t previous_health, uint16_t current_health);
+    void _refreshHealth(uint16_t previous_health, uint16_t current_health);
 
-    void _RefreshAmmo(uint16_t current_ammo);
+    void _refreshAmmo(uint16_t current_ammo);
 
-    void _RefreshClip(uint16_t current_clip);
+    void _refreshClip(uint16_t current_clip);
 
-    void _OnWeaponChanged(const Weapon* current_weapon);
+    void _onWeaponChanged(const Weapon* current_weapon);
 
-    void _OnWalk();
+    void _onWalk();
 
-    void _OnStop();
+    void _onStop();
 
-    void _OnJump();
+    void _onJump();
 
 private:
     FPSPlayerComponent* mController;

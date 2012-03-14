@@ -22,19 +22,19 @@ namespace dt {
   */
 class DUCTTAPE_API MouseState : public QObject {
     Q_OBJECT
-    Q_PROPERTY(int x READ GetX)
-    Q_PROPERTY(int y READ GetY)
-    Q_PROPERTY(bool left READ IsLeftButtonDown)
-    Q_PROPERTY(bool right READ IsRightButtonDown)
-    Q_PROPERTY(bool middle READ IsMiddleButtonDown)
+    Q_PROPERTY(int x READ getX)
+    Q_PROPERTY(int y READ getY)
+    Q_PROPERTY(bool left READ isLeftButtonDown)
+    Q_PROPERTY(bool right READ isRightButtonDown)
+    Q_PROPERTY(bool middle READ isMiddleButtonDown)
 
 public slots:
-    bool IsButtonDown(int button);
-    bool IsLeftButtonDown();
-    bool IsRightButtonDown();
-    bool IsMiddleButtonDown();
-    int GetX();
-    int GetY();
+    bool isButtonDown(int button);
+    bool isLeftButtonDown();
+    bool isRightButtonDown();
+    bool isMiddleButtonDown();
+    int getX();
+    int getY();
 
 };
 

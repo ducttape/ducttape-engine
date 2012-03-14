@@ -44,13 +44,13 @@
 
 #include <iostream>
 
-void AddTest(Test* test) {
-    QString name(test->GetTestName());
+void addTest(Test* test) {
+    QString name(test->getTestName());
     TestSP test_sp(test);
     Tests.insert(std::make_pair(name, test_sp));
 }
 
-Test* GetTest(QString name) {
+Test* getTest(QString name) {
     QString n(name.toLower());
     for(auto iter = Tests.begin(); iter != Tests.end(); ++iter) {
         if(iter->first.toLower() == n) {
@@ -63,45 +63,45 @@ Test* GetTest(QString name) {
 int main(int argc, char** argv) {
 
     // add all tests
-    AddTest(new CamerasTest::CamerasTest);
-    AddTest(new ConnectionsTest::ConnectionsTest);
-    AddTest(new DisplayTest::DisplayTest);
-    AddTest(new FollowPathTest::FollowPathTest);
-    AddTest(new GuiTest::GuiTest);
-    AddTest(new InputTest::InputTest);
-    AddTest(new LoggerTest::LoggerTest);
-    AddTest(new MouseCursorTest::MouseCursorTest);
-    AddTest(new MusicFadeTest::MusicFadeTest);
-    AddTest(new MusicTest::MusicTest);
-    AddTest(new NamesTest::NamesTest);
-    AddTest(new NetworkTest::NetworkTest);
-    AddTest(new ParticlesTest::ParticlesTest);
-    AddTest(new PhysicsSimpleTest::PhysicsSimpleTest);
-    AddTest(new PhysicsStressTest::PhysicsStressTest);
-    AddTest(new PrimitivesTest::PrimitivesTest);
-    AddTest(new QObjectTest::QObjectTest);
-    AddTest(new RandomTest::RandomTest);
-    AddTest(new ResourceManagerTest::ResourceManagerTest);
-    AddTest(new SerializationBinaryTest::SerializationBinaryTest);
-    AddTest(new SerializationYamlTest::SerializationYamlTest);
-    AddTest(new ScriptComponentTest::ScriptComponentTest);
-    AddTest(new ScriptingTest::ScriptingTest);
-    AddTest(new ShadowsTest::ShadowsTest);
-    AddTest(new SignalsTest::SignalsTest);
-    AddTest(new SoundTest::SoundTest);
-    AddTest(new StatesTest::StatesTest);
-    AddTest(new TextTest::TextTest);
-    AddTest(new TimerTest::TimerTest);
-    AddTest(new TerrainTest::TerrainTest);
-    AddTest(new BillboardTest::BillboardTest);
-    AddTest(new GuiStateTest::GuiStateTest);
+    addTest(new CamerasTest::CamerasTest);
+    addTest(new ConnectionsTest::ConnectionsTest);
+    addTest(new DisplayTest::DisplayTest);
+    addTest(new FollowPathTest::FollowPathTest);
+    addTest(new GuiTest::GuiTest);
+    addTest(new InputTest::InputTest);
+    addTest(new LoggerTest::LoggerTest);
+    addTest(new MouseCursorTest::MouseCursorTest);
+    addTest(new MusicFadeTest::MusicFadeTest);
+    addTest(new MusicTest::MusicTest);
+    addTest(new NamesTest::NamesTest);
+    addTest(new NetworkTest::NetworkTest);
+    addTest(new ParticlesTest::ParticlesTest);
+    addTest(new PhysicsSimpleTest::PhysicsSimpleTest);
+    addTest(new PhysicsStressTest::PhysicsStressTest);
+    addTest(new PrimitivesTest::PrimitivesTest);
+    addTest(new QObjectTest::QObjectTest);
+    addTest(new RandomTest::RandomTest);
+    addTest(new ResourceManagerTest::ResourceManagerTest);
+    addTest(new SerializationBinaryTest::SerializationBinaryTest);
+    addTest(new SerializationYamlTest::SerializationYamlTest);
+    addTest(new ScriptComponentTest::ScriptComponentTest);
+    addTest(new ScriptingTest::ScriptingTest);
+    addTest(new ShadowsTest::ShadowsTest);
+    addTest(new SignalsTest::SignalsTest);
+    addTest(new SoundTest::SoundTest);
+    addTest(new StatesTest::StatesTest);
+    addTest(new TextTest::TextTest);
+    addTest(new TimerTest::TimerTest);
+    addTest(new TerrainTest::TerrainTest);
+    addTest(new BillboardTest::BillboardTest);
+    addTest(new GuiStateTest::GuiStateTest);
 
     if(argc < 2) {
         std::cout << "TestFramework usage: " << std::endl;
         std::cout << "  ./TestFramework <test name>" << std::endl;
         std::cout << std::endl << "Available tests:" << std::endl;
         for(auto iter = Tests.begin(); iter != Tests.end(); ++iter) {
-            std::cout << "  - " << dt::Utils::ToStdString(iter->first) << std::endl;
+            std::cout << "  - " << dt::Utils::toStdString(iter->first) << std::endl;
         }
     } else {
         bool failure = false;
@@ -110,15 +110,15 @@ int main(int argc, char** argv) {
             QString name(argv[i]);
             if(name == "client" || name == "server") // ignore parameters of network
                 continue;
-            std::cout << "Running test " + dt::Utils::ToStdString(name) + "..." << std::endl;
-            Test* test = GetTest(name);
+            std::cout << "Running test " + dt::Utils::toStdString(name) + "..." << std::endl;
+            Test* test = getTest(name);
             if(test == nullptr) {
-                std::cerr << "Test " + dt::Utils::ToStdString(name) + " not found. Skipping." << std::endl;
-            } else if(!test->Run(argc, argv)) {
+                std::cerr << "Test " + dt::Utils::toStdString(name) + " not found. Skipping." << std::endl;
+            } else if(!test->run(argc, argv)) {
                 failure = true;
-                std::cerr << "Test " + dt::Utils::ToStdString(name) + " FAILED." << std::endl;
+                std::cerr << "Test " + dt::Utils::toStdString(name) + " FAILED." << std::endl;
             } else {
-                std::cout << "Test " + dt::Utils::ToStdString(name) + ": OK." << std::endl;
+                std::cout << "Test " + dt::Utils::toStdString(name) + ": OK." << std::endl;
             }
         }
 

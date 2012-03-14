@@ -26,8 +26,8 @@ public:
     /**
       * Constructor.
       */
-    GuiRootWindow(const QString& name);
-    void OnInitialize();
+    GuiRootWindow(const QString name);
+    void onInitialize();
 
 };
 

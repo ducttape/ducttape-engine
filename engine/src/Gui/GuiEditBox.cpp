@@ -12,16 +12,16 @@
 
 namespace dt {
 
-GuiEditBox::GuiEditBox(const QString& name)
+GuiEditBox::GuiEditBox(const QString name)
     : GuiTextBox(name),
       mEditBox(nullptr) {}
 
-MyGUI::Widget* GuiEditBox::GetMyGUIWidget() {
+MyGUI::Widget* GuiEditBox::getMyGUIWidget() {
     return mEditBox;
 }
 
-void GuiEditBox::OnInitialize() {
-    mEditBox = GetParent()->GetMyGUIWidget()->createWidget<MyGUI::EditBox>("EditBox", 0, 0, 100, 100, MyGUI::Align::Default, dt::Utils::ToStdString(GetFullName()));
+void GuiEditBox::onInitialize() {
+    mEditBox = getParent()->getMyGUIWidget()->createWidget<MyGUI::EditBox>("EditBox", 0, 0, 100, 100, MyGUI::Align::Default, dt::Utils::toStdString(getFullName()));
 }
 
 }

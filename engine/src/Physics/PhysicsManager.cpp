@@ -14,41 +14,41 @@ namespace dt {
 
 PhysicsManager::PhysicsManager() {}
 
-void PhysicsManager::Initialize() {
+void PhysicsManager::initialize() {
 }
 
-void PhysicsManager::Deinitialize() {
+void PhysicsManager::deinitialize() {
     for(auto it = mWorlds.begin(); it != mWorlds.end(); ++it) {
-        it->second->Deinitialize();
+        it->second->deinitialize();
     }
     mWorlds.clear();
 }
 
-void PhysicsManager::UpdateFrame(double simulation_frame_time) {
+void PhysicsManager::updateFrame(double simulation_frame_time) {
     // step all worlds
     for(auto iter = mWorlds.begin(); iter != mWorlds.end(); ++iter) {
-        iter->second->StepSimulation(simulation_frame_time);
+        iter->second->stepSimulation(simulation_frame_time);
     }
 }
 
-PhysicsManager* PhysicsManager::Get() {
-    return Root::GetInstance().GetPhysicsManager();
+PhysicsManager* PhysicsManager::get() {
+    return Root::getInstance().getPhysicsManager();
 }
 
-bool PhysicsManager::HasWorld(const QString& name) {
+bool PhysicsManager::hasWorld(const QString name) {
     return mWorlds.count(name) > 0;
 }
 
-PhysicsWorld* PhysicsManager::AddWorld(PhysicsWorld* world) {
-    QString name = world->GetName();
+PhysicsWorld* PhysicsManager::addWorld(PhysicsWorld* world) {
+    QString name = world->getName();
     PhysicsWorld::PhysicsWorldSP world_sp(world);
     mWorlds.insert(std::make_pair(name, world_sp));
     GetWorld(name)->Initialize();
-    return GetWorld(name);
+    return getWorld(name);
 }
 
-PhysicsWorld* PhysicsManager::GetWorld(const QString& name) {
-    if(HasWorld(name))
+PhysicsWorld* PhysicsManager::getWorld(const QString& name) {
+    if(hasWorld(name))
         return mWorlds.find(name)->second.get();
     return nullptr;
 }

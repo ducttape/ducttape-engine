@@ -17,58 +17,59 @@ StateManager::StateManager()
     : mHasNewState(false),
       mPopCount(0) {}
 
-void StateManager::Initialize() {}
+void StateManager::initialize() {}
 
-void StateManager::Deinitialize() {
+void StateManager::deinitialize() {
     // cleanup all states
     while(mStates.size() > 0) {
-        mStates.back()->Deinitialize();
+        mStates.back()->deinitialize();
         mStates.pop_back();
     }
 }
 
-StateManager* StateManager::Get() {
-    return Root::GetInstance().GetStateManager();
+StateManager* StateManager::get() {
+    return Root::getInstance().getStateManager();
 }
 
-void StateManager::SetNewState(State* new_state) {
+void StateManager::setNewState(State* new_state) {
     mNewState = std::shared_ptr<State>(new_state);
     mHasNewState = true;
 }
 
-bool StateManager::ShiftStates() {
+bool StateManager::shiftStates() {
     // pop old states
     if(mPopCount > 0) {
         // deactivate and pop states
         while(mPopCount > 0 && mStates.size() > 0) {
-            mStates.back()->Deinitialize();
+            mStates.back()->deinitialize();
             mStates.pop_back();
             --mPopCount;
         }
         if(mStates.size() > 0) {
-            mStates.back()->Initialize();
+            mStates.back()->initialize();
         }
     }
 
     // add new state
     if(mHasNewState) {
-        if(GetCurrentState() != nullptr) {
-            GetCurrentState()->Deinitialize();
+        if(getCurrentState() != nullptr) {
+            getCurrentState()->deinitialize();
         }
         mStates.push_back(mNewState);
-        GetCurrentState()->Initialize();
-        QObject::connect(this, SIGNAL(BeginFrame(double)), GetCurrentState(), SLOT(UpdateFrame(double)));
+        getCurrentState()->initialize();
+        QObject::connect(this,              SIGNAL(beginFrame(double)),
+                         getCurrentState(), SLOT(updateFrame(double)));
         mHasNewState = false;
     }
 
     return mStates.size() > 0;
 }
 
-void StateManager::Pop(uint16_t count) {
+void StateManager::pop(uint16_t count) {
     mPopCount += count;
 }
 
-State* StateManager::GetCurrentState() {
+State* StateManager::getCurrentState() {
     if(mStates.size() > 0)
         return mStates.back().get();
     return nullptr;

@@ -4,7 +4,7 @@
 #include "Gui/GuiManager.hpp"
 #include "Gui/GuiRootWindow.hpp"
 
-Player::Player(const QString& name)
+Player::Player(const QString name)
     : Hittable(name),
       mController(nullptr),
       mCamera(nullptr),
@@ -17,7 +17,7 @@ Player::Player(const QString& name)
       mHUDClip(nullptr),
       mJumpingSound(nullptr) {}
 
-void Player::OnInitialize() {
+void Player::onInitialize() {
     mController = new FPSPlayerComponent(2, "controller");
     mMesh = new dt::MeshComponent("player", "", "player_mesh");
     mStatus = new StatusComponent(100, 100);
@@ -25,145 +25,148 @@ void Player::OnInitialize() {
     mWalkingSound = new dt::SoundComponent("walk.wav", "player_walking_sound");
     mJumpingSound = new dt::SoundComponent("jump.wav", "player_jump_sound");
 
-    const Weapon* weapon = mController->GetWeaponInUse();
+    const Weapon* weapon = mController->getWeaponInUse();
 
-    //this->AddComponent(mMesh);
-    this->AddComponent(mStatus);
-    this->AddComponent(mCamera)->LookAt(Ogre::Vector3(0, 0, -10));
-    this->AddComponent(mController);
-    this->AddComponent(mWalkingSound);
-    this->AddComponent(mJumpingSound);
+    //this->addComponent(mMesh);
+    this->addComponent(mStatus);
+    this->addComponent(mCamera)->lookAt(Ogre::Vector3(0, 0, -10));
+    this->addComponent(mController);
+    this->addComponent(mWalkingSound);
+    this->addComponent(mJumpingSound);
 
-    dt::GuiRootWindow& win = dt::GuiManager::Get()->GetRootWindow();
-    mHUDAmmo = win.AddChildWidget(new dt::GuiButton("HUD_ammo"));
-    mHUDHealth = win.AddChildWidget(new dt::GuiButton("HUD_health"));
-    mHUDClip = win.AddChildWidget(new dt::GuiButton("HUD_clip"));
-    auto screen_rect = win.GetMyGUIWidget()->getAbsoluteRect();
+    dt::GuiRootWindow& win = dt::GuiManager::get()->getRootWindow();
+    mHUDAmmo = win.addChildWidget(new dt::GuiButton("HUD_ammo"));
+    mHUDHealth = win.addChildWidget(new dt::GuiButton("HUD_health"));
+    mHUDClip = win.addChildWidget(new dt::GuiButton("HUD_clip"));
+    auto screen_rect = win.getMyGUIWidget()->getAbsoluteRect();
 
-    mHUDHealth->SetSize(100, 30);
-    mHUDAmmo->SetSize(100, 30);
-    mHUDClip->SetSize(100, 30);
+    mHUDHealth->setSize(100, 30);
+    mHUDAmmo->setSize(100, 30);
+    mHUDClip->setSize(100, 30);
 
-    mHUDHealth->SetPosition(10, screen_rect.height() - 50);
-    mHUDAmmo->SetPosition(screen_rect.width() - 110, screen_rect.height() - 90);
-    mHUDClip->SetPosition(screen_rect.width() - 110, screen_rect.height() - 50);
+    mHUDHealth->setPosition(10, screen_rect.height() - 50);
+    mHUDAmmo->setPosition(screen_rect.width() - 110, screen_rect.height() - 90);
+    mHUDClip->setPosition(screen_rect.width() - 110, screen_rect.height() - 50);
 
-    dt::GuiManager::Get()->SetMouseCursorVisible(false);
+    dt::GuiManager::get()->setMouseCursorVisible(false);
 
     if(mIsControllable)
-        mController->Enable();
+        mController->enable();
     else
-        mController->Disable();
+        mController->disable();
 
-    mWalkingSound->GetSound().SetLoop(true);
-    mJumpingSound->SetVolume(20);
+    mWalkingSound->getSound().setLoop(true);
+    mJumpingSound->setVolume(20);
 
-    _RefreshHealth(0, 100);
+    _refreshHealth(0, 100);
     if(weapon != nullptr) {
-        _OnWeaponChanged(weapon);
+        _onWeaponChanged(weapon);
     }
 
     if(!QObject::connect(mController, SIGNAL(sWeaponChanged(const Weapon*)), 
-        this, SLOT(_OnWeaponChanged(const Weapon*)), Qt::DirectConnection)) {
-            dt::Logger::Get().Debug(QString("Failed to connect the controller's sWeaponChanged") +
+                         this,        SLOT(_onWeaponChanged(const Weapon*)), Qt::DirectConnection)) {
+            dt::Logger::get().debug(QString("Failed to connect the controller's sWeaponChanged") +
                 QString("signal with the player's _OnWeaponChanged"));
     }
 
-    if(!QObject::connect(mController, SIGNAL(sMove()), this, SLOT(_OnWalk()), Qt::DirectConnection)) {
-        dt::Logger::Get().Debug(QString("Failed to connect the controller's sMove with the player's _OnWalk"));
+    if(!QObject::connect(mController, SIGNAL(sMove()),
+                         this,        SLOT(_onWalk()), Qt::DirectConnection)) {
+        dt::Logger::get().debug(QString("Failed to connect the controller's sMove with the player's _OnWalk"));
     }
 
-    if(!QObject::connect(mController, SIGNAL(sStop()), this, SLOT(_OnStop()), Qt::DirectConnection)) {
-        dt::Logger::Get().Debug(QString("Failed to connect the controller's sStop with the player's _OnStop()"));
+    if(!QObject::connect(mController, SIGNAL(sStop()),
+                         this,        SLOT(_onStop()), Qt::DirectConnection)) {
+        dt::Logger::get().debug(QString("Failed to connect the controller's sStop with the player's _OnStop()"));
     }
 
-    if(!QObject::connect(mController, SIGNAL(sJump()), this, SLOT(_OnJump()), Qt::DirectConnection)) {
-        dt::Logger::Get().Debug(QString("Failed to connect the controller's sStop with the player's _OnStop()"));
+    if(!QObject::connect(mController, SIGNAL(sJump()),
+                         this,        SLOT(_onJump()), Qt::DirectConnection)) {
+        dt::Logger::get().debug(QString("Failed to connect the controller's sStop with the player's _OnStop()"));
     }
 }
 
-void Player::_RefreshAmmo(uint16_t current_ammo) {
-    mHUDAmmo->SetCaption(QString("Ammo: ") + dt::Utils::ToString(current_ammo));
+void Player::_refreshAmmo(uint16_t current_ammo) {
+    mHUDAmmo->setCaption(QString("Ammo: ") + dt::Utils::toString(current_ammo));
 }
 
-void Player::_RefreshClip(uint16_t current_clip) {
-    mHUDClip->SetCaption(QString("Clip: ") + dt::Utils::ToString(current_clip));
+void Player::_refreshClip(uint16_t current_clip) {
+    mHUDClip->setCaption(QString("Clip: ") + dt::Utils::toString(current_clip));
 }
 
-void Player::_RefreshHealth(uint16_t previous_health, uint16_t current_health) {
-    mHUDHealth->SetCaption(QString("Health: ") + dt::Utils::ToString(current_health));
+void Player::_refreshHealth(uint16_t previous_health, uint16_t current_health) {
+    mHUDHealth->setCaption(QString("Health: ") + dt::Utils::toString(current_health));
 }
 
-void Player::_OnWeaponChanged(const Weapon* current_weapon) {
-    if(!QObject::disconnect(this, SLOT(_RefreshAmmo(uint16_t))))
-        dt::Logger::Get().Debug("Failed to disconnect the player's _RefreshAmmo slot!");
-    if(!QObject::disconnect(this, SLOT(_RefreshClip(uint16_t))))
-        dt::Logger::Get().Debug("Failed to disconnect the player's _RefreshClip slot!");
+void Player::_onWeaponChanged(const Weapon* current_weapon) {
+    if(!QObject::disconnect(this, SLOT(_refreshAmmo(uint16_t))))
+        dt::Logger::get().debug("Failed to disconnect the player's _RefreshAmmo slot!");
+    if(!QObject::disconnect(this, SLOT(_refreshClip(uint16_t))))
+        dt::Logger::get().debug("Failed to disconnect the player's _RefreshClip slot!");
 
     if(current_weapon == nullptr) {
-        _RefreshClip(0);
-        _RefreshAmmo(0);
+        _refreshClip(0);
+        _refreshAmmo(0);
     }
     else {
         if(!QObject::connect(current_weapon, SIGNAL(sAmmoChanged(uint16_t)),
-            this, SLOT(_RefreshAmmo(uint16_t))))
-            dt::Logger::Get().Debug("Failed to connect the new weapon's sAmmoChanged signal!");
+                             this,           SLOT(_refreshAmmo(uint16_t))))
+            dt::Logger::get().debug("Failed to connect the new weapon's sAmmoChanged signal!");
         if(!QObject::connect(current_weapon, SIGNAL(sClipChanged(uint16_t)),
-            this, SLOT(_RefreshClip(uint16_t))))
-            dt::Logger::Get().Debug("Failed to connect the new weapon's sClipChanged signal!");
+                             this,           SLOT(_refreshClip(uint16_t))))
+            dt::Logger::get().debug("Failed to connect the new weapon's sClipChanged signal!");
        
-        _RefreshClip(current_weapon->GetCurrentClip());
-        _RefreshAmmo(current_weapon->GetCurrentAmmo());
+        _refreshClip(current_weapon->getCurrentClip());
+        _refreshAmmo(current_weapon->getCurrentAmmo());
     }
 }
 
-FPSPlayerComponent* Player::GetController() const {
+FPSPlayerComponent* Player::getController() const {
     return mController;
 }
 
-dt::CameraComponent* Player::GetCamera() const {
+dt::CameraComponent* Player::getCamera() const {
     return mCamera;
 }
 
-StatusComponent* Player::GetStatus() const {
+StatusComponent* Player::getStatus() const {
     return mStatus;
 }
 
-dt::MeshComponent* Player::GetMesh() const {
+dt::MeshComponent* Player::getMesh() const {
     return mMesh;
 }
 
-void Player::OnHit(int32_t damage) {
-    mStatus->SetHealth(mStatus->GetHealth() - damage);
+void Player::onHit(int32_t damage) {
+    mStatus->setHealth(mStatus->getHealth() - damage);
 }
 
-void Player::SetControllable(bool is_controllable) {
+void Player::setControllable(bool is_controllable) {
     if(mIsControllable != is_controllable) {
         mIsControllable = is_controllable;
         if(mIsControllable)
-            mController->Enable();
+            mController->enable();
         else
-            mController->Disable();
+            mController->disable();
     }
 }
 
-bool Player::IsControllable() const {
+bool Player::isControllable() const {
     return mIsControllable;
 }
 
-void Player::OnEnable() {
+void Player::onEnable() {
     if(!mIsControllable)
-        mController->Disable();
+        mController->disable();
 }
 
-void Player::_OnWalk() {
-    mWalkingSound->PlaySound();
+void Player::_onWalk() {
+    mWalkingSound->playSound();
 }
 
-void Player::_OnStop() {
-    mWalkingSound->StopSound();
+void Player::_onStop() {
+    mWalkingSound->stopSound();
 }
 
-void Player::_OnJump() {
-    mJumpingSound->PlaySound();
+void Player::_onJump() {
+    mJumpingSound->playSound();
 }

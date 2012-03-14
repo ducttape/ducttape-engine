@@ -22,8 +22,8 @@ namespace SignalsTest {
 
 class SignalsTest : public Test {
 public:
-    bool Run(int argc, char** argv);
-    QString GetTestName();
+    bool run(int argc, char** argv);
+    QString getTestName();
 };
 
 ////////////////////////////////////////////////////////////////
@@ -32,15 +32,15 @@ class TestComponent : public dt::Component {
     Q_OBJECT
 
 public:
-    TestComponent(const QString& name);
-    void OnInitialize();
-    void OnDeinitialize();
+    TestComponent(const QString name);
+    void onInitialize();
+    void onDeinitialize();
 
 public slots:
-    void Invoke();
+    void invoke();
 
 signals:
-    void Invoked();
+    void invoked();
 };
 
 ////////////////////////////////////////////////////////////////
@@ -52,7 +52,7 @@ public:
     CallbackClass();
     bool mInvoked;
 public slots:
-    void TheCallback();
+    void theCallback();
 };
 
 } // namespace test_signals

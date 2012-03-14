@@ -4,10 +4,10 @@
 
 #include "Utils/Utils.hpp"
 
-Weapon::Weapon(const QString& name, dt::InteractionComponent* interactor, int32_t power, uint16_t max_clip, 
-    uint16_t ammo_per_clip, float reload_time, uint16_t type, const QString& firing_sound_handle, 
-    const QString& reloading_begin_sound_handle, const QString& reloading_done_sound_handle, 
-    const QString& mesh_handle, const QString& material_handle)
+Weapon::Weapon(const QString name, dt::InteractionComponent* interactor, int32_t power, uint16_t max_clip,
+    uint16_t ammo_per_clip, float reload_time, uint16_t type, const QString firing_sound_handle,
+    const QString reloading_begin_sound_handle, const QString reloading_done_sound_handle,
+    const QString mesh_handle, const QString material_handle)
     : Node(name),
       mInteractor(interactor),
       mPower(power),
@@ -29,77 +29,77 @@ Weapon::Weapon(const QString& name, dt::InteractionComponent* interactor, int32_
       mReloadingBeginSound(nullptr),
       mReloadingDoneSound(nullptr) {}
 
-void Weapon::OnInitialize() {
-    this->AddComponent(mInteractor);
+void Weapon::onInitialize() {
+    this->addComponent(mInteractor);
 
-    this->AddComponent(new dt::MeshComponent(mMeshHandle, mMaterialHandle, "weapon-mesh"));
-    mPhysicsBody = this->AddComponent(new dt::PhysicsBodyComponent("weapon-mesh", "weapon-body",
+    this->addComponent(new dt::MeshComponent(mMeshHandle, mMaterialHandle, "weapon-mesh"));
+    mPhysicsBody = this->addComponent(new dt::PhysicsBodyComponent("weapon-mesh", "weapon-body",
         dt::PhysicsBodyComponent::BOX));
 
     mIsPhysicsBodyEnabled = true;
 
     if(!QObject::connect(mInteractor, SIGNAL(sHit(dt::PhysicsBodyComponent*)), 
-        this, SLOT(_OnHit(dt::PhysicsBodyComponent*)))) {
-            dt::Logger::Get().Error("Cannot connect the sHit signal with the OnHit slot.");
+                         this,        SLOT(_onHit(dt::PhysicsBodyComponent*)))) {
+            dt::Logger::get().error("Cannot connect the sHit signal with the OnHit slot.");
     }
 
     if(mFiringSoundHandle != "") {
-        mFiringSound = (dt::SoundComponent*)this->AddComponent(new dt::SoundComponent(mFiringSoundHandle, 
-            this->GetName() + "_firing_sound"));
-        mFiringSound->SetVolume(100.0f);
+        mFiringSound = (dt::SoundComponent*)this->addComponent(new dt::SoundComponent(mFiringSoundHandle,
+            this->getName() + "_firing_sound"));
+        mFiringSound->setVolume(100.0f);
     }
 
     if(mReloadingBeginSoundHandle != "") {
-        mReloadingBeginSound = (dt::SoundComponent*)this->AddComponent(new dt::SoundComponent(mReloadingBeginSoundHandle, 
-            this->GetName() + "_reloading_begin_sound"));
-        mReloadingBeginSound->SetVolume(100.0f);
+        mReloadingBeginSound = (dt::SoundComponent*)this->addComponent(new dt::SoundComponent(mReloadingBeginSoundHandle,
+            this->getName() + "_reloading_begin_sound"));
+        mReloadingBeginSound->setVolume(100.0f);
     }
 
     if(mReloadingDoneSoundHandle != "") {
-        mReloadingDoneSound = (dt::SoundComponent*)this->AddComponent(new dt::SoundComponent(mReloadingDoneSoundHandle,
-            this->GetName() + "_reloading_done_sound"));
-        mReloadingDoneSound->SetVolume(100.0f);
+        mReloadingDoneSound = (dt::SoundComponent*)this->addComponent(new dt::SoundComponent(mReloadingDoneSoundHandle,
+            this->getName() + "_reloading_done_sound"));
+        mReloadingDoneSound->setVolume(100.0f);
     }
 }
 
-int32_t Weapon::GetPower() const {
+int32_t Weapon::getPower() const {
     return mPower;
 }
 
-void Weapon::SetPower(int power) {
+void Weapon::setPower(int power) {
     mPower = power;
 }
 
-void Weapon::Fire() {
+void Weapon::fire() {
     if(mCurrentAmmo > 0) {
-        if(mInteractor->IsReady()) {
+        if(mInteractor->isReady()) {
             if(mFiringSound != nullptr) {
-                mFiringSound->StopSound();
-                mFiringSound->PlaySound();
+                mFiringSound->stopSound();
+                mFiringSound->playSound();
             }
 
-            this->mInteractor->Check();
-            SetCurrentAmmo(mCurrentAmmo - 1);
+            this->mInteractor->check();
+            setCurrentAmmo(mCurrentAmmo - 1);
         }
     }
     else {
-        this->Reload();
+        this->reload();
     }
 }
 
-void Weapon::Reload() {
+void Weapon::reload() {
     if(mCurrentClip > 0 && mReloadTimer == nullptr && mCurrentAmmo < mAmmoPerClip) {
         mReloadTimer = new dt::Timer("Weapon reloaded", mReloadTime, false);
-        mReloadingBeginSound->PlaySound();
-        if(!QObject::connect(mReloadTimer, SIGNAL(TimerStoped()),
-            this, SLOT(_OnReloadCompleted()))) {
-                dt::Logger::Get().Error("Cannot connect weapon " + this->GetName() + 
+        mReloadingBeginSound->playSound();
+        if(!QObject::connect(mReloadTimer, SIGNAL(timerStoped()),
+                             this,         SLOT(_onReloadCompleted()))) {
+                dt::Logger::get().error("Cannot connect weapon " + this->getName() +
                     "'s _OnReloadCompleted slot with its reload timer's signal");
         }
     }
 }
 
-void Weapon::SetCurrentAmmo(uint16_t current_ammo) {
+void Weapon::setCurrentAmmo(uint16_t current_ammo) {
     if(current_ammo <= mAmmoPerClip)
         mCurrentAmmo = current_ammo;
     else
@@ -108,14 +108,14 @@ void Weapon::SetCurrentAmmo(uint16_t current_ammo) {
     emit sAmmoChanged(mCurrentAmmo);
 }
 
-void Weapon::SetAmmoPerClip(uint16_t ammo_per_clip) {
+void Weapon::setAmmoPerClip(uint16_t ammo_per_clip) {
     mAmmoPerClip = ammo_per_clip;
 
     if(mCurrentAmmo > mAmmoPerClip)
-        this->SetCurrentAmmo(mAmmoPerClip);
+        this->setCurrentAmmo(mAmmoPerClip);
 }
 
-void Weapon::SetCurrentClip(uint16_t current_clip) {
+void Weapon::setCurrentClip(uint16_t current_clip) {
     if(current_clip <= mMaxClip)
         mCurrentClip = current_clip;
     else
@@ -124,89 +124,89 @@ void Weapon::SetCurrentClip(uint16_t current_clip) {
     emit sClipChanged(mCurrentClip);
 }
 
-void Weapon::SetMaxClip(uint16_t max_clip) {
+void Weapon::setMaxClip(uint16_t max_clip) {
     mMaxClip = max_clip;
 
     if(mCurrentClip > mMaxClip)
-        this->SetCurrentClip(mMaxClip);
+        this->setCurrentClip(mMaxClip);
 }
 
-uint16_t Weapon::GetAmmoPerClip() const {
+uint16_t Weapon::getAmmoPerClip() const {
     return mAmmoPerClip;
 }
 
-uint16_t Weapon::GetCurrentAmmo() const {
+uint16_t Weapon::getCurrentAmmo() const {
     return mCurrentAmmo;
 }
 
-uint16_t Weapon::GetCurrentClip() const {
+uint16_t Weapon::getCurrentClip() const {
     return mCurrentClip;
 }
 
-uint16_t Weapon::GetMaxClip() const {
+uint16_t Weapon::getMaxClip() const {
     return mMaxClip;
 }
 
-float Weapon::GetReloadTime() const {
+float Weapon::getReloadTime() const {
     return mReloadTime;
 }
 
-void Weapon::SetReloadTime(float reload_time) {
+void Weapon::setReloadTime(float reload_time) {
     mReloadTime = reload_time;
 }
 
-const dt::InteractionComponent* Weapon::GetInteractor() const {
+const dt::InteractionComponent* Weapon::getInteractor() const {
     return mInteractor;
 }
 
-void Weapon::_OnHit(dt::PhysicsBodyComponent* hit) {
-    Hittable* obj = dynamic_cast<Hittable*>(hit->GetNode());
+void Weapon::_onHit(dt::PhysicsBodyComponent* hit) {
+    Hittable* obj = dynamic_cast<Hittable*>(hit->getNode());
 
     if(obj != nullptr)
-        obj->OnHit(this->GetPower());
+        obj->onHit(this->getPower());
 }
 
-void Weapon::_OnReloadCompleted() {
+void Weapon::_onReloadCompleted() {
     if(mCurrentClip > 0 && mCurrentAmmo < mAmmoPerClip) {
         delete mReloadTimer;
         mReloadTimer = nullptr;
 
-        mReloadingDoneSound->PlaySound();
-        this->SetCurrentClip(mCurrentClip - 1);
-        this->SetCurrentAmmo(mAmmoPerClip);
+        mReloadingDoneSound->playSound();
+        this->setCurrentClip(mCurrentClip - 1);
+        this->setCurrentAmmo(mAmmoPerClip);
     }
 }
 
-uint16_t Weapon::GetType() const {
+uint16_t Weapon::getType() const {
     return mType;
 }
 
-void Weapon::SetType(uint16_t type) {
+void Weapon::setType(uint16_t type) {
     mType = type;
 }
 
-void Weapon::EnablePhysicsBody(bool is_enabled) {
+void Weapon::enablePhysicsBody(bool is_enabled) {
     if(is_enabled)
-        mPhysicsBody->Enable();
+        mPhysicsBody->enable();
     else
-        mPhysicsBody->Disable();
+        mPhysicsBody->disable();
 
     mIsPhysicsBodyEnabled = is_enabled;
 }
 
-bool Weapon::IsPhysicsBodyEnabled() const {
+bool Weapon::isPhysicsBodyEnabled() const {
     return mIsPhysicsBodyEnabled;
 }
 
-void Weapon::OnEnable() {
+void Weapon::onEnable() {
     if(!mIsPhysicsBodyEnabled)
-        mPhysicsBody->Disable();
+        mPhysicsBody->disable();
 
     emit sAmmoChanged(mCurrentAmmo);
     emit sClipChanged(mCurrentClip);
 }
 
-void Weapon::OnDeinitialize() {
+void Weapon::onDeinitialize() {
     if(mReloadTimer != nullptr)
         delete mReloadTimer;
 }
