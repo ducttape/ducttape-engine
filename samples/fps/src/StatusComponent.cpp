@@ -7,11 +7,11 @@ StatusComponent::StatusComponent(uint16_t initial_health, uint16_t max_health)
       mHealth(initial_health),
       mMaxHealth(max_health) {}
 
-uint16_t StatusComponent::GetHealth() {
+uint16_t StatusComponent::getHealth() {
     return mHealth;
 }
 
-void StatusComponent::SetHealth(uint16_t health) {
+void StatusComponent::setHealth(uint16_t health) {
     if(this->isEnabled() && mHealth != health) {
         if(health >= mMaxHealth) {
             health = mMaxHealth;
@@ -29,11 +29,11 @@ void StatusComponent::SetHealth(uint16_t health) {
     }
 }
 
-uint16_t StatusComponent::GetMaxHealth() {
+uint16_t StatusComponent::getMaxHealth() {
     return mMaxHealth;
 }
 
-void StatusComponent::SetMaxHealth(uint16_t max_health) {
+void StatusComponent::setMaxHealth(uint16_t max_health) {
     if(this->isEnabled())
         mMaxHealth = max_health;
 }

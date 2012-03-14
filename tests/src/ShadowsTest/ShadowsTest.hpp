@@ -26,8 +26,8 @@ namespace ShadowsTest {
 
 class ShadowsTest : public Test {
 public:
-    bool Run(int argc, char** argv);
-    QString GetTestName();
+    bool run(int argc, char** argv);
+    QString getTestName();
 };
 
 ////////////////////////////////////////////////////////////////
@@ -36,12 +36,12 @@ class Main : public dt::State {
     Q_OBJECT
 public:
     Main();
-    void OnInitialize();
-    void UpdateStateFrame(double simulation_frame_time);
+    void onInitialize();
+    void updateStateFrame(double simulation_frame_time);
 
 private:
     double mRuntime;
-    void PutMeshShadow(const QString meshName, const Ogre::Vector3& position, const QString materialName = "");
+    void putMeshShadow(const QString meshName, const Ogre::Vector3& position, const QString materialName = "");
 };
 
 } // namespace ShadowsTest

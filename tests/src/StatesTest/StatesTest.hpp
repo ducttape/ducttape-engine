@@ -30,8 +30,8 @@ namespace StatesTest {
 
 class StatesTest : public Test {
 public:
-    bool Run(int argc, char** argv);
-    QString GetTestName();
+    bool run(int argc, char** argv);
+    QString getTestName();
 };
 
 ////////////////////////////////////////////////////////////////
@@ -39,8 +39,8 @@ public:
 class SecondState : public dt::State {
     Q_OBJECT
 public:
-    void OnInitialize();
-    void UpdateStateFrame(double simulation_frame_time);
+    void onInitialize();
+    void updateStateFrame(double simulation_frame_time);
 
 private:
     bool mPopped;
@@ -52,8 +52,8 @@ class FirstState : public dt::State {
     Q_OBJECT
 public:
     FirstState();
-    void OnInitialize();
-    void UpdateStateFrame(double simulation_frame_time);
+    void onInitialize();
+    void updateStateFrame(double simulation_frame_time);
 
 private:
     bool mCreated;

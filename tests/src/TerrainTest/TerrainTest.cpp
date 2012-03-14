@@ -16,13 +16,13 @@
 
 namespace TerrainTest {
 
-bool TerrainTest::Run(int argc, char** argv) {
+bool TerrainTest::run(int argc, char** argv) {
     dt::Game game;
-    game.Run(new Main(), argc, argv);
+    game.run(new Main(), argc, argv);
     return true;
 }
 
-QString TerrainTest::GetTestName() {
+QString TerrainTest::getTestName() {
     return "Terrain";
 }
 
@@ -32,40 +32,40 @@ Main::Main()
     : mRuntime(0),
       mBuilding(true) {}
 
-void Main::UpdateStateFrame(double simulation_frame_time) {
+void Main::updateStateFrame(double simulation_frame_time) {
     if(!mBuilding) {
         mRuntime += simulation_frame_time;
     }
     if(mRuntime > 3.0) {
-        dt::StateManager::Get()->Pop(1);
+        dt::StateManager::get()->pop(1);
     }
-    if(mBuilding && !dt::TerrainManager::Get()->GetOgreTerrainGroup()->isDerivedDataUpdateInProgress()) {
+    if(mBuilding && !dt::TerrainManager::get()->getOgreTerrainGroup()->isDerivedDataUpdateInProgress()) {
         mBuilding = false;
-        dt::Logger::Get().Info("Building lightmap complete.");
+        dt::Logger::get().info("Building lightmap complete.");
     }
 }
 
-void Main::OnInitialize() {
-    dt::Scene* scene = AddScene(new dt::Scene("testscene"));
+void Main::onInitialize() {
+    dt::Scene* scene = addScene(new dt::Scene("testscene"));
 
-    dt::ResourceManager::Get()->AddResourceLocation("sinbad.zip","Zip", true);
-    dt::ResourceManager::Get()->AddResourceLocation("", "FileSystem", true);
+    dt::ResourceManager::get()->addResourceLocation("sinbad.zip","Zip", true);
+    dt::ResourceManager::get()->addResourceLocation("", "FileSystem", true);
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
-    camnode->SetPosition(Ogre::Vector3(0, 350, 150));
-    dt::CameraComponent* cam = camnode->AddComponent(new dt::CameraComponent("cam"));
-    cam->LookAt(Ogre::Vector3(0, 300, 0));
+    dt::Node* camnode = scene->addChildNode(new dt::Node("camnode"));
+    camnode->setPosition(Ogre::Vector3(0, 350, 150));
+    dt::CameraComponent* cam = camnode->addComponent(new dt::CameraComponent("cam"));
+    cam->lookAt(Ogre::Vector3(0, 300, 0));
 
-    dt::Node* lightnode = scene->AddChildNode(new dt::Node("lightnode"));
-    dt::LightComponent* light = lightnode->AddComponent(new dt::LightComponent("light"));
-    lightnode->SetPosition(Ogre::Vector3(0, 500, 0));
-    lightnode->LookAt(Ogre::Vector3(200, 450, 100));
-    light->SetColor(Ogre::ColourValue(0.8, 0.6, 0.4, 1.0));
+    dt::Node* lightnode = scene->addChildNode(new dt::Node("lightnode"));
+    dt::LightComponent* light = lightnode->addComponent(new dt::LightComponent("light"));
+    lightnode->setPosition(Ogre::Vector3(0, 500, 0));
+    lightnode->lookAt(Ogre::Vector3(200, 450, 100));
+    light->setColor(Ogre::ColourValue(0.8, 0.6, 0.4, 1.0));
 
-    dt::Node* lightnode2 = scene->AddChildNode(new dt::Node("lightnode2"));
-    lightnode2->AddComponent(new dt::LightComponent("light2"));
-    lightnode2->SetPosition(Ogre::Vector3(0, 700, -100));
+    dt::Node* lightnode2 = scene->addChildNode(new dt::Node("lightnode2"));
+    lightnode2->addComponent(new dt::LightComponent("light2"));
+    lightnode2->setPosition(Ogre::Vector3(0, 700, -100));
 
     std::vector<QString> terrain_files;
     terrain_files.push_back("terrain.png");
@@ -73,17 +73,17 @@ void Main::OnInitialize() {
     texture_files.push_back("pebbles_diffusespecular.jpg");
     texture_files.push_back("pebbles_normalheight.jpg");
 
-    dt::TerrainManager* terrain = dt::TerrainManager::Get();
-    terrain->SetScene(scene);
-    terrain->SetLight(light);
-    terrain->AddTextureLayer(texture_files, 100, 0, 0);
-    terrain->SetScale(300.0f);
-    terrain->Import(terrain_files);
+    dt::TerrainManager* terrain = dt::TerrainManager::get();
+    terrain->setScene(scene);
+    terrain->setLight(light);
+    terrain->addTextureLayer(texture_files, 100, 0, 0);
+    terrain->setScale(300.0f);
+    terrain->import(terrain_files);
 
-    dt::Node* meshnode = scene->AddChildNode(new dt::Node("meshnode"));
-    meshnode->SetPosition(Ogre::Vector3(0, 300, 0));
+    dt::Node* meshnode = scene->addChildNode(new dt::Node("meshnode"));
+    meshnode->setPosition(Ogre::Vector3(0, 300, 0));
     dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh");
-    meshnode->AddComponent(mesh);
+    meshnode->addComponent(mesh);
 }
 
 }

@@ -7,15 +7,15 @@
 class Main: public dt::State {
     Q_OBJECT
 public:
-    void ResetBall();
+    void resetBall();
 
     void onInitialize();
     void updateStateFrame(double simulation_frame_time);
 
 public slots:
-	void BallCollided(dt::PhysicsBodyComponent* collider, dt::PhysicsBodyComponent* ball);
+	void ballCollided(dt::PhysicsBodyComponent* collider, dt::PhysicsBodyComponent* ball);
 
-    void PaddleCollided(dt::PhysicsBodyComponent* collider, dt::PhysicsBodyComponent* paddle);
+    void paddleCollided(dt::PhysicsBodyComponent* collider, dt::PhysicsBodyComponent* paddle);
 
 private:
     dt::Node* mGameNode;
