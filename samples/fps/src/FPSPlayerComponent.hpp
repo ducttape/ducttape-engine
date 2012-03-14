@@ -24,20 +24,20 @@ public:
 
     void onDeinitialize();
 
-    uint16_t GetWeaponNumber() const;
+    uint16_t getWeaponNumber() const;
 
-    const Weapon* GetWeapon(uint16_t weapon_type) const;
+    const Weapon* getWeapon(uint16_t weapon_type) const;
 
-    const Weapon* GetWeaponInUse() const;
+    const Weapon* getWeaponInUse() const;
 
-    const std::vector<Weapon*>& GetAllWeapons() const;
+    const std::vector<Weapon*>& getAllWeapons() const;
 
 public:
-    void AddWeapon(Weapon* weapon);
+    void addWeapon(Weapon* weapon);
 
-    void ChangeWeapon(uint16_t weapon_type);
+    void changeWeapon(uint16_t weapon_type);
 
-    void RemoveWeapon(uint16_t weapon_type);
+    void removeWeapon(uint16_t weapon_type);
 
 signals:
     void sWeaponChanged(const Weapon* current_weapon);
@@ -46,9 +46,9 @@ private:
     void _onMouseTriggered();
 
 private slots:
-    void _OnKeyDown(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
+    void _onKeyDown(dt::InputManager::InputCode input_code, const OIS::EventArg& event);
 
-    void _PickUpWeapon(dt::PhysicsBodyComponent* object);
+    void _pickUpWeapon(dt::PhysicsBodyComponent* object);
 
 private:
     uint16_t mWeaponNum;

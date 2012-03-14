@@ -15,13 +15,13 @@ class StatusComponent : public dt::Component {
 public:
     StatusComponent(uint16_t initial_health, uint16_t max_health);
 
-    uint16_t GetHealth();
+    uint16_t getHealth();
 
-    void SetHealth(uint16_t health);
+    void setHealth(uint16_t health);
 
-    uint16_t GetMaxHealth();
+    uint16_t getMaxHealth();
 
-    void SetMaxHealth(uint16_t max_health);
+    void setMaxHealth(uint16_t max_health);
 
 signals:
     void sDeath(const QString name);
