@@ -23,14 +23,6 @@ uint32_t autoId() {
     return mAutoId;
 }
 
-QUuid generateUUIDRandom() {
-    return QUuid::createUuid();
-    boost::uuids::uuid uuid = gen();
-    return uuid;
-}
-
-}
-
 } // namespace Utils
 
 } // namespace dt

@@ -28,8 +28,7 @@ Node::Node(const QString name)
         mName = "Node-" + Utils::toString(Utils::autoId());
     }
 
-    // Generate an uuid for this node.
-    mId = Utils::generateUUIDRandom();
+    mId = QUuid::createUuid();
 }
 
 void Node::initialize() {

@@ -22,14 +22,14 @@ bool ConnectionsTest::run(int argc, char** argv) {
         uint16_t ip = dt::Random::get(1, 255);
         uint16_t port = dt::Random::get(1001, 51311);
 
-        dt::Connection* connection = new dt::Connection(sf::IpAddress("127.168.178." + dt::Utils::ToStdString(dt::Utils::ToString(ip))), port+i);
+        dt::Connection* connection = new dt::Connection(sf::IpAddress("127.168.178." + dt::Utils::toStdString(dt::Utils::toString(ip))), port+i);
         uint16_t connection_id = connections_manager.addConnection(connection);
         if(connection_id != 0) {
            connections[connection_id] = connection;
 
           // Test GetConnection()
-          if(!(connections[connection_id]->getIPAddress() == connections_manager.getConnection(connection_id)->GetIPAddress() && \
-                       connections[connection_id]->getPort() == connections_manager.getConnection(connection_id)->GetPort())) {  
+          if(!(connections[connection_id]->getIPAddress() == connections_manager.getConnection(connection_id)->getIPAddress() && \
+                       connections[connection_id]->getPort() == connections_manager.getConnection(connection_id)->getPort())) {  
                std::cerr << "Connections should be equal." << std::endl;
                return false;
            } else {

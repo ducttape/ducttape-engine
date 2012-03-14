@@ -31,11 +31,10 @@ void State::deinitialize() {
 }
 
 Scene* State::addScene(Scene* scene) {
-    QString key(scene->GetName());
+    QString key(scene->getName());
     Scene::SceneSP scene_sp(scene);
     mScenes.insert(std::make_pair(key, scene_sp));
     getScene(key)->initialize();
->>>>>>> 36a2c47f18aa8b9b82167d6dee78e7ca81a2895c
     //connect(this, SIGNAL(BeginFrame(double)), GetScene(key), SLOT(UpdateFrame(double)));
     return getScene(key);
 }

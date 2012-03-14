@@ -60,7 +60,7 @@ public:
       * @param logger the Logger the message was sent from
       * @param msg the log message
       */
-    void output(Logger* logger, const QString& msg);
+    void output(Logger* logger, const QString msg);
     
     /**
      * Formats and outputs a log message to the defaults output streams:

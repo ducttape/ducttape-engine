@@ -14,10 +14,10 @@ namespace dt {
 
 Logger::Logger(const QString name)
     : mName(name) {
-    setStream("debug")->SetFormat(  dt::LogStream::COLOR_CYAN   + "%2: " + dt::LogStream::COLOR_NONE + "%3");
-    ssetStream("info")->SetFormat(   dt::LogStream::COLOR_BLUE   + "%2: " + dt::LogStream::COLOR_NONE + "%3");
-    ssetStream("error")->SetFormat(  dt::LogStream::COLOR_RED    + "%2: " + dt::LogStream::COLOR_NONE + "%3");
-    ssetStream("warning")->SetFormat(dt::LogStream::COLOR_YELLOW + "%2: " + dt::LogStream::COLOR_NONE + "%3");
+    getStream("debug")->setFormat(  dt::LogStream::COLOR_CYAN   + "%2: " + dt::LogStream::COLOR_NONE + "%3");
+    getStream("info")->setFormat(   dt::LogStream::COLOR_BLUE   + "%2: " + dt::LogStream::COLOR_NONE + "%3");
+    getStream("error")->setFormat(  dt::LogStream::COLOR_RED    + "%2: " + dt::LogStream::COLOR_NONE + "%3");
+    getStream("warning")->setFormat(dt::LogStream::COLOR_YELLOW + "%2: " + dt::LogStream::COLOR_NONE + "%3");
 }
 
 void Logger::log(const QString level, const QString msg) {
@@ -36,23 +36,23 @@ LogStream* Logger::getStream(const QString streamname) {
     return mStreams.back().get();
 }
 
-void Logger::debug(const QString& msg) {
-    LogStream* stream = GetStream("DEBUG");
+void Logger::debug(const QString msg) {
+    LogStream* stream = getStream("DEBUG");
     stream->defaultOutput(this, msg);
 }
 
-void Logger::info(const QString& msg) {
-    LogStream* stream = GetStream("INFO");
+void Logger::info(const QString msg) {
+    LogStream* stream = getStream("INFO");
     stream->defaultOutput(this, msg);
 }
 
-void Logger::warning(const QString& msg) {
-    LogStream* stream = GetStream("WARNING");
+void Logger::warning(const QString msg) {
+    LogStream* stream = getStream("WARNING");
     stream->defaultOutput(this, msg);
 }
 
-void Logger::Error(const QString& msg) {
-    LogStream* stream = GetStream("ERROR");
+void Logger::error(const QString msg) {
+    LogStream* stream = getStream("ERROR");
     stream->defaultOutput(this, msg);
 }
 

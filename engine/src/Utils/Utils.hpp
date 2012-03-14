@@ -42,12 +42,6 @@ extern uint32_t mAutoId;
   */
 uint32_t autoId();
 
-/**
-  * Generate a random uuid.
-  * @returns the new uuid.
-  */
-DUCTTAPE_API QUuid generateUUIDRandom();
-
 } // namespace Utils
 
 } // namespace dt

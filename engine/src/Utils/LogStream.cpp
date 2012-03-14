@@ -29,7 +29,7 @@ LogStream::LogStream(const QString name)
       mName(name),
       mDisabled(false) {}
 
-QString LogStream::formatMessage(Logger* logger, const QString& msg) {
+QString LogStream::formatMessage(Logger* logger, const QString msg) {
     return QString(mFormat).arg(logger->getName()).arg(mName).arg(msg);
 }
 

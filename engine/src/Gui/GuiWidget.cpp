@@ -92,8 +92,8 @@ void GuiWidget::setSize(int width, int height) {
 void GuiWidget::setParent(GuiWidget* parent) {
     if(mParent != nullptr && parent != nullptr) {
         // move ourselves to another widget
-        boost::ptr_map<QString, GuiWidget>& from = mParent->getChildrenMap();
-        boost::ptr_map<QString, GuiWidget>& to = parent->getChildrenMap();
+        std::map<QString, GuiWidgetSP>& from = mParent->getChildrenMap();
+        std::map<QString, GuiWidgetSP>& to = parent->getChildrenMap();
         GuiWidgetSP& this_widget_sp = from.find(mName)->second;
         to.insert(std::make_pair(mName, this_widget_sp));
         from.erase(mName);
@@ -208,7 +208,7 @@ bool GuiWidget::_addChild(GuiWidget* widget) {
 
     GuiWidgetSP widget_sp(widget);
     mChildren.insert(std::make_pair(name, widget_sp));
-    FindChild(name)->setParent(this);
+    findChild(name)->setParent(this);
     return true;
 }
 
