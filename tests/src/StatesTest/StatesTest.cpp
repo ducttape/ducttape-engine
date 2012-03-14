@@ -15,48 +15,48 @@
 
 namespace StatesTest {
 
-bool StatesTest::Run(int argc, char** argv) {
+bool StatesTest::run(int argc, char** argv) {
     dt::Game game;
-    game.Run(new FirstState(), argc, argv);
+    game.run(new FirstState(), argc, argv);
     return true;
 }
 
-QString StatesTest::GetTestName() {
+QString StatesTest::getTestName() {
     return "States";
 }
 
 ////////////////////////////////////////////////////////////////
 
-void SecondState::UpdateStateFrame(double simulation_frame_time) {
-    if(dt::Root::GetInstance().GetTimeSinceInitialize() > 4.0 && !mPopped) {
-        dt::StateManager::Get()->Pop();
+void SecondState::updateStateFrame(double simulation_frame_time) {
+    if(dt::Root::getInstance().getTimeSinceInitialize() > 4.0 && !mPopped) {
+        dt::StateManager::get()->pop();
         mPopped = true;
     }
 }
 
-void SecondState::OnInitialize() {
+void SecondState::onInitialize() {
     mPopped = false;
-    dt::Logger::Get().Warning("SecondState::OnInitialize");
+    dt::Logger::get().warning("SecondState::OnInitialize");
 
-    dt::Scene* scene = AddScene(new dt::Scene("testscene"));
+    dt::Scene* scene = addScene(new dt::Scene("testscene"));
 
-    dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
-    camnode->SetPosition(Ogre::Vector3(0, 0, -20));
-    camnode->AddComponent(new dt::CameraComponent("cam"))->LookAt(Ogre::Vector3(0, 0, 0));;
+    dt::Node* camnode = scene->addChildNode(new dt::Node("camnode"));
+    camnode->setPosition(Ogre::Vector3(0, 0, -20));
+    camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));;
 
-    dt::Node* meshnode = scene->AddChildNode(new dt::Node("meshnode"));
+    dt::Node* meshnode = scene->addChildNode(new dt::Node("meshnode"));
     dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh");
-    meshnode->AddComponent(mesh);
-    mesh->SetAnimation("Dance");
-    mesh->SetLoopAnimation(true);
-    mesh->PlayAnimation();
-    mesh->SetCastShadows(false);
+    meshnode->addComponent(mesh);
+    mesh->setAnimation("Dance");
+    mesh->setLoopAnimation(true);
+    mesh->playAnimation();
+    mesh->setCastShadows(false);
 
-    dt::Node* textnode = scene->AddChildNode(new dt::Node("text"));
-    textnode->SetPosition(Ogre::Vector3(0, 0, 0));
-    dt::TextComponent* text = textnode->AddComponent(new dt::TextComponent("Second State", "text"));
-    text->SetFont("DejaVuSans");
-    text->SetFontSize(64);
+    dt::Node* textnode = scene->addChildNode(new dt::Node("text"));
+    textnode->setPosition(Ogre::Vector3(0, 0, 0));
+    dt::TextComponent* text = textnode->addComponent(new dt::TextComponent("Second State", "text"));
+    text->setFont("DejaVuSans");
+    text->setFontSize(64);
 }
 
 ////////////////////////////////////////////////////////////////
@@ -64,37 +64,37 @@ void SecondState::OnInitialize() {
 FirstState::FirstState()
     : mCreated(false) {}
 
-void FirstState::UpdateStateFrame(double simulation_frame_time) {
-    if(dt::Root::GetInstance().GetTimeSinceInitialize() > 6.0) {
-        dt::StateManager::Get()->Pop();
+void FirstState::updateStateFrame(double simulation_frame_time) {
+    if(dt::Root::getInstance().getTimeSinceInitialize() > 6.0) {
+        dt::StateManager::get()->pop();
     }
 
-    if(dt::Root::GetInstance().GetTimeSinceInitialize() > 2.0 && !mCreated) {
-        dt::StateManager::Get()->SetNewState(new SecondState());
+    if(dt::Root::getInstance().getTimeSinceInitialize() > 2.0 && !mCreated) {
+        dt::StateManager::get()->setNewState(new SecondState());
         mCreated = true;
     }
 }
 
-void FirstState::OnInitialize() {
-    dt::Logger::Get().Warning("FirstState::OnInitialize");
-    dt::InputManager::Get()->SetJailInput(false);
+void FirstState::onInitialize() {
+    dt::Logger::get().warning("FirstState::OnInitialize");
+    dt::InputManager::get()->setJailInput(false);
 
-    dt::Scene* scene = AddScene(new dt::Scene("testscene"));
+    dt::Scene* scene = addScene(new dt::Scene("testscene"));
 
-    dt::ResourceManager::Get()->AddResourceLocation("","FileSystem", true);
-    dt::ResourceManager::Get()->AddResourceLocation("sinbad.zip","Zip", true);
+    dt::ResourceManager::get()->addResourceLocation("","FileSystem", true);
+    dt::ResourceManager::get()->addResourceLocation("sinbad.zip","Zip", true);
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
     Ogre::FontManager::getSingleton().load("DejaVuSans", "General");
 
-    dt::Node* camnode = scene->AddChildNode(new dt::Node("camnode"));
-    camnode->SetPosition(Ogre::Vector3(0, 0, -10));
-    camnode->AddComponent(new dt::CameraComponent("cam"))->LookAt(Ogre::Vector3(0, 0, 0));;
+    dt::Node* camnode = scene->addChildNode(new dt::Node("camnode"));
+    camnode->setPosition(Ogre::Vector3(0, 0, -10));
+    camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));;
 
-    dt::Node* textnode = scene->AddChildNode(new dt::Node("text"));
-    textnode->SetPosition(Ogre::Vector3(0, 0, 0));
-    dt::TextComponent* text = textnode->AddComponent(new dt::TextComponent("First State", "text"));
-    text->SetFont("DejaVuSans");
-    text->SetFontSize(64);
+    dt::Node* textnode = scene->addChildNode(new dt::Node("text"));
+    textnode->setPosition(Ogre::Vector3(0, 0, 0));
+    dt::TextComponent* text = textnode->addComponent(new dt::TextComponent("First State", "text"));
+    text->setFont("DejaVuSans");
+    text->setFontSize(64);
 }
 
 }

@@ -29,7 +29,7 @@ void Main::onInitialize() {
 
     Player* player_node = (Player*)scene->addChildNode(new Player("playernode"));
     player_node->setPosition(Ogre::Vector3(0, 1.75, 5));
-    player_node->SetControllable(true);
+    player_node->setControllable(true);
 
     OgreProcedural::SphereGenerator().setRadius(0.3f).setUTile(.5f).realizeMesh("Bullet");
     dt::CollisionComponent* interactor = new dt::CollisionComponent("Bullet", "interactor");
@@ -37,9 +37,9 @@ void Main::onInitialize() {
     interactor->setRange(20.0f);
     Weapon* weapon = (Weapon*)scene->addChildNode(new Weapon("test_gun", interactor, 20, 5, 60,
         2.0f, 0, "fire.wav", "reload_start.wav", "reload_done.wav", "multigun.mesh"));
-    weapon->EnablePhysicsBody(false);
+    weapon->enablePhysicsBody(false);
     weapon->setPosition(5, 2, 5);
-    weapon->EnablePhysicsBody(true);
+    weapon->enablePhysicsBody(true);
 
     dt::Node* light_node = scene->addChildNode(new dt::Node("lightnode"));
     light_node->setPosition(Ogre::Vector3(-2000, 2000, 1000));

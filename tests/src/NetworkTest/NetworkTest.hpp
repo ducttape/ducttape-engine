@@ -32,10 +32,10 @@
 namespace NetworkTest {
 
 class NetworkTest : public Test {
-    bool Run(int argc, char** argv);
-    bool RunServer();
-    bool RunClient();
-    QString GetTestName();
+    bool run(int argc, char** argv);
+    bool runServer();
+    bool runClient();
+    QString getTestName();
 };
 
 ////////////////////////////////////////////////////////////////
@@ -48,9 +48,9 @@ public:
     };
 
     CustomNetworkEvent(int data, Sender e);
-    const QString GetType() const;
-    std::shared_ptr<dt::NetworkEvent> Clone() const;
-    void Serialize(dt::IOPacket& p);
+    const QString getType() const;
+    std::shared_ptr<dt::NetworkEvent> clone() const;
+    void serialize(dt::IOPacket& p);
 
 public:
     uint32_t mData;
@@ -65,9 +65,9 @@ public:
     CustomServerEventListener();
 
 private slots:
-    void _HandleEvent(std::shared_ptr<dt::NetworkEvent> e);
+    void _handleEvent(std::shared_ptr<dt::NetworkEvent> e);
 
-    void _Initialize();
+    void _initialize();
 
 public:
     uint32_t mDataReceived;
@@ -81,9 +81,9 @@ public:
     CustomClientEventListener();
 
 private slots:
-    void _HandleEvent(std::shared_ptr<dt::NetworkEvent> e);
+    void _handleEvent(std::shared_ptr<dt::NetworkEvent> e);
 
-    void _Initialize();
+    void _initialize();
 
 public:
     uint32_t mDataReceived;

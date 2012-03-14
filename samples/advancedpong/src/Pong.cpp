@@ -27,7 +27,7 @@ const float MAX_SPEED = 25.0f;
 const float MAX_ACCELERATION = 1.0f;
 const unsigned PLASMA_COUNT = 5;
 
-void Main::ResetBall() {
+void Main::resetBall() {
     if(mScore1 < WINNING_SCORE && mScore2 < WINNING_SCORE) {
         btVector3 speed(4, 0, 3);
         speed.normalize();
@@ -61,7 +61,7 @@ void Main::ResetBall() {
 }
 
 void Main::onInitialize() {
-    dt::Random::Initialize();
+    dt::Random::initialize();
 
     mScore1 = 0;
     mScore2 = 0;
@@ -147,8 +147,8 @@ void Main::onInitialize() {
         dt::Node* plasma_node = mGameNode->addChildNode(new dt::Node(QString("plasma_") + dt::Utils::toString(i)));
         int pos_x, pos_y;
        
-        pos_x = dt::Random::Get(-(FIELD_WIDTH - 3) / 2, (FIELD_WIDTH - 3) / 2);
-        pos_y = dt::Random::Get(-(FIELD_HEIGHT - 3) / 2, (FIELD_HEIGHT - 3) / 2);
+        pos_x = dt::Random::get(-(FIELD_WIDTH - 3) / 2, (FIELD_WIDTH - 3) / 2);
+        pos_y = dt::Random::get(-(FIELD_HEIGHT - 3) / 2, (FIELD_HEIGHT - 3) / 2);
 
         plasma_node->setPosition(Ogre::Vector3(pos_x, 2.0f, pos_y));
         plasma_node->addComponent(new dt::MeshComponent("Plasma", "", "mesh"));
@@ -197,7 +197,7 @@ void Main::onInitialize() {
     info_text->setFont("DejaVuSans");
     info_text->setFontSize(20);
 
-    ResetBall();
+    resetBall();
 }
 
 void Main::updateStateFrame(double simulation_frame_time) {
@@ -276,19 +276,19 @@ void Main::updateStateFrame(double simulation_frame_time) {
 
     // Check for dropping.
     if (ball->getNode()->getPosition().y < 0.0f) {
-        ResetBall();
+        resetBall();
     }
 }
 
-void Main::BallCollided(dt::PhysicsBodyComponent* collider, dt::PhysicsBodyComponent* ball)
+void Main::ballCollided(dt::PhysicsBodyComponent* collider, dt::PhysicsBodyComponent* ball)
 {
     if (ball->getNode()->getPosition().x >= FIELD_WIDTH / 2 - BALL_RADIUS) {
 		mScore1++;
-        ResetBall();
+        resetBall();
 	}
     else if (ball->getNode()->getPosition().x <= -FIELD_WIDTH / 2 + BALL_RADIUS) {
 		mScore2++;
-        ResetBall();
+        resetBall();
 	}
     else if (collider->getNode()->getName() == "paddle1") {
 		//TODO: Graphical blast-off blow
@@ -298,7 +298,7 @@ void Main::BallCollided(dt::PhysicsBodyComponent* collider, dt::PhysicsBodyCompo
 	}
 }
 
-void Main::PaddleCollided(dt::PhysicsBodyComponent* collider, dt::PhysicsBodyComponent* paddle) {
+void Main::paddleCollided(dt::PhysicsBodyComponent* collider, dt::PhysicsBodyComponent* paddle) {
     auto name = collider->getNode()->getName();
     
     if (name == "fieldwallx1" || name == "fieldwallx2") {
