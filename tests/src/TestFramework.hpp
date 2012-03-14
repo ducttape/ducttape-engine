@@ -14,8 +14,8 @@
 #include "Test.hpp"
 
 #include <QString>
-
-#include <boost/ptr_container/ptr_map.hpp>
+#include <memory>
+#include <map>
 
 typedef std::shared_ptr<Test> TestSP;
 
