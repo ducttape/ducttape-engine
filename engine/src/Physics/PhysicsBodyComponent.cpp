@@ -89,6 +89,14 @@ void PhysicsBodyComponent::OnInitialize() {
     mBody->setUserPointer((void *)(this));
 }
 
+void PhysicsBodyComponent::SetFriction(double friction) {
+    mBody->setFriction(friction);
+}
+
+double PhysicsBodyComponent::GetFriction() const {
+    return mBody->getFriction();
+}
+
 void PhysicsBodyComponent::OnDeinitialize() {
     delete mBody->getMotionState();
     delete mBody;
