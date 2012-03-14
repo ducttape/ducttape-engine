@@ -27,12 +27,6 @@ QUuid GenerateUUIDRandom() {
     return QUuid::createUuid();
 }
 
-// QUuid GenerateUUIDFromString(const QString& qstring) {
-//     boost::uuids::string_generator gen;
-//     boost::uuids::uuid uuid = gen(ToStdString(qstring));
-//     return uuid;
-// }
-
 } // namespace Utils
 
 } // namespace dt
