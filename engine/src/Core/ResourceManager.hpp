@@ -13,8 +13,6 @@
 
 #include <Core/Manager.hpp>
 
-#include <boost/ptr_container/ptr_map.hpp>
-
 #include <QDir>
 #include <QFile>
 #include <QList>

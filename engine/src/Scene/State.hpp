@@ -15,8 +15,6 @@
 //#include <Event/EventListener.hpp>
 #include <Scene/Scene.hpp>
 
-#include <boost/ptr_container/ptr_map.hpp>
-
 #include <QObject>
 #include <QString>
 
@@ -94,7 +92,7 @@ public slots:
     void UpdateFrame(double simulation_frame_time);
 
 private:
-    boost::ptr_map<QString, Scene> mScenes;        //!< List of scenes.
+    std::map<QString, Scene::SceneSP> mScenes;        //!< List of scenes.
 
 };
 

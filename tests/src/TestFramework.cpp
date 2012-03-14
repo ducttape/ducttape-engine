@@ -46,14 +46,15 @@
 
 void AddTest(Test* test) {
     QString name(test->GetTestName());
-    Tests.insert(name, test);
+    TestSP test_sp(test);
+    Tests.insert(std::make_pair(name, test_sp));
 }
 
 Test* GetTest(QString name) {
     QString n(name.toLower());
     for(auto iter = Tests.begin(); iter != Tests.end(); ++iter) {
         if(iter->first.toLower() == n) {
-            return iter->second;
+            return iter->second.get();
         }
     }
     return nullptr;

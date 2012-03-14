@@ -32,6 +32,9 @@ class Scene;
 class DUCTTAPE_API PhysicsWorld : public Manager {
     Q_OBJECT
 public:
+    
+    typedef std::shared_ptr<PhysicsWorld> PhysicsWorldSP;
+    
     /**
       * Default constructor.
       * @param name The name for this PhysicsWorld.

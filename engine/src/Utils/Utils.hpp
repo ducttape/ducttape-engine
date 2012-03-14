@@ -11,21 +11,20 @@
 
 #include <Config.hpp>
 
-#include <boost/lexical_cast.hpp>
-#include <boost/uuid/uuid.hpp>
-#include <boost/uuid/uuid_generators.hpp>
-
 #include <QString>
+#include <QUuid>
 
-#include <cstdint>
-#include <string>
+#include <iostream>
+#include <sstream>
 
 namespace dt {
 
 namespace Utils {
 
 template <typename Source> QString ToString(const Source& source) {
-    return QString((boost::lexical_cast<std::string>(source)).c_str());
+    std::stringstream temp_stream;
+    temp_stream << source;
+    return QString(temp_stream.str().c_str());
 }
 
 /**
@@ -47,13 +46,13 @@ uint32_t AutoId();
   * Generate a random uuid.
   * @returns the new uuid.
   */
-DUCTTAPE_API boost::uuids::uuid GenerateUUIDRandom();
+DUCTTAPE_API QUuid GenerateUUIDRandom();
 
 /**
   * Generate a uuid from a given string.
   * @returns the new uuid.
   */
-DUCTTAPE_API boost::uuids::uuid GenerateUUIDFromString(const QString& qstring);
+DUCTTAPE_API QUuid GenerateUUIDFromString(const QString& qstring);
 } // namespace Utils
 
 } // namespace dt

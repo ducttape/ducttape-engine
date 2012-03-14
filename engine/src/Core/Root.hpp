@@ -37,11 +37,9 @@
 
 #include <Config.hpp>
 
-#include <boost/noncopyable.hpp>
-
 #include <SFML/System/Clock.hpp>
 
-#include <QCoreApplication>
+#include <QCoreApplication>  
 
 namespace dt {
 
@@ -61,7 +59,10 @@ class ScriptManager;
   * @see LogManager
   * @see StateManager
   */
-class DUCTTAPE_API Root : public boost::noncopyable {
+class DUCTTAPE_API Root {
+    
+    Q_DISABLE_COPY(Root)
+    
 public:
     static QString _VERSION;  //!< Metadata: engine version number (Format: "0.0.0")
 

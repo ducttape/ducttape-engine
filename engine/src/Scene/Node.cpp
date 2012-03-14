@@ -58,9 +58,10 @@ void Node::OnDeinitialize() {}
 Node* Node::AddChildNode(Node* child) {
     if(child != nullptr) {
         QString key(child->GetName());
-        mChildren.insert(key, child);
-        mChildren[key].SetParent(this);
-        mChildren[key].Initialize();
+        NodeSP child_sp(child);
+        mChildren.insert(std::make_pair(key, child_sp));
+        mChildren[key]->SetParent(this);
+        mChildren[key]->Initialize();
 
         if(!mIsEnabled)
             child->Disable();
@@ -74,12 +75,12 @@ Node* Node::AddChildNode(Node* child) {
 
 Node* Node::FindChildNode(const QString& name, bool recursive) {
     if(mChildren.find(name) != mChildren.end())
-        return mChildren.find(name)->second;
+        return mChildren.find(name)->second.get();
 
     if(recursive){
-        for(boost::ptr_map<QString, Node>::iterator itr = mChildren.begin(); itr != mChildren.end(); itr++) {
+        for(std::map<QString, NodeSP>::iterator itr = mChildren.begin(); itr != mChildren.end(); itr++) {
             if(itr->first == name)
-                return itr->second;
+                return itr->second.get();
             else {
                 Node* childNode = itr->second->FindChildNode(name, recursive);
                 if(childNode != nullptr)
@@ -199,7 +200,8 @@ void Node::SetParent(Node* parent) {
         if(parent->FindChildNode(mName, false) == nullptr) { // we are not already a child of the new parent
             if(mParent != nullptr) {                         // Remove it from its original parent.
                 auto iter = mParent->mChildren.find(mName);
-                parent->mChildren.insert(mName, mParent->mChildren.release(iter).release());
+                parent->mChildren.insert(std::make_pair(mName, iter->second));
+                mParent->mChildren.erase(iter);
                 mParent = parent;
             }
             else {
@@ -322,7 +324,7 @@ void Node::_UpdateAllChildren(double time_diff) {
     for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
         if(iter->second->mDeathMark) {
             //Kill it if the death mark is set.
-            Node* node = iter->second;
+            Node* node = iter->second.get();
             iter--;
             QString name = node->GetName();
             RemoveChildNode(name);

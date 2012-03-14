@@ -16,8 +16,6 @@
 //#include <Event/EventListener.hpp>
 #include <Physics/PhysicsWorld.hpp>
 
-#include <boost/ptr_container/ptr_map.hpp>
-
 #include <QString>
 
 #include <memory>
@@ -70,7 +68,7 @@ public slots:
     void UpdateFrame(double simulation_frame_time);
 
 private:
-    boost::ptr_map<QString, PhysicsWorld> mWorlds;  //!< The list of PhysicsWorlds.
+    std::map<QString, PhysicsWorld::PhysicsWorldSP> mWorlds;  //!< The list of PhysicsWorlds.
 };
 
 }

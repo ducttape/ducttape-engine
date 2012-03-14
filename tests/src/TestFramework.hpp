@@ -17,7 +17,9 @@
 
 #include <boost/ptr_container/ptr_map.hpp>
 
-boost::ptr_map<QString, Test> Tests;
+typedef std::shared_ptr<Test> TestSP;
+
+std::map<QString, TestSP> Tests;
 
 void AddTest(Test* test);
 

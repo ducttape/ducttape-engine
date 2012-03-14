@@ -29,6 +29,9 @@ namespace dt {
 class DUCTTAPE_API Scene : public Node {
     Q_OBJECT
 public:
+    
+    typedef std::shared_ptr<Scene> SceneSP;
+    
     /**
       * Default constructor.
       */

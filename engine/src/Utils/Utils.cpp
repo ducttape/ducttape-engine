@@ -8,9 +8,6 @@
 
 #include <Utils/Utils.hpp>
 
-#include <boost/algorithm/string.hpp>
-#include <boost/uuid/uuid_io.hpp>
-
 namespace dt {
 
 namespace Utils {
@@ -26,17 +23,15 @@ uint32_t AutoId() {
     return mAutoId;
 }
 
-boost::uuids::uuid GenerateUUIDRandom() {
-    boost::uuids::random_generator gen;
-    boost::uuids::uuid uuid = gen();
-    return uuid;
+QUuid GenerateUUIDRandom() {
+    return QUuid::createUuid();
 }
 
-boost::uuids::uuid GenerateUUIDFromString(const QString& qstring) {
-    boost::uuids::string_generator gen;
-    boost::uuids::uuid uuid = gen(ToStdString(qstring));
-    return uuid;
-}
+// QUuid GenerateUUIDFromString(const QString& qstring) {
+//     boost::uuids::string_generator gen;
+//     boost::uuids::uuid uuid = gen(ToStdString(qstring));
+//     return uuid;
+// }
 
 } // namespace Utils
 

@@ -11,7 +11,7 @@
 namespace ConnectionsTest {
 
 bool ConnectionsTest::Run(int argc, char** argv) {
-    std::map<uint16_t, std::shared_ptr<dt::Connection>> connections;
+    std::map<uint16_t, dt::Connection*> connections;
     dt::ConnectionsManager connections_manager;
 
     uint16_t max_connections = 50;
@@ -22,18 +22,18 @@ bool ConnectionsTest::Run(int argc, char** argv) {
         uint16_t ip = dt::Random::Get(1, 255);
         uint16_t port = dt::Random::Get(1001, 51311);
 
-        auto connection = std::shared_ptr<dt::Connection>(new dt::Connection(sf::IpAddress("127.168.178." + dt::Utils::ToStdString(dt::Utils::ToString(ip))), port+i));
-        uint16_t connection_id = connections_manager.AddConnection(connection.get());
+        dt::Connection* connection = new dt::Connection(sf::IpAddress("127.168.178." + dt::Utils::ToStdString(dt::Utils::ToString(ip))), port+i);
+        uint16_t connection_id = connections_manager.AddConnection(connection);
         if(connection_id != 0) {
-           connections[connection_id] = std::shared_ptr<dt::Connection>(connection);
+           connections[connection_id] = connection;
 
-           // Test GetConnection()
-           if(!(connections[connection_id]->GetIPAddress() == connections_manager.GetConnection(connection_id)->GetIPAddress() && \
-                       connections[connection_id]->GetPort() == connections_manager.GetConnection(connection_id)->GetPort())) {
+//            Test GetConnection()
+          if(!(connections[connection_id]->GetIPAddress() == connections_manager.GetConnection(connection_id)->GetIPAddress() && \
+                       connections[connection_id]->GetPort() == connections_manager.GetConnection(connection_id)->GetPort())) {  
                std::cerr << "Connections should be equal." << std::endl;
                return false;
            } else {
-               // Test GetConnectionID()
+//                Test GetConnectionID()
                dt::Connection* tmp_connection = connections_manager.GetConnection(connection_id);
                if(tmp_connection != nullptr) {
                    if(connection_id != connections_manager.GetConnectionID(*(tmp_connection))) {
@@ -61,7 +61,7 @@ bool ConnectionsTest::Run(int argc, char** argv) {
 
     // Test IsKnownConnection()
     for(auto iter = connections.begin(); iter != connections.end(); ++iter) {
-        if(!connections_manager.IsKnownConnection(*(iter->second.get()))) {
+        if(!connections_manager.IsKnownConnection(*(iter->second))) {
             std::cerr << "ConnectionsManager should know the requested connection." << std::endl;
             return false;
         }
@@ -77,15 +77,14 @@ bool ConnectionsTest::Run(int argc, char** argv) {
                 return false;
             }
         } else {
-            connections_manager.RemoveConnection(*(iter->second.get()));
-            if(connections_manager.GetConnectionID(*(iter->second.get())) != 0) {
+            connections_manager.RemoveConnection(*(iter->second));
+            if(connections_manager.GetConnectionID(*(iter->second)) != 0) {
                 std::cerr << "ConnectionsManager did not delete correctly using the connection instance." << std::endl;
                 return false;
             }
         }
         ++i;
     }
-
     return true;
 }
 

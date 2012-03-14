@@ -11,8 +11,6 @@
 
 #include <Config.hpp>
 
-#include <boost/ptr_container/ptr_map.hpp>
-
 #include <MyGUI.h>
 
 #include <QObject>
@@ -31,6 +29,9 @@ class DUCTTAPE_API GuiWidget : public QObject  {
     Q_PROPERTY(bool visible READ IsVisible WRITE SetVisible)
 
 public:
+    
+    typedef std::shared_ptr<GuiWidget> GuiWidgetSP;
+    
     /**
       * Constructor.
       */
@@ -91,7 +92,7 @@ public:
 
     void RemoveAllChildren();
 
-    boost::ptr_map<QString, GuiWidget>& GetChildrenMap();
+    std::map<QString, GuiWidget::GuiWidgetSP>& GetChildrenMap();
 
     /**
       * Returns the full name of this widget (e.g. "RootWidgetName.FirstChildWidgetName.ThisWidgetName")
@@ -138,7 +139,7 @@ private:
       */
     bool _AddChild(GuiWidget* widget);
 
-    boost::ptr_map<QString, GuiWidget> mChildren;   //!< The map of child widgets (name -> widget).
+    std::map<QString, GuiWidgetSP> mChildren;   //!< The map of child widgets (name -> widget).
 
     QString mName;
     GuiWidget* mParent;

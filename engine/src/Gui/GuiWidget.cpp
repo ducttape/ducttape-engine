@@ -92,9 +92,11 @@ void GuiWidget::SetSize(int width, int height) {
 void GuiWidget::SetParent(GuiWidget* parent) {
     if(mParent != nullptr && parent != nullptr) {
         // move ourselves to another widget
-        boost::ptr_map<QString, GuiWidget>& from = mParent->GetChildrenMap();
-        boost::ptr_map<QString, GuiWidget>& to = parent->GetChildrenMap();
-        to.transfer(to.end(), from.find(mName), from);
+        std::map<QString, GuiWidget::GuiWidgetSP>& from = mParent->GetChildrenMap();
+        std::map<QString, GuiWidget::GuiWidgetSP>& to = parent->GetChildrenMap();
+        GuiWidgetSP& this_widget_sp = from.find(mName)->second;
+        to.insert(std::make_pair(mName, this_widget_sp));
+        from.erase(mName);
     }
     if(mParent != nullptr && parent == nullptr) {
         // just remove ourselves
@@ -127,12 +129,12 @@ GuiWidget* GuiWidget::FindChild(const QString& name) {
     if(split.size() == 0)
         return nullptr;
 
-    boost::ptr_map<QString, GuiWidget>::iterator iter = mChildren.find(split.first());
+    std::map<QString, GuiWidgetSP>::iterator iter = mChildren.find(split.first());
     if(iter == mChildren.end()) {
         return nullptr;
     }
     if(split.size() == 1) {
-        return iter->second;
+        return iter->second.get();
     } else {
         split.removeFirst(); // remove first item from path
         QString path(split.join("."));
@@ -190,7 +192,7 @@ void GuiWidget::RemoveAllChildren() {
     }
 }
 
-boost::ptr_map<QString, GuiWidget>& GuiWidget::GetChildrenMap() {
+std::map<QString, GuiWidget::GuiWidgetSP>& GuiWidget::GetChildrenMap() {
     return mChildren;
 }
 
@@ -203,7 +205,8 @@ bool GuiWidget::_AddChild(GuiWidget* widget) {
         return false;
     }
 
-    mChildren.insert(name, widget);
+    GuiWidgetSP widget_sp(widget);
+    mChildren.insert(std::make_pair(name, widget_sp));
     FindChild(name)->SetParent(this);
     return true;
 }

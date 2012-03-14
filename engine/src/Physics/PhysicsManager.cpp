@@ -41,14 +41,15 @@ bool PhysicsManager::HasWorld(const QString& name) {
 
 PhysicsWorld* PhysicsManager::AddWorld(PhysicsWorld* world) {
     QString name = world->GetName();
-    mWorlds.insert(name, world);
+    PhysicsWorld::PhysicsWorldSP world_sp(world);
+    mWorlds.insert(std::make_pair(name, world_sp));
     GetWorld(name)->Initialize();
     return GetWorld(name);
 }
 
 PhysicsWorld* PhysicsManager::GetWorld(const QString& name) {
     if(HasWorld(name))
-        return mWorlds.find(name)->second;
+        return mWorlds.find(name)->second.get();
     return nullptr;
 }
 
