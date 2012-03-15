@@ -54,7 +54,7 @@ private:
     uint16_t mWeaponNum;
     Weapon* mWeaponInUse;
     std::vector<Weapon*> mWeapons;
-    dt::RaycastComponent* mGrabber;
+    std::shared_ptr<dt::RaycastComponent> mGrabber;
 };
 
 #endif

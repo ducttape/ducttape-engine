@@ -32,9 +32,9 @@ Main::Main()
 void Main::updateStateFrame(double simulation_frame_time) {
     mRuntime += simulation_frame_time;
 
-    dt::Scene* testscene = getScene("testscene");
-    dt::PhysicsBodyComponent* sphere1 = testscene->findChildNode("spherenode")->findComponent<dt::PhysicsBodyComponent>("sphere-body");
-    dt::PhysicsBodyComponent* sphere2 = testscene->findChildNode("spherenode2")->findComponent<dt::PhysicsBodyComponent>("sphere-body2");
+    dt::Scene::SceneSP testscene = getScene("testscene");
+    std::shared_ptr<dt::PhysicsBodyComponent> sphere1 = testscene->findChildNode("spherenode")->findComponent<dt::PhysicsBodyComponent>("sphere-body");
+    std::shared_ptr<dt::PhysicsBodyComponent> sphere2 = testscene->findChildNode("spherenode2")->findComponent<dt::PhysicsBodyComponent>("sphere-body2");
 
     if(sphere2->isEnabled() && mRuntime > 1.0) {
         // disable and save position
@@ -68,7 +68,7 @@ void Main::updateStateFrame(double simulation_frame_time) {
 }
 
 void Main::onInitialize() {
-    dt::Scene* scene = addScene(new dt::Scene("testscene"));
+    dt::Scene::SceneSP scene = addScene(new dt::Scene("testscene"));
 
     dt::ResourceManager::get()->addResourceLocation("","FileSystem");
     dt::ResourceManager::get()->addResourceLocation("crate","FileSystem");
@@ -81,21 +81,21 @@ void Main::onInitialize() {
 
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    dt::Node* camnode = scene->addChildNode(new dt::Node("camnode"));
+    std::shared_ptr<dt::Node> camnode = scene->addChildNode(new dt::Node("camnode"));
     camnode->setPosition(Ogre::Vector3(15, 2, 15));
     camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));;
 
-    dt::Node* spherenode = scene->addChildNode(new dt::Node("spherenode"));
+    std::shared_ptr<dt::Node> spherenode = scene->addChildNode(new dt::Node("spherenode"));
     spherenode->setPosition(Ogre::Vector3(0, 10, 0));
     spherenode->addComponent(new dt::MeshComponent("Crate01.mesh", "", "sphere-mesh"));
     spherenode->addComponent(new dt::PhysicsBodyComponent("sphere-mesh", "sphere-body"));
 
-    dt::Node* spherenode2 = scene->addChildNode(new dt::Node("spherenode2"));
+    std::shared_ptr<dt::Node> spherenode2 = scene->addChildNode(new dt::Node("spherenode2"));
     spherenode2->setPosition(Ogre::Vector3(2, 10, 0));
     spherenode2->addComponent(new dt::MeshComponent("Sphere", "PrimitivesTest/RedBrick", "sphere-mesh2"));
     spherenode2->addComponent(new dt::PhysicsBodyComponent("sphere-mesh2", "sphere-body2"));
 
-    dt::Node* planenode = scene->addChildNode(new dt::Node("planenode"));
+    std::shared_ptr<dt::Node> planenode = scene->addChildNode(new dt::Node("planenode"));
     planenode->setPosition(Ogre::Vector3(0, 0, 0));
     Ogre::Quaternion q;
     q.FromAngleAxis(Ogre::Degree(20), Ogre::Vector3::UNIT_X);
@@ -103,7 +103,7 @@ void Main::onInitialize() {
     planenode->addComponent(new dt::MeshComponent("Plane", "PrimitivesTest/Pebbles", "plane-mesh"));
     planenode->addComponent(new dt::PhysicsBodyComponent("plane-mesh", "plane-body"))->setMass(0.f);
 
-    dt::Node* lightnode1 = scene->addChildNode(new dt::Node("lightnode1"));
+    std::shared_ptr<dt::Node> lightnode1 = scene->addChildNode(new dt::Node("lightnode1"));
     lightnode1->addComponent(new dt::LightComponent("light1"));
     lightnode1->setPosition(Ogre::Vector3(15, 5, 15));
 }

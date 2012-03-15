@@ -51,7 +51,7 @@ public:
       * Returns the PhysicsWorld of this Scene. Creates the PhysicsWorld on-demand.
       * @returns The PhysicsWorld of this Scene.
       */
-    PhysicsWorld* getPhysicsWorld();
+    PhysicsWorld::PhysicsWorldSP getPhysicsWorld();
 public slots:
     void updateFrame(double simulation_frame_time);
 protected:

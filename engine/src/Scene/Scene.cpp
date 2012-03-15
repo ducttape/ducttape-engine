@@ -42,7 +42,7 @@ void Scene::updateFrame(double simulation_frame_time) {
     onUpdate(simulation_frame_time);
 }
 
-PhysicsWorld* Scene::getPhysicsWorld() {
+PhysicsWorld::PhysicsWorldSP Scene::getPhysicsWorld() {
     PhysicsManager* mgr = PhysicsManager::get();
     // create a world if none exists
     if(!mgr->hasWorld(mName)) {

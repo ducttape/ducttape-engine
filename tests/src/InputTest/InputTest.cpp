@@ -32,18 +32,18 @@ Main::Main()
     : mRuntime(0) {}
 
 void Main::onInitialize() {
-    dt::Scene* scene = addScene(new dt::Scene("testscene"));
+    dt::Scene::SceneSP scene = addScene(new dt::Scene("testscene"));
     dt::InputManager::get()->setJailInput(true);
 
     dt::ResourceManager::get()->addResourceLocation("sinbad.zip","Zip", true);
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    dt::Node* camnode = scene->addChildNode(new dt::Node("camnode"));
+    std::shared_ptr<dt::Node> camnode = scene->addChildNode(new dt::Node("camnode"));
     camnode->setPosition(Ogre::Vector3(0, 5, 10));
     camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));
     camnode->addComponent(new dt::SimplePlayerComponent("player"));
 
-    dt::Node* meshnode = scene->addChildNode(new dt::Node("meshnode"));
+    std::shared_ptr<dt::Node> meshnode = scene->addChildNode(new dt::Node("meshnode"));
     dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh");
     meshnode->addComponent(mesh);
     mesh->setAnimation("Dance");

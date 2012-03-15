@@ -54,7 +54,7 @@ BeingID Being::GetBeingID() {
     return mBeingID;
 }
 
-dt::Node* Being::GetNode() {
+std::shared_ptr<dt::Node> Being::GetNode() {
     return mNode;
 }
 

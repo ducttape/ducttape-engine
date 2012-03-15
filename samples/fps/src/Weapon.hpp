@@ -87,15 +87,15 @@ private:
     dt::Timer* mReloadTimer;
     uint16_t mType;
     QString mMeshHandle;
-    dt::PhysicsBodyComponent* mPhysicsBody;
+    std::shared_ptr<dt::PhysicsBodyComponent> mPhysicsBody;
     bool mIsPhysicsBodyEnabled;
     QString mMaterialHandle;
     QString mFiringSoundHandle;
     QString mReloadingBeginSoundHandle;
     QString mReloadingDoneSoundHandle;
-    dt::SoundComponent* mFiringSound;
-    dt::SoundComponent* mReloadingBeginSound;
-    dt::SoundComponent* mReloadingDoneSound;
+    std::shared_ptr<dt::SoundComponent> mFiringSound;
+    std::shared_ptr<dt::SoundComponent> mReloadingBeginSound;
+    std::shared_ptr<dt::SoundComponent> mReloadingDoneSound;
 };
 
 #endif

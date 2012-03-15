@@ -29,13 +29,13 @@ void SecondState::onInitialize() {
     //mPopped = false;
     dt::Logger::get().warning("SecondState::OnInitialize");
 
-    dt::Scene* scene = addScene(new dt::Scene("scene2"));
+    dt::Scene::SceneSP scene = addScene(new dt::Scene("scene2"));
 
-    dt::Node* camnode = scene->addChildNode(new dt::Node("camnode"));
+    std::shared_ptr<dt::Node> camnode = scene->addChildNode(new dt::Node("camnode"));
     camnode->setPosition(Ogre::Vector3(0, 0, -20));
     camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));;
 
-    dt::Node* meshnode = scene->addChildNode(new dt::Node("meshnode"));
+    std::shared_ptr<dt::Node> meshnode = scene->addChildNode(new dt::Node("meshnode"));
     dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh");
     meshnode->addComponent(mesh);
     mesh->setAnimation("Dance");
@@ -69,7 +69,7 @@ void FirstState::onInitialize() {
     dt::Logger::get().warning("FirstState::OnInitialize");
     //dt::InputManager::Get()->SetJailInput(false);
 
-    dt::Scene* scene = addScene(new dt::Scene("scene1"));
+    dt::Scene::SceneSP scene = addScene(new dt::Scene("scene1"));
 
     dt::ResourceManager::get()->addResourceLocation("","FileSystem", true);
     dt::ResourceManager::get()->addResourceLocation("sinbad.zip","Zip", true);
@@ -77,13 +77,13 @@ void FirstState::onInitialize() {
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
     Ogre::FontManager::getSingleton().load("DejaVuSans", "General");
 
-    dt::Node* camnode = scene->addChildNode(new dt::Node("camnode"));
+    std::shared_ptr<dt::Node> camnode = scene->addChildNode(new dt::Node("camnode"));
     camnode->setPosition(Ogre::Vector3(0, 0, -10));
     camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));;
 
-    dt::Node* textnode = scene->addChildNode(new dt::Node("text"));
+    std::shared_ptr<dt::Node> textnode = scene->addChildNode(new dt::Node("text"));
     textnode->setPosition(Ogre::Vector3(0, 0, 0));
-    dt::TextComponent* text = textnode->addComponent(new dt::TextComponent("First State", "text"));
+    std::shared_ptr<dt::TextComponent> text = textnode->addComponent(new dt::TextComponent("First State", "text"));
     text->setFont("DejaVuSans");
     text->setFontSize(64);
 

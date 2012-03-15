@@ -124,17 +124,17 @@ void GuiWidget::setScriptParent(QScriptValue parent) {
 
 // Children management
 
-GuiWidget* GuiWidget::findChild(const QString name) {
+GuiWidget::GuiWidgetSP GuiWidget::findChild(const QString name) {
     QStringList split = name.split('.', QString::SkipEmptyParts);
     if(split.size() == 0)
         return nullptr;
 
     std::map<QString, GuiWidgetSP>::iterator iter = mChildren.find(split.first());
     if(iter == mChildren.end()) {
-        return nullptr;
+        return GuiWidgetSP();
     }
     if(split.size() == 1) {
-        return iter->second.get();
+        return iter->second;
     } else {
         split.removeFirst(); // remove first item from path
         QString path(split.join("."));
@@ -144,7 +144,7 @@ GuiWidget* GuiWidget::findChild(const QString name) {
 
 
 QScriptValue GuiWidget::getChild(const QString name) {
-    GuiWidget* widget = findChild(name);
+    GuiWidget* widget = findChild(name).get();
     if(widget == nullptr) {
         return QScriptValue(dt::ScriptManager::get()->getScriptEngine(), QScriptValue::UndefinedValue);
     }
@@ -176,7 +176,7 @@ bool GuiWidget::isVisible() const {
 }
 
 void GuiWidget::removeChild(const QString name) {
-    GuiWidget* w = findChild(name);
+    GuiWidget* w = findChild(name).get();
     
     if(w != nullptr) {
         w->deinitialize();

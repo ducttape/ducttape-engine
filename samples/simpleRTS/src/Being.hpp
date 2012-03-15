@@ -51,7 +51,7 @@ public:
      * Get the node.
      * @return the node.
      */
-    dt::Node* GetNode();
+    std::shared_ptr<dt::Node> GetNode();
     
     /**
      * Get the bounding box of the mesh of the being.
@@ -221,7 +221,7 @@ protected:
     static bool mResourceInitialized;
     BeingID mBeingID;                      //!< BeingID of the Being.
     double mHP;                            //!< Hit Points.
-    dt::Node* mNode;                       //!< The node of the Being.
+    std::shared_ptr<dt::Node> mNode;                       //!< The node of the Being.
     dt::MeshComponent* mMeshComponent;     //!< The mesh component of the Being.
     Ogre::Vector3 mLookAtPosition;         //!< The position where the Being is looking at.
     BeingPointer mStareAtBeing;            //!< The other being which the Being is staring at.

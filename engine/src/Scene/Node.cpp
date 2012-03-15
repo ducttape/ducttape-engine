@@ -53,12 +53,12 @@ void Node::onInitialize() {}
 
 void Node::onDeinitialize() {}
 
-Node* Node::addChildNode(Node* child) {
+Node::NodeSP Node::addChildNode(Node* child) {
     if(child != nullptr) {
         QString key(child->getName());
         NodeSP child_sp(child);
         mChildren.insert(std::make_pair(key, child_sp));
-        mChildren[key]->setParent(this);
+        child->mParent = this;
         mChildren[key]->initialize();
 
         if(!mIsEnabled)
@@ -71,22 +71,22 @@ Node* Node::addChildNode(Node* child) {
     }
 }
 
-Node* Node::findChildNode(const QString name, bool recursive) {
+Node::NodeSP Node::findChildNode(const QString name, bool recursive) {
     if(mChildren.find(name) != mChildren.end())
-        return mChildren.find(name)->second.get();
+        return mChildren.find(name)->second;
 
     if(recursive){
         for(std::map<QString, NodeSP>::iterator itr = mChildren.begin(); itr != mChildren.end(); itr++) {
             if(itr->first == name)
-                return itr->second.get();
+                return itr->second;
             else {
-                Node* childNode = itr->second->findChildNode(name, recursive);
-                if(childNode != nullptr)
+                const NodeSP& childNode = itr->second->findChildNode(name, recursive);
+                if(childNode)
                     return childNode;
             }
         }
     }
-    return nullptr;
+    return NodeSP();
 }
 
 bool Node::hasComponent(const QString name) {

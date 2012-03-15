@@ -35,7 +35,7 @@ void Main::updateStateFrame(double simulation_frame_time) {
 }
 
 void Main::onInitialize() {
-    dt::Scene* scene = addScene(new dt::Scene("testscene"));
+    dt::Scene::SceneSP scene = addScene(new dt::Scene("testscene"));
 
     QString music1 = "test_music_intro.ogg";
     QString music2 = "test_music_loop.ogg";

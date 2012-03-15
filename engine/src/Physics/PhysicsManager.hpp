@@ -55,14 +55,14 @@ public:
       * @param world The new PhysicsWorld.
       * @returns A pointer to the new PhysicsWorld.
       */
-    PhysicsWorld* addWorld(PhysicsWorld* world);
+    PhysicsWorld::PhysicsWorldSP addWorld(PhysicsWorld* world);
 
     /**
       * Gets a PhysicsWorld.
       * @param name The name of the PhysicsWorld to find.
       * @returns A pointer to the PhysicsWorld, or nullptr of none was found.
       */
-    PhysicsWorld* getWorld(const QString name);
+    PhysicsWorld::PhysicsWorldSP getWorld(const QString name);
 
 public slots:
     void updateFrame(double simulation_frame_time);

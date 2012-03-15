@@ -73,7 +73,7 @@ public:
       * @param name The name of the child widget.
       * @returns The widget pointer, or \c nullptr if no widget named \c name exists.
       */
-    GuiWidget* findChild(const QString name);
+    GuiWidget::GuiWidgetSP findChild(const QString name);
 
     /**
       * Creates a widget of type WidgetType and adds as a child it to this widget.
@@ -81,11 +81,11 @@ public:
       * @returns A pointer to the new widget.
       */
     template <typename WidgetType>
-    WidgetType* addChildWidget(WidgetType* widget) {
+    std::shared_ptr<WidgetType> addChildWidget(WidgetType* widget) {
         const QString name = widget->getName();
         _addChild(widget);
         findChild(name)->initialize();
-        return dynamic_cast<WidgetType*>(findChild(name));
+        return std::dynamic_pointer_cast<WidgetType>(findChild(name));
     }
 
     void removeChild(const QString name);

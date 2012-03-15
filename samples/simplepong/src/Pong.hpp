@@ -13,13 +13,13 @@ public:
     void updateStateFrame(double simulation_frame_time);
 
 private:
-    dt::Node* mGameNode;
-    dt::Node* mFieldNode;
-    dt::Node* mBallNode;
-    dt::Node* mPaddle1Node;
-    dt::Node* mPaddle2Node;
-    dt::TextComponent* mScore1Text;
-    dt::TextComponent* mScore2Text;
+    std::shared_ptr<dt::Node> mGameNode;
+    std::shared_ptr<dt::Node> mFieldNode;
+    std::shared_ptr<dt::Node> mBallNode;
+    std::shared_ptr<dt::Node> mPaddle1Node;
+    std::shared_ptr<dt::Node> mPaddle2Node;
+    std::shared_ptr<dt::TextComponent> mScore1Text;
+    std::shared_ptr<dt::TextComponent> mScore2Text;
     int mScore1;
     int mScore2;
 

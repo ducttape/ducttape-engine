@@ -23,7 +23,7 @@ std::map<QString, TestSP> Tests;
 
 void addTest(Test* test);
 
-Test* getTest(QString name);
+TestSP getTest(QString name);
 
 int main(int argc, char** argv);
 

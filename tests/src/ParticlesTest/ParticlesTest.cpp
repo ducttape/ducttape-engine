@@ -40,26 +40,26 @@ void Main::updateStateFrame(double simulation_frame_time) {
 }
 
 void Main::onInitialize() {
-    dt::Scene* scene = addScene(new dt::Scene("testscene"));
+    dt::Scene::SceneSP scene = addScene(new dt::Scene("testscene"));
 
     dt::ResourceManager::get()->addResourceLocation("sinbad.zip","Zip", true);
     dt::ResourceManager::get()->addResourceLocation("particle/","FileSystem", true);
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
     // make a scene
-    dt::Node* camnode = scene->addChildNode(new dt::Node("camnode"));
+    std::shared_ptr<dt::Node> camnode = scene->addChildNode(new dt::Node("camnode"));
     camnode->setPosition(Ogre::Vector3(0, 2, 10));
     camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 2, 0));;
 
-    dt::Node* p = scene->addChildNode(new dt::Node("p"));
+    std::shared_ptr<dt::Node> p = scene->addChildNode(new dt::Node("p"));
 
     p->setScale(0.2);
-    dt::MeshComponent* mesh = p->addComponent(new dt::MeshComponent("Sinbad.mesh"));
+    std::shared_ptr<dt::MeshComponent> mesh = p->addComponent(new dt::MeshComponent("Sinbad.mesh"));
     mesh->setAnimation("RunBase");
     mesh->setLoopAnimation(true);
     mesh->playAnimation();
 
-    dt::FollowPathComponent* path =
+    std::shared_ptr<dt::FollowPathComponent> path =
         p->addComponent(new dt::FollowPathComponent(dt::FollowPathComponent::LOOP));
     path->addPoint(Ogre::Vector3(-10, 0, 0));
     path->addPoint(Ogre::Vector3(10, 0, 0));
@@ -67,7 +67,7 @@ void Main::onInitialize() {
     path->setFollowRotation(true);
 
     // create the particle system
-    dt::ParticleSystemComponent* p_sys = p->addComponent(new dt::ParticleSystemComponent("p_sys"));
+    std::shared_ptr<dt::ParticleSystemComponent> p_sys = p->addComponent(new dt::ParticleSystemComponent("p_sys"));
     p_sys->setMaterialName("Test/Particle");
     p_sys->setParticleCountLimit(1000);
     p_sys->getOgreParticleSystem()->setDefaultDimensions(0.03, 0.03);

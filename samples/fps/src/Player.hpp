@@ -57,10 +57,10 @@ private:
     dt::MeshComponent* mMesh;
     bool mIsControllable;
     dt::SoundComponent* mWalkingSound;
-    dt::GuiButton* mHUDAmmo;
-    dt::GuiButton* mHUDHealth;
-    dt::GuiButton* mHUDClip;
-    dt::SoundComponent* mJumpingSound;
+    std::shared_ptr<dt::GuiButton> mHUDAmmo;
+    std::shared_ptr<dt::GuiButton> mHUDHealth;
+    std::shared_ptr<dt::GuiButton> mHUDClip;
+    dt::SoundComponent* mJumpingSound;   
 };
 
 #endif

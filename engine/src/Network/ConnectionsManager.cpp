@@ -78,19 +78,19 @@ ConnectionsManager::ID_t ConnectionsManager::getConnectionID(Connection c) {
     return 0;
 }
 
-Connection* ConnectionsManager::getConnection(ConnectionsManager::ID_t id) {
+Connection::ConnectionSP ConnectionsManager::getConnection(ConnectionsManager::ID_t id) {
     if(mConnections.count(id) > 0)
-        return mConnections.find(id)->second.get();
+        return mConnections.find(id)->second;
     else
-        return nullptr;
+        return Connection::ConnectionSP();
 }
 
-std::vector<Connection*> ConnectionsManager::getAllConnections() {
-    std::vector<Connection*> result;
+std::vector<Connection::ConnectionSP> ConnectionsManager::getAllConnections() {
+    std::vector<Connection::ConnectionSP> result;
 
     for(std::map<ConnectionsManager::ID_t, Connection::ConnectionSP>::iterator i = 
                                 mConnections.begin(); i != mConnections.end(); ++i) {
-        result.push_back(i->second.get());
+        result.push_back(i->second);
     }
 
     return result;

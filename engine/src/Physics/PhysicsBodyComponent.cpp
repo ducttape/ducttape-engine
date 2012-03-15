@@ -42,7 +42,7 @@ void PhysicsBodyComponent::onInitialize() {
         exit(1);
     }
 
-    MeshComponent* mesh_component = mNode->findComponent<MeshComponent>(mMeshComponentName);
+    std::shared_ptr<dt::MeshComponent> mesh_component = mNode->findComponent<MeshComponent>(mMeshComponentName);
 
     BtOgre::StaticMeshToShapeConverter converter(mesh_component->getOgreEntity());
     

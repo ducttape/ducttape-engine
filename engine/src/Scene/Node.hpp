@@ -87,7 +87,7 @@ public:
       * @param child The Node to be added as child
       * @returns A pointer to the Node.
       */
-    Node* addChildNode(Node* child);
+    Node::NodeSP addChildNode(Node* child);
 
     /**
       * Assigns a component to this node.
@@ -95,7 +95,7 @@ public:
       * @returns A pointer to the new component.
       */
     template <typename ComponentType>
-    ComponentType* addComponent(ComponentType* component) {
+    std::shared_ptr<ComponentType> addComponent(ComponentType* component) {
         const QString cname = component->getName();
         if(!hasComponent(cname)) {
             std::shared_ptr<Component> ptr(component);
@@ -120,7 +120,7 @@ public:
       * @param recursive Whether to search within child nodes or not.
       * @returns A pointer to the Node with the name or nullptr if none is found.
       */
-    Node* findChildNode(const QString name, bool recursive = true);
+    Node::NodeSP findChildNode(const QString name, bool recursive = true);
 
     /**
       * Returns a component.
@@ -128,10 +128,10 @@ public:
       * @returns A pointer to the component, or nullptr if no component with the specified name exists.
       */
     template <typename ComponentType>
-    ComponentType* findComponent(const QString name) {
+    std::shared_ptr<ComponentType> findComponent(const QString name) {
         if(!hasComponent(name))
-            return nullptr;
-        return dynamic_cast<ComponentType*>(mComponents[name].get());
+            return std::shared_ptr<ComponentType>();
+        return std::dynamic_pointer_cast<ComponentType>(mComponents[name]);
     }
 
     /**

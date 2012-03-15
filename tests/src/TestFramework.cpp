@@ -50,14 +50,14 @@ void addTest(Test* test) {
     Tests.insert(std::make_pair(name, test_sp));
 }
 
-Test* getTest(QString name) {
+TestSP getTest(QString name) {
     QString n(name.toLower());
     for(auto iter = Tests.begin(); iter != Tests.end(); ++iter) {
         if(iter->first.toLower() == n) {
-            return iter->second.get();
+            return iter->second;
         }
     }
-    return nullptr;
+    return TestSP();
 }
 
 int main(int argc, char** argv) {
@@ -111,7 +111,7 @@ int main(int argc, char** argv) {
             if(name == "client" || name == "server") // ignore parameters of network
                 continue;
             std::cout << "Running test " + dt::Utils::toStdString(name) + "..." << std::endl;
-            Test* test = getTest(name);
+            TestSP test = getTest(name);
             if(test == nullptr) {
                 std::cerr << "Test " + dt::Utils::toStdString(name) + " not found. Skipping." << std::endl;
             } else if(!test->run(argc, argv)) {

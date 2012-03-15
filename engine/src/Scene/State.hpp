@@ -61,14 +61,14 @@ public:
       * @param scene The scene to add.
       * @returns A pointer to the scene.
       */
-    Scene* addScene(Scene* scene);
+    Scene::SceneSP addScene(Scene* scene);
 
     /**
       * Returns the scene with the given name.
       * @param name The name of the Scene to find.
       * @returns The scene, or nullptr if it was not found.
       */
-    Scene* getScene(const QString name);
+    Scene::SceneSP getScene(const QString name);
 
     /**
       * Deletes a scene.

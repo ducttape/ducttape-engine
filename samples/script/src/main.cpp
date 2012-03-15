@@ -181,8 +181,8 @@ public:
         dt::ResourceManager::get()->addResourceLocation("", "FileSystem", true);
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-        dt::Scene* scene = addScene(new dt::Scene("scene"));
-        dt::Node* camnode = scene->addChildNode(new dt::Node("cam"));
+        std::shared_ptr<dt::Scene> scene = addScene(new dt::Scene("scene"));
+        std::shared_ptr<dt::Node> camnode = scene->addChildNode(new dt::Node("cam"));
         camnode->addComponent(new dt::CameraComponent("camera"));
 
         // create GUI
@@ -220,9 +220,9 @@ public:
     }
 
 private:
-    dt::GuiButton* mButton;
-    dt::GuiEditBox* mInput;
-    dt::GuiEditBox* mOutput;
+    std::shared_ptr<dt::GuiButton> mButton;
+    std::shared_ptr<dt::GuiEditBox> mInput;
+    std::shared_ptr<dt::GuiEditBox> mOutput;
 
     QList<QString> mHistory;
     QString mCurrentCommand;

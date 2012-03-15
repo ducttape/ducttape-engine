@@ -34,7 +34,7 @@ bool ConnectionsTest::run(int argc, char** argv) {
                return false;
            } else {
                // Test GetConnectionID()
-               dt::Connection* tmp_connection = connections_manager.getConnection(connection_id);
+               dt::Connection::ConnectionSP tmp_connection = connections_manager.getConnection(connection_id);
                if(tmp_connection != nullptr) {
                    if(connection_id != connections_manager.getConnectionID(*(tmp_connection))) {
                        std::cerr << "Connection IDs should be equal." << std::endl;

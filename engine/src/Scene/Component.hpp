@@ -38,6 +38,9 @@ class DUCTTAPE_API Component : public QObject {
     Q_PROPERTY(QScriptValue node READ getScriptNode)
 
 public:
+    
+    typedef std::shared_ptr<Component> ComponentSP;
+    
     /**
       * Constructor with set name.
       * @param name The Component name.

@@ -105,13 +105,13 @@ public:
       * @param id The ID to search for.
       * @returns A pointer to the Connection or nullptr if it is not know.
       */
-    Connection* getConnection(ID_t id);
+    Connection::ConnectionSP getConnection(ID_t id);
 
     /**
       * Returns a list of all Connections.
       * @returns A list of all Connections.
       */
-    std::vector<Connection*> getAllConnections();
+    std::vector<Connection::ConnectionSP> getAllConnections();
 
     /**
      * Returns the number of active connections.

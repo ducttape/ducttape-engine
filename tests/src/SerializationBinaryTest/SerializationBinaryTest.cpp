@@ -23,7 +23,7 @@ bool SerializationBinaryTest::run(int argc, char** argv) {
 
     dt::Node node1("testnode1");
     node1.addComponent(new dt::TriggerComponent("triggercomponent1"));
-    dt::Node* child = node1.addChildNode(new dt::Node("childnode1"));
+    std::shared_ptr<dt::Node> child = node1.addChildNode(new dt::Node("childnode1"));
     child->addComponent(new dt::TriggerComponent("triggercomponent1.1"));;
 
     sf::Packet packet1;

@@ -44,17 +44,17 @@ void Main::click(MyGUI::Widget* _sender) {
 }
 
 void Main::onInitialize() {
-    dt::Scene* scene = addScene(new dt::Scene("testscene"));
+    dt::Scene::SceneSP scene = addScene(new dt::Scene("testscene"));
 
     dt::ResourceManager::get()->addResourceLocation("sinbad.zip","Zip", true);
     dt::ResourceManager::get()->addResourceLocation("gui","FileSystem", true);
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    dt::Node* camnode = scene->addChildNode(new dt::Node("camnode"));
+    std::shared_ptr<dt::Node> camnode = scene->addChildNode(new dt::Node("camnode"));
     camnode->setPosition(Ogre::Vector3(0, 5, 10));
     camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));;
 
-    dt::Node* meshnode = scene->addChildNode(new dt::Node("meshnode"));
+    std::shared_ptr<dt::Node> meshnode = scene->addChildNode(new dt::Node("meshnode"));
     dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh");
     meshnode->addComponent(mesh);
     mesh->setAnimation("Dance");
@@ -64,25 +64,25 @@ void Main::onInitialize() {
     // GUI
     dt::GuiRootWindow& win = dt::GuiManager::get()->getRootWindow();
 
-    dt::GuiButton* button1 = win.addChildWidget(new dt::GuiButton("b1"));
+    std::shared_ptr<dt::GuiButton> button1 = win.addChildWidget(new dt::GuiButton("b1"));
     button1->setCaption("Campaign");
     button1->setPosition(10, 10);
     button1->setSize(200, 30);
     button1->getMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::click);
 
-    dt::GuiButton* button2 = win.addChildWidget(new dt::GuiButton("b2"));
+    std::shared_ptr<dt::GuiButton> button2 = win.addChildWidget(new dt::GuiButton("b2"));
     button2->setCaption("Tutorial");
     button2->setPosition(10, 50);
     button2->setSize(200, 30);
     button2->getMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::click);
 
-    dt::GuiButton* button3 = win.addChildWidget(new dt::GuiButton("b3"));
+    std::shared_ptr<dt::GuiButton> button3 = win.addChildWidget(new dt::GuiButton("b3"));
     button3->setCaption("Options");
     button3->setPosition(10, 90);
     button3->setSize(200, 30);
     button3->getMyGUIWidget()->eventMouseButtonClick += MyGUI::newDelegate(this, &Main::click);
 
-    dt::GuiButton* button4 = win.addChildWidget(new dt::GuiButton("b4"));
+    std::shared_ptr<dt::GuiButton> button4 = win.addChildWidget(new dt::GuiButton("b4"));
     button4->setCaption("Exit");
     button4->setPosition(10, 130);
     button4->setSize(200, 30);
