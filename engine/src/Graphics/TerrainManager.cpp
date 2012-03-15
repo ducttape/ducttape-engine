@@ -222,7 +222,7 @@ void TerrainManager::_defineTerrain(uint32_t x, uint32_t y, const QString filena
 void TerrainManager::_generateBlendMaps(Ogre::Terrain* terrain) {
     if(mTextureLayer.size() < 2) return;
     for(uint32_t i = 1; i < mTextureLayer.size()-1; i++) {
-        TextureLayer* layer = mTextureLayer[i].get();
+        TextureLayer::TextureLayerSP& layer = mTextureLayer[i];
         Ogre::TerrainLayerBlendMap* blend_map = terrain->getLayerBlendMap(i);
         float* blend_ptr = blend_map->getBlendPointer();
         for(uint32_t y = 0; y < terrain->getLayerBlendMapSize(); ++y) {

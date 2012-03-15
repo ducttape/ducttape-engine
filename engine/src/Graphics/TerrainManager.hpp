@@ -170,18 +170,18 @@ private:
       */
     void _generateBlendMaps(Ogre::Terrain* terrain);
 
-    std::vector<TextureLayer::TextureLayerSP> mTextureLayer;          //!< The TextureLayers.
-    dt::LightComponent* mLight;                             //!< The light to bake the lightmap
-    Ogre::TerrainGroup* mTerrainGroup;                      //!< The terraingroup which holds our terrain.
-    Ogre::TerrainGlobalOptions* mTerrainGlobalOptions;      //!< The global options for terrains.
-    dt::Scene* mScene;                                      //!< The scene.
+    std::vector<TextureLayer::TextureLayerSP> mTextureLayer; //!< The TextureLayers.
+    dt::LightComponent* mLight;                              //!< The light to bake the lightmap
+    Ogre::TerrainGroup* mTerrainGroup;                       //!< The terraingroup which holds our terrain.
+    Ogre::TerrainGlobalOptions* mTerrainGlobalOptions;       //!< The global options for terrains.
+    dt::Scene* mScene;                                       //!< The scene.
 
-    uint32_t mCountX, mCountY;                              //!< The number of terrains in x and y (Ogre-Z) coordinate.
-    uint32_t mTerrainSize;                                  //!< The size of one terrain. (mTerrainSize*mTerrainSize vertices) Must be 2^n+1.
-    float mTerrainWorldSize;                                //!< The world size of one terrain. This is the scale of the terrain and depends on the size of the other entities.
-    float mScale;                                           //!< Factor which is used to scale the imported height to your needs.
+    uint32_t mCountX, mCountY;                               //!< The number of terrains in x and y (Ogre-Z) coordinate.
+    uint32_t mTerrainSize;                                   //!< The size of one terrain. (mTerrainSize*mTerrainSize vertices) Must be 2^n+1.
+    float mTerrainWorldSize;                                 //!< The world size of one terrain. This is the scale of the terrain and depends on the size of the other entities.
+    float mScale;                                            //!< Factor which is used to scale the imported height to your needs.
 
-    bool mImported;                                         //!< Indicates whether the scene was imported (from image) or loaded from ogres filetype.
+    bool mImported;                                          //!< Indicates whether the scene was imported (from image) or loaded from ogres filetype.
 };
 
 }
