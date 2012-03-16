@@ -39,7 +39,7 @@
 
 #include <SFML/System/Clock.hpp>
 
-#include <QCoreApplication>  
+#include <QCoreApplication>
 
 namespace dt {
 

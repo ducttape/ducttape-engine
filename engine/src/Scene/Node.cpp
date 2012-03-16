@@ -58,8 +58,8 @@ Node::NodeSP Node::addChildNode(Node* child) {
         QString key(child->getName());
         NodeSP child_sp(child);
         mChildren.insert(std::make_pair(key, child_sp));
-        child->mParent = this;
-        mChildren[key]->initialize();
+        child_sp->setParent(this);
+        child_sp->initialize();
 
         if(!mIsEnabled)
             child->disable();
@@ -195,7 +195,7 @@ void Node::lookAt(Ogre::Vector3 target, Ogre::Vector3 front_vector, RelativeTo r
 
 void Node::setParent(Node* parent) {
     if(parent != nullptr) {
-        if(parent->findChildNode(mName, false) == nullptr) { // we are not already a child of the new parent
+        if(parent->findChildNode(mName, false).get() == nullptr) { // we are not already a child of the new parent
             if(mParent != nullptr) {                         // Remove it from its original parent.
                 auto iter = mParent->mChildren.find(mName);
                 parent->mChildren.insert(std::make_pair(mName, iter->second));
