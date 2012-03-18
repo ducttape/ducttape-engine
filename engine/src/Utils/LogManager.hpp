@@ -14,8 +14,6 @@
 #include <Core/Manager.hpp>
 #include <Utils/Logger.hpp>
 
-#include <boost/ptr_container/ptr_map.hpp>
-
 #include <OgreLogManager.h>
 
 #include <QString>
@@ -71,7 +69,7 @@ public:
 
 private:
     Ogre::LogManager mOgreLogManager;   //!< The Ogre log manager, which is required to redirect the Ogre log.
-    boost::ptr_map<QString, Logger> mLoggers;   //!< The list of Loggers, defined by their name
+    std::map<QString, Logger::LoggerSP> mLoggers;   //!< The list of Loggers, defined by their name
 };
 
 } // namespace dt

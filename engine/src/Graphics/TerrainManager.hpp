@@ -20,7 +20,6 @@
 #include <Terrain/OgreTerrainGroup.h>
 
 #include <QString>
-#include <boost/ptr_container/ptr_vector.hpp>
 
 namespace dt {
 
@@ -36,6 +35,9 @@ public:
       */
     class DUCTTAPE_API TextureLayer {
     public:
+    
+        typedef std::shared_ptr<TextureLayer> TextureLayerSP;
+    
         TextureLayer(const std::vector<QString>& texture_names, float world_size, float min_height, float fade_distance);
         ~TextureLayer();
         Ogre::Terrain::LayerInstance* getLayerInstance() const;
@@ -168,18 +170,18 @@ private:
       */
     void _generateBlendMaps(Ogre::Terrain* terrain);
 
-    boost::ptr_vector<TextureLayer> mTextureLayer;          //!< The TextureLayers.
-    dt::LightComponent* mLight;                             //!< The light to bake the lightmap
-    Ogre::TerrainGroup* mTerrainGroup;                      //!< The terraingroup which holds our terrain.
-    Ogre::TerrainGlobalOptions* mTerrainGlobalOptions;      //!< The global options for terrains.
-    dt::Scene* mScene;                                      //!< The scene.
+    std::vector<TextureLayer::TextureLayerSP> mTextureLayer; //!< The TextureLayers.
+    dt::LightComponent* mLight;                              //!< The light to bake the lightmap
+    Ogre::TerrainGroup* mTerrainGroup;                       //!< The terraingroup which holds our terrain.
+    Ogre::TerrainGlobalOptions* mTerrainGlobalOptions;       //!< The global options for terrains.
+    dt::Scene* mScene;                                       //!< The scene.
 
-    uint32_t mCountX, mCountY;                              //!< The number of terrains in x and y (Ogre-Z) coordinate.
-    uint32_t mTerrainSize;                                  //!< The size of one terrain. (mTerrainSize*mTerrainSize vertices) Must be 2^n+1.
-    float mTerrainWorldSize;                                //!< The world size of one terrain. This is the scale of the terrain and depends on the size of the other entities.
-    float mScale;                                           //!< Factor which is used to scale the imported height to your needs.
+    uint32_t mCountX, mCountY;                               //!< The number of terrains in x and y (Ogre-Z) coordinate.
+    uint32_t mTerrainSize;                                   //!< The size of one terrain. (mTerrainSize*mTerrainSize vertices) Must be 2^n+1.
+    float mTerrainWorldSize;                                 //!< The world size of one terrain. This is the scale of the terrain and depends on the size of the other entities.
+    float mScale;                                            //!< Factor which is used to scale the imported height to your needs.
 
-    bool mImported;                                         //!< Indicates whether the scene was imported (from image) or loaded from ogres filetype.
+    bool mImported;                                          //!< Indicates whether the scene was imported (from image) or loaded from ogres filetype.
 };
 
 }

@@ -30,18 +30,19 @@ void State::deinitialize() {
     Logger::get().info("Deinitialized state.");
 }
 
-Scene* State::addScene(Scene* scene) {
+Scene::SceneSP State::addScene(Scene* scene) {
     QString key(scene->getName());
-    mScenes.insert(key, scene);
+    Scene::SceneSP scene_sp(scene);
+    mScenes.insert(std::make_pair(key, scene_sp));
     getScene(key)->initialize();
     //connect(this, SIGNAL(BeginFrame(double)), GetScene(key), SLOT(UpdateFrame(double)));
     return getScene(key);
 }
 
-Scene* State::getScene(const QString name) {
+Scene::SceneSP State::getScene(const QString name) {
     if(mScenes.find(name) != mScenes.end())
         return mScenes.find(name)->second;
-    return nullptr;
+    return Scene::SceneSP();
 }
 
 void State::deleteScene(const QString name) {

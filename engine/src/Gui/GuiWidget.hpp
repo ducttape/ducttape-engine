@@ -11,8 +11,6 @@
 
 #include <Config.hpp>
 
-#include <boost/ptr_container/ptr_map.hpp>
-
 #include <MyGUI.h>
 
 #include <QObject>
@@ -31,6 +29,9 @@ class DUCTTAPE_API GuiWidget : public QObject  {
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible)
 
 public:
+    
+    typedef std::shared_ptr<GuiWidget> GuiWidgetSP;
+    
     /**
       * Constructor.
       */
@@ -72,7 +73,7 @@ public:
       * @param name The name of the child widget.
       * @returns The widget pointer, or \c nullptr if no widget named \c name exists.
       */
-    GuiWidget* findChild(const QString name);
+    GuiWidget::GuiWidgetSP findChild(const QString name);
 
     /**
       * Creates a widget of type WidgetType and adds as a child it to this widget.
@@ -80,18 +81,18 @@ public:
       * @returns A pointer to the new widget.
       */
     template <typename WidgetType>
-    WidgetType* addChildWidget(WidgetType* widget) {
+    std::shared_ptr<WidgetType> addChildWidget(WidgetType* widget) {
         const QString name = widget->getName();
         _addChild(widget);
         findChild(name)->initialize();
-        return dynamic_cast<WidgetType*>(findChild(name));
+        return std::dynamic_pointer_cast<WidgetType>(findChild(name));
     }
 
     void removeChild(const QString name);
 
     void removeAllChildren();
 
-    boost::ptr_map<QString, GuiWidget>& getChildrenMap();
+    std::map<QString, GuiWidget::GuiWidgetSP>& getChildrenMap();
 
     /**
       * Returns the full name of this widget (e.g. "RootWidgetName.FirstChildWidgetName.ThisWidgetName")
@@ -138,7 +139,7 @@ private:
       */
     bool _addChild(GuiWidget* widget);
 
-    boost::ptr_map<QString, GuiWidget> mChildren;   //!< The map of child widgets (name -> widget).
+    std::map<QString, GuiWidgetSP> mChildren;   //!< The map of child widgets (name -> widget).
 
     QString mName;
     GuiWidget* mParent;

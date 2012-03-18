@@ -51,7 +51,7 @@ public:
      * Get the node.
      * @return the node.
      */
-    dt::Node* GetNode();
+    std::shared_ptr<dt::Node> GetNode();
     
     /**
      * Get the bounding box of the mesh of the being.
@@ -92,7 +92,7 @@ public:
      * This method should be called before the creation of any being.
      * @param scene the scene in which the nodes of the created Beings will be added.
      */
-    static void SetScene(dt::Scene* scene);
+    static void SetScene(dt::Scene::SceneSP scene);
     
     /**
      * Set the mesh of the Being.
@@ -221,13 +221,13 @@ protected:
     static bool mResourceInitialized;
     BeingID mBeingID;                      //!< BeingID of the Being.
     double mHP;                            //!< Hit Points.
-    dt::Node* mNode;                       //!< The node of the Being.
+    std::shared_ptr<dt::Node> mNode;                       //!< The node of the Being.
     dt::MeshComponent* mMeshComponent;     //!< The mesh component of the Being.
     Ogre::Vector3 mLookAtPosition;         //!< The position where the Being is looking at.
     BeingPointer mStareAtBeing;            //!< The other being which the Being is staring at.
     bool mStaringAtBeing;                  //!< Wheter the Being is staring to an another Being. 
     bool mLookingAt;                       //!< Wheter the Being is rotating to look to a position.
-    static dt::Scene* mScene;              //!< Scene where the Beings will be added.
+    static dt::Scene::SceneSP mScene;      //!< Scene where the Beings will be added.
     PlayerID mPlayerID;                    //!< The player ID that has this Being.
     MapCell* mMapCell;  //!< The cell in which the Being is.
     

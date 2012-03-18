@@ -44,19 +44,19 @@ void Weapon::onInitialize() {
     }
 
     if(mFiringSoundHandle != "") {
-        mFiringSound = (dt::SoundComponent*)this->addComponent(new dt::SoundComponent(mFiringSoundHandle,
+        mFiringSound = this->addComponent(new dt::SoundComponent(mFiringSoundHandle,
             this->getName() + "_firing_sound"));
         mFiringSound->setVolume(100.0f);
     }
 
     if(mReloadingBeginSoundHandle != "") {
-        mReloadingBeginSound = (dt::SoundComponent*)this->addComponent(new dt::SoundComponent(mReloadingBeginSoundHandle,
+        mReloadingBeginSound = this->addComponent(new dt::SoundComponent(mReloadingBeginSoundHandle,
             this->getName() + "_reloading_begin_sound"));
         mReloadingBeginSound->setVolume(100.0f);
     }
 
     if(mReloadingDoneSoundHandle != "") {
-        mReloadingDoneSound = (dt::SoundComponent*)this->addComponent(new dt::SoundComponent(mReloadingDoneSoundHandle,
+        mReloadingDoneSound = this->addComponent(new dt::SoundComponent(mReloadingDoneSoundHandle,
             this->getName() + "_reloading_done_sound"));
         mReloadingDoneSound->setVolume(100.0f);
     }

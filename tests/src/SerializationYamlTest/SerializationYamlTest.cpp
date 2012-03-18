@@ -27,7 +27,7 @@ bool SerializationYamlTest::run(int argc, char** argv) {
 
     dt::Node node1("testnode1");
     node1.addComponent(new dt::TriggerComponent("triggercomponent1"));
-    dt::Node* child = node1.addChildNode(new dt::Node("childnode1"));
+    auto child = node1.addChildNode(new dt::Node("childnode1"));
     child->addComponent(new dt::TriggerComponent("triggercomponent1.1"));;
 
     YAML::Emitter emit1;

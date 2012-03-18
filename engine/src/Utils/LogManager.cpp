@@ -59,9 +59,10 @@ Logger& LogManager::getLogger() {
 Logger& LogManager::getLogger(const QString name) {
     // create logger with name if not exists
     if(mLoggers.find(name) == mLoggers.end()) {
-        mLoggers[name] = Logger(name);
+        Logger::LoggerSP shared_ptr(new Logger(name));
+        mLoggers[name] = shared_ptr;
     }
-    return mLoggers[name];
+    return *(mLoggers[name].get());
 }
 
 } // namespace dt

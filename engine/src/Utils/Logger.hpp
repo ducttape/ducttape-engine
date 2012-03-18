@@ -13,8 +13,6 @@
 
 #include <Utils/LogStream.hpp>
 
-#include <boost/ptr_container/ptr_vector.hpp>
-
 #include <QString>
 
 namespace dt {
@@ -25,6 +23,9 @@ namespace dt {
   */
 class DUCTTAPE_API Logger {
 public:
+    
+    typedef std::shared_ptr<Logger> LoggerSP;
+    
     /**
       * Advanced constructor. Creates a logger with the given name.
       * @param name The name of the logger.
@@ -97,7 +98,7 @@ public:
     static Logger& getByName(const QString name);
 
 private:
-    boost::ptr_vector<LogStream> mStreams;  //!< The list of Streams owned by this Logger
+    std::vector<LogStream::LogStreamSP> mStreams;  //!< The list of Streams owned by this Logger
     QString mName;                      //!< The name of this Logger
 };
 

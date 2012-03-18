@@ -65,7 +65,7 @@ void Main::onInitialize() {
     dt::ResourceManager::get()->addResourceLocation("gui","FileSystem", true);
 
     // need to create a camera so we have a window
-    dt::Scene* scene = addScene(new dt::Scene("testscene"));
+    auto scene = addScene(new dt::Scene("testscene"));
     scene->addChildNode(new dt::Node("camnode"))->addComponent<dt::CameraComponent>(new dt::CameraComponent("cam"));
 }
 

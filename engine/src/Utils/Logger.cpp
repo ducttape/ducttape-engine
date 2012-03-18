@@ -10,16 +10,14 @@
 
 #include <Utils/LogManager.hpp>
 
-#include <boost/algorithm/string.hpp>
-
 namespace dt {
 
 Logger::Logger(const QString name)
     : mName(name) {
-    getStream("debug")->setFormat(  dt::LogStream::COLOR_CYAN   + "%2$8s: " + dt::LogStream::COLOR_NONE + "%3$s");
-    getStream("info")->setFormat(   dt::LogStream::COLOR_BLUE   + "%2$8s: " + dt::LogStream::COLOR_NONE + "%3$s");
-    getStream("error")->setFormat(  dt::LogStream::COLOR_RED    + "%2$8s: " + dt::LogStream::COLOR_NONE + "%3$s");
-    getStream("warning")->setFormat(dt::LogStream::COLOR_YELLOW + "%2$8s: " + dt::LogStream::COLOR_NONE + "%3$s");
+    getStream("debug")->setFormat(  dt::LogStream::COLOR_CYAN   + "%2: " + dt::LogStream::COLOR_NONE + "%3");
+    getStream("info")->setFormat(   dt::LogStream::COLOR_BLUE   + "%2: " + dt::LogStream::COLOR_NONE + "%3");
+    getStream("error")->setFormat(  dt::LogStream::COLOR_RED    + "%2: " + dt::LogStream::COLOR_NONE + "%3");
+    getStream("warning")->setFormat(dt::LogStream::COLOR_YELLOW + "%2: " + dt::LogStream::COLOR_NONE + "%3");
 }
 
 void Logger::log(const QString level, const QString msg) {
@@ -30,29 +28,32 @@ void Logger::log(const QString level, const QString msg) {
 LogStream* Logger::getStream(const QString streamname) {
     QString name(streamname.toUpper());
     for(auto iter = mStreams.begin(); mStreams.end() != iter; ++iter) {
-        if(name == iter->getName().toUpper()) {
-            return &(*iter);
+        if(name == iter->get()->getName().toUpper()) {
+            return iter->get();
         }
     }
-    mStreams.push_back(new LogStream(name));
-    return &mStreams.back();
+    mStreams.push_back(LogStream::LogStreamSP(new LogStream(name)));
+    return mStreams.back().get();
 }
 
-
 void Logger::debug(const QString msg) {
-    log("DEBUG", msg);
+    LogStream* stream = getStream("DEBUG");
+    stream->defaultOutput(this, msg);
 }
 
 void Logger::info(const QString msg) {
-    log("INFO", msg);
+    LogStream* stream = getStream("INFO");
+    stream->defaultOutput(this, msg);
 }
 
 void Logger::warning(const QString msg) {
-    log("WARNING", msg);
+    LogStream* stream = getStream("WARNING");
+    stream->defaultOutput(this, msg);
 }
 
 void Logger::error(const QString msg) {
-    log("ERROR", msg);
+    LogStream* stream = getStream("ERROR");
+    stream->defaultOutput(this, msg);
 }
 
 void Logger::setName(const QString name) {

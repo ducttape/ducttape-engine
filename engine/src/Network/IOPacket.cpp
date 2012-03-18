@@ -10,7 +10,7 @@
 
 #include <Utils/Utils.hpp>
 
-#include <boost/uuid/uuid_io.hpp>
+#include <QUuid>
 
 namespace dt {
 
@@ -62,14 +62,14 @@ IOPacket& IOPacket::stream(QString s, QString key, QString def) {
     return *this;
 }
 
-IOPacket& IOPacket::stream(boost::uuids::uuid& id, QString key, boost::uuids::uuid def) {
+IOPacket& IOPacket::stream(QUuid& id, QString key, QUuid def) {
     if(mDirection == DESERIALIZE) {
         std::string stdstr;
         stream(stdstr, key);
         if(stdstr == "") id = def;
-        else id = Utils::generateUUIDFromString(QString::fromStdString(stdstr));
+        else id = QUuid(QString::fromStdString(stdstr));
     } else {
-        std::string stdstr = boost::uuids::to_string(id);
+        std::string stdstr = Utils::toStdString(id.toString());
         stream(stdstr, key);
     }
     return *this;

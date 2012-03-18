@@ -22,12 +22,12 @@ void Main::onInitialize() {
     dt::ResourceManager::get()->addResourceLocation("crate", "FileSystem");
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    dt::Scene* scene = addScene(new dt::Scene("fpsscene"));
+    dt::Scene::SceneSP scene = addScene(new dt::Scene("fpsscene"));
     OgreProcedural::Root::getInstance()->sceneManager = scene->getSceneManager();
 
     OgreProcedural::CapsuleGenerator().setHeight(1.77f).setRadius(0.44f).realizeMesh("player");
 
-    Player* player_node = (Player*)scene->addChildNode(new Player("playernode"));
+    Player* player_node = (Player*)scene->addChildNode(new Player("playernode")).get();
     player_node->setPosition(Ogre::Vector3(0, 1.75, 5));
     player_node->setControllable(true);
 
@@ -36,22 +36,22 @@ void Main::onInitialize() {
     interactor->setOffset(1.0f);
     interactor->setRange(20.0f);
     Weapon* weapon = (Weapon*)scene->addChildNode(new Weapon("test_gun", interactor, 20, 5, 60,
-        2.0f, 0, "fire.wav", "reload_start.wav", "reload_done.wav", "multigun.mesh"));
+        2.0f, 0, "fire.wav", "reload_start.wav", "reload_done.wav", "multigun.mesh")).get();
     weapon->enablePhysicsBody(false);
     weapon->setPosition(5, 2, 5);
     weapon->enablePhysicsBody(true);
 
-    dt::Node* light_node = scene->addChildNode(new dt::Node("lightnode"));
+    auto light_node = scene->addChildNode(new dt::Node("lightnode"));
     light_node->setPosition(Ogre::Vector3(-2000, 2000, 1000));
     light_node->addComponent(new dt::LightComponent("light"));
 
     OgreProcedural::PlaneGenerator().setSizeX(100.0f).setSizeY(100.0f).setUTile(10.0).setVTile(10.0).realizeMesh("Plane");
-    dt::Node* plane_node = scene->addChildNode(new dt::Node("planenode"));
+    auto plane_node = scene->addChildNode(new dt::Node("planenode"));
     plane_node->addComponent(new dt::MeshComponent("Plane", "PrimitivesTest/Pebbles", "plane-mesh"));
     plane_node->addComponent(new dt::PhysicsBodyComponent("plane-mesh", "plane-body",
         dt::PhysicsBodyComponent::CONVEX, 0.0f));
 
-    dt::Node* test_object = scene->addChildNode(new dt::Node("testobject"));
+    auto test_object = scene->addChildNode(new dt::Node("testobject"));
     test_object->setPosition(Ogre::Vector3(0, 1, -5));
     test_object->addComponent(new dt::MeshComponent("Crate01.mesh", "", "test-mesh"))->setCastShadows(true);
     test_object->addComponent(new dt::PhysicsBodyComponent("test-mesh", "ball-body",

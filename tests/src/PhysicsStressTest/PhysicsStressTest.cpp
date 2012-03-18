@@ -38,7 +38,7 @@ void Main::updateStateFrame(double simulation_frame_time) {
 }
 
 void Main::onInitialize() {
-    dt::Scene* scene = addScene(new dt::Scene("testscene"));
+    auto scene = addScene(new dt::Scene("testscene"));
 
     dt::ResourceManager::get()->addResourceLocation("","FileSystem");
     dt::ResourceManager::get()->addResourceLocation("crate","FileSystem");
@@ -51,17 +51,17 @@ void Main::onInitialize() {
 
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-    dt::Node* camnode = scene->addChildNode(new dt::Node("camnode"));
+    auto camnode = scene->addChildNode(new dt::Node("camnode"));
     camnode->setPosition(Ogre::Vector3(30, 25, 30));
     camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 10, 0));;
 
-    dt::Node* planenode = scene->addChildNode(new dt::Node("planenode"));
+    auto planenode = scene->addChildNode(new dt::Node("planenode"));
     planenode->setPosition(Ogre::Vector3(0, 0, 0));
     planenode->addComponent(new dt::MeshComponent("Plane", "PrimitivesTest/Pebbles", "plane-mesh"));
     planenode->addComponent(new dt::PhysicsBodyComponent("plane-mesh", "plane-body", 
         dt::PhysicsBodyComponent::CONVEX, 0.0f));
 
-    dt::Node* lightnode1 = scene->addChildNode(new dt::Node("lightnode1"));
+    auto lightnode1 = scene->addChildNode(new dt::Node("lightnode1"));
     lightnode1->addComponent(new dt::LightComponent("light1"));
     lightnode1->setPosition(Ogre::Vector3(15, 5, 15));
 
@@ -69,7 +69,7 @@ void Main::onInitialize() {
     for(int x = -n; x <= n; ++x) {
         for(int y = -n; y <= n; ++y) {
             for(int i = 0; i < n*2 + 1; ++i) {
-                dt::Node* node = scene->addChildNode(new dt::Node("node"
+                auto node = scene->addChildNode(new dt::Node("node"
                             "x-" + dt::Utils::toString(x) + "-" +
                             "y-" + dt::Utils::toString(y) + "-" +
                             "z-" + dt::Utils::toString(i) ));

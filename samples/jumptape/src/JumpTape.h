@@ -34,11 +34,11 @@ public:
     void updateStateFrame(double simulation_frame_time);
     
 private:
-    dt::Node* mGameNode;
-    dt::Node* mField;
+    std::shared_ptr<dt::Node> mGameNode;
+    std::shared_ptr<dt::Node> mField;
     Ogre::Billboard* mPlayer; //!< The player's avatar.
     Ogre::BillboardSet* mTiles; //!< The Set of all Tiles in the field.
-    dt::TextComponent* mGameInfo; //!< Shows time and commands. 
+    std::shared_ptr<dt::TextComponent> mGameInfo; //!< Shows time and commands. 
     OIS::Keyboard* mKeyboard;
     static const uint8_t GAME_WITDH = 40;
     static const uint8_t GAME_HEIGHT = 30;

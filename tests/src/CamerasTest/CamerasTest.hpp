@@ -40,8 +40,8 @@ public:
 private:
     double mRuntime;
     int mStep;
-    dt::CameraComponent* mCamera1;
-    dt::CameraComponent* mCamera2;
+    std::shared_ptr<dt::CameraComponent>  mCamera1;
+    std::shared_ptr<dt::CameraComponent>  mCamera2;
 
 };
 

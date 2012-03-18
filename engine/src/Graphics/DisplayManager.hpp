@@ -16,8 +16,6 @@
 #include <Graphics/Viewport.hpp>
 #include <Gui/GuiManager.hpp>
 
-#include <boost/ptr_container/ptr_map.hpp>
-
 #include <OgreRenderSystem.h>
 #include <OgreRenderWindow.h>
 #include <OgreSceneManager.h>
