@@ -19,7 +19,7 @@ NetworkEvent::NetworkEvent()
      mIsLocalEvent(false) {
 
     // add default recipients
-    const std::vector<Connection*>&& connections = ConnectionsManager::get()->getAllConnections();
+    const std::vector<Connection::ConnectionSP>&& connections = ConnectionsManager::get()->getAllConnections();
     for(auto iter = connections.begin(); iter != connections.end(); ++iter) {
         addRecipient(ConnectionsManager::get()->getConnectionID(**iter));
     }

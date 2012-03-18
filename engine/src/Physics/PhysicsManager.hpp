@@ -16,8 +16,6 @@
 //#include <Event/EventListener.hpp>
 #include <Physics/PhysicsWorld.hpp>
 
-#include <boost/ptr_container/ptr_map.hpp>
-
 #include <QString>
 
 #include <memory>
@@ -57,20 +55,20 @@ public:
       * @param world The new PhysicsWorld.
       * @returns A pointer to the new PhysicsWorld.
       */
-    PhysicsWorld* addWorld(PhysicsWorld* world);
+    PhysicsWorld::PhysicsWorldSP addWorld(PhysicsWorld* world);
 
     /**
       * Gets a PhysicsWorld.
       * @param name The name of the PhysicsWorld to find.
       * @returns A pointer to the PhysicsWorld, or nullptr of none was found.
       */
-    PhysicsWorld* getWorld(const QString name);
+    PhysicsWorld::PhysicsWorldSP getWorld(const QString name);
 
 public slots:
     void updateFrame(double simulation_frame_time);
 
 private:
-    boost::ptr_map<QString, PhysicsWorld> mWorlds;  //!< The list of PhysicsWorlds.
+    std::map<QString, PhysicsWorld::PhysicsWorldSP> mWorlds;  //!< The list of PhysicsWorlds.
 };
 
 }

@@ -18,17 +18,17 @@ public slots:
     void paddleCollided(dt::PhysicsBodyComponent* collider, dt::PhysicsBodyComponent* paddle);
 
 private:
-    dt::Node* mGameNode;
-    dt::Node* mFieldNode;
-	dt::Node* mFieldWallX1Node;
-	dt::Node* mFieldWallX2Node;
-	dt::Node* mFieldWallY1Node;
-	dt::Node* mFieldWallY2Node;
-    dt::Node* mBallNode;
-    dt::Node* mPaddle1Node;
-    dt::Node* mPaddle2Node;
-    dt::TextComponent* mScore1Text;
-    dt::TextComponent* mScore2Text;
+    std::shared_ptr<dt::Node> mGameNode;
+    std::shared_ptr<dt::Node> mFieldNode;
+    std::shared_ptr<dt::Node> mFieldWallX1Node;
+    std::shared_ptr<dt::Node> mFieldWallX2Node;
+    std::shared_ptr<dt::Node> mFieldWallY1Node;
+    std::shared_ptr<dt::Node> mFieldWallY2Node;
+    std::shared_ptr<dt::Node> mBallNode;
+    std::shared_ptr<dt::Node> mPaddle1Node;
+    std::shared_ptr<dt::Node> mPaddle2Node;
+    std::shared_ptr<dt::TextComponent> mScore1Text;
+    std::shared_ptr<dt::TextComponent> mScore2Text;
     int mScore1;
     int mScore2;
     double mPreviousSpeed;

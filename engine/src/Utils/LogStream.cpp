@@ -11,8 +11,6 @@
 #include <Utils/Logger.hpp>
 #include <Utils/Utils.hpp>
 
-#include <boost/format.hpp>
-
 #include <iostream>
 
 namespace dt {
@@ -27,21 +25,24 @@ QString LogStream::COLOR_NONE = "\033[0m";
 
 LogStream::LogStream(const QString name)
     : mStream(&std::cout),
-      mFormat("[%1$s | %2$s] %3$s"),        // e.g.: "[default | WARNING] This is a warning!"
+      mFormat("[%1 | %2] %3"),        // e.g.: "[default | WARNING] This is a warning!"
       mName(name),
       mDisabled(false) {}
 
 QString LogStream::formatMessage(Logger* logger, const QString msg) {
-    // return QString(mFormat).arg(logger->GetName()).arg(mName).arg(msg);
-    return QString((boost::format(dt::Utils::toStdString(mFormat)) %
-                                  dt::Utils::toStdString(logger->getName()) %
-                                  dt::Utils::toStdString(mName) %
-                                  dt::Utils::toStdString(msg)).str().c_str());
+    return QString(mFormat).arg(logger->getName()).arg(mName).arg(msg);
 }
 
 void LogStream::output(Logger* logger, const QString msg) {
     if(!mDisabled) {
         *mStream << dt::Utils::toStdString(formatMessage(logger, msg)) << std::endl;
+    }
+}
+
+void LogStream::defaultOutput(Logger* logger, const QString& msg) {
+    if(!mDisabled) {
+        QString output = QString(mFormat).arg(mName).arg(msg);
+        *mStream << dt::Utils::toStdString(output) << std::endl;
     }
 }
 

@@ -51,7 +51,7 @@ bool ConnectionsManager::isKnownConnection(Connection c) {
 ConnectionsManager::ID_t ConnectionsManager::addConnection(Connection* c) {
     ConnectionsManager::ID_t id = _getNewID();
     if(id != 0)
-        mConnections[id] = *c;
+        mConnections[id] = Connection::ConnectionSP(c);
     return id;
 }
 
@@ -67,7 +67,8 @@ void ConnectionsManager::removeConnection(Connection c) {
 
 ConnectionsManager::ID_t ConnectionsManager::getConnectionID(Connection c) {
     // run through connections in a loop
-    for(boost::ptr_map<ConnectionsManager::ID_t, Connection>::iterator i = mConnections.begin(); i != mConnections.end(); ++i) {
+    for(std::map<ConnectionsManager::ID_t, Connection::ConnectionSP>::iterator i = 
+                                        mConnections.begin(); i != mConnections.end(); ++i) {
         if(i->second->getPort() == c.getPort() && i->second->getIPAddress() == c.getIPAddress()) {
             return i->first;
         }
@@ -77,17 +78,18 @@ ConnectionsManager::ID_t ConnectionsManager::getConnectionID(Connection c) {
     return 0;
 }
 
-Connection* ConnectionsManager::getConnection(ConnectionsManager::ID_t id) {
+Connection::ConnectionSP ConnectionsManager::getConnection(ConnectionsManager::ID_t id) {
     if(mConnections.count(id) > 0)
         return mConnections.find(id)->second;
     else
-        return nullptr;
+        return Connection::ConnectionSP();
 }
 
-std::vector<Connection*> ConnectionsManager::getAllConnections() {
-    std::vector<Connection*> result;
+std::vector<Connection::ConnectionSP> ConnectionsManager::getAllConnections() {
+    std::vector<Connection::ConnectionSP> result;
 
-    for(boost::ptr_map<ConnectionsManager::ID_t, Connection>::iterator i = mConnections.begin(); i != mConnections.end(); ++i) {
+    for(std::map<ConnectionsManager::ID_t, Connection::ConnectionSP>::iterator i = 
+                                mConnections.begin(); i != mConnections.end(); ++i) {
         result.push_back(i->second);
     }
 

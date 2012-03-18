@@ -31,7 +31,8 @@ float MAP_HEIGHT = 300;
 void Main::ResetGame() {}
 
 void Main::OnInitialize() {
-    dt::Scene* scene = AddScene(new dt::Scene("RTScene"));
+    dt::Scene::SceneSP scene(new dt::Scene("RTScene"));
+    AddScene(scene);
     OgreProcedural::Root::getInstance()->sceneManager = scene->GetSceneManager();
 
     dt::ResourceManager::Get()->AddResourceLocation("","FileSystem", true);
@@ -39,7 +40,7 @@ void Main::OnInitialize() {
     
     scene->GetPhysicsWorld()->SetEnabled(true);
 
-    dt::Node* cam = scene->AddChildNode(new dt::Node("cam"));
+    auto cam = scene->AddChildNode(new dt::Node("cam"));
     cam->SetPosition(Ogre::Vector3(200, 800, 900));
     cam->AddComponent(new dt::CameraComponent("cam_camera"))->LookAt(Ogre::Vector3(0, 0, 0));
     /*dt::SimplePlayerComponent* */cam_player = new dt::SimplePlayerComponent("player");
@@ -48,7 +49,7 @@ void Main::OnInitialize() {
     cam_player->SetMoveSpeed(500);
     cam_player->SetConstant(true);
 
-    dt::Node* zenit_sun = scene->AddChildNode(new dt::Node("zenit_sun"));
+    auto zenit_sun = scene->AddChildNode(new dt::Node("zenit_sun"));
     zenit_sun->SetPosition(Ogre::Vector3(0, 50, 0));
     dt::LightComponent* zenit_sun_light = new dt::LightComponent("zenit_sun_light");
     zenit_sun->AddComponent(zenit_sun_light);
@@ -70,7 +71,7 @@ void Main::OnInitialize() {
     
     // create a plane for fake terrain physics. TODO: implement real terrain Physics
     OgreProcedural::PlaneGenerator().setSizeX(1000.f).setSizeY(1000.f).realizeMesh("Plane");
-    dt::Node* fake_terrain = scene->AddChildNode(new dt::Node("planenode"));
+    auto fake_terrain = scene->AddChildNode(new dt::Node("planenode"));
     fake_terrain->SetPosition(Ogre::Vector3(0, -6, 0));
     
     fake_terrain->AddComponent(new dt::MeshComponent("Plane", "", "plane-mesh"));

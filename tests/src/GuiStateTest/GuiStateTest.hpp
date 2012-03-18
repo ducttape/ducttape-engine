@@ -51,7 +51,7 @@ public:
     void updateStateFrame(double simulation_frame_time);
 
 private:
-    dt::GuiButton* mReturnButton;
+    std::shared_ptr<dt::GuiButton> mReturnButton;
 };
 
 ////////////////////////////////////////////////////////////////
@@ -68,7 +68,7 @@ public:
     void updateStateFrame(double simulation_frame_time);
 
 private:
-    dt::GuiButton* mNextButton;
+    std::shared_ptr<dt::GuiButton> mNextButton;
 };
 
 } // namespace test_physics

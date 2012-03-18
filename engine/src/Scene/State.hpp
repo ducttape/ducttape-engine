@@ -15,8 +15,6 @@
 //#include <Event/EventListener.hpp>
 #include <Scene/Scene.hpp>
 
-#include <boost/ptr_container/ptr_map.hpp>
-
 #include <QObject>
 #include <QString>
 
@@ -63,14 +61,14 @@ public:
       * @param scene The scene to add.
       * @returns A pointer to the scene.
       */
-    Scene* addScene(Scene* scene);
+    Scene::SceneSP addScene(Scene* scene);
 
     /**
       * Returns the scene with the given name.
       * @param name The name of the Scene to find.
       * @returns The scene, or nullptr if it was not found.
       */
-    Scene* getScene(const QString name);
+    Scene::SceneSP getScene(const QString name);
 
     /**
       * Deletes a scene.
@@ -94,7 +92,7 @@ public slots:
     void updateFrame(double simulation_frame_time);
 
 private:
-    boost::ptr_map<QString, Scene> mScenes;        //!< List of scenes.
+    std::map<QString, Scene::SceneSP> mScenes;        //!< List of scenes.
 
 };
 

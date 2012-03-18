@@ -23,8 +23,7 @@ Component::Component(const QString name)
         mName = "Component-" + Utils::toString(Utils::autoId());
     }
 
-    // Generate an uuid for this node.
-    mId = Utils::generateUUIDRandom();
+    mId = QUuid::createUuid();
 }
 
 Component::~Component() {}

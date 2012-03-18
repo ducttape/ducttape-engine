@@ -20,6 +20,7 @@ Node::Node(const QString name)
       mScale(Ogre::Vector3(1,1,1)),
       mRotation(Ogre::Quaternion::IDENTITY),
       mParent(nullptr),
+      mIsUpdatingAfterChange(false),
       mDeathMark(false),
       mIsEnabled(true) {
 
@@ -28,8 +29,7 @@ Node::Node(const QString name)
         mName = "Node-" + Utils::toString(Utils::autoId());
     }
 
-    // Generate an uuid for this node.
-    mId = Utils::generateUUIDRandom();
+    mId = QUuid::createUuid();
 }
 
 void Node::initialize() {
@@ -54,12 +54,13 @@ void Node::onInitialize() {}
 
 void Node::onDeinitialize() {}
 
-Node* Node::addChildNode(Node* child) {
+Node::NodeSP Node::addChildNode(Node* child) {
     if(child != nullptr) {
         QString key(child->getName());
-        mChildren.insert(key, child);
-        mChildren[key].setParent(this);
-        mChildren[key].initialize();
+        NodeSP child_sp(child);
+        mChildren.insert(std::make_pair(key, child_sp));
+        child_sp->setParent(this);
+        child_sp->initialize();
 
         if(!mIsEnabled)
             child->disable();
@@ -71,22 +72,22 @@ Node* Node::addChildNode(Node* child) {
     }
 }
 
-Node* Node::findChildNode(const QString name, bool recursive) {
+Node::NodeSP Node::findChildNode(const QString name, bool recursive) {
     if(mChildren.find(name) != mChildren.end())
         return mChildren.find(name)->second;
 
     if(recursive){
-        for(boost::ptr_map<QString, Node>::iterator itr = mChildren.begin(); itr != mChildren.end(); itr++) {
+        for(std::map<QString, NodeSP>::iterator itr = mChildren.begin(); itr != mChildren.end(); itr++) {
             if(itr->first == name)
                 return itr->second;
             else {
-                Node* childNode = itr->second->findChildNode(name, recursive);
-                if(childNode != nullptr)
+                const NodeSP& childNode = itr->second->findChildNode(name, recursive);
+                if(childNode)
                     return childNode;
             }
         }
     }
-    return nullptr;
+    return NodeSP();
 }
 
 bool Node::hasComponent(const QString name) {
@@ -195,10 +196,11 @@ void Node::lookAt(Ogre::Vector3 target, Ogre::Vector3 front_vector, RelativeTo r
 
 void Node::setParent(Node* parent) {
     if(parent != nullptr) {
-        if(parent->findChildNode(mName, false) == nullptr) { // we are not already a child of the new parent
+        if(!parent->findChildNode(mName, false)) { // we are not already a child of the new parent
             if(mParent != nullptr) {                         // Remove it from its original parent.
                 auto iter = mParent->mChildren.find(mName);
-                parent->mChildren.insert(mName, mParent->mChildren.release(iter).release());
+                parent->mChildren.insert(std::make_pair(mName, iter->second));
+                mParent->mChildren.erase(iter);
                 mParent = parent;
             }
             else {
@@ -321,7 +323,7 @@ void Node::_updateAllChildren(double time_diff) {
     for(auto iter = mChildren.begin(); iter != mChildren.end(); ++iter) {
         if(iter->second->mDeathMark) {
             //Kill it if the death mark is set.
-            Node* node = iter->second;
+            Node* node = iter->second.get();
             iter--;
             QString name = node->getName();
             removeChildNode(name);

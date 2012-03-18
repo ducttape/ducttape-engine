@@ -83,9 +83,9 @@ void NetworkManager::disconnect(Connection target) {
 }
 
 void NetworkManager::disconnectAll() {
-    const std::vector<Connection*>&& connections = mConnectionsManager.getAllConnections();
+    const std::vector<Connection::ConnectionSP>&& connections = mConnectionsManager.getAllConnections();
     for(auto iter = connections.begin(); iter != connections.end(); ++iter) {
-        disconnect(**iter);
+        disconnect(*iter->get());
     }
 }
 
@@ -243,8 +243,8 @@ void NetworkManager::_sendEvent(std::shared_ptr<NetworkEvent> event) {
     // send packet to all recipients
     const std::vector<uint16_t>& recipients = event->getRecipients();
     for(auto iter = recipients.begin(); iter != recipients.end(); ++iter) {
-        Connection* r = mConnectionsManager.getConnection(*iter);
-        if(r == nullptr) {
+        Connection::ConnectionSP r = mConnectionsManager.getConnection(*iter);
+        if(r) {
             Logger::get().error("Cannot send event to " + Utils::toString(*iter) + ": No connection with this ID");
         } else {
             mSocket.send(p, r->getIPAddress(), r->getPort());

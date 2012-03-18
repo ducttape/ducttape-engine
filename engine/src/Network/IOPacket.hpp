@@ -14,10 +14,9 @@
 #include <Utils/EnumHelper.hpp>
 
 #include <QString>
+#include <QUuid>
 
 #include <SFML/Network/Packet.hpp>
-
-#include <boost/uuid/uuid.hpp>
 
 #include <yaml-cpp/yaml.h>
 
@@ -114,7 +113,7 @@ public:
 
     virtual IOPacket& stream(QString s, QString key = "", QString def = "");
 
-    virtual IOPacket& stream(boost::uuids::uuid& id, QString key = "", boost::uuids::uuid def = boost::uuids::uuid());
+    virtual IOPacket& stream(QUuid& id, QString key = "", QUuid def = QUuid());
 
     uint32_t beginList(uint32_t count, QString key);
 

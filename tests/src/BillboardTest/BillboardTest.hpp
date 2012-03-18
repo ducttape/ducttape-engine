@@ -44,7 +44,7 @@ public:
 
 private:
     double mRuntime;
-    dt::Node* mCamNode;
+    std::shared_ptr<dt::Node> mCamNode;
 
 };
 

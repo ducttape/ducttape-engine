@@ -37,7 +37,7 @@ void Main::updateStateFrame(double simulation_frame_time) {
 }
 
 void Main::onInitialize() {
-    dt::Scene* scene = addScene(new dt::Scene("testscene"));
+    auto scene = addScene(new dt::Scene("testscene"));
 
     OgreProcedural::Root::getInstance()->sceneManager = scene->getSceneManager();
 
@@ -79,22 +79,22 @@ void Main::onInitialize() {
     putMeshShadow("roundedBoxMesh", Ogre::Vector3(20,10,10), "PrimitivesTest/RedBrick");
 
     // create camera and lights
-    dt::Node* camnode = scene->addChildNode(new dt::Node("camnode"));
+    auto camnode = scene->addChildNode(new dt::Node("camnode"));
     camnode->setPosition(Ogre::Vector3(-30, 20, 30));
     camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));
 
-    dt::Node* lightnode1 = scene->addChildNode(new dt::Node("lightnode1"));
+    auto lightnode1 = scene->addChildNode(new dt::Node("lightnode1"));
     lightnode1->addComponent(new dt::LightComponent("light1"));
     lightnode1->setPosition(Ogre::Vector3(0, 30, 0));
 
-    dt::Node* lightnode2 = scene->addChildNode(new dt::Node("lightnode2"));
+    auto lightnode2 = scene->addChildNode(new dt::Node("lightnode2"));
     lightnode2->addComponent(new dt::LightComponent("light2"));
     lightnode2->setPosition(Ogre::Vector3(0, -10, 0));
 }
 
 void Main::putMeshShadow(const QString meshName, const Ogre::Vector3& position, const QString materialName) {
-    dt::Scene* scene = dt::StateManager::get()->getCurrentState()->getScene("testscene");
-    dt::Node* node = scene->addChildNode(new dt::Node("" + meshName + "node"));
+    auto scene = dt::StateManager::get()->getCurrentState()->getScene("testscene");
+    auto node = scene->addChildNode(new dt::Node("" + meshName + "node"));
     dt::MeshComponent* mesh = new dt::MeshComponent(meshName, materialName, meshName);
     node->addComponent(mesh);
     node->setPosition(position);

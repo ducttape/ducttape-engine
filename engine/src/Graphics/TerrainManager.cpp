@@ -96,7 +96,8 @@ Ogre::TerrainGlobalOptions* TerrainManager::getOgreTerrainGlobalOptions() const 
 
 void TerrainManager::addTextureLayer(const std::vector<QString>& texture_names, float world_size,
                                      float min_height, float fade_distance) {
-    mTextureLayer.push_back(new TextureLayer(texture_names, world_size, min_height, fade_distance));
+    TextureLayer::TextureLayerSP texture_layer_sp(new TextureLayer(texture_names, world_size, min_height, fade_distance));
+    mTextureLayer.push_back(texture_layer_sp);
 }
 
 bool TerrainManager::import(const std::vector<QString>& files) {
@@ -171,7 +172,7 @@ void TerrainManager::_createTerrain() {
 
     // textures
     for(auto it = mTextureLayer.begin(); it != mTextureLayer.end(); ++it) {
-        import_data.layerList.push_back(*(it->getLayerInstance()));
+        import_data.layerList.push_back(*(it->get()->getLayerInstance()));
     }
 }
 
@@ -221,7 +222,7 @@ void TerrainManager::_defineTerrain(uint32_t x, uint32_t y, const QString filena
 void TerrainManager::_generateBlendMaps(Ogre::Terrain* terrain) {
     if(mTextureLayer.size() < 2) return;
     for(uint32_t i = 1; i < mTextureLayer.size()-1; i++) {
-        TextureLayer layer = mTextureLayer[i];
+        TextureLayer::TextureLayerSP& layer = mTextureLayer[i];
         Ogre::TerrainLayerBlendMap* blend_map = terrain->getLayerBlendMap(i);
         float* blend_ptr = blend_map->getBlendPointer();
         for(uint32_t y = 0; y < terrain->getLayerBlendMapSize(); ++y) {
@@ -231,7 +232,7 @@ void TerrainManager::_generateBlendMaps(Ogre::Terrain* terrain) {
                 blend_map->convertImageToTerrainSpace(x, y, &tx, &ty);
                 float height = terrain->getHeightAtTerrainPosition(tx, ty);
 
-                float val = (height - layer.getMinHeight()) / layer.getFadeDistance();
+                float val = (height - layer->getMinHeight()) / layer->getFadeDistance();
                 val = Ogre::Math::Clamp(val, (Ogre::Real)0, (Ogre::Real)1);
                 *blend_ptr++ = val;
             }

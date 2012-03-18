@@ -14,6 +14,7 @@
 #include <QString>
 
 #include <ostream>
+#include <memory>
 
 namespace dt {
 
@@ -25,6 +26,9 @@ class Logger;
   */
 class DUCTTAPE_API LogStream {
 public:
+    
+    typedef std::shared_ptr<LogStream> LogStreamSP;
+    
     static QString COLOR_RED;       //!< ANSI color code for red
     static QString COLOR_GREEN;     //!< ANSI color code for green
     static QString COLOR_YELLOW;    //!< ANSI color code for yellow
@@ -57,6 +61,15 @@ public:
       * @param msg the log message
       */
     void output(Logger* logger, const QString msg);
+    
+    /**
+     * Formats and outputs a log message to the defaults output streams:
+     * Warning, Error, Info and Debug.
+     * @see SetStream()
+     * @param logger the Logger the message was sent from
+     * @param msg the log message
+     */
+    void defaultOutput(Logger* logger, const QString& msg);
 
     /**
       * Sets the output stream for this LogStream.
