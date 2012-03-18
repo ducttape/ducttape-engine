@@ -24,8 +24,8 @@ bool MusicTest::run(int argc, char** argv) {
 
     dt::Scene scene("scene1");
 
-    std::shared_ptr<dt::Node> music_node = scene.addChildNode(new dt::Node("music"));
-    std::shared_ptr<dt::MusicComponent> music_component = music_node->addComponent(new dt::MusicComponent(music_file));
+    auto music_node = scene.addChildNode(new dt::Node("music"));
+    auto music_component = music_node->addComponent(new dt::MusicComponent(music_file));
 
     music_component->setVolume(40);
 

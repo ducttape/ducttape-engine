@@ -181,8 +181,8 @@ public:
         dt::ResourceManager::get()->addResourceLocation("", "FileSystem", true);
         Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-        std::shared_ptr<dt::Scene> scene = addScene(new dt::Scene("scene"));
-        std::shared_ptr<dt::Node> camnode = scene->addChildNode(new dt::Node("cam"));
+        auto scene = addScene(new dt::Scene("scene"));
+        auto camnode = scene->addChildNode(new dt::Node("cam"));
         camnode->addComponent(new dt::CameraComponent("camera"));
 
         // create GUI

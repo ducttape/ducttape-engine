@@ -30,26 +30,26 @@ Main::Main()
     : mRuntime(0) {}
 
 void Main::onInitialize() {
-    dt::Scene::SceneSP scene = addScene(new dt::Scene("testscene"));
+    auto scene = addScene(new dt::Scene("testscene"));
 
     // Load resources
     dt::ResourceManager::get()->addResourceLocation("sinbad.zip","Zip", true);
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
     // Create camera
-    std::shared_ptr<dt::Node> camnode = scene->addChildNode(new dt::Node("camnode"));
+    auto camnode = scene->addChildNode(new dt::Node("camnode"));
     camnode->setPosition(Ogre::Vector3(0, 20, 20));
     camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));;
 
     // Create light
-    std::shared_ptr<dt::Node> lightnode = scene->addChildNode(new dt::Node("lightnode"));
+    auto lightnode = scene->addChildNode(new dt::Node("lightnode"));
     lightnode->addComponent(new dt::LightComponent("light"));
     lightnode->setPosition(Ogre::Vector3(0, 30, 0));
 
     // Sample #1: LOOP, SmoothAcceleration, Sharp corners, No rotation
-    std::shared_ptr<dt::Node> meshnode = scene->addChildNode(new dt::Node("meshnode"));
+    auto meshnode = scene->addChildNode(new dt::Node("meshnode"));
     meshnode->setScale(0.3);
-    std::shared_ptr<dt::FollowPathComponent> path = meshnode->addComponent(new dt::FollowPathComponent(dt::FollowPathComponent::LOOP, "path"));
+    auto path = meshnode->addComponent(new dt::FollowPathComponent(dt::FollowPathComponent::LOOP, "path"));
     path->setFollowRotation(false);
     path->setSmoothAcceleration(true);
     path->setSmoothCorners(false);
@@ -63,9 +63,9 @@ void Main::onInitialize() {
     meshnode->addComponent(mesh);
 
     // Sample #2: Alternating, Smooth corners, Follow rotation
-    std::shared_ptr<dt::Node> meshnode2 = scene->addChildNode(new dt::Node("meshnode2"));
+    auto meshnode2 = scene->addChildNode(new dt::Node("meshnode2"));
     meshnode2->setScale(0.3);
-    std::shared_ptr<dt::FollowPathComponent> path2 = meshnode2->addComponent(new dt::FollowPathComponent(dt::FollowPathComponent::ALTERNATING, "path2"));
+    auto path2 = meshnode2->addComponent(new dt::FollowPathComponent(dt::FollowPathComponent::ALTERNATING, "path2"));
     path2->setFollowRotation(true);
     path2->setSmoothAcceleration(false);
     path2->setSmoothCorners(true);
@@ -77,9 +77,9 @@ void Main::onInitialize() {
     meshnode2->addComponent(mesh2);
 
     // Sample #3: Single, Smooth acceleration, Follow rotation, 3D space
-    std::shared_ptr<dt::Node> meshnode3 = scene->addChildNode(new dt::Node("meshnode3"));
+    auto meshnode3 = scene->addChildNode(new dt::Node("meshnode3"));
     meshnode3->setScale(0.3);
-    std::shared_ptr<dt::FollowPathComponent> path3 = meshnode3->addComponent(new dt::FollowPathComponent(dt::FollowPathComponent::SINGLE, "path3"));
+    auto path3 = meshnode3->addComponent(new dt::FollowPathComponent(dt::FollowPathComponent::SINGLE, "path3"));
     path3->setFollowRotation(false);
     path3->setSmoothAcceleration(false);
     path3->setSmoothCorners(true);

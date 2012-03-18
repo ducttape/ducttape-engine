@@ -41,17 +41,17 @@ void Main::onInitialize() {
     weapon->setPosition(5, 2, 5);
     weapon->enablePhysicsBody(true);
 
-    std::shared_ptr<dt::Node> light_node = scene->addChildNode(new dt::Node("lightnode"));
+    auto light_node = scene->addChildNode(new dt::Node("lightnode"));
     light_node->setPosition(Ogre::Vector3(-2000, 2000, 1000));
     light_node->addComponent(new dt::LightComponent("light"));
 
     OgreProcedural::PlaneGenerator().setSizeX(100.0f).setSizeY(100.0f).setUTile(10.0).setVTile(10.0).realizeMesh("Plane");
-    std::shared_ptr<dt::Node> plane_node = scene->addChildNode(new dt::Node("planenode"));
+    auto plane_node = scene->addChildNode(new dt::Node("planenode"));
     plane_node->addComponent(new dt::MeshComponent("Plane", "PrimitivesTest/Pebbles", "plane-mesh"));
     plane_node->addComponent(new dt::PhysicsBodyComponent("plane-mesh", "plane-body",
         dt::PhysicsBodyComponent::CONVEX, 0.0f));
 
-    std::shared_ptr<dt::Node> test_object = scene->addChildNode(new dt::Node("testobject"));
+    auto test_object = scene->addChildNode(new dt::Node("testobject"));
     test_object->setPosition(Ogre::Vector3(0, 1, -5));
     test_object->addComponent(new dt::MeshComponent("Crate01.mesh", "", "test-mesh"))->setCastShadows(true);
     test_object->addComponent(new dt::PhysicsBodyComponent("test-mesh", "ball-body",

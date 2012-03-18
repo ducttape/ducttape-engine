@@ -26,13 +26,13 @@ Main::Main()
     : mRuntime(0) {}
 
 void Main::onInitialize() {
-    dt::Scene::SceneSP scene = addScene(new dt::Scene("testscene"));
+    auto scene = addScene(new dt::Scene("testscene"));
 
     dt::ResourceManager::get()->addResourceLocation("sinbad.zip","Zip", true);
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
 
-    std::shared_ptr<dt::Node> camnode = scene->addChildNode(new dt::Node("camera-node-1"));
+    auto camnode = scene->addChildNode(new dt::Node("camera-node-1"));
     camnode->setPosition(Ogre::Vector3(0, 5, 10));
     mCamera1 = camnode->addComponent(new dt::CameraComponent("camera-1"));
     mCamera1->lookAt(Ogre::Vector3(0, 0, 0));
@@ -43,17 +43,17 @@ void Main::onInitialize() {
     mCamera2->setupViewport(0.4, 0.7, 0.2, 0.2);
     mCamera2->lookAt(Ogre::Vector3(0, 0, 0));
 
-    std::shared_ptr<dt::Node> meshnode = scene->addChildNode(new dt::Node("meshnode"));
-    std::shared_ptr<dt::MeshComponent> mesh = meshnode->addComponent(new dt::MeshComponent("Sinbad.mesh"));
+    auto meshnode = scene->addChildNode(new dt::Node("meshnode"));
+    auto mesh = meshnode->addComponent(new dt::MeshComponent("Sinbad.mesh"));
     mesh->setAnimation("Dance");
     mesh->setLoopAnimation(true);
     mesh->playAnimation();
 
-    std::shared_ptr<dt::Node> lightnode = scene->addChildNode(new dt::Node("lightnode"));
+    auto lightnode = scene->addChildNode(new dt::Node("lightnode"));
     lightnode->addComponent(new dt::LightComponent("light"));
     lightnode->setPosition(Ogre::Vector3(0, 30, 0));
 
-    std::shared_ptr<dt::Node> lightnode2 = scene->addChildNode(new dt::Node("lightnode2"));
+    auto lightnode2 = scene->addChildNode(new dt::Node("lightnode2"));
     lightnode2->addComponent(new dt::LightComponent("light2"));
     lightnode2->setPosition(Ogre::Vector3(0, -10, 0));
 

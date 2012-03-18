@@ -34,18 +34,18 @@ void Main::onInitialize() {
     mScore1 = 0;
     mScore2 = 0;
 
-    dt::Scene::SceneSP scene = addScene(new dt::Scene("testscene"));
+    auto scene = addScene(new dt::Scene("testscene"));
     OgreProcedural::Root::getInstance()->sceneManager = scene->getSceneManager();
 
     dt::ResourceManager::get()->addResourceLocation("","FileSystem", true);
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
     Ogre::FontManager::getSingleton().load("DejaVuSans", "General");
 
-    std::shared_ptr<dt::Node> camnode = scene->addChildNode(new dt::Node("camnode"));
+    auto camnode = scene->addChildNode(new dt::Node("camnode"));
     camnode->setPosition(Ogre::Vector3(0, 0, 30));
     camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));
 
-    std::shared_ptr<dt::Node> lightnode = scene->addChildNode(new dt::Node("lightnode"));
+    auto lightnode = scene->addChildNode(new dt::Node("lightnode"));
     lightnode->setPosition(Ogre::Vector3(-20, 20, 10));
     lightnode->addComponent(new dt::LightComponent("light"));
 
@@ -72,21 +72,21 @@ void Main::onInitialize() {
     mPaddle2Node->setPosition(Ogre::Vector3(FIELD_WIDTH / 2 + 0.5, 0, 0));
     mPaddle2Node->addComponent(new dt::MeshComponent("Paddle", "SimplePongPaddle", "mesh"));
 
-    std::shared_ptr<dt::Node> score1_node = mGameNode->addChildNode(new dt::Node("score1"));
+    auto score1_node = mGameNode->addChildNode(new dt::Node("score1"));
     score1_node->setPosition(Ogre::Vector3(-10, FIELD_HEIGHT / 2 + 2, 0));
     mScore1Text = score1_node->addComponent(new dt::TextComponent("0", "text"));
     mScore1Text->setFont("DejaVuSans");
     mScore1Text->setFontSize(64);
 
-    std::shared_ptr<dt::Node> score2_node = mGameNode->addChildNode(new dt::Node("score2"));
+    auto score2_node = mGameNode->addChildNode(new dt::Node("score2"));
     score2_node->setPosition(Ogre::Vector3(10, FIELD_HEIGHT / 2 + 2, 0));
     mScore2Text = score2_node->addComponent(new dt::TextComponent("0", "text"));
     mScore2Text->setFont("DejaVuSans");
     mScore2Text->setFontSize(64);
 
-    std::shared_ptr<dt::Node> info_node = scene->addChildNode(new dt::Node("info"));
+    auto info_node = scene->addChildNode(new dt::Node("info"));
     info_node->setPosition(Ogre::Vector3(0, - FIELD_HEIGHT / 2 - 3, 0));
-    std::shared_ptr<dt::TextComponent> info_text = info_node->addComponent(new dt::TextComponent("Left player: W/S -- Right player: Up/Down", "text"));
+    auto info_text = info_node->addComponent(new dt::TextComponent("Left player: W/S -- Right player: Up/Down", "text"));
     info_text->setFont("DejaVuSans");
     info_text->setFontSize(20);
 

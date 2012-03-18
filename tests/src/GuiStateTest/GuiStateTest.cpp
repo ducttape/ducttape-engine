@@ -31,11 +31,11 @@ void SecondState::onInitialize() {
 
     dt::Scene::SceneSP scene = addScene(new dt::Scene("scene2"));
 
-    std::shared_ptr<dt::Node> camnode = scene->addChildNode(new dt::Node("camnode"));
+    auto camnode = scene->addChildNode(new dt::Node("camnode"));
     camnode->setPosition(Ogre::Vector3(0, 0, -20));
     camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));;
 
-    std::shared_ptr<dt::Node> meshnode = scene->addChildNode(new dt::Node("meshnode"));
+    auto meshnode = scene->addChildNode(new dt::Node("meshnode"));
     dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh");
     meshnode->addComponent(mesh);
     mesh->setAnimation("Dance");
@@ -77,13 +77,13 @@ void FirstState::onInitialize() {
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
     Ogre::FontManager::getSingleton().load("DejaVuSans", "General");
 
-    std::shared_ptr<dt::Node> camnode = scene->addChildNode(new dt::Node("camnode"));
+    auto camnode = scene->addChildNode(new dt::Node("camnode"));
     camnode->setPosition(Ogre::Vector3(0, 0, -10));
     camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));;
 
-    std::shared_ptr<dt::Node> textnode = scene->addChildNode(new dt::Node("text"));
+    auto textnode = scene->addChildNode(new dt::Node("text"));
     textnode->setPosition(Ogre::Vector3(0, 0, 0));
-    std::shared_ptr<dt::TextComponent> text = textnode->addComponent(new dt::TextComponent("First State", "text"));
+    auto text = textnode->addComponent(new dt::TextComponent("First State", "text"));
     text->setFont("DejaVuSans");
     text->setFontSize(64);
 

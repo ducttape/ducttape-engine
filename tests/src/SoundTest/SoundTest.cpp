@@ -24,7 +24,7 @@ bool SoundTest::run(int argc, char** argv) {
     root.initialize(argc, argv);
 
     dt::Scene scene("scene1");
-    std::shared_ptr<dt::Node> sound = scene.addChildNode(new dt::Node("sound"));
+    auto sound = scene.addChildNode(new dt::Node("sound"));
     dt::SoundComponent* sound_component = new dt::SoundComponent("test_music_loop_mono.ogg");
     sound->addComponent(sound_component);
     sound_component->setMasterVolume(100.0f);

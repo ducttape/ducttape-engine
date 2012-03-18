@@ -20,6 +20,7 @@ Node::Node(const QString name)
       mScale(Ogre::Vector3(1,1,1)),
       mRotation(Ogre::Quaternion::IDENTITY),
       mParent(nullptr),
+      mIsUpdatingAfterChange(false),
       mDeathMark(false),
       mIsEnabled(true) {
 

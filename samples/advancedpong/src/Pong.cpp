@@ -66,7 +66,7 @@ void Main::onInitialize() {
     mScore1 = 0;
     mScore2 = 0;
 
-    dt::Scene::SceneSP scene = addScene(new dt::Scene("testscene"));
+    auto scene = addScene(new dt::Scene("testscene"));
     OgreProcedural::Root::getInstance()->sceneManager = scene->getSceneManager();
 
     scene->getPhysicsWorld()->setGravity(Ogre::Vector3(0,-9.8,0));
@@ -75,12 +75,12 @@ void Main::onInitialize() {
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
     Ogre::FontManager::getSingleton().load("DejaVuSans", "General");
 
-    std::shared_ptr<dt::Node> camnode = scene->addChildNode(new dt::Node("camnode"));
+    auto camnode = scene->addChildNode(new dt::Node("camnode"));
     camnode->setPosition(Ogre::Vector3(0, 30, 0));
     camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));
     camnode->findComponent<dt::CameraComponent>("cam")->getCamera();
 
-    std::shared_ptr<dt::Node> lightnode = scene->addChildNode(new dt::Node("lightnode"));
+    auto lightnode = scene->addChildNode(new dt::Node("lightnode"));
     lightnode->setPosition(Ogre::Vector3(-20, 20, 10));
     lightnode->addComponent(new dt::LightComponent("light"));
 
@@ -144,7 +144,7 @@ void Main::onInitialize() {
     mBallNode->findComponent<dt::PhysicsBodyComponent>("body")->SetFriction(0.0);
 
     for(unsigned i = 0 ; i < PLASMA_COUNT ; ++i) {
-        std::shared_ptr<dt::Node> plasma_node = mGameNode->addChildNode(new dt::Node(QString("plasma_") + dt::Utils::toString(i)));
+        auto plasma_node = mGameNode->addChildNode(new dt::Node(QString("plasma_") + dt::Utils::toString(i)));
         int pos_x, pos_y;
        
         pos_x = dt::Random::get(-(FIELD_WIDTH - 3) / 2, (FIELD_WIDTH - 3) / 2);
@@ -179,21 +179,21 @@ void Main::onInitialize() {
     connect(mPaddle2Node->findComponent<dt::PhysicsBodyComponent>("body").get(), SIGNAL(Collided(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)), this,
 		SLOT(PaddleCollided(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)), Qt::DirectConnection);
 
-    std::shared_ptr<dt::Node> score1_node = mGameNode->addChildNode(new dt::Node("score1"));
+    auto score1_node = mGameNode->addChildNode(new dt::Node("score1"));
     score1_node->setPosition(Ogre::Vector3(-10, 0, - FIELD_HEIGHT / 2 + 2));
     mScore1Text = score1_node->addComponent(new dt::TextComponent("0", "text"));
     mScore1Text->setFont("DejaVuSans");
     mScore1Text->setFontSize(64);
 
-    std::shared_ptr<dt::Node> score2_node = mGameNode->addChildNode(new dt::Node("score2"));
+    auto score2_node = mGameNode->addChildNode(new dt::Node("score2"));
     score2_node->setPosition(Ogre::Vector3(10, 0, - FIELD_HEIGHT / 2 + 2));
     mScore2Text = score2_node->addComponent(new dt::TextComponent("0", "text"));
     mScore2Text->setFont("DejaVuSans");
     mScore2Text->setFontSize(64);
 
-    std::shared_ptr<dt::Node> info_node = scene->addChildNode(new dt::Node("info"));
+    auto info_node = scene->addChildNode(new dt::Node("info"));
     info_node->setPosition(Ogre::Vector3(0, 0, FIELD_HEIGHT / 2 + 3));
-    std::shared_ptr<dt::TextComponent> info_text = info_node->addComponent(new dt::TextComponent("Left player: W/S -- Right player: Up/Down", "text"));
+    auto info_text = info_node->addComponent(new dt::TextComponent("Left player: W/S -- Right player: Up/Down", "text"));
     info_text->setFont("DejaVuSans");
     info_text->setFontSize(20);
 
@@ -246,8 +246,7 @@ void Main::updateStateFrame(double simulation_frame_time) {
 	}
 
     // handle ball stuff
-    std::shared_ptr<dt::PhysicsBodyComponent> ball = mBallNode
-                    ->findComponent<dt::PhysicsBodyComponent>("body");
+    auto ball = mBallNode->findComponent<dt::PhysicsBodyComponent>("body");
     auto speed = ball->getRigidBody()->getLinearVelocity();
     auto speed_value = speed.length();
     speed.normalize();

@@ -38,18 +38,18 @@ void Main::updateStateFrame(double simulation_frame_time) {
 }
 
 void Main::onInitialize() {
-    dt::Scene::SceneSP scene = addScene(new dt::Scene("testscene"));
+    auto scene = addScene(new dt::Scene("testscene"));
 
     dt::ResourceManager::get()->addResourceLocation("sinbad.zip","Zip", true);
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
     dt::ScriptManager::get()->loadScript("scripts/circular_movement.js");
 
-    std::shared_ptr<dt::Node> camnode = scene->addChildNode(new dt::Node("camnode"));
+    auto camnode = scene->addChildNode(new dt::Node("camnode"));
     camnode->setPosition(Ogre::Vector3(0, 5, 10));
     camnode->addComponent(new dt::CameraComponent("cam"))->lookAt(Ogre::Vector3(0, 0, 0));;
 
-    std::shared_ptr<dt::Node> meshnode = scene->addChildNode(new dt::Node("meshnode"));
+    auto meshnode = scene->addChildNode(new dt::Node("meshnode"));
     dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh");
     meshnode->addComponent(mesh);
     meshnode->addComponent(new dt::ScriptComponent("circular_movement.js", "script"));

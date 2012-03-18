@@ -34,7 +34,7 @@ void Main::updateStateFrame(double simulation_frame_time) {
 }
 
 void Main::onInitialize() {
-    dt::Scene::SceneSP scene = addScene(new dt::Scene("testscene"));
+    auto scene = addScene(new dt::Scene("testscene"));
 
     dt::ResourceManager::get()->addResourceLocation("", "FileSystem");
     dt::ResourceManager::get()->addResourceLocation("crate", "FileSystem");
@@ -51,7 +51,7 @@ void Main::onInitialize() {
     mCamNode->addComponent(new dt::CameraComponent("cam"));
     mCamNode->setPosition(Ogre::Vector3(10, 10, 10));
     mCamNode->findComponent<dt::CameraComponent>("cam")->lookAt(Ogre::Vector3(0, 0, 0));
-    std::shared_ptr<dt::FollowPathComponent> path = mCamNode->addComponent(new dt::FollowPathComponent(dt::FollowPathComponent::LOOP, "path"));
+    auto path = mCamNode->addComponent(new dt::FollowPathComponent(dt::FollowPathComponent::LOOP, "path"));
     path->setFollowRotation(false);
     path->setSmoothAcceleration(true);
     path->setSmoothCorners(false);
@@ -61,25 +61,25 @@ void Main::onInitialize() {
     path->setDuration(5.0);
 
 
-    std::shared_ptr<dt::Node> cratenode = scene->addChildNode(new dt::Node("spherenode"));
+    auto cratenode = scene->addChildNode(new dt::Node("spherenode"));
     cratenode->setPosition(Ogre::Vector3(1, 1, 0));
     cratenode->addComponent(new dt::MeshComponent("Crate01.mesh", "", "sphere-mesh"));
 
-    std::shared_ptr<dt::Node> billboardnode = scene->addChildNode(new dt::Node("billboardnode"));
+    auto billboardnode = scene->addChildNode(new dt::Node("billboardnode"));
     billboardnode->setPosition(Ogre::Vector3(0, 2, 0));
     billboardnode->addComponent(new dt::BillboardSetComponent(
                                     "billboard_test", 1, "ducttape-logo-256x256.png"));
-    std::shared_ptr<dt::BillboardSetComponent> billboardSetComponent = billboardnode->
+    auto billboardSetComponent = billboardnode->
             findComponent<dt::BillboardSetComponent>("billboard_test");
     Ogre::BillboardSet* billboardSet = billboardSetComponent
                                        ->getOgreBillboardSet();
     billboardSet->setDefaultDimensions(2, 2);
 
-    std::shared_ptr<dt::Node> planenode = scene->addChildNode(new dt::Node("planenode"));
+    auto planenode = scene->addChildNode(new dt::Node("planenode"));
     planenode->setPosition(Ogre::Vector3(0, 0, 0));
     planenode->addComponent(new dt::MeshComponent("Plane", "PrimitivesTest/Pebbles", "plane-mesh"));
 
-    std::shared_ptr<dt::Node> lightnode1 = scene->addChildNode(new dt::Node("lightnode1"));
+    auto lightnode1 = scene->addChildNode(new dt::Node("lightnode1"));
     lightnode1->addComponent(new dt::LightComponent("light1"));
     lightnode1->setPosition(Ogre::Vector3(15, 5, 15));
 }
