@@ -55,10 +55,10 @@ void Main::onInitialize() {
     mTimer1 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 1 (event mode)", 0.1, true, false));
     mTimer2 = std::shared_ptr<dt::Timer>(new dt::Timer("Timer 2 (thread mode)", 0.2, true, true));
 
-    QObject::connect(mTimer1.get(), SIGNAL(TimerTicked(const QString, double)),
-                     this,          SLOT(_TimerCallback(QString)));
-    QObject::connect(mTimer2.get(), SIGNAL(TimerTicked(const QString, double)),
-                     this,          SLOT(_TimerCallback(QString)), Qt::DirectConnection);
+    QObject::connect(mTimer1.get(), SIGNAL(timerTicked(const QString, double)),
+                     this,          SLOT(_timerCallback(QString)));
+    QObject::connect(mTimer2.get(), SIGNAL(timerTicked(const QString, double)),
+                     this,          SLOT(_timerCallback(QString)), Qt::DirectConnection);
 
     mTotalTime = 0;
 }
