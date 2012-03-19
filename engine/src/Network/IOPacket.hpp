@@ -111,7 +111,7 @@ public:
 
     virtual IOPacket& stream(EnumHelper h, QString key = "", uint32_t def = 0);
 
-    virtual IOPacket& stream(QString s, QString key = "", QString def = "");
+    virtual IOPacket& stream(QString& s, QString key = "", QString def = "");
 
     virtual IOPacket& stream(QUuid& id, QString key = "", QUuid def = QUuid());
 
