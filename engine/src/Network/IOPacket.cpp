@@ -50,7 +50,7 @@ IOPacket& IOPacket::stream(EnumHelper h, QString key, uint32_t def) {
     return *this;
 }
 
-IOPacket& IOPacket::stream(QString s, QString key, QString def) {
+IOPacket& IOPacket::stream(QString& s, QString key, QString def) {
     if(mDirection == DESERIALIZE) {
         std::string stdstr;
         stream(stdstr, key, def.toStdString());
