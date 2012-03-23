@@ -30,6 +30,7 @@
 #include "SerializationBinaryTest/SerializationBinaryTest.hpp"
 #include "SerializationYamlTest/SerializationYamlTest.hpp"
 #include "ScriptComponentTest/ScriptComponentTest.hpp"
+#include "TriggerAreaComponentTest/TriggerAreaComponentTest.hpp"
 #include "ScriptingTest/ScriptingTest.hpp"
 #include "ShadowsTest/ShadowsTest.hpp"
 #include "SignalsTest/SignalsTest.hpp"
@@ -41,6 +42,7 @@
 #include "Utils/Utils.hpp"
 #include "BillboardTest/BillboardTest.hpp"
 #include "GuiStateTest/GuiStateTest.hpp"
+#include "TriggerAreaComponentTest/TriggerAreaComponentTest.hpp"
 
 #include <iostream>
 
@@ -95,6 +97,7 @@ int main(int argc, char** argv) {
     addTest(new TerrainTest::TerrainTest);
     addTest(new BillboardTest::BillboardTest);
     addTest(new GuiStateTest::GuiStateTest);
+    addTest(new TriggerAreaComponentTest::TriggerAreaComponentTest);
 
     if(argc < 2) {
         std::cout << "TestFramework usage: " << std::endl;
