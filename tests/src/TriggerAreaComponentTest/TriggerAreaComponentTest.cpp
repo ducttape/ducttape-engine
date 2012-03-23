@@ -84,9 +84,9 @@ void Main::onInitialize() {
     triggerAreaNode->setPosition(Ogre::Vector3(-15.0f, 0.0f, 0.0f));
 
     QObject::connect(triggerAreaComponent.get(), 
-                     SIGNAL(Triggered(dt::TriggerAreaComponent*, dt::Component*)), 
+                     SIGNAL(triggered(dt::TriggerAreaComponent*, dt::Component*)), 
                      this, 
-                     SLOT(AreaTriggered(dt::TriggerAreaComponent*, 
+                     SLOT(areaTriggered(dt::TriggerAreaComponent*, 
                      dt::Component*)));
 
 }

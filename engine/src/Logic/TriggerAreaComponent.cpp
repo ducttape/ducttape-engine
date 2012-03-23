@@ -28,7 +28,7 @@ void TriggerAreaComponent::onUpdate(double time_diff) {
     }
 }
 
-void TriggerAreaComponent::onCreate() {
+void TriggerAreaComponent::onInitialize() {
     mObject.reset(new btGhostObject());
     mObject->setCollisionShape(mArea.get());
     mObject->setCollisionFlags(mObject->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
@@ -41,7 +41,7 @@ void TriggerAreaComponent::setAreaShape(btCollisionShape* areaShape)
     mObject->setCollisionShape(mArea.get());
 }
 
-void TriggerAreaComponent::onDestroy() {}
+void TriggerAreaComponent::onDeinitialize() {}
 void TriggerAreaComponent::onEnable(){}
 void TriggerAreaComponent::onDisable(){}
 

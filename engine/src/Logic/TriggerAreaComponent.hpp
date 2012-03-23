@@ -32,8 +32,8 @@ public:
     TriggerAreaComponent(btCollisionShape* areaShape,
                          const QString name = "");
 
-    void onCreate();
-    void onDestroy();
+    void onInitialize();
+    void onDeinitialize();
     void onEnable();
     void onDisable();
     void onUpdate(double time_diff);
