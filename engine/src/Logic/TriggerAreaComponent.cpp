@@ -21,7 +21,7 @@ void TriggerAreaComponent::onUpdate(double time_diff) {
     translation.setOrigin(BtOgre::Convert::toBullet(getNode()->getPosition()));
     mObject->setWorldTransform(translation);
 
-    for(uint32_t i = 0; i < mObject->getNumOverlappingObjects(); ++i)
+    for(int32_t i = 0; i < mObject->getNumOverlappingObjects(); ++i)
     {
         Component* collidingComponent = static_cast<Component*>(mObject->getOverlappingObject(i)->getUserPointer());
         emit triggered(this, collidingComponent);

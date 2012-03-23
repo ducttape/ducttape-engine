@@ -17,7 +17,7 @@
 #include <Logic/ScriptComponent.hpp>
 
 #include <btBulletCollisionCommon.h>
-#include <BulletCollision\CollisionDispatch\btGhostObject.h>
+#include <BulletCollision/CollisionDispatch/btGhostObject.h>
 
 namespace dt {
 
