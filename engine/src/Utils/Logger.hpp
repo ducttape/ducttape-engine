@@ -14,6 +14,7 @@
 #include <Utils/LogStream.hpp>
 
 #include <QString>
+#include <vector>
 
 namespace dt {
 

@@ -16,6 +16,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <cstdint>
 
 namespace dt {
 
