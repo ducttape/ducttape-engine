@@ -24,7 +24,7 @@ void FPSPlayerComponent::onInitialize() {
     mGrabber->setRange(3.0f);
     
     if(!QObject::connect(mGrabber.get(), SIGNAL(sHit(dt::PhysicsBodyComponent*)), 
-                         this,     SLOT(_PickUpWeapon(dt::PhysicsBodyComponent*)))) {
+                         this,     SLOT(_pickUpWeapon(dt::PhysicsBodyComponent*)))) {
             dt::Logger::get().error("Cannot connect the grabber's signal sHit with FPSPlayerComponent " +
                 getName() + "'s slot _PickUpWeapon.");
     }
