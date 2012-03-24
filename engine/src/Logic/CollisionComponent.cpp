@@ -33,8 +33,8 @@ void CollisionComponent::onCheck(const btVector3& start, const btVector3& end) {
     std::shared_ptr<PhysicsBodyComponent> bullet_body = bullet->addComponent<PhysicsBodyComponent>(new PhysicsBodyComponent(name, "bullet_body"));
     bullet_body->setMass(1.0);
 
-    if(!QObject::connect(bullet_body.get(), SIGNAL(Collided(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)),
-                         this,        SLOT(OnHit(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)), Qt::DirectConnection)) {
+    if(!QObject::connect(bullet_body.get(), SIGNAL(collided(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)),
+                         this,        SLOT(onHit(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)), Qt::DirectConnection)) {
             Logger::get().error("Cannot connect the bullet's collided signal with the OnHit slot.");
     }
 
