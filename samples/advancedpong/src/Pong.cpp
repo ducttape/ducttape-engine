@@ -155,8 +155,9 @@ void Main::onInitialize() {
         plasma_node->addComponent(new dt::PhysicsBodyComponent("mesh", "body", dt::PhysicsBodyComponent::SPHERE, 0.1f));
     }
 
-    connect(mBallNode->findComponent<dt::PhysicsBodyComponent>("body").get(), SIGNAL(Collided(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)), this,
-		SLOT(BallCollided(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)), Qt::DirectConnection);
+    connect(mBallNode->findComponent<dt::PhysicsBodyComponent>("body").get(), SIGNAL(collided(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)), 
+                                                                        this, SLOT(ballCollided(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)), 
+                                                                        Qt::DirectConnection);
 
     mPaddle1Node = mGameNode->addChildNode(new dt::Node("paddle1"));
     mPaddle1Node->setPosition(Ogre::Vector3(- FIELD_WIDTH / 2 + 1.1f, 0.1f, 0));
@@ -174,10 +175,12 @@ void Main::onInitialize() {
     mPaddle2Node->findComponent<dt::PhysicsBodyComponent>("body")->setRestrictRotation(btVector3(0,0,0));
     mPaddle2Node->findComponent<dt::PhysicsBodyComponent>("body")->getRigidBody()->setRestitution(3.0f); //for a blast off the paddle
 
-    connect(mPaddle1Node->findComponent<dt::PhysicsBodyComponent>("body").get(), SIGNAL(Collided(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)), this,
-		SLOT(PaddleCollided(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)), Qt::DirectConnection);
-    connect(mPaddle2Node->findComponent<dt::PhysicsBodyComponent>("body").get(), SIGNAL(Collided(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)), this,
-		SLOT(PaddleCollided(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)), Qt::DirectConnection);
+    connect(mPaddle1Node->findComponent<dt::PhysicsBodyComponent>("body").get(), SIGNAL(collided(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)), 
+                                                                           this, SLOT(paddleCollided(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)),
+                                                                           Qt::DirectConnection);
+    connect(mPaddle2Node->findComponent<dt::PhysicsBodyComponent>("body").get(), SIGNAL(collided(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)), 
+                                                                           this, SLOT(paddleCollided(dt::PhysicsBodyComponent*, dt::PhysicsBodyComponent*)), 
+                                                                           Qt::DirectConnection);
 
     auto score1_node = mGameNode->addChildNode(new dt::Node("score1"));
     score1_node->setPosition(Ogre::Vector3(-10, 0, - FIELD_HEIGHT / 2 + 2));
