@@ -71,7 +71,7 @@ signals:
 private:
     std::shared_ptr<State> mNewState;   //!< The newly created game state to be pushed onto the stack in the next step.
     bool mHasNewState;  //!< Whether a new state has been assigned.
-    std::vector<std::shared_ptr<State> > mStates;   //!< The stack of game states.
+    std::vector<std::shared_ptr<State>> mStates;   //!< The stack of game states.
     uint16_t mPopCount; //!< The number of states to remove in the next frame.
 };
 
