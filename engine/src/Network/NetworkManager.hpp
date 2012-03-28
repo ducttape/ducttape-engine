@@ -61,7 +61,7 @@ public:
       * Connects to a remote device. This method sends a HandshakeEvent to that target.
       * @param target The remote device to connect to.
       */
-    void connect(Connection target);
+    void connect(Connection::ConnectionSP target);
 
     /**
       * Disconnects from a remote device. This method sends a GoodbyeEvent to that target.

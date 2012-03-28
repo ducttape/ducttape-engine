@@ -30,7 +30,7 @@ void Client::onInitialize() {
     dt::NetworkManager::get()->registerNetworkEventPrototype(ptr);
 
     dt::NetworkManager::get()->bindSocket();
-    dt::NetworkManager::get()->connect(dt::Connection(mServerIP, 29876));
+    dt::NetworkManager::get()->connect(dt::Connection::ConnectionSP(new dt::Connection(mServerIP, 29876)));
 
     mInputThread = std::shared_ptr<sf::Thread>(new sf::Thread(&Client::inputThread, this));
     mInputThread->launch();

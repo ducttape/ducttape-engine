@@ -11,7 +11,7 @@
 namespace ConnectionsTest {
 
 bool ConnectionsTest::run(int argc, char** argv) {
-    std::map<uint16_t, dt::Connection*> connections;
+    std::map<uint16_t, dt::Connection::ConnectionSP> connections;
     dt::ConnectionsManager connections_manager;
 
     uint16_t max_connections = 50;
@@ -22,7 +22,7 @@ bool ConnectionsTest::run(int argc, char** argv) {
         uint16_t ip = dt::Random::get(1, 255);
         uint16_t port = dt::Random::get(1001, 51311);
 
-        dt::Connection* connection = new dt::Connection(sf::IpAddress("127.168.178." + dt::Utils::toStdString(dt::Utils::toString(ip))), port+i);
+        dt::Connection::ConnectionSP connection(new dt::Connection(sf::IpAddress("127.168.178." + dt::Utils::toStdString(dt::Utils::toString(ip))), port+i));
         uint16_t connection_id = connections_manager.addConnection(connection);
         if(connection_id != 0) {
            connections[connection_id] = connection;

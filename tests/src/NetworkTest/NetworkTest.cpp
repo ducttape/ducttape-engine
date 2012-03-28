@@ -68,7 +68,7 @@ bool NetworkTest::runClient() {
 
     dt::NetworkManager* nm = root.getNetworkManager();
     nm->bindSocket(CLIENT_PORT);
-    nm->connect(dt::Connection(sf::IpAddress::LocalHost, SERVER_PORT));
+    nm->connect(dt::Connection::ConnectionSP(new dt::Connection(sf::IpAddress::LocalHost, SERVER_PORT)));
 
     int data = 1337;
 
