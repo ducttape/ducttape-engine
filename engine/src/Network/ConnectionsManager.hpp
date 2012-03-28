@@ -79,7 +79,7 @@ public:
       * @param c The Connection to add.
       * @returns The ID assigned to the Connection.
       */
-    ID_t addConnection(Connection* c);
+    ID_t addConnection(Connection::ConnectionSP c);
 
     /**
       * Removes a Connection from the manager.

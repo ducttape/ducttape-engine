@@ -57,11 +57,10 @@ bool NetworkManager::bindSocket(uint16_t port) {
     return true;
 }
 
-void NetworkManager::connect(Connection target) {
+void NetworkManager::connect(Connection::ConnectionSP target) {
     //Logger::Get().Info("New Connection : " + QString::fromStdString(target.GetIPAddress().ToString()));
     // remember target
-    uint16_t id = mConnectionsManager.addConnection(&target);
-    // Connection* c = mConnectionsManager.GetConnection(id);
+    uint16_t id = mConnectionsManager.addConnection(target);
 
     // send handshake
     std::shared_ptr<HandshakeEvent> h(new HandshakeEvent());
@@ -107,12 +106,12 @@ void NetworkManager::handleIncomingEvents() {
     uint16_t port;
     if(mSocket.receive(packet, remote, port) == sf::Socket::Done) {
         // check if sender is known, otherwise add it
-        Connection sender(remote, port);
+        Connection::ConnectionSP sender(new Connection(remote, port));
         uint16_t sender_id = 0;
-        if(mConnectionsManager.isKnownConnection(sender)) {
-            sender_id = mConnectionsManager.getConnectionID(sender);
+        if(mConnectionsManager.isKnownConnection(*sender.get())) {
+            sender_id = mConnectionsManager.getConnectionID(*sender.get());
         } else {
-            sender_id = mConnectionsManager.addConnection(&sender);
+            sender_id = mConnectionsManager.addConnection(sender);
         }
 
         while(!packet.endOfPacket()) {
@@ -244,7 +243,7 @@ void NetworkManager::_sendEvent(std::shared_ptr<NetworkEvent> event) {
     const std::vector<uint16_t>& recipients = event->getRecipients();
     for(auto iter = recipients.begin(); iter != recipients.end(); ++iter) {
         Connection::ConnectionSP r = mConnectionsManager.getConnection(*iter);
-        if(r) {
+        if(!r) {
             Logger::get().error("Cannot send event to " + Utils::toString(*iter) + ": No connection with this ID");
         } else {
             mSocket.send(p, r->getIPAddress(), r->getPort());

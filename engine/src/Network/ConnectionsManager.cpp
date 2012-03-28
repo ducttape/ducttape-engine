@@ -48,10 +48,10 @@ bool ConnectionsManager::isKnownConnection(Connection c) {
     return getConnectionID(c) != 0;
 }
 
-ConnectionsManager::ID_t ConnectionsManager::addConnection(Connection* c) {
+ConnectionsManager::ID_t ConnectionsManager::addConnection(Connection::ConnectionSP c) {
     ConnectionsManager::ID_t id = _getNewID();
     if(id != 0)
-        mConnections[id] = Connection::ConnectionSP(c);
+        mConnections[id] = c;
     return id;
 }
 
