@@ -52,7 +52,7 @@ void Main::onInitialize() {
     auto meshnode = scene->addChildNode(new dt::Node("meshnode"));
     dt::MeshComponent* mesh = new dt::MeshComponent("Sinbad.mesh");
     meshnode->addComponent(mesh);
-    meshnode->addComponent(new dt::ScriptComponent("circular_movement.js", "script"));
+    meshnode->addComponent(new dt::ScriptComponent("circular_movement.js", "script", true));
 }
 
 

@@ -25,22 +25,22 @@ SimplePlayerComponent::SimplePlayerComponent(const QString name)
       mMove(Ogre::Vector3::ZERO) {}
 
 void SimplePlayerComponent::onInitialize() {
-    if(!QObject::connect(InputManager::get(), SIGNAL(sPressed(dt::InputManager::InputCode input_code, const OIS::EventArg& event)),
-                         this,                SLOT(_HandleKeyPressed(dt::InputManager::InputCode input_code,
-        const OIS::EventArg& event)))) {
+    if(!QObject::connect(InputManager::get(), SIGNAL(sPressed(dt::InputManager::InputCode, const OIS::EventArg&)),
+                         this,                SLOT(_handleKeyPressed(dt::InputManager::InputCode,
+        const OIS::EventArg&)))) {
             Logger::get().error("Cannot connect the key pressed signal with " + getName()
                 + "'s keyboard input handling slot.");
     }
     if(mCostant) {
-        if(!QObject::connect(InputManager::get(), SIGNAL(sReleased(dt::InputManager::InputCode input_code, const OIS::EventArg& event)),
-                             this,                SLOT(_HandleKeyReleased(dt::InputManager::InputCode input_code,
-            const OIS::EventArg& event)))) {
+        if(!QObject::connect(InputManager::get(), SIGNAL(sReleased(dt::InputManager::InputCode, const OIS::EventArg&)),
+                             this,                SLOT(_handleKeyReleased(dt::InputManager::InputCode,
+            const OIS::EventArg&)))) {
                 Logger::get().error("Cannot connect the key released signal with " + getName()
                     + "'s keyboard input handling slot.");
         }
     }
     if(!QObject::connect(InputManager::get(), SIGNAL(sMouseMoved(const OIS::MouseEvent&)),
-                         this,                SLOT(_HandleMouseInput(const OIS::MouseEvent&)))) {
+                         this,                SLOT(_handleMouseInput(const OIS::MouseEvent&)))) {
             Logger::get().error("Cannot connect the mouse moved signal with " + getName()
                 + "'s mouse input handling slot.");
     }
