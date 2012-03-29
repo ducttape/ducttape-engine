@@ -195,7 +195,8 @@ public:
         MC_BUTTON4     = 0xF2,    // Mouse Button 4
         MC_BUTTON5     = 0xF3,    // Mouse Button 5
         MC_BUTTON6     = 0xF4,    // Mouse Button 6
-        MC_BUTTON7     = 0xF5     // Mouse Button 7
+        MC_BUTTON7     = 0xF5,    // Mouse Button 7
+        NONE           = 0xFF     // Invalid key
     };
 
     /**
