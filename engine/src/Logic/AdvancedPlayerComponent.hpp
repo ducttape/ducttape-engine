@@ -6,8 +6,8 @@
 // http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------------
 
-#ifndef DUCTTAPE_ENGINE_COMPONENT_AdvancedPlayerComponent
-#define DUCTTAPE_ENGINE_COMPONENT_AdvancedPlayerComponent
+#ifndef DUCTTAPE_ENGINE_COMPONENT_ADVANCEDPLAYERCOMPONENT
+#define DUCTTAPE_ENGINE_COMPONENT_ADVANCEDPLAYERCOMPONENT
 
 #include <Config.hpp>
 
