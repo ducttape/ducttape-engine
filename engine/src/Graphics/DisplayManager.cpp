@@ -118,7 +118,7 @@ void DisplayManager::_createWindow() {
 
     mOgreRoot->initialise(false, "Ducttape Game Engine");
     // Ogre prints an error because it can't find an icon, "GLX_icon.png".
-    // This resource is added to avoid the error message.
+    // This resource is added in order to avoid the error message.
     Ogre::ResourceGroupManager::getSingletonPtr()->addResourceLocation("../data", "FileSystem", "General");
     mOgreRenderWindow = mOgreRoot->createRenderWindow("RenderWindow",
                                                       static_cast<int>(mWindowSize.x),
