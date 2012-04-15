@@ -35,7 +35,7 @@ bool SerializationBinaryTest::run(int argc, char** argv) {
         dt::Logger::get().error("Cannot open file for writing.");
         return false;
     }
-    file1.write(packet1.getData(), packet1.getDataSize());
+    file1.write((const char*)packet1.getData(), packet1.getDataSize());
     file1.close();
 
     dt::Logger::get().debug("Data length: " + dt::Utils::toString(packet1.getDataSize()));
@@ -72,7 +72,7 @@ bool SerializationBinaryTest::run(int argc, char** argv) {
         dt::Logger::get().error("Cannot open file for writing.");
         return false;
     }
-    file2.write(packet2.getData(), packet2.getDataSize());
+    file2.write((const char*)packet2.getData(), packet2.getDataSize());
     file2.close();
 
     if(!file1.open(QIODevice::ReadOnly)) {
